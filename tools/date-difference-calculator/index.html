@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Date Difference Calculator - Count Days Between Dates</title>
+  <meta name="description" content="Calculate the exact number of days, business days, weeks, months, and years between any two dates. Free online date duration calculator.">
+  <link rel="canonical" href="https://toolsbuilt.com/tools/date-difference-calculator/">
+  
+  <!-- Open Graph -->
+  <meta property="og:site_name" content="ToolsBuilt">
+  <meta property="og:title" content="Date Difference Calculator - Count Days Between Dates">
+  <meta property="og:description" content="Calculate the exact number of days, business days, weeks, months, and years between any two dates. Free online date duration calculator.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://toolsbuilt.com/tools/date-difference-calculator/">
+  
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Date Difference Calculator - Count Days Between Dates">
+  <meta name="twitter:description" content="Calculate the exact number of days, business days, weeks, months, and years between any two dates. Free online date duration calculator.">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
+  <link rel="stylesheet" href="/assets/css/style.css">
+
+  <!-- JSON-LD Schema 1: BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://toolsbuilt.com/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Date Difference Calculator",
+        "item": "https://toolsbuilt.com/tools/date-difference-calculator/"
+      }
+    ]
+  }
+  </script>
+
+  <!-- JSON-LD Schema 2: WebApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Date Difference Calculator",
+    "url": "https://toolsbuilt.com/tools/date-difference-calculator/",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "All",
+    "browserRequirements": "Requires JavaScript",
+    "description": "Free online utility to calculate the exact duration between any two dates in days, business days, weeks, months, and years.",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  }
+  </script>
+
+  <!-- JSON-LD Schema 3: HowTo -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "How to Calculate the Difference Between Two Dates",
+    "description": "Step-by-step instructions for calculating duration and business days between two dates.",
+    "step": [
+      {
+        "@type": "HowToStep",
+        "position": 1,
+        "name": "Enter Start and End Dates",
+        "text": "Select your starting date and ending date from the calendar input fields."
+      },
+      {
+        "@type": "HowToStep",
+        "position": 2,
+        "name": "Select Inclusive Option",
+        "text": "Optionally check 'Include end date in the count' if your calculation requires counting both boundary days."
+      },
+      {
+        "@type": "HowToStep",
+        "position": 3,
+        "name": "View Detailed Breakdown",
+        "text": "Click Calculate Difference to view total days, business working days, weeks, months, and years."
+      }
+    ]
+  }
+  </script>
+
+  <!-- JSON-LD Schema 4: FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is the difference between calendar days and business days?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Calendar days include all 7 days of the week (Monday through Sunday), whereas business days only count standard working days from Monday through Friday, excluding weekends."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Should I check 'Include end date in the count'?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Check this box if you want your calculation to be inclusive of both the start and end dates. For example, Monday to Tuesday is 1 day by default (exclusive), but 2 days if inclusive."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What happens if I enter an end date that occurs before the start date?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The calculator automatically swaps the dates to compute the positive duration between them and displays a note explaining that the start date was after the end date."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does this date duration calculator handle leap years correctly?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. The underlying algorithm accounts for leap years (including February 29th) when computing overall day, month, and year differences."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is any of my date data sent to an external server?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. All calculation algorithms execute locally inside your web browser. Your input dates remain entirely private."
+        }
+      }
+    ]
+  }
+  </script>
+</head>
+<body data-tool-id="date-difference-calculator">
+
+  <!-- Site Header -->
+  <header class="site-header">
+    <div class="container header-container">
+      <a href="/" class="site-logo" aria-label="ToolsBuilt Homepage">
+        <svg viewBox="0 0 100 100" aria-hidden="true">
+          <rect width="100" height="100" rx="24" fill="#4f46e5"/>
+          <rect x="22" y="22" width="56" height="56" rx="10" fill="none" stroke="#ffffff" stroke-width="6"/>
+          <circle cx="38" cy="38" r="5" fill="#ffffff"/>
+          <circle cx="62" cy="38" r="5" fill="#ffffff"/>
+          <rect x="33" y="52" width="34" height="6" rx="3" fill="#ffffff"/>
+          <rect x="33" y="64" width="22" height="6" rx="3" fill="#ffffff"/>
+        </svg>
+        <span>Tools<span class="accent">Built</span></span>
+      </a>
+
+      <div class="nav-actions">
+        <nav class="main-nav" id="main-nav" aria-label="Main Navigation">
+          <a href="/" class="nav-link">Home</a>
+          <a href="/about/" class="nav-link">About</a>
+          <a href="/contact/" class="nav-link">Contact</a>
+        </nav>
+
+        <button type="button" class="theme-toggle-btn" id="theme-toggle" aria-label="Toggle dark mode">
+          <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="12" r="5" />
+            <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+        </button>
+
+        <button type="button" class="mobile-menu-btn" id="mobile-menu-btn" aria-expanded="false" aria-controls="main-nav" aria-label="Toggle navigation menu">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main id="main-content" class="container">
+    
+    <!-- Breadcrumbs -->
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <ol>
+        <li><a href="/">Home</a></li>
+        <li aria-current="page">Date Difference Calculator</li>
+      </ol>
+    </nav>
+
+    <!-- H1 Header -->
+    <header class="page-header" style="border-bottom: none; margin-bottom: 0.5rem;">
+      <h1>Date Difference Calculator</h1>
+      <p style="font-size: 0.875rem; color: var(--text-subtle); margin-bottom: 0.5rem;">
+        Built and maintained by <strong>ToolsBuilt</strong> &bull; Last updated: October 11, 2026
+      </p>
+    </header>
+
+    <!-- AEO Quick Answer Box -->
+    <div class="info-callout" style="margin-top: 0; margin-bottom: 2rem;">
+      <h3 style="font-size: 1.05rem; margin-bottom: 0.35rem; color: var(--primary);">Quick Answer</h3>
+      <p style="margin-bottom: 0;">The Date Difference Calculator measures the total span of time between any two dates in calendar days, working business days (Monday–Friday), weeks, months, and full years. Enter your start and end dates below to get an instant breakdown.</p>
+    </div>
+
+    <!-- AdSense Placement -->
+    <!-- <div class="ad-placement"><!-- AdSense Banner --></div> -->
+
+    <!-- Tool Form Container -->
+    <section class="tool-container" aria-label="Date Difference Calculator Form">
+      <form id="calculator-form" novalidate>
+        <div class="form-grid two-col">
+          
+          <div class="form-group">
+            <label for="start-date">Start Date <span style="color: var(--primary);">*</span></label>
+            <input type="date" id="start-date" class="form-control" required aria-required="true">
+          </div>
+
+          <div class="form-group">
+            <label for="end-date">End Date <span style="color: var(--primary);">*</span></label>
+            <input type="date" id="end-date" class="form-control" required aria-required="true">
+          </div>
+
+        </div>
+
+        <div style="margin-top: 1.25rem;">
+          <label style="display: inline-flex; align-items: center; gap: 0.6rem; cursor: pointer; font-size: 0.975rem; color: var(--text-main); font-weight: 500;">
+            <input type="checkbox" id="include-end-date" style="width: 1.1rem; height: 1.1rem; accent-color: var(--primary);">
+            <span>Include end date in the count (inclusive calculation)</span>
+          </label>
+        </div>
+
+        <div class="button-group">
+          <button type="submit" class="btn btn-primary">Calculate Difference</button>
+          <button type="button" class="btn btn-secondary" id="reset-btn">Reset</button>
+        </div>
+      </form>
+
+      <div id="error-box" class="hidden" style="margin-top: 1rem; color: #dc2626; background: #fef2f2; border: 1px solid #fecaca; padding: 0.75rem 1rem; border-radius: var(--radius-sm);" role="alert"></div>
+
+      <!-- Result Box -->
+      <div id="result-box" class="result-box" aria-live="polite">
+        <div class="result-header" id="result-header-text">Date Difference Calculation Result</div>
+        <div class="result-primary" id="result-primary-text">-- Days</div>
+        
+        <div class="result-grid">
+          <div class="result-stat-card">
+            <div class="result-stat-label">Total Calendar Days</div>
+            <div class="result-stat-value" id="stat-total-days">--</div>
+          </div>
+          <div class="result-stat-card">
+            <div class="result-stat-label">Working / Business Days</div>
+            <div class="result-stat-value" id="stat-business-days">--</div>
+          </div>
+          <div class="result-stat-card">
+            <div class="result-stat-label">Years, Months &amp; Days</div>
+            <div class="result-stat-value" id="stat-ymd">--</div>
+          </div>
+          <div class="result-stat-card">
+            <div class="result-stat-label">Weeks &amp; Days</div>
+            <div class="result-stat-value" id="stat-weeks-days">--</div>
+          </div>
+          <div class="result-stat-card">
+            <div class="result-stat-label">Months &amp; Days</div>
+            <div class="result-stat-value" id="stat-months-days">--</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Key Facts & Benchmark Table -->
+    <section style="margin: 2.5rem 0;" aria-labelledby="key-facts-heading">
+      <h2 id="key-facts-heading">Key Facts &amp; Duration Reference</h2>
+      
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 1.25rem;">
+        <div>
+          <h3>Duration Metrics</h3>
+          <ul style="color: var(--text-muted); line-height: 1.8; margin-left: 1.25rem;">
+            <li>Standard Business Week: 5 working days (Mon–Fri)</li>
+            <li>Average Quarter: 91.25 calendar days (~65 business days)</li>
+            <li>Pregnancy Term (Full): 280 calendar days (40 weeks)</li>
+            <li>Standard Lease Notice: 30 to 60 calendar days</li>
+          </ul>
+        </div>
+
+        <div>
+          <h3>Sample Duration Calculations</h3>
+          <table style="width: 100%; border-collapse: collapse; margin-top: 0.5rem; font-size: 0.9rem;">
+            <thead>
+              <tr style="background-color: var(--bg-muted); text-align: left; border-bottom: 2px solid var(--border-color);">
+                <th style="padding: 0.5rem;">Sample Period</th>
+                <th style="padding: 0.5rem;">Calendar Days</th>
+                <th style="padding: 0.5rem;">Business Days</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom: 1px solid var(--border-color);">
+                <td style="padding: 0.5rem;">Jan 1 to Jan 31</td>
+                <td style="padding: 0.5rem;">30 days (excl)</td>
+                <td style="padding: 0.5rem;">22 business days</td>
+              </tr>
+              <tr style="border-bottom: 1px solid var(--border-color);">
+                <td style="padding: 0.5rem;">Q1 (Jan 1 – Mar 31)</td>
+                <td style="padding: 0.5rem;">89 days (non-leap)</td>
+                <td style="padding: 0.5rem;">64 business days</td>
+              </tr>
+              <tr style="border-bottom: 1px solid var(--border-color);">
+                <td style="padding: 0.5rem;">Full Calendar Year</td>
+                <td style="padding: 0.5rem;">365 days</td>
+                <td style="padding: 0.5rem;">261 business days</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- How to Use Section -->
+    <section aria-labelledby="how-to-use-heading">
+      <h2 id="how-to-use-heading">How to Use the Date Difference Calculator</h2>
+      <ol class="steps-list">
+        <li>
+          <h4>Select Your Start and End Dates</h4>
+          <p>Choose your starting date and ending date from the calendar input fields above.</p>
+        </li>
+        <li>
+          <h4>Toggle Inclusive Option (Optional)</h4>
+          <p>Check "Include end date in the count" if your timeline requires counting both the first and last days as full days.</p>
+        </li>
+        <li>
+          <h4>Click "Calculate Difference"</h4>
+          <p>Review the comprehensive breakdown showing total days, working business days (Mon–Fri), weeks, months, and full year breakdowns.</p>
+        </li>
+      </ol>
+    </section>
+
+    <!-- AdSense Placement -->
+    <!-- <div class="ad-placement"><!-- AdSense Banner --></div> -->
+
+    <!-- Article Section (~700 Words with Question H2s) -->
+    <article class="content-article" aria-labelledby="article-heading">
+      <h2 id="article-heading">How Many Days Are Between Two Dates?</h2>
+      <p>To calculate how many days are between two dates, subtract the start date from the end date. Our date difference tool calculates the total elapsed calendar days, working business days (Monday through Friday), weeks, months, and full year spans automatically.</p>
+
+      <p>If you need to count down days remaining until a specific upcoming holiday or anniversary, check out our <a href="/tools/days-until-date-calculator/">Days Until Date Calculator</a>.</p>
+
+      <h3>What is the Difference Between Business Days and Calendar Days?</h3>
+      <p>Calendar days include every day of the week (Monday through Sunday), totalling 7 days per week. Business days measure working days strictly from Monday through Friday, excluding Saturday and Sunday weekend days.</p>
+
+      <p>For project management and legal contracts, distinguishing between 30 calendar days and 30 business days is crucial, as 30 business days represent approximately 6 full calendar weeks.</p>
+
+      <h3>How Do You Calculate Inclusive vs Exclusive Date Ranges?</h3>
+      <p>In standard exclusive date math, Monday to Tuesday is 1 day. However, in inclusive calculations (such as hotel stays or vacation days), both Monday and Tuesday are counted, yielding 2 full days. Checking the inclusive option adds 1 day to account for the starting boundary.</p>
+
+      <p>When drafting reports or project documentation detailing your timeline calculations, you can verify character lengths using our <a href="/tools/word-counter/">Word &amp; Character Counter</a> or format titles with our <a href="/tools/text-case-converter/">Text Case Converter</a>.</p>
+
+      <div class="info-callout">
+        <h3>Leap Year Calculation Accuracy</h3>
+        <p>Our calculation algorithm processes dates at local midnight (`00:00:00`), accounting for February 29th in leap years automatically to prevent off-by-one errors across leap cycles.</p>
+      </div>
+    </article>
+
+    <!-- FAQ Accordion (5 Questions, 40-60 words each) -->
+    <section class="faq-section" aria-labelledby="faq-heading">
+      <h2 id="faq-heading">Frequently Asked Questions</h2>
+      
+      <div class="accordion-group">
+        
+        <div class="accordion-item">
+          <button type="button" class="accordion-header" id="faq-h-1" aria-expanded="false" aria-controls="faq-c-1">
+            <span>What is the difference between calendar days and business days?</span>
+            <svg class="accordion-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div id="faq-c-1" class="accordion-content" hidden aria-labelledby="faq-h-1">
+            <p>Calendar days include all 7 days of the week (Monday through Sunday), whereas business days only count standard working days from Monday through Friday, excluding weekends.</p>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <button type="button" class="accordion-header" id="faq-h-2" aria-expanded="false" aria-controls="faq-c-2">
+            <span>Should I check 'Include end date in the count'?</span>
+            <svg class="accordion-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div id="faq-c-2" class="accordion-content" hidden aria-labelledby="faq-h-2">
+            <p>Check this box if you want your calculation to be inclusive of both the start and end dates. For example, Monday to Tuesday is 1 day by default (exclusive), but 2 days if inclusive.</p>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <button type="button" class="accordion-header" id="faq-h-3" aria-expanded="false" aria-controls="faq-c-3">
+            <span>What happens if I enter an end date that occurs before the start date?</span>
+            <svg class="accordion-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div id="faq-c-3" class="accordion-content" hidden aria-labelledby="faq-h-3">
+            <p>The calculator automatically swaps the dates to compute the positive duration between them and displays a note explaining that the start date was after the end date.</p>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <button type="button" class="accordion-header" id="faq-h-4" aria-expanded="false" aria-controls="faq-c-4">
+            <span>Does this date duration calculator handle leap years correctly?</span>
+            <svg class="accordion-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div id="faq-c-4" class="accordion-content" hidden aria-labelledby="faq-h-4">
+            <p>Yes. The underlying algorithm accounts for leap years (including February 29th) when computing overall day, month, and year differences.</p>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <button type="button" class="accordion-header" id="faq-h-5" aria-expanded="false" aria-controls="faq-c-5">
+            <span>Is any of my date data sent to an external server?</span>
+            <svg class="accordion-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div id="faq-c-5" class="accordion-content" hidden aria-labelledby="faq-h-5">
+            <p>No. All calculation algorithms execute locally inside your web browser. Your input dates remain entirely private.</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Dynamic Related Tools Section -->
+    <section style="margin: 4rem 0 2rem 0;" aria-labelledby="related-tools-heading">
+      <h2 id="related-tools-heading">Related Tools</h2>
+      <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Explore more free tools on ToolsBuilt:</p>
+      
+      <div class="tools-grid" id="related-tools-grid">
+        <!-- Rendered dynamically by tools-data.js -->
+      </div>
+    </section>
+
+    <!-- AdSense Placement -->
+    <!-- <div class="ad-placement"><!-- AdSense Banner --></div> -->
+
+  </main>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h3>ToolsBuilt</h3>
+          <p>Free online tools and web calculators engineered for simplicity, speed, and precision.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Popular Tools</h4>
+          <ul class="footer-links">
+            <li><a href="/tools/days-until-date-calculator/">Days Until Date</a></li>
+            <li><a href="/tools/date-difference-calculator/">Date Difference</a></li>
+            <li><a href="/tools/percentage-change-calculator/">Percentage Change</a></li>
+            <li><a href="/tools/word-counter/">Word Counter</a></li>
+            <li><a href="/tools/text-case-converter/">Text Case Converter</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Legal &amp; Policy</h4>
+          <ul class="footer-links">
+            <li><a href="/about/">About Us</a></li>
+            <li><a href="/contact/">Contact Us</a></li>
+            <li><a href="/privacy-policy/">Privacy Policy</a></li>
+            <li><a href="/terms/">Terms of Service</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 ToolsBuilt. All rights reserved. Built and maintained by ToolsBuilt.</p>
+        <p>Built with privacy and speed in mind.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/assets/js/tools-data.js"></script>
+  <script src="/assets/js/common.js"></script>
+  <script src="/tools/date-difference-calculator/script.js"></script>
+</body>
+</html>

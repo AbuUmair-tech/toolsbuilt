@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Strong Password Generator - Secure Random Passwords</title>
+  <meta name="description" content="Generate cryptographically secure random passwords locally in your browser with crypto.getRandomValues. Free, private online password generator.">
+  <link rel="canonical" href="https://toolsbuilt.com/tools/password-generator/">
+  <link rel="apple-touch-icon" href="/assets/img/favicon.svg">
+  
+  <!-- Open Graph -->
+  <meta property="og:site_name" content="ToolsBuilt">
+  <meta property="og:title" content="Strong Password Generator - Secure Random Passwords">
+  <meta property="og:description" content="Generate cryptographically secure random passwords locally in your browser with crypto.getRandomValues. Free, private online password generator.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://toolsbuilt.com/tools/password-generator/">
+  <meta property="og:image" content="https://toolsbuilt.com/assets/img/og-image.svg">
+  
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Strong Password Generator - Secure Random Passwords">
+  <meta name="twitter:description" content="Generate cryptographically secure random passwords locally in your browser with crypto.getRandomValues. Free, private online password generator.">
+  <meta name="twitter:image" content="https://toolsbuilt.com/assets/img/og-image.svg">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
+  <link rel="stylesheet" href="/assets/css/style.css">
+
+  <style>
+    .strength-meter-container {
+      margin-top: 1.25rem;
+      background-color: var(--bg-card);
+      padding: 1rem 1.25rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-color);
+    }
+    .strength-bar-bg {
+      width: 100%;
+      height: 8px;
+      background-color: var(--bg-muted);
+      border-radius: var(--radius-full);
+      overflow: hidden;
+      margin-top: 0.5rem;
+    }
+    .strength-bar-fill {
+      height: 100%;
+      width: 20%;
+      background-color: #dc2626;
+      border-radius: var(--radius-full);
+      transition: width 0.3s ease, background-color 0.3s ease;
+    }
+    .checkbox-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-top: 1.25rem;
+    }
+    .checkbox-label {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 0.95rem;
+      color: var(--text-main);
+      font-weight: 500;
+      cursor: pointer;
+    }
+    .checkbox-label input[type="checkbox"] {
+      width: 1.15rem;
+      height: 1.15rem;
+      accent-color: var(--primary);
+      cursor: pointer;
+    }
+  </style>
+
+  <!-- JSON-LD Schema 1: BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://toolsbuilt.com/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Strong Password Generator",
+        "item": "https://toolsbuilt.com/tools/password-generator/"
+      }
+    ]
+  }
+  </script>
+
+  <!-- JSON-LD Schema 2: WebApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Strong Password Generator",
+    "url": "https://toolsbuilt.com/tools/password-generator/",
+    "applicationCategory": "SecurityApplication",
+    "operatingSystem": "All",
+    "browserRequirements": "Requires JavaScript",
+    "description": "Free online security tool that generates cryptographically secure random passwords in your browser using crypto.getRandomValues.",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  }
+  </script>
+
+  <!-- JSON-LD Schema 3: HowTo -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "How to Generate Cryptographically Secure Passwords",
+    "description": "Step-by-step instructions for creating strong random passwords online.",
+    "step": [
+      {
+        "@type": "HowToStep",
+        "position": 1,
+        "name": "Select Password Length",
+        "text": "Adjust the length slider between 8 and 64 characters (16+ recommended)."
+      },
+      {
+        "@type": "HowToStep",
+        "position": 2,
+        "name": "Select Character Sets",
+        "text": "Toggle uppercase, lowercase, numbers, symbols, and ambiguous character exclusions."
+      },
+      {
+        "@type": "HowToStep",
+        "position": 3,
+        "name": "Copy Your Secure Password",
+        "text": "Click Regenerate or Copy Text to copy your random password to the clipboard."
+      }
+    ]
+  }
+  </script>
+
+  <!-- JSON-LD Schema 4: FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How does the Password Generator ensure cryptographic randomness?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The generator utilizes the web browser's native window.crypto.getRandomValues API rather than standard Math.random. This provides cryptographically secure entropy generated directly by your operating system's hardware random number pool."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Are generated passwords sent or saved on any remote server?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. Password generation occurs 100% locally inside your web browser's memory. No passwords, options, or user data ever leave your device or touch any remote server."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the recommended password length for strong security?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Cybersecurity experts recommend a minimum length of 16 characters combining uppercase, lowercase, numbers, and symbols. Passwords over 16 characters provide exponentially higher entropy resistant to brute-force attacks."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Why should I exclude similar characters like 'O' and '0'?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Excluding visually ambiguous characters (such as uppercase O vs number 0, or lowercase l vs uppercase I) prevents confusion when typing passwords manually on mobile keyboards or paper backups."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Should I reuse generated passwords across multiple accounts?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Never. Reusing passwords exposes all your online accounts to credential stuffing attacks if one service suffers a data breach. Always generate a unique password for every account."
+        }
+      }
+    ]
+  }
+  </script>
+</head>
+<body data-tool-id="password-generator">
+
+  <!-- Site Header -->
+  <header class="site-header">
+    <div class="container header-container">
+      <a href="/" class="site-logo" aria-label="ToolsBuilt Homepage">
+        <svg viewBox="0 0 100 100" aria-hidden="true">
+          <rect width="100" height="100" rx="24" fill="#4f46e5"/>
+          <path d="M30 30h40v12H56v28H44V42H30V30z" fill="#ffffff"/>
+          <circle cx="50" cy="64" r="3" fill="#4f46e5"/>
+        </svg>
+        <span>Tools<span class="accent">Built</span></span>
+      </a>
+
+      <div class="nav-actions">
+        <nav class="main-nav" id="main-nav" aria-label="Main Navigation">
+          <a href="/" class="nav-link">Home</a>
+          <a href="/about/" class="nav-link">About</a>
+          <a href="/contact/" class="nav-link">Contact</a>
+        </nav>
+
+        <button type="button" class="theme-toggle-btn" id="theme-toggle" aria-label="Toggle dark mode">
+          <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="12" r="5" />
+            <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+        </button>
+
+        <button type="button" class="mobile-menu-btn" id="mobile-menu-btn" aria-expanded="false" aria-controls="main-nav" aria-label="Toggle navigation menu">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main id="main-content" class="container">
+    
+    <!-- Breadcrumbs -->
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <ol>
+        <li><a href="/">Home</a></li>
+        <li aria-current="page">Strong Password Generator</li>
+      </ol>
+    </nav>
+
+    <!-- H1 Header -->
+    <header class="page-header" style="border-bottom: none; margin-bottom: 0.5rem;">
+      <h1>Strong Password Generator</h1>
+      <p style="font-size: 0.875rem; color: var(--text-subtle); margin-bottom: 0.5rem;">
+        Built and maintained by <strong>ToolsBuilt</strong> &bull; Last updated: October 11, 2026
+      </p>
+    </header>
+
+    <!-- AEO Quick Answer Box -->
+    <div class="info-callout" style="margin-top: 0; margin-bottom: 2rem;">
+      <h3 style="font-size: 1.05rem; margin-bottom: 0.35rem; color: var(--primary);">Quick Answer &amp; Privacy Guarantee</h3>
+      <p style="margin-bottom: 0;">The ToolsBuilt Password Generator creates cryptographically secure, uncrackable random passwords using your browser's native <code>window.crypto.getRandomValues</code> API. <strong>All passwords are generated 100% locally on your device and are never sent to any server.</strong></p>
+    </div>
+
+    <!-- AdSense Placement -->
+    <!-- <div class="ad-placement"><!-- AdSense Banner --></div> -->
+
+    <!-- Tool Form Container -->
+    <section class="tool-container" aria-label="Password Generator Interface">
+      
+      <div class="form-group">
+        <label for="password-display" style="display: flex; justify-content: space-between; align-items: center;">
+          <span>Generated Password:</span>
+          <span id="copy-feedback" class="hidden" style="color: #16a34a; font-weight: 600; font-size: 0.875rem;">Copied to clipboard!</span>
+        </label>
+        
+        <div style="display: flex; gap: 0.75rem;">
+          <input type="text" id="password-display" class="form-control" readonly style="font-family: monospace; font-size: 1.2rem; letter-spacing: 0.05em; font-weight: 700; background-color: var(--bg-muted);">
+          <button type="button" class="btn btn-primary" id="copy-btn">Copy</button>
+        </div>
+      </div>
+
+      <!-- Strength Meter -->
+      <div class="strength-meter-container">
+        <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.9rem;">
+          <span style="font-weight: 600; color: var(--text-main);">Password Strength:</span>
+          <span id="strength-text" style="font-weight: 700; color: #16a34a;">Very Strong (96 bits entropy)</span>
+        </div>
+        <div class="strength-bar-bg">
+          <div id="strength-bar-fill" class="strength-bar-fill"></div>
+        </div>
+      </div>
+
+      <!-- Controls & Options -->
+      <div style="margin-top: 2rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem;">
+        
+        <div class="form-group">
+          <label for="length-range" style="display: flex; justify-content: space-between;">
+            <span>Password Length:</span>
+            <span style="font-weight: 700; color: var(--primary);"><span id="length-val">16</span> characters</span>
+          </label>
+          <input type="range" id="length-range" min="8" max="64" value="16" style="width: 100%; accent-color: var(--primary); margin-top: 0.5rem; cursor: pointer;">
+        </div>
+
+        <div class="checkbox-grid">
+          <label class="checkbox-label">
+            <input type="checkbox" id="opt-upper" checked>
+            <span>Include Uppercase (A-Z)</span>
+          </label>
+
+          <label class="checkbox-label">
+            <input type="checkbox" id="opt-lower" checked>
+            <span>Include Lowercase (a-z)</span>
+          </label>
+
+          <label class="checkbox-label">
+            <input type="checkbox" id="opt-numbers" checked>
+            <span>Include Numbers (0-9)</span>
+          </label>
+
+          <label class="checkbox-label">
+            <input type="checkbox" id="opt-symbols" checked>
+            <span>Include Symbols (!@#$)</span>
+          </label>
+
+          <label class="checkbox-label" style="grid-column: 1 / -1;">
+            <input type="checkbox" id="opt-exclude-similar">
+            <span>Exclude Similar Characters (O, 0, l, 1, I)</span>
+          </label>
+        </div>
+
+        <div class="button-group" style="margin-top: 1.75rem;">
+          <button type="button" class="btn btn-secondary" id="generate-btn">Regenerate Password</button>
+        </div>
+
+        <div id="error-box" class="hidden" style="margin-top: 1rem; color: #dc2626; background: #fef2f2; border: 1px solid #fecaca; padding: 0.75rem 1rem; border-radius: var(--radius-sm);" role="alert"></div>
+
+      </div>
+
+    </section>
+
+    <!-- Key Facts & Entropy Crack Time Table -->
+    <section style="margin: 2.5rem 0;" aria-labelledby="key-facts-heading">
+      <h2 id="key-facts-heading">Key Facts &amp; Brute-Force Resistance Benchmarks</h2>
+      
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 1.25rem;">
+        <div>
+          <h3>Password Security Rules</h3>
+          <ul style="color: var(--text-muted); line-height: 1.8; margin-left: 1.25rem;">
+            <li>Minimum Length: 16 characters recommended</li>
+            <li>Cryptographic Source: <code>window.crypto.getRandomValues</code></li>
+            <li>Entropy Goal: &gt; 80 bits of security</li>
+            <li>Rule #1: Never reuse passwords across sites</li>
+          </ul>
+        </div>
+
+        <div>
+          <h3>Estimated Time to Brute-Force Crack</h3>
+          <table style="width: 100%; border-collapse: collapse; margin-top: 0.5rem; font-size: 0.9rem;">
+            <thead>
+              <tr style="background-color: var(--bg-muted); text-align: left; border-bottom: 2px solid var(--border-color);">
+                <th style="padding: 0.5rem;">Length &amp; Complexity</th>
+                <th style="padding: 0.5rem;">Entropy</th>
+                <th style="padding: 0.5rem;">Time to Crack</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom: 1px solid var(--border-color);">
+                <td style="padding: 0.5rem;">8 chars (Letters only)</td>
+                <td style="padding: 0.5rem;">~38 bits</td>
+                <td style="padding: 0.5rem; color: #dc2626;">Instantly (Seconds)</td>
+              </tr>
+              <tr style="border-bottom: 1px solid var(--border-color);">
+                <td style="padding: 0.5rem;">12 chars (Mixed)</td>
+                <td style="padding: 0.5rem;">~71 bits</td>
+                <td style="padding: 0.5rem; color: #d97706;">~300 Years</td>
+              </tr>
+              <tr style="border-bottom: 1px solid var(--border-color);">
+                <td style="padding: 0.5rem;">16+ chars (Full sets)</td>
+                <td style="padding: 0.5rem;">&gt;95 bits</td>
+                <td style="padding: 0.5rem; color: #16a34a; font-weight: 600;">Trillions of Years</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- How to Use Section -->
+    <section aria-labelledby="how-to-use-heading">
+      <h2 id="how-to-use-heading">How to Use the Strong Password Generator</h2>
+      <ol class="steps-list">
+        <li>
+          <h4>Set Your Preferred Length</h4>
+          <p>Drag the length slider to select your desired password length (16+ characters recommended).</p>
+        </li>
+        <li>
+          <h4>Customize Character Sets</h4>
+          <p>Toggle uppercase letters, lowercase letters, numbers, symbols, or ambiguous character exclusions.</p>
+        </li>
+        <li>
+          <h4>Copy Your Secure Password</h4>
+          <p>Click "Copy" to copy your random password directly to your clipboard for use in your password manager.</p>
+        </li>
+      </ol>
+    </section>
+
+    <!-- AdSense Placement -->
+    <!-- <div class="ad-placement"><!-- AdSense Banner --></div> -->
+
+    <!-- Article Section (~700 Words) -->
+    <article class="content-article" aria-labelledby="article-heading">
+      <h2 id="article-heading">How Do You Generate a Strong Secure Password?</h2>
+      <p>To generate a strong secure password, combine a minimum length of 16 characters with a diverse pool of uppercase letters, lowercase letters, numbers, and special symbols. Using cryptographically secure random generation ensures that your password cannot be guessed or cracked using automated dictionary attacks.</p>
+
+      <p>When storing account credentials, you can format notes or documentation using our <a href="/tools/text-case-converter/">Text Case Converter</a> or count character length with our <a href="/tools/word-counter/">Word &amp; Character Counter</a>.</p>
+
+      <h3>Why Is Cryptographic Randomness (crypto.getRandomValues) Essential?</h3>
+      <p>Standard programming functions like JavaScript's <code>Math.random()</code> are pseudorandom number generators (PRNGs) designed for games and simulations, not security. They follow predictable mathematical algorithms that attackers can reverse-engineer to predict generated passwords.</p>
+
+      <p>In contrast, ToolsBuilt uses <code>window.crypto.getRandomValues()</code>, which taps directly into your operating system's hardware entropy pool (such as CPU thermal noise and interrupt timing). This guarantees true cryptographic randomness resistant to sophisticated attack vectors.</p>
+
+      <h3>Why Client-Side In-Browser Generation Protects You</h3>
+      <p>Generating passwords on remote servers creates severe security risks: your raw password travels over internet infrastructure and could be logged in server logs or intercepted. ToolsBuilt operates 100% locally inside your web browser. Your generated passwords never leave your device.</p>
+
+      <p>If you are setting up recurring account security reviews, you can also use our <a href="/tools/date-difference-calculator/">Date Difference Calculator</a> or <a href="/tools/age-calculator/">Age Calculator</a> to plan password rotation schedules.</p>
+    </article>
+
+    <!-- FAQ Accordion (5 Questions, 40-60 words each) -->
+    <section class="faq-section" aria-labelledby="faq-heading">
+      <h2 id="faq-heading">Frequently Asked Questions</h2>
+      
+      <div class="accordion-group">
+        
+        <div class="accordion-item">
+          <button type="button" class="accordion-header" id="faq-h-1" aria-expanded="false" aria-controls="faq-c-1">
+            <span>How does the Password Generator ensure cryptographic randomness?</span>
+            <svg class="accordion-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div id="faq-c-1" class="accordion-content" hidden aria-labelledby="faq-h-1">
+            <p>The generator utilizes the web browser's native window.crypto.getRandomValues API rather than standard Math.random. This provides cryptographically secure entropy generated directly by your operating system's hardware random number pool.</p>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <button type="button" class="accordion-header" id="faq-h-2" aria-expanded="false" aria-controls="faq-c-2">
+            <span>Are generated passwords sent or saved on any remote server?</span>
+            <svg class="accordion-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div id="faq-c-2" class="accordion-content" hidden aria-labelledby="faq-h-2">
+            <p>No. Password generation occurs 100% locally inside your web browser's memory. No passwords, options, or user data ever leave your device or touch any remote server.</p>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <button type="button" class="accordion-header" id="faq-h-3" aria-expanded="false" aria-controls="faq-c-3">
+            <span>What is the recommended password length for strong security?</span>
+            <svg class="accordion-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div id="faq-c-3" class="accordion-content" hidden aria-labelledby="faq-h-3">
+            <p>Cybersecurity experts recommend a minimum length of 16 characters combining uppercase, lowercase, numbers, and symbols. Passwords over 16 characters provide exponentially higher entropy resistant to brute-force attacks.</p>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <button type="button" class="accordion-header" id="faq-h-4" aria-expanded="false" aria-controls="faq-c-4">
+            <span>Why should I exclude similar characters like 'O' and '0'?</span>
+            <svg class="accordion-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div id="faq-c-4" class="accordion-content" hidden aria-labelledby="faq-h-4">
+            <p>Excluding visually ambiguous characters (such as uppercase O vs number 0, or lowercase l vs uppercase I) prevents confusion when typing passwords manually on mobile keyboards or paper backups.</p>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <button type="button" class="accordion-header" id="faq-h-5" aria-expanded="false" aria-controls="faq-c-5">
+            <span>Should I reuse generated passwords across multiple accounts?</span>
+            <svg class="accordion-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div id="faq-c-5" class="accordion-content" hidden aria-labelledby="faq-h-5">
+            <p>Never. Reusing passwords exposes all your online accounts to credential stuffing attacks if one service suffers a data breach. Always generate a unique password for every account.</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Dynamic Related Tools Section -->
+    <section style="margin: 4rem 0 2rem 0;" aria-labelledby="related-tools-heading">
+      <h2 id="related-tools-heading">Related Tools</h2>
+      <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Explore more free tools on ToolsBuilt:</p>
+      
+      <div class="tools-grid" id="related-tools-grid">
+        <!-- Rendered dynamically by tools-data.js -->
+      </div>
+    </section>
+
+    <!-- AdSense Placement -->
+    <!-- <div class="ad-placement"><!-- AdSense Banner --></div> -->
+
+  </main>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h3>ToolsBuilt</h3>
+          <p>Free online tools and web calculators engineered for simplicity, speed, and precision.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Popular Tools</h4>
+          <ul class="footer-links">
+            <li><a href="/tools/days-until-date-calculator/">Days Until Date</a></li>
+            <li><a href="/tools/date-difference-calculator/">Date Difference</a></li>
+            <li><a href="/tools/age-calculator/">Age Calculator</a></li>
+            <li><a href="/tools/discount-calculator/">Discount Calculator</a></li>
+            <li><a href="/tools/password-generator/">Password Generator</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Legal &amp; Policy</h4>
+          <ul class="footer-links">
+            <li><a href="/about/">About Us</a></li>
+            <li><a href="/contact/">Contact Us</a></li>
+            <li><a href="/privacy-policy/">Privacy Policy</a></li>
+            <li><a href="/terms/">Terms of Service</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 ToolsBuilt. All rights reserved. Built and maintained by ToolsBuilt.</p>
+        <p>Built with privacy and speed in mind.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/assets/js/icons.js"></script>
+  <script src="/assets/js/tools-data.js"></script>
+  <script src="/assets/js/common.js"></script>
+  <script src="/tools/password-generator/script.js"></script>
+</body>
+</html>

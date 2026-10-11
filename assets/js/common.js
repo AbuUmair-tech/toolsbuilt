@@ -99,14 +99,13 @@ function initAccordions() {
  */
 function initToolSearch() {
   const searchInput = document.getElementById('tool-search');
-  const toolGrid = document.getElementById('tools-grid');
-  if (!searchInput || !toolGrid) return;
+  if (!searchInput) return;
 
-  const cards = toolGrid.querySelectorAll('.tool-card');
   const noResultsMsg = document.getElementById('no-results-msg');
 
   searchInput.addEventListener('input', (e) => {
     const query = e.target.value.toLowerCase().trim();
+    const cards = document.querySelectorAll('.tool-card');
     let visibleCount = 0;
 
     cards.forEach(card => {

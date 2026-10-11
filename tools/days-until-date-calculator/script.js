@@ -94,7 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
     } else if (totalDays === 0) {
       // Today
       resultHeader.textContent = 'Event Status';
-      resultPrimary.textContent = `Today is the day! 🎉 (${titleSubject})`;
+      resultPrimary.textContent = `Today is the day! (${titleSubject})`;
       statTotalDays.textContent = '0 Days';
       statWeeksDays.textContent = '0 weeks, 0 days';
       statMonthsDays.textContent = '0 months, 0 days';

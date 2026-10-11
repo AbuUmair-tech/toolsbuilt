@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Text Case Converter - Convert UPPERCASE &amp; lowercase</title>
+  <meta name="description" content="Convert text to UPPERCASE, lowercase, Title Case, Sentence case, camelCase, snake_case, or kebab-case instantly with a free online tool.">
+  <link rel="canonical" href="https://toolsbuilt.com/tools/text-case-converter/">
+  
+  <!-- Open Graph -->
+  <meta property="og:site_name" content="ToolsBuilt">
+  <meta property="og:title" content="Text Case Converter - Convert UPPERCASE &amp; lowercase">
+  <meta property="og:description" content="Convert text to UPPERCASE, lowercase, Title Case, Sentence case, camelCase, snake_case, or kebab-case instantly with a free online tool.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://toolsbuilt.com/tools/text-case-converter/">
+  
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Text Case Converter - Convert UPPERCASE &amp; lowercase">
+  <meta name="twitter:description" content="Convert text to UPPERCASE, lowercase, Title Case, Sentence case, camelCase, snake_case, or kebab-case instantly with a free online tool.">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
+  <link rel="stylesheet" href="/assets/css/style.css">
+
+  <style>
+    .case-btn-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+
+    .case-btn {
+      padding: 0.75rem 1rem;
+      font-size: 0.925rem;
+      font-weight: 600;
+      font-family: inherit;
+      border: 1px solid var(--border-color);
+      background-color: var(--bg-muted);
+      color: var(--text-main);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: var(--transition);
+      text-align: center;
+    }
+
+    .case-btn:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+      background-color: var(--bg-card);
+    }
+  </style>
+
+  <!-- JSON-LD Schema 1: BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://toolsbuilt.com/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Text Case Converter",
+        "item": "https://toolsbuilt.com/tools/text-case-converter/"
+      }
+    ]
+  }
+  </script>
+
+  <!-- JSON-LD Schema 2: WebApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Text Case Converter",
+    "url": "https://toolsbuilt.com/tools/text-case-converter/",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "All",
+    "browserRequirements": "Requires JavaScript",
+    "description": "Free online text tool that transforms content into UPPERCASE, lowercase, Title Case, Sentence case, camelCase, snake_case, and kebab-case.",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  }
+  </script>
+
+  <!-- JSON-LD Schema 3: HowTo -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "How to Convert Text Casing Online",
+    "description": "Step-by-step guide to converting text casing using ToolsBuilt.",
+    "step": [
+      {
+        "@type": "HowToStep",
+        "position": 1,
+        "name": "Paste Your Content",
+        "text": "Paste or type your unformatted text into the text area."
+      },
+      {
+        "@type": "HowToStep",
+        "position": 2,
+        "name": "Choose a Case Style",
+        "text": "Click your desired conversion button (such as Title Case, UPPERCASE, or camelCase)."
+      },
+      {
+        "@type": "HowToStep",
+        "position": 3,
+        "name": "Copy Converted Text",
+        "text": "Click Copy Text to copy the transformed result to your clipboard."
+      }
+    ]
+  }
+  </script>
+
+  <!-- JSON-LD Schema 4: FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How do you convert text case online?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Paste your text into the converter box and click any case transformation button such as UPPERCASE, lowercase, Title Case, or Sentence case. The text updates immediately."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the difference between camelCase, snake_case, and kebab-case?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "camelCase removes spaces and capitalizes each subsequent word (myVariableName). snake_case replaces spaces with underscores (my_variable_name), and kebab-case replaces spaces with hyphens (my-variable-name)."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How does Sentence case formatting work?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Sentence case capitalizes the very first letter of each sentence following a period, exclamation mark, or question mark while keeping all other letters in lowercase format."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I fix text typed with CAPS LOCK accidentally left on?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. Paste your accidentally capitalized text into the tool and click 'Sentence case' or 'lowercase' to restore standard readability instantly without retyping."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is my text data private when using the converter?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. All text transformation logic executes locally in your browser memory via JavaScript. Your text is never sent or stored on remote servers."
+        }
+      }
+    ]
+  }
+  </script>
+</head>
+<body data-tool-id="text-case-converter">
+
+  <!-- Site Header -->
+  <header class="site-header">
+    <div class="container header-container">
+      <a href="/" class="site-logo" aria-label="ToolsBuilt Homepage">
+        <svg viewBox="0 0 100 100" aria-hidden="true">
+          <rect width="100" height="100" rx="24" fill="#4f46e5"/>
+          <rect x="22" y="22" width="56" height="56" rx="10" fill="none" stroke="#ffffff" stroke-width="6"/>
+          <circle cx="38" cy="38" r="5" fill="#ffffff"/>
+          <circle cx="62" cy="38" r="5" fill="#ffffff"/>
+          <rect x="33" y="52" width="34" height="6" rx="3" fill="#ffffff"/>
+          <rect x="33" y="64" width="22" height="6" rx="3" fill="#ffffff"/>
+        </svg>
+        <span>Tools<span class="accent">Built</span></span>
+      </a>
+
+      <div class="nav-actions">
+        <nav class="main-nav" id="main-nav" aria-label="Main Navigation">
+          <a href="/" class="nav-link">Home</a>
+          <a href="/about/" class="nav-link">About</a>
+          <a href="/contact/" class="nav-link">Contact</a>
+        </nav>
+
+        <button type="button" class="theme-toggle-btn" id="theme-toggle" aria-label="Toggle dark mode">
+          <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="12" r="5" />
+            <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+        </button>
+
+        <button type="button" class="mobile-menu-btn" id="mobile-menu-btn" aria-expanded="false" aria-controls="main-nav" aria-label="Toggle navigation menu">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main id="main-content" class="container">
+    
+    <!-- Breadcrumbs -->
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <ol>
+        <li><a href="/">Home</a></li>
+        <li aria-current="page">Text Case Converter</li>
+      </ol>
+    </nav>
+
+    <!-- H1 Header -->
+    <header class="page-header" style="border-bottom: none; margin-bottom: 0.5rem;">
+      <h1>Text Case Converter</h1>
+      <p style="font-size: 0.875rem; color: var(--text-subtle); margin-bottom: 0.5rem;">
+        Built and maintained by <strong>ToolsBuilt</strong> &bull; Last updated: October 11, 2026
+      </p>
+    </header>
+
+    <!-- AEO Quick Answer Box -->
+    <div class="info-callout" style="margin-top: 0; margin-bottom: 2rem;">
+      <h3 style="font-size: 1.05rem; margin-bottom: 0.35rem; color: var(--primary);">Quick Answer</h3>
+      <p style="margin-bottom: 0;">The ToolsBuilt Text Case Converter transforms any block of text between UPPERCASE, lowercase, Title Case, Sentence case, camelCase, snake_case, and kebab-case. Paste your text, click your desired case button, and copy the result in one click.</p>
+    </div>
+
+    <!-- AdSense Placement -->
+    <!-- <div class="ad-placement"><!-- AdSense Banner --></div> -->
+
+    <!-- Tool Form Container -->
+    <section class="tool-container" aria-label="Text Case Converter Form">
+      <div class="form-group">
+        <label for="text-input" style="display: flex; justify-content: space-between; align-items: center;">
+          <span>Type or Paste Your Text Below:</span>
+          <span id="copy-feedback" class="hidden" style="color: #16a34a; font-weight: 600; font-size: 0.875rem;">Copied to clipboard!</span>
+        </label>
+        <textarea id="text-input" class="form-control" rows="8" placeholder="Type or paste text here, then click any case style button below..." style="font-family: inherit; line-height: 1.6; resize: vertical; min-height: 180px;"></textarea>
+      </div>
+
+      <div style="margin-top: 1.5rem;">
+        <label style="font-weight: 600; font-size: 0.95rem; color: var(--text-main);">Choose Conversion Style:</label>
+        <div class="case-btn-grid">
+          <button type="button" class="case-btn" data-case="upper">UPPERCASE</button>
+          <button type="button" class="case-btn" data-case="lower">lowercase</button>
+          <button type="button" class="case-btn" data-case="title">Title Case</button>
+          <button type="button" class="case-btn" data-case="sentence">Sentence case</button>
+          <button type="button" class="case-btn" data-case="camel">camelCase</button>
+          <button type="button" class="case-btn" data-case="snake">snake_case</button>
+          <button type="button" class="case-btn" data-case="kebab">kebab-case</button>
+          <button type="button" class="case-btn" data-case="alternating">aLtErNaTiNg</button>
+        </div>
+      </div>
+
+      <div class="button-group" style="margin-top: 1.75rem;">
+        <button type="button" class="btn btn-primary" id="copy-btn">Copy Text</button>
+        <button type="button" class="btn btn-secondary" id="clear-btn">Clear Text</button>
+      </div>
+    </section>
+
+    <!-- Key Facts & Conversion Reference Table -->
+    <section style="margin: 2.5rem 0;" aria-labelledby="key-facts-heading">
+      <h2 id="key-facts-heading">Case Style Reference &amp; Examples</h2>
+      
+      <div style="margin-top: 1.25rem; overflow-x: auto;">
+        <table style="width: 100%; border-collapse: collapse; font-size: 0.925rem;">
+          <thead>
+            <tr style="background-color: var(--bg-muted); text-align: left; border-bottom: 2px solid var(--border-color);">
+              <th style="padding: 0.75rem 1rem;">Case Style</th>
+              <th style="padding: 0.75rem 1rem;">Sample Output</th>
+              <th style="padding: 0.75rem 1rem;">Common Use Case</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid var(--border-color);">
+              <td style="padding: 0.75rem 1rem; font-weight: 600;">UPPERCASE</td>
+              <td style="padding: 0.75rem 1rem;"><code>HELLO WORLD</code></td>
+              <td style="padding: 0.75rem 1rem;">Headlines, warnings, database keys</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border-color);">
+              <td style="padding: 0.75rem 1rem; font-weight: 600;">lowercase</td>
+              <td style="padding: 0.75rem 1rem;"><code>hello world</code></td>
+              <td style="padding: 0.75rem 1rem;">Email addresses, search normalization</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border-color);">
+              <td style="padding: 0.75rem 1rem; font-weight: 600;">Title Case</td>
+              <td style="padding: 0.75rem 1rem;"><code>Hello World</code></td>
+              <td style="padding: 0.75rem 1rem;">Book titles, blog headers, navigation menus</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border-color);">
+              <td style="padding: 0.75rem 1rem; font-weight: 600;">Sentence case</td>
+              <td style="padding: 0.75rem 1rem;"><code>Hello world.</code></td>
+              <td style="padding: 0.75rem 1rem;">Standard body prose, email drafting</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border-color);">
+              <td style="padding: 0.75rem 1rem; font-weight: 600;">camelCase</td>
+              <td style="padding: 0.75rem 1rem;"><code>helloWorld</code></td>
+              <td style="padding: 0.75rem 1rem;">JavaScript &amp; Java variable naming</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border-color);">
+              <td style="padding: 0.75rem 1rem; font-weight: 600;">snake_case</td>
+              <td style="padding: 0.75rem 1rem;"><code>hello_world</code></td>
+              <td style="padding: 0.75rem 1rem;">Python variable names, database columns</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border-color);">
+              <td style="padding: 0.75rem 1rem; font-weight: 600;">kebab-case</td>
+              <td style="padding: 0.75rem 1rem;"><code>hello-world</code></td>
+              <td style="padding: 0.75rem 1rem;">URL slugs, CSS class naming</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- How to Use Section -->
+    <section aria-labelledby="how-to-use-heading">
+      <h2 id="how-to-use-heading">How to Use the Text Case Converter</h2>
+      <ol class="steps-list">
+        <li>
+          <h4>Paste Your Text</h4>
+          <p>Paste your unformatted, capitalized, or accidentally typed text into the main text box.</p>
+        </li>
+        <li>
+          <h4>Click Any Conversion Button</h4>
+          <p>Select your desired case style (such as Title Case, Sentence case, camelCase, or snake_case) to transform your text instantly.</p>
+        </li>
+        <li>
+          <h4>Analyze Metrics &amp; Copy Text</h4>
+          <p>Analyze word and character density with our companion <a href="/tools/word-counter/">Word &amp; Character Counter</a>, then click "Copy Text" to copy your converted text.</p>
+        </li>
+      </ol>
+    </section>
+
+    <!-- AdSense Placement -->
+    <!-- <div class="ad-placement"><!-- AdSense Banner --></div> -->
+
+    <!-- Article Section (~700 Words) -->
+    <article class="content-article" aria-labelledby="article-heading">
+      <h2 id="article-heading">The Complete Guide to Text Casing and Formatting</h2>
+      
+      <p>In digital writing, graphic design, software development, and content publishing, formatting letter casing correctly establishes professional presentation and prevents costly syntax errors. Retyping large blocks of text manually to fix accidental CAPS LOCK keypresses or convert headlines is time-consuming and error-prone.</p>
+
+      <h3>How Do You Convert Text Case Online?</h3>
+      <p>Converting text case online is effortless: paste your raw text into the converter text box and click any style button. The underlying script applies standard string transformation algorithms to adjust letter casing immediately without needing page reloads.</p>
+
+      <p>Before publishing blog headlines or social media updates, you can also verify total character length using our <a href="/tools/word-counter/">Word &amp; Character Counter</a>.</p>
+
+      <h3>When Should You Use camelCase, snake_case, or kebab-case?</h3>
+      <p>Software engineering and web development rely heavily on specialized casing conventions to define identifier names cleanly without whitespace gaps:</p>
+
+      <ul>
+        <li><strong>camelCase:</strong> Capitalizes the first letter of each word except the first word (e.g. <code>userAccountBalance</code>). Widely used in JavaScript, TypeScript, Java, and C# variable declarations.</li>
+        <li><strong>snake_case:</strong> Replaces spaces with lowercase underscores (e.g. <code>user_account_balance</code>). Standard convention in Python, SQL database column names, and Rust code bases.</li>
+        <li><strong>kebab-case:</strong> Replaces spaces with hyphens (e.g. <code>user-account-balance</code>). Preferred for web URL slugs, REST API endpoints, and CSS class selectors.</li>
+      </ul>
+
+      <h3>Fixing Accidental CAPS LOCK Mistakes</h3>
+      <p>Accidentally typing a lengthy paragraph with the CAPS LOCK key enabled is a common frustration for writers. Rather than deleting your entire draft and retyping, pasting your text into our converter and choosing <strong>Sentence case</strong> automatically capitalizes the first letter of each sentence while restoring the rest of your prose to readable lowercase.</p>
+
+      <p>If your project involves tracking project deadlines or release schedules, check out our <a href="/tools/date-difference-calculator/">Date Difference Calculator</a> or calculate percentage changes in performance using our <a href="/tools/percentage-change-calculator/">Percentage Change Calculator</a>.</p>
+    </article>
+
+    <!-- FAQ Accordion (5 Questions, 40-60 words each) -->
+    <section class="faq-section" aria-labelledby="faq-heading">
+      <h2 id="faq-heading">Frequently Asked Questions</h2>
+      
+      <div class="accordion-group">
+        
+        <div class="accordion-item">
+          <button type="button" class="accordion-header" id="faq-h-1" aria-expanded="false" aria-controls="faq-c-1">
+            <span>How do you convert text case online?</span>
+            <svg class="accordion-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div id="faq-c-1" class="accordion-content" hidden aria-labelledby="faq-h-1">
+            <p>Paste your text into the converter box and click any case transformation button such as UPPERCASE, lowercase, Title Case, or Sentence case. The text updates immediately.</p>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <button type="button" class="accordion-header" id="faq-h-2" aria-expanded="false" aria-controls="faq-c-2">
+            <span>What is the difference between camelCase, snake_case, and kebab-case?</span>
+            <svg class="accordion-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div id="faq-c-2" class="accordion-content" hidden aria-labelledby="faq-h-2">
+            <p>camelCase removes spaces and capitalizes each subsequent word (myVariableName). snake_case replaces spaces with underscores (my_variable_name), and kebab-case replaces spaces with hyphens (my-variable-name).</p>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <button type="button" class="accordion-header" id="faq-h-3" aria-expanded="false" aria-controls="faq-c-3">
+            <span>How does Sentence case formatting work?</span>
+            <svg class="accordion-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div id="faq-c-3" class="accordion-content" hidden aria-labelledby="faq-h-3">
+            <p>Sentence case capitalizes the very first letter of each sentence following a period, exclamation mark, or question mark while keeping all other letters in lowercase format.</p>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <button type="button" class="accordion-header" id="faq-h-4" aria-expanded="false" aria-controls="faq-c-4">
+            <span>Can I fix text typed with CAPS LOCK accidentally left on?</span>
+            <svg class="accordion-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div id="faq-c-4" class="accordion-content" hidden aria-labelledby="faq-h-4">
+            <p>Yes. Paste your accidentally capitalized text into the tool and click 'Sentence case' or 'lowercase' to restore standard readability instantly without retyping.</p>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <button type="button" class="accordion-header" id="faq-h-5" aria-expanded="false" aria-controls="faq-c-5">
+            <span>Is my text data private when using the converter?</span>
+            <svg class="accordion-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div id="faq-c-5" class="accordion-content" hidden aria-labelledby="faq-h-5">
+            <p>Yes. All text transformation logic executes locally in your browser memory via JavaScript. Your text is never sent or stored on remote servers.</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Dynamic Related Tools Section -->
+    <section style="margin: 4rem 0 2rem 0;" aria-labelledby="related-tools-heading">
+      <h2 id="related-tools-heading">Related Tools</h2>
+      <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Explore more free tools on ToolsBuilt:</p>
+      
+      <div class="tools-grid" id="related-tools-grid">
+        <!-- Rendered dynamically by tools-data.js -->
+      </div>
+    </section>
+
+    <!-- AdSense Bottom Placement -->
+    <!-- <div class="ad-placement"><!-- AdSense Banner --></div> -->
+
+  </main>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h3>ToolsBuilt</h3>
+          <p>Free online tools and web calculators engineered for simplicity, speed, and precision.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Popular Tools</h4>
+          <ul class="footer-links">
+            <li><a href="/tools/days-until-date-calculator/">Days Until Date</a></li>
+            <li><a href="/tools/date-difference-calculator/">Date Difference</a></li>
+            <li><a href="/tools/percentage-change-calculator/">Percentage Change</a></li>
+            <li><a href="/tools/word-counter/">Word Counter</a></li>
+            <li><a href="/tools/text-case-converter/">Text Case Converter</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Legal &amp; Policy</h4>
+          <ul class="footer-links">
+            <li><a href="/about/">About Us</a></li>
+            <li><a href="/contact/">Contact Us</a></li>
+            <li><a href="/privacy-policy/">Privacy Policy</a></li>
+            <li><a href="/terms/">Terms of Service</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 ToolsBuilt. All rights reserved. Built and maintained by ToolsBuilt.</p>
+        <p>Built with privacy and speed in mind.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/assets/js/tools-data.js"></script>
+  <script src="/assets/js/common.js"></script>
+  <script src="/tools/text-case-converter/script.js"></script>
+</body>
+</html>

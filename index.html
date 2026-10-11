@@ -4,26 +4,56 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ToolsBuilt - Free Online Calculators and Tools</title>
-  <meta name="description" content="Free online calculators and web tools to solve everyday date, time, and math tasks instantly. No signup required, fast and mobile-friendly.">
+  <meta name="description" content="Free online calculators and web tools to solve everyday date, time, math, text, and security tasks instantly. No signup required, fast and mobile-friendly.">
   <link rel="canonical" href="https://toolsbuilt.com/">
+  <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png">
   
   <!-- Open Graph -->
   <meta property="og:site_name" content="ToolsBuilt">
   <meta property="og:title" content="ToolsBuilt - Free Online Calculators and Tools">
-  <meta property="og:description" content="Free online calculators and web tools to solve everyday date, time, and math tasks instantly.">
+  <meta property="og:description" content="Free online calculators and web tools to solve everyday date, time, math, text, and security tasks instantly.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://toolsbuilt.com/">
+  <meta property="og:image" content="https://toolsbuilt.com/assets/img/og-image.svg">
   
   <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary">
+  <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="ToolsBuilt - Free Online Calculators and Tools">
-  <meta name="twitter:description" content="Free online calculators and web tools to solve everyday date, time, and math tasks instantly.">
+  <meta name="twitter:description" content="Free online calculators and web tools to solve everyday date, time, math, text, and security tasks instantly.">
+  <meta name="twitter:image" content="https://toolsbuilt.com/assets/img/og-image.svg">
 
   <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
   <link rel="stylesheet" href="/assets/css/style.css">
+
+  <!-- JSON-LD Schema 1: Organization -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "ToolsBuilt",
+    "url": "https://toolsbuilt.com/",
+    "logo": "https://toolsbuilt.com/assets/img/favicon.svg"
+  }
+  </script>
+
+  <!-- JSON-LD Schema 2: WebSite with SearchAction -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "ToolsBuilt",
+    "url": "https://toolsbuilt.com/",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://toolsbuilt.com/?q={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  }
+  </script>
 </head>
 <body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
 
   <!-- Site Header -->
   <header class="site-header">
@@ -31,11 +61,8 @@
       <a href="/" class="site-logo" aria-label="ToolsBuilt Homepage">
         <svg viewBox="0 0 100 100" aria-hidden="true">
           <rect width="100" height="100" rx="24" fill="#4f46e5"/>
-          <rect x="22" y="22" width="56" height="56" rx="10" fill="none" stroke="#ffffff" stroke-width="6"/>
-          <circle cx="38" cy="38" r="5" fill="#ffffff"/>
-          <circle cx="62" cy="38" r="5" fill="#ffffff"/>
-          <rect x="33" y="52" width="34" height="6" rx="3" fill="#ffffff"/>
-          <rect x="33" y="64" width="22" height="6" rx="3" fill="#ffffff"/>
+          <path d="M30 30h40v12H56v28H44V42H30V30z" fill="#ffffff"/>
+          <circle cx="50" cy="64" r="3" fill="#4f46e5"/>
         </svg>
         <span>Tools<span class="accent">Built</span></span>
       </a>
@@ -69,7 +96,7 @@
   </header>
 
   <!-- Main Content -->
-  <main class="container">
+  <main class="container" id="main-content">
     
     <!-- Hero Section -->
     <section class="hero">
@@ -81,64 +108,224 @@
           <circle cx="11" cy="11" r="8"></circle>
           <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
         </svg>
-        <input type="search" id="tool-search" class="search-input" placeholder="Search calculators (e.g. Days Until Date...)" aria-label="Search calculators and tools">
+        <input type="search" id="tool-search" class="search-input" placeholder="Search tools (e.g. Password Generator, Age Calculator...)" aria-label="Search calculators and tools">
       </div>
     </section>
 
-    <!-- AdSense Top Banner Placement -->
-    <!-- <div class="ad-placement"><!-- AdSense Horizontal Banner --></div> -->
+    <!-- AdSense Placement -->
+    <!-- <div class="ad-placement"><!-- AdSense Banner --></div> -->
 
-    <!-- Tools Grid Section -->
-    <section aria-labelledby="available-tools-heading">
-      <h2 id="available-tools-heading" class="visually-hidden" style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); border: 0;">Available Online Tools</h2>
-      
-      <div class="tools-grid" id="tools-grid">
-        
-        <!-- Tool Card 1: Days Until Date Calculator -->
+    <!-- Category 1: Date & Time Tools -->
+    <section aria-labelledby="cat-date-time" style="margin-bottom: 3rem;">
+      <div style="display: flex; align-items: center; gap: 0.75rem; border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem; margin-bottom: 1.5rem;">
+        <div class="tool-icon-tile" data-cat="date-time" style="width: 36px; height: 36px; margin-bottom: 0; border-radius: 10px;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+        </div>
+        <h2 id="cat-date-time" style="margin: 0; font-size: 1.5rem;">Date &amp; Time Tools</h2>
+      </div>
+
+      <div class="tools-grid">
         <a href="/tools/days-until-date-calculator/" class="tool-card">
-          <div class="tool-icon" aria-hidden="true">📅</div>
+          <div class="tool-icon-tile" data-cat="date-time">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line><circle cx="14" cy="16" r="3"></circle><polyline points="14 14.5 14 16 15.2 17"></polyline></svg>
+          </div>
           <h2>Days Until Date Calculator</h2>
-          <p>Calculate exact total days, weeks, and months until any future event, birthday, or deadline.</p>
+          <p>Calculate exact total days, weeks, and months remaining until any future event, birthday, or holiday.</p>
           <div class="tool-card-action">
-            <span>Use Calculator</span>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <line x1="5" y1="12" x2="19" y2="12"></line>
-              <polyline points="12 5 19 12 12 19"></polyline>
-            </svg>
+            <span>Use Tool</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
           </div>
         </a>
 
-      </div>
+        <a href="/tools/date-difference-calculator/" class="tool-card">
+          <div class="tool-icon-tile" data-cat="date-time">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line><path d="M17 14h-6"></path><path d="M13 18H7"></path></svg>
+          </div>
+          <h2>Date Difference Calculator</h2>
+          <p>Calculate total days, working business days (Mon-Fri), and time spans between any two calendar dates.</p>
+          <div class="tool-card-action">
+            <span>Use Tool</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+          </div>
+        </a>
 
-      <div id="no-results-msg" class="text-center hidden" style="padding: 3rem 1rem;">
-        <p style="font-size: 1.1rem; color: var(--text-muted);">No calculators found matching your search term.</p>
+        <a href="/tools/age-calculator/" class="tool-card">
+          <div class="tool-icon-tile" data-cat="date-time">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-8a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8"></path><path d="M4 16s.5-1.5 1.5-1.5 1.5 1.5 2.5 1.5 1.5-1.5 2.5-1.5 1.5 1.5 2.5 1.5 1.5-1.5 2.5 1.5"></path><line x1="2" y1="21" x2="22" y2="21"></line><line x1="12" y1="8" x2="12" y2="11"></line><path d="M12 5a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"></path></svg>
+          </div>
+          <h2>Age Calculator</h2>
+          <p>Calculate exact age in years, months, days, weeks, total hours, and countdown to your next birthday.</p>
+          <div class="tool-card-action">
+            <span>Use Tool</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+          </div>
+        </a>
+
+        <a href="/tools/add-days-to-date-calculator/" class="tool-card">
+          <div class="tool-icon-tile" data-cat="date-time">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line><line x1="12" y1="14" x2="12" y2="18"></line><line x1="10" y1="16" x2="14" y2="16"></line></svg>
+          </div>
+          <h2>Add or Subtract Days Calculator</h2>
+          <p>Add or subtract days, weeks, months, or years from any start date. Optional business days only mode.</p>
+          <div class="tool-card-action">
+            <span>Use Tool</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+          </div>
+        </a>
       </div>
     </section>
+
+    <!-- Category 2: Math & Percentage Tools -->
+    <section aria-labelledby="cat-math" style="margin-bottom: 3rem;">
+      <div style="display: flex; align-items: center; gap: 0.75rem; border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem; margin-bottom: 1.5rem;">
+        <div class="tool-icon-tile" data-cat="math" style="width: 36px; height: 36px; margin-bottom: 0; border-radius: 10px;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect><line x1="8" y1="6" x2="16" y2="6"></line><line x1="16" y1="14" x2="16" y2="18"></line><path d="M8 10h.01M12 10h.01M16 10h.01M8 14h.01M12 14h.01M8 18h.01M12 18h.01"></path></svg>
+        </div>
+        <h2 id="cat-math" style="margin: 0; font-size: 1.5rem;">Math &amp; Financial Tools</h2>
+      </div>
+
+      <div class="tools-grid">
+        <a href="/tools/percentage-change-calculator/" class="tool-card">
+          <div class="tool-icon-tile" data-cat="math">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="5" x2="5" y2="19"></line><circle cx="6.5" cy="6.5" r="2.5"></circle><circle cx="17.5" cy="17.5" r="2.5"></circle></svg>
+          </div>
+          <h2>Percentage Change Calculator</h2>
+          <p>Calculate percentage increase/decrease, percentage differences, and percent of numbers with step-by-step formulas.</p>
+          <div class="tool-card-action">
+            <span>Use Tool</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+          </div>
+        </a>
+
+        <a href="/tools/discount-calculator/" class="tool-card">
+          <div class="tool-icon-tile" data-cat="math">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>
+          </div>
+          <h2>Discount Calculator</h2>
+          <p>Calculate final sale prices, total savings, stacked double discounts, and final price including sales tax.</p>
+          <div class="tool-card-action">
+            <span>Use Tool</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <!-- Category 3: Text & Writing Tools -->
+    <section aria-labelledby="cat-text" style="margin-bottom: 3rem;">
+      <div style="display: flex; align-items: center; gap: 0.75rem; border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem; margin-bottom: 1.5rem;">
+        <div class="tool-icon-tile" data-cat="text" style="width: 36px; height: 36px; margin-bottom: 0; border-radius: 10px;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><line x1="10" y1="9" x2="8" y2="9"></line></svg>
+        </div>
+        <h2 id="cat-text" style="margin: 0; font-size: 1.5rem;">Text &amp; Writing Tools</h2>
+      </div>
+
+      <div class="tools-grid">
+        <a href="/tools/word-counter/" class="tool-card">
+          <div class="tool-icon-tile" data-cat="text">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h2a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-2"></path><path d="M10 4H8a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h2"></path><line x1="12" y1="7" x2="12" y2="17"></line><line x1="9" y1="7" x2="15" y2="7"></line><line x1="9" y1="17" x2="15" y2="17"></line></svg>
+          </div>
+          <h2>Word &amp; Character Counter</h2>
+          <p>Count words, characters (with and without spaces), sentences, paragraphs, and reading time live as you type.</p>
+          <div class="tool-card-action">
+            <span>Use Tool</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+          </div>
+        </a>
+
+        <a href="/tools/text-case-converter/" class="tool-card">
+          <div class="tool-icon-tile" data-cat="text">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 16 4.5-9 4.5 9"></path><path d="M4.5 13h6"></path><circle cx="18" cy="13" r="3"></circle><path d="M21 10v6"></path></svg>
+          </div>
+          <h2>Text Case Converter</h2>
+          <p>Instantly convert text between UPPERCASE, lowercase, Title Case, Sentence case, camelCase, snake_case, and kebab-case.</p>
+          <div class="tool-card-action">
+            <span>Use Tool</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <!-- Category 4: Security & Privacy Tools -->
+    <section aria-labelledby="cat-security" style="margin-bottom: 3rem;">
+      <div style="display: flex; align-items: center; gap: 0.75rem; border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem; margin-bottom: 1.5rem;">
+        <div class="tool-icon-tile" data-cat="security" style="width: 36px; height: 36px; margin-bottom: 0; border-radius: 10px;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+        </div>
+        <h2 id="cat-security" style="margin: 0; font-size: 1.5rem;">Security &amp; Privacy Tools</h2>
+      </div>
+
+      <div class="tools-grid">
+        <a href="/tools/password-generator/" class="tool-card">
+          <div class="tool-icon-tile" data-cat="security">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 2l-2 2m-3 1l-4 4"></path><path d="M15.5 7.5l3 3"></path><path d="M10 13l-4.5 4.5H3v-2.5l3.5-3.5"></path><circle cx="16.5" cy="7.5" r="4.5"></circle></svg>
+          </div>
+          <h2>Strong Password Generator</h2>
+          <p>Generate secure, customizable passwords locally using cryptographically secure random numbers (crypto.getRandomValues).</p>
+          <div class="tool-card-action">
+            <span>Use Tool</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <!-- Category 5: Fun & Random Tools -->
+    <section aria-labelledby="cat-fun" id="fun-random-tools" style="margin-bottom: 3rem;">
+      <div style="display: flex; align-items: center; gap: 0.75rem; border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem; margin-bottom: 1.5rem;">
+        <div class="tool-icon-tile" data-cat="fun" style="width: 36px; height: 36px; margin-bottom: 0; border-radius: 10px;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="3"></circle><line x1="12" y1="2" x2="12" y2="9"></line><line x1="12" y1="15" x2="12" y2="22"></line><line x1="2" y1="12" x2="9" y2="12"></line><line x1="15" y1="12" x2="22" y2="12"></line></svg>
+        </div>
+        <h2 id="cat-fun" style="margin: 0; font-size: 1.5rem;">Fun &amp; Random Tools</h2>
+      </div>
+
+      <div class="tools-grid">
+        <a href="/tools/random-name-picker/" class="tool-card">
+          <div class="tool-icon-tile" data-cat="fun">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="3"></circle><line x1="12" y1="2" x2="12" y2="9"></line><line x1="12" y1="15" x2="12" y2="22"></line><line x1="2" y1="12" x2="9" y2="12"></line><line x1="15" y1="12" x2="22" y2="12"></line></svg>
+          </div>
+          <h2>Random Name Picker Wheel</h2>
+          <p>Spin an interactive wheel to randomly pick winners from a list of names. Uses crypto-secure randomness.</p>
+          <div class="tool-card-action">
+            <span>Use Tool</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <div id="no-results-msg" class="text-center hidden" style="padding: 3rem 1rem;">
+      <p style="font-size: 1.1rem; color: var(--text-muted);">No tools found matching your search term.</p>
+    </div>
 
     <!-- Why ToolsBuilt Section -->
     <section class="why-section">
       <h2>Why Use ToolsBuilt?</h2>
       <div class="features-grid">
         <div class="feature-item">
-          <div class="feature-icon" aria-hidden="true">⚡</div>
+          <div class="feature-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+          </div>
           <h3>100% Free Always</h3>
           <p>All calculators and web utilities are completely free to use with no hidden fees or limitations.</p>
         </div>
         <div class="feature-item">
-          <div class="feature-icon" aria-hidden="true">🔒</div>
+          <div class="feature-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+          </div>
           <h3>No Signup Required</h3>
           <p>Instant access without accounts, passwords, or personal data collection. Your privacy comes first.</p>
         </div>
         <div class="feature-item">
-          <div class="feature-icon" aria-hidden="true">📱</div>
+          <div class="feature-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg>
+          </div>
           <h3>Works on Any Device</h3>
           <p>Mobile-first design optimized for fast loading on smartphones, tablets, and desktop computers.</p>
         </div>
       </div>
     </section>
-
-    <!-- AdSense Bottom Banner Placement -->
-    <!-- <div class="ad-placement"><!-- AdSense Bottom Banner --></div> -->
 
   </main>
 
@@ -151,17 +338,22 @@
           <p>Free online tools and web calculators engineered for simplicity, speed, and precision.</p>
         </div>
         <div class="footer-col">
-          <h4>Navigation</h4>
+          <h4>Popular Tools</h4>
           <ul class="footer-links">
-            <li><a href="/">Home</a></li>
             <li><a href="/tools/days-until-date-calculator/">Days Until Date</a></li>
-            <li><a href="/about/">About Us</a></li>
-            <li><a href="/contact/">Contact Us</a></li>
+            <li><a href="/tools/date-difference-calculator/">Date Difference</a></li>
+            <li><a href="/tools/age-calculator/">Age Calculator</a></li>
+            <li><a href="/tools/add-days-to-date-calculator/">Add or Subtract Days</a></li>
+            <li><a href="/tools/word-counter/">Word Counter</a></li>
+            <li><a href="/tools/password-generator/">Password Generator</a></li>
+            <li><a href="/tools/random-name-picker/">Random Name Picker</a></li>
           </ul>
         </div>
         <div class="footer-col">
           <h4>Legal &amp; Policy</h4>
           <ul class="footer-links">
+            <li><a href="/about/">About Us</a></li>
+            <li><a href="/contact/">Contact Us</a></li>
             <li><a href="/privacy-policy/">Privacy Policy</a></li>
             <li><a href="/terms/">Terms of Service</a></li>
           </ul>
@@ -169,12 +361,18 @@
       </div>
 
       <div class="footer-bottom">
-        <p>&copy; 2026 ToolsBuilt. All rights reserved.</p>
+        <p>&copy; 2026 ToolsBuilt. All rights reserved. Built and maintained by ToolsBuilt.</p>
         <p>Built with privacy and speed in mind.</p>
       </div>
     </div>
   </footer>
 
+  <!-- Cookie consent banner placeholder (hidden by default, no tracking).
+       Will be replaced by Google's certified CMP when AdSense is active for EEA/UK users. -->
+  <div id="cookie-consent-banner" class="cookie-banner" style="display:none" aria-hidden="true"></div>
+
+  <script src="/assets/js/icons.js"></script>
+  <script src="/assets/js/tools-data.js"></script>
   <script src="/assets/js/common.js"></script>
 </body>
 </html>

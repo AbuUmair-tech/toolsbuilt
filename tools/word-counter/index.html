@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Word Counter - Character &amp; Reading Time Counter</title>
+  <meta name="description" content="Free online word counter and character count tool. Calculate words, characters, sentences, reading time, and top words live as you type.">
+  <link rel="canonical" href="https://toolsbuilt.com/tools/word-counter/">
+  
+  <!-- Open Graph -->
+  <meta property="og:site_name" content="ToolsBuilt">
+  <meta property="og:title" content="Word Counter - Character &amp; Reading Time Counter">
+  <meta property="og:description" content="Free online word counter and character count tool. Calculate words, characters, sentences, reading time, and top words live as you type.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://toolsbuilt.com/tools/word-counter/">
+  
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Word Counter - Character &amp; Reading Time Counter">
+  <meta name="twitter:description" content="Free online word counter and character count tool. Calculate words, characters, sentences, reading time, and top words live as you type.">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
+  <link rel="stylesheet" href="/assets/css/style.css">
+
+  <!-- JSON-LD Schema 1: BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://toolsbuilt.com/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Word & Character Counter",
+        "item": "https://toolsbuilt.com/tools/word-counter/"
+      }
+    ]
+  }
+  </script>
+
+  <!-- JSON-LD Schema 2: WebApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Word & Character Counter",
+    "url": "https://toolsbuilt.com/tools/word-counter/",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "All",
+    "browserRequirements": "Requires JavaScript",
+    "description": "Free online text analyzer that counts words, characters, sentences, paragraphs, and reading time in real time.",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  }
+  </script>
+
+  <!-- JSON-LD Schema 3: HowTo -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "How to Count Words and Characters Online",
+    "description": "Step-by-step guide to using the free ToolsBuilt Word Counter.",
+    "step": [
+      {
+        "@type": "HowToStep",
+        "position": 1,
+        "name": "Enter or Paste Text",
+        "text": "Type or paste your text into the main input area."
+      },
+      {
+        "@type": "HowToStep",
+        "position": 2,
+        "name": "View Real-Time Metrics",
+        "text": "Read the automatically updated word count, character counts, sentences, and estimated reading time."
+      },
+      {
+        "@type": "HowToStep",
+        "position": 3,
+        "name": "Copy or Clear Text",
+        "text": "Use the Copy Text button to copy your text to the clipboard or Clear Text to reset."
+      }
+    ]
+  }
+  </script>
+
+  <!-- JSON-LD Schema 4: FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How does the Word & Character Counter calculate word count?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The tool analyzes your input string and splits words using whitespace boundaries. Hyphenated words and special characters are evaluated according to standard English linguistic rules to provide accurate real-time metrics."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the difference between characters with and without spaces?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Characters with spaces count every single keypress including letters, numbers, punctuation, and whitespace gaps. Characters without spaces exclude blank space gaps, measuring strictly visible printed characters."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How is the estimated reading time calculated?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Estimated reading time is calculated using an average adult reading speed benchmark of 200 words per minute. Estimated speaking time uses an average oral presentation speed of 130 words per minute."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Why are common stop words excluded from top used words?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Common English words like 'the', 'is', and 'and' occur frequently in every sentence. Filtering out stop words highlights meaningful keywords and main topic density in your text."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is my typed text saved or transmitted to a server?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. All text processing occurs locally within your web browser using JavaScript. Your input text is never saved, transmitted, or uploaded to any remote server or database."
+        }
+      }
+    ]
+  }
+  </script>
+</head>
+<body data-tool-id="word-counter">
+
+  <!-- Site Header -->
+  <header class="site-header">
+    <div class="container header-container">
+      <a href="/" class="site-logo" aria-label="ToolsBuilt Homepage">
+        <svg viewBox="0 0 100 100" aria-hidden="true">
+          <rect width="100" height="100" rx="24" fill="#4f46e5"/>
+          <rect x="22" y="22" width="56" height="56" rx="10" fill="none" stroke="#ffffff" stroke-width="6"/>
+          <circle cx="38" cy="38" r="5" fill="#ffffff"/>
+          <circle cx="62" cy="38" r="5" fill="#ffffff"/>
+          <rect x="33" y="52" width="34" height="6" rx="3" fill="#ffffff"/>
+          <rect x="33" y="64" width="22" height="6" rx="3" fill="#ffffff"/>
+        </svg>
+        <span>Tools<span class="accent">Built</span></span>
+      </a>
+
+      <div class="nav-actions">
+        <nav class="main-nav" id="main-nav" aria-label="Main Navigation">
+          <a href="/" class="nav-link">Home</a>
+          <a href="/about/" class="nav-link">About</a>
+          <a href="/contact/" class="nav-link">Contact</a>
+        </nav>
+
+        <button type="button" class="theme-toggle-btn" id="theme-toggle" aria-label="Toggle dark mode">
+          <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="12" r="5" />
+            <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+        </button>
+
+        <button type="button" class="mobile-menu-btn" id="mobile-menu-btn" aria-expanded="false" aria-controls="main-nav" aria-label="Toggle navigation menu">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main id="main-content" class="container">
+    
+    <!-- Breadcrumbs -->
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <ol>
+        <li><a href="/">Home</a></li>
+        <li aria-current="page">Word &amp; Character Counter</li>
+      </ol>
+    </nav>
+
+    <!-- H1 Header -->
+    <header class="page-header" style="border-bottom: none; margin-bottom: 0.5rem;">
+      <h1>Word &amp; Character Counter</h1>
+      <p style="font-size: 0.875rem; color: var(--text-subtle); margin-bottom: 0.5rem;">
+        Built and maintained by <strong>ToolsBuilt</strong> &bull; Last updated: October 11, 2026
+      </p>
+    </header>
+
+    <!-- AEO Quick Answer Box -->
+    <div class="info-callout" style="margin-top: 0; margin-bottom: 2rem;">
+      <h3 style="font-size: 1.05rem; margin-bottom: 0.35rem; color: var(--primary);">Quick Answer</h3>
+      <p style="margin-bottom: 0;">The ToolsBuilt Word &amp; Character Counter is a real-time text analysis tool that measures words, characters, sentences, paragraphs, reading duration, and keyword density instantly as you type or paste content. Paste your text into the box below to view live metrics without reloading the page.</p>
+    </div>
+
+    <!-- AdSense Placement -->
+    <!-- <div class="ad-placement"><!-- AdSense Banner --></div> -->
+
+    <!-- Tool Form Container -->
+    <section class="tool-container" aria-label="Word & Character Counter Form">
+      <div class="form-group">
+        <label for="text-input" style="display: flex; justify-content: space-between; align-items: center;">
+          <span>Type or Paste Your Text Below:</span>
+          <span id="copy-feedback" class="hidden" style="color: #16a34a; font-weight: 600; font-size: 0.875rem;">Copied to clipboard!</span>
+        </label>
+        <textarea id="text-input" class="form-control" rows="8" placeholder="Start typing or paste your content here to calculate real-time word and character statistics..." style="font-family: inherit; line-height: 1.6; resize: vertical; min-height: 180px;"></textarea>
+      </div>
+
+      <div class="button-group" style="margin-top: 1rem;">
+        <button type="button" class="btn btn-primary" id="copy-btn">Copy Text</button>
+        <button type="button" class="btn btn-secondary" id="clear-btn">Clear Text</button>
+      </div>
+
+      <!-- Live Results Cards -->
+      <div style="margin-top: 2rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem;">
+        <h3 style="font-size: 1.15rem; margin-bottom: 1rem;">Live Text Statistics</h3>
+        
+        <div class="result-grid">
+          <div class="result-stat-card">
+            <div class="result-stat-label">Total Words</div>
+            <div class="result-stat-value" id="stat-words">0</div>
+          </div>
+          <div class="result-stat-card">
+            <div class="result-stat-label">Characters (with spaces)</div>
+            <div class="result-stat-value" id="stat-chars-space">0</div>
+          </div>
+          <div class="result-stat-card">
+            <div class="result-stat-label">Characters (no spaces)</div>
+            <div class="result-stat-value" id="stat-chars-nospace">0</div>
+          </div>
+          <div class="result-stat-card">
+            <div class="result-stat-label">Sentences</div>
+            <div class="result-stat-value" id="stat-sentences">0</div>
+          </div>
+          <div class="result-stat-card">
+            <div class="result-stat-label">Paragraphs</div>
+            <div class="result-stat-value" id="stat-paragraphs">0</div>
+          </div>
+          <div class="result-stat-card">
+            <div class="result-stat-label">Est. Reading Time</div>
+            <div class="result-stat-value" id="stat-reading-time">0 sec</div>
+          </div>
+          <div class="result-stat-card">
+            <div class="result-stat-label">Est. Speaking Time</div>
+            <div class="result-stat-value" id="stat-speaking-time">0 sec</div>
+          </div>
+        </div>
+
+        <div style="margin-top: 1.75rem; background-color: var(--bg-muted); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--border-color);">
+          <h4 style="font-size: 1rem; margin-bottom: 0.75rem; color: var(--text-main);">Top 5 Keyword Density (Stop Words Excluded)</h4>
+          <ul id="top-words-list" style="list-style: none; padding: 0; margin: 0;">
+            <li style="color: var(--text-subtle); font-size: 0.9rem;">Type or paste text to see keyword density.</li>
+          </ul>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Key Facts & Example Table -->
+    <section style="margin: 2.5rem 0;" aria-labelledby="key-facts-heading">
+      <h2 id="key-facts-heading">Key Facts &amp; Character Limit Reference</h2>
+      
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 1.25rem;">
+        <div>
+          <h3>Standard Content Limits</h3>
+          <ul style="color: var(--text-muted); line-height: 1.8; margin-left: 1.25rem;">
+            <li><strong>X (Twitter) Post:</strong> 280 characters limit</li>
+            <li><strong>SEO Meta Description:</strong> 150–160 characters target</li>
+            <li><strong>Google Search Title:</strong> 50–60 characters max</li>
+            <li><strong>SMS Message:</strong> 160 characters per segment</li>
+            <li><strong>LinkedIn Post:</strong> 3,000 characters limit</li>
+          </ul>
+        </div>
+
+        <div>
+          <h3>Sample Text Benchmarks</h3>
+          <table style="width: 100%; border-collapse: collapse; margin-top: 0.5rem; font-size: 0.9rem;">
+            <thead>
+              <tr style="background-color: var(--bg-muted); text-align: left; border-bottom: 2px solid var(--border-color);">
+                <th style="padding: 0.5rem;">Content Format</th>
+                <th style="padding: 0.5rem;">Word Count</th>
+                <th style="padding: 0.5rem;">Reading Time</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom: 1px solid var(--border-color);">
+                <td style="padding: 0.5rem;">Short Social Caption</td>
+                <td style="padding: 0.5rem;">25–50 words</td>
+                <td style="padding: 0.5rem;">15 seconds</td>
+              </tr>
+              <tr style="border-bottom: 1px solid var(--border-color);">
+                <td style="padding: 0.5rem;">Standard Blog Post</td>
+                <td style="padding: 0.5rem;">1,000–1,500 words</td>
+                <td style="padding: 0.5rem;">5–7 minutes</td>
+              </tr>
+              <tr style="border-bottom: 1px solid var(--border-color);">
+                <td style="padding: 0.5rem;">Academic Essay</td>
+                <td style="padding: 0.5rem;">2,500 words</td>
+                <td style="padding: 0.5rem;">12.5 minutes</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- How to Use Section -->
+    <section aria-labelledby="how-to-use-heading">
+      <h2 id="how-to-use-heading">How to Use the Word Counter</h2>
+      <ol class="steps-list">
+        <li>
+          <h4>Type or Paste Your Document</h4>
+          <p>Click inside the main text box and begin typing, or paste content directly from Word, Google Docs, or email.</p>
+        </li>
+        <li>
+          <h4>Inspect Real-Time Metrics</h4>
+          <p>Watch word totals, characters (with and without spaces), sentence counts, and estimated reading times update instantly.</p>
+        </li>
+        <li>
+          <h4>Format and Copy Your Content</h4>
+          <p>Easily format letter casing with our companion <a href="/tools/text-case-converter/">Text Case Converter</a>, then click "Copy Text" to grab your refined text.</p>
+        </li>
+      </ol>
+    </section>
+
+    <!-- AdSense Placement -->
+    <!-- <div class="ad-placement"><!-- AdSense Banner --></div> -->
+
+    <!-- Article Section (~700 Words) -->
+    <article class="content-article" aria-labelledby="article-heading">
+      <h2 id="article-heading">Why Word and Character Counting Matters for Writers and Creators</h2>
+      
+      <p>Whether you are crafting an academic essay, optimizing website page metadata for search engines, preparing a speech, or writing social media copy, tracking exact word and character lengths is vital. Overly verbose writing can cause readers to drop off, while under-length content may fail to meet formal publication requirements.</p>
+
+      <h3>How Do You Count Words and Characters Online?</h3>
+      <p>Counting words online is straightforward: simply paste your draft into an online text analyzer like ToolsBuilt. The script automatically parses your input string using whitespace and punctuation boundaries to tally individual words, total characters (including spaces), sentences, and paragraphs in real time.</p>
+
+      <p>When publishing online content, adjusting capital letters and text formatting is often necessary alongside word counting. You can quickly switch between uppercase, lowercase, and title case using our <a href="/tools/text-case-converter/">Text Case Converter</a> tool.</p>
+
+      <h3>Why is Character Counting Important for Social Media and SEO?</h3>
+      <p>Digital marketing platforms enforce strict character limitations to ensure clean user experiences across devices:</p>
+
+      <ul>
+        <li><strong>Search Engine Optimization (SEO):</strong> Search engines truncate title tags over 60 characters and meta descriptions over 160 characters. Keeping your meta tags within exact character bounds prevents search snippet truncation in Google results.</li>
+        <li><strong>Social Media Publishing:</strong> Platforms like X (formerly Twitter) enforce a 280-character limit per post. Instagram captions truncate after 125 characters before the "More" link.</li>
+        <li><strong>Messaging &amp; SMS Communication:</strong> Standard SMS text messages permit up to 160 characters per single message segment. Exceeding 160 characters splits your text into multiple billable segments.</li>
+      </ul>
+
+      <h3>Estimating Speech Length and Oral Presentations</h3>
+      <p>When preparing keynote speeches, conference talks, or podcast scripts, word count translates directly into spoken timing. The average adult reads silently at approximately 200 words per minute (WPM), whereas comfortable public speaking ranges between 130 and 150 WPM.</p>
+
+      <p>If you are planning event schedules alongside speech preparation, you can also use our <a href="/tools/date-difference-calculator/">Date Difference Calculator</a> to measure remaining days until your presentation date.</p>
+
+      <h3>Top Keyword Density Analysis</h3>
+      <p>Keyword density analysis measures how frequently specific terms recur in your document. Our counter automatically filters out standard English stop words (such as "the", "and", "is", and "of") to highlight your top 5 core focus keywords, helping you detect unintentional word repetition.</p>
+    </article>
+
+    <!-- FAQ Accordion (5 Questions, 40-60 words each) -->
+    <section class="faq-section" aria-labelledby="faq-heading">
+      <h2 id="faq-heading">Frequently Asked Questions</h2>
+      
+      <div class="accordion-group">
+        
+        <div class="accordion-item">
+          <button type="button" class="accordion-header" id="faq-h-1" aria-expanded="false" aria-controls="faq-c-1">
+            <span>How does the Word &amp; Character Counter calculate word count?</span>
+            <svg class="accordion-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div id="faq-c-1" class="accordion-content" hidden aria-labelledby="faq-h-1">
+            <p>The tool analyzes your input string and splits words using whitespace boundaries. Hyphenated words and special characters are evaluated according to standard English linguistic rules to provide accurate real-time metrics.</p>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <button type="button" class="accordion-header" id="faq-h-2" aria-expanded="false" aria-controls="faq-c-2">
+            <span>What is the difference between characters with and without spaces?</span>
+            <svg class="accordion-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div id="faq-c-2" class="accordion-content" hidden aria-labelledby="faq-h-2">
+            <p>Characters with spaces count every single keypress including letters, numbers, punctuation, and whitespace gaps. Characters without spaces exclude blank space gaps, measuring strictly visible printed characters.</p>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <button type="button" class="accordion-header" id="faq-h-3" aria-expanded="false" aria-controls="faq-c-3">
+            <span>How is the estimated reading time calculated?</span>
+            <svg class="accordion-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div id="faq-c-3" class="accordion-content" hidden aria-labelledby="faq-h-3">
+            <p>Estimated reading time is calculated using an average adult reading speed benchmark of 200 words per minute. Estimated speaking time uses an average oral presentation speed of 130 words per minute.</p>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <button type="button" class="accordion-header" id="faq-h-4" aria-expanded="false" aria-controls="faq-c-4">
+            <span>Why are common stop words excluded from top used words?</span>
+            <svg class="accordion-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div id="faq-c-4" class="accordion-content" hidden aria-labelledby="faq-h-4">
+            <p>Common English words like 'the', 'is', and 'and' occur frequently in every sentence. Filtering out stop words highlights meaningful keywords and main topic density in your text.</p>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <button type="button" class="accordion-header" id="faq-h-5" aria-expanded="false" aria-controls="faq-c-5">
+            <span>Is my typed text saved or transmitted to a server?</span>
+            <svg class="accordion-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div id="faq-c-5" class="accordion-content" hidden aria-labelledby="faq-h-5">
+            <p>No. All text processing occurs locally within your web browser using JavaScript. Your input text is never saved, transmitted, or uploaded to any remote server or database.</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Dynamic Related Tools Section -->
+    <section style="margin: 4rem 0 2rem 0;" aria-labelledby="related-tools-heading">
+      <h2 id="related-tools-heading">Related Tools</h2>
+      <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Explore more free tools on ToolsBuilt:</p>
+      
+      <div class="tools-grid" id="related-tools-grid">
+        <!-- Rendered dynamically by tools-data.js -->
+      </div>
+    </section>
+
+    <!-- AdSense Bottom Placement -->
+    <!-- <div class="ad-placement"><!-- AdSense Banner --></div> -->
+
+  </main>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h3>ToolsBuilt</h3>
+          <p>Free online tools and web calculators engineered for simplicity, speed, and precision.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Popular Tools</h4>
+          <ul class="footer-links">
+            <li><a href="/tools/days-until-date-calculator/">Days Until Date</a></li>
+            <li><a href="/tools/date-difference-calculator/">Date Difference</a></li>
+            <li><a href="/tools/percentage-change-calculator/">Percentage Change</a></li>
+            <li><a href="/tools/word-counter/">Word Counter</a></li>
+            <li><a href="/tools/text-case-converter/">Text Case Converter</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Legal &amp; Policy</h4>
+          <ul class="footer-links">
+            <li><a href="/about/">About Us</a></li>
+            <li><a href="/contact/">Contact Us</a></li>
+            <li><a href="/privacy-policy/">Privacy Policy</a></li>
+            <li><a href="/terms/">Terms of Service</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 ToolsBuilt. All rights reserved. Built and maintained by ToolsBuilt.</p>
+        <p>Built with privacy and speed in mind.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/assets/js/tools-data.js"></script>
+  <script src="/assets/js/common.js"></script>
+  <script src="/tools/word-counter/script.js"></script>
+</body>
+</html>

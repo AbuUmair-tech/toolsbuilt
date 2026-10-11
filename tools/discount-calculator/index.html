@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Discount Calculator - Calculate Sale Price &amp; Savings</title>
+  <meta name="description" content="Calculate final sale prices, total dollars saved, stacked double discounts, and sales tax instantly. Free online discount calculator.">
+  <link rel="canonical" href="https://toolsbuilt.com/tools/discount-calculator/">
+  <link rel="apple-touch-icon" href="/assets/img/favicon.svg">
+  
+  <!-- Open Graph -->
+  <meta property="og:site_name" content="ToolsBuilt">
+  <meta property="og:title" content="Discount Calculator - Calculate Sale Price &amp; Savings">
+  <meta property="og:description" content="Calculate final sale prices, total dollars saved, stacked double discounts, and sales tax instantly. Free online discount calculator.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://toolsbuilt.com/tools/discount-calculator/">
+  <meta property="og:image" content="https://toolsbuilt.com/assets/img/og-image.svg">
+  
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Discount Calculator - Calculate Sale Price &amp; Savings">
+  <meta name="twitter:description" content="Calculate final sale prices, total dollars saved, stacked double discounts, and sales tax instantly. Free online discount calculator.">
+  <meta name="twitter:image" content="https://toolsbuilt.com/assets/img/og-image.svg">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
+  <link rel="stylesheet" href="/assets/css/style.css">
+
+  <style>
+    .formula-box {
+      margin-top: 1.5rem;
+      padding: 1.25rem;
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      font-size: 0.925rem;
+      line-height: 1.6;
+      color: var(--text-main);
+    }
+    .formula-box code {
+      font-family: monospace;
+      background-color: var(--bg-muted);
+      padding: 0.2rem 0.4rem;
+      border-radius: 4px;
+      color: var(--primary);
+    }
+  </style>
+
+  <!-- JSON-LD Schema 1: BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://toolsbuilt.com/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Discount Calculator",
+        "item": "https://toolsbuilt.com/tools/discount-calculator/"
+      }
+    ]
+  }
+  </script>
+
+  <!-- JSON-LD Schema 2: WebApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Discount Calculator",
+    "url": "https://toolsbuilt.com/tools/discount-calculator/",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "All",
+    "browserRequirements": "Requires JavaScript",
+    "description": "Free online calculator to calculate sale prices, total dollars saved, double stacked discounts, and sales tax.",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  }
+  </script>
+
+  <!-- JSON-LD Schema 3: HowTo -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "How to Calculate Sale Price and Discount Savings",
+    "description": "Step-by-step instructions for calculating retail discounts and final prices.",
+    "step": [
+      {
+        "@type": "HowToStep",
+        "position": 1,
+        "name": "Enter Original Price",
+        "text": "Input the item's original sticker price in dollars."
+      },
+      {
+        "@type": "HowToStep",
+        "position": 2,
+        "name": "Enter Discount & Tax Percentages",
+        "text": "Enter the main discount percentage, optional stacked coupon discount, and sales tax rate."
+      },
+      {
+        "@type": "HowToStep",
+        "position": 3,
+        "name": "View Final Price and Savings",
+        "text": "Click Calculate to view final out-of-pocket cost, total dollars saved, and step-by-step breakdown."
+      }
+    ]
+  }
+  </script>
+
+  <!-- JSON-LD Schema 4: FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How do you calculate the final discounted price of an item?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Multiply the original sticker price by the discount percentage divided by 100 to find total savings, then subtract the savings from the original price to determine the final sale price."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Why does a 20% sale plus a 10% coupon not equal 30% total discount?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Because stacked store coupons apply to the already reduced sale subtotal rather than the original sticker price. A $100 item reduced by 20% becomes $80; applying 10% off $80 saves $8, bringing the final price to $72 (28% overall savings)."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is sales tax calculated before or after applying discounts?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "In almost all retail jurisdictions, sales tax is calculated on the net discounted subtotal after all promotional sales and coupons have been applied."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I calculate stacked double discounts with this tool?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. Enter your primary sale discount percentage in the first box and your secondary store coupon percentage in the optional stacked discount field."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is any financial data transmitted to a server?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. All discount calculations execute locally inside your web browser using JavaScript. No price numbers or financial inputs leave your device."
+        }
+      }
+    ]
+  }
+  </script>
+</head>
+<body data-tool-id="discount-calculator">
+
+  <!-- Site Header -->
+  <header class="site-header">
+    <div class="container header-container">
+      <a href="/" class="site-logo" aria-label="ToolsBuilt Homepage">
+        <svg viewBox="0 0 100 100" aria-hidden="true">
+          <rect width="100" height="100" rx="24" fill="#4f46e5"/>
+          <path d="M30 30h40v12H56v28H44V42H30V30z" fill="#ffffff"/>
+          <circle cx="50" cy="64" r="3" fill="#4f46e5"/>
+        </svg>
+        <span>Tools<span class="accent">Built</span></span>
+      </a>
+
+      <div class="nav-actions">
+        <nav class="main-nav" id="main-nav" aria-label="Main Navigation">
+          <a href="/" class="nav-link">Home</a>
+          <a href="/about/" class="nav-link">About</a>
+          <a href="/contact/" class="nav-link">Contact</a>
+        </nav>
+
+        <button type="button" class="theme-toggle-btn" id="theme-toggle" aria-label="Toggle dark mode">
+          <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="12" r="5" />
+            <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+        </button>
+
+        <button type="button" class="mobile-menu-btn" id="mobile-menu-btn" aria-expanded="false" aria-controls="main-nav" aria-label="Toggle navigation menu">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main id="main-content" class="container">
+    
+    <!-- Breadcrumbs -->
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <ol>
+        <li><a href="/">Home</a></li>
+        <li aria-current="page">Discount Calculator</li>
+      </ol>
+    </nav>
+
+    <!-- H1 Header -->
+    <header class="page-header" style="border-bottom: none; margin-bottom: 0.5rem;">
+      <h1>Discount Calculator</h1>
+      <p style="font-size: 0.875rem; color: var(--text-subtle); margin-bottom: 0.5rem;">
+        Built and maintained by <strong>ToolsBuilt</strong> &bull; Last updated: October 11, 2026
+      </p>
+    </header>
+
+    <!-- AEO Quick Answer Box -->
+    <div class="info-callout" style="margin-top: 0; margin-bottom: 2rem;">
+      <h3 style="font-size: 1.05rem; margin-bottom: 0.35rem; color: var(--primary);">Quick Answer</h3>
+      <p style="margin-bottom: 0;">The ToolsBuilt Discount Calculator determines your final purchase price, total dollars saved, stacked promo coupon reductions, and final cost including sales tax. Enter the original item price and discount percentage below to calculate your savings instantly.</p>
+    </div>
+
+    <!-- AdSense Placement -->
+    <!-- <div class="ad-placement"><!-- AdSense Banner --></div> -->
+
+    <!-- Tool Form Container -->
+    <section class="tool-container" aria-label="Discount Calculator Form">
+      <form id="calculator-form" novalidate>
+        <div class="form-grid two-col">
+          
+          <div class="form-group">
+            <label for="original-price">Original Price ($) <span style="color: var(--primary);">*</span></label>
+            <input type="number" step="any" id="original-price" class="form-control" placeholder="e.g. 99.99" required aria-required="true">
+          </div>
+
+          <div class="form-group">
+            <label for="discount-percent">Primary Discount (%) <span style="color: var(--primary);">*</span></label>
+            <input type="number" step="any" id="discount-percent" class="form-control" placeholder="e.g. 20" required aria-required="true">
+          </div>
+
+          <div class="form-group">
+            <label for="stacked-discount-percent">Stacked 2nd Discount (%) <span style="font-weight: normal; color: var(--text-subtle);">(Optional)</span></label>
+            <input type="number" step="any" id="stacked-discount-percent" class="form-control" placeholder="e.g. 10">
+          </div>
+
+          <div class="form-group">
+            <label for="tax-percent">Sales Tax (%) <span style="font-weight: normal; color: var(--text-subtle);">(Optional)</span></label>
+            <input type="number" step="any" id="tax-percent" class="form-control" placeholder="e.g. 8">
+          </div>
+
+        </div>
+
+        <div class="button-group">
+          <button type="submit" class="btn btn-primary">Calculate Savings</button>
+          <button type="button" class="btn btn-secondary" id="reset-btn">Reset</button>
+        </div>
+      </form>
+
+      <div id="error-box" class="hidden" style="margin-top: 1rem; color: #dc2626; background: #fef2f2; border: 1px solid #fecaca; padding: 0.75rem 1rem; border-radius: var(--radius-sm);" role="alert"></div>
+
+      <!-- Result Box -->
+      <div id="result-box" class="result-box" aria-live="polite">
+        <div class="result-header" id="result-header-text">Discount Calculation Result</div>
+        <div class="result-primary" id="result-primary-text">Final Price: $0.00</div>
+        
+        <div class="result-grid">
+          <div class="result-stat-card">
+            <div class="result-stat-label">Final Out-of-Pocket Cost</div>
+            <div class="result-stat-value" id="stat-final-price">$0.00</div>
+          </div>
+          <div class="result-stat-card">
+            <div class="result-stat-label">Total Amount Saved</div>
+            <div class="result-stat-value" id="stat-total-saved">$0.00</div>
+          </div>
+          <div class="result-stat-card">
+            <div class="result-stat-label">Subtotal (Before Tax)</div>
+            <div class="result-stat-value" id="stat-price-before-tax">$0.00</div>
+          </div>
+          <div class="result-stat-card">
+            <div class="result-stat-label">Sales Tax Added</div>
+            <div class="result-stat-value" id="stat-tax-amount">$0.00</div>
+          </div>
+        </div>
+
+        <div class="formula-box" id="formula-breakdown-box">
+          <!-- Step-by-step breakdown inserted by script.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Key Facts & Discount Benchmark Table -->
+    <section style="margin: 2.5rem 0;" aria-labelledby="key-facts-heading">
+      <h2 id="key-facts-heading">Key Facts &amp; Retail Discount Benchmarks</h2>
+      
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 1.25rem;">
+        <div>
+          <h3>Shopping Math Rules</h3>
+          <ul style="color: var(--text-muted); line-height: 1.8; margin-left: 1.25rem;">
+            <li>20% Off = Multiply original price by 0.80</li>
+            <li>25% Off = Multiply original price by 0.75</li>
+            <li>50% Off = Pay half of original sticker price</li>
+            <li>Stacked Discounts apply to the reduced subtotal</li>
+          </ul>
+        </div>
+
+        <div>
+          <h3>Quick Discount Price Matrix ($100 Item)</h3>
+          <table style="width: 100%; border-collapse: collapse; margin-top: 0.5rem; font-size: 0.9rem;">
+            <thead>
+              <tr style="background-color: var(--bg-muted); text-align: left; border-bottom: 2px solid var(--border-color);">
+                <th style="padding: 0.5rem;">Discount Rate</th>
+                <th style="padding: 0.5rem;">You Save</th>
+                <th style="padding: 0.5rem;">You Pay</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom: 1px solid var(--border-color);">
+                <td style="padding: 0.5rem; font-weight: 600;">15% Off</td>
+                <td style="padding: 0.5rem;">$15.00</td>
+                <td style="padding: 0.5rem;">$85.00</td>
+              </tr>
+              <tr style="border-bottom: 1px solid var(--border-color);">
+                <td style="padding: 0.5rem; font-weight: 600;">30% Off</td>
+                <td style="padding: 0.5rem;">$30.00</td>
+                <td style="padding: 0.5rem;">$70.00</td>
+              </tr>
+              <tr style="border-bottom: 1px solid var(--border-color);">
+                <td style="padding: 0.5rem; font-weight: 600;">20% + 10% Stacked</td>
+                <td style="padding: 0.5rem;">$28.00</td>
+                <td style="padding: 0.5rem;">$72.00</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- How to Use Section -->
+    <section aria-labelledby="how-to-use-heading">
+      <h2 id="how-to-use-heading">How to Use the Discount Calculator</h2>
+      <ol class="steps-list">
+        <li>
+          <h4>Enter Original Sticker Price</h4>
+          <p>Input the item's regular price into the original price field above.</p>
+        </li>
+        <li>
+          <h4>Enter Primary &amp; Optional Stacked Discounts</h4>
+          <p>Enter the store sale percentage, plus any secondary promo code coupon percentage or local sales tax rate.</p>
+        </li>
+        <li>
+          <h4>Click "Calculate Savings"</h4>
+          <p>Instantly review your final price, total dollars saved, and step-by-step breakdown.</p>
+        </li>
+      </ol>
+    </section>
+
+    <!-- AdSense Placement -->
+    <!-- <div class="ad-placement"><!-- AdSense Banner --></div> -->
+
+    <!-- Article Section (~700 Words) -->
+    <article class="content-article" aria-labelledby="article-heading">
+      <h2 id="article-heading">How Do You Calculate Discount Price and Total Dollars Saved?</h2>
+      <p>To calculate the discounted sale price of an item, multiply the original price by the discount percentage divided by 100 to determine total savings, then subtract those savings from the original price. For example, a 20% discount on a $150 jacket saves $30, bringing the final price to $120.</p>
+
+      <p>If you are evaluating relative price growth or percentage markups across product lines, try our <a href="/tools/percentage-change-calculator/">Percentage Change Calculator</a>.</p>
+
+      <h3>How Does Stacked Coupon Discounting Work?</h3>
+      <p>Retail stores frequently allow shoppers to combine storewide clearance sales with secondary promo code coupons (stacked discounts). However, secondary discounts apply to the <em>already reduced sale subtotal</em> rather than the original price tag.</p>
+
+      <p>For example, if a $100 pair of shoes is marked 20% off, the subtotal becomes $80. Applying a secondary 10% coupon saves 10% of $80 ($8), resulting in a final subtotal of $72 (a total effective discount of 28%, not 30%).</p>
+
+      <h3>Calculating Sales Tax on Discounted Items</h3>
+      <p>In almost all sales tax jurisdictions, local sales tax is computed on the net subtotal <em>after</em> all promotional discounts and store coupons are subtracted. Calculating tax on the reduced price ensures you do not overpay sales tax at the register.</p>
+
+      <p>When drafting shopping guides, commercial proposals, or financial reports, you can verify character lengths using our <a href="/tools/word-counter/">Word &amp; Character Counter</a> or format document headers with our <a href="/tools/text-case-converter/">Text Case Converter</a>.</p>
+    </article>
+
+    <!-- FAQ Accordion (5 Questions, 40-60 words each) -->
+    <section class="faq-section" aria-labelledby="faq-heading">
+      <h2 id="faq-heading">Frequently Asked Questions</h2>
+      
+      <div class="accordion-group">
+        
+        <div class="accordion-item">
+          <button type="button" class="accordion-header" id="faq-h-1" aria-expanded="false" aria-controls="faq-c-1">
+            <span>How do you calculate the final discounted price of an item?</span>
+            <svg class="accordion-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div id="faq-c-1" class="accordion-content" hidden aria-labelledby="faq-h-1">
+            <p>Multiply the original sticker price by the discount percentage divided by 100 to find total savings, then subtract the savings from the original price to determine the final sale price.</p>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <button type="button" class="accordion-header" id="faq-h-2" aria-expanded="false" aria-controls="faq-c-2">
+            <span>Why does a 20% sale plus a 10% coupon not equal 30% total discount?</span>
+            <svg class="accordion-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div id="faq-c-2" class="accordion-content" hidden aria-labelledby="faq-h-2">
+            <p>Because stacked store coupons apply to the already reduced sale subtotal rather than the original sticker price. A $100 item reduced by 20% becomes $80; applying 10% off $80 saves $8, bringing the final price to $72 (28% overall savings).</p>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <button type="button" class="accordion-header" id="faq-h-3" aria-expanded="false" aria-controls="faq-c-3">
+            <span>Is sales tax calculated before or after applying discounts?</span>
+            <svg class="accordion-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div id="faq-c-3" class="accordion-content" hidden aria-labelledby="faq-h-3">
+            <p>In almost all retail jurisdictions, sales tax is calculated on the net discounted subtotal after all promotional sales and coupons have been applied.</p>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <button type="button" class="accordion-header" id="faq-h-4" aria-expanded="false" aria-controls="faq-c-4">
+            <span>Can I calculate stacked double discounts with this tool?</span>
+            <svg class="accordion-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div id="faq-c-4" class="accordion-content" hidden aria-labelledby="faq-h-4">
+            <p>Yes. Enter your primary sale discount percentage in the first box and your secondary store coupon percentage in the optional stacked discount field.</p>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <button type="button" class="accordion-header" id="faq-h-5" aria-expanded="false" aria-controls="faq-c-5">
+            <span>Is any financial data transmitted to a server?</span>
+            <svg class="accordion-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div id="faq-c-5" class="accordion-content" hidden aria-labelledby="faq-h-5">
+            <p>No. All discount calculations execute locally inside your web browser using JavaScript. No price numbers or financial inputs leave your device.</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Dynamic Related Tools Section -->
+    <section style="margin: 4rem 0 2rem 0;" aria-labelledby="related-tools-heading">
+      <h2 id="related-tools-heading">Related Tools</h2>
+      <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Explore more free tools on ToolsBuilt:</p>
+      
+      <div class="tools-grid" id="related-tools-grid">
+        <!-- Rendered dynamically by tools-data.js -->
+      </div>
+    </section>
+
+    <!-- AdSense Placement -->
+    <!-- <div class="ad-placement"><!-- AdSense Banner --></div> -->
+
+  </main>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h3>ToolsBuilt</h3>
+          <p>Free online tools and web calculators engineered for simplicity, speed, and precision.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Popular Tools</h4>
+          <ul class="footer-links">
+            <li><a href="/tools/days-until-date-calculator/">Days Until Date</a></li>
+            <li><a href="/tools/date-difference-calculator/">Date Difference</a></li>
+            <li><a href="/tools/age-calculator/">Age Calculator</a></li>
+            <li><a href="/tools/discount-calculator/">Discount Calculator</a></li>
+            <li><a href="/tools/password-generator/">Password Generator</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Legal &amp; Policy</h4>
+          <ul class="footer-links">
+            <li><a href="/about/">About Us</a></li>
+            <li><a href="/contact/">Contact Us</a></li>
+            <li><a href="/privacy-policy/">Privacy Policy</a></li>
+            <li><a href="/terms/">Terms of Service</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 ToolsBuilt. All rights reserved. Built and maintained by ToolsBuilt.</p>
+        <p>Built with privacy and speed in mind.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/assets/js/icons.js"></script>
+  <script src="/assets/js/tools-data.js"></script>
+  <script src="/assets/js/common.js"></script>
+  <script src="/tools/discount-calculator/script.js"></script>
+</body>
+</html>

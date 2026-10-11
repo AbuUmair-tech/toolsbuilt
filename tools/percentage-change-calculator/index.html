@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Percentage Change Calculator - Increase &amp; Decrease</title>
+  <meta name="description" content="Calculate percentage increase, percentage decrease, percent of numbers, and step-by-step formulas. Free online percentage calculator.">
+  <link rel="canonical" href="https://toolsbuilt.com/tools/percentage-change-calculator/">
+  
+  <!-- Open Graph -->
+  <meta property="og:site_name" content="ToolsBuilt">
+  <meta property="og:title" content="Percentage Change Calculator - Increase &amp; Decrease">
+  <meta property="og:description" content="Calculate percentage increase, percentage decrease, percent of numbers, and step-by-step formulas. Free online percentage calculator.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://toolsbuilt.com/tools/percentage-change-calculator/">
+  
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Percentage Change Calculator - Increase &amp; Decrease">
+  <meta name="twitter:description" content="Calculate percentage increase, percentage decrease, percent of numbers, and step-by-step formulas. Free online percentage calculator.">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
+  <link rel="stylesheet" href="/assets/css/style.css">
+
+  <style>
+    /* Segmented Mode Control Styling */
+    .segmented-control {
+      display: flex;
+      background-color: var(--bg-muted);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 0.35rem;
+      gap: 0.35rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .mode-tab-btn {
+      flex: 1 1 180px;
+      padding: 0.75rem 1rem;
+      font-size: 0.95rem;
+      font-weight: 600;
+      font-family: inherit;
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: var(--transition);
+      text-align: center;
+    }
+
+    .mode-tab-btn.active {
+      background-color: var(--bg-card);
+      color: var(--primary);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .mode-tab-btn:hover:not(.active) {
+      color: var(--text-main);
+    }
+
+    .formula-box {
+      margin-top: 1.5rem;
+      padding: 1.25rem;
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      font-size: 0.925rem;
+      line-height: 1.6;
+      color: var(--text-main);
+    }
+
+    .formula-box code {
+      font-family: monospace;
+      background-color: var(--bg-muted);
+      padding: 0.2rem 0.4rem;
+      border-radius: 4px;
+      color: var(--primary);
+    }
+  </style>
+
+  <!-- JSON-LD Schema 1: BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://toolsbuilt.com/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Percentage Change Calculator",
+        "item": "https://toolsbuilt.com/tools/percentage-change-calculator/"
+      }
+    ]
+  }
+  </script>
+
+  <!-- JSON-LD Schema 2: WebApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Percentage Change Calculator",
+    "url": "https://toolsbuilt.com/tools/percentage-change-calculator/",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "All",
+    "browserRequirements": "Requires JavaScript",
+    "description": "Free online calculator to calculate percentage change, percentage increases and decreases, and percent proportions with step-by-step formulas.",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  }
+  </script>
+
+  <!-- JSON-LD Schema 3: HowTo -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "How to Calculate Percentage Change and Differences",
+    "description": "Step-by-step instructions for calculating percentage growth, percentage drops, and proportions.",
+    "step": [
+      {
+        "@type": "HowToStep",
+        "position": 1,
+        "name": "Select Mode",
+        "text": "Choose between Percentage Change, Value Adjustment (Increase/Decrease), or Ratio Proportion modes."
+      },
+      {
+        "@type": "HowToStep",
+        "position": 2,
+        "name": "Enter Numeric Values",
+        "text": "Input your initial and new values or starting numbers and percentage rates."
+      },
+      {
+        "@type": "HowToStep",
+        "position": 3,
+        "name": "View Formula & Steps",
+        "text": "Click Calculate to view final percentage results along with step-by-step mathematical formulas."
+      }
+    ]
+  }
+  </script>
+
+  <!-- JSON-LD Schema 4: FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How do you calculate percentage change between two numbers?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Subtract the old value from the new value, divide the difference by the absolute value of the old value, and multiply by 100."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Why does a 50% increase followed by a 50% decrease not return to the original number?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Because the 50% decrease is calculated on a larger, increased base value. For example, 100 increased by 50% is 150. Decreasing 150 by 50% removes 75, resulting in 75."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can percentage change be negative?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. A negative percentage change indicates a percentage decrease or drop in value from the initial starting amount."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I calculate percentage change when the starting value is zero?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. Division by zero is mathematically undefined. Going from 0 to any positive number represents an infinite percentage increase."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the difference between percentage and percentage points?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Percentage points measure the simple arithmetic difference between two percentages (e.g. 10% to 15% is a 5 percentage point increase), whereas percentage change measures relative growth (a 50% increase)."
+        }
+      }
+    ]
+  }
+  </script>
+</head>
+<body data-tool-id="percentage-change-calculator">
+
+  <!-- Site Header -->
+  <header class="site-header">
+    <div class="container header-container">
+      <a href="/" class="site-logo" aria-label="ToolsBuilt Homepage">
+        <svg viewBox="0 0 100 100" aria-hidden="true">
+          <rect width="100" height="100" rx="24" fill="#4f46e5"/>
+          <rect x="22" y="22" width="56" height="56" rx="10" fill="none" stroke="#ffffff" stroke-width="6"/>
+          <circle cx="38" cy="38" r="5" fill="#ffffff"/>
+          <circle cx="62" cy="38" r="5" fill="#ffffff"/>
+          <rect x="33" y="52" width="34" height="6" rx="3" fill="#ffffff"/>
+          <rect x="33" y="64" width="22" height="6" rx="3" fill="#ffffff"/>
+        </svg>
+        <span>Tools<span class="accent">Built</span></span>
+      </a>
+
+      <div class="nav-actions">
+        <nav class="main-nav" id="main-nav" aria-label="Main Navigation">
+          <a href="/" class="nav-link">Home</a>
+          <a href="/about/" class="nav-link">About</a>
+          <a href="/contact/" class="nav-link">Contact</a>
+        </nav>
+
+        <button type="button" class="theme-toggle-btn" id="theme-toggle" aria-label="Toggle dark mode">
+          <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="12" r="5" />
+            <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+        </button>
+
+        <button type="button" class="mobile-menu-btn" id="mobile-menu-btn" aria-expanded="false" aria-controls="main-nav" aria-label="Toggle navigation menu">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main id="main-content" class="container">
+    
+    <!-- Breadcrumbs -->
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <ol>
+        <li><a href="/">Home</a></li>
+        <li aria-current="page">Percentage Change Calculator</li>
+      </ol>
+    </nav>
+
+    <!-- H1 Header -->
+    <header class="page-header" style="border-bottom: none; margin-bottom: 0.5rem;">
+      <h1>Percentage Change Calculator</h1>
+      <p style="font-size: 0.875rem; color: var(--text-subtle); margin-bottom: 0.5rem;">
+        Built and maintained by <strong>ToolsBuilt</strong> &bull; Last updated: October 11, 2026
+      </p>
+    </header>
+
+    <!-- AEO Quick Answer Box -->
+    <div class="info-callout" style="margin-top: 0; margin-bottom: 2rem;">
+      <h3 style="font-size: 1.05rem; margin-bottom: 0.35rem; color: var(--primary);">Quick Answer</h3>
+      <p style="margin-bottom: 0;">The Percentage Change Calculator calculates relative growth or drop between two numbers, increases or decreases a number by a specific percentage rate, or finds what percent one value is of another. Choose a mode below to view instant results and formulas.</p>
+    </div>
+
+    <!-- AdSense Placement -->
+    <!-- <div class="ad-placement"><!-- AdSense Banner --></div> -->
+
+    <!-- Tool Form Container -->
+    <section class="tool-container" aria-label="Percentage Change Calculator Form">
+      
+      <!-- Segmented Mode Control Tabs -->
+      <div class="segmented-control" role="tablist" aria-label="Percentage Calculator Modes">
+        <button type="button" class="mode-tab-btn active" data-mode="mode-1" role="tab" aria-selected="true">1. Percentage Change</button>
+        <button type="button" class="mode-tab-btn" data-mode="mode-2" role="tab" aria-selected="false">2. Increase / Decrease Value</button>
+        <button type="button" class="mode-tab-btn" data-mode="mode-3" role="tab" aria-selected="false">3. What % is X of Y?</button>
+      </div>
+
+      <!-- Mode 1: Percentage Change Form -->
+      <form id="mode-1-form" class="calculator-mode-form" novalidate>
+        <div class="form-grid two-col">
+          <div class="form-group">
+            <label for="m1-old-val">Initial (Old) Value <span style="color: var(--primary);">*</span></label>
+            <input type="number" step="any" id="m1-old-val" class="form-control" placeholder="e.g. 50" required aria-required="true">
+          </div>
+          <div class="form-group">
+            <label for="m1-new-val">Final (New) Value <span style="color: var(--primary);">*</span></label>
+            <input type="number" step="any" id="m1-new-val" class="form-control" placeholder="e.g. 75" required aria-required="true">
+          </div>
+        </div>
+
+        <div class="button-group">
+          <button type="submit" class="btn btn-primary">Calculate Change</button>
+          <button type="button" class="btn btn-secondary" id="reset-mode-1">Reset</button>
+        </div>
+      </form>
+
+      <!-- Mode 2: Increase/Decrease Value Form -->
+      <form id="mode-2-form" class="calculator-mode-form hidden" novalidate>
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="m2-operation">Select Operation <span style="color: var(--primary);">*</span></label>
+            <select id="m2-operation" class="form-control">
+              <option value="increase">Increase (+)</option>
+              <option value="decrease">Decrease (-)</option>
+            </select>
+          </div>
+          <div class="form-grid two-col">
+            <div class="form-group">
+              <label for="m2-base-val">Starting Number <span style="color: var(--primary);">*</span></label>
+              <input type="number" step="any" id="m2-base-val" class="form-control" placeholder="e.g. 120" required aria-required="true">
+            </div>
+            <div class="form-group">
+              <label for="m2-percent-val">Percentage (%) <span style="color: var(--primary);">*</span></label>
+              <input type="number" step="any" id="m2-percent-val" class="form-control" placeholder="e.g. 15" required aria-required="true">
+            </div>
+          </div>
+        </div>
+
+        <div class="button-group">
+          <button type="submit" class="btn btn-primary">Calculate Value</button>
+          <button type="button" class="btn btn-secondary" id="reset-mode-2">Reset</button>
+        </div>
+      </form>
+
+      <!-- Mode 3: What Percent is X of Y Form -->
+      <form id="mode-3-form" class="calculator-mode-form hidden" novalidate>
+        <div class="form-grid two-col">
+          <div class="form-group">
+            <label for="m3-x-val">Part Value (X) <span style="color: var(--primary);">*</span></label>
+            <input type="number" step="any" id="m3-x-val" class="form-control" placeholder="e.g. 25" required aria-required="true">
+          </div>
+          <div class="form-group">
+            <label for="m3-y-val">Total Value (Y) <span style="color: var(--primary);">*</span></label>
+            <input type="number" step="any" id="m3-y-val" class="form-control" placeholder="e.g. 200" required aria-required="true">
+          </div>
+        </div>
+
+        <div class="button-group">
+          <button type="submit" class="btn btn-primary">Calculate Percent</button>
+          <button type="button" class="btn btn-secondary" id="reset-mode-3">Reset</button>
+        </div>
+      </form>
+
+      <div id="error-box" class="hidden" style="margin-top: 1rem; color: #dc2626; background: #fef2f2; border: 1px solid #fecaca; padding: 0.75rem 1rem; border-radius: var(--radius-sm);" role="alert"></div>
+
+      <!-- Result Box -->
+      <div id="result-box" class="result-box" aria-live="polite">
+        <div class="result-header" id="result-header-text">Calculation Result</div>
+        <div class="result-primary" id="result-primary-text">--%</div>
+        
+        <div class="result-grid" id="result-grid-container">
+          <!-- Dynamic stat cards inserted by script.js -->
+        </div>
+
+        <div class="formula-box" id="formula-breakdown-box">
+          <!-- Step-by-step formula inserted by script.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Key Facts & Benchmark Table -->
+    <section style="margin: 2.5rem 0;" aria-labelledby="key-facts-heading">
+      <h2 id="key-facts-heading">Key Facts &amp; Formula Reference</h2>
+      
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 1.25rem;">
+        <div>
+          <h3>Formula Summary</h3>
+          <ul style="color: var(--text-muted); line-height: 1.8; margin-left: 1.25rem;">
+            <li><strong>Percent Change:</strong> ((New - Old) / |Old|) × 100</li>
+            <li><strong>Percent Increase:</strong> Base + (Base × Rate)</li>
+            <li><strong>Percent Decrease:</strong> Base - (Base × Rate)</li>
+            <li><strong>Proportion Ratio:</strong> (Part / Total) × 100</li>
+          </ul>
+        </div>
+
+        <div>
+          <h3>Sample Calculations</h3>
+          <table style="width: 100%; border-collapse: collapse; margin-top: 0.5rem; font-size: 0.9rem;">
+            <thead>
+              <tr style="background-color: var(--bg-muted); text-align: left; border-bottom: 2px solid var(--border-color);">
+                <th style="padding: 0.5rem;">Calculation</th>
+                <th style="padding: 0.5rem;">Input Values</th>
+                <th style="padding: 0.5rem;">Result</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom: 1px solid var(--border-color);">
+                <td style="padding: 0.5rem;">Price Rise</td>
+                <td style="padding: 0.5rem;">$50 → $75</td>
+                <td style="padding: 0.5rem;">+50% increase</td>
+              </tr>
+              <tr style="border-bottom: 1px solid var(--border-color);">
+                <td style="padding: 0.5rem;">Discount</td>
+                <td style="padding: 0.5rem;">$100 less 20%</td>
+                <td style="padding: 0.5rem;">$80 final price</td>
+              </tr>
+              <tr style="border-bottom: 1px solid var(--border-color);">
+                <td style="padding: 0.5rem;">Test Score</td>
+                <td style="padding: 0.5rem;">45 out of 50</td>
+                <td style="padding: 0.5rem;">90% score</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- How to Use Section -->
+    <section aria-labelledby="how-to-use-heading">
+      <h2 id="how-to-use-heading">How to Use the Percentage Calculator</h2>
+      <ol class="steps-list">
+        <li>
+          <h4>Choose Your Calculation Mode</h4>
+          <p>Select Tab 1 to find percentage change between two values, Tab 2 to adjust a number by X%, or Tab 3 to find what percentage X is of Y.</p>
+        </li>
+        <li>
+          <h4>Enter Your Numbers</h4>
+          <p>Input your starting values, percentages, or proportions into the respective fields.</p>
+        </li>
+        <li>
+          <h4>Review the Formula &amp; Step-by-Step Breakdown</h4>
+          <p>Click the calculate button to view your result along with the mathematical formula and complete step-by-step breakdown.</p>
+        </li>
+      </ol>
+    </section>
+
+    <!-- AdSense Placement -->
+    <!-- <div class="ad-placement"><!-- AdSense Banner --></div> -->
+
+    <!-- Article Section (~700 Words with Question H2s) -->
+    <article class="content-article" aria-labelledby="article-heading">
+      <h2 id="article-heading">How Do You Calculate Percentage Change Between Two Numbers?</h2>
+      <p>To calculate percentage change between two numbers, subtract the old value from the new value, divide the difference by the absolute value of the old value, and multiply by 100. A positive answer indicates a percentage increase, while a negative answer indicates a percentage decrease.</p>
+
+      <p>If you are measuring time intervals between project milestones or financial quarter start dates, try our <a href="/tools/date-difference-calculator/">Date Difference Calculator</a>.</p>
+
+      <h3>How Do You Increase or Decrease a Number by a Percentage?</h3>
+      <p>To increase or decrease a number by a percentage, calculate the percentage portion (multiply base number by percent rate divided by 100) and then add (for increases) or subtract (for decreases) that portion from the starting number.</p>
+
+      <p>When preparing reports or financial summaries, you can quickly analyze word count and reading time using our <a href="/tools/word-counter/">Word &amp; Character Counter</a>, or clean up text formatting with our <a href="/tools/text-case-converter/">Text Case Converter</a>.</p>
+
+      <div class="info-callout">
+        <h3>Understanding the Reversibility Trap</h3>
+        <p>A +50% increase followed by a -50% decrease does not return you to your original starting number. For example, $100 + 50% = $150. Decreasing $150 by 50% removes $75, resulting in $75.</p>
+      </div>
+    </article>
+
+    <!-- FAQ Accordion (5 Questions, 40-60 words each) -->
+    <section class="faq-section" aria-labelledby="faq-heading">
+      <h2 id="faq-heading">Frequently Asked Questions</h2>
+      
+      <div class="accordion-group">
+        
+        <div class="accordion-item">
+          <button type="button" class="accordion-header" id="faq-h-1" aria-expanded="false" aria-controls="faq-c-1">
+            <span>How do you calculate percentage change between two numbers?</span>
+            <svg class="accordion-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div id="faq-c-1" class="accordion-content" hidden aria-labelledby="faq-h-1">
+            <p>Subtract the old value from the new value, divide the difference by the absolute value of the old value, and multiply by 100.</p>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <button type="button" class="accordion-header" id="faq-h-2" aria-expanded="false" aria-controls="faq-c-2">
+            <span>Why does a 50% increase followed by a 50% decrease not return to the original number?</span>
+            <svg class="accordion-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div id="faq-c-2" class="accordion-content" hidden aria-labelledby="faq-h-2">
+            <p>Because the 50% decrease is calculated on a larger, increased base value. For example, 100 increased by 50% is 150. Decreasing 150 by 50% removes 75, resulting in 75.</p>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <button type="button" class="accordion-header" id="faq-h-3" aria-expanded="false" aria-controls="faq-c-3">
+            <span>Can percentage change be negative?</span>
+            <svg class="accordion-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div id="faq-c-3" class="accordion-content" hidden aria-labelledby="faq-h-3">
+            <p>Yes. A negative percentage change indicates a percentage decrease or drop in value from the initial starting amount.</p>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <button type="button" class="accordion-header" id="faq-h-4" aria-expanded="false" aria-controls="faq-c-4">
+            <span>Can I calculate percentage change when the starting value is zero?</span>
+            <svg class="accordion-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div id="faq-c-4" class="accordion-content" hidden aria-labelledby="faq-h-4">
+            <p>No. Division by zero is mathematically undefined. Going from 0 to any positive number represents an infinite percentage increase.</p>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <button type="button" class="accordion-header" id="faq-h-5" aria-expanded="false" aria-controls="faq-c-5">
+            <span>What is the difference between percentage and percentage points?</span>
+            <svg class="accordion-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div id="faq-c-5" class="accordion-content" hidden aria-labelledby="faq-h-5">
+            <p>Percentage points measure the simple arithmetic difference between two percentages (e.g. 10% to 15% is a 5 percentage point increase), whereas percentage change measures relative growth (a 50% increase).</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Dynamic Related Tools Section -->
+    <section style="margin: 4rem 0 2rem 0;" aria-labelledby="related-tools-heading">
+      <h2 id="related-tools-heading">Related Tools</h2>
+      <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Explore more free tools on ToolsBuilt:</p>
+      
+      <div class="tools-grid" id="related-tools-grid">
+        <!-- Rendered dynamically by tools-data.js -->
+      </div>
+    </section>
+
+    <!-- AdSense Placement -->
+    <!-- <div class="ad-placement"><!-- AdSense Banner --></div> -->
+
+  </main>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h3>ToolsBuilt</h3>
+          <p>Free online tools and web calculators engineered for simplicity, speed, and precision.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Popular Tools</h4>
+          <ul class="footer-links">
+            <li><a href="/tools/days-until-date-calculator/">Days Until Date</a></li>
+            <li><a href="/tools/date-difference-calculator/">Date Difference</a></li>
+            <li><a href="/tools/percentage-change-calculator/">Percentage Change</a></li>
+            <li><a href="/tools/word-counter/">Word Counter</a></li>
+            <li><a href="/tools/text-case-converter/">Text Case Converter</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Legal &amp; Policy</h4>
+          <ul class="footer-links">
+            <li><a href="/about/">About Us</a></li>
+            <li><a href="/contact/">Contact Us</a></li>
+            <li><a href="/privacy-policy/">Privacy Policy</a></li>
+            <li><a href="/terms/">Terms of Service</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 ToolsBuilt. All rights reserved. Built and maintained by ToolsBuilt.</p>
+        <p>Built with privacy and speed in mind.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/assets/js/tools-data.js"></script>
+  <script src="/assets/js/common.js"></script>
+  <script src="/tools/percentage-change-calculator/script.js"></script>
+</body>
+</html>

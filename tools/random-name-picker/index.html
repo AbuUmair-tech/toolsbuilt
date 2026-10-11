@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Name Picker Wheel | ToolsBuilt</title>
+    <meta name="description" content="Free online random name picker wheel. Enter names, spin the interactive wheel, and select unbiased winners for raffles, classrooms, giveaways, and decision making.">
+    <link rel="canonical" href="https://toolsbuilt.com/tools/random-name-picker/">
+    
+    <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
+    <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png">
+    
+    <meta property="og:title" content="Random Name Picker Wheel | ToolsBuilt">
+    <meta property="og:description" content="Spin the random name picker wheel to select fair, random winners for classroom activities, raffles, and team events.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://toolsbuilt.com/tools/random-name-picker/">
+    <meta property="og:image" content="https://toolsbuilt.com/assets/img/og-image.svg">
+    
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Random Name Picker Wheel | ToolsBuilt">
+    <meta name="twitter:description" content="Spin the random name picker wheel to select fair, random winners for classroom activities, raffles, and team events.">
+    <meta name="twitter:image" content="https://toolsbuilt.com/assets/img/og-image.svg">
+
+    <link rel="stylesheet" href="/assets/css/style.css">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Random Name Picker Wheel",
+      "url": "https://toolsbuilt.com/tools/random-name-picker/",
+      "applicationCategory": "UtilityApplication",
+      "operatingSystem": "All",
+      "description": "Interactive random name picker wheel utilizing cryptographically secure random values to pick fair winners for classroom activities, raffles, and giveaways."
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://toolsbuilt.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Fun & Random Tools",
+          "item": "https://toolsbuilt.com/#fun-random-tools"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Random Name Picker",
+          "item": "https://toolsbuilt.com/tools/random-name-picker/"
+        }
+      ]
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "HowTo",
+      "name": "How to Pick a Random Name Using the Wheel",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "text": "Type or paste your list of names into the text box (one name per line)."
+        },
+        {
+          "@type": "HowToStep",
+          "text": "Optionally toggle 'Remove winner after pick' if running a multi-draw raffle."
+        },
+        {
+          "@type": "HowToStep",
+          "text": "Click the Spin Wheel button to initiate the animation."
+        },
+        {
+          "@type": "HowToStep",
+          "text": "View the selected winning name in the popup modal."
+        }
+      ]
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "How does the wheel select fair and unbiased winners?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The wheel uses the Web Crypto API (crypto.getRandomValues) to generate cryptographically secure random numbers. This ensures equal statistical probability for every slice on the wheel without predictable patterns or bias."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I remove a winner so they are not picked again?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. You can check the 'Remove winner after pick' box beforehand or click the 'Remove Winner' button on the winner popup. The list updates instantly and redraws the wheel for subsequent spins."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does the wheel support motion sensitivity settings?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. The tool automatically detects system prefers-reduced-motion preferences. When enabled, spinning skips the multi-revolution animation and jumps directly to the selected winner slice."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is there a limit to how many names I can add?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "You can add hundreds of names to the input area. The wheel dynamically adjusts slice sizes and font rendering to display entries cleanly regardless of your list length."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Are my custom name lists saved or sent to a server?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. All names remain strictly in your browser session memory. Your lists are never uploaded to remote servers, logged, or shared, keeping your participant data completely private."
+          }
+        }
+      ]
+    }
+    </script>
+</head>
+<body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <header class="site-header">
+        <div class="container header-container">
+            <a href="/" class="site-logo">
+                <span class="logo-icon" data-icon="calculator"></span>
+                <span class="logo-text">ToolsBuilt</span>
+            </a>
+            <nav class="site-nav">
+                <a href="/">All Tools</a>
+                <a href="/about/">About</a>
+                <a href="/contact/">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <main id="main-content" class="container py-8">
+        <div class="breadcrumb">
+            <a href="/">Home</a> / <a href="/#fun-random-tools">Fun &amp; Random</a> / <span>Random Name Picker</span>
+        </div>
+
+        <article class="tool-page">
+            <header class="tool-header">
+                <div class="tool-title-row">
+                    <div class="tool-icon-wrapper fun" data-icon="wheel"></div>
+                    <div>
+                        <h1>Random Name Picker Wheel</h1>
+                        <p class="tool-subtitle">Spin the interactive wheel to select random winners, make unbiased decisions, or pick student names.</p>
+                    </div>
+                </div>
+            </header>
+
+            <div class="tool-card">
+                <div class="wheel-layout">
+                    <div class="wheel-controls-col">
+                        <div class="form-group">
+                            <div class="label-row">
+                                <label for="namesInput">Names List (one per line)</label>
+                                <span id="nameCount" class="text-sm text-muted">8 entries</span>
+                            </div>
+                            <textarea id="namesInput" class="form-input code-input" rows="8" placeholder="Enter names here..."></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="removeWinner">
+                                <span>Remove winner automatically after spin</span>
+                            </label>
+                        </div>
+
+                        <div class="btn-group">
+                            <button type="button" id="spinBtn" class="btn btn-primary btn-block">Spin Wheel!</button>
+                            <button type="button" id="shuffleBtn" class="btn btn-secondary">Shuffle</button>
+                            <button type="button" id="clearBtn" class="btn btn-outline">Clear</button>
+                        </div>
+                    </div>
+
+                    <div class="wheel-canvas-col">
+                        <div class="canvas-wrapper">
+                            <canvas id="wheelCanvas" width="400" height="400" aria-label="Random Name Wheel"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Winner Modal -->
+                <div id="winnerModal" class="modal-overlay hidden" aria-hidden="true" role="dialog" aria-labelledby="winnerTitle">
+                    <div class="modal-card text-center">
+                        <h2 id="winnerTitle" class="modal-title">We Have a Winner!</h2>
+                        <div id="winnerName" class="winner-display-name">---</div>
+                        <div class="modal-actions mt-6">
+                            <button type="button" id="removeWinnerBtn" class="btn btn-primary">Remove Winner &amp; Close</button>
+                            <button type="button" id="closeModalBtn" class="btn btn-secondary">Keep in List &amp; Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ad container placeholder -->
+            <!-- ad placement: below tool card -->
+            <div class="ad-placement my-8"></div>
+
+            <div class="quick-answer-box">
+                <h2>Quick Answer: How to Use the Random Name Picker Wheel</h2>
+                <p>Paste your list of names into the text box, click <strong>Spin Wheel!</strong>, and watch the wheel rotate to choose a random winner. The selection uses cryptographically secure random generation, ensuring every participant has an equal, unbiased chance of winning.</p>
+            </div>
+
+            <div class="article-content">
+                <h2>Why Use a Digital Random Name Picker Wheel?</h2>
+                <p>Whether you are running a social media giveaway, choosing students for classroom participation, organizing team secret Santa exchanges, or deciding who pays for coffee, choosing fairly is essential. Physical drawings with paper slips take time to assemble and can raise suspicions of bias. Digital spinning wheels provide a transparent, engaging, and verifiably fair method for picking winners in real time.</p>
+
+                <h2>Cryptographically Secure Randomness</h2>
+                <p>Many online wheels rely on standard pseudorandom number generators like <code>Math.random()</code>, which are fine for basic games but exhibit predictable mathematical patterns over repeated runs. Our tool utilizes the browser's native <strong>Web Crypto API (<code>crypto.getRandomValues</code>)</strong>. This provides hardware-level entropy and cryptographically strong randomness, guaranteeing that every single spin is completely independent and un-biased.</p>
+
+                <div class="key-facts-box">
+                    <h3>Key Features of ToolsBuilt Name Picker</h3>
+                    <ul>
+                        <li><strong>Cryptographic Fairness:</strong> Uses hardware entropy via Web Crypto API for true randomness.</li>
+                        <li><strong>Reduced Motion Support:</strong> Respects system accessibility settings by offering instant results for users sensitive to spinning animations.</li>
+                        <li><strong>Instant Winner Removal:</strong> Option to remove selected entries instantly for multi-prize raffles and tournaments.</li>
+                    </ul>
+                </div>
+
+                <h2>Popular Ways to Use the Name Wheel</h2>
+                <p>The name picker wheel is versatile and adaptable to various professional and casual scenarios:</p>
+                <ul>
+                    <li><strong>Classroom Student Engagement:</strong> Teachers use the wheel to call on students randomly during recitations, encouraging equal participation without favoritism.</li>
+                    <li><strong>Online Raffles &amp; Giveaways:</strong> Streamers and content creators broadcast the wheel live to pick contest winners transparently.</li>
+                    <li><strong>Agile Team Standups:</strong> Engineering teams spin the wheel to determine meeting order or assign daily code review tasks.</li>
+                    <li><strong>Daily Decision Making:</strong> Can't decide where to eat lunch or which movie to watch? Put your choices on the wheel and let chance decide.</li>
+                </ul>
+
+                <h2>Frequently Asked Questions</h2>
+                <div class="faq-accordion">
+                    <details class="faq-item">
+                        <summary class="faq-question">How does the wheel select fair and unbiased winners?</summary>
+                        <div class="faq-answer">
+                            <p>The wheel uses the Web Crypto API (crypto.getRandomValues) to generate cryptographically secure random numbers. This ensures equal statistical probability for every slice on the wheel without predictable patterns or bias.</p>
+                        </div>
+                    </details>
+
+                    <details class="faq-item">
+                        <summary class="faq-question">Can I remove a winner so they are not picked again?</summary>
+                        <div class="faq-answer">
+                            <p>Yes. You can check the 'Remove winner after pick' box beforehand or click the 'Remove Winner' button on the winner popup. The list updates instantly and redraws the wheel for subsequent spins.</p>
+                        </div>
+                    </details>
+
+                    <details class="faq-item">
+                        <summary class="faq-question">Does the wheel support motion sensitivity settings?</summary>
+                        <div class="faq-answer">
+                            <p>Yes. The tool automatically detects system prefers-reduced-motion preferences. When enabled, spinning skips the multi-revolution animation and jumps directly to the selected winner slice.</p>
+                        </div>
+                    </details>
+
+                    <details class="faq-item">
+                        <summary class="faq-question">Is there a limit to how many names I can add?</summary>
+                        <div class="faq-answer">
+                            <p>You can add hundreds of names to the input area. The wheel dynamically adjusts slice sizes and font rendering to display entries cleanly regardless of your list length.</p>
+                        </div>
+                    </details>
+
+                    <details class="faq-item">
+                        <summary class="faq-question">Are my custom name lists saved or sent to a server?</summary>
+                        <div class="faq-answer">
+                            <p>No. All names remain strictly in your browser session memory. Your lists are never uploaded to remote servers, logged, or shared, keeping your participant data completely private.</p>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="last-updated">Last updated: October 11, 2026</div>
+            </div>
+
+            <section class="related-tools mt-12">
+                <h2>Related Tools</h2>
+                <div class="tools-grid" id="relatedToolsGrid">
+                    <a href="/tools/password-generator/" class="tool-card-link">
+                        <div class="tool-card-sm">
+                            <div class="tool-icon-wrapper security" data-icon="key"></div>
+                            <h3>Password Generator</h3>
+                            <p>Generate strong, secure passwords with custom length and character rules.</p>
+                        </div>
+                    </a>
+                    <a href="/tools/word-counter/" class="tool-card-link">
+                        <div class="tool-card-sm">
+                            <div class="tool-icon-wrapper text" data-icon="text-cursor"></div>
+                            <h3>Word &amp; Character Counter</h3>
+                            <p>Count words, characters, sentences, and estimated reading time live.</p>
+                        </div>
+                    </a>
+                    <a href="/tools/percentage-change-calculator/" class="tool-card-link">
+                        <div class="tool-card-sm">
+                            <div class="tool-icon-wrapper math" data-icon="percent"></div>
+                            <h3>Percentage Change Calculator</h3>
+                            <p>Calculate percentage increase, decrease, or common percentage values.</p>
+                        </div>
+                    </a>
+                </div>
+            </section>
+        </article>
+    </main>
+
+    <!-- Cookie Consent Placeholder -->
+    <!-- Cookie consent banner placeholder (hidden by default, no tracking). Will be replaced by Google CMP when AdSense is active for EEA/UK. -->
+    <div id="cookie-consent-banner" class="cookie-banner hidden" aria-hidden="true"></div>
+
+    <footer class="site-footer">
+        <div class="container footer-container">
+            <div class="footer-col">
+                <a href="/" class="site-logo">
+                    <span class="logo-icon" data-icon="calculator"></span>
+                    <span class="logo-text">ToolsBuilt</span>
+                </a>
+                <p class="footer-desc">Free, privacy-focused online tools and calculators for everyday decisions.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Popular Tools</h4>
+                <ul class="footer-links">
+                    <li><a href="/tools/days-until-date-calculator/">Days Until Date</a></li>
+                    <li><a href="/tools/percentage-change-calculator/">Percentage Change</a></li>
+                    <li><a href="/tools/word-counter/">Word Counter</a></li>
+                    <li><a href="/tools/password-generator/">Password Generator</a></li>
+                    <li><a href="/tools/random-name-picker/">Random Name Picker</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Company &amp; Legal</h4>
+                <ul class="footer-links">
+                    <li><a href="/about/">About Us</a></li>
+                    <li><a href="/contact/">Contact Us</a></li>
+                    <li><a href="/privacy-policy/">Privacy Policy</a></li>
+                    <li><a href="/terms/">Terms of Service</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom text-center py-4">
+            <p>&copy; 2026 ToolsBuilt. All rights reserved. All tools run client-side in your browser.</p>
+        </div>
+    </footer>
+
+    <script src="/assets/js/icons.js"></script>
+    <script src="/assets/js/common.js"></script>
+    <script src="/tools/random-name-picker/script.js"></script>
+</body>
+</html>
