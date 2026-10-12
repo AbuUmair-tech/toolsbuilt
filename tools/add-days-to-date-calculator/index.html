@@ -144,19 +144,45 @@
 <body>
     <a href="#main-content" class="skip-link">Skip to main content</a>
 
-    <header class="site-header">
-        <div class="container header-container">
-            <a href="/" class="site-logo">
-                <span class="logo-icon" data-icon="calculator"></span>
-                <span class="logo-text">ToolsBuilt</span>
-            </a>
-            <nav class="site-nav">
-                <a href="/">All Tools</a>
-                <a href="/about/">About</a>
-                <a href="/contact/">Contact</a>
-            </nav>
-        </div>
-    </header>
+  <!-- Site Header -->
+  <header class="site-header">
+    <div class="container header-container">
+      <a href="/" class="site-logo" aria-label="ToolsBuilt Homepage">
+        <svg viewBox="0 0 100 100" aria-hidden="true">
+          <rect width="100" height="100" rx="24" fill="#4f46e5"/>
+          <path d="M30 30h40v12H56v28H44V42H30V30z" fill="#ffffff"/>
+          <circle cx="50" cy="64" r="3" fill="#4f46e5"/>
+        </svg>
+        <span>Tools<span class="accent">Built</span></span>
+      </a>
+
+      <div class="nav-actions">
+        <nav class="main-nav" id="main-nav" aria-label="Main Navigation">
+          <a href="/" class="nav-link">Home</a>
+          <a href="/about/" class="nav-link">About</a>
+          <a href="/contact/" class="nav-link">Contact</a>
+        </nav>
+
+        <button type="button" class="theme-toggle-btn" id="theme-toggle" aria-label="Toggle dark mode">
+          <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="12" r="5" />
+            <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+        </button>
+
+        <button type="button" class="mobile-menu-btn" id="mobile-menu-btn" aria-expanded="false" aria-controls="main-nav" aria-label="Toggle navigation menu">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
 
     <main id="main-content" class="container py-8">
         <div class="breadcrumb">
@@ -179,14 +205,14 @@
                     <div class="form-group">
                         <label for="startDate">Start Date</label>
                         <div class="input-with-button">
-                            <input type="date" id="startDate" class="form-input">
+                            <input type="date" id="startDate" class="form-input" autocomplete="off">
                             <button type="button" id="todayBtn" class="btn btn-secondary btn-sm">Today</button>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label for="operation">Operation</label>
-                        <select id="operation" class="form-input">
+                        <select id="operation" class="form-input" autocomplete="off">
                             <option value="add" selected>Add (+)</option>
                             <option value="subtract">Subtract (-)</option>
                         </select>
@@ -194,12 +220,12 @@
 
                     <div class="form-group">
                         <label for="amount">Amount</label>
-                        <input type="number" id="amount" class="form-input" min="0" value="30" step="1">
+                        <input type="number" id="amount" class="form-input" min="0" value="30" step="1" autocomplete="off">
                     </div>
 
                     <div class="form-group">
                         <label for="unit">Unit</label>
-                        <select id="unit" class="form-input">
+                        <select id="unit" class="form-input" autocomplete="off">
                             <option value="days" selected>Days</option>
                             <option value="weeks">Weeks</option>
                             <option value="months">Months</option>
@@ -209,13 +235,19 @@
                 </div>
 
                 <div class="form-group mt-4">
-                    <label class="checkbox-label">
-                        <input type="checkbox" id="businessDaysOnly">
+                    <label class="checkbox-label" id="businessDaysLabel">
+                        <input type="checkbox" id="businessDaysOnly" autocomplete="off">
                         <span>Count business days only (exclude Saturdays &amp; Sundays)</span>
                     </label>
+                    <p id="businessDaysNote" class="text-sm text-muted mt-2" style="display: none;">Business days work with days and weeks. Months and years always use calendar dates.</p>
                 </div>
 
-                <div class="result-box mt-6" id="resultBox" aria-live="polite">
+                <div class="button-group mt-4">
+                    <button type="button" id="calcBtn" class="btn btn-primary">Calculate</button>
+                    <button type="button" id="resetBtn" class="btn btn-secondary">Reset</button>
+                </div>
+
+                <div class="result-box mt-6 is-visible" id="resultBox" aria-live="polite">
                     <div class="result-header">
                         <span class="result-title">Resulting Target Date</span>
                         <button type="button" id="copyResultBtn" class="btn btn-sm btn-outline">Copy Result</button>
@@ -334,39 +366,41 @@
     <!-- Cookie consent banner placeholder (hidden by default, no tracking). Will be replaced by Google CMP when AdSense is active for EEA/UK. -->
     <div id="cookie-consent-banner" class="cookie-banner hidden" aria-hidden="true"></div>
 
-    <footer class="site-footer">
-        <div class="container footer-container">
-            <div class="footer-col">
-                <a href="/" class="site-logo">
-                    <span class="logo-icon" data-icon="calculator"></span>
-                    <span class="logo-text">ToolsBuilt</span>
-                </a>
-                <p class="footer-desc">Free, privacy-focused online tools and calculators for everyday decisions.</p>
-            </div>
-            <div class="footer-col">
-                <h4>Popular Tools</h4>
-                <ul class="footer-links">
-                    <li><a href="/tools/days-until-date-calculator/">Days Until Date</a></li>
-                    <li><a href="/tools/percentage-change-calculator/">Percentage Change</a></li>
-                    <li><a href="/tools/word-counter/">Word Counter</a></li>
-                    <li><a href="/tools/password-generator/">Password Generator</a></li>
-                    <li><a href="/tools/random-name-picker/">Random Name Picker</a></li>
-                </ul>
-            </div>
-            <div class="footer-col">
-                <h4>Company &amp; Legal</h4>
-                <ul class="footer-links">
-                    <li><a href="/about/">About Us</a></li>
-                    <li><a href="/contact/">Contact Us</a></li>
-                    <li><a href="/privacy-policy/">Privacy Policy</a></li>
-                    <li><a href="/terms/">Terms of Service</a></li>
-                </ul>
-            </div>
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h3>ToolsBuilt</h3>
+          <p>Free online tools and web calculators engineered for simplicity, speed, and precision.</p>
         </div>
-        <div class="footer-bottom text-center py-4">
-            <p>&copy; 2026 ToolsBuilt. All rights reserved. All tools run client-side in your browser.</p>
+        <div class="footer-col">
+          <h4>Popular Tools</h4>
+          <ul class="footer-links">
+            <li><a href="/tools/days-until-date-calculator/">Days Until Date</a></li>
+            <li><a href="/tools/date-difference-calculator/">Date Difference</a></li>
+            <li><a href="/tools/age-calculator/">Age Calculator</a></li>
+            <li><a href="/tools/discount-calculator/">Discount Calculator</a></li>
+            <li><a href="/tools/password-generator/">Password Generator</a></li>
+          </ul>
         </div>
-    </footer>
+        <div class="footer-col">
+          <h4>Legal &amp; Policy</h4>
+          <ul class="footer-links">
+            <li><a href="/about/">About Us</a></li>
+            <li><a href="/contact/">Contact Us</a></li>
+            <li><a href="/privacy-policy/">Privacy Policy</a></li>
+            <li><a href="/terms/">Terms of Service</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 ToolsBuilt. All rights reserved. Built and maintained by ToolsBuilt.</p>
+        <p>Built with privacy and speed in mind.</p>
+      </div>
+    </div>
+  </footer>
 
     <script src="/assets/js/icons.js"></script>
     <script src="/assets/js/common.js"></script>

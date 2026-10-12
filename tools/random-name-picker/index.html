@@ -95,42 +95,42 @@
       "mainEntity": [
         {
           "@type": "Question",
-          "name": "How does the wheel select fair and unbiased winners?",
+          "name": "How does the random name picker ensure fair and unbiased selection?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "The wheel uses the Web Crypto API (crypto.getRandomValues) to generate cryptographically secure random numbers. This ensures equal statistical probability for every slice on the wheel without predictable patterns or bias."
+            "text": "The tool utilizes your browser's native Web Crypto API via crypto.getRandomValues to produce cryptographically secure pseudorandom numbers. Unlike basic Math.random algorithms, hardware-level entropy ensures uniform probability distribution across all names. Every single participant on the wheel possesses an identical mathematical chance of being chosen on each spin without bias."
           }
         },
         {
           "@type": "Question",
-          "name": "Can I remove a winner so they are not picked again?",
+          "name": "Can I remove winning names automatically after each spin?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Yes. You can check the 'Remove winner after pick' box beforehand or click the 'Remove Winner' button on the winner popup. The list updates instantly and redraws the wheel for subsequent spins."
+            "text": "Yes. Simply enable the 'Remove winner automatically after spin' checkbox before spinning, or click 'Remove Winner & Close' in the winner announcement modal. The tool removes the chosen entry immediately and recalculates the wheel geometry and color segments for subsequent draws, making multi-prize raffles smooth and effortless."
           }
         },
         {
           "@type": "Question",
-          "name": "Does the wheel support motion sensitivity settings?",
+          "name": "Does the wheel accommodate users with motion sensitivity or vestibular disorders?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Yes. The tool automatically detects system prefers-reduced-motion preferences. When enabled, spinning skips the multi-revolution animation and jumps directly to the selected winner slice."
+            "text": "Yes. The random name picker respects your device's system-level accessibility preferences. When 'prefers-reduced-motion' is active, spinning animations are bypassed entirely. Instead of rotational motion, the tool computes the winning slice instantly and opens the winner dialog immediately, ensuring full comfort and safety for users sensitive to animated motion effects."
           }
         },
         {
           "@type": "Question",
-          "name": "Is there a limit to how many names I can add?",
+          "name": "Is there a limit on how many names I can paste into the wheel?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "You can add hundreds of names to the input area. The wheel dynamically adjusts slice sizes and font rendering to display entries cleanly regardless of your list length."
+            "text": "You can enter hundreds of names into the text box. The generator automatically calculates slice angles and resizes typography to fit your entire list on the wheel. For exceptionally large rosters with hundreds of participants, each slice remains mathematically distinct and accurately represented throughout the cryptographic selection process."
           }
         },
         {
           "@type": "Question",
-          "name": "Are my custom name lists saved or sent to a server?",
+          "name": "Are my participant names stored on remote servers or tracked?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "No. All names remain strictly in your browser session memory. Your lists are never uploaded to remote servers, logged, or shared, keeping your participant data completely private."
+            "text": "No. All name lists, spin computations, and winner selections operate exclusively in your client-side browser memory. None of your entered names are transmitted to external servers, logged in databases, or shared with third parties. Once you close or reload your browser tab, entered names are cleared completely."
           }
         }
       ]
@@ -140,19 +140,45 @@
 <body>
     <a href="#main-content" class="skip-link">Skip to main content</a>
 
-    <header class="site-header">
-        <div class="container header-container">
-            <a href="/" class="site-logo">
-                <span class="logo-icon" data-icon="calculator"></span>
-                <span class="logo-text">ToolsBuilt</span>
-            </a>
-            <nav class="site-nav">
-                <a href="/">All Tools</a>
-                <a href="/about/">About</a>
-                <a href="/contact/">Contact</a>
-            </nav>
-        </div>
-    </header>
+  <!-- Site Header -->
+  <header class="site-header">
+    <div class="container header-container">
+      <a href="/" class="site-logo" aria-label="ToolsBuilt Homepage">
+        <svg viewBox="0 0 100 100" aria-hidden="true">
+          <rect width="100" height="100" rx="24" fill="#4f46e5"/>
+          <path d="M30 30h40v12H56v28H44V42H30V30z" fill="#ffffff"/>
+          <circle cx="50" cy="64" r="3" fill="#4f46e5"/>
+        </svg>
+        <span>Tools<span class="accent">Built</span></span>
+      </a>
+
+      <div class="nav-actions">
+        <nav class="main-nav" id="main-nav" aria-label="Main Navigation">
+          <a href="/" class="nav-link">Home</a>
+          <a href="/about/" class="nav-link">About</a>
+          <a href="/contact/" class="nav-link">Contact</a>
+        </nav>
+
+        <button type="button" class="theme-toggle-btn" id="theme-toggle" aria-label="Toggle dark mode">
+          <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="12" r="5" />
+            <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+        </button>
+
+        <button type="button" class="mobile-menu-btn" id="mobile-menu-btn" aria-expanded="false" aria-controls="main-nav" aria-label="Toggle navigation menu">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
 
     <main id="main-content" class="container py-8">
         <div class="breadcrumb">
@@ -252,37 +278,37 @@
                 <h2>Frequently Asked Questions</h2>
                 <div class="faq-accordion">
                     <details class="faq-item">
-                        <summary class="faq-question">How does the wheel select fair and unbiased winners?</summary>
+                        <summary class="faq-question">How does the random name picker ensure fair and unbiased selection?</summary>
                         <div class="faq-answer">
-                            <p>The wheel uses the Web Crypto API (crypto.getRandomValues) to generate cryptographically secure random numbers. This ensures equal statistical probability for every slice on the wheel without predictable patterns or bias.</p>
+                            <p>The tool utilizes your browser's native Web Crypto API via crypto.getRandomValues to produce cryptographically secure pseudorandom numbers. Unlike basic Math.random algorithms, hardware-level entropy ensures uniform probability distribution across all names. Every single participant on the wheel possesses an identical mathematical chance of being chosen on each spin without bias.</p>
                         </div>
                     </details>
 
                     <details class="faq-item">
-                        <summary class="faq-question">Can I remove a winner so they are not picked again?</summary>
+                        <summary class="faq-question">Can I remove winning names automatically after each spin?</summary>
                         <div class="faq-answer">
-                            <p>Yes. You can check the 'Remove winner after pick' box beforehand or click the 'Remove Winner' button on the winner popup. The list updates instantly and redraws the wheel for subsequent spins.</p>
+                            <p>Yes. Simply enable the 'Remove winner automatically after spin' checkbox before spinning, or click 'Remove Winner &amp; Close' in the winner announcement modal. The tool removes the chosen entry immediately and recalculates the wheel geometry and color segments for subsequent draws, making multi-prize raffles smooth and effortless.</p>
                         </div>
                     </details>
 
                     <details class="faq-item">
-                        <summary class="faq-question">Does the wheel support motion sensitivity settings?</summary>
+                        <summary class="faq-question">Does the wheel accommodate users with motion sensitivity or vestibular disorders?</summary>
                         <div class="faq-answer">
-                            <p>Yes. The tool automatically detects system prefers-reduced-motion preferences. When enabled, spinning skips the multi-revolution animation and jumps directly to the selected winner slice.</p>
+                            <p>Yes. The random name picker respects your device's system-level accessibility preferences. When 'prefers-reduced-motion' is active, spinning animations are bypassed entirely. Instead of rotational motion, the tool computes the winning slice instantly and opens the winner dialog immediately, ensuring full comfort and safety for users sensitive to animated motion effects.</p>
                         </div>
                     </details>
 
                     <details class="faq-item">
-                        <summary class="faq-question">Is there a limit to how many names I can add?</summary>
+                        <summary class="faq-question">Is there a limit on how many names I can paste into the wheel?</summary>
                         <div class="faq-answer">
-                            <p>You can add hundreds of names to the input area. The wheel dynamically adjusts slice sizes and font rendering to display entries cleanly regardless of your list length.</p>
+                            <p>You can enter hundreds of names into the text box. The generator automatically calculates slice angles and resizes typography to fit your entire list on the wheel. For exceptionally large rosters with hundreds of participants, each slice remains mathematically distinct and accurately represented throughout the cryptographic selection process.</p>
                         </div>
                     </details>
 
                     <details class="faq-item">
-                        <summary class="faq-question">Are my custom name lists saved or sent to a server?</summary>
+                        <summary class="faq-question">Are my participant names stored on remote servers or tracked?</summary>
                         <div class="faq-answer">
-                            <p>No. All names remain strictly in your browser session memory. Your lists are never uploaded to remote servers, logged, or shared, keeping your participant data completely private.</p>
+                            <p>No. All name lists, spin computations, and winner selections operate exclusively in your client-side browser memory. None of your entered names are transmitted to external servers, logged in databases, or shared with third parties. Once you close or reload your browser tab, entered names are cleared completely.</p>
                         </div>
                     </details>
                 </div>
@@ -323,39 +349,41 @@
     <!-- Cookie consent banner placeholder (hidden by default, no tracking). Will be replaced by Google CMP when AdSense is active for EEA/UK. -->
     <div id="cookie-consent-banner" class="cookie-banner hidden" aria-hidden="true"></div>
 
-    <footer class="site-footer">
-        <div class="container footer-container">
-            <div class="footer-col">
-                <a href="/" class="site-logo">
-                    <span class="logo-icon" data-icon="calculator"></span>
-                    <span class="logo-text">ToolsBuilt</span>
-                </a>
-                <p class="footer-desc">Free, privacy-focused online tools and calculators for everyday decisions.</p>
-            </div>
-            <div class="footer-col">
-                <h4>Popular Tools</h4>
-                <ul class="footer-links">
-                    <li><a href="/tools/days-until-date-calculator/">Days Until Date</a></li>
-                    <li><a href="/tools/percentage-change-calculator/">Percentage Change</a></li>
-                    <li><a href="/tools/word-counter/">Word Counter</a></li>
-                    <li><a href="/tools/password-generator/">Password Generator</a></li>
-                    <li><a href="/tools/random-name-picker/">Random Name Picker</a></li>
-                </ul>
-            </div>
-            <div class="footer-col">
-                <h4>Company &amp; Legal</h4>
-                <ul class="footer-links">
-                    <li><a href="/about/">About Us</a></li>
-                    <li><a href="/contact/">Contact Us</a></li>
-                    <li><a href="/privacy-policy/">Privacy Policy</a></li>
-                    <li><a href="/terms/">Terms of Service</a></li>
-                </ul>
-            </div>
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h3>ToolsBuilt</h3>
+          <p>Free online tools and web calculators engineered for simplicity, speed, and precision.</p>
         </div>
-        <div class="footer-bottom text-center py-4">
-            <p>&copy; 2026 ToolsBuilt. All rights reserved. All tools run client-side in your browser.</p>
+        <div class="footer-col">
+          <h4>Popular Tools</h4>
+          <ul class="footer-links">
+            <li><a href="/tools/days-until-date-calculator/">Days Until Date</a></li>
+            <li><a href="/tools/date-difference-calculator/">Date Difference</a></li>
+            <li><a href="/tools/age-calculator/">Age Calculator</a></li>
+            <li><a href="/tools/discount-calculator/">Discount Calculator</a></li>
+            <li><a href="/tools/password-generator/">Password Generator</a></li>
+          </ul>
         </div>
-    </footer>
+        <div class="footer-col">
+          <h4>Legal &amp; Policy</h4>
+          <ul class="footer-links">
+            <li><a href="/about/">About Us</a></li>
+            <li><a href="/contact/">Contact Us</a></li>
+            <li><a href="/privacy-policy/">Privacy Policy</a></li>
+            <li><a href="/terms/">Terms of Service</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 ToolsBuilt. All rights reserved. Built and maintained by ToolsBuilt.</p>
+        <p>Built with privacy and speed in mind.</p>
+      </div>
+    </div>
+  </footer>
 
     <script src="/assets/js/icons.js"></script>
     <script src="/assets/js/common.js"></script>

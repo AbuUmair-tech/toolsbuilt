@@ -37,10 +37,16 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function getSecureRandomInt(max) {
-        if (max <= 0) return 0;
+        if (max <= 1) return 0;
+        // Rejection sampling against 2^32 boundary to eliminate modulo bias
+        const maxValid = Math.floor(0x100000000 / max) * max;
         const array = new Uint32Array(1);
-        window.crypto.getRandomValues(array);
-        return array[0] % max;
+        while (true) {
+            window.crypto.getRandomValues(array);
+            if (array[0] < maxValid) {
+                return array[0] % max;
+            }
+        }
     }
 
     function drawWheel() {

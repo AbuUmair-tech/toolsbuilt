@@ -4,32 +4,69 @@ document.addEventListener('DOMContentLoaded', function () {
     const unitSelect = document.getElementById('unit');
     const operationSelect = document.getElementById('operation');
     const businessDaysOnlyCheckbox = document.getElementById('businessDaysOnly');
+    const businessDaysNote = document.getElementById('businessDaysNote');
     const todayBtn = document.getElementById('todayBtn');
+    const calcBtn = document.getElementById('calcBtn');
+    const resetBtn = document.getElementById('resetBtn');
     
     const resultBox = document.getElementById('resultBox');
     const primaryResult = document.getElementById('primaryResult');
     const resultDetails = document.getElementById('resultDetails');
     const copyResultBtn = document.getElementById('copyResultBtn');
 
+    function setDateToToday() {
+        const today = new Date();
+        const yyyy = today.getFullYear();
+        const mm = String(today.getMonth() + 1).padStart(2, '0');
+        const dd = String(today.getDate()).padStart(2, '0');
+        startDateInput.value = `${yyyy}-${mm}-${dd}`;
+    }
+
     // Set today as default start date
-    const today = new Date();
-    const yyyy = today.getFullYear();
-    const mm = String(today.getMonth() + 1).padStart(2, '0');
-    const dd = String(today.getDate()).padStart(2, '0');
-    startDateInput.value = `${yyyy}-${mm}-${dd}`;
+    setDateToToday();
 
     todayBtn.addEventListener('click', function () {
-        const now = new Date();
-        const y = now.getFullYear();
-        const m = String(now.getMonth() + 1).padStart(2, '0');
-        const d = String(now.getDate()).padStart(2, '0');
-        startDateInput.value = `${y}-${m}-${d}`;
+        setDateToToday();
         calculate();
     });
 
+    if (calcBtn) {
+        calcBtn.addEventListener('click', calculate);
+    }
+
+    if (resetBtn) {
+        resetBtn.addEventListener('click', function () {
+            setDateToToday();
+            operationSelect.value = 'add';
+            amountInput.value = '30';
+            unitSelect.value = 'days';
+            businessDaysOnlyCheckbox.checked = false;
+            updateBusinessDaysAvailability();
+            calculate();
+        });
+    }
+
+    function updateBusinessDaysAvailability() {
+        const unit = unitSelect.value;
+        const allowsBusinessDays = (unit === 'days' || unit === 'weeks');
+        if (allowsBusinessDays) {
+            businessDaysOnlyCheckbox.disabled = false;
+            if (businessDaysNote) businessDaysNote.style.display = 'none';
+        } else {
+            businessDaysOnlyCheckbox.disabled = true;
+            if (businessDaysNote) businessDaysNote.style.display = 'block';
+        }
+    }
+
     [startDateInput, amountInput, unitSelect, operationSelect, businessDaysOnlyCheckbox].forEach(el => {
-        el.addEventListener('change', calculate);
-        el.addEventListener('input', calculate);
+        el.addEventListener('change', function () {
+            updateBusinessDaysAvailability();
+            calculate();
+        });
+        el.addEventListener('input', function () {
+            updateBusinessDaysAvailability();
+            calculate();
+        });
     });
 
     function isLeapYear(year) {
@@ -37,31 +74,49 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function calculate() {
+        if (resultBox) {
+            resultBox.classList.add('is-visible');
+        }
+
         const startDateStr = startDateInput.value;
-        const amount = parseInt(amountInput.value, 10);
+        const rawAmount = amountInput.value.trim();
+        const amount = parseInt(rawAmount, 10);
         const unit = unitSelect.value;
         const operation = operationSelect.value;
-        const businessOnly = businessDaysOnlyCheckbox.checked;
+        const businessOnly = businessDaysOnlyCheckbox.checked && !businessDaysOnlyCheckbox.disabled;
 
-        if (!startDateStr || isNaN(amount) || amount < 0) {
-            primaryResult.textContent = 'Please enter a valid start date and count.';
+        if (!startDateStr) {
+            primaryResult.textContent = 'Please enter a valid start date.';
+            resultDetails.innerHTML = '';
+            return;
+        }
+
+        if (rawAmount === '' || isNaN(amount)) {
+            primaryResult.textContent = 'Please enter a valid amount.';
+            resultDetails.innerHTML = '';
+            return;
+        }
+
+        if (amount === 0) {
+            primaryResult.textContent = 'Please enter an amount greater than 0.';
+            resultDetails.innerHTML = '';
+            return;
+        }
+
+        if (amount < 0) {
+            primaryResult.textContent = 'Please enter a positive amount.';
             resultDetails.innerHTML = '';
             return;
         }
 
         const [startYear, startMonth, startDay] = startDateStr.split('-').map(Number);
-        let current = new Date(startYear, startMonth - 1, startDay);
-
         const direction = operation === 'subtract' ? -1 : 1;
+        let current;
 
-        if (businessOnly) {
+        if (businessOnly && (unit === 'days' || unit === 'weeks')) {
+            const targetBusinessDays = unit === 'weeks' ? amount * 5 : amount;
+            current = new Date(startYear, startMonth - 1, startDay);
             let daysAdded = 0;
-            // Scale multiplier if unit is weeks
-            let targetBusinessDays = amount;
-            if (unit === 'weeks') targetBusinessDays = amount * 5;
-            else if (unit === 'months') targetBusinessDays = amount * 21; // ~21 business days/month
-            else if (unit === 'years') targetBusinessDays = amount * 252; // ~252 business days/year
-
             while (daysAdded < targetBusinessDays) {
                 current.setDate(current.getDate() + direction);
                 const dayOfWeek = current.getDay();
@@ -72,15 +127,22 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         } else {
             if (unit === 'days') {
-                current.setDate(current.getDate() + (direction * amount));
+                current = new Date(startYear, startMonth - 1, startDay + (direction * amount));
             } else if (unit === 'weeks') {
-                current.setDate(current.getDate() + (direction * amount * 7));
+                current = new Date(startYear, startMonth - 1, startDay + (direction * amount * 7));
             } else if (unit === 'months') {
-                const targetMonth = current.getMonth() + (direction * amount);
-                current.setMonth(targetMonth);
+                const totalMonths = startYear * 12 + (startMonth - 1) + (direction * amount);
+                const targetYear = Math.floor(totalMonths / 12);
+                const targetMonth = ((totalMonths % 12) + 12) % 12;
+                const maxDay = new Date(targetYear, targetMonth + 1, 0).getDate();
+                const targetDay = Math.min(startDay, maxDay);
+                current = new Date(targetYear, targetMonth, targetDay);
             } else if (unit === 'years') {
-                const targetYear = current.getFullYear() + (direction * amount);
-                current.setFullYear(targetYear);
+                const targetYear = startYear + (direction * amount);
+                const targetMonth = startMonth - 1;
+                const maxDay = new Date(targetYear, targetMonth + 1, 0).getDate();
+                const targetDay = Math.min(startDay, maxDay);
+                current = new Date(targetYear, targetMonth, targetDay);
             }
         }
 
@@ -95,15 +157,13 @@ document.addEventListener('DOMContentLoaded', function () {
         const formattedDate = `${dayNames[resDayOfWeek]}, ${monthNames[resMonth]} ${resDay}, ${resYear}`;
 
         // Calculate day of year
-        const startOfYear = new Date(resYear, 0, 1);
-        const diffDaysOfYear = Math.floor((current - startOfYear) / (1000 * 60 * 60 * 24)) + 1;
+        const diffDaysOfYear = Math.floor((Date.UTC(resYear, resMonth, resDay) - Date.UTC(resYear, 0, 1)) / (1000 * 60 * 60 * 24)) + 1;
         const totalDaysInYear = isLeapYear(resYear) ? 366 : 365;
         const remainingDays = totalDaysInYear - diffDaysOfYear;
         const quarter = Math.floor(resMonth / 3) + 1;
 
         // Total calendar days difference from start
-        const startObj = new Date(startYear, startMonth - 1, startDay);
-        const totalCalDiff = Math.abs(Math.round((current - startObj) / (1000 * 60 * 60 * 24)));
+        const totalCalDiff = Math.abs(Math.round((Date.UTC(resYear, resMonth, resDay) - Date.UTC(startYear, startMonth - 1, startDay)) / (1000 * 60 * 60 * 24)));
 
         primaryResult.textContent = formattedDate;
 
@@ -155,5 +215,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    updateBusinessDaysAvailability();
     calculate();
 });

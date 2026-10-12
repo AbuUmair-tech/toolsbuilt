@@ -4,11 +4,25 @@
  */
 
 document.addEventListener('DOMContentLoaded', () => {
+  initIcons();
   initTheme();
   initMobileMenu();
   initAccordions();
   initToolSearch();
 });
+
+/**
+ * Icon Injection from window.ICONS registry
+ */
+function initIcons() {
+  if (!window.ICONS) return;
+  document.querySelectorAll('[data-icon]').forEach(el => {
+    const iconName = el.getAttribute('data-icon');
+    if (iconName && window.ICONS[iconName] && !el.innerHTML.trim()) {
+      el.innerHTML = window.ICONS[iconName];
+    }
+  });
+}
 
 /**
  * Theme Management (System + Preference + localStorage)
@@ -127,5 +141,15 @@ function initToolSearch() {
         noResultsMsg.classList.add('hidden');
       }
     }
+
+    // Toggle category sections on homepage based on whether any cards within them match
+    const categorySections = document.querySelectorAll('section[aria-labelledby^="cat-"]');
+    categorySections.forEach(sec => {
+      const secCards = sec.querySelectorAll('.tool-card');
+      if (secCards.length > 0) {
+        const hasVisible = Array.from(secCards).some(c => c.style.display !== 'none');
+        sec.style.display = hasVisible ? '' : 'none';
+      }
+    });
   });
 }

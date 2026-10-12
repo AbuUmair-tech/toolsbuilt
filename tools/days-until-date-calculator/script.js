@@ -121,16 +121,28 @@ document.addEventListener('DOMContentLoaded', () => {
     resultBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }
 
+  function addMonthsClamped(date, monthsToAdd) {
+    const startYear = date.getFullYear();
+    const startMonth = date.getMonth();
+    const startDay = date.getDate();
+    const totalMonths = startYear * 12 + startMonth + monthsToAdd;
+    const targetYear = Math.floor(totalMonths / 12);
+    const targetMonth = ((totalMonths % 12) + 12) % 12;
+    const maxDay = new Date(targetYear, targetMonth + 1, 0).getDate();
+    const targetDay = Math.min(startDay, maxDay);
+    return new Date(targetYear, targetMonth, targetDay);
+  }
+
   /**
    * Helper function to calculate months and days between two local midnight dates
    */
   function calculateMonthsAndDays(startDate, endDate) {
     let months = (endDate.getFullYear() - startDate.getFullYear()) * 12 + (endDate.getMonth() - startDate.getMonth());
-    let tempDate = new Date(startDate.getFullYear(), startDate.getMonth() + months, startDate.getDate());
+    let tempDate = addMonthsClamped(startDate, months);
 
     if (tempDate > endDate) {
       months--;
-      tempDate = new Date(startDate.getFullYear(), startDate.getMonth() + months, startDate.getDate());
+      tempDate = addMonthsClamped(startDate, months);
     }
 
     const remainingMs = endDate.getTime() - tempDate.getTime();

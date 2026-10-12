@@ -178,6 +178,18 @@ document.addEventListener('DOMContentLoaded', () => {
     return { years, months, days };
   }
 
+  function addMonthsClamped(date, monthsToAdd) {
+    const startYear = date.getFullYear();
+    const startMonth = date.getMonth();
+    const startDay = date.getDate();
+    const totalMonths = startYear * 12 + startMonth + monthsToAdd;
+    const targetYear = Math.floor(totalMonths / 12);
+    const targetMonth = ((totalMonths % 12) + 12) % 12;
+    const maxDay = new Date(targetYear, targetMonth + 1, 0).getDate();
+    const targetDay = Math.min(startDay, maxDay);
+    return new Date(targetYear, targetMonth, targetDay);
+  }
+
   /**
    * Total Months + Days breakdown
    */
@@ -188,11 +200,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     let months = (targetD2.getFullYear() - d1.getFullYear()) * 12 + (targetD2.getMonth() - d1.getMonth());
-    let tempDate = new Date(d1.getFullYear(), d1.getMonth() + months, d1.getDate());
+    let tempDate = addMonthsClamped(d1, months);
 
     if (tempDate > targetD2) {
       months--;
-      tempDate = new Date(d1.getFullYear(), d1.getMonth() + months, d1.getDate());
+      tempDate = addMonthsClamped(d1, months);
     }
 
     const diff = Math.round((targetD2.getTime() - tempDate.getTime()) / (1000 * 60 * 60 * 24));
