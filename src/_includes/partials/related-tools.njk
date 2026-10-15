@@ -1,0 +1,23 @@
+    <!-- Related Tools Section -->
+    <section style="margin: 4rem 0 2rem 0;" aria-labelledby="related-tools-heading">
+      <h2 id="related-tools-heading">Related Tools</h2>
+      <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Explore more free tools on ToolsBuilt:</p>
+      
+      <div class="tools-grid" id="related-tools-grid">
+        {% set currentTool = tools | findTool(toolSlug or slug) %}
+        {% set relTools = currentTool | getRelatedTools(tools) %}
+        {% for rel in relTools %}
+        <a href="/tools/{{ rel.slug }}/" class="tool-card">
+          <div class="tool-icon-tile" data-cat="{{ rel.category }}">
+            {{ rel.icon | safe }}
+          </div>
+          <h3>{{ rel.name }}</h3>
+          <p>{{ rel.description }}</p>
+          <div class="tool-card-action">
+            <span>Use Tool</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+          </div>
+        </a>
+        {% endfor %}
+      </div>
+    </section>

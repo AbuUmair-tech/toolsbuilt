@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ title }}</title>
+  <meta name="description" content="{{ description }}">
+  <link rel="canonical" href="{{ canonical or ('https://toolsbuilt.com' + page.url) }}">
+  {% if not env.isProduction %}<meta name="robots" content="noindex, nofollow">{% endif %}
+  <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png">
+  
+  <!-- Open Graph -->
+  <meta property="og:site_name" content="ToolsBuilt">
+  <meta property="og:title" content="{{ ogTitle or title }}">
+  <meta property="og:description" content="{{ ogDescription or description }}">
+  <meta property="og:type" content="{{ ogType or 'website' }}">
+  <meta property="og:url" content="{{ canonical or ('https://toolsbuilt.com' + page.url) }}">
+  <meta property="og:image" content="{{ ogImage or site.defaultOgImage }}">
+  
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="{{ twitterCard or 'summary_large_image' }}">
+  <meta name="twitter:title" content="{{ twitterTitle or title }}">
+  <meta name="twitter:description" content="{{ twitterDescription or description }}">
+  <meta name="twitter:image" content="{{ twitterImage or site.defaultOgImage }}">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
+  <link rel="alternate icon" href="/assets/img/favicon.ico">
+  <link rel="stylesheet" href="/assets/css/style.css">
+  {% if extraCss %}<link rel="stylesheet" href="{{ extraCss }}">{% endif %}
+
+  <!-- Theme restoration script to prevent FOUC -->
+  <script>
+    (function() {
+      try {
+        var theme = localStorage.getItem('theme');
+        if (theme) {
+          document.documentElement.setAttribute('data-theme', theme);
+        }
+      } catch (e) {}
+    })();
+  </script>
+
+  {% block jsonLd %}{% endblock %}
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-QR15X9WS1J"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-QR15X9WS1J');
+  </script>
+</head>
+<body{% if toolSlug or slug %} data-tool-id="{{ toolSlug or slug }}"{% endif %}>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  {% include "partials/header.njk" %}
+
+  {{ content | safe }}
+
+  {% include "partials/footer.njk" %}
+
+  <!-- Cookie consent banner placeholder (hidden by default, no tracking).
+       Will be replaced by Google's certified CMP when AdSense is active for EEA/UK users. -->
+  <div id="cookie-consent-banner" class="cookie-banner" style="display:none" aria-hidden="true"></div>
+
+  <script src="/assets/js/icons.js"></script>
+  {% if includeToolsData %}<script src="/assets/js/tools-data.js"></script>{% endif %}
+  <script src="/assets/js/common.js"></script>
+  {% if toolScript %}<script src="{{ toolScript }}"></script>{% elif toolSlug %}<script src="/tools/{{ toolSlug }}/script.js"></script>{% endif %}
+</body>
+</html>
