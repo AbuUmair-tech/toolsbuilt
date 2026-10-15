@@ -1,0 +1,173 @@
+---
+layout: layouts/tool.njk
+toolSlug: text-case-converter
+title: "Text Case Converter - Convert UPPERCASE &amp; lowercase"
+description: "Convert text to UPPERCASE, lowercase, Title Case, Sentence case, camelCase, snake_case, or kebab-case instantly with a free online tool."
+permalink: /tools/text-case-converter/
+h1: "Text Case Converter"
+extraCss: "/tools/text-case-converter/style.css"
+howto:
+  name: "How to Convert Text Casing Online"
+  description: "Step-by-step guide to converting text casing using ToolsBuilt."
+  steps:
+    - name: "Paste Your Content"
+      text: "Paste or type your unformatted text into the text area."
+    - name: "Choose a Case Style"
+      text: "Click your desired conversion button (such as Title Case, UPPERCASE, or camelCase)."
+    - name: "Copy Converted Text"
+      text: "Click Copy Text to copy the transformed result to your clipboard."
+faqs:
+  - q: "How do you convert text case online?"
+    a: "Paste your text into the converter box and click any case transformation button such as UPPERCASE, lowercase, Title Case, or Sentence case. The text updates immediately."
+  - q: "What is the difference between camelCase, snake_case, and kebab-case?"
+    a: "camelCase removes spaces and capitalizes each subsequent word (myVariableName). snake_case replaces spaces with underscores (my_variable_name), and kebab-case replaces spaces with hyphens (my-variable-name)."
+  - q: "How does Sentence case formatting work?"
+    a: "Sentence case capitalizes the very first letter of each sentence following a period, exclamation mark, or question mark while keeping all other letters in lowercase format."
+  - q: "Can I fix text typed with CAPS LOCK accidentally left on?"
+    a: "Yes. Paste your accidentally capitalized text into the tool and click 'Sentence case' or 'lowercase' to restore standard readability instantly without retyping."
+  - q: "Is my text data private when using the converter?"
+    a: "Yes. All text transformation logic executes locally in your browser memory via JavaScript. Your text is never sent or stored on remote servers."
+---
+
+<!-- AEO Quick Answer Box -->
+    <div class="info-callout" style="margin-top: 0; margin-bottom: 2rem;">
+      <h3 style="font-size: 1.05rem; margin-bottom: 0.35rem; color: var(--primary);">Quick Answer</h3>
+      <p style="margin-bottom: 0;">The ToolsBuilt Text Case Converter transforms any block of text between UPPERCASE, lowercase, Title Case, Sentence case, camelCase, snake_case, and kebab-case. Paste your text, click your desired case button, and copy the result in one click.</p>
+    </div>
+
+    <!-- AdSense Placement -->
+    <!-- <div class="ad-placement">AdSense Banner Placeholder</div> -->
+
+    <!-- Tool Form Container -->
+    <section class="tool-container" aria-label="Text Case Converter Form">
+      <div class="form-group">
+        <label for="text-input" style="display: flex; justify-content: space-between; align-items: center;">
+          <span>Type or Paste Your Text Below:</span>
+          <span id="copy-feedback" class="hidden" style="color: #16a34a; font-weight: 600; font-size: 0.875rem;">Copied to clipboard!</span>
+        </label>
+        <textarea id="text-input" class="form-control" rows="8" placeholder="Type or paste text here, then click any case style button below..." style="font-family: inherit; line-height: 1.6; resize: vertical; min-height: 180px;"></textarea>
+      </div>
+
+      <div style="margin-top: 1.5rem;">
+        <label style="font-weight: 600; font-size: 0.95rem; color: var(--text-main);">Choose Conversion Style:</label>
+        <div class="case-btn-grid">
+          <button type="button" class="case-btn" data-case="upper">UPPERCASE</button>
+          <button type="button" class="case-btn" data-case="lower">lowercase</button>
+          <button type="button" class="case-btn" data-case="title">Title Case</button>
+          <button type="button" class="case-btn" data-case="sentence">Sentence case</button>
+          <button type="button" class="case-btn" data-case="camel">camelCase</button>
+          <button type="button" class="case-btn" data-case="snake">snake_case</button>
+          <button type="button" class="case-btn" data-case="kebab">kebab-case</button>
+          <button type="button" class="case-btn" data-case="alternating">aLtErNaTiNg</button>
+        </div>
+      </div>
+
+      <div class="button-group" style="margin-top: 1.75rem;">
+        <button type="button" class="btn btn-primary" id="copy-btn">Copy Text</button>
+        <button type="button" class="btn btn-secondary" id="clear-btn">Clear Text</button>
+      </div>
+    </section>
+
+    <!-- Key Facts & Conversion Reference Table -->
+    <section style="margin: 2.5rem 0;" aria-labelledby="key-facts-heading">
+      <h2 id="key-facts-heading">Case Style Reference &amp; Examples</h2>
+      
+      <div style="margin-top: 1.25rem; overflow-x: auto;">
+        <table style="width: 100%; border-collapse: collapse; font-size: 0.925rem;">
+          <thead>
+            <tr style="background-color: var(--bg-muted); text-align: left; border-bottom: 2px solid var(--border-color);">
+              <th style="padding: 0.75rem 1rem;">Case Style</th>
+              <th style="padding: 0.75rem 1rem;">Sample Output</th>
+              <th style="padding: 0.75rem 1rem;">Common Use Case</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid var(--border-color);">
+              <td style="padding: 0.75rem 1rem; font-weight: 600;">UPPERCASE</td>
+              <td style="padding: 0.75rem 1rem;"><code>HELLO WORLD</code></td>
+              <td style="padding: 0.75rem 1rem;">Headlines, warnings, database keys</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border-color);">
+              <td style="padding: 0.75rem 1rem; font-weight: 600;">lowercase</td>
+              <td style="padding: 0.75rem 1rem;"><code>hello world</code></td>
+              <td style="padding: 0.75rem 1rem;">Email addresses, search normalization</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border-color);">
+              <td style="padding: 0.75rem 1rem; font-weight: 600;">Title Case</td>
+              <td style="padding: 0.75rem 1rem;"><code>Hello World</code></td>
+              <td style="padding: 0.75rem 1rem;">Book titles, blog headers, navigation menus</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border-color);">
+              <td style="padding: 0.75rem 1rem; font-weight: 600;">Sentence case</td>
+              <td style="padding: 0.75rem 1rem;"><code>Hello world.</code></td>
+              <td style="padding: 0.75rem 1rem;">Standard body prose, email drafting</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border-color);">
+              <td style="padding: 0.75rem 1rem; font-weight: 600;">camelCase</td>
+              <td style="padding: 0.75rem 1rem;"><code>helloWorld</code></td>
+              <td style="padding: 0.75rem 1rem;">JavaScript &amp; Java variable naming</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border-color);">
+              <td style="padding: 0.75rem 1rem; font-weight: 600;">snake_case</td>
+              <td style="padding: 0.75rem 1rem;"><code>hello_world</code></td>
+              <td style="padding: 0.75rem 1rem;">Python variable names, database columns</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border-color);">
+              <td style="padding: 0.75rem 1rem; font-weight: 600;">kebab-case</td>
+              <td style="padding: 0.75rem 1rem;"><code>hello-world</code></td>
+              <td style="padding: 0.75rem 1rem;">URL slugs, CSS class naming</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- How to Use Section -->
+    <section aria-labelledby="how-to-use-heading">
+      <h2 id="how-to-use-heading">How to Use the Text Case Converter</h2>
+      <ol class="steps-list">
+        <li>
+          <h4>Paste Your Text</h4>
+          <p>Paste your unformatted, capitalized, or accidentally typed text into the main text box.</p>
+        </li>
+        <li>
+          <h4>Click Any Conversion Button</h4>
+          <p>Select your desired case style (such as Title Case, Sentence case, camelCase, or snake_case) to transform your text instantly.</p>
+        </li>
+        <li>
+          <h4>Analyze Metrics &amp; Copy Text</h4>
+          <p>Analyze word and character density with our companion <a href="/tools/word-counter/">Word &amp; Character Counter</a>, then click "Copy Text" to copy your converted text.</p>
+        </li>
+      </ol>
+    </section>
+
+    <!-- AdSense Placement -->
+    <!-- <div class="ad-placement">AdSense Banner Placeholder</div> -->
+
+    <!-- Article Section (~700 Words) -->
+    <article class="content-article" aria-labelledby="article-heading">
+      <h2 id="article-heading">The Complete Guide to Text Casing and Formatting</h2>
+      
+      <p>In digital writing, graphic design, software development, and content publishing, formatting letter casing correctly establishes professional presentation and prevents costly syntax errors. Retyping large blocks of text manually to fix accidental CAPS LOCK keypresses or convert headlines is time-consuming and error-prone.</p>
+
+      <h3>How Do You Convert Text Case Online?</h3>
+      <p>Converting text case online is effortless: paste your raw text into the converter text box and click any style button. The underlying script applies standard string transformation algorithms to adjust letter casing immediately without needing page reloads.</p>
+
+      <p>Before publishing blog headlines or social media updates, you can also verify total character length using our <a href="/tools/word-counter/">Word &amp; Character Counter</a>.</p>
+
+      <h3>When Should You Use camelCase, snake_case, or kebab-case?</h3>
+      <p>Software engineering and web development rely heavily on specialized casing conventions to define identifier names cleanly without whitespace gaps:</p>
+
+      <ul>
+        <li><strong>camelCase:</strong> Capitalizes the first letter of each word except the first word (e.g. <code>userAccountBalance</code>). Widely used in JavaScript, TypeScript, Java, and C# variable declarations.</li>
+        <li><strong>snake_case:</strong> Replaces spaces with lowercase underscores (e.g. <code>user_account_balance</code>). Standard convention in Python, SQL database column names, and Rust code bases.</li>
+        <li><strong>kebab-case:</strong> Replaces spaces with hyphens (e.g. <code>user-account-balance</code>). Preferred for web URL slugs, REST API endpoints, and CSS class selectors.</li>
+      </ul>
+
+      <h3>Fixing Accidental CAPS LOCK Mistakes</h3>
+      <p>Accidentally typing a lengthy paragraph with the CAPS LOCK key enabled is a common frustration for writers. Rather than deleting your entire draft and retyping, pasting your text into our converter and choosing <strong>Sentence case</strong> automatically capitalizes the first letter of each sentence while restoring the rest of your prose to readable lowercase.</p>
+
+      <p>If your project involves tracking project deadlines or release schedules, check out our <a href="/tools/date-difference-calculator/">Date Difference Calculator</a> or calculate percentage changes in performance using our <a href="/tools/percentage-change-calculator/">Percentage Change Calculator</a>.</p>
+    </article>
+
+    <!-- FAQ Accordion (5 Questions, 40-60 words each) -->

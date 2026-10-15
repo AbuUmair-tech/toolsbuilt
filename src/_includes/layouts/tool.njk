@@ -1,0 +1,126 @@
+---
+layout: layouts/base.njk
+---
+{% set currentTool = tools | findTool(toolSlug or slug) %}
+
+  <!-- JSON-LD Schema 1: BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://toolsbuilt.com/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "{{ currentTool.name if currentTool else title }}",
+        "item": "https://toolsbuilt.com/tools/{{ toolSlug or slug }}/"
+      }
+    ]
+  }
+  </script>
+
+  <!-- JSON-LD Schema 2: WebApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "{{ currentTool.name if currentTool else title }}",
+    "url": "https://toolsbuilt.com/tools/{{ toolSlug or slug }}/",
+    "applicationCategory": "{{ applicationCategory or 'UtilitiesApplication' }}",
+    "operatingSystem": "All",
+    "browserRequirements": "Requires JavaScript",
+    "description": "{{ description }}",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  }
+  </script>
+
+  {% if howto %}
+  <!-- JSON-LD Schema 3: HowTo -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "{{ howto.name }}",
+    "description": "{{ howto.description }}",
+    "step": [
+      {% for step in howto.steps %}
+      {
+        "@type": "HowToStep",
+        "position": {{ loop.index }},
+        "name": "{{ step.name }}",
+        "text": "{{ step.text }}"
+      }{% if not loop.last %},{% endif %}
+      {% endfor %}
+    ]
+  }
+  </script>
+  {% endif %}
+
+  {% if faqs and faqs.length > 0 %}
+  <!-- JSON-LD Schema 4: FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {% for faq in faqs %}
+      {
+        "@type": "Question",
+        "name": "{{ faq.q }}",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "{{ faq.a }}"
+        }
+      }{% if not loop.last %},{% endif %}
+      {% endfor %}
+    ]
+  }
+  </script>
+  {% endif %}
+
+  <!-- Main Content -->
+  <main id="main-content" class="container">
+    {% include "partials/breadcrumbs.njk" %}
+
+    <header class="page-header" style="border-bottom: none; margin-bottom: 0.5rem;">
+      <h1>{{ h1 or (currentTool.name if currentTool else title) }}</h1>
+      <p style="font-size: 0.875rem; color: var(--text-subtle); margin-bottom: 0.5rem;">
+        Built and maintained by <strong>ToolsBuilt</strong> &bull; Last updated: {{ updatedDate or "October 11, 2026" }}
+      </p>
+    </header>
+
+    {{ content | safe }}
+
+    {% if faqs and faqs.length > 0 %}
+    <!-- FAQ Accordion -->
+    <section class="faq-section" aria-labelledby="faq-heading">
+      <h2 id="faq-heading">Frequently Asked Questions</h2>
+      
+      <div class="accordion-group">
+        {% for faq in faqs %}
+        <div class="accordion-item">
+          <button type="button" class="accordion-header" id="faq-h-{{ loop.index }}" aria-expanded="false" aria-controls="faq-c-{{ loop.index }}">
+            <span>{{ faq.q }}</span>
+            <svg class="accordion-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div id="faq-c-{{ loop.index }}" class="accordion-content" hidden aria-labelledby="faq-h-{{ loop.index }}">
+            <p>{{ faq.a }}</p>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </section>
+    {% endif %}
+
+    {% include "partials/related-tools.njk" %}
+  </main>

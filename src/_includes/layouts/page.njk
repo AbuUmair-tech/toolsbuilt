@@ -1,0 +1,16 @@
+---
+layout: layouts/base.njk
+---
+  <!-- Main Content -->
+  <main id="main-content" class="container page-container">
+    {% include "partials/breadcrumbs.njk" %}
+
+    <header class="page-header">
+      <h1>{{ h1 or title }}</h1>
+      {% if subtitle %}<p>{{ subtitle }}</p>{% endif %}
+    </header>
+
+    <article class="content-article">
+      {{ content | safe }}
+    </article>
+  </main>

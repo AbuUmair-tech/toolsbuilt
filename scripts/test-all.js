@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 /**
  * Comprehensive Automated Verification Suite for ToolsBuilt.com
- * Tests all 10 tools, mathematical formulas, date boundaries,
- * rejection sampling, HTML comment parsing, and link integrity.
+ * Tests Eleventy staging and production builds, link/schema integrity,
+ * HTML comment artifacts, mathematical formulas, date boundaries,
+ * password generator crypto/uniformity, text counters, and JS syntax.
  */
 
 const fs = require('fs');
@@ -26,22 +27,78 @@ console.log('   ToolsBuilt.com Comprehensive Test & Audit Suite      ');
 console.log('========================================================\n');
 
 // -----------------------------------------------------------------
-// Test 1: Link & Schema Checker
+// Test 1: Staging Build & Link/Quality Checker
 // -----------------------------------------------------------------
-console.log('--- 1. Link & Schema Checker (scripts/check-links.js) ---');
+console.log('--- 1. Staging Build & Quality Checker ---');
 try {
-  const linkOutput = execSync('node scripts/check-links.js', { cwd: ROOT, encoding: 'utf8' });
-  assert(linkOutput.includes('All checks passed! No errors or warnings found.'), 'Zero broken links and valid schemas');
+  const stagingEnv = { ...process.env };
+  delete stagingEnv.SITE_ENV;
+  delete stagingEnv.NODE_ENV;
+
+  console.log('Building staging site (npx @11ty/eleventy)...');
+  execSync('npx @11ty/eleventy', {
+    cwd: ROOT,
+    encoding: 'utf8',
+    stdio: 'pipe',
+    env: stagingEnv
+  });
+
+  console.log('Running check-links.js in staging mode...');
+  const stagingOutput = execSync('node scripts/check-links.js', {
+    cwd: ROOT,
+    encoding: 'utf8',
+    stdio: 'pipe',
+    env: stagingEnv
+  });
+
+  assert(
+    stagingOutput.includes('All checks passed! No errors or warnings found.'),
+    'Staging build: all checks passed (pages have noindex, robots.txt disallows all)'
+  );
 } catch (e) {
-  assert(false, `check-links.js failed: ${e.message}`);
+  const output = (e.stdout || '') + (e.stderr || '');
+  assert(false, `Staging build or check-links failed: ${e.message}${output ? '\n' + output : ''}`);
 }
 
 // -----------------------------------------------------------------
-// Test 2: Raw `-->` HTML Artifact Audit across all HTML files
+// Test 2: Production Build & Link/Quality Checker
 // -----------------------------------------------------------------
-console.log('\n--- 2. Raw `-->` HTML Rendering Artifact Check ---');
+console.log('\n--- 2. Production Build & Quality Checker ---');
+try {
+  const prodEnv = { ...process.env, SITE_ENV: 'production' };
+
+  console.log('Building production site (SITE_ENV=production npx @11ty/eleventy)...');
+  execSync('SITE_ENV=production npx @11ty/eleventy', {
+    cwd: ROOT,
+    encoding: 'utf8',
+    stdio: 'pipe',
+    env: prodEnv
+  });
+
+  console.log('Running check-links.js in production mode...');
+  const prodOutput = execSync('SITE_ENV=production node scripts/check-links.js', {
+    cwd: ROOT,
+    encoding: 'utf8',
+    stdio: 'pipe',
+    env: prodEnv
+  });
+
+  assert(
+    prodOutput.includes('All checks passed! No errors or warnings found.'),
+    'Production build: all checks passed (no pages have noindex, robots.txt allows all)'
+  );
+} catch (e) {
+  const output = (e.stdout || '') + (e.stderr || '');
+  assert(false, `Production build or check-links failed: ${e.message}${output ? '\n' + output : ''}`);
+}
+
+// -----------------------------------------------------------------
+// Test 3: Raw `-->` HTML Artifact Audit in _site/
+// -----------------------------------------------------------------
+console.log('\n--- 3. Raw `-->` HTML Rendering Artifact Check ---');
 function collectHtmlFiles(dir) {
   const results = [];
+  if (!fs.existsSync(dir)) return results;
   const entries = fs.readdirSync(dir, { withFileTypes: true });
   for (const entry of entries) {
     if (entry.name.startsWith('.') || entry.name === 'node_modules') continue;
@@ -55,7 +112,8 @@ function collectHtmlFiles(dir) {
   return results;
 }
 
-const htmlFiles = collectHtmlFiles(ROOT);
+const siteDir = path.join(ROOT, '_site');
+const htmlFiles = collectHtmlFiles(siteDir);
 let rawArtifactsFound = 0;
 for (const file of htmlFiles) {
   const content = fs.readFileSync(file, 'utf8');
@@ -79,12 +137,12 @@ for (const file of htmlFiles) {
     }
   }
 }
-assert(rawArtifactsFound === 0, `No raw '-->' text artifacts across ${htmlFiles.length} HTML files`);
+assert(rawArtifactsFound === 0, `No raw '-->' text artifacts across ${htmlFiles.length} HTML files in _site/`);
 
 // -----------------------------------------------------------------
-// Test 3: Date Arithmetic & Month Clamping Tests
+// Test 4: Date Arithmetic & Month Clamping Tests
 // -----------------------------------------------------------------
-console.log('\n--- 3. Date Arithmetic & Boundary Calculations ---');
+console.log('\n--- 4. Date Arithmetic & Boundary Calculations ---');
 
 function addMonthsClamped(date, monthsToAdd) {
   const startYear = date.getFullYear();
@@ -153,9 +211,9 @@ assert(bdayTest2.getFullYear() === 2026 && bdayTest2.getMonth() === 9 && bdayTes
   'Fri 9 Oct 2026 + 5 business days = Fri 16 Oct 2026');
 
 // -----------------------------------------------------------------
-// Test 4: Password Generator Crypto & Unbiased Generation
+// Test 5: Password Generator Crypto & Unbiased Generation
 // -----------------------------------------------------------------
-console.log('\n--- 4. Password Generator Guarantees & Rejection Sampling ---');
+console.log('\n--- 5. Password Generator Guarantees & Rejection Sampling ---');
 
 const CHARS_UPPER = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 const CHARS_LOWER = 'abcdefghijklmnopqrstuvwxyz';
@@ -222,9 +280,9 @@ const maxDeviation = Math.max(...buckets.map(b => Math.abs(b - expected) / expec
 assert(maxDeviation < 0.05, `Rejection sampling uniformity test passed (max deviation ${(maxDeviation * 100).toFixed(2)}% < 5%)`);
 
 // -----------------------------------------------------------------
-// Test 5: Mathematical & Financial Calculators
+// Test 6: Mathematical & Financial Calculators
 // -----------------------------------------------------------------
-console.log('\n--- 5. Math & Financial Calculator Formulas ---');
+console.log('\n--- 6. Math & Financial Calculator Formulas ---');
 
 // Percentage Change Mode 1: ((New - Old) / |Old|) * 100
 function calcPercentChange(oldVal, newVal) {
@@ -248,9 +306,9 @@ const finalPrice = calcDiscount(100, 20, 10, 5); // 100 -> 80 -> 72 -> 72 + 3.60
 assert(Math.abs(finalPrice - 75.60) < 0.001, 'Stacked discount (20% + 10%) with 5% tax on $100 = $75.60');
 
 // -----------------------------------------------------------------
-// Test 6: Text Tools
+// Test 7: Text Tools
 // -----------------------------------------------------------------
-console.log('\n--- 6. Text Counter & Case Converter ---');
+console.log('\n--- 7. Text Counter & Case Converter ---');
 
 function countWordsAndChars(text) {
   const charWith = text.length;
@@ -264,12 +322,36 @@ assert(textStats.words === 5 && textStats.sentences === 2 && textStats.charNo ==
   'Word, sentence, and character counts are accurate');
 
 // -----------------------------------------------------------------
-// Test 7: JavaScript Syntax Compilation Check
+// Test 8: JavaScript Syntax Compilation Check
 // -----------------------------------------------------------------
-console.log('\n--- 7. JavaScript Syntax Compilation Check ---');
+console.log('\n--- 8. JavaScript Syntax Compilation Check ---');
 try {
-  execSync('node -c assets/js/*.js tools/*/*.js', { cwd: ROOT });
-  assert(true, 'All JavaScript files passed syntax compilation');
+  execSync('node -c src/assets/js/*.js src/tools/*/script.js', { cwd: ROOT, encoding: 'utf8', stdio: 'pipe' });
+
+  // In addition, explicitly compile each file individually to guarantee full coverage
+  const jsFiles = [];
+  const assetsJsDir = path.join(ROOT, 'src', 'assets', 'js');
+  if (fs.existsSync(assetsJsDir)) {
+    fs.readdirSync(assetsJsDir).filter(f => f.endsWith('.js')).forEach(f => {
+      jsFiles.push(path.join('src', 'assets', 'js', f));
+    });
+  }
+  const toolsDir = path.join(ROOT, 'src', 'tools');
+  if (fs.existsSync(toolsDir)) {
+    fs.readdirSync(toolsDir, { withFileTypes: true }).forEach(d => {
+      if (d.isDirectory()) {
+        const scriptFile = path.join('src', 'tools', d.name, 'script.js');
+        if (fs.existsSync(path.join(ROOT, scriptFile))) {
+          jsFiles.push(scriptFile);
+        }
+      }
+    });
+  }
+  for (const file of jsFiles) {
+    execSync(`node -c "${file}"`, { cwd: ROOT, encoding: 'utf8', stdio: 'pipe' });
+  }
+
+  assert(jsFiles.length > 0, `All JavaScript files (${jsFiles.length}) in src/assets/js/*.js and src/tools/*/script.js passed syntax compilation`);
 } catch (e) {
   assert(false, `JS syntax compilation failed: ${e.message}`);
 }

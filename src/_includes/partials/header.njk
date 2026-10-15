@@ -1,0 +1,39 @@
+  <!-- Site Header -->
+  <header class="site-header">
+    <div class="container header-container">
+      <a href="/" class="site-logo" aria-label="ToolsBuilt Homepage">
+        <svg viewBox="0 0 100 100" aria-hidden="true">
+          <rect width="100" height="100" rx="24" fill="#4f46e5"/>
+          <path d="M30 30h40v12H56v28H44V42H30V30z" fill="#ffffff"/>
+          <circle cx="50" cy="64" r="3" fill="#4f46e5"/>
+        </svg>
+        <span>Tools<span class="accent">Built</span></span>
+      </a>
+
+      <div class="nav-actions">
+        <nav class="main-nav" id="main-nav" aria-label="Main Navigation">
+          <a href="/" class="nav-link{% if page.url == '/' %} active{% endif %}"{% if page.url == '/' %} aria-current="page"{% endif %}>Home</a>
+          <a href="/about/" class="nav-link{% if page.url == '/about/' %} active{% endif %}"{% if page.url == '/about/' %} aria-current="page"{% endif %}>About</a>
+          <a href="/contact/" class="nav-link{% if page.url == '/contact/' %} active{% endif %}"{% if page.url == '/contact/' %} aria-current="page"{% endif %}>Contact</a>
+        </nav>
+
+        <button type="button" class="theme-toggle-btn" id="theme-toggle" aria-label="Toggle dark mode">
+          <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="12" r="5" />
+            <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+        </button>
+
+        <button type="button" class="mobile-menu-btn" id="mobile-menu-btn" aria-expanded="false" aria-controls="main-nav" aria-label="Toggle navigation menu">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>

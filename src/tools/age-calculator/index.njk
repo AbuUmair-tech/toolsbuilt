@@ -1,0 +1,186 @@
+---
+layout: layouts/tool.njk
+toolSlug: age-calculator
+title: "Age Calculator - Calculate Exact Age &amp; Next Birthday"
+description: "Calculate your exact age in years, months, days, total hours, and days remaining until your next birthday. Free online age calculator."
+permalink: /tools/age-calculator/
+h1: "Age Calculator"
+howto:
+  name: "How to Calculate Your Exact Age Online"
+  description: "Step-by-step guide to calculating age and birthday countdown."
+  steps:
+    - name: "Select Date of Birth"
+      text: "Choose your birth date from the date selector."
+    - name: "Select Target Calculation Date"
+      text: "Keep today's date or pick a specific historical/future date to measure age at that time."
+    - name: "View Detailed Age Metrics"
+      text: "Click Calculate Age to see age breakdown in years, months, days, hours, and next birthday countdown."
+faqs:
+  - q: "How does the Age Calculator calculate exact age?"
+    a: "The calculator compares your date of birth with your chosen target calculation date at local midnight. It computes full years, remaining months, and exact days while accounting for leap years and unequal month lengths."
+  - q: "How are leap year birthdays (February 29th) handled in non-leap years?"
+    a: "For individuals born on February 29th, the algorithm evaluates age completion on February 28th during non-leap years, ensuring precise legal and calendar age tracking."
+  - q: "Can I calculate how old I will be on a future date?"
+    a: "Yes. Change the 'Age at Date' input field to any future date (such as a retirement date or graduation) to calculate your exact age at that time."
+  - q: "Why does total hours count fluctuate slightly?"
+    a: "Total hours are computed by multiplying total calendar days by 24. Differences in leap year day additions automatically adjust total lived hours accurately."
+  - q: "Is my birth date stored or transmitted anywhere?"
+    a: "No. All date calculations run locally inside your web browser using JavaScript. No personal dates are stored, transmitted, or uploaded to external servers."
+---
+
+<!-- AEO Quick Answer Box -->
+    <div class="info-callout" style="margin-top: 0; margin-bottom: 2rem;">
+      <h3 style="font-size: 1.05rem; margin-bottom: 0.35rem; color: var(--primary);">Quick Answer</h3>
+      <p style="margin-bottom: 0;">The ToolsBuilt Age Calculator measures your exact age in years, months, and days, as well as total months, weeks, days, and lived hours. Select your date of birth below to calculate your age and view the exact days remaining until your next birthday.</p>
+    </div>
+
+    <!-- AdSense Placement -->
+    <!-- <div class="ad-placement">AdSense Banner Placeholder</div> -->
+
+    <!-- Tool Form Container -->
+    <section class="tool-container" aria-label="Age Calculator Form">
+      <form id="calculator-form" novalidate>
+        <div class="form-grid two-col">
+          
+          <div class="form-group">
+            <label for="dob-date">Date of Birth <span style="color: var(--primary);">*</span></label>
+            <input type="date" id="dob-date" class="form-control" required aria-required="true">
+          </div>
+
+          <div class="form-group">
+            <label for="target-date">Age at Date <span style="font-weight: normal; color: var(--text-subtle);">(Default: Today)</span></label>
+            <input type="date" id="target-date" class="form-control" required aria-required="true">
+          </div>
+
+        </div>
+
+        <div class="button-group">
+          <button type="submit" class="btn btn-primary">Calculate Age</button>
+          <button type="button" class="btn btn-secondary" id="reset-btn">Reset</button>
+        </div>
+      </form>
+
+      <div id="error-box" class="hidden" style="margin-top: 1rem; color: #dc2626; background: #fef2f2; border: 1px solid #fecaca; padding: 0.75rem 1rem; border-radius: var(--radius-sm);" role="alert"></div>
+
+      <!-- Result Box -->
+      <div id="result-box" class="result-box" aria-live="polite">
+        <div class="result-header" id="result-header-text">Age Calculation Result</div>
+        <div class="result-primary" id="result-primary-text">-- Years, -- Months, -- Days</div>
+        
+        <div class="result-grid">
+          <div class="result-stat-card">
+            <div class="result-stat-label">Years / Months / Days</div>
+            <div class="result-stat-value" id="stat-years-months-days">--</div>
+          </div>
+          <div class="result-stat-card">
+            <div class="result-stat-label">Total Months</div>
+            <div class="result-stat-value" id="stat-total-months">--</div>
+          </div>
+          <div class="result-stat-card">
+            <div class="result-stat-label">Total Weeks</div>
+            <div class="result-stat-value" id="stat-total-weeks">--</div>
+          </div>
+          <div class="result-stat-card">
+            <div class="result-stat-label">Total Days</div>
+            <div class="result-stat-value" id="stat-total-days">--</div>
+          </div>
+          <div class="result-stat-card">
+            <div class="result-stat-label">Total Lived Hours</div>
+            <div class="result-stat-value" id="stat-total-hours">--</div>
+          </div>
+          <div class="result-stat-card">
+            <div class="result-stat-label">Next Birthday Countdown</div>
+            <div class="result-stat-value" id="stat-next-birthday">--</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Key Facts & Milestones Reference Table -->
+    <section style="margin: 2.5rem 0;" aria-labelledby="key-facts-heading">
+      <h2 id="key-facts-heading">Key Facts &amp; Age Milestones Reference</h2>
+      
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 1.25rem;">
+        <div>
+          <h3>Biological &amp; Time Facts</h3>
+          <ul style="color: var(--text-muted); line-height: 1.8; margin-left: 1.25rem;">
+            <li>1 Year = 365.2425 days (average including leap years)</li>
+            <li>1 Year = 8,766 hours</li>
+            <li>1 Decade = 120 months</li>
+            <li>Leap Day Birthday = Celebrated Feb 28 in non-leap years</li>
+          </ul>
+        </div>
+
+        <div>
+          <h3>Common Legal Age Milestones</h3>
+          <table style="width: 100%; border-collapse: collapse; margin-top: 0.5rem; font-size: 0.9rem;">
+            <thead>
+              <tr style="background-color: var(--bg-muted); text-align: left; border-bottom: 2px solid var(--border-color);">
+                <th style="padding: 0.5rem;">Age Milestone</th>
+                <th style="padding: 0.5rem;">Legal Significance</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom: 1px solid var(--border-color);">
+                <td style="padding: 0.5rem; font-weight: 600;">18 Years</td>
+                <td style="padding: 0.5rem;">Legal Adulthood, Voting Eligibility</td>
+              </tr>
+              <tr style="border-bottom: 1px solid var(--border-color);">
+                <td style="padding: 0.5rem; font-weight: 600;">21 Years</td>
+                <td style="padding: 0.5rem;">Full Contractual Rights</td>
+              </tr>
+              <tr style="border-bottom: 1px solid var(--border-color);">
+                <td style="padding: 0.5rem; font-weight: 600;">65 Years</td>
+                <td style="padding: 0.5rem;">Standard Retirement &amp; Pension Benchmark</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- How to Use Section -->
+    <section aria-labelledby="how-to-use-heading">
+      <h2 id="how-to-use-heading">How to Use the Age Calculator</h2>
+      <ol class="steps-list">
+        <li>
+          <h4>Enter Your Birth Date</h4>
+          <p>Select your birth date from the date input selector above.</p>
+        </li>
+        <li>
+          <h4>Set Target Age Date</h4>
+          <p>Leave the target date as today's date, or pick a future/historical date to calculate your age at that exact point in time.</p>
+        </li>
+        <li>
+          <h4>Click "Calculate Age"</h4>
+          <p>View your exact age broken down into years, months, days, weeks, total hours, and next birthday countdown.</p>
+        </li>
+      </ol>
+    </section>
+
+    <!-- AdSense Placement -->
+    <!-- <div class="ad-placement">AdSense Banner Placeholder</div> -->
+
+    <!-- Article Section (~700 Words) -->
+    <article class="content-article" aria-labelledby="article-heading">
+      <h2 id="article-heading">How Do You Calculate Your Exact Age in Years, Months, and Days?</h2>
+      <p>Calculating your exact age requires subtracting your date of birth from a target calculation date. Because calendar months vary in length between 28 and 31 days and leap years add February 29th every 4 years, simple subtraction must account for month boundaries and leap year days.</p>
+
+      <p>If you want to track remaining days until a specific upcoming holiday or anniversary, check out our <a href="/tools/days-until-date-calculator/">Days Until Date Calculator</a>, or use our <a href="/tools/date-difference-calculator/">Date Difference Calculator</a> to measure working business days between two dates.</p>
+
+      <h3>How Are Leap Year Birthdays (February 29th) Calculated?</h3>
+      <p>People born on a leap day (February 29th) face a unique calendar situation during non-leap years. Legally and mathematically, age turns on February 28th or March 1st during non-leap years. Our algorithm evaluates February 29th birthdays on February 28th during non-leap years to maintain consistent day counts.</p>
+
+      <h3>Why Exact Age Verification Matters</h3>
+      <p>Knowing your precise age in days and months is required for numerous legal and administrative purposes:</p>
+
+      <ul>
+        <li><strong>Passport &amp; Driver's License Issuance:</strong> Identifying exact qualification thresholds for minor versus adult identification cards.</li>
+        <li><strong>School Enrollment &amp; Sports Leagues:</strong> Determining academic grade eligibility based on cutoff birth dates (e.g. September 1st cutoffs).</li>
+        <li><strong>Retirement &amp; Social Security Planning:</strong> Tracking precise eligibility months (e.g. 66 years and 6 months full retirement age).</li>
+      </ul>
+
+      <p>When computing financial budgets for milestone birthday celebrations, you can calculate discounts with our <a href="/tools/discount-calculator/">Discount Calculator</a> or verify password security for online accounts with our <a href="/tools/password-generator/">Strong Password Generator</a>.</p>
+    </article>
+
+    <!-- FAQ Accordion (5 Questions, 40-60 words each) -->

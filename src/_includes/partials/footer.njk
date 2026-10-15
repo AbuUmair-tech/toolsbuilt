@@ -1,0 +1,35 @@
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h3>ToolsBuilt</h3>
+          <p>Free online tools and web calculators engineered for simplicity, speed, and precision.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Popular Tools</h4>
+          <ul class="footer-links">
+            {% for t in tools %}
+              {% if t.popular %}
+                <li><a href="/tools/{{ t.slug }}/">{{ t.shortName or t.name }}</a></li>
+              {% endif %}
+            {% endfor %}
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Legal &amp; Policy</h4>
+          <ul class="footer-links">
+            <li><a href="/about/">About Us</a></li>
+            <li><a href="/contact/">Contact Us</a></li>
+            <li><a href="/privacy-policy/">Privacy Policy</a></li>
+            <li><a href="/terms/">Terms of Service</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 ToolsBuilt. All rights reserved. Built and maintained by ToolsBuilt.</p>
+        <p>Built with privacy and speed in mind.</p>
+      </div>
+    </div>
+  </footer>

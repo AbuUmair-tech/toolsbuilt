@@ -1,0 +1,179 @@
+---
+layout: layouts/tool.njk
+toolSlug: random-name-picker
+title: "Random Name Picker Wheel | ToolsBuilt"
+description: "Free online random name picker wheel. Enter names, spin the interactive wheel, and select unbiased winners for raffles, classrooms, giveaways, and decision making."
+permalink: /tools/random-name-picker/
+h1: "Random Name Picker Wheel"
+howto:
+  name: "How to Pick a Random Name Using the Wheel"
+  description: ""
+  steps:
+    - name: ""
+      text: "Type or paste your list of names into the text box (one name per line)."
+    - name: ""
+      text: "Optionally toggle 'Remove winner after pick' if running a multi-draw raffle."
+    - name: ""
+      text: "Click the Spin Wheel button to initiate the animation."
+    - name: ""
+      text: "View the selected winning name in the popup modal."
+faqs:
+  - q: "How does the random name picker ensure fair and unbiased selection?"
+    a: "The tool utilizes your browser's native Web Crypto API via crypto.getRandomValues to produce cryptographically secure pseudorandom numbers. Unlike basic Math.random algorithms, hardware-level entropy ensures uniform probability distribution across all names. Every single participant on the wheel possesses an identical mathematical chance of being chosen on each spin without bias."
+  - q: "Can I remove winning names automatically after each spin?"
+    a: "Yes. Simply enable the 'Remove winner automatically after spin' checkbox before spinning, or click 'Remove Winner & Close' in the winner announcement modal. The tool removes the chosen entry immediately and recalculates the wheel geometry and color segments for subsequent draws, making multi-prize raffles smooth and effortless."
+  - q: "Does the wheel accommodate users with motion sensitivity or vestibular disorders?"
+    a: "Yes. The random name picker respects your device's system-level accessibility preferences. When 'prefers-reduced-motion' is active, spinning animations are bypassed entirely. Instead of rotational motion, the tool computes the winning slice instantly and opens the winner dialog immediately, ensuring full comfort and safety for users sensitive to animated motion effects."
+  - q: "Is there a limit on how many names I can paste into the wheel?"
+    a: "You can enter hundreds of names into the text box. The generator automatically calculates slice angles and resizes typography to fit your entire list on the wheel. For exceptionally large rosters with hundreds of participants, each slice remains mathematically distinct and accurately represented throughout the cryptographic selection process."
+  - q: "Are my participant names stored on remote servers or tracked?"
+    a: "No. All name lists, spin computations, and winner selections operate exclusively in your client-side browser memory. None of your entered names are transmitted to external servers, logged in databases, or shared with third parties. Once you close or reload your browser tab, entered names are cleared completely."
+---
+
+<div class="tool-card">
+                <div class="wheel-layout">
+                    <div class="wheel-controls-col">
+                        <div class="form-group">
+                            <div class="label-row">
+                                <label for="namesInput">Names List (one per line)</label>
+                                <span id="nameCount" class="text-sm text-muted">8 entries</span>
+                            </div>
+                            <textarea id="namesInput" class="form-input code-input" rows="8" placeholder="Enter names here..."></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="removeWinner">
+                                <span>Remove winner automatically after spin</span>
+                            </label>
+                        </div>
+
+                        <div class="btn-group">
+                            <button type="button" id="spinBtn" class="btn btn-primary btn-block">Spin Wheel!</button>
+                            <button type="button" id="shuffleBtn" class="btn btn-secondary">Shuffle</button>
+                            <button type="button" id="clearBtn" class="btn btn-outline">Clear</button>
+                        </div>
+                    </div>
+
+                    <div class="wheel-canvas-col">
+                        <div class="canvas-wrapper">
+                            <canvas id="wheelCanvas" width="400" height="400" aria-label="Random Name Wheel"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Winner Modal -->
+                <div id="winnerModal" class="modal-overlay hidden" aria-hidden="true" role="dialog" aria-labelledby="winnerTitle">
+                    <div class="modal-card text-center">
+                        <h2 id="winnerTitle" class="modal-title">We Have a Winner!</h2>
+                        <div id="winnerName" class="winner-display-name">---</div>
+                        <div class="modal-actions mt-6">
+                            <button type="button" id="removeWinnerBtn" class="btn btn-primary">Remove Winner &amp; Close</button>
+                            <button type="button" id="closeModalBtn" class="btn btn-secondary">Keep in List &amp; Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ad container placeholder -->
+            <!-- ad placement: below tool card -->
+            <div class="ad-placement my-8"></div>
+
+            <div class="quick-answer-box">
+                <h2>Quick Answer: How to Use the Random Name Picker Wheel</h2>
+                <p>Paste your list of names into the text box, click <strong>Spin Wheel!</strong>, and watch the wheel rotate to choose a random winner. The selection uses cryptographically secure random generation, ensuring every participant has an equal, unbiased chance of winning.</p>
+            </div>
+
+            <div class="article-content">
+                <h2>Why Use a Digital Random Name Picker Wheel?</h2>
+                <p>Whether you are running a social media giveaway, choosing students for classroom participation, organizing team secret Santa exchanges, or deciding who pays for coffee, choosing fairly is essential. Physical drawings with paper slips take time to assemble and can raise suspicions of bias. Digital spinning wheels provide a transparent, engaging, and verifiably fair method for picking winners in real time.</p>
+
+                <h2>Cryptographically Secure Randomness</h2>
+                <p>Many online wheels rely on standard pseudorandom number generators like <code>Math.random()</code>, which are fine for basic games but exhibit predictable mathematical patterns over repeated runs. Our tool utilizes the browser's native <strong>Web Crypto API (<code>crypto.getRandomValues</code>)</strong>. This provides hardware-level entropy and cryptographically strong randomness, guaranteeing that every single spin is completely independent and un-biased.</p>
+
+                <div class="key-facts-box">
+                    <h3>Key Features of ToolsBuilt Name Picker</h3>
+                    <ul>
+                        <li><strong>Cryptographic Fairness:</strong> Uses hardware entropy via Web Crypto API for true randomness.</li>
+                        <li><strong>Reduced Motion Support:</strong> Respects system accessibility settings by offering instant results for users sensitive to spinning animations.</li>
+                        <li><strong>Instant Winner Removal:</strong> Option to remove selected entries instantly for multi-prize raffles and tournaments.</li>
+                    </ul>
+                </div>
+
+                <h2>Popular Ways to Use the Name Wheel</h2>
+                <p>The name picker wheel is versatile and adaptable to various professional and casual scenarios:</p>
+                <ul>
+                    <li><strong>Classroom Student Engagement:</strong> Teachers use the wheel to call on students randomly during recitations, encouraging equal participation without favoritism.</li>
+                    <li><strong>Online Raffles &amp; Giveaways:</strong> Streamers and content creators broadcast the wheel live to pick contest winners transparently.</li>
+                    <li><strong>Agile Team Standups:</strong> Engineering teams spin the wheel to determine meeting order or assign daily code review tasks.</li>
+                    <li><strong>Daily Decision Making:</strong> Can't decide where to eat lunch or which movie to watch? Put your choices on the wheel and let chance decide.</li>
+                </ul>
+
+                <h2>Frequently Asked Questions</h2>
+                <div class="faq-accordion">
+                    <details class="faq-item">
+                        <summary class="faq-question">How does the random name picker ensure fair and unbiased selection?</summary>
+                        <div class="faq-answer">
+                            <p>The tool utilizes your browser's native Web Crypto API via crypto.getRandomValues to produce cryptographically secure pseudorandom numbers. Unlike basic Math.random algorithms, hardware-level entropy ensures uniform probability distribution across all names. Every single participant on the wheel possesses an identical mathematical chance of being chosen on each spin without bias.</p>
+                        </div>
+                    </details>
+
+                    <details class="faq-item">
+                        <summary class="faq-question">Can I remove winning names automatically after each spin?</summary>
+                        <div class="faq-answer">
+                            <p>Yes. Simply enable the 'Remove winner automatically after spin' checkbox before spinning, or click 'Remove Winner &amp; Close' in the winner announcement modal. The tool removes the chosen entry immediately and recalculates the wheel geometry and color segments for subsequent draws, making multi-prize raffles smooth and effortless.</p>
+                        </div>
+                    </details>
+
+                    <details class="faq-item">
+                        <summary class="faq-question">Does the wheel accommodate users with motion sensitivity or vestibular disorders?</summary>
+                        <div class="faq-answer">
+                            <p>Yes. The random name picker respects your device's system-level accessibility preferences. When 'prefers-reduced-motion' is active, spinning animations are bypassed entirely. Instead of rotational motion, the tool computes the winning slice instantly and opens the winner dialog immediately, ensuring full comfort and safety for users sensitive to animated motion effects.</p>
+                        </div>
+                    </details>
+
+                    <details class="faq-item">
+                        <summary class="faq-question">Is there a limit on how many names I can paste into the wheel?</summary>
+                        <div class="faq-answer">
+                            <p>You can enter hundreds of names into the text box. The generator automatically calculates slice angles and resizes typography to fit your entire list on the wheel. For exceptionally large rosters with hundreds of participants, each slice remains mathematically distinct and accurately represented throughout the cryptographic selection process.</p>
+                        </div>
+                    </details>
+
+                    <details class="faq-item">
+                        <summary class="faq-question">Are my participant names stored on remote servers or tracked?</summary>
+                        <div class="faq-answer">
+                            <p>No. All name lists, spin computations, and winner selections operate exclusively in your client-side browser memory. None of your entered names are transmitted to external servers, logged in databases, or shared with third parties. Once you close or reload your browser tab, entered names are cleared completely.</p>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="last-updated">Last updated: October 11, 2026</div>
+            </div>
+
+            <section class="related-tools mt-12">
+                <h2>Related Tools</h2>
+                <div class="tools-grid" id="relatedToolsGrid">
+                    <a href="/tools/password-generator/" class="tool-card-link">
+                        <div class="tool-card-sm">
+                            <div class="tool-icon-wrapper security" data-icon="key"></div>
+                            <h3>Password Generator</h3>
+                            <p>Generate strong, secure passwords with custom length and character rules.</p>
+                        </div>
+                    </a>
+                    <a href="/tools/word-counter/" class="tool-card-link">
+                        <div class="tool-card-sm">
+                            <div class="tool-icon-wrapper text" data-icon="text-cursor"></div>
+                            <h3>Word &amp; Character Counter</h3>
+                            <p>Count words, characters, sentences, and estimated reading time live.</p>
+                        </div>
+                    </a>
+                    <a href="/tools/percentage-change-calculator/" class="tool-card-link">
+                        <div class="tool-card-sm">
+                            <div class="tool-icon-wrapper math" data-icon="percent"></div>
+                            <h3>Percentage Change Calculator</h3>
+                            <p>Calculate percentage increase, decrease, or common percentage values.</p>
+                        </div>
+                    </a>
+                </div>
+            </section>
+        </article>
