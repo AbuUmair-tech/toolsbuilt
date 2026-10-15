@@ -79,7 +79,7 @@ function extractFaqQuestions(html) {
   const faqSectionMatch = html.match(/<section[^>]*class=["'][^"']*faq-section[^"']*["'][^>]*>([\s\S]*?)<\/section>/i);
   const scope = faqSectionMatch ? faqSectionMatch[1] : html;
 
-  const headerRegex = /<button[^>]*class=["'][^"']*accordion-header[^"']*["'][^>]*>([\s\S]*?)<\/button>/gi;
+  const headerRegex = /<(?:button|summary)[^>]*class=["'][^"']*(?:accordion-header|faq-question)[^"']*["'][^>]*>([\s\S]*?)<\/(?:button|summary)>/gi;
   let match;
   while ((match = headerRegex.exec(scope)) !== null) {
     const btnInner = match[1];

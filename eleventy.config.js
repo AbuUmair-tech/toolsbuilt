@@ -1,5 +1,26 @@
+const { buildCss } = require('./scripts/bundle-css.js');
+
 module.exports = function(eleventyConfig) {
   const isProduction = process.env.NODE_ENV === 'production' || process.env.SITE_ENV === 'production';
+
+  // Watch CSS directory for hot reloading
+  eleventyConfig.addWatchTarget('src/assets/css/');
+
+  // Initial CSS build to get hash before any template renders
+  let cssBundle = buildCss({ isProduction });
+
+  eleventyConfig.on('eleventy.before', async () => {
+    cssBundle = buildCss({ isProduction });
+  });
+
+  eleventyConfig.on('eleventy.after', async () => {
+    buildCss({ isProduction });
+  });
+
+  // Shortcode for referencing content-hashed main CSS
+  eleventyConfig.addShortcode('mainCss', function() {
+    return cssBundle.cssPath;
+  });
 
   // Global data for environment
   eleventyConfig.addGlobalData('env', {

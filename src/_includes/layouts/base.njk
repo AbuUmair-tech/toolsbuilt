@@ -6,7 +6,7 @@
   <title>{{ title }}</title>
   <meta name="description" content="{{ description }}">
   <link rel="canonical" href="{{ canonical or ('https://toolsbuilt.com' + page.url) }}">
-  {% if not env.isProduction %}<meta name="robots" content="noindex, nofollow">{% endif %}
+  {% if (not env.isProduction) or noindex %}<meta name="robots" content="noindex, nofollow">{% endif %}
   <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png">
   
   <!-- Open Graph -->
@@ -26,7 +26,10 @@
   <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
   <link rel="alternate icon" href="/assets/img/favicon.ico">
-  <link rel="stylesheet" href="/assets/css/style.css">
+  
+  <!-- Preload Critical Font -->
+  <link rel="preload" href="/assets/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="{% mainCss %}">
   {% if extraCss %}<link rel="stylesheet" href="{{ extraCss }}">{% endif %}
 
   <!-- Theme restoration script to prevent FOUC -->
@@ -67,6 +70,7 @@
   <div id="cookie-consent-banner" class="cookie-banner" style="display:none" aria-hidden="true"></div>
 
   <script src="/assets/js/icons.js"></script>
+  <script src="/assets/js/ui.js"></script>
   {% if includeToolsData %}<script src="/assets/js/tools-data.js"></script>{% endif %}
   <script src="/assets/js/common.js"></script>
   {% if toolScript %}<script src="{{ toolScript }}"></script>{% elif toolSlug %}<script src="/tools/{{ toolSlug }}/script.js"></script>{% endif %}

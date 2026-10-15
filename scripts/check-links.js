@@ -135,7 +135,12 @@ function analyzeFile(file) {
 
   // Robots / noindex check based on environment
   const hasNoindex = /<meta[^>]+name=["']robots["'][^>]+content=["'][^"']*noindex[^"']*["']/i.test(html);
-  if (isProduction && hasNoindex) {
+  const isDesignSystem = file.includes('design-system');
+  if (isDesignSystem) {
+    if (!hasNoindex) {
+      log('error', file, 'Design system page must always have noindex meta tag');
+    }
+  } else if (isProduction && hasNoindex) {
     log('error', file, 'Production build contains forbidden noindex meta tag');
   } else if (!isProduction && !hasNoindex && !is404) {
     log('error', file, 'Staging/non-production build is missing required noindex meta tag');
@@ -176,6 +181,9 @@ function checkSitemap() {
   const xml = fs.readFileSync(sitemapPath, 'utf8');
   const locs = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m => m[1]);
   for (const loc of locs) {
+    if (loc.includes('design-system')) {
+      errors.push('[ERROR] sitemap.xml: /design-system/ must be excluded from sitemap.xml');
+    }
     const relativePath = loc.replace(DOMAIN, '');
     const resolved = resolveInternalHref(relativePath, path.join(SITE_DIR, 'index.html'));
     if (resolved === null) {

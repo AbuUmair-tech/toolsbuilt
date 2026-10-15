@@ -1,0 +1,217 @@
+/* ==========================================================================
+   ToolsBuilt Design System - Layout Primitives
+   @layer layout
+   ========================================================================== */
+
+@layer layout {
+  /* -------------------------------------------------------------------------
+     Skip Link (Accessibility)
+     ------------------------------------------------------------------------- */
+  .skip-link {
+    position: absolute;
+    top: -100px;
+    left: var(--space-4);
+    background-color: var(--accent-primary);
+    color: var(--accent-contrast);
+    padding: var(--space-2) var(--space-4);
+    border-radius: var(--radius-md);
+    z-index: var(--z-toast);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--font-size-sm);
+    box-shadow: var(--shadow-lg);
+    text-decoration: none;
+    transition: top var(--duration-fast) var(--ease-out);
+  }
+
+  .skip-link:focus {
+    top: var(--space-4);
+    outline: 2px solid var(--accent-contrast);
+    outline-offset: 2px;
+  }
+
+  /* -------------------------------------------------------------------------
+     Containers
+     ------------------------------------------------------------------------- */
+  .container {
+    width: 100%;
+    max-width: var(--container-max);
+    margin-inline: auto;
+    padding-inline: var(--space-4);
+  }
+
+  @media (min-width: 640px) {
+    .container {
+      padding-inline: var(--space-6);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .container {
+      padding-inline: var(--space-8);
+    }
+  }
+
+  .container-tool {
+    max-width: var(--container-tool);
+    margin-inline: auto;
+  }
+
+  .container-narrow {
+    max-width: var(--container-narrow);
+    margin-inline: auto;
+  }
+
+  /* -------------------------------------------------------------------------
+     Stack (Vertical Flow Composition)
+     ------------------------------------------------------------------------- */
+  .stack {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: var(--stack-gap, var(--space-4));
+  }
+
+  .stack-xs { --stack-gap: var(--space-1); }
+  .stack-sm { --stack-gap: var(--space-2); }
+  .stack-md { --stack-gap: var(--space-4); }
+  .stack-lg { --stack-gap: var(--space-6); }
+  .stack-xl { --stack-gap: var(--space-8); }
+  .stack-2xl { --stack-gap: var(--space-12); }
+
+  /* -------------------------------------------------------------------------
+     Cluster (Inline Flex Wrapping)
+     ------------------------------------------------------------------------- */
+  .cluster {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--cluster-gap, var(--space-3));
+  }
+
+  .cluster-sm { --cluster-gap: var(--space-2); }
+  .cluster-md { --cluster-gap: var(--space-3); }
+  .cluster-lg { --cluster-gap: var(--space-4); }
+  .cluster-xl { --cluster-gap: var(--space-6); }
+  .cluster-between { justify-content: space-between; }
+  .cluster-center { justify-content: center; }
+
+  /* -------------------------------------------------------------------------
+     Auto-fit Responsive Grid
+     ------------------------------------------------------------------------- */
+  .grid-auto-fit {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--grid-min-item, 280px)), 1fr));
+    gap: var(--grid-gap, var(--space-6));
+  }
+
+  .grid-tools {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
+    gap: var(--space-5);
+  }
+
+  @media (min-width: 640px) {
+    .grid-tools {
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: var(--space-6);
+    }
+  }
+
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+
+  @media (min-width: 640px) {
+    .grid-2 {
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-5);
+    }
+  }
+
+  .grid-3 {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+
+  @media (min-width: 640px) {
+    .grid-3 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .grid-3 {
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-6);
+    }
+  }
+
+  .grid-4 {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+
+  @media (min-width: 640px) {
+    .grid-4 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .grid-4 {
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-5);
+    }
+  }
+
+  /* -------------------------------------------------------------------------
+     Sidebar Layout (Split Calculator / Article)
+     ------------------------------------------------------------------------- */
+  .sidebar-layout {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-8);
+  }
+
+  .sidebar-layout > .sidebar {
+    flex-basis: var(--sidebar-width, 280px);
+    flex-grow: 1;
+  }
+
+  .sidebar-layout > .content-main {
+    flex-basis: 0;
+    flex-grow: 999;
+    min-width: min(100%, 55%);
+  }
+
+  /* -------------------------------------------------------------------------
+     Section Spacing
+     ------------------------------------------------------------------------- */
+  .section {
+    padding-block: var(--space-10);
+  }
+
+  @media (min-width: 768px) {
+    .section {
+      padding-block: var(--space-16);
+    }
+  }
+
+  .section-sm {
+    padding-block: var(--space-6);
+  }
+
+  .section-lg {
+    padding-block: var(--space-16);
+  }
+
+  @media (min-width: 768px) {
+    .section-lg {
+      padding-block: var(--space-24);
+    }
+  }
+}

@@ -55,6 +55,12 @@ try {
     stagingOutput.includes('All checks passed! No errors or warnings found.'),
     'Staging build: all checks passed (pages have noindex, robots.txt disallows all)'
   );
+
+  const stagingDsHtml = fs.readFileSync(path.join(ROOT, '_site', 'design-system', 'index.html'), 'utf8');
+  assert(
+    /<meta[^>]+name=["']robots["'][^>]+content=["'][^"']*noindex[^"']*["']/i.test(stagingDsHtml),
+    'Staging build: /design-system/ has required noindex meta tag'
+  );
 } catch (e) {
   const output = (e.stdout || '') + (e.stderr || '');
   assert(false, `Staging build or check-links failed: ${e.message}${output ? '\n' + output : ''}`);
@@ -86,6 +92,18 @@ try {
   assert(
     prodOutput.includes('All checks passed! No errors or warnings found.'),
     'Production build: all checks passed (no pages have noindex, robots.txt allows all)'
+  );
+
+  const prodDsHtml = fs.readFileSync(path.join(ROOT, '_site', 'design-system', 'index.html'), 'utf8');
+  assert(
+    /<meta[^>]+name=["']robots["'][^>]+content=["'][^"']*noindex[^"']*["']/i.test(prodDsHtml),
+    'Production build: /design-system/ has required noindex meta tag'
+  );
+
+  const sitemapXml = fs.readFileSync(path.join(ROOT, '_site', 'sitemap.xml'), 'utf8');
+  assert(
+    !sitemapXml.includes('design-system'),
+    'Production build: /design-system/ is excluded from sitemap.xml'
   );
 } catch (e) {
   const output = (e.stdout || '') + (e.stderr || '');
@@ -355,6 +373,51 @@ try {
 } catch (e) {
   assert(false, `JS syntax compilation failed: ${e.message}`);
 }
+
+// -----------------------------------------------------------------
+// Test 9: WCAG AA Color Contrast Verification
+// -----------------------------------------------------------------
+console.log('\n--- 9. WCAG AA Color Contrast Verification ---');
+try {
+  const contrastOutput = execSync('node scripts/check-contrast.js', { cwd: ROOT, encoding: 'utf8', stdio: 'pipe' });
+  assert(contrastOutput.includes('ALL WCAG AA CONTRAST CHECKS PASSED'), 'WCAG AA contrast: all token color pairs pass AA standards');
+} catch (e) {
+  assert(false, `WCAG AA contrast check failed: ${e.message}\n${e.stdout || ''}`);
+}
+
+// -----------------------------------------------------------------
+// Test 10: CSS Performance & Size Budget Check
+// -----------------------------------------------------------------
+console.log('\n--- 10. CSS Size Budget & Performance Check ---');
+const zlib = require('zlib');
+const cssDir = path.join(ROOT, '_site', 'assets', 'css');
+let mainCssFile = null;
+if (fs.existsSync(cssDir)) {
+  const files = fs.readdirSync(cssDir);
+  mainCssFile = files.find(f => /^main\.[a-f0-9]+\.css$/.test(f));
+}
+if (!mainCssFile) {
+  assert(false, 'Hashed main CSS bundle (main.[hash].css) not found in _site/assets/css/');
+} else {
+  const cssContent = fs.readFileSync(path.join(cssDir, mainCssFile));
+  const gzipped = zlib.gzipSync(cssContent);
+  const sizeKb = (cssContent.length / 1024).toFixed(2);
+  const gzSizeKb = (gzipped.length / 1024).toFixed(2);
+  console.log(`Main CSS bundle: ${mainCssFile} (${sizeKb} KB minified, ${gzSizeKb} KB gzipped)`);
+  assert(gzipped.length <= 30 * 1024, `CSS size budget: ${gzSizeKb} KB <= 30 KB gzipped limit (target < 25 KB)`);
+}
+
+// -----------------------------------------------------------------
+// Test 11: Design System Navigation Exclusion Check
+// -----------------------------------------------------------------
+console.log('\n--- 11. Design System Navigation Check ---');
+const indexHtml = fs.readFileSync(path.join(ROOT, '_site', 'index.html'), 'utf8');
+const headerNavRegex = /<header[\s\S]*?<\/header>/i;
+const footerNavRegex = /<footer[\s\S]*?<\/footer>/i;
+const headerHtml = (indexHtml.match(headerNavRegex) || [''])[0];
+const footerHtml = (indexHtml.match(footerNavRegex) || [''])[0];
+assert(!headerHtml.includes('/design-system') && !footerHtml.includes('/design-system'),
+  'Design system page does not appear in site navigation');
 
 console.log('\n========================================================');
 if (failures === 0) {
