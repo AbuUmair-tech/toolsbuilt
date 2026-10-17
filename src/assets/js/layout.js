@@ -24,6 +24,7 @@
   let resultsList = null;
   let emptyState = null;
   let noResults = null;
+  const RECENT_KEY = 'tb_recent_tools';
 
   // --- Initialize on DOMContentLoaded ---
   if (document.readyState === 'loading') {
@@ -40,6 +41,7 @@
     initMobileDrawer();
     initCommandPalette();
     initHomepageSearch();
+    initHomepageRecentTools();
     initBackToTop();
     recordRecentToolVisit();
   }
@@ -440,11 +442,22 @@
   }
 
   // --- Recent Tools Visited Storage ---
-  const RECENT_KEY = 'tb_recent_tools';
-
   function recordRecentToolVisit() {
-    const toolId = document.body.dataset.toolId;
+    const toolId = document.body ? (document.body.dataset.toolId || document.body.getAttribute('data-tool-id')) : null;
     if (!toolId) return;
+
+    try {
+      let recents = JSON.parse(localStorage.getItem(RECENT_KEY) || '[]');
+      recents = recents.filter(item => item.slug !== toolId);
+      const toolName = document.querySelector('h1')?.textContent.trim() || toolId;
+      recents.unshift({
+        slug: toolId,
+        name: toolName,
+        category: ''
+      });
+      if (recents.length > 5) recents = recents.slice(0, 5);
+      localStorage.setItem(RECENT_KEY, JSON.stringify(recents));
+    } catch (e) {}
 
     fetchSearchIndex().then(tools => {
       const tool = tools.find(t => t.slug === toolId);
@@ -452,14 +465,12 @@
 
       try {
         let recents = JSON.parse(localStorage.getItem(RECENT_KEY) || '[]');
-        recents = recents.filter(item => item.slug !== tool.slug);
-        recents.unshift({
-          slug: tool.slug,
-          name: tool.name,
-          category: tool.category
-        });
-        if (recents.length > 5) recents = recents.slice(0, 5);
-        localStorage.setItem(RECENT_KEY, JSON.stringify(recents));
+        const idx = recents.findIndex(item => item.slug === tool.slug);
+        if (idx !== -1) {
+          recents[idx].name = tool.name;
+          recents[idx].category = tool.category;
+          localStorage.setItem(RECENT_KEY, JSON.stringify(recents));
+        }
       } catch (e) {}
     });
   }
@@ -734,42 +745,73 @@
     if (!heroInput) return;
 
     const noResultsMsg = document.getElementById('no-results-msg');
+    const noResultsQuery = document.getElementById('no-results-query');
     const cards = document.querySelectorAll('.tool-card');
     const sections = document.querySelectorAll('.category-section');
+    const popularSection = document.getElementById('popular-tools');
+    const recentSection = document.getElementById('recent-tools-section');
+
+    let topMatchSlug = null;
+
+    heroInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        if (topMatchSlug) {
+          e.preventDefault();
+          window.location.href = `/tools/${topMatchSlug}/`;
+        }
+      }
+    });
 
     heroInput.addEventListener('input', (e) => {
       const q = e.target.value.trim();
 
       if (!q) {
-        cards.forEach(card => card.style.display = 'flex');
+        cards.forEach(card => card.style.display = '');
         sections.forEach(sec => sec.style.display = '');
-        if (noResultsMsg) noResultsMsg.classList.add('hidden');
+        if (popularSection) popularSection.style.display = '';
+        if (recentSection && getRecentTools().length > 0) {
+          recentSection.removeAttribute('hidden');
+        }
+        if (noResultsMsg) noResultsMsg.setAttribute('hidden', '');
+        topMatchSlug = null;
         return;
       }
 
+      // Hide recent section during search
+      if (recentSection) recentSection.setAttribute('hidden', '');
+
       fetchSearchIndex().then(tools => {
+        const scored = [];
+        for (const t of tools) {
+          const s = calculateScore(t, q);
+          if (s > 0) scored.push({ tool: t, score: s });
+        }
+        scored.sort((a, b) => b.score - a.score);
+
+        if (scored.length > 0) {
+          topMatchSlug = scored[0].tool.slug;
+        } else {
+          topMatchSlug = null;
+        }
+
+        const matchedSlugs = new Set(scored.map(item => item.tool.slug));
         let visibleCount = 0;
 
         cards.forEach(card => {
-          const href = card.getAttribute('href') || '';
-          const match = href.match(/\/tools\/([^\/]+)\//);
-          const slug = match ? match[1] : '';
-          const toolData = tools.find(t => t.slug === slug);
-
-          let score = 0;
-          if (toolData) {
-            score = calculateScore(toolData, q);
-          } else {
-            const title = card.querySelector('h2, h3')?.textContent.toLowerCase() || '';
-            const desc = card.querySelector('p')?.textContent.toLowerCase() || '';
-            if (title.includes(q.toLowerCase()) || desc.includes(q.toLowerCase())) score = 10;
-          }
-
-          if (score > 0) {
+          const slug = card.getAttribute('data-slug') || '';
+          if (matchedSlugs.has(slug)) {
             card.style.display = 'flex';
             visibleCount++;
           } else {
-            card.style.display = 'none';
+            // Check text fallback
+            const title = card.querySelector('.tool-title, h3, h4')?.textContent.toLowerCase() || '';
+            const desc = card.querySelector('.tool-desc, p')?.textContent.toLowerCase() || '';
+            if (q.length > 1 && (title.includes(q.toLowerCase()) || desc.includes(q.toLowerCase()))) {
+              card.style.display = 'flex';
+              visibleCount++;
+            } else {
+              card.style.display = 'none';
+            }
           }
         });
 
@@ -780,15 +822,84 @@
           sec.style.display = hasVisible ? '' : 'none';
         });
 
+        // Hide popular section if no visible cards in it
+        if (popularSection) {
+          const popCards = popularSection.querySelectorAll('.tool-card');
+          const hasPop = Array.from(popCards).some(c => c.style.display !== 'none');
+          popularSection.style.display = hasPop ? '' : 'none';
+        }
+
         if (noResultsMsg) {
           if (visibleCount === 0) {
-            noResultsMsg.classList.remove('hidden');
+            if (noResultsQuery) noResultsQuery.textContent = q;
+            noResultsMsg.removeAttribute('hidden');
           } else {
-            noResultsMsg.classList.add('hidden');
+            noResultsMsg.setAttribute('hidden', '');
           }
         }
       });
     });
+  }
+
+  // --- Homepage Recent Tools Section (Progressive Enhancement) ---
+  function initHomepageRecentTools() {
+    const sec = document.getElementById('recent-tools-section');
+    const grid = document.getElementById('recent-tools-grid');
+    const clearBtn = document.getElementById('clear-recent-tools');
+    if (!sec || !grid) return;
+
+    const recents = getRecentTools();
+    if (!recents || !recents.length) {
+      sec.setAttribute('hidden', '');
+      return;
+    }
+
+    const renderCards = (items, tools = []) => {
+      return items.map(r => {
+        const fullTool = tools.find(t => t.slug === r.slug);
+        const name = fullTool ? fullTool.name : (r.name || r.slug);
+        const desc = fullTool ? fullTool.description : '';
+        const cat = fullTool ? fullTool.category : (r.category || 'tools');
+        return `
+          <a href="/tools/${escapeHtml(r.slug)}/" class="tool-card tool-card-compact" data-slug="${escapeHtml(r.slug)}">
+            <div class="tool-card-header">
+              <div class="tool-icon-tile" data-cat="${escapeHtml(cat)}">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+              </div>
+              <span class="tool-category-chip" data-cat="${escapeHtml(cat)}">${escapeHtml(cat)}</span>
+            </div>
+            <h3 class="tool-title">${escapeHtml(name)}</h3>
+            <p class="tool-desc">${escapeHtml(desc)}</p>
+            <div class="tool-card-action">
+              <span>Open</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </div>
+          </a>
+        `;
+      }).join('');
+    };
+
+    grid.innerHTML = renderCards(recents);
+    sec.removeAttribute('hidden');
+
+    fetchSearchIndex().then(tools => {
+      const currentRecents = getRecentTools();
+      if (!currentRecents.length) {
+        sec.setAttribute('hidden', '');
+        return;
+      }
+      grid.innerHTML = renderCards(currentRecents, tools);
+      sec.removeAttribute('hidden');
+    });
+
+    if (clearBtn) {
+      clearBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        clearRecentTools();
+        sec.setAttribute('hidden', '');
+        grid.innerHTML = '';
+      });
+    }
   }
 
   // --- Back-to-Top Button ---

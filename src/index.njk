@@ -33,46 +33,86 @@ includeToolsData: true
     }
   }
   </script>
+
+  <!-- JSON-LD Schema 3: FAQPage -->
+  <script type="application/ld+json">
+  {{ homepageFaq | faqPageSchema | safe }}
+  </script>
 {% endblock %}
 
   <!-- Main Content -->
-  <main class="container" id="main-content">
+  <main class="container page-container" id="main-content">
     
-    <!-- Hero Section -->
-    <section class="hero">
-      <h1>Free Online Calculators &amp; Tools</h1>
-      <p>Fast, simple, and privacy-focused web tools designed to make your daily calculations effortless.</p>
+    <!-- 1. Hero Section -->
+    <section class="hero-section" aria-labelledby="hero-title">
+      <h1 id="hero-title" class="hero-title">Free Online Calculators &amp; Tools</h1>
+      <p class="hero-subtitle">Free, fast, and privacy-first web utilities designed to solve everyday calculations instantly—no signup, no tracking, and zero bloat.</p>
       
-      <div class="search-box">
-        <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <circle cx="11" cy="11" r="8"></circle>
-          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-        </svg>
-        <input type="search" id="tool-search" class="search-input" placeholder="Search tools (e.g. Password Generator, Age Calculator...)" aria-label="Search calculators and tools">
+      <div class="hero-search-container">
+        <div class="hero-search-box">
+          <svg class="hero-search-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input type="search" id="tool-search" class="hero-search-input" placeholder="Search {{ tools | length }} calculators and tools (e.g. Password Generator, Age Calculator...)" aria-label="Search calculators and tools" autocomplete="off" autocorrect="off" spellcheck="false">
+          <kbd class="hero-search-kbd search-kbd">Ctrl K</kbd>
+        </div>
+      </div>
+
+      <!-- Quick Access Chips (6 Most Popular Tools) -->
+      <div class="hero-quick-access" aria-label="Popular tools quick access">
+        <span class="quick-label">Popular:</span>
+        <div class="quick-chips-row">
+          {% for tool in tools | filterPopular(6) %}
+          <a href="/tools/{{ tool.slug }}/" class="quick-chip" data-cat="{{ tool.category }}">
+            <span class="quick-chip-dot" data-cat="{{ tool.category }}"></span>
+            <span class="quick-chip-name">{{ tool.shortName or tool.name }}</span>
+          </a>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- Trust Strip -->
+      <div class="hero-trust-strip">
+        <div class="trust-item">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+          <span>Runs in your browser</span>
+        </div>
+        <div class="trust-item">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+          <span>No signup required</span>
+        </div>
+        <div class="trust-item">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+          <span>100% Free forever</span>
+        </div>
+        <div class="trust-badge">
+          <span class="trust-badge-count">{{ tools | length }}</span> tools available
+        </div>
       </div>
     </section>
 
-    <!-- AdSense Placement -->
-    <!-- <div class="ad-placement">AdSense Banner Placeholder</div> -->
-
-    <!-- Category 1: Date & Time Tools -->
-    <section id="cat-date-time" class="category-section" aria-labelledby="cat-date-time-title" style="margin-bottom: 3rem;">
-      <div style="display: flex; align-items: center; gap: 0.75rem; border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem; margin-bottom: 1.5rem;">
-        <div class="tool-icon-tile" data-cat="date-time" style="width: 36px; height: 36px; margin-bottom: 0; border-radius: 10px;">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+    <!-- 2. Popular Tools Section -->
+    <section class="home-section popular-section" id="popular-tools" aria-labelledby="popular-tools-title">
+      <div class="section-heading">
+        <div class="section-title-row">
+          <h2 id="popular-tools-title" class="section-title">Popular Tools</h2>
+          <span class="section-badge">Most Used</span>
         </div>
-        <h2 id="cat-date-time-title" style="margin: 0; font-size: 1.5rem;">Date &amp; Time Tools</h2>
+        <p class="section-subtitle">Our most frequently used calculators and daily utilities.</p>
       </div>
 
       <div class="tools-grid">
-        {% set dateTools = tools | filterByCategory("date-time") %}
-        {% for tool in dateTools %}
-        <a href="/tools/{{ tool.slug }}/" class="tool-card">
-          <div class="tool-icon-tile" data-cat="{{ tool.category }}">
-            {{ tool.icon | safe }}
+        {% for tool in tools | filterPopular(8) %}
+        <a href="/tools/{{ tool.slug }}/" class="tool-card" data-slug="{{ tool.slug }}">
+          <div class="tool-card-header">
+            <div class="tool-icon-tile" data-cat="{{ tool.category }}">
+              {{ tool.icon | safe }}
+            </div>
+            <span class="tool-category-chip" data-cat="{{ tool.category }}">{{ (categories | findCategory(tool.category)).name }}</span>
           </div>
-          <h2>{{ tool.name }}</h2>
-          <p>{{ tool.description }}</p>
+          <h3 class="tool-title">{{ tool.name }}</h3>
+          <p class="tool-desc">{{ tool.description }}</p>
           <div class="tool-card-action">
             <span>Use Tool</span>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
@@ -82,142 +122,205 @@ includeToolsData: true
       </div>
     </section>
 
-    <!-- Category 2: Math & Percentage Tools -->
-    <section id="cat-math-finance" class="category-section" aria-labelledby="cat-math-finance-title" style="margin-bottom: 3rem;">
-      <div style="display: flex; align-items: center; gap: 0.75rem; border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem; margin-bottom: 1.5rem;">
-        <div class="tool-icon-tile" data-cat="math" style="width: 36px; height: 36px; margin-bottom: 0; border-radius: 10px;">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect><line x1="8" y1="6" x2="16" y2="6"></line><line x1="16" y1="14" x2="16" y2="18"></line><path d="M8 10h.01M12 10h.01M16 10h.01M8 14h.01M12 14h.01M8 18h.01M12 18h.01"></path></svg>
+    <!-- 3. Recently Used Section (Progressive Enhancement) -->
+    <section id="recent-tools-section" class="home-section recent-section" hidden aria-labelledby="recent-tools-title">
+      <div class="section-heading">
+        <div class="section-title-row">
+          <h2 id="recent-tools-title" class="section-title">Pick Up Where You Left Off</h2>
+          <button type="button" id="clear-recent-tools" class="clear-recent-btn">Clear recent</button>
         </div>
-        <h2 id="cat-math-finance-title" style="margin: 0; font-size: 1.5rem;">Math &amp; Financial Tools</h2>
+        <p class="section-subtitle">Quickly return to utilities you recently opened on this device.</p>
       </div>
-
-      <div class="tools-grid">
-        {% set mathTools = tools | filterByCategory("math-finance") %}
-        {% for tool in mathTools %}
-        <a href="/tools/{{ tool.slug }}/" class="tool-card">
-          <div class="tool-icon-tile" data-cat="math">
-            {{ tool.icon | safe }}
-          </div>
-          <h2>{{ tool.name }}</h2>
-          <p>{{ tool.description }}</p>
-          <div class="tool-card-action">
-            <span>Use Tool</span>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-          </div>
-        </a>
-        {% endfor %}
-      </div>
+      <div id="recent-tools-grid" class="tools-grid tools-grid-recent"></div>
     </section>
 
-    <!-- Category 3: Text & Writing Tools -->
-    <section id="cat-text" class="category-section" aria-labelledby="cat-text-title" style="margin-bottom: 3rem;">
-      <div style="display: flex; align-items: center; gap: 0.75rem; border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem; margin-bottom: 1.5rem;">
-        <div class="tool-icon-tile" data-cat="text" style="width: 36px; height: 36px; margin-bottom: 0; border-radius: 10px;">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><line x1="10" y1="9" x2="8" y2="9"></line></svg>
-        </div>
-        <h2 id="cat-text-title" style="margin: 0; font-size: 1.5rem;">Text &amp; Writing Tools</h2>
+    <!-- 4. All Tools By Category -->
+    <div class="all-tools-wrapper" id="all-tools">
+      <div class="all-tools-header">
+        <h2 id="all-tools-heading" class="section-title">All Tools by Category</h2>
+        <p class="section-subtitle">Browse our complete collection of {{ tools | length }} calculators across {{ categories | length }} categories.</p>
       </div>
 
-      <div class="tools-grid">
-        {% set textTools = tools | filterByCategory("text") %}
-        {% for tool in textTools %}
-        <a href="/tools/{{ tool.slug }}/" class="tool-card">
-          <div class="tool-icon-tile" data-cat="{{ tool.category }}">
-            {{ tool.icon | safe }}
+      <!-- Sticky Category Jump Bar -->
+      <nav class="category-jump-bar" aria-label="Jump to category">
+        <div class="jump-bar-container">
+          <div class="jump-bar-track">
+            {% for cat in categories %}
+            {% set catTools = tools | filterByCategory(cat.slug) %}
+            <a href="#cat-{{ cat.slug }}" class="jump-pill" data-cat="{{ cat.slug }}">
+              <span class="jump-pill-dot" data-cat="{{ cat.slug }}"></span>
+              <span class="jump-pill-name">{{ cat.name }}</span>
+              <span class="jump-pill-count">{{ catTools | length }}</span>
+            </a>
+            {% endfor %}
           </div>
-          <h2>{{ tool.name }}</h2>
-          <p>{{ tool.description }}</p>
-          <div class="tool-card-action">
-            <span>Use Tool</span>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+        </div>
+      </nav>
+
+      <!-- Category Sections -->
+      <div class="categories-list">
+        {% for cat in categories %}
+        {% set catTools = tools | filterByCategory(cat.slug) %}
+        <section id="cat-{{ cat.slug }}" class="category-section" aria-labelledby="cat-{{ cat.slug }}-title">
+          <div class="category-header">
+            <div class="category-header-main">
+              <div class="tool-icon-tile category-icon-tile" data-cat="{{ cat.slug }}">
+                {% if cat.slug == 'date-time' %}
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                {% elif cat.slug == 'math-finance' %}
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect><line x1="8" y1="6" x2="16" y2="6"></line><line x1="16" y1="14" x2="16" y2="18"></line><path d="M8 10h.01M12 10h.01M16 10h.01M8 14h.01M12 14h.01M8 18h.01M12 18h.01"></path></svg>
+                {% elif cat.slug == 'text' %}
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><line x1="10" y1="9" x2="8" y2="9"></line></svg>
+                {% elif cat.slug == 'security' %}
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                {% elif cat.slug == 'fun' %}
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="3"></circle><line x1="12" y1="2" x2="12" y2="9"></line><line x1="12" y1="15" x2="12" y2="22"></line><line x1="2" y1="12" x2="9" y2="12"></line><line x1="15" y1="12" x2="22" y2="12"></line></svg>
+                {% endif %}
+              </div>
+              <div>
+                <h3 id="cat-{{ cat.slug }}-title" class="category-title">{{ cat.name }}</h3>
+                <p class="category-desc">{{ cat.description }}</p>
+              </div>
+            </div>
+            <span class="category-count-badge">{{ catTools | length }} tools</span>
           </div>
-        </a>
+
+          <div class="tools-grid">
+            {% for tool in catTools %}
+            <a href="/tools/{{ tool.slug }}/" class="tool-card" data-slug="{{ tool.slug }}">
+              <div class="tool-card-header">
+                <div class="tool-icon-tile" data-cat="{{ tool.category }}">
+                  {{ tool.icon | safe }}
+                </div>
+                <span class="tool-category-chip" data-cat="{{ tool.category }}">{{ cat.name }}</span>
+              </div>
+              <h4 class="tool-title">{{ tool.name }}</h4>
+              <p class="tool-desc">{{ tool.description }}</p>
+              <div class="tool-card-action">
+                <span>Use Tool</span>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+              </div>
+            </a>
+            {% endfor %}
+          </div>
+        </section>
         {% endfor %}
       </div>
-    </section>
 
-    <!-- Category 4: Security & Privacy Tools -->
-    <section id="cat-security" class="category-section" aria-labelledby="cat-security-title" style="margin-bottom: 3rem;">
-      <div style="display: flex; align-items: center; gap: 0.75rem; border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem; margin-bottom: 1.5rem;">
-        <div class="tool-icon-tile" data-cat="security" style="width: 36px; height: 36px; margin-bottom: 0; border-radius: 10px;">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+      <!-- No Results State (Hidden by default) -->
+      <div id="no-results-msg" class="no-results-panel" hidden>
+        <div class="no-results-icon" aria-hidden="true">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
         </div>
-        <h2 id="cat-security-title" style="margin: 0; font-size: 1.5rem;">Security &amp; Privacy Tools</h2>
+        <h3 class="no-results-title">No tools match "<span id="no-results-query"></span>"</h3>
+        <p class="no-results-desc">Can't find the calculator or utility you need? Suggest a tool and we will build it.</p>
+        <a href="/contact/" class="btn btn-secondary">Suggest a Tool</a>
       </div>
-
-      <div class="tools-grid">
-        {% set secTools = tools | filterByCategory("security") %}
-        {% for tool in secTools %}
-        <a href="/tools/{{ tool.slug }}/" class="tool-card">
-          <div class="tool-icon-tile" data-cat="{{ tool.category }}">
-            {{ tool.icon | safe }}
-          </div>
-          <h2>{{ tool.name }}</h2>
-          <p>{{ tool.description }}</p>
-          <div class="tool-card-action">
-            <span>Use Tool</span>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-          </div>
-        </a>
-        {% endfor %}
-      </div>
-    </section>
-
-    <!-- Category 5: Fun & Random Tools -->
-    <section id="cat-fun" class="category-section" aria-labelledby="cat-fun-title" style="margin-bottom: 3rem;">
-      <div style="display: flex; align-items: center; gap: 0.75rem; border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem; margin-bottom: 1.5rem;">
-        <div class="tool-icon-tile" data-cat="fun" style="width: 36px; height: 36px; margin-bottom: 0; border-radius: 10px;">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="3"></circle><line x1="12" y1="2" x2="12" y2="9"></line><line x1="12" y1="15" x2="12" y2="22"></line><line x1="2" y1="12" x2="9" y2="12"></line><line x1="15" y1="12" x2="22" y2="12"></line></svg>
-        </div>
-        <h2 id="cat-fun-title" style="margin: 0; font-size: 1.5rem;">Fun &amp; Random Tools</h2>
-      </div>
-
-      <div class="tools-grid">
-        {% set funTools = tools | filterByCategory("fun") %}
-        {% for tool in funTools %}
-        <a href="/tools/{{ tool.slug }}/" class="tool-card">
-          <div class="tool-icon-tile" data-cat="{{ tool.category }}">
-            {{ tool.icon | safe }}
-          </div>
-          <h2>{{ tool.name }}</h2>
-          <p>{{ tool.description }}</p>
-          <div class="tool-card-action">
-            <span>Use Tool</span>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-          </div>
-        </a>
-        {% endfor %}
-      </div>
-    </section>
-
-    <div id="no-results-msg" class="text-center hidden" style="padding: 3rem 1rem;">
-      <p style="font-size: 1.1rem; color: var(--text-muted);">No tools found matching your search term.</p>
     </div>
 
-    <!-- Why ToolsBuilt Section -->
-    <section class="why-section">
-      <h2>Why Use ToolsBuilt?</h2>
+    <!-- 5. Why ToolsBuilt Section -->
+    <section class="home-section why-section" id="why-toolsbuilt" aria-labelledby="why-title">
+      <div class="section-heading text-center">
+        <h2 id="why-title" class="section-title">Why ToolsBuilt?</h2>
+        <p class="section-subtitle">Engineered for speed, privacy, and precision—without compromises.</p>
+      </div>
       <div class="features-grid">
-        <div class="feature-item">
-          <div class="feature-icon" aria-hidden="true">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+        <div class="feature-card">
+          <div class="feature-icon-wrapper" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
           </div>
-          <h3>100% Free Always</h3>
-          <p>All calculators and web utilities are completely free to use with no hidden fees or limitations.</p>
+          <h3 class="feature-title">Privacy by Design</h3>
+          <p class="feature-desc">All calculations run locally inside your browser. No inputs, form data, or generated passwords are ever sent across the wire. Our Password Generator sources cryptographic entropy via <code>crypto.getRandomValues</code> completely on-device.</p>
         </div>
-        <div class="feature-item">
-          <div class="feature-icon" aria-hidden="true">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+
+        <div class="feature-card">
+          <div class="feature-icon-wrapper" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
           </div>
-          <h3>No Signup Required</h3>
-          <p>Instant access without accounts, passwords, or personal data collection. Your privacy comes first.</p>
+          <h3 class="feature-title">Fast &amp; Bloat-Free</h3>
+          <p class="feature-desc">Zero JavaScript frameworks, zero tracking pixels, and zero forced account signups. Static HTML and lightweight CSS mean every page renders in milliseconds, even on slow mobile connections.</p>
         </div>
-        <div class="feature-item">
-          <div class="feature-icon" aria-hidden="true">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg>
+
+        <div class="feature-card">
+          <div class="feature-icon-wrapper" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg>
           </div>
-          <h3>Works on Any Device</h3>
-          <p>Mobile-first design optimized for fast loading on smartphones, tablets, and desktop computers.</p>
+          <h3 class="feature-title">Works Everywhere</h3>
+          <p class="feature-desc">Responsive, mobile-first layouts tailored for thumb reach. Built-in light and dark themes, keyboard command palette (<kbd>Ctrl K</kbd>), and fully accessible WCAG AA contrast on every screen.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon-wrapper" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 14 14"></polyline></svg>
+          </div>
+          <h3 class="feature-title">Verified Accuracy</h3>
+          <p class="feature-desc">Every calculator discloses its exact formulas and mathematical definitions. Edge cases like leap years and non-leap centuries are mathematically verified with automated test suites.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. How It Works Section -->
+    <section class="home-section how-section" id="how-it-works" aria-labelledby="how-title">
+      <div class="section-heading text-center">
+        <h2 id="how-title" class="section-title">How It Works</h2>
+        <p class="section-subtitle">Three steps to solve everyday math, time, and text tasks in seconds.</p>
+      </div>
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-badge">1</div>
+          <h3 class="step-title">Find Your Tool</h3>
+          <p class="step-desc">Type your query into the instant search bar or jump directly to any category using the quick-jump bar.</p>
+        </div>
+
+        <div class="step-card">
+          <div class="step-badge">2</div>
+          <h3 class="step-title">Enter Your Values</h3>
+          <p class="step-desc">Input your dates, numbers, or text into clear fields with built-in validation and sensible presets.</p>
+        </div>
+
+        <div class="step-card">
+          <div class="step-badge">3</div>
+          <h3 class="step-title">Get Instant Results</h3>
+          <p class="step-desc">Receive real-time calculations as you type. Copy answers to your clipboard with a single click—no page reloads.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. Frequently Asked Questions Section -->
+    <section class="home-section faq-section" id="faq" aria-labelledby="faq-title">
+      <div class="section-heading text-center">
+        <h2 id="faq-title" class="section-title">Frequently Asked Questions</h2>
+        <p class="section-subtitle">Straightforward answers about our tools, privacy, and accuracy.</p>
+      </div>
+      <div class="faq-list">
+        {% for item in homepageFaq %}
+        <details class="faq-item">
+          <summary class="faq-question">
+            <span>{{ item.question }}</span>
+          </summary>
+          <div class="faq-answer">
+            <p>{{ item.answer }}</p>
+          </div>
+        </details>
+        {% endfor %}
+      </div>
+    </section>
+
+    <!-- 8. Closing Call to Action Section -->
+    <section class="home-section home-cta-section" aria-labelledby="cta-title">
+      <div class="home-cta-card">
+        <div class="home-cta-content">
+          <h2 id="cta-title" class="cta-title">Missing a tool? Tell us</h2>
+          <p class="cta-desc">Need a specific date calculator, percentage formula, or text utility? We build and release new free web tools based directly on user requests.</p>
+          <div class="cta-actions">
+            <a href="/contact/" class="btn btn-primary">Suggest a Tool</a>
+            {% if site.repoUrl %}
+            <a href="{{ site.repoUrl }}" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+              Star on GitHub
+            </a>
+            {% endif %}
+          </div>
         </div>
       </div>
     </section>

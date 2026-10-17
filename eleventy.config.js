@@ -75,6 +75,29 @@ module.exports = function(eleventyConfig) {
     return '/#cat-' + slug;
   });
 
+  eleventyConfig.addFilter('filterPopular', function(tools, limit) {
+    if (!tools || !Array.isArray(tools)) return [];
+    const popular = tools.filter(t => t.popular).sort((a, b) => (a.order || 99) - (b.order || 99));
+    return limit ? popular.slice(0, limit) : popular;
+  });
+
+  eleventyConfig.addFilter('faqPageSchema', function(faqItems) {
+    if (!faqItems || !Array.isArray(faqItems)) return '';
+    const schema = {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": faqItems.map(item => ({
+        "@type": "Question",
+        "name": item.question,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": item.answer
+        }
+      }))
+    };
+    return JSON.stringify(schema, null, 2);
+  });
+
   eleventyConfig.addFilter('jsonify', function(value) {
     return JSON.stringify(value, null, 2);
   });

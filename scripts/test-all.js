@@ -437,6 +437,42 @@ try {
   assert(false, `Playwright interaction tests failed: ${e.message}\n${e.stdout || ''}${e.stderr || ''}`);
 }
 
+// -----------------------------------------------------------------
+// Test 13: Homepage Structure, Schema & Registry Data Integrity
+// -----------------------------------------------------------------
+console.log('\n--- 13. Homepage Structure, Schema & Data Integrity ---');
+try {
+  const hpOutput = execSync('node scripts/check-homepage.js', {
+    cwd: ROOT,
+    encoding: 'utf8',
+    stdio: 'pipe'
+  });
+  assert(
+    hpOutput.includes('All homepage static audit checks passed!'),
+    'Homepage audit: single H1, all tools present once, categories linked, FAQ JSON-LD parity, no TODOs, no fake stats'
+  );
+} catch (e) {
+  assert(false, `Homepage static audit checks failed: ${e.message}\n${e.stdout || ''}${e.stderr || ''}`);
+}
+
+// -----------------------------------------------------------------
+// Test 14: Playwright Homepage Search & Dynamic Interactions
+// -----------------------------------------------------------------
+console.log('\n--- 14. Playwright Homepage Interactions & Search ---');
+try {
+  const hpInteractionOutput = execSync('node scripts/test-homepage-interactions.js', {
+    cwd: ROOT,
+    encoding: 'utf8',
+    stdio: 'pipe'
+  });
+  assert(
+    hpInteractionOutput.includes('All homepage Playwright interaction tests passed successfully!'),
+    'Homepage interactions: hero live search, Enter to open top match, recent-tools row + Clear, jump pills, no 375px overflow'
+  );
+} catch (e) {
+  assert(false, `Homepage interaction tests failed: ${e.message}\n${e.stdout || ''}${e.stderr || ''}`);
+}
+
 console.log('\n========================================================');
 if (failures === 0) {
   console.log('🎉 ALL AUDIT & REGRESSION TESTS PASSED (0 FAILURES)');
