@@ -230,6 +230,92 @@ function analyzeFile(file) {
       log('error', file, `Unconstrained <img> missing width/height and class: ${imgMatch[0].substring(0, 80)}...`);
     }
   }
+
+  // Landmark check: exactly 1 <header> and 1 <footer> per page
+  const headerCount = (html.match(/<header\b[^>]*>/gi) || []).length;
+  if (headerCount !== 1) {
+    log('error', file, `Expected exactly 1 <header> landmark, found ${headerCount}`);
+  }
+  const footerCount = (html.match(/<footer\b[^>]*>/gi) || []).length;
+  if (footerCount !== 1) {
+    log('error', file, `Expected exactly 1 <footer> landmark, found ${footerCount}`);
+  }
+
+  // Skip-link check: exactly 1 skip-link per page
+  const skipLinkCount = (html.match(/<a\b[^>]*class=["'][^"']*skip-link[^"']*["'][^>]*>/gi) || []).length;
+  if (skipLinkCount !== 1) {
+    log('error', file, `Expected exactly 1 skip-link, found ${skipLinkCount}`);
+  }
+
+  // Nav accessible name uniqueness per page
+  const navRegex = /<nav\b([^>]*)>/gi;
+  let navMatch;
+  const navLabels = new Set();
+  while ((navMatch = navRegex.exec(html)) !== null) {
+    const attrs = navMatch[1];
+    const ariaLabel = (attrs.match(/aria-label=["']([^"']+)["']/i) || [])[1];
+    if (!ariaLabel) {
+      log('error', file, `<nav> landmark missing aria-label: ${navMatch[0].substring(0, 60)}`);
+    } else if (navLabels.has(ariaLabel)) {
+      log('error', file, `Duplicate <nav aria-label="${ariaLabel}"> found on page`);
+    } else {
+      navLabels.add(ariaLabel);
+    }
+  }
+
+  // Button accessible name check: text, aria-label, or aria-labelledby
+  const btnRegex = /<button\b([^>]*)>([\s\S]*?)<\/button>/gi;
+  let btnMatch;
+  while ((btnMatch = btnRegex.exec(html)) !== null) {
+    const attrs = btnMatch[1];
+    const innerText = btnMatch[2].replace(/<[^>]+>/g, '').trim();
+    const ariaLabel = (attrs.match(/aria-label=["']([^"']+)["']/i) || [])[1];
+    const ariaLabelledby = (attrs.match(/aria-labelledby=["']([^"']+)["']/i) || [])[1];
+    if (!innerText && !ariaLabel && !ariaLabelledby) {
+      log('error', file, `<button> missing accessible name (no text or aria-label): ${btnMatch[0].substring(0, 60)}`);
+    }
+  }
+
+  // Unique element ID check per page
+  const idRegex = /\bid=["']([^"'\s>]+)["']/gi;
+  const pageIds = new Set();
+  let idMatch;
+  while ((idMatch = idRegex.exec(html)) !== null) {
+    const elemId = idMatch[1];
+    if (pageIds.has(elemId)) {
+      log('error', file, `Duplicate element id="${elemId}" found on page`);
+    }
+    pageIds.add(elemId);
+  }
+}
+
+function checkSearchIndex() {
+  const assetsDir = path.join(SITE_DIR, 'assets');
+  if (!fs.existsSync(assetsDir)) {
+    errors.push('[ERROR] _site/assets directory not found');
+    return;
+  }
+  const files = fs.readdirSync(assetsDir);
+  const indexFile = files.find(f => /^search-index\.[a-f0-9]+\.json$/.test(f));
+  if (!indexFile) {
+    errors.push('[ERROR] Content-hashed search index (/assets/search-index.[hash].json) not found in _site/assets/');
+    return;
+  }
+  try {
+    const raw = fs.readFileSync(path.join(assetsDir, indexFile), 'utf8');
+    const tools = JSON.parse(raw);
+    if (!Array.isArray(tools) || tools.length !== 10) {
+      errors.push(`[ERROR] Search index must contain 10 tools, found ${tools ? tools.length : 0}`);
+      return;
+    }
+    for (const t of tools) {
+      if (!t.name || !t.slug || !t.category || !t.description || !Array.isArray(t.keywords)) {
+        errors.push(`[ERROR] Tool in search index missing required fields: ${JSON.stringify(t)}`);
+      }
+    }
+  } catch (e) {
+    errors.push(`[ERROR] Failed to parse search index JSON: ${e.message}`);
+  }
 }
 
 function checkSitemap() {
@@ -298,6 +384,7 @@ for (const [title, files] of titles.entries()) {
   }
 }
 
+checkSearchIndex();
 checkSitemap();
 checkRobotsTxt();
 

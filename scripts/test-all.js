@@ -419,6 +419,24 @@ const footerHtml = (indexHtml.match(footerNavRegex) || [''])[0];
 assert(!headerHtml.includes('/design-system') && !footerHtml.includes('/design-system'),
   'Design system page does not appear in site navigation');
 
+// -----------------------------------------------------------------
+// Test 12: Playwright Global Layout & Interaction Tests
+// -----------------------------------------------------------------
+console.log('\n--- 12. Playwright Global Layout & Interaction Tests ---');
+try {
+  const interactionOutput = execSync('node scripts/test-interactions.js', {
+    cwd: ROOT,
+    encoding: 'utf8',
+    stdio: 'pipe'
+  });
+  assert(
+    interactionOutput.includes('ALL PLAYWRIGHT INTERACTION TESTS PASSED'),
+    'Playwright interactions: Ctrl+K, search ranking, focus restoration, mobile drawer, focus trap'
+  );
+} catch (e) {
+  assert(false, `Playwright interaction tests failed: ${e.message}\n${e.stdout || ''}${e.stderr || ''}`);
+}
+
 console.log('\n========================================================');
 if (failures === 0) {
   console.log('🎉 ALL AUDIT & REGRESSION TESTS PASSED (0 FAILURES)');

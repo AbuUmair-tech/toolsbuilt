@@ -185,14 +185,62 @@ Features large tabular primary numbers, secondary metric grid, copy button slot,
 
 ---
 
-## 7. Testing & Quality Assurance
+## 7. Global Layout & Navigation
+ 
+### Header (`src/_includes/partials/header.njk`)
+- **Sticky Slim Bar:** Fixed 60px height (`--header-height: 60px`), translucent with `backdrop-filter: blur(12px)` and a subtle bottom border that appears dynamically on scroll (`is-scrolled`). Zero layout shift (CLS = 0).
+- **Brand Mark:** Explicit 32px SVG icon, non-collapsible (`flex-shrink: 0; display: block`).
+- **Primary Desktop Nav:** Tools button with mega-menu trigger and About link.
+- **Search Trigger:** Quick search pill showing search icon, "Search tools..." label, and platform-aware `<kbd>` hint (`Ctrl K` on Windows/Linux, `⌘K` on macOS).
+- **Theme Toggle:** Independent accessible icon toggle synchronized across all pages via `localStorage.getItem('theme')` and document `data-theme`.
+
+### Mega-Menu ("Tools")
+- **Accessible Trigger:** Controlled via native `<button>` with `aria-expanded` and `aria-controls="tools-mega-menu"`.
+- **Keyboard & Hover Delight:** Opens on click or desktop hover (with a 150ms debounce to prevent accidental triggering), closes on Escape, outside click, or focus leaving.
+- **5-Column Registry Grid:** Automatically generated from `src/_data/categories.json` and `src/_data/tools.json`. Each category column displays its title, description, and tool links with generous hit-targets, plus a "View all tools" link.
+- **No-JS Graceful Fallback:** Links remain in DOM order and crawlable even with JavaScript disabled.
+
+### Mobile Navigation Drawer (< 900px)
+- **Slide-in Sheet:** Full-height slide-in drawer (`role="dialog"`, `aria-modal="true"`) sliding from left with smooth cubic bezier animation.
+- **Accessibility & Focus Trap:** Traps Tab focus strictly inside drawer, locks body scrolling (`tb-drawer-open`), returns focus to the hamburger button on close, and closes on Escape or backdrop tap.
+- **Mobile Drawer Contents:** Direct search trigger button, expandable category accordions with rotated chevrons, About/Contact links, and theme toggle. Touch targets strictly >= 44px.
+
+### Command Palette Search (`src/assets/js/layout.js`)
+- **Modal Dialog (`role="dialog"`, `aria-modal="true"`):** Accessible combobox input (`role="combobox"`, `aria-autocomplete="list"`) and results listbox (`role="listbox"`, `aria-activedescendant`).
+- **Keyboard Shortcuts:**
+  - `Ctrl+K` or `⌘K` opens modal from anywhere.
+  - `/` opens modal when not focused in an editable field.
+  - `ArrowUp` / `ArrowDown` navigates result items with active descendant styling.
+  - `Enter` navigates to the selected tool.
+  - `Home` / `End` jumps to first / last item.
+  - `Escape` closes the palette and restores focus to previous active element.
+- **Client-Side Build-Time Index:** Generated at build time as a compact content-hashed JSON (`/assets/search-index.[hash].json`). Lazy-fetched only on first user focus or trigger hover.
+- **Custom Zero-Dependency Scorer:**
+  - Ranking hierarchy: exact name/slug match (1000) > prefix match (500) > word prefix match (350) > substring match (180) > fuzzy subsequence (60) + keyword boosts (80-220) + category boost (90) + description match (25) + 1-edit Levenshtein typo tolerance for queries > 4 characters.
+  - Text matches highlighted via `<mark class="palette-mark">`.
+- **Empty & Recent States:** Empty query displays "Recent Tools" (up to 5 visited tools stored locally in `localStorage` with a "Clear" button) and "Popular Tools" (top 8).
+- **Homepage Search Integration:** Homepage `#tool-search` input utilizes the same custom scorer to filter cards and category sections live.
+- **Size Budget:** Total JS footprint for header, mega-menu, drawer, search scorer, and theme sync is under **6.2 KB gzipped** (budget < 8 KB).
+
+### Footer (`src/_includes/partials/footer.njk`)
+- **4-to-1 Column Responsive Grid:** 4 columns on desktop (`min-width: 900px`) -> 2 columns on tablet (`600px - 899px`) -> 1 column on mobile (`< 600px`).
+- **Brand & Promise:** Includes brand mark, promise statement, and green privacy badge ("Runs in your browser. Your data never leaves your device.").
+- **Centralized Links:** Categories (generated from `categories.json` via `categoryUrl` filter), Popular Tools (top 8 tools by `order`), and Company links (About, Contact, Suggest a Tool, Privacy Policy, Terms).
+- **Back-to-Top Button:** Scroll-reactive button (appears after 300px scroll) with smooth scroll to top, respecting `prefers-reduced-motion`.
+
+---
+
+## 8. Testing & Quality Assurance
 
 Run the automated test suite:
 ```bash
 npm test
 ```
 The suite verifies:
-1. **WCAG AA Contrast Check:** Every token text/background pair meets >= 4.5:1 (>= 3:1 for borders).
-2. **CSS Size Budget Check:** The bundled main CSS must be under 30 KB gzipped (currently ~9.1 KB).
-3. **Design System Security Check:** `/design-system/` must always have `noindex, nofollow` in both staging and production, and be absent from `sitemap.xml` and navigation links.
-4. **Eleventy Parity Check:** Verifies 100% metadata and SEO parity for existing tools.
+1. **HTML Landmark & Accessibility Checks:** Exactly 1 `<header>` and 1 `<footer>` landmark per page, exactly 1 skip-link, unique `<nav aria-label>` attributes, accessible names for all `<button>` elements, zero duplicate element IDs.
+2. **Search Index Integrity:** Verifies content-hashed search index exists and contains all 10 tools with name, slug, category, description, and keywords.
+3. **WCAG AA Contrast Check:** Every token text/background pair meets >= 4.5:1 (>= 3:1 for borders).
+4. **CSS & JS Size Budget:** Bundled main CSS under 30 KB gzipped; layout JS under 8 KB gzipped.
+5. **Playwright Interaction Tests (`scripts/test-interactions.js`):** Tests Ctrl+K open, search ranking ("age" -> Age Calculator #1), Escape close & focus restoration, mobile drawer open & focus trap at 375px.
+6. **Design System Security Check:** `/design-system/` must always have `noindex, nofollow` in both staging and production, and be absent from `sitemap.xml` and navigation links.
+7. **Eleventy Parity Check:** Verifies 100% metadata and SEO parity for existing tools.

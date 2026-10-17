@@ -92,12 +92,12 @@ layout: layouts/base.njk
   <main id="main-content" class="container">
     {% include "partials/breadcrumbs.njk" %}
 
-    <header class="page-header" style="border-bottom: none; margin-bottom: 0.5rem;">
+    <div class="page-header" style="border-bottom: none; margin-bottom: 0.5rem;">
       <h1>{{ h1 or (currentTool.name if currentTool else title) }}</h1>
       <p style="font-size: 0.875rem; color: var(--text-subtle); margin-bottom: 0.5rem;">
         Built and maintained by <strong>ToolsBuilt</strong> &bull; Last updated: {{ updatedDate or "October 11, 2026" }}
       </p>
-    </header>
+    </div>
 
     {{ content | safe }}
 
