@@ -1,0 +1,32 @@
+---
+permalink: /llms.txt
+eleventyExcludeFromCollections: true
+---
+# ToolsBuilt
+
+> Free, fast, private online calculators and productivity utilities that run entirely in your web browser.
+
+ToolsBuilt provides focused, single-purpose calculation and conversion tools with no signups, no paywalls, and no server-side data processing. All user inputs stay 100% private inside the client's browser.
+
+## Core Principles
+
+- **Client-Side Processing**: Every calculation and conversion runs locally in JavaScript. No form inputs or sensitive data are ever sent to a server.
+- **Privacy by Design**: No account creation, no tracking of calculations, and zero storage of user calculations.
+- **Fast & Accessible**: Lightweight vanilla HTML, CSS, and JavaScript with instant feedback, keyboard navigation, and responsive mobile-first layouts.
+- **Free Forever**: All tools are completely free to use without restrictions.
+
+## Tool Categories
+{% for cat in categories %}
+- [{{ cat.name }}](https://toolsbuilt.com/category/{{ cat.slug }}/): {{ cat.description }}
+{%- endfor %}
+
+## Available Tools
+{% for tool in tools %}
+- [{{ tool.name }}](https://toolsbuilt.com/tools/{{ tool.slug }}/): {{ tool.description }}
+{%- endfor %}
+
+## Additional Links
+
+- All Tools Directory: https://toolsbuilt.com/tools/
+- Website: https://toolsbuilt.com/
+- Atom Feed: https://toolsbuilt.com/feed.xml

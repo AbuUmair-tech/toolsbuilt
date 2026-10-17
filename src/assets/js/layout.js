@@ -840,6 +840,16 @@
         }
       });
     });
+
+    // Check for ?q= query param from SearchAction or external links
+    try {
+      const urlParams = new URLSearchParams(window.location.search);
+      const initialQuery = urlParams.get('q');
+      if (initialQuery) {
+        heroInput.value = initialQuery;
+        heroInput.dispatchEvent(new Event('input', { bubbles: true }));
+      }
+    } catch (e) {}
   }
 
   // --- All Tools Directory (/tools/) Interactive Filtering ---

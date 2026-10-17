@@ -1,5 +1,6 @@
 const { buildCss } = require('./scripts/bundle-css.js');
 const { buildSearchIndex } = require('./scripts/build-search-index.js');
+const { generateAllCards } = require('./scripts/generate-og-cards.js');
 
 module.exports = function(eleventyConfig) {
   const isProduction = process.env.NODE_ENV === 'production' || process.env.SITE_ENV === 'production';
@@ -14,6 +15,7 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.on('eleventy.before', async () => {
     cssBundle = buildCss({ isProduction });
     searchBundle = buildSearchIndex();
+    await generateAllCards();
   });
 
   eleventyConfig.on('eleventy.after', async () => {
@@ -42,6 +44,7 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPassthroughCopy({ 'src/CNAME': 'CNAME' });
   eleventyConfig.addPassthroughCopy({ 'src/.nojekyll': '.nojekyll' });
   eleventyConfig.addPassthroughCopy({ 'src/google5758f81e977de6a2.html': 'google5758f81e977de6a2.html' });
+  eleventyConfig.addPassthroughCopy({ 'src/manifest.webmanifest': 'manifest.webmanifest' });
   eleventyConfig.addPassthroughCopy({ 'src/assets': 'assets' });
 
   // Passthrough tool-specific scripts and styles

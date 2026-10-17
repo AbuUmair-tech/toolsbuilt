@@ -63,6 +63,8 @@ layout: layouts/base.njk
     "operatingSystem": "Any",
     "browserRequirements": "Requires JavaScript. Requires HTML5.",
     "description": "{{ description }}",
+    "inLanguage": "en-US",
+    "dateModified": "{{ (currentTool.updated if currentTool else '') or '2026-10-15' }}",
     "offers": {
       "@type": "Offer",
       "price": "0",
@@ -283,7 +285,7 @@ layout: layouts/base.njk
               <li><a href="#how-to-use-heading">How to Use</a></li>
               <li><a href="#article-heading">Formula &amp; Method</a></li>
               <li><a href="#faq-heading">Frequently Asked Questions</a></li>
-              {% if currentCategory %}
+              {% if currentCategory and sameCatTools and sameCatTools.length > 0 %}
               <li><a href="#more-cat-heading">More in {{ currentCategory.name }}</a></li>
               {% endif %}
               <li><a href="#related-tools-heading">Related Tools</a></li>

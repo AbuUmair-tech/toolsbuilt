@@ -509,6 +509,42 @@ try {
   assert(false, `Tool template interaction tests failed: ${e.message}\n${e.stdout || ''}${e.stderr || ''}`);
 }
 
+// -----------------------------------------------------------------
+// Test 17: Structured Data (JSON-LD) & Schema Parity Audit
+// -----------------------------------------------------------------
+console.log('\n--- 17. Structured Data (JSON-LD) & Schema Parity Audit ---');
+try {
+  const schemaOutput = execSync('node scripts/check-schema.js', {
+    cwd: ROOT,
+    encoding: 'utf8',
+    stdio: 'pipe'
+  });
+  assert(
+    schemaOutput.includes('JSON-LD schemas validated successfully'),
+    'Structured data audit: all JSON-LD schemas valid, proper shapes, DOM-schema parity, no fabricated fields'
+  );
+} catch (e) {
+  assert(false, `Structured data audit failed: ${e.message}\n${e.stdout || ''}${e.stderr || ''}`);
+}
+
+// -----------------------------------------------------------------
+// Test 18: Technical SEO, Link Crawlability, Metadata Bounds & Accessibility
+// -----------------------------------------------------------------
+console.log('\n--- 18. Technical SEO, Crawlability, Metadata & Accessibility ---');
+try {
+  const seoOutput = execSync('node scripts/check-seo.js', {
+    cwd: ROOT,
+    encoding: 'utf8',
+    stdio: 'pipe'
+  });
+  assert(
+    seoOutput.includes('Technical SEO & Accessibility audit PASSED'),
+    'SEO audit: depth <= 3, trailing slashes, anchor integrity, descriptive links, title/desc bounds, og:image <= 100KB'
+  );
+} catch (e) {
+  assert(false, `Technical SEO & Accessibility audit failed: ${e.message}\n${e.stdout || ''}${e.stderr || ''}`);
+}
+
 console.log('\n========================================================');
 if (failures === 0) {
   console.log('🎉 ALL AUDIT & REGRESSION TESTS PASSED (0 FAILURES)');

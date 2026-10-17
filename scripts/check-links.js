@@ -140,7 +140,7 @@ function analyzeFile(file) {
     if (!hasNoindex) {
       log('error', file, 'Design system page must always have noindex meta tag');
     }
-  } else if (isProduction && hasNoindex) {
+  } else if (isProduction && hasNoindex && !is404) {
     log('error', file, 'Production build contains forbidden noindex meta tag');
   } else if (!isProduction && !hasNoindex && !is404) {
     log('error', file, 'Staging/non-production build is missing required noindex meta tag');
@@ -346,7 +346,7 @@ function checkRobotsTxt() {
   }
   const txt = fs.readFileSync(robotsPath, 'utf8');
   if (isProduction) {
-    if (txt.includes('Disallow: /')) {
+    if (/(?:^|\r?\n)Disallow:\s*\/\s*(?:\r?\n|$)/.test(txt)) {
       errors.push('[ERROR] robots.txt: Production robots.txt contains "Disallow: /"');
     }
     if (!txt.includes('Allow: /')) {

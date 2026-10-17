@@ -1,15 +1,48 @@
 ---
 layout: layouts/base.njk
-title: Page Not Found - ToolsBuilt
-description: The page you are looking for does not exist on ToolsBuilt. Explore our free online calculators.
+title: Page Not Found | ToolsBuilt
+description: The page you are looking for could not be found. Search our full directory of free online calculators, date utilities, and text tools.
 permalink: /404.html
+noindex: true
 eleventyExcludeFromCollections: true
 ---
 
   <!-- Main Content -->
-  <main id="main-content" class="container text-center" style="padding: 5rem 1rem;">
-    <h1 style="font-size: 5rem; color: var(--primary); margin-bottom: 0.5rem;">404</h1>
-    <h2>Page Not Found</h2>
-    <p style="max-width: 500px; margin: 1rem auto 2rem auto;">The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.</p>
-    <a href="/" class="btn btn-primary">Return to Homepage</a>
+  <main id="main-content" class="container text-center page-container" style="padding-top: var(--space-12); padding-bottom: var(--space-16);">
+    <div style="max-width: 680px; margin-inline: auto;">
+      <p style="font-size: var(--font-size-xs); font-weight: var(--font-weight-bold); text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent-primary); margin-bottom: var(--space-2);">Error 404</p>
+      <h1 style="font-size: clamp(var(--font-size-3xl), 5vw, var(--font-size-4xl)); font-weight: var(--font-weight-extrabold); color: var(--text-primary); margin-bottom: var(--space-3);">Page Not Found</h1>
+      <p style="font-size: var(--font-size-base); color: var(--text-secondary); line-height: var(--line-height-relaxed); margin-bottom: var(--space-8);">The link you followed may be broken, or the page may have been moved. Try searching our collection of free calculators or browse popular tools below.</p>
+
+      <!-- 404 Search Form pointing to /?q= -->
+      <form action="/" method="GET" class="hero-search-box" style="margin-inline: auto; margin-bottom: var(--space-10); max-width: 480px;">
+        <svg class="hero-search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input type="search" name="q" class="hero-search-input" placeholder="Search calculators (e.g. Age, Discount, Password)..." aria-label="Search tools" autocomplete="off">
+        <button type="submit" class="btn btn-sm btn-primary" style="margin-right: 4px;">Search</button>
+      </form>
+
+      <!-- Quick Category Links -->
+      <div style="margin-bottom: var(--space-10);">
+        <p style="font-size: var(--font-size-xs); font-weight: var(--font-weight-semibold); text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-tertiary); margin-bottom: var(--space-3);">Browse by Category</p>
+        <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: var(--space-2);">
+          {% for cat in categories %}
+          <a href="{{ cat.slug | categoryUrl }}" class="quick-chip">
+            <span class="quick-chip-dot" data-cat="{{ cat.slug }}"></span>
+            <span>{{ cat.name }}</span>
+          </a>
+          {% endfor %}
+          <a href="/tools/" class="quick-chip">
+            <span>All Tools Directory &rarr;</span>
+          </a>
+        </div>
+      </div>
+
+      <div style="display: flex; justify-content: center; gap: var(--space-4);">
+        <a href="/" class="btn btn-secondary">Return to Homepage</a>
+        <a href="/tools/" class="btn btn-ghost">View All Tools</a>
+      </div>
+    </div>
   </main>
