@@ -170,6 +170,66 @@ function analyzeFile(file) {
       log('error', file, `Invalid JSON-LD block #${jldIndex}: ${e.message}`);
     }
   }
+
+  // Stylesheet existence check
+  const linkCssRegex = /<link\b[^>]*rel=["']stylesheet["'][^>]*>/gi;
+  let linkCssMatch;
+  while ((linkCssMatch = linkCssRegex.exec(html)) !== null) {
+    const tag = linkCssMatch[0];
+    const hrefMatch = tag.match(/href=["']([^"']+)["']/i);
+    if (hrefMatch) {
+      const href = hrefMatch[1];
+      if (!href.startsWith('http')) {
+        const resolved = resolveInternalHref(href, file);
+        if (resolved === null) {
+          log('error', file, `Stylesheet missing from _site: ${href}`);
+        }
+      }
+    }
+  }
+
+  // Script src existence check
+  const scriptRegex = /<script\b[^>]*src=["']([^"']+)["'][^>]*>/gi;
+  let scriptMatch;
+  while ((scriptMatch = scriptRegex.exec(html)) !== null) {
+    const src = scriptMatch[1];
+    if (!src.startsWith('http')) {
+      const resolved = resolveInternalHref(src, file);
+      if (resolved === null) {
+        log('error', file, `Script file missing from _site: ${src}`);
+      }
+    }
+  }
+
+  // SVG regression guard: fail if any <svg> lacks width/height or a sized class
+  const svgRegex = /<svg\b([^>]*)>/gi;
+  let svgMatch;
+  while ((svgMatch = svgRegex.exec(html)) !== null) {
+    const attrs = svgMatch[1];
+    const hasWidth = /\bwidth\s*=/i.test(attrs);
+    const hasHeight = /\bheight\s*=/i.test(attrs);
+    const classMatch = attrs.match(/\bclass=["']([^"']+)["']/i);
+    const hasClass = Boolean(classMatch && classMatch[1].trim());
+
+    if ((!hasWidth || !hasHeight) && !hasClass) {
+      log('error', file, `Unconstrained <svg> missing width/height and class: ${svgMatch[0].substring(0, 80)}...`);
+    }
+  }
+
+  // IMG regression guard: fail if any <img> lacks width/height or a sized class
+  const imgRegex = /<img\b([^>]*)>/gi;
+  let imgMatch;
+  while ((imgMatch = imgRegex.exec(html)) !== null) {
+    const attrs = imgMatch[1];
+    const hasWidth = /\bwidth\s*=/i.test(attrs);
+    const hasHeight = /\bheight\s*=/i.test(attrs);
+    const classMatch = attrs.match(/\bclass=["']([^"']+)["']/i);
+    const hasClass = Boolean(classMatch && classMatch[1].trim());
+
+    if ((!hasWidth || !hasHeight) && !hasClass) {
+      log('error', file, `Unconstrained <img> missing width/height and class: ${imgMatch[0].substring(0, 80)}...`);
+    }
+  }
 }
 
 function checkSitemap() {
