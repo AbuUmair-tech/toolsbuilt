@@ -223,4 +223,132 @@
       padding-block: var(--space-24);
     }
   }
+
+  /* -------------------------------------------------------------------------
+     Tool & Article Content Layout (with sticky TOC)
+     ------------------------------------------------------------------------- */
+  .tool-page-layout {
+    max-width: var(--container-max);
+  }
+
+  .tool-workspace {
+    width: 100%;
+    margin-bottom: var(--space-8);
+  }
+
+  .tool-content-layout {
+    display: flex;
+    gap: var(--space-10);
+    align-items: flex-start;
+    position: relative;
+  }
+
+  .tool-content-main {
+    flex: 1 1 0%;
+    min-width: 0;
+    max-width: 75ch; /* Optimal reading width 65-75ch */
+  }
+
+  .tool-toc-aside {
+    display: none;
+    width: 240px;
+    flex-shrink: 0;
+  }
+
+  @media (min-width: 1100px) {
+    .tool-toc-aside {
+      display: block;
+    }
+
+    .tool-toc-sticky {
+      position: sticky;
+      top: calc(var(--header-height, 60px) + var(--space-6));
+      padding: var(--space-4);
+      background-color: var(--surface-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-xs);
+    }
+  }
+
+  /* -------------------------------------------------------------------------
+     Category Hub & Directory Layout Containers
+     ------------------------------------------------------------------------- */
+  .category-hub-layout,
+  .directory-page-layout {
+    max-width: var(--container-max);
+  }
+
+  .directory-view-container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+  }
+
+  /* -------------------------------------------------------------------------
+     Print Stylesheet - Ink-friendly calculation receipt
+     ------------------------------------------------------------------------- */
+  @media print {
+    header,
+    footer,
+    .site-header,
+    .site-footer,
+    .mega-menu,
+    .mobile-drawer,
+    .theme-toggle,
+    .cmd-k-trigger,
+    .breadcrumb,
+    .result-actions-bar,
+    .tool-toc-aside,
+    .more-in-category-section,
+    .related-tools-section,
+    .faq-section,
+    .tool-sources-section,
+    .tool-trust-block,
+    .ad-placement,
+    .skip-link,
+    .button-group,
+    #back-to-top {
+      display: none !important;
+    }
+
+    body {
+      background: #ffffff !important;
+      color: #000000 !important;
+      font-size: 12pt !important;
+    }
+
+    .container,
+    .page-container,
+    .tool-page-layout {
+      max-width: 100% !important;
+      padding: 0 !important;
+      margin: 0 !important;
+    }
+
+    .tool-container,
+    .result-box,
+    .tool-card {
+      box-shadow: none !important;
+      border: 1px solid #cccccc !important;
+      background: #ffffff !important;
+      break-inside: avoid;
+    }
+
+    .tool-hero-title {
+      font-size: 20pt !important;
+      color: #000000 !important;
+      margin-bottom: 8pt !important;
+    }
+
+    .tool-hero-description {
+      font-size: 11pt !important;
+      color: #333333 !important;
+    }
+
+    a {
+      text-decoration: none !important;
+      color: #000000 !important;
+    }
+  }
 }

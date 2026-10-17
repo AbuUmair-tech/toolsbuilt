@@ -473,6 +473,42 @@ try {
   assert(false, `Homepage interaction tests failed: ${e.message}\n${e.stdout || ''}${e.stderr || ''}`);
 }
 
+// -----------------------------------------------------------------
+// Test 15: Category Hub, All-Tools Directory & Tool Template Integrity
+// -----------------------------------------------------------------
+console.log('\n--- 15. Category Hub, Directory & Tool Template Integrity ---');
+try {
+  const templateOutput = execSync('node scripts/check-templates.js', {
+    cwd: ROOT,
+    encoding: 'utf8',
+    stdio: 'pipe'
+  });
+  assert(
+    templateOutput.includes('ALL TEMPLATE & DIRECTORY INTEGRITY CHECKS PASSED'),
+    'Template audit: 5 category hubs, /tools/ directory, 10 tool pages, breadcrumbs, JSON-LD, sitemap, result actions'
+  );
+} catch (e) {
+  assert(false, `Template & Directory integrity checks failed: ${e.message}\n${e.stdout || ''}${e.stderr || ''}`);
+}
+
+// -----------------------------------------------------------------
+// Test 16: Playwright Tool Calculations, Result Actions & Directory
+// -----------------------------------------------------------------
+console.log('\n--- 16. Playwright Tool Calculations, Result Actions & Directory ---');
+try {
+  const toolInteractionOutput = execSync('node scripts/test-template-interactions.js', {
+    cwd: ROOT,
+    encoding: 'utf8',
+    stdio: 'pipe'
+  });
+  assert(
+    toolInteractionOutput.includes('ALL PLAYWRIGHT TEMPLATE & DIRECTORY TESTS PASSED'),
+    'Playwright template interactions: age/discount/password calculations, copy toast, reset, category hub, directory filtering'
+  );
+} catch (e) {
+  assert(false, `Tool template interaction tests failed: ${e.message}\n${e.stdout || ''}${e.stderr || ''}`);
+}
+
 console.log('\n========================================================');
 if (failures === 0) {
   console.log('🎉 ALL AUDIT & REGRESSION TESTS PASSED (0 FAILURES)');

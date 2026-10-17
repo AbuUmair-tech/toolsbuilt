@@ -41,6 +41,7 @@
     initMobileDrawer();
     initCommandPalette();
     initHomepageSearch();
+    initDirectoryPage();
     initHomepageRecentTools();
     initBackToTop();
     recordRecentToolVisit();
@@ -839,6 +840,102 @@
         }
       });
     });
+  }
+
+  // --- All Tools Directory (/tools/) Interactive Filtering ---
+  function initDirectoryPage() {
+    const searchInput = document.getElementById('directory-search');
+    const filterChips = document.querySelectorAll('.directory-filter-bar .tool-filter-chip');
+    const categoryBlocks = document.querySelectorAll('.directory-category-block');
+    const noResults = document.getElementById('directory-no-results');
+
+    if (!searchInput && !filterChips.length && !categoryBlocks.length) return;
+
+    let activeCategory = 'all';
+    let searchQuery = '';
+
+    function applyFilters() {
+      const q = searchQuery.toLowerCase().trim();
+      let totalVisible = 0;
+
+      categoryBlocks.forEach(block => {
+        const cat = block.getAttribute('data-category');
+        const cards = block.querySelectorAll('.tool-card');
+        let visibleInBlock = 0;
+
+        const categoryMatches = (activeCategory === 'all' || activeCategory === cat);
+
+        cards.forEach(card => {
+          if (!categoryMatches) {
+            card.style.display = 'none';
+            return;
+          }
+
+          if (!q) {
+            card.style.display = '';
+            visibleInBlock++;
+            totalVisible++;
+            return;
+          }
+
+          const title = (card.querySelector('.tool-title')?.textContent || '').toLowerCase();
+          const desc = (card.querySelector('.tool-desc')?.textContent || '').toLowerCase();
+          const slug = (card.getAttribute('data-slug') || '').toLowerCase();
+
+          if (title.includes(q) || desc.includes(q) || slug.includes(q)) {
+            card.style.display = '';
+            visibleInBlock++;
+            totalVisible++;
+          } else {
+            card.style.display = 'none';
+          }
+        });
+
+        if (visibleInBlock > 0) {
+          block.style.display = '';
+        } else {
+          block.style.display = 'none';
+        }
+      });
+
+      if (noResults) {
+        if (totalVisible === 0) {
+          noResults.removeAttribute('hidden');
+        } else {
+          noResults.setAttribute('hidden', '');
+        }
+      }
+    }
+
+    // Filter chip clicks
+    filterChips.forEach(chip => {
+      chip.addEventListener('click', (e) => {
+        e.preventDefault();
+        const cat = chip.getAttribute('data-category');
+        activeCategory = cat || 'all';
+
+        filterChips.forEach(c => c.classList.remove('is-active'));
+        chip.classList.add('is-active');
+
+        applyFilters();
+      });
+    });
+
+    // Search input
+    if (searchInput) {
+      searchInput.addEventListener('input', (e) => {
+        searchQuery = e.target.value;
+        applyFilters();
+      });
+
+      searchInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          searchInput.value = '';
+          searchQuery = '';
+          applyFilters();
+        }
+      });
+    }
   }
 
   // --- Homepage Recent Tools Section (Progressive Enhancement) ---

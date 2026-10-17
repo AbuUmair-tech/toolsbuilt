@@ -71,8 +71,33 @@ module.exports = function(eleventyConfig) {
       .filter(Boolean);
   });
 
+  eleventyConfig.addFilter('getCategoryOtherTools', function(tool, allTools, limit = 4) {
+    if (!tool || !Array.isArray(allTools)) return [];
+    return allTools
+      .filter(t => t.category === tool.category && t.slug !== tool.slug)
+      .slice(0, limit);
+  });
+
   eleventyConfig.addFilter('categoryUrl', function(slug) {
-    return '/#cat-' + slug;
+    return '/category/' + slug + '/';
+  });
+
+  eleventyConfig.addFilter('itemListSchema', function(tools, listName) {
+    if (!tools || !Array.isArray(tools)) return '';
+    const schema = {
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      "name": listName || "Tools",
+      "numberOfItems": tools.length,
+      "itemListElement": tools.map((t, idx) => ({
+        "@type": "ListItem",
+        "position": idx + 1,
+        "name": t.name,
+        "description": t.description,
+        "url": `https://toolsbuilt.com/tools/${t.slug}/`
+      }))
+    };
+    return JSON.stringify(schema, null, 2);
   });
 
   eleventyConfig.addFilter('filterPopular', function(tools, limit) {

@@ -9,7 +9,20 @@ eleventyExcludeFromCollections: true
     <lastmod>2026-10-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
+  <url>
+    <loc>https://toolsbuilt.com/tools/</loc>
+    <lastmod>2026-10-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
   </url>
+{% for cat in categories %}
+  <url>
+    <loc>https://toolsbuilt.com/category/{{ cat.slug }}/</loc>
+    <lastmod>2026-10-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+{% endfor %}
 {% for tool in tools %}
   <url>
     <loc>https://toolsbuilt.com/tools/{{ tool.slug }}/</loc>
