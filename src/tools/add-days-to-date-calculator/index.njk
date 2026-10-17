@@ -7,18 +7,18 @@ permalink: /tools/add-days-to-date-calculator/
 h1: "Add or Subtract Days from a Date"
 howto:
   name: "How to Add or Subtract Days from a Date"
-  description: ""
+  description: "Step-by-step instructions for computing target dates with calendar or business day filtering."
   steps:
-    - name: ""
-      text: "Select your starting calendar date."
-    - name: ""
-      text: "Choose whether you want to add or subtract time."
-    - name: ""
-      text: "Enter the count and select the unit (days, weeks, months, or years)."
-    - name: ""
-      text: "Check 'Business days only' if you wish to exclude Saturdays and Sundays."
-    - name: ""
-      text: "View the target date, day of the week, quarter, and year details immediately."
+    - name: "Pick Start Date"
+      text: "Select your starting calendar date or click 'Today' to use the current date."
+    - name: "Select Operation"
+      text: "Choose whether you want to Add (+) into the future or Subtract (-) into the past."
+    - name: "Enter Quantity and Time Unit"
+      text: "Enter the number and select days, weeks, months, or years from the dropdown."
+    - name: "Filter Working Days (Optional)"
+      text: "Check 'Count business days only' if you wish to skip Saturdays and Sundays."
+    - name: "Review Target Date and Details"
+      text: "View the resulting calendar date, day of the week, and total elapsed duration."
 faqs:
   - q: "How does the business day calculation filter weekends?"
     a: "When you check the business days option, the calculator skips Saturdays and Sundays during iteration. If adding 5 business days starting on a Friday, the tool advances through Monday to Friday, producing the exact working day target."
@@ -35,165 +35,152 @@ sources:
     url: "https://www.iso.org/iso-8601-date-and-time-format.html"
   - label: "US Naval Observatory Leap Year and Calendar Rules"
     url: "https://aa.usno.navy.mil/"
+  - label: "W3C Note on Date and Time Formats"
+    url: "https://www.w3.org/TR/NOTE-datetime"
 ---
 
 <div class="tool-card">
-                <div class="tool-form-grid">
-                    <div class="form-group">
-                        <label for="startDate">Start Date</label>
-                        <div class="input-with-button">
-                            <input type="date" id="startDate" class="form-input" autocomplete="off">
-                            <button type="button" id="todayBtn" class="btn btn-secondary btn-sm">Today</button>
-                        </div>
-                    </div>
+  <div class="tool-form-grid">
+    <div class="form-group">
+      <label for="startDate">Start Date</label>
+      <div class="input-with-button">
+        <input type="date" id="startDate" class="form-input" autocomplete="off">
+        <button type="button" id="todayBtn" class="btn btn-secondary btn-sm">Today</button>
+      </div>
+    </div>
 
-                    <div class="form-group">
-                        <label for="operation">Operation</label>
-                        <select id="operation" class="form-input" autocomplete="off">
-                            <option value="add" selected>Add (+)</option>
-                            <option value="subtract">Subtract (-)</option>
-                        </select>
-                    </div>
+    <div class="form-group">
+      <label for="operation">Operation</label>
+      <select id="operation" class="form-input" autocomplete="off">
+        <option value="add" selected>Add (+)</option>
+        <option value="subtract">Subtract (-)</option>
+      </select>
+    </div>
 
-                    <div class="form-group">
-                        <label for="amount">Amount</label>
-                        <input type="number" id="amount" class="form-input" min="0" value="30" step="1" autocomplete="off">
-                    </div>
+    <div class="form-group">
+      <label for="amount">Amount</label>
+      <input type="number" id="amount" class="form-input" min="0" value="30" step="1" autocomplete="off">
+    </div>
 
-                    <div class="form-group">
-                        <label for="unit">Unit</label>
-                        <select id="unit" class="form-input" autocomplete="off">
-                            <option value="days" selected>Days</option>
-                            <option value="weeks">Weeks</option>
-                            <option value="months">Months</option>
-                            <option value="years">Years</option>
-                        </select>
-                    </div>
-                </div>
+    <div class="form-group">
+      <label for="unit">Unit</label>
+      <select id="unit" class="form-input" autocomplete="off">
+        <option value="days" selected>Days</option>
+        <option value="weeks">Weeks</option>
+        <option value="months">Months</option>
+        <option value="years">Years</option>
+      </select>
+    </div>
+  </div>
 
-                <div class="form-group mt-4">
-                    <label class="checkbox-label" id="businessDaysLabel">
-                        <input type="checkbox" id="businessDaysOnly" autocomplete="off">
-                        <span>Count business days only (exclude Saturdays &amp; Sundays)</span>
-                    </label>
-                    <p id="businessDaysNote" class="text-sm text-muted mt-2" style="display: none;">Business days work with days and weeks. Months and years always use calendar dates.</p>
-                </div>
+  <div class="form-group mt-4">
+    <label class="checkbox-label" id="businessDaysLabel">
+      <input type="checkbox" id="businessDaysOnly" autocomplete="off">
+      <span>Count business days only (exclude Saturdays &amp; Sundays)</span>
+    </label>
+    <p id="businessDaysNote" class="text-sm text-muted mt-2" style="display: none;">Business days work with days and weeks. Months and years always use calendar dates.</p>
+  </div>
 
-                <div class="button-group mt-4">
-                    <button type="button" id="calcBtn" class="btn btn-primary">Calculate</button>
-                    <button type="button" id="resetBtn" class="btn btn-secondary">Reset</button>
-                </div>
+  <div class="button-group mt-4">
+    <button type="button" id="calcBtn" class="btn btn-primary">Calculate</button>
+    <button type="button" id="resetBtn" class="btn btn-secondary">Reset</button>
+  </div>
 
-                <div class="result-box mt-6 is-visible" id="resultBox" aria-live="polite">
-                    <div class="result-header">
-                        <span class="result-title">Resulting Target Date</span>
-                        <button type="button" id="copyResultBtn" class="btn btn-sm btn-outline">Copy Result</button>
-                    </div>
-                    <div class="primary-result" id="primaryResult">Select options to calculate...</div>
-                    <div id="resultDetails" class="mt-4"></div>
-                </div>
-            </div>
+  <div class="result-box mt-6 is-visible" id="resultBox" aria-live="polite">
+    <div class="result-header">
+      <span class="result-title">Resulting Target Date</span>
+      <button type="button" id="copyResultBtn" class="btn btn-sm btn-ghost" title="Copy result to clipboard" aria-label="Copy result to clipboard">
+        <span data-icon="copy"></span> Copy Result
+      </button>
+    </div>
+    <div class="primary-result" id="primaryResult">Select options to calculate...</div>
+    <div id="resultDetails" class="mt-4"></div>
+  </div>
+</div>
 
-            <!-- Ad container placeholder -->
-            <!-- ad placement: below tool card -->
-            <div class="ad-placement my-8"></div>
+<div class="quick-answer-box" style="margin-top: 2rem;">
+  <h2 id="how-to-use-heading">Quick Answer: How to Add Days to Any Date</h2>
+  <p>To calculate a future or past date, choose your starting date, specify the number of days, weeks, months, or years to add or subtract, and toggle the business days filter if you need to skip weekends. The tool immediately displays the resulting calendar date, weekday, and duration details.</p>
+</div>
 
-            <div class="quick-answer-box">
-                <h2 id="how-to-use-heading">Quick Answer: How to Add Days to Any Date</h2>
-                <p>To calculate a future or past date, choose your starting date, specify the number of days or weeks to add or subtract, and toggle the business days filter if you need to skip weekends. The tool instantly displays the resulting calendar date, weekday, and quarter information.</p>
-            </div>
+<!-- Worked Examples Section -->
+<section style="margin: 2.5rem 0;" aria-labelledby="examples-heading">
+  <h2 id="examples-heading">Worked Date Addition Examples</h2>
+  
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 1.25rem;">
+    <div style="background: var(--surface-muted); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem;">
+      <h3 style="font-size: 1.1rem; margin-top: 0; color: var(--accent-primary);">Example 1: Adding 10 Business Days</h3>
+      <p style="font-size: var(--font-size-sm); color: var(--text-muted); margin-bottom: 0.5rem;"><strong>Start:</strong> Friday, October 16, 2026 | <strong>Operation:</strong> Add 10 Business Days</p>
+      <ul style="font-size: var(--font-size-sm); color: var(--text-muted); line-height: 1.6; margin-left: 1.25rem;">
+        <li>Skips weekends (Oct 17-18 and Oct 24-25)</li>
+        <li>Elapsed Calendar Days: 14 days</li>
+        <li><strong>Result:</strong> Friday, October 30, 2026</li>
+      </ul>
+    </div>
 
-            <div class="article-content">
-                <h2 id="article-heading">Why Is Calculating Target Dates Essential?</h2>
-                <p>Accurate date arithmetic is a fundamental requirement across project planning, legal agreements, financial forecasting, and personal organization. Manually counting days on a physical calendar often leads to miscalculations due to varying month lengths, weekend overlaps, and leap year days. Utilizing an automated date addition calculator guarantees exact calendar placement every time.</p>
+    <div style="background: var(--surface-muted); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem;">
+      <h3 style="font-size: 1.1rem; margin-top: 0; color: var(--accent-primary);">Example 2: Adding 1 Month to January 31st</h3>
+      <p style="font-size: var(--font-size-sm); color: var(--text-muted); margin-bottom: 0.5rem;"><strong>Start:</strong> January 31, 2027 | <strong>Operation:</strong> Add 1 Month</p>
+      <ul style="font-size: var(--font-size-sm); color: var(--text-muted); line-height: 1.6; margin-left: 1.25rem;">
+        <li>February has 28 days in 2027</li>
+        <li>Algorithm clamps month overflow to month-end</li>
+        <li><strong>Result:</strong> Sunday, February 28, 2027</li>
+      </ul>
+    </div>
 
-                <h2>How Does Business Day Calculation Work?</h2>
-                <p>When planning business operations, standard calendar days often fail to reflect actual working timelines. Project deliverables, payment terms, and legal notice periods routinely specify business days. When the <strong>Business days only</strong> option is active, our calculator skips Saturdays and Sundays. For example, adding 5 business days to a Friday advances through Monday, Tuesday, Wednesday, Thursday, and reaches target completion on the following Friday.</p>
+    <div style="background: var(--surface-muted); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem;">
+      <h3 style="font-size: 1.1rem; margin-top: 0; color: var(--accent-primary);">Example 3: Subtracting 90 Calendar Days</h3>
+      <p style="font-size: var(--font-size-sm); color: var(--text-muted); margin-bottom: 0.5rem;"><strong>Start:</strong> October 17, 2026 | <strong>Operation:</strong> Subtract 90 Days</p>
+      <ul style="font-size: var(--font-size-sm); color: var(--text-muted); line-height: 1.6; margin-left: 1.25rem;">
+        <li>Counts backward 90 calendar days (12 weeks, 6 days)</li>
+        <li>Crosses through September, August, and July</li>
+        <li><strong>Result:</strong> Sunday, July 19, 2026</li>
+      </ul>
+    </div>
+  </div>
+</section>
 
-                <div class="key-facts-box">
-                    <h3>Key Date Arithmetic Facts</h3>
-                    <ul>
-                        <li><strong>Leap Years:</strong> Occur every 4 years (except years divisible by 100 but not 400), adding February 29th and making the year 366 days long.</li>
-                        <li><strong>Standard Quarter Lengths:</strong> Q1 (90/91 days), Q2 (91 days), Q3 (92 days), and Q4 (92 days).</li>
-                        <li><strong>Average Business Month:</strong> Contains approximately 21 to 22 working days, excluding weekend days and federal holidays.</li>
-                    </ul>
-                </div>
+<!-- Common Mistakes Section -->
+<section style="margin: 2.5rem 0;" aria-labelledby="mistakes-heading">
+  <h2 id="mistakes-heading">Common Date Arithmetic Mistakes</h2>
+  <ul style="color: var(--text-muted); line-height: 1.8; margin-left: 1.25rem;">
+    <li><strong>Equating 30 Days to 1 Month:</strong> Adding "1 month" is not identical to adding "30 days". Adding 30 days to January 1 lands on January 31, while adding 1 month lands on February 1.</li>
+    <li><strong>Forgetting Weekend Extension in Business Days:</strong> Adding 5 business days always spans at least 7 calendar days because it spans a weekend. Adding 10 business days spans at least 14 calendar days.</li>
+    <li><strong>Month-End Overflows:</strong> Without proper month-end clamping, adding 1 month to March 31 could slip into May 1 on primitive date libraries. Our tool clamps directly to April 30.</li>
+  </ul>
+</section>
 
-                <h2>Common Real-World Applications</h2>
-                <p>Calculating dates forward or backward helps manage vital tasks across multiple domains:</p>
-                <ul>
-                    <li><strong>Project Deadlines:</strong> Calculate strict milestone deadlines based on working days or sprint weeks.</li>
-                    <li><strong>Legal &amp; Contractual Notice:</strong> Determine exact deadline dates for 30-day lease notices or 90-day contract renewals.</li>
-                    <li><strong>Medical &amp; Maternity Planning:</strong> Track trimester milestones or calculate estimated due dates from specific conception dates.</li>
-                    <li><strong>Financial Invoicing:</strong> Establish NET 30, NET 60, or NET 90 payment due dates from invoice generation dates.</li>
-                </ul>
+<div class="article-content">
+  <h2 id="article-heading">Why Is Calculating Target Dates Essential?</h2>
+  <p>Accurate date arithmetic is a fundamental requirement across project planning, legal agreements, financial forecasting, and personal organization. Manually counting days on a physical calendar often leads to miscalculations due to varying month lengths, weekend overlaps, and leap year days. Utilizing an automated date addition calculator guarantees exact calendar placement every time.</p>
 
-                <h2>Frequently Asked Questions</h2>
-                <div class="faq-accordion">
-                    <details class="faq-item">
-                        <summary class="faq-question">How does the business day calculation filter weekends?</summary>
-                        <div class="faq-answer">
-                            <p>When you check the business days option, the calculator skips Saturdays and Sundays during iteration. If adding 5 business days starting on a Friday, the tool advances through Monday to Friday, producing the exact working day target.</p>
-                        </div>
-                    </details>
+  <h2>How Does Business Day Calculation Work?</h2>
+  <p>When planning business operations, standard calendar days often fail to reflect actual working timelines. Project deliverables, payment terms, and legal notice periods routinely specify business days. When the <strong>Business days only</strong> option is active, our calculator skips Saturdays and Sundays. For example, adding 5 business days to a Friday advances through Monday, Tuesday, Wednesday, Thursday, and reaches target completion on the following Friday.</p>
+</div>
 
-                    <details class="faq-item">
-                        <summary class="faq-question">How are leap years handled when adding years or months?</summary>
-                        <div class="faq-answer">
-                            <p>The tool accounts for leap year structures automatically. Adding 365 calendar days across a leap year appropriately factors in February 29th, ensuring exact calendar alignment without manual correction.</p>
-                        </div>
-                    </details>
-
-                    <details class="faq-item">
-                        <summary class="faq-question">Can I calculate dates in the past by subtracting days?</summary>
-                        <div class="faq-answer">
-                            <p>Yes, simply select Subtract from the operation dropdown menu. You can count backward by days, weeks, months, or years to determine exact historical dates for contract origin, notice periods, or historical research.</p>
-                        </div>
-                    </div
-                    ></details>
-
-                    <details class="faq-item">
-                        <summary class="faq-question">What happens if I add a month to January 31st?</summary>
-                        <div class="faq-answer">
-                            <p>Standard calendar math adjusts month-end overflows to the last valid day of the target month. For example, adding one month to January 31st lands on February 28th (or February 29th during leap years).</p>
-                        </div>
-                    </details>
-
-                    <details class="faq-item">
-                        <summary class="faq-question">Is any of my date input data stored on external servers?</summary>
-                        <div class="faq-answer">
-                            <p>No. All date calculations perform locally inside your web browser using client-side JavaScript. None of your input dates or calculated results are transmitted to external servers or logged in database records.</p>
-                        </div>
-                    </details>
-                </div>
-
-                <div class="last-updated">Last updated: October 11, 2026</div>
-            </div>
-
-            <section class="related-tools mt-12">
-                <h2>Related Tools</h2>
-                <div class="tools-grid" id="relatedToolsGrid">
-                    <a href="/tools/days-until-date-calculator/" class="tool-card-link">
-                        <div class="tool-card-sm">
-                            <div class="tool-icon-wrapper date-time" data-icon="calendar-clock"></div>
-                            <h3>Days Until Date Calculator</h3>
-                            <p>Count down exact days, hours, and minutes until any target date.</p>
-                        </div>
-                    </a>
-                    <a href="/tools/date-difference-calculator/" class="tool-card-link">
-                        <div class="tool-card-sm">
-                            <div class="tool-icon-wrapper date-time" data-icon="calendar-range"></div>
-                            <h3>Date Difference Calculator</h3>
-                            <p>Find total days, weeks, months, and working days between two dates.</p>
-                        </div>
-                    </a>
-                    <a href="/tools/age-calculator/" class="tool-card-link">
-                        <div class="tool-card-sm">
-                            <div class="tool-icon-wrapper date-time" data-icon="cake"></div>
-                            <h3>Age Calculator</h3>
-                            <p>Calculate exact age in years, months, days, hours, and minutes.</p>
-                        </div>
-                    </a>
-                </div>
-            </section>
-        </article>
+<section class="related-tools mt-12">
+  <h2>Related Tools</h2>
+  <div class="tools-grid" id="relatedToolsGrid">
+    <a href="/tools/days-until-date-calculator/" class="tool-card-link">
+      <div class="tool-card-sm">
+        <div class="tool-icon-wrapper date-time" data-icon="calendar-clock"></div>
+        <h3>Days Until Date Calculator</h3>
+        <p>Count down exact days, hours, and minutes until any target date.</p>
+      </div>
+    </a>
+    <a href="/tools/date-difference-calculator/" class="tool-card-link">
+      <div class="tool-card-sm">
+        <div class="tool-icon-wrapper date-time" data-icon="calendar-range"></div>
+        <h3>Date Difference Calculator</h3>
+        <p>Find total days, weeks, months, and working days between two dates.</p>
+      </div>
+    </a>
+    <a href="/tools/age-calculator/" class="tool-card-link">
+      <div class="tool-card-sm">
+        <div class="tool-icon-wrapper date-time" data-icon="cake"></div>
+        <h3>Age Calculator</h3>
+        <p>Calculate exact age in years, months, days, hours, and minutes.</p>
+      </div>
+    </a>
+  </div>
+</section>

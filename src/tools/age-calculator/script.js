@@ -1,135 +1,201 @@
 /**
- * Age Calculator Script
- * Calculates exact age in years/months/days, total months, weeks, days, hours,
- * and countdown to next birthday using local midnight boundaries.
+ * Age Calculator UI Controller
+ * Uses AgeCalculatorLogic pure engine.
+ * Handles debounced live calculation, URL query sync, localStorage, and clipboard copying.
  */
-
 document.addEventListener('DOMContentLoaded', () => {
+  const logic = window.AgeCalculatorLogic;
   const form = document.getElementById('calculator-form');
   const dobInput = document.getElementById('dob-date');
   const targetDateInput = document.getElementById('target-date');
+  const leapConventionInputs = document.querySelectorAll('input[name="leap-convention"]');
   const resetBtn = document.getElementById('reset-btn');
+  const copyBtn = document.getElementById('copy-result-btn');
   const resultBox = document.getElementById('result-box');
   const errorBox = document.getElementById('error-box');
 
-  // Pre-fill target date as today
-  const today = new Date();
-  const todayY = today.getFullYear();
-  const todayM = String(today.getMonth() + 1).padStart(2, '0');
-  const todayD = String(today.getDate()).padStart(2, '0');
-  targetDateInput.value = `${todayY}-${todayM}-${todayD}`;
+  const STORAGE_KEY = 'toolsbuilt:age-calculator';
+  let debounceTimer = null;
+  let lastResultText = '';
 
-  // Pre-fill DOB with sample (e.g., Jan 1, 2000)
-  dobInput.value = '2000-01-01';
+  // Helper: get selected leap convention ('mar1' or 'feb28')
+  function getSelectedConvention() {
+    const checked = document.querySelector('input[name="leap-convention"]:checked');
+    return checked ? checked.value : 'mar1';
+  }
+
+  function setSelectedConvention(val) {
+    leapConventionInputs.forEach(radio => {
+      radio.checked = (radio.value === val);
+    });
+  }
+
+  // Pre-fill target date as today (local calendar format YYYY-MM-DD)
+  const now = new Date();
+  const todayStr = [
+    now.getFullYear(),
+    String(now.getMonth() + 1).padStart(2, '0'),
+    String(now.getDate()).padStart(2, '0')
+  ].join('-');
+
+  // 1. Initialize from URL params or localStorage or default
+  function initInputs() {
+    const params = new URLSearchParams(window.location.search);
+    const urlDob = params.get('dob');
+    const urlTarget = params.get('target');
+    const urlConv = params.get('conv');
+
+    if (urlDob) {
+      dobInput.value = urlDob;
+      targetDateInput.value = urlTarget || todayStr;
+      if (urlConv && (urlConv === 'feb28' || urlConv === 'mar1')) {
+        setSelectedConvention(urlConv);
+      }
+      return;
+    }
+
+    // Try localStorage
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) {
+        const data = JSON.parse(saved);
+        if (data.dob) dobInput.value = data.dob;
+        if (data.target) targetDateInput.value = data.target;
+        if (data.conv) setSelectedConvention(data.conv);
+        return;
+      }
+    } catch (e) {}
+
+    // Default sample
+    dobInput.value = '2000-01-01';
+    targetDateInput.value = todayStr;
+  }
+
+  function saveState(dob, target, conv) {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({ dob, target, conv }));
+    } catch (e) {}
+
+    // Update URL query string without reloading
+    const url = new URL(window.location.href);
+    if (dob && dob !== '2000-01-01') {
+      url.searchParams.set('dob', dob);
+    } else {
+      url.searchParams.delete('dob');
+    }
+    if (target && target !== todayStr) {
+      url.searchParams.set('target', target);
+    } else {
+      url.searchParams.delete('target');
+    }
+    if (conv && conv !== 'mar1') {
+      url.searchParams.set('conv', conv);
+    } else {
+      url.searchParams.delete('conv');
+    }
+    window.history.replaceState({}, '', url.toString());
+  }
+
+  function clearError() {
+    errorBox.textContent = '';
+    errorBox.classList.add('hidden');
+    dobInput.removeAttribute('aria-invalid');
+    dobInput.removeAttribute('aria-describedby');
+    targetDateInput.removeAttribute('aria-invalid');
+    targetDateInput.removeAttribute('aria-describedby');
+  }
+
+  function showError(msg, targetField) {
+    errorBox.textContent = msg;
+    errorBox.classList.remove('hidden');
+    resultBox.classList.remove('is-visible');
+    if (targetField) {
+      targetField.setAttribute('aria-invalid', 'true');
+      targetField.setAttribute('aria-describedby', 'error-box');
+      targetField.focus();
+    }
+  }
+
+  function calculate() {
+    clearError();
+    const dob = dobInput.value;
+    const target = targetDateInput.value;
+    const conv = getSelectedConvention();
+
+    if (!dob) {
+      showError('Please enter a valid date of birth.', dobInput);
+      return;
+    }
+    if (!target) {
+      showError('Please enter a target calculation date.', targetDateInput);
+      return;
+    }
+
+    try {
+      const res = logic.calculateAge(dob, target, { leapConvention: conv });
+      renderResult(res);
+      saveState(dob, target, conv);
+    } catch (err) {
+      showError(err.message, dobInput);
+    }
+  }
+
+  function renderResult(res) {
+    const numFormatter = new Intl.NumberFormat('en-US');
+    const primaryStr = `${res.years} Years, ${res.months} Months, ${res.days} Days`;
+    lastResultText = `Exact Age: ${primaryStr}. Total Days: ${numFormatter.format(res.totalDays)}. Next Birthday: ${res.nextBirthday.daysUntil} days left (${res.nextBirthday.weekday}, ${res.nextBirthday.formattedDate}).`;
+
+    document.getElementById('result-primary-text').textContent = primaryStr;
+    document.getElementById('stat-years-months-days').textContent = `${res.years}y ${res.months}m ${res.days}d`;
+    document.getElementById('stat-total-months').textContent = `${numFormatter.format(res.totalMonths)} Months`;
+    document.getElementById('stat-total-weeks').textContent = `${numFormatter.format(res.totalWeeks)} Weeks`;
+    document.getElementById('stat-total-days').textContent = `${numFormatter.format(res.totalDays)} Days`;
+    document.getElementById('stat-total-hours').textContent = `${numFormatter.format(res.totalHours)} Hours`;
+
+    const bdayEl = document.getElementById('stat-next-birthday');
+    if (res.nextBirthday.isToday) {
+      bdayEl.textContent = `Today is your Birthday! (${res.nextBirthday.weekday})`;
+    } else {
+      bdayEl.textContent = `${res.nextBirthday.daysUntil} days left (${res.nextBirthday.weekday}, ${res.nextBirthday.formattedDate})`;
+    }
+
+    resultBox.classList.add('is-visible');
+  }
+
+  function debouncedCalculate() {
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(calculate, 150);
+  }
+
+  // Event Listeners
+  dobInput.addEventListener('input', debouncedCalculate);
+  targetDateInput.addEventListener('input', debouncedCalculate);
+  leapConventionInputs.forEach(radio => radio.addEventListener('change', debouncedCalculate));
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();
-    calculateAge();
+    clearTimeout(debounceTimer);
+    calculate();
   });
 
   resetBtn.addEventListener('click', () => {
     dobInput.value = '2000-01-01';
-    targetDateInput.value = `${todayY}-${todayM}-${todayD}`;
+    targetDateInput.value = todayStr;
+    setSelectedConvention('mar1');
+    clearError();
     resultBox.classList.remove('is-visible');
-    errorBox.classList.add('hidden');
+    saveState('2000-01-01', todayStr, 'mar1');
   });
 
-  function calculateAge() {
-    const rawDob = dobInput.value;
-    const rawTarget = targetDateInput.value;
-
-    if (!rawDob || !rawTarget) {
-      showError('Please select both a valid date of birth and a target age date.');
-      return;
-    }
-
-    const [dobY, dobM, dobD] = rawDob.split('-').map(Number);
-    const [tY, tM, tD] = rawTarget.split('-').map(Number);
-
-    const dob = new Date(dobY, dobM - 1, dobD);
-    const target = new Date(tY, tM - 1, tD);
-
-    if (dob > target) {
-      showError('Date of birth cannot be in the future relative to the target calculation date.');
-      return;
-    }
-
-    errorBox.classList.add('hidden');
-
-    // Years, Months, Days calculation
-    let years = target.getFullYear() - dob.getFullYear();
-    let months = target.getMonth() - dob.getMonth();
-    let days = target.getDate() - dob.getDate();
-
-    if (days < 0) {
-      months--;
-      const prevMonthLastDay = new Date(target.getFullYear(), target.getMonth(), 0).getDate();
-      days += prevMonthLastDay;
-    }
-
-    if (months < 0) {
-      years--;
-      months += 12;
-    }
-
-    // Total metrics
-    const diffTime = target.getTime() - dob.getTime();
-    const totalDays = Math.round(diffTime / (1000 * 60 * 60 * 24));
-    const totalWeeks = Math.floor(totalDays / 7);
-    const totalMonths = (years * 12) + months;
-    const totalHours = totalDays * 24;
-
-    // Next Birthday calculation
-    let nextBdayYear = target.getFullYear();
-    let nextBday = new Date(nextBdayYear, dobM - 1, dobD);
-
-    // Check if birthday was Feb 29 and nextBdayYear is not leap year
-    if (dobM === 2 && dobD === 29 && !isLeapYear(nextBdayYear)) {
-      nextBday = new Date(nextBdayYear, 1, 28);
-    }
-
-    if (nextBday < target) {
-      nextBdayYear++;
-      nextBday = new Date(nextBdayYear, dobM - 1, dobD);
-      if (dobM === 2 && dobD === 29 && !isLeapYear(nextBdayYear)) {
-        nextBday = new Date(nextBdayYear, 1, 28);
+  if (copyBtn) {
+    copyBtn.addEventListener('click', () => {
+      if (lastResultText && window.ToolsBuilt && window.ToolsBuilt.copy) {
+        window.ToolsBuilt.copy(lastResultText, 'Age result copied to clipboard');
       }
-    }
-
-    const daysUntilNextBday = Math.round((nextBday.getTime() - target.getTime()) / (1000 * 60 * 60 * 24));
-    const bdayWeekday = nextBday.toLocaleDateString('en-US', { weekday: 'long' });
-    const bdayFormattedDate = nextBday.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
-
-    // UI Updates
-    document.getElementById('result-header-text').textContent = 'Age Calculation Result';
-    document.getElementById('result-primary-text').textContent = `${years} Years, ${months} Months, ${days} Days`;
-
-    document.getElementById('stat-years-months-days').textContent = `${years}y ${months}m ${days}d`;
-    document.getElementById('stat-total-months').textContent = `${totalMonths.toLocaleString()} Months`;
-    document.getElementById('stat-total-weeks').textContent = `${totalWeeks.toLocaleString()} Weeks`;
-    document.getElementById('stat-total-days').textContent = `${totalDays.toLocaleString()} Days`;
-    document.getElementById('stat-total-hours').textContent = `${totalHours.toLocaleString()} Hours`;
-
-    if (daysUntilNextBday === 0) {
-      document.getElementById('stat-next-birthday').textContent = `Today is your Birthday! (${bdayWeekday})`;
-    } else {
-      document.getElementById('stat-next-birthday').textContent = `${daysUntilNextBday} days left (${bdayWeekday}, ${bdayFormattedDate})`;
-    }
-
-    resultBox.classList.add('is-visible');
-    resultBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    });
   }
 
-  function isLeapYear(year) {
-    return (year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0);
-  }
-
-  function showError(message) {
-    errorBox.textContent = message;
-    errorBox.classList.remove('hidden');
-    resultBox.classList.remove('is-visible');
-  }
-
-  // Initial auto calculation
-  calculateAge();
+  // Init
+  initInputs();
+  calculate();
 });

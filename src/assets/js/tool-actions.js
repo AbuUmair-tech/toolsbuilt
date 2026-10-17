@@ -24,6 +24,11 @@
     const resultBox = document.querySelector('[data-result-source], #result-box, #resultBox, .result-box, #password-display, #winner-card, .counter-grid');
     if (!resultBox) return;
 
+    // Move result actions bar immediately after result box inside calculator card
+    if (actionsBar && resultBox.nextElementSibling !== actionsBar) {
+      resultBox.insertAdjacentElement('afterend', actionsBar);
+    }
+
     let wasResultVisible = false;
 
     // Toast notification utility

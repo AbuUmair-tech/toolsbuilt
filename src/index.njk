@@ -46,7 +46,7 @@ includeToolsData: true
     <!-- 1. Hero Section -->
     <section class="hero-section" aria-labelledby="hero-title">
       <h1 id="hero-title" class="hero-title">Free Online Calculators &amp; Tools</h1>
-      <p class="hero-subtitle">Free, fast, and privacy-first web utilities designed to solve everyday calculations instantly—no signup, no tracking, and zero bloat.</p>
+      <p class="hero-subtitle">Free, fast, and privacy-first web utilities designed to solve everyday calculations instantly—no signup, your inputs never leave your browser, and zero bloat.</p>
       
       <div class="hero-search-container">
         <div class="hero-search-box">
@@ -65,7 +65,7 @@ includeToolsData: true
         <div class="quick-chips-row">
           {% for tool in tools | filterPopular(6) %}
           <a href="/tools/{{ tool.slug }}/" class="quick-chip" data-cat="{{ tool.category }}">
-            <span class="quick-chip-dot" data-cat="{{ tool.category }}"></span>
+            <span class="quick-chip-icon" data-cat="{{ tool.category }}" aria-hidden="true">{{ tool.icon | safe }}</span>
             <span class="quick-chip-name">{{ tool.shortName or tool.name }}</span>
           </a>
           {% endfor %}
@@ -103,7 +103,7 @@ includeToolsData: true
       </div>
 
       <div class="tools-grid">
-        {% for tool in tools | filterPopular(8) %}
+        {% for tool in tools | filterPopular(6) %}
         <a href="/tools/{{ tool.slug }}/" class="tool-card" data-slug="{{ tool.slug }}">
           <div class="tool-card-header">
             <div class="tool-icon-tile" data-cat="{{ tool.category }}">
@@ -182,7 +182,7 @@ includeToolsData: true
                 <p class="category-desc">{{ cat.description }}</p>
               </div>
             </div>
-            <span class="category-count-badge">{{ catTools | length }} tools</span>
+            <span class="category-count-badge">{{ catTools | length }} {{ catTools | length | pluralize('tool') }}</span>
           </div>
 
           <div class="tools-grid">
@@ -224,7 +224,7 @@ includeToolsData: true
         <h2 id="why-title" class="section-title">Why ToolsBuilt?</h2>
         <p class="section-subtitle">Engineered for speed, privacy, and precision—without compromises.</p>
       </div>
-      <div class="features-grid">
+      <div class="features-grid why-grid">
         <div class="feature-card">
           <div class="feature-icon-wrapper" aria-hidden="true">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
@@ -238,7 +238,7 @@ includeToolsData: true
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
           </div>
           <h3 class="feature-title">Fast &amp; Bloat-Free</h3>
-          <p class="feature-desc">Zero JavaScript frameworks, zero tracking pixels, and zero forced account signups. Static HTML and lightweight CSS mean every page renders in milliseconds, even on slow mobile connections.</p>
+          <p class="feature-desc">Zero JavaScript frameworks, client-side calculations where inputs never leave your browser, and zero forced account signups. Static HTML and lightweight CSS mean every page renders in milliseconds, even on slow mobile connections.</p>
         </div>
 
         <div class="feature-card">
@@ -265,7 +265,7 @@ includeToolsData: true
         <h2 id="how-title" class="section-title">How It Works</h2>
         <p class="section-subtitle">Three steps to solve everyday math, time, and text tasks in seconds.</p>
       </div>
-      <div class="steps-grid">
+      <div class="steps-grid how-it-works-grid">
         <div class="step-card">
           <div class="step-badge">1</div>
           <h3 class="step-title">Find Your Tool</h3>

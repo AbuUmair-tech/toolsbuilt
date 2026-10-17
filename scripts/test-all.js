@@ -545,6 +545,60 @@ try {
   assert(false, `Technical SEO & Accessibility audit failed: ${e.message}\n${e.stdout || ''}${e.stderr || ''}`);
 }
 
+// -----------------------------------------------------------------
+// Test 19: Pure Tool Logic Modules & Property Fuzz Tests
+// -----------------------------------------------------------------
+console.log('\n--- 19. Pure Tool Logic Modules & Property-Based Fuzz Testing ---');
+try {
+  const logicOutput = execSync('node scripts/test-tool-logic.js', {
+    cwd: ROOT,
+    encoding: 'utf8',
+    stdio: 'pipe'
+  });
+  assert(
+    logicOutput.includes('ALL PURE LOGIC & PROPERTY FUZZ TESTS PASSED'),
+    'Pure logic: 10 tools, unit edge cases, DST/UTC invariance, Mulberry32 property fuzzing (500 runs)'
+  );
+} catch (e) {
+  assert(false, `Pure logic unit/fuzz tests failed: ${e.message}\n${e.stdout || ''}${e.stderr || ''}`);
+}
+
+// -----------------------------------------------------------------
+// Test 20: Playwright Tool UX, Debounce, Enter-Key & axe-core A11y Suite
+// -----------------------------------------------------------------
+console.log('\n--- 20. Playwright Tool UX, Debounce, Enter-Key & axe-core Suite ---');
+try {
+  const toolUxOutput = execSync('node scripts/test-tool-ux.js', {
+    cwd: ROOT,
+    encoding: 'utf8',
+    stdio: 'pipe'
+  });
+  assert(
+    toolUxOutput.includes('ALL TOOL UX, DEBOUNCE, ENTER-KEY & AXE-CORE TESTS PASSED'),
+    'Tool UX: 10 tools, live 150ms debounce, Enter key submission, copy toast, 0 axe-core violations in light & dark mode'
+  );
+} catch (e) {
+  assert(false, `Tool UX & axe-core tests failed: ${e.message}\n${e.stdout || ''}${e.stderr || ''}`);
+}
+
+// -----------------------------------------------------------------
+// Test 21: Layout, Container Alignment, Search Overlap & Privacy Invariance Suite
+// -----------------------------------------------------------------
+console.log('\n--- 21. Layout, Container Alignment, Search Overlap & Privacy Suite ---');
+try {
+  const layoutOutput = execSync('node scripts/test-layout-final.js', {
+    cwd: ROOT,
+    encoding: 'utf8',
+    stdio: 'pipe'
+  });
+  assert(
+    layoutOutput.includes('ALL LAYOUT, UX & PRIVACY REGRESSION TESTS PASSED'),
+    'Layout regression: container alignment, search overlap, 6 chips with icons, 2-col tool page, sticky TOC, privacy audit'
+  );
+} catch (e) {
+  assert(false, `Layout regression suite failed: ${e.message}\n${e.stdout || ''}${e.stderr || ''}`);
+}
+
 console.log('\n========================================================');
 if (failures === 0) {
   console.log('🎉 ALL AUDIT & REGRESSION TESTS PASSED (0 FAILURES)');

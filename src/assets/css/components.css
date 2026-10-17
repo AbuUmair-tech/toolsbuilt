@@ -47,9 +47,9 @@
   /* Button Variants */
   .btn-primary,
   .btn-calculate {
-    background-color: var(--accent-primary);
+    background-color: var(--accent-btn-bg, var(--accent-primary));
     color: var(--accent-contrast);
-    border-color: var(--accent-primary);
+    border-color: var(--accent-btn-bg, var(--accent-primary));
     box-shadow: var(--shadow-xs);
   }
 
@@ -547,10 +547,13 @@
   }
 
   .tools-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: var(--space-6);
     margin: var(--space-6) 0 var(--space-10) 0;
+  }
+
+  .cat-section .tool-card .tool-category-chip,
+  .category-section .tool-card .tool-category-chip,
+  .tool-card--no-chip .tool-category-chip {
+    display: none;
   }
 
   /* Tool Card - Clean, calm, modern Linear/Raycast aesthetic */
@@ -770,10 +773,18 @@
     margin-bottom: var(--space-8);
   }
 
-  .features-grid {
+  .features-grid,
+  .why-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: var(--space-8);
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+  }
+
+  @media (min-width: 768px) {
+    .features-grid,
+    .why-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
   }
 
   .feature-item {
@@ -843,7 +854,10 @@
      Calculator Interface & Result Panel
      ------------------------------------------------------------------------- */
   .tool-container,
-  .tool-interface {
+  .tool-interface,
+  .calculator-card {
+    width: 100%;
+    max-width: 100%;
     background-color: var(--surface-card);
     border: 1px solid var(--border-subtle);
     border-radius: var(--radius-xl);
@@ -876,6 +890,12 @@
   .result-box.always-visible {
     display: block;
     animation: fadeIn var(--duration-normal) var(--ease-standard);
+  }
+
+  /* Hide redundant duplicate copy button inside result box header in favor of result-actions-bar */
+  .result-box #copy-result-btn,
+  .result-box #copyResultBtn {
+    display: none !important;
   }
 
   .calculator-result-panel {
@@ -1781,9 +1801,24 @@
     gap: var(--space-3);
   }
 
-  /* Search Trigger Button in Header */
+  /* Mobile search button: hide on desktop */
+  .mobile-search-btn,
+  .mobile-drawer-search-btn {
+    display: none;
+  }
+
+  @media (max-width: 899px) {
+    .mobile-search-btn {
+      display: inline-flex;
+    }
+    .mobile-drawer-search-btn {
+      display: flex;
+    }
+  }
+
+  /* Desktop search trigger: hide on mobile */
   .search-trigger-btn {
-    display: inline-flex;
+    display: none;
     align-items: center;
     gap: var(--space-2);
     min-height: 38px;
@@ -1792,13 +1827,19 @@
     border-radius: var(--radius-full);
     background-color: var(--surface-muted);
     border: 1px solid var(--border-subtle);
-    color: var(--text-tertiary);
+    color: var(--text-secondary);
     cursor: pointer;
     font-size: var(--font-size-xs);
     font-weight: var(--font-weight-normal);
     transition: var(--transition-all);
     user-select: none;
     line-height: 1;
+  }
+
+  @media (min-width: 900px) {
+    .search-trigger-btn {
+      display: inline-flex;
+    }
   }
 
   .search-trigger-btn:hover {
@@ -2024,7 +2065,6 @@
   }
 
   .mobile-drawer-search-btn {
-    display: flex;
     align-items: center;
     gap: var(--space-2);
     width: 100%;
@@ -2751,6 +2791,7 @@
   /* Content Article & Guides */
   .content-article,
   .article-content {
+    max-width: 72ch;
     margin-top: var(--space-8);
     line-height: var(--line-height-relaxed);
   }
@@ -2927,7 +2968,6 @@
 
   /* Page Layout Primitives */
   .page-container {
-    max-width: 850px;
     margin: var(--space-6) auto var(--space-12) auto;
   }
 
@@ -3261,18 +3301,42 @@
     text-decoration: none;
   }
 
+  [data-cat="date-time"] { --cat-color: #6366f1; }
+  [data-cat="math-finance"] { --cat-color: #10b981; }
+  [data-cat="text"] { --cat-color: #f59e0b; }
+  [data-cat="security"] { --cat-color: #f43f5e; }
+  [data-cat="fun"] { --cat-color: #a855f7; }
+
   .quick-chip-dot {
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    background-color: var(--accent-primary);
+    background-color: var(--cat-color, var(--accent-primary));
+    flex-shrink: 0;
   }
 
-  .quick-chip-dot[data-cat="date-time"] { background-color: var(--cat-date-time); }
-  .quick-chip-dot[data-cat="math-finance"] { background-color: var(--cat-math); }
-  .quick-chip-dot[data-cat="text"] { background-color: var(--cat-text); }
-  .quick-chip-dot[data-cat="security"] { background-color: var(--cat-security); }
-  .quick-chip-dot[data-cat="fun"] { background-color: var(--cat-fun); }
+  .quick-chip-dot[data-cat="date-time"] { background-color: var(--cat-color, #6366f1); }
+  .quick-chip-dot[data-cat="math-finance"] { background-color: var(--cat-color, #10b981); }
+  .quick-chip-dot[data-cat="text"] { background-color: var(--cat-color, #f59e0b); }
+  .quick-chip-dot[data-cat="security"] { background-color: var(--cat-color, #f43f5e); }
+  .quick-chip-dot[data-cat="fun"] { background-color: var(--cat-color, #a855f7); }
+
+  .quick-chip-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    color: var(--cat-color, var(--accent-primary));
+    flex-shrink: 0;
+  }
+
+  .quick-chip-icon svg {
+    width: 14px;
+    height: 14px;
+    stroke: currentColor;
+    display: block;
+  }
 
   .hero-trust-strip {
     display: flex;
@@ -3365,7 +3429,7 @@
   .tool-category-chip {
     font-size: var(--font-size-xs);
     font-weight: var(--font-weight-medium);
-    color: var(--text-tertiary);
+    color: var(--text-secondary);
     background-color: var(--surface-muted);
     padding: 2px 8px;
     border-radius: var(--radius-full);
@@ -3440,13 +3504,15 @@
     width: 8px;
     height: 8px;
     border-radius: 50%;
+    background-color: var(--cat-color, var(--accent-primary));
+    flex-shrink: 0;
   }
 
-  .jump-pill-dot[data-cat="date-time"] { background-color: var(--cat-date-time); }
-  .jump-pill-dot[data-cat="math-finance"] { background-color: var(--cat-math); }
-  .jump-pill-dot[data-cat="text"] { background-color: var(--cat-text); }
-  .jump-pill-dot[data-cat="security"] { background-color: var(--cat-security); }
-  .jump-pill-dot[data-cat="fun"] { background-color: var(--cat-fun); }
+  .jump-pill-dot[data-cat="date-time"] { background-color: var(--cat-color, #6366f1); }
+  .jump-pill-dot[data-cat="math-finance"] { background-color: var(--cat-color, #10b981); }
+  .jump-pill-dot[data-cat="text"] { background-color: var(--cat-color, #f59e0b); }
+  .jump-pill-dot[data-cat="security"] { background-color: var(--cat-color, #f43f5e); }
+  .jump-pill-dot[data-cat="fun"] { background-color: var(--cat-color, #a855f7); }
 
   .jump-pill-count {
     padding: 1px 6px;
@@ -3545,11 +3611,19 @@
   /* -------------------------------------------------------------------------
      How It Works Steps
      ------------------------------------------------------------------------- */
-  .steps-grid {
+  .steps-grid,
+  .how-it-works-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    grid-template-columns: 1fr;
     gap: var(--space-6);
     margin-top: var(--space-6);
+  }
+
+  @media (min-width: 768px) {
+    .steps-grid,
+    .how-it-works-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
   }
 
   .step-card {
@@ -3780,8 +3854,9 @@
     align-items: center;
     gap: var(--space-1);
     font-size: var(--font-size-xs);
-    color: var(--color-success, #10b981);
-    background-color: color-mix(in srgb, var(--color-success, #10b981) 12%, transparent);
+    color: var(--color-success-text);
+    background-color: var(--color-success-bg);
+    border: 1px solid var(--color-success-border);
     padding: 2px var(--space-2);
     border-radius: var(--radius-full);
     font-weight: var(--font-weight-medium);
@@ -3984,8 +4059,9 @@
 
   .other-cat-card {
     display: flex;
-    align-items: center;
-    gap: var(--space-3);
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-2);
     padding: var(--space-4);
     background-color: var(--surface-card);
     border: 1px solid var(--border-subtle);
@@ -3993,6 +4069,14 @@
     text-decoration: none;
     color: inherit;
     transition: var(--transition-all);
+    min-width: 0;
+  }
+
+  .other-cat-card .category-card-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
 
   .other-cat-card:hover {

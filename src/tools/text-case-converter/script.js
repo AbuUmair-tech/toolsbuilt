@@ -1,95 +1,87 @@
 /**
- * Text Case Converter Script
- * Converts text into UPPERCASE, lowercase, Title Case, Sentence case,
- * camelCase, snake_case, kebab-case, and aLtErNaTiNg case with copy & clear actions.
+ * Text Case Converter UI Controller
+ * Powered by CaseConverterLogic pure engine.
+ * Supports 12 case styles, undo history, live statistics, and clipboard copying.
  */
-
 document.addEventListener('DOMContentLoaded', () => {
+  const logic = window.CaseConverterLogic;
   const textInput = document.getElementById('text-input');
   const clearBtn = document.getElementById('clear-btn');
   const copyBtn = document.getElementById('copy-btn');
-  const copyFeedback = document.getElementById('copy-feedback');
+  const undoBtn = document.getElementById('undo-btn');
   const caseButtons = document.querySelectorAll('.case-btn');
+  const charStats = document.getElementById('char-stats');
+
+  // History stack for undo
+  const history = [];
+
+  function updateStats() {
+    if (!charStats) return;
+    const text = textInput.value;
+    const stats = logic.getStats(text);
+    const numFmt = new Intl.NumberFormat('en-US');
+    charStats.textContent = `${numFmt.format(stats.characters)} characters (${numFmt.format(stats.charactersNoSpaces)} no spaces) | ${numFmt.format(stats.words)} words | ${numFmt.format(stats.lines)} lines`;
+  }
+
+  function pushHistory(val) {
+    if (history.length === 0 || history[history.length - 1] !== val) {
+      history.push(val);
+      if (history.length > 20) history.shift();
+      if (undoBtn) undoBtn.disabled = false;
+    }
+  }
 
   caseButtons.forEach(btn => {
     btn.addEventListener('click', () => {
       const mode = btn.getAttribute('data-case');
-      if (!textInput.value) return;
+      const current = textInput.value;
+      if (!current) return;
 
-      textInput.value = convertCase(textInput.value, mode);
+      pushHistory(current);
+      const converted = logic.convertCase(current, mode);
+      textInput.value = converted;
+      updateStats();
+
+      if (window.ToolsBuilt && window.ToolsBuilt.toast) {
+        window.ToolsBuilt.toast(`Converted to ${btn.textContent.trim()}`);
+      }
     });
   });
 
+  if (undoBtn) {
+    undoBtn.addEventListener('click', () => {
+      if (history.length > 0) {
+        const prev = history.pop();
+        textInput.value = prev;
+        updateStats();
+        if (history.length === 0) undoBtn.disabled = true;
+        if (window.ToolsBuilt && window.ToolsBuilt.toast) {
+          window.ToolsBuilt.toast('Restored previous text');
+        }
+      }
+    });
+  }
+
   clearBtn.addEventListener('click', () => {
+    if (textInput.value) {
+      pushHistory(textInput.value);
+    }
     textInput.value = '';
+    updateStats();
     textInput.focus();
   });
 
-  copyBtn.addEventListener('click', async () => {
+  copyBtn.addEventListener('click', () => {
     if (!textInput.value) return;
-    try {
-      await navigator.clipboard.writeText(textInput.value);
-      copyFeedback.classList.remove('hidden');
-      setTimeout(() => copyFeedback.classList.add('hidden'), 2000);
-    } catch (err) {
-      textInput.select();
-      document.execCommand('copy');
-      copyFeedback.classList.remove('hidden');
-      setTimeout(() => copyFeedback.classList.add('hidden'), 2000);
+    if (window.ToolsBuilt && window.ToolsBuilt.copy) {
+      window.ToolsBuilt.copy(textInput.value, 'Converted text copied to clipboard');
     }
   });
 
-  function convertCase(text, mode) {
-    switch (mode) {
-      case 'upper':
-        return text.toUpperCase();
+  textInput.addEventListener('input', () => {
+    updateStats();
+  });
 
-      case 'lower':
-        return text.toLowerCase();
-
-      case 'title':
-        return text.toLowerCase().replace(/(?:^|\s|-|_|\/)\S/g, (m) => m.toUpperCase());
-
-      case 'sentence':
-        return text.toLowerCase().replace(/(^\s*|[.!?]\s+)([a-z])/g, (m, p1, p2) => p1 + p2.toUpperCase());
-
-      case 'camel':
-        return text
-          .trim()
-          .replace(/[^a-zA-Z0-9\s-_]/g, '')
-          .replace(/[-_]/g, ' ')
-          .toLowerCase()
-          .replace(/(?:^\w|[A-Z]|\b\w)/g, (word, index) => index === 0 ? word.toLowerCase() : word.toUpperCase())
-          .replace(/\s+/g, '');
-
-      case 'snake':
-        return text
-          .trim()
-          .replace(/[^a-zA-Z0-9\s-_]/g, '')
-          .replace(/[-]/g, ' ')
-          .toLowerCase()
-          .split(/\s+/)
-          .filter(Boolean)
-          .join('_');
-
-      case 'kebab':
-        return text
-          .trim()
-          .replace(/[^a-zA-Z0-9\s-_]/g, '')
-          .replace(/[_]/g, ' ')
-          .toLowerCase()
-          .split(/\s+/)
-          .filter(Boolean)
-          .join('-');
-
-      case 'alternating':
-        return text
-          .split('')
-          .map((char, index) => index % 2 === 0 ? char.toLowerCase() : char.toUpperCase())
-          .join('');
-
-      default:
-        return text;
-    }
-  }
+  // Initial stats
+  updateStats();
 });
