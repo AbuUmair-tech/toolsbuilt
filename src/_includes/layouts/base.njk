@@ -69,16 +69,20 @@
 
   {% block jsonLd %}{% endblock %}
 
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-QR15X9WS1J"></script>
+  <!-- Google Analytics (not loaded at all when Do Not Track is on) -->
   <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-
-    if (navigator.doNotTrack !== '1' && window.doNotTrack !== '1') {
+    (function () {
+      if (navigator.doNotTrack === '1' || window.doNotTrack === '1') return;
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      window.gtag = gtag;
+      gtag('js', new Date());
       gtag('config', 'G-QR15X9WS1J');
-    }
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=G-QR15X9WS1J';
+      document.head.appendChild(s);
+    })();
   </script>
 </head>
 <body{% if toolSlug or slug %} data-tool-id="{{ toolSlug or slug }}"{% endif %}>
