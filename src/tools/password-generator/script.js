@@ -1,11 +1,26 @@
 /**
- * Strong Password Generator Script
- * Uses window.crypto.getRandomValues for cryptographically secure random number generation.
- * Operates strictly inside local browser memory.
+ * Password & Passphrase Generator UI Controller
+ * Powered by PasswordLogic pure engine and EFF short wordlist.
+ * PRIVACY GUARD: Never saves generated passwords to localStorage or URLs.
  */
-
 document.addEventListener('DOMContentLoaded', () => {
+  const logic = window.PasswordLogic;
+  const wordlist = window.EFFWordlist || [];
+
+  // DOM elements
+  const modeRandomBtn = document.getElementById('mode-random-btn');
+  const modePassphraseBtn = document.getElementById('mode-passphrase-btn');
+  const randomOptionsPanel = document.getElementById('random-options-panel');
+  const passphraseOptionsPanel = document.getElementById('passphrase-options-panel');
+
   const passwordDisplay = document.getElementById('password-display');
+  const copyBtn = document.getElementById('copy-btn');
+  const generateBtn = document.getElementById('generate-btn');
+  const strengthText = document.getElementById('strength-text');
+  const strengthBar = document.getElementById('strength-bar-fill');
+  const errorBox = document.getElementById('error-box');
+
+  // Random options
   const lengthRange = document.getElementById('length-range');
   const lengthVal = document.getElementById('length-val');
   const optUpper = document.getElementById('opt-upper');
@@ -14,155 +29,244 @@ document.addEventListener('DOMContentLoaded', () => {
   const optSymbols = document.getElementById('opt-symbols');
   const optExcludeSimilar = document.getElementById('opt-exclude-similar');
 
-  const generateBtn = document.getElementById('generate-btn');
-  const copyBtn = document.getElementById('copy-btn');
-  const copyFeedback = document.getElementById('copy-feedback');
-  const strengthText = document.getElementById('strength-text');
-  const strengthBar = document.getElementById('strength-bar-fill');
-  const errorBox = document.getElementById('error-box');
+  // Passphrase options
+  const wordsRange = document.getElementById('words-range');
+  const wordsVal = document.getElementById('words-val');
+  const separatorSelect = document.getElementById('passphrase-separator');
+  const capitalizeSelect = document.getElementById('passphrase-capitalize');
+  const optNumberPassphrase = document.getElementById('opt-passphrase-number');
 
-  const CHARS_UPPER = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-  const CHARS_LOWER = 'abcdefghijklmnopqrstuvwxyz';
-  const CHARS_NUMBERS = '0123456789';
-  const CHARS_SYMBOLS = '!@#$%^&*()_+-=[]{}|;:,.<>?';
-  const SIMILAR_CHARS = /[O0l1I]/g;
+  // Multiple passwords
+  const countSelect = document.getElementById('password-count');
+  const multiPasswordsContainer = document.getElementById('multi-passwords-container');
+  const multiPasswordsList = document.getElementById('multi-passwords-list');
 
-  lengthRange.addEventListener('input', (e) => {
-    lengthVal.textContent = e.target.value;
-    generatePassword();
-  });
+  const STORAGE_KEY = 'toolsbuilt:password-generator-settings';
+  let currentMode = 'random'; // 'random' | 'passphrase'
 
-  [optUpper, optLower, optNumbers, optSymbols, optExcludeSimilar].forEach(chk => {
-    chk.addEventListener('change', generatePassword);
-  });
-
-  generateBtn.addEventListener('click', generatePassword);
-
-  copyBtn.addEventListener('click', async () => {
-    if (!passwordDisplay.value) return;
+  function initSettings() {
     try {
-      await navigator.clipboard.writeText(passwordDisplay.value);
-      copyFeedback.classList.remove('hidden');
-      setTimeout(() => copyFeedback.classList.add('hidden'), 2000);
-    } catch (err) {
-      passwordDisplay.select();
-      document.execCommand('copy');
-      copyFeedback.classList.remove('hidden');
-      setTimeout(() => copyFeedback.classList.add('hidden'), 2000);
-    }
-  });
-
-  function getSecureRandomIndex(poolLength) {
-    if (poolLength <= 1) return 0;
-    // Rejection sampling against 2^32 boundary to eliminate modulo bias
-    const maxValid = Math.floor(0x100000000 / poolLength) * poolLength;
-    const buffer = new Uint32Array(1);
-    while (true) {
-      window.crypto.getRandomValues(buffer);
-      if (buffer[0] < maxValid) {
-        return buffer[0] % poolLength;
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) {
+        const data = JSON.parse(saved);
+        if (data.mode) setMode(data.mode);
+        if (data.length && lengthRange) {
+          lengthRange.value = data.length;
+          lengthVal.textContent = data.length;
+        }
+        if (typeof data.upper === 'boolean') optUpper.checked = data.upper;
+        if (typeof data.lower === 'boolean') optLower.checked = data.lower;
+        if (typeof data.numbers === 'boolean') optNumbers.checked = data.numbers;
+        if (typeof data.symbols === 'boolean') optSymbols.checked = data.symbols;
+        if (typeof data.excludeSimilar === 'boolean') optExcludeSimilar.checked = data.excludeSimilar;
+        if (data.words && wordsRange) {
+          wordsRange.value = data.words;
+          wordsVal.textContent = data.words;
+        }
+        if (data.sep && separatorSelect) separatorSelect.value = data.sep;
+        if (data.cap && capitalizeSelect) capitalizeSelect.value = data.cap;
+        if (typeof data.num === 'boolean') optNumberPassphrase.checked = data.num;
+        return;
       }
+    } catch (e) {}
+
+    // Default: 16 chars random
+    lengthRange.value = '16';
+    lengthVal.textContent = '16';
+    setMode('random');
+  }
+
+  function saveSettings() {
+    try {
+      const data = {
+        mode: currentMode,
+        length: lengthRange.value,
+        upper: optUpper.checked,
+        lower: optLower.checked,
+        numbers: optNumbers.checked,
+        symbols: optSymbols.checked,
+        excludeSimilar: optExcludeSimilar.checked,
+        words: wordsRange ? wordsRange.value : '4',
+        sep: separatorSelect ? separatorSelect.value : '-',
+        cap: capitalizeSelect ? capitalizeSelect.value : 'title',
+        num: optNumberPassphrase ? optNumberPassphrase.checked : false
+      };
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    } catch (e) {}
+  }
+
+  function setMode(mode) {
+    currentMode = mode;
+    if (mode === 'passphrase') {
+      modePassphraseBtn.classList.add('active');
+      modePassphraseBtn.setAttribute('aria-selected', 'true');
+      modeRandomBtn.classList.remove('active');
+      modeRandomBtn.setAttribute('aria-selected', 'false');
+      passphraseOptionsPanel.classList.remove('hidden');
+      randomOptionsPanel.classList.add('hidden');
+    } else {
+      modeRandomBtn.classList.add('active');
+      modeRandomBtn.setAttribute('aria-selected', 'true');
+      modePassphraseBtn.classList.remove('active');
+      modePassphraseBtn.setAttribute('aria-selected', 'false');
+      randomOptionsPanel.classList.remove('hidden');
+      passphraseOptionsPanel.classList.add('hidden');
     }
   }
 
-  function generatePassword() {
-    const activeSets = [];
-
-    if (optUpper.checked) {
-      const s = optExcludeSimilar.checked ? CHARS_UPPER.replace(SIMILAR_CHARS, '') : CHARS_UPPER;
-      if (s.length) activeSets.push(s);
-    }
-    if (optLower.checked) {
-      const s = optExcludeSimilar.checked ? CHARS_LOWER.replace(SIMILAR_CHARS, '') : CHARS_LOWER;
-      if (s.length) activeSets.push(s);
-    }
-    if (optNumbers.checked) {
-      const s = optExcludeSimilar.checked ? CHARS_NUMBERS.replace(SIMILAR_CHARS, '') : CHARS_NUMBERS;
-      if (s.length) activeSets.push(s);
-    }
-    if (optSymbols.checked) {
-      const s = optExcludeSimilar.checked ? CHARS_SYMBOLS.replace(SIMILAR_CHARS, '') : CHARS_SYMBOLS;
-      if (s.length) activeSets.push(s);
-    }
-
-    const charPool = activeSets.join('');
-
-    if (!charPool.length) {
-      showError('Please select at least one character set option (Uppercase, Lowercase, Numbers, or Symbols).');
-      return;
-    }
-
+  function clearError() {
+    errorBox.textContent = '';
     errorBox.classList.add('hidden');
-
-    const length = parseInt(lengthRange.value, 10);
-    const passwordChars = [];
-
-    // Guarantee at least one character from each selected set
-    for (let i = 0; i < Math.min(activeSets.length, length); i++) {
-      const set = activeSets[i];
-      const idx = getSecureRandomIndex(set.length);
-      passwordChars.push(set.charAt(idx));
-    }
-
-    // Fill remaining positions from full combined pool
-    while (passwordChars.length < length) {
-      const idx = getSecureRandomIndex(charPool.length);
-      passwordChars.push(charPool.charAt(idx));
-    }
-
-    // Cryptographic Fisher-Yates shuffle to ensure uniform position distribution
-    for (let i = passwordChars.length - 1; i > 0; i--) {
-      const j = getSecureRandomIndex(i + 1);
-      const temp = passwordChars[i];
-      passwordChars[i] = passwordChars[j];
-      passwordChars[j] = temp;
-    }
-
-    const result = passwordChars.join('');
-    passwordDisplay.value = result;
-
-    // Assess strength
-    evaluateStrength(result, charPool.length);
   }
 
-  function evaluateStrength(password, poolSize) {
-    const len = password.length;
-    // Calculate Shannon entropy estimate: log2(poolSize^len)
-    const entropy = len * (Math.log2(poolSize) || 1);
-
-    let score = 'Weak';
-    let color = '#dc2626'; // Red
-    let width = '20%';
-
-    if (entropy > 80) {
-      score = 'Very Strong';
-      color = '#16a34a'; // Green
-      width = '100%';
-    } else if (entropy > 60) {
-      score = 'Strong';
-      color = '#059669'; // Emerald
-      width = '80%';
-    } else if (entropy > 40) {
-      score = 'Good';
-      color = '#d97706'; // Amber
-      width = '60%';
-    } else if (entropy > 25) {
-      score = 'Fair';
-      color = '#ca8a04'; // Yellow-Amber
-      width = '40%';
-    }
-
-    strengthText.textContent = `${score} (${Math.round(entropy)} bits entropy)`;
-    strengthText.style.color = color;
-    strengthBar.style.width = width;
-    strengthBar.style.backgroundColor = color;
-  }
-
-  function showError(message) {
-    errorBox.textContent = message;
+  function showError(msg) {
+    errorBox.textContent = msg;
     errorBox.classList.remove('hidden');
   }
 
-  // Initial generation
-  generatePassword();
+  function generate() {
+    clearError();
+    const count = parseInt(countSelect.value, 10) || 1;
+
+    try {
+      if (currentMode === 'random') {
+        const opts = {
+          length: parseInt(lengthRange.value, 10),
+          upper: optUpper.checked,
+          lower: optLower.checked,
+          numbers: optNumbers.checked,
+          symbols: optSymbols.checked,
+          excludeSimilar: optExcludeSimilar.checked
+        };
+
+        const res = logic.generatePassword(opts);
+        passwordDisplay.value = res.password;
+        renderStrength(res.strength, res.entropyBits);
+
+        // Multiple passwords if count > 1
+        renderMultiplePasswords(count, opts);
+      } else {
+        const opts = {
+          wordCount: parseInt(wordsRange.value, 10),
+          separator: separatorSelect.value,
+          capitalize: capitalizeSelect.value,
+          includeNumber: optNumberPassphrase.checked
+        };
+
+        const res = logic.generatePassphrase(opts, null, wordlist);
+        passwordDisplay.value = res.password;
+        renderStrength(res.strength, res.entropyBits);
+
+        renderMultiplePassphrases(count, opts);
+      }
+
+      saveSettings();
+    } catch (err) {
+      showError(err.message);
+    }
+  }
+
+  function renderStrength(strength, entropyBits) {
+    strengthText.textContent = `${strength.score} (~${entropyBits} bits entropy)`;
+    strengthText.style.color = strength.color;
+    strengthBar.style.width = strength.width;
+    strengthBar.style.backgroundColor = strength.barColor || strength.color;
+  }
+
+  function renderMultiplePasswords(count, opts) {
+    if (count <= 1) {
+      multiPasswordsContainer.classList.add('hidden');
+      return;
+    }
+
+    const items = [];
+    for (let i = 0; i < count; i++) {
+      const p = logic.generatePassword(opts).password;
+      items.push(p);
+    }
+
+    renderMultiList(items);
+  }
+
+  function renderMultiplePassphrases(count, opts) {
+    if (count <= 1) {
+      multiPasswordsContainer.classList.add('hidden');
+      return;
+    }
+
+    const items = [];
+    for (let i = 0; i < count; i++) {
+      const p = logic.generatePassphrase(opts, null, wordlist).password;
+      items.push(p);
+    }
+
+    renderMultiList(items);
+  }
+
+  function renderMultiList(items) {
+    multiPasswordsList.innerHTML = items.map((pw, idx) => `
+      <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 0.75rem; background: var(--surface-default); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); margin-bottom: 0.5rem;">
+        <code style="font-size: 0.95rem; font-weight: 600; word-break: break-all;">${pw}</code>
+        <button type="button" class="btn btn-sm btn-ghost copy-multi-btn" data-password="${pw}" title="Copy this password" style="flex-shrink: 0; margin-left: 0.5rem;">
+          <span data-icon="copy"></span> Copy
+        </button>
+      </div>
+    `).join('');
+
+    multiPasswordsContainer.classList.remove('hidden');
+
+    document.querySelectorAll('.copy-multi-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const val = btn.getAttribute('data-password');
+        if (window.ToolsBuilt && window.ToolsBuilt.copy) {
+          window.ToolsBuilt.copy(val, 'Password copied to clipboard');
+        }
+      });
+    });
+  }
+
+  // Event handlers
+  modeRandomBtn.addEventListener('click', () => {
+    setMode('random');
+    generate();
+  });
+
+  modePassphraseBtn.addEventListener('click', () => {
+    setMode('passphrase');
+    generate();
+  });
+
+  lengthRange.addEventListener('input', (e) => {
+    lengthVal.textContent = e.target.value;
+    generate();
+  });
+
+  if (wordsRange) {
+    wordsRange.addEventListener('input', (e) => {
+      wordsVal.textContent = e.target.value;
+      generate();
+    });
+  }
+
+  [optUpper, optLower, optNumbers, optSymbols, optExcludeSimilar].forEach(chk => {
+    chk.addEventListener('change', generate);
+  });
+
+  if (separatorSelect) separatorSelect.addEventListener('change', generate);
+  if (capitalizeSelect) capitalizeSelect.addEventListener('change', generate);
+  if (optNumberPassphrase) optNumberPassphrase.addEventListener('change', generate);
+  countSelect.addEventListener('change', generate);
+
+  generateBtn.addEventListener('click', generate);
+
+  copyBtn.addEventListener('click', () => {
+    if (!passwordDisplay.value) return;
+    if (window.ToolsBuilt && window.ToolsBuilt.copy) {
+      window.ToolsBuilt.copy(passwordDisplay.value, 'Password copied to clipboard');
+    }
+  });
+
+  // Init
+  initSettings();
+  generate();
 });

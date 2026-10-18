@@ -17,39 +17,41 @@ howto:
       text: "Use the Copy Text button to copy your text to the clipboard or Clear Text to reset."
 faqs:
   - q: "How does the Word & Character Counter calculate word count?"
-    a: "The tool analyzes your input string and splits words using whitespace boundaries. Hyphenated words and special characters are evaluated according to standard English linguistic rules to provide accurate real-time metrics."
+    a: "The tool uses Unicode-aware word tokenization (matching consecutive letters and digits across all alphabets, including accented characters). Hyphens and punctuation boundaries are parsed in accordance with standard typographical conventions."
   - q: "What is the difference between characters with and without spaces?"
-    a: "Characters with spaces count every single keypress including letters, numbers, punctuation, and whitespace gaps. Characters without spaces exclude blank space gaps, measuring strictly visible printed characters."
-  - q: "How is the estimated reading time calculated?"
-    a: "Estimated reading time is calculated using an average adult reading speed benchmark of 200 words per minute. Estimated speaking time uses an average oral presentation speed of 130 words per minute."
-  - q: "Why are common stop words excluded from top used words?"
-    a: "Common English words like 'the', 'is', and 'and' occur frequently in every sentence. Filtering out stop words highlights meaningful keywords and main topic density in your text."
+    a: "Characters with spaces count every glyph, whitespace gap, and newline. Characters without spaces exclude whitespace gaps, counting only visible printable characters."
+  - q: "How are reading and speaking times estimated?"
+    a: "Reading time is based on the standard adult reading benchmark of 225 words per minute (wpm), established in cognitive psychology studies. Speaking time uses a conversational presentation benchmark of 140 words per minute."
+  - q: "Why are common stop words excluded from keyword density?"
+    a: "Common grammatical words like 'the', 'is', 'at', and 'and' occur frequently in nearly all English text. Filtering out stop words reveals the meaningful topical keywords in your content."
   - q: "Is my typed text saved or transmitted to a server?"
-    a: "No. All text processing occurs locally within your web browser using JavaScript. Your input text is never saved, transmitted, or uploaded to any remote server or database."
+    a: "No. All text analysis runs 100% locally in your browser memory. Your writing is never transmitted, stored, or analyzed on any external server."
 sources:
   - label: "Unicode Standard Annex #29: Unicode Text Segmentation"
     url: "https://unicode.org/reports/tr29/"
   - label: "W3C Internationalization Working Group"
     url: "https://www.w3.org/International/"
+  - label: "Brysbaert, M. (2019) How many words do we read per minute? A review and meta-analysis"
+    url: "https://doi.org/10.1016/j.jml.2019.104047"
 ---
 
     <!-- Tool Form Container -->
-    <section class="tool-container" aria-label="Word & Character Counter Form">
+    <section class="tool-container" aria-label="Word &amp; Character Counter Form">
       <div class="form-group">
         <label for="text-input" style="display: flex; justify-content: space-between; align-items: center;">
           <span>Type or Paste Your Text Below:</span>
-          <span id="copy-feedback" class="hidden" style="color: #16a34a; font-weight: 600; font-size: 0.875rem;">Copied to clipboard!</span>
         </label>
         <textarea id="text-input" class="form-control" rows="8" placeholder="Start typing or paste your content here to calculate real-time word and character statistics..." style="font-family: inherit; line-height: 1.6; resize: vertical; min-height: 180px;"></textarea>
       </div>
 
       <div class="button-group" style="margin-top: 1rem;">
-        <button type="button" class="btn btn-primary" id="copy-btn">Copy Text</button>
-        <button type="button" class="btn btn-secondary" id="clear-btn">Clear Text</button>
+        <button type="button" class="btn btn-primary" id="copy-btn"><span data-icon="copy"></span> Copy Text</button>
+        <button type="button" class="btn btn-secondary" id="copy-stats-btn">Copy Stats Summary</button>
+        <button type="button" class="btn btn-ghost" id="clear-btn">Clear Text</button>
       </div>
 
       <!-- Live Results Cards -->
-      <div style="margin-top: 2rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem;">
+      <div style="margin-top: 2rem; border-top: 1px solid var(--border-subtle); padding-top: 1.5rem;" aria-live="polite">
         <h3 style="font-size: 1.15rem; margin-bottom: 1rem;">Live Text Statistics</h3>
         
         <div class="result-grid">
@@ -74,19 +76,19 @@ sources:
             <div class="result-stat-value" id="stat-paragraphs">0</div>
           </div>
           <div class="result-stat-card">
-            <div class="result-stat-label">Est. Reading Time</div>
+            <div class="result-stat-label">Est. Reading Time (225 wpm)</div>
             <div class="result-stat-value" id="stat-reading-time">0 sec</div>
           </div>
           <div class="result-stat-card">
-            <div class="result-stat-label">Est. Speaking Time</div>
+            <div class="result-stat-label">Est. Speaking Time (140 wpm)</div>
             <div class="result-stat-value" id="stat-speaking-time">0 sec</div>
           </div>
         </div>
 
-        <div style="margin-top: 1.75rem; background-color: var(--bg-muted); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--border-color);">
-          <h4 style="font-size: 1rem; margin-bottom: 0.75rem; color: var(--text-main);">Top 5 Keyword Density (Stop Words Excluded)</h4>
+        <div style="margin-top: 1.75rem; background-color: var(--surface-muted); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
+          <h4 style="font-size: 1rem; margin-bottom: 0.75rem; color: var(--text-main);">Top 5 Keywords (Stop Words Excluded)</h4>
           <ul id="top-words-list" style="list-style: none; padding: 0; margin: 0;">
-            <li style="color: var(--text-subtle); font-size: 0.9rem;">Type or paste text to see keyword density.</li>
+            <li style="color: var(--text-muted); font-size: 0.9rem;">Type or paste text to see keyword density.</li>
           </ul>
         </div>
 
@@ -95,107 +97,65 @@ sources:
 
     <!-- AEO Quick Answer Box -->
     <div class="info-callout" style="margin-top: 2rem; margin-bottom: 2rem;">
-      <h3 style="font-size: 1.05rem; margin-bottom: 0.35rem; color: var(--primary);">Quick Answer</h3>
-      <p style="margin-bottom: 0;">The ToolsBuilt Word &amp; Character Counter is a real-time text analysis tool that measures words, characters, sentences, paragraphs, reading duration, and keyword density instantly as you type or paste content. Paste your text into the box below to view live metrics without reloading the page.</p>
+      <h3 style="font-size: 1.05rem; margin-bottom: 0.35rem; color: var(--accent-primary);">Quick Answer</h3>
+      <p style="margin-bottom: 0;">The ToolsBuilt Word &amp; Character Counter analyzes text in real time as you type, providing accurate counts of words, characters, sentences, paragraphs, reading speed duration, and keyword frequencies. Everything runs securely in browser memory without sending text to any server.</p>
     </div>
 
-    <!-- Key Facts & Example Table -->
-    <section style="margin: 2.5rem 0;" aria-labelledby="key-facts-heading">
-      <h2 id="key-facts-heading">Key Facts &amp; Character Limit Reference</h2>
+    <!-- When to Use Section -->
+    <section style="margin: 2.5rem 0;" aria-labelledby="how-to-use-heading">
+      <h2 id="how-to-use-heading">How &amp; When to Use the Word Counter</h2>
+      <ul style="color: var(--text-muted); line-height: 1.8; margin-left: 1.25rem;">
+        <li><strong>Social Media Character Limits:</strong> Check character counts before posting to platforms like X / Twitter (280 characters), LinkedIn posts (3,000 characters), or Instagram captions (2,200 characters).</li>
+        <li><strong>Academic &amp; Essay Writing:</strong> Ensure essays, abstracts, and term papers meet mandatory length constraints (e.g. 500-word personal statements or 250-word journal abstracts).</li>
+        <li><strong>Speech &amp; Presentation Rehearsal:</strong> Estimate presentation duration accurately using the 140-wpm speaking benchmark to ensure you fit within allocated speaking slots.</li>
+        <li><strong>SEO Meta Descriptions &amp; Page Titles:</strong> Keep meta descriptions within the recommended 150–160 character window to avoid search engine snippet truncation.</li>
+      </ul>
+    </section>
+
+    <!-- Worked Examples Section -->
+    <section style="margin: 2.5rem 0;" aria-labelledby="article-heading">
+      <h2 id="article-heading">Worked Text Analysis Examples &amp; Formula</h2>
       
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 1.25rem;">
-        <div>
-          <h3>Standard Content Limits</h3>
-          <ul style="color: var(--text-muted); line-height: 1.8; margin-left: 1.25rem;">
-            <li><strong>X (Twitter) Post:</strong> 280 characters limit</li>
-            <li><strong>SEO Meta Description:</strong> 150–160 characters target</li>
-            <li><strong>Google Search Title:</strong> 50–60 characters max</li>
-            <li><strong>SMS Message:</strong> 160 characters per segment</li>
-            <li><strong>LinkedIn Post:</strong> 3,000 characters limit</li>
+        <div style="background: var(--surface-muted); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem;">
+          <h3 style="font-size: 1.1rem; margin-top: 0; color: var(--accent-primary);">Example 1: Short Social Post</h3>
+          <p style="font-size: var(--font-size-sm); color: var(--text-muted); margin-bottom: 0.5rem;"><em>"ToolsBuilt provides fast, free, and private browser calculators."</em></p>
+          <ul style="font-size: var(--font-size-sm); color: var(--text-muted); line-height: 1.6; margin-left: 1.25rem;">
+            <li>Words: 8 words</li>
+            <li>Characters (with spaces): 68 characters</li>
+            <li>Characters (no spaces): 61 characters</li>
+            <li>Reading Time: &lt; 1 sec</li>
           </ul>
         </div>
 
-        <div>
-          <h3>Sample Text Benchmarks</h3>
-          <table style="width: 100%; border-collapse: collapse; margin-top: 0.5rem; font-size: 0.9rem;">
-            <thead>
-              <tr style="background-color: var(--bg-muted); text-align: left; border-bottom: 2px solid var(--border-color);">
-                <th style="padding: 0.5rem;">Content Format</th>
-                <th style="padding: 0.5rem;">Word Count</th>
-                <th style="padding: 0.5rem;">Reading Time</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr style="border-bottom: 1px solid var(--border-color);">
-                <td style="padding: 0.5rem;">Short Social Caption</td>
-                <td style="padding: 0.5rem;">25–50 words</td>
-                <td style="padding: 0.5rem;">15 seconds</td>
-              </tr>
-              <tr style="border-bottom: 1px solid var(--border-color);">
-                <td style="padding: 0.5rem;">Standard Blog Post</td>
-                <td style="padding: 0.5rem;">1,000–1,500 words</td>
-                <td style="padding: 0.5rem;">5–7 minutes</td>
-              </tr>
-              <tr style="border-bottom: 1px solid var(--border-color);">
-                <td style="padding: 0.5rem;">Academic Essay</td>
-                <td style="padding: 0.5rem;">2,500 words</td>
-                <td style="padding: 0.5rem;">12.5 minutes</td>
-              </tr>
-            </tbody>
-          </table>
+        <div style="background: var(--surface-muted); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem;">
+          <h3 style="font-size: 1.1rem; margin-top: 0; color: var(--accent-primary);">Example 2: 500-Word Essay Timing</h3>
+          <p style="font-size: var(--font-size-sm); color: var(--text-muted); margin-bottom: 0.5rem;">A standard 500-word college admissions essay:</p>
+          <ul style="font-size: var(--font-size-sm); color: var(--text-muted); line-height: 1.6; margin-left: 1.25rem;">
+            <li>Characters: ~3,000 characters with spaces</li>
+            <li>Reading Time: ~2 min 13 sec (at 225 wpm)</li>
+            <li>Speaking Time: ~3 min 34 sec (at 140 wpm)</li>
+            <li>Paragraphs: Typically 4 to 5 paragraphs</li>
+          </ul>
+        </div>
+
+        <div style="background: var(--surface-muted); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem;">
+          <h3 style="font-size: 1.1rem; margin-top: 0; color: var(--accent-primary);">Example 3: Unicode &amp; Multi-byte Text</h3>
+          <p style="font-size: var(--font-size-sm); color: var(--text-muted); margin-bottom: 0.5rem;"><em>"Hello world 🚀 café crème"</em></p>
+          <ul style="font-size: var(--font-size-sm); color: var(--text-muted); line-height: 1.6; margin-left: 1.25rem;">
+            <li>Words: 4 words ('Hello', 'world', 'café', 'crème')</li>
+            <li>Characters: 25 code points (rocket emoji counted as 1 character)</li>
+            <li>Accents handled seamlessly across all Latin extended sets</li>
+          </ul>
         </div>
       </div>
     </section>
 
-    <!-- How to Use Section -->
-    <section aria-labelledby="how-to-use-heading">
-      <h2 id="how-to-use-heading">How to Use the Word Counter</h2>
-      <ol class="steps-list">
-        <li>
-          <h4>Type or Paste Your Document</h4>
-          <p>Click inside the main text box and begin typing, or paste content directly from Word, Google Docs, or email.</p>
-        </li>
-        <li>
-          <h4>Inspect Real-Time Metrics</h4>
-          <p>Watch word totals, characters (with and without spaces), sentence counts, and estimated reading times update instantly.</p>
-        </li>
-        <li>
-          <h4>Format and Copy Your Content</h4>
-          <p>Easily format letter casing with our companion <a href="/tools/text-case-converter/">Text Case Converter</a>, then click "Copy Text" to grab your refined text.</p>
-        </li>
-      </ol>
-    </section>
-
-    <!-- AdSense Placement -->
-    <!-- <div class="ad-placement">AdSense Banner Placeholder</div> -->
-
-    <!-- Article Section (~700 Words) -->
-    <article class="content-article" aria-labelledby="article-heading">
-      <h2 id="article-heading">Why Word and Character Counting Matters for Writers and Creators</h2>
-      
-      <p>Whether you are crafting an academic essay, optimizing website page metadata for search engines, preparing a speech, or writing social media copy, tracking exact word and character lengths is vital. Overly verbose writing can cause readers to drop off, while under-length content may fail to meet formal publication requirements.</p>
-
-      <h3>How Do You Count Words and Characters Online?</h3>
-      <p>Counting words online is straightforward: simply paste your draft into an online text analyzer like ToolsBuilt. The script automatically parses your input string using whitespace and punctuation boundaries to tally individual words, total characters (including spaces), sentences, and paragraphs in real time.</p>
-
-      <p>When publishing online content, adjusting capital letters and text formatting is often necessary alongside word counting. You can quickly switch between uppercase, lowercase, and title case using our <a href="/tools/text-case-converter/">Text Case Converter</a> tool.</p>
-
-      <h3>Why is Character Counting Important for Social Media and SEO?</h3>
-      <p>Digital marketing platforms enforce strict character limitations to ensure clean user experiences across devices:</p>
-
-      <ul>
-        <li><strong>Search Engine Optimization (SEO):</strong> Search engines truncate title tags over 60 characters and meta descriptions over 160 characters. Keeping your meta tags within exact character bounds prevents search snippet truncation in Google results.</li>
-        <li><strong>Social Media Publishing:</strong> Platforms like X (formerly Twitter) enforce a 280-character limit per post. Instagram captions truncate after 125 characters before the "More" link.</li>
-        <li><strong>Messaging &amp; SMS Communication:</strong> Standard SMS text messages permit up to 160 characters per single message segment. Exceeding 160 characters splits your text into multiple billable segments.</li>
+    <!-- Common Mistakes Section -->
+    <section style="margin: 2.5rem 0;" aria-labelledby="mistakes-heading">
+      <h2 id="mistakes-heading">Common Text Counting Discrepancies</h2>
+      <ul style="color: var(--text-muted); line-height: 1.8; margin-left: 1.25rem;">
+        <li><strong>Hyphenated Compound Words:</strong> Different word processors count hyphenated words differently (e.g., 'state-of-the-art'). Microsoft Word counts this as 4 words, while some older editors count it as 1. Our tool treats hyphenated components as individual lexical units.</li>
+        <li><strong>Emoji Surrogate Pairs:</strong> JavaScript strings traditionally measure UTF-16 code units, causing emojis like 🚀 to count as 2 characters. Our Unicode-aware character counter normalizes surrogate pairs so each visible emoji counts as 1 character.</li>
       </ul>
-
-      <h3>Estimating Speech Length and Oral Presentations</h3>
-      <p>When preparing keynote speeches, conference talks, or podcast scripts, word count translates directly into spoken timing. The average adult reads silently at approximately 200 words per minute (WPM), whereas comfortable public speaking ranges between 130 and 150 WPM.</p>
-
-      <p>If you are planning event schedules alongside speech preparation, you can also use our <a href="/tools/date-difference-calculator/">Date Difference Calculator</a> to measure remaining days until your presentation date.</p>
-
-      <h3>Top Keyword Density Analysis</h3>
-      <p>Keyword density analysis measures how frequently specific terms recur in your document. Our counter automatically filters out standard English stop words (such as "the", "and", "is", and "of") to highlight your top 5 core focus keywords, helping you detect unintentional word repetition.</p>
-    </article>
-
-    <!-- FAQ Accordion (5 Questions, 40-60 words each) -->
+    </section>

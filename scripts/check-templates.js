@@ -171,18 +171,18 @@ tools.forEach(tool => {
     `/tools/${tool.slug}/ has desktop TOC aside`
   );
 
-  // Trust Block
+  // Byline & Privacy Note (replaces old large trust block)
   assert(
-    toolHtml.includes('class="tool-trust-block"'),
-    `/tools/${tool.slug}/ has trust block`
+    toolHtml.includes('class="tool-byline"') || toolHtml.includes('ToolsBuilt editorial team'),
+    `/tools/${tool.slug}/ renders author 'ToolsBuilt editorial team'`
   );
   assert(
     !toolHtml.includes('TODO_'),
     `/tools/${tool.slug}/ has no TODO_ placeholders`
   );
   assert(
-    toolHtml.includes('ToolsBuilt editorial team'),
-    `/tools/${tool.slug}/ renders author 'ToolsBuilt editorial team'`
+    toolHtml.includes('class="tool-privacy-note"') || toolHtml.includes('Calculations run') || toolHtml.includes('Inputs never leave'),
+    `/tools/${tool.slug}/ has privacy note`
   );
 
   // JSON-LD Schemas: BreadcrumbList, WebApplication, FAQPage
@@ -199,14 +199,11 @@ tools.forEach(tool => {
     `/tools/${tool.slug}/ has FAQPage JSON-LD`
   );
 
-  // More in Category (for categories with >1 tool)
-  const sameCatTools = tools.filter(t => t.category === cat.slug && t.slug !== tool.slug);
-  if (sameCatTools.length > 0) {
-    assert(
-      toolHtml.includes(`More in ${catNameHtml}`),
-      `/tools/${tool.slug}/ has 'More in ${cat.name}' discovery section`
-    );
-  }
+  // Related Tools (single curated section with View all Category link)
+  assert(
+    toolHtml.includes('class="related-tools-section"') || toolHtml.includes('id="related-tools-heading"'),
+    `/tools/${tool.slug}/ has related tools section`
+  );
 
   // Tool actions script tag
   assert(

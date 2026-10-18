@@ -102,7 +102,7 @@ eleventyComputed:
     <div class="category-hero-header">
       <div class="category-hero-meta">
         <span class="tool-category-chip" data-cat="{{ category.slug }}">{{ category.name }}</span>
-        <span class="category-count-badge">{{ catTools | length }} free tools</span>
+        <span class="category-count-badge">{{ catTools | length }} free {{ catTools | length | pluralize('tool') }}</span>
       </div>
       <h1 class="category-hero-title">Free {{ category.name }}</h1>
       <p class="category-hero-intro">{{ category.intro }}</p>
@@ -112,7 +112,7 @@ eleventyComputed:
     <section class="category-tools-section" aria-labelledby="tools-list-heading">
       <div class="section-title-row" style="margin-bottom: var(--space-4);">
         <h2 id="tools-list-heading" class="section-title">Available {{ category.name }}</h2>
-        <span class="section-badge">{{ catTools | length }} tools</span>
+        <span class="section-badge">{{ catTools | length }} {{ catTools | length | pluralize('tool') }}</span>
       </div>
 
       <div class="tools-grid">
@@ -199,7 +199,8 @@ eleventyComputed:
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="3"></circle><line x1="12" y1="2" x2="12" y2="9"></line><line x1="12" y1="15" x2="12" y2="22"></line><line x1="2" y1="12" x2="9" y2="12"></line><line x1="15" y1="12" x2="22" y2="12"></line></svg>
               {% endif %}
             </div>
-            <span class="category-count-badge">{{ (tools | filterByCategory(otherCat.slug)) | length }} tools</span>
+            {% set otherCount = (tools | filterByCategory(otherCat.slug)) | length %}
+            <span class="category-count-badge">{{ otherCount }} {{ otherCount | pluralize('tool') }}</span>
           </div>
           <h3 class="category-card-title">{{ otherCat.name }}</h3>
           <p class="category-card-desc">{{ otherCat.description }}</p>

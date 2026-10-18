@@ -130,6 +130,53 @@ module.exports = function(eleventyConfig) {
     return JSON.stringify(value, null, 2);
   });
 
+  eleventyConfig.addFilter('pluralize', function(count, word) {
+    return Number(count) === 1 ? word : word + 's';
+  });
+
+  eleventyConfig.addFilter('humanDate', function(str) {
+    if (!str) return '';
+    const d = new Date(str);
+    return isNaN(d.getTime()) ? str : d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+  });
+
+  eleventyConfig.addFilter('getCuratedRelatedTools', function(currentTool, allTools, limit = 4) {
+    if (!currentTool || !Array.isArray(allTools)) return [];
+    const result = [];
+    const addedSlugs = new Set([currentTool.slug]);
+
+    if (Array.isArray(currentTool.related)) {
+      for (const slug of currentTool.related) {
+        if (!addedSlugs.has(slug)) {
+          const match = allTools.find(t => t.slug === slug);
+          if (match) {
+            result.push(match);
+            addedSlugs.add(slug);
+            if (result.length >= limit) return result;
+          }
+        }
+      }
+    }
+
+    for (const tool of allTools) {
+      if (tool.category === currentTool.category && !addedSlugs.has(tool.slug)) {
+        result.push(tool);
+        addedSlugs.add(tool.slug);
+        if (result.length >= limit) return result;
+      }
+    }
+
+    for (const tool of allTools) {
+      if (!addedSlugs.has(tool.slug)) {
+        result.push(tool);
+        addedSlugs.add(tool.slug);
+        if (result.length >= limit) return result;
+      }
+    }
+
+    return result.slice(0, limit);
+  });
+
   return {
     dir: {
       input: 'src',

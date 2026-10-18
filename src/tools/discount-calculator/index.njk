@@ -8,23 +8,25 @@ h1: "Discount Calculator"
 extraCss: "/tools/discount-calculator/style.css"
 howto:
   name: "How to Calculate Sale Price and Discount Savings"
-  description: "Step-by-step instructions for calculating retail discounts and final prices."
+  description: "Step-by-step instructions for calculating retail discounts, stacked coupons, and sales tax."
   steps:
-    - name: "Enter Original Price"
-      text: "Input the item's original sticker price in dollars."
-    - name: "Enter Discount & Tax Percentages"
-      text: "Enter the main discount percentage, optional stacked coupon discount, and sales tax rate."
-    - name: "View Final Price and Savings"
-      text: "Click Calculate to view final out-of-pocket cost, total dollars saved, and step-by-step breakdown."
+    - name: "Select Currency & Original Price"
+      text: "Choose your currency symbol and enter the item's original sticker price."
+    - name: "Enter Primary Discount Rate"
+      text: "Input the advertised sale discount percentage (e.g. 20%)."
+    - name: "Add Stacked Coupons or Tax (Optional)"
+      text: "Optionally add an extra promo code discount and local sales tax rate."
+    - name: "Review Final Cost & Total Savings"
+      text: "View your final out-of-pocket price, total money saved, and the step-by-step math breakdown."
 faqs:
   - q: "How do you calculate the final discounted price of an item?"
     a: "Multiply the original sticker price by the discount percentage divided by 100 to find total savings, then subtract the savings from the original price to determine the final sale price."
   - q: "Why does a 20% sale plus a 10% coupon not equal 30% total discount?"
-    a: "Because stacked store coupons apply to the already reduced sale subtotal rather than the original sticker price. A $100 item reduced by 20% becomes $80; applying 10% off $80 saves $8, bringing the final price to $72 (28% overall savings)."
+    a: "Because stacked store coupons apply to the already reduced sale subtotal rather than the original sticker price. A $100 item reduced by 20% becomes $80; applying 10% off $80 saves $8, bringing the final price to $72 (28% overall savings, not 30%)."
   - q: "Is sales tax calculated before or after applying discounts?"
-    a: "In almost all retail jurisdictions, sales tax is calculated on the net discounted subtotal after all promotional sales and coupons have been applied."
+    a: "In retail store purchases, sales tax is calculated on the net discounted subtotal after all promotional store discounts and coupons have been applied."
   - q: "Can I calculate stacked double discounts with this tool?"
-    a: "Yes. Enter your primary sale discount percentage in the first box and your secondary store coupon percentage in the optional stacked discount field."
+    a: "Yes. Enter your primary sale discount percentage in the first field and your secondary store coupon percentage in the optional stacked discount field."
   - q: "Is any financial data transmitted to a server?"
     a: "No. All discount calculations execute locally inside your web browser using JavaScript. No price numbers or financial inputs leave your device."
 sources:
@@ -32,6 +34,8 @@ sources:
     url: "https://www.ftc.gov/"
   - label: "NIST Consumer Pricing Mathematics Standards"
     url: "https://www.nist.gov/"
+  - label: "ISO 80000-2 Mathematical signs and symbols in physical sciences and technology"
+    url: "https://www.iso.org/standard/64973.html"
 ---
 
     <!-- Tool Form Container -->
@@ -40,38 +44,54 @@ sources:
         <div class="form-grid two-col">
           
           <div class="form-group">
-            <label for="original-price">Original Price ($) <span style="color: var(--primary);">*</span></label>
+            <label for="currency-symbol">Currency</label>
+            <select id="currency-symbol" class="form-control" style="width: auto;">
+              <option value="$" selected>$ (USD, CAD, AUD)</option>
+              <option value="£">£ (GBP)</option>
+              <option value="€">€ (EUR)</option>
+              <option value="¥">¥ (JPY, CNY)</option>
+              <option value="₹">₹ (INR)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="original-price">Original Price <span style="color: var(--accent-primary);">*</span></label>
             <input type="number" step="any" id="original-price" class="form-control" placeholder="e.g. 99.99" required aria-required="true">
           </div>
 
           <div class="form-group">
-            <label for="discount-percent">Primary Discount (%) <span style="color: var(--primary);">*</span></label>
+            <label for="discount-percent">Primary Discount (%) <span style="color: var(--accent-primary);">*</span></label>
             <input type="number" step="any" id="discount-percent" class="form-control" placeholder="e.g. 20" required aria-required="true">
           </div>
 
           <div class="form-group">
-            <label for="stacked-discount-percent">Stacked 2nd Discount (%) <span style="font-weight: normal; color: var(--text-subtle);">(Optional)</span></label>
+            <label for="stacked-discount-percent">Stacked 2nd Discount (%) <span style="font-weight: normal; color: var(--text-muted);">(Optional)</span></label>
             <input type="number" step="any" id="stacked-discount-percent" class="form-control" placeholder="e.g. 10">
           </div>
 
           <div class="form-group">
-            <label for="tax-percent">Sales Tax (%) <span style="font-weight: normal; color: var(--text-subtle);">(Optional)</span></label>
+            <label for="tax-percent">Sales Tax (%) <span style="font-weight: normal; color: var(--text-muted);">(Optional)</span></label>
             <input type="number" step="any" id="tax-percent" class="form-control" placeholder="e.g. 8">
           </div>
 
         </div>
 
-        <div class="button-group">
+        <div class="button-group" style="margin-top: 1.25rem;">
           <button type="submit" class="btn btn-primary">Calculate Savings</button>
           <button type="button" class="btn btn-secondary" id="reset-btn">Reset</button>
         </div>
       </form>
 
-      <div id="error-box" class="hidden" style="margin-top: 1rem; color: #dc2626; background: #fef2f2; border: 1px solid #fecaca; padding: 0.75rem 1rem; border-radius: var(--radius-sm);" role="alert"></div>
+      <div id="error-box" class="hidden" style="margin-top: 1rem; color: var(--color-error, #dc2626); background: rgba(220, 38, 38, 0.08); border: 1px solid rgba(220, 38, 38, 0.25); padding: 0.75rem 1rem; border-radius: var(--radius-sm);" role="alert"></div>
 
       <!-- Result Box -->
-      <div id="result-box" class="result-box" aria-live="polite">
-        <div class="result-header" id="result-header-text">Discount Calculation Result</div>
+      <div id="result-box" class="result-box is-visible" aria-live="polite">
+        <div class="result-header">
+          <span id="result-header-text">Discount Calculation Result</span>
+          <button type="button" class="btn btn-sm btn-ghost" id="copy-result-btn" title="Copy Result to clipboard" aria-label="Copy Result to clipboard">
+            <span data-icon="copy"></span> Copy Result
+          </button>
+        </div>
         <div class="result-primary" id="result-primary-text">Final Price: $0.00</div>
         
         <div class="result-grid">
@@ -93,7 +113,7 @@ sources:
           </div>
         </div>
 
-        <div class="formula-box" id="formula-breakdown-box">
+        <div class="formula-box" id="formula-breakdown-box" style="margin-top: 1rem; background: var(--surface-default); border: 1px solid var(--border-subtle); padding: 1rem; border-radius: var(--radius-md); font-size: 0.9rem; line-height: 1.6;">
           <!-- Step-by-step breakdown inserted by script.js -->
         </div>
       </div>
@@ -101,95 +121,63 @@ sources:
 
     <!-- AEO Quick Answer Box -->
     <div class="info-callout" style="margin-top: 2rem; margin-bottom: 2rem;">
-      <h3 style="font-size: 1.05rem; margin-bottom: 0.35rem; color: var(--primary);">Quick Answer</h3>
-      <p style="margin-bottom: 0;">The ToolsBuilt Discount Calculator determines your final purchase price, total dollars saved, stacked promo coupon reductions, and final cost including sales tax. Enter the original item price and discount percentage below to calculate your savings instantly.</p>
+      <h3 style="font-size: 1.05rem; margin-bottom: 0.35rem; color: var(--accent-primary);">Quick Answer</h3>
+      <p style="margin-bottom: 0;">To calculate an item's discounted price: multiply the original price by the discount percentage to find your savings, then subtract that savings from the original price. Formula: <code>Sale Price = Original Price - (Original Price × Discount / 100)</code>.</p>
     </div>
 
-    <!-- Key Facts & Discount Benchmark Table -->
-    <section style="margin: 2.5rem 0;" aria-labelledby="key-facts-heading">
-      <h2 id="key-facts-heading">Key Facts &amp; Retail Discount Benchmarks</h2>
+    <!-- When to Use Section -->
+    <section style="margin: 2.5rem 0;" aria-labelledby="how-to-use-heading">
+      <h2 id="how-to-use-heading">How &amp; When to Use the Discount Calculator</h2>
+      <ul style="color: var(--text-muted); line-height: 1.8; margin-left: 1.25rem;">
+        <li><strong>In-Store Shopping &amp; Clearance Racks:</strong> Quickly determine what that "30% off sticker price" tag actually comes out to at the register.</li>
+        <li><strong>Online Checkout Coupon Stacking:</strong> Test what happens when you combine a site-wide 20% sale with an extra 15% influencer promo code.</li>
+        <li><strong>Retail Wholesaling &amp; Margins:</strong> Compute distributor volume discounts and net pricing before invoice submission.</li>
+        <li><strong>Budgeting with Local Sales Tax:</strong> See the true out-of-pocket total including state or regional sales tax before swiping your card.</li>
+      </ul>
+    </section>
+
+    <!-- Worked Examples Section -->
+    <section style="margin: 2.5rem 0;" aria-labelledby="article-heading">
+      <h2 id="article-heading">Worked Discount Examples &amp; Formula</h2>
       
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 1.25rem;">
-        <div>
-          <h3>Shopping Math Rules</h3>
-          <ul style="color: var(--text-muted); line-height: 1.8; margin-left: 1.25rem;">
-            <li>20% Off = Multiply original price by 0.80</li>
-            <li>25% Off = Multiply original price by 0.75</li>
-            <li>50% Off = Pay half of original sticker price</li>
-            <li>Stacked Discounts apply to the reduced subtotal</li>
+        <div style="background: var(--surface-muted); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem;">
+          <h3 style="font-size: 1.1rem; margin-top: 0; color: var(--accent-primary);">Example 1: Single 25% Off Sale</h3>
+          <p style="font-size: var(--font-size-sm); color: var(--text-muted); margin-bottom: 0.5rem;"><strong>Original:</strong> $80.00 | <strong>Discount:</strong> 25%</p>
+          <ul style="font-size: var(--font-size-sm); color: var(--text-muted); line-height: 1.6; margin-left: 1.25rem;">
+            <li>Savings: $80 × 0.25 = $20.00</li>
+            <li>Final Price: $80 - $20 = <strong>$60.00</strong></li>
+            <li>Effective Savings: 25.0%</li>
           </ul>
         </div>
 
-        <div>
-          <h3>Quick Discount Price Matrix ($100 Item)</h3>
-          <table style="width: 100%; border-collapse: collapse; margin-top: 0.5rem; font-size: 0.9rem;">
-            <thead>
-              <tr style="background-color: var(--bg-muted); text-align: left; border-bottom: 2px solid var(--border-color);">
-                <th style="padding: 0.5rem;">Discount Rate</th>
-                <th style="padding: 0.5rem;">You Save</th>
-                <th style="padding: 0.5rem;">You Pay</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr style="border-bottom: 1px solid var(--border-color);">
-                <td style="padding: 0.5rem; font-weight: 600;">15% Off</td>
-                <td style="padding: 0.5rem;">$15.00</td>
-                <td style="padding: 0.5rem;">$85.00</td>
-              </tr>
-              <tr style="border-bottom: 1px solid var(--border-color);">
-                <td style="padding: 0.5rem; font-weight: 600;">30% Off</td>
-                <td style="padding: 0.5rem;">$30.00</td>
-                <td style="padding: 0.5rem;">$70.00</td>
-              </tr>
-              <tr style="border-bottom: 1px solid var(--border-color);">
-                <td style="padding: 0.5rem; font-weight: 600;">20% + 10% Stacked</td>
-                <td style="padding: 0.5rem;">$28.00</td>
-                <td style="padding: 0.5rem;">$72.00</td>
-              </tr>
-            </tbody>
-          </table>
+        <div style="background: var(--surface-muted); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem;">
+          <h3 style="font-size: 1.1rem; margin-top: 0; color: var(--accent-primary);">Example 2: Stacked Sale + Promo Code</h3>
+          <p style="font-size: var(--font-size-sm); color: var(--text-muted); margin-bottom: 0.5rem;"><strong>Original:</strong> $100.00 | <strong>Sale:</strong> 20% | <strong>Extra Code:</strong> 10%</p>
+          <ul style="font-size: var(--font-size-sm); color: var(--text-muted); line-height: 1.6; margin-left: 1.25rem;">
+            <li>First discount (20%): $100 - $20 = $80</li>
+            <li>Second discount (10% of $80): $80 - $8 = $72</li>
+            <li>Total Saved: $28.00 (<strong>28% total savings</strong>, not 30%)</li>
+          </ul>
+        </div>
+
+        <div style="background: var(--surface-muted); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem;">
+          <h3 style="font-size: 1.1rem; margin-top: 0; color: var(--accent-primary);">Example 3: Discount with Sales Tax</h3>
+          <p style="font-size: var(--font-size-sm); color: var(--text-muted); margin-bottom: 0.5rem;"><strong>Original:</strong> $50.00 | <strong>Discount:</strong> 30% | <strong>Tax:</strong> 8%</p>
+          <ul style="font-size: var(--font-size-sm); color: var(--text-muted); line-height: 1.6; margin-left: 1.25rem;">
+            <li>Discounted Subtotal: $50 - $15 = $35.00</li>
+            <li>Sales Tax (8% of $35): $2.80</li>
+            <li>Final Out-of-Pocket: <strong>$37.80</strong></li>
+          </ul>
         </div>
       </div>
     </section>
 
-    <!-- How to Use Section -->
-    <section aria-labelledby="how-to-use-heading">
-      <h2 id="how-to-use-heading">How to Use the Discount Calculator</h2>
-      <ol class="steps-list">
-        <li>
-          <h4>Enter Original Sticker Price</h4>
-          <p>Input the item's regular price into the original price field above.</p>
-        </li>
-        <li>
-          <h4>Enter Primary &amp; Optional Stacked Discounts</h4>
-          <p>Enter the store sale percentage, plus any secondary promo code coupon percentage or local sales tax rate.</p>
-        </li>
-        <li>
-          <h4>Click "Calculate Savings"</h4>
-          <p>Instantly review your final price, total dollars saved, and step-by-step breakdown.</p>
-        </li>
-      </ol>
+    <!-- Common Mistakes Section -->
+    <section style="margin: 2.5rem 0;" aria-labelledby="mistakes-heading">
+      <h2 id="mistakes-heading">Common Discount Calculation Pitfalls</h2>
+      <ul style="color: var(--text-muted); line-height: 1.8; margin-left: 1.25rem;">
+        <li><strong>Directly Adding Stacked Discounts:</strong> A common retail misconception is adding discount rates together (e.g., 20% off + 20% off = 40% off). In reality, the second discount applies to the remaining balance, yielding 36% total savings.</li>
+        <li><strong>Applying Tax Before the Discount:</strong> In almost all retail tax jurisdictions, sales tax applies strictly to the net price paid after coupons, not the original MSRP.</li>
+      </ul>
     </section>
-
-    <!-- AdSense Placement -->
-    <!-- <div class="ad-placement">AdSense Banner Placeholder</div> -->
-
-    <!-- Article Section (~700 Words) -->
-    <article class="content-article" aria-labelledby="article-heading">
-      <h2 id="article-heading">How Do You Calculate Discount Price and Total Dollars Saved?</h2>
-      <p>To calculate the discounted sale price of an item, multiply the original price by the discount percentage divided by 100 to determine total savings, then subtract those savings from the original price. For example, a 20% discount on a $150 jacket saves $30, bringing the final price to $120.</p>
-
-      <p>If you are evaluating relative price growth or percentage markups across product lines, try our <a href="/tools/percentage-change-calculator/">Percentage Change Calculator</a>.</p>
-
-      <h3>How Does Stacked Coupon Discounting Work?</h3>
-      <p>Retail stores frequently allow shoppers to combine storewide clearance sales with secondary promo code coupons (stacked discounts). However, secondary discounts apply to the <em>already reduced sale subtotal</em> rather than the original price tag.</p>
-
-      <p>For example, if a $100 pair of shoes is marked 20% off, the subtotal becomes $80. Applying a secondary 10% coupon saves 10% of $80 ($8), resulting in a final subtotal of $72 (a total effective discount of 28%, not 30%).</p>
-
-      <h3>Calculating Sales Tax on Discounted Items</h3>
-      <p>In almost all sales tax jurisdictions, local sales tax is computed on the net subtotal <em>after</em> all promotional discounts and store coupons are subtracted. Calculating tax on the reduced price ensures you do not overpay sales tax at the register.</p>
-
-      <p>When drafting shopping guides, commercial proposals, or financial reports, you can verify character lengths using our <a href="/tools/word-counter/">Word &amp; Character Counter</a> or format document headers with our <a href="/tools/text-case-converter/">Text Case Converter</a>.</p>
-    </article>
-
-    <!-- FAQ Accordion (5 Questions, 40-60 words each) -->

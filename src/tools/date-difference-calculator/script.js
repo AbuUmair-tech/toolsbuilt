@@ -1,94 +1,141 @@
 /**
- * Date Difference Calculator Script
- * Calculates total days, business days (Mon-Fri), weeks/days, months/days,
- * and years/months/days breakdown between two local midnight dates.
+ * Date Difference Calculator UI Controller
+ * Powered by DateDifferenceLogic pure module.
+ * Debounced live calculation, URL query sync, localStorage, and clipboard copying.
  */
-
 document.addEventListener('DOMContentLoaded', () => {
+  const logic = window.DateDifferenceLogic || window.DateDifferenceCalculatorLogic;
   const form = document.getElementById('calculator-form');
   const startDateInput = document.getElementById('start-date');
   const endDateInput = document.getElementById('end-date');
   const includeEndCheckbox = document.getElementById('include-end-date');
   const resetBtn = document.getElementById('reset-btn');
+  const copyBtn = document.getElementById('copy-result-btn');
   const resultBox = document.getElementById('result-box');
   const errorBox = document.getElementById('error-box');
 
-  // Pre-fill defaults: start = today, end = today + 30 days
+  const STORAGE_KEY = 'toolsbuilt:date-difference-calculator';
+  let debounceTimer = null;
+  let lastResultText = '';
+
   const today = new Date();
-  const startY = today.getFullYear();
-  const startM = String(today.getMonth() + 1).padStart(2, '0');
-  const startD = String(today.getDate()).padStart(2, '0');
-  startDateInput.value = `${startY}-${startM}-${startD}`;
+  const defaultStart = [
+    today.getFullYear(),
+    String(today.getMonth() + 1).padStart(2, '0'),
+    String(today.getDate()).padStart(2, '0')
+  ].join('-');
 
-  const defaultEnd = new Date(today);
-  defaultEnd.setDate(defaultEnd.getDate() + 30);
-  const endY = defaultEnd.getFullYear();
-  const endM = String(defaultEnd.getMonth() + 1).padStart(2, '0');
-  const endD = String(defaultEnd.getDate()).padStart(2, '0');
-  endDateInput.value = `${endY}-${endM}-${endD}`;
+  const defaultEndObj = new Date(today);
+  defaultEndObj.setDate(defaultEndObj.getDate() + 30);
+  const defaultEnd = [
+    defaultEndObj.getFullYear(),
+    String(defaultEndObj.getMonth() + 1).padStart(2, '0'),
+    String(defaultEndObj.getDate()).padStart(2, '0')
+  ].join('-');
 
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    calculateDifference();
-  });
+  function initInputs() {
+    const params = new URLSearchParams(window.location.search);
+    const urlStart = params.get('start');
+    const urlEnd = params.get('end');
+    const urlInc = params.get('inc');
 
-  resetBtn.addEventListener('click', () => {
-    startDateInput.value = `${startY}-${startM}-${startD}`;
-    endDateInput.value = `${endY}-${endM}-${endD}`;
-    includeEndCheckbox.checked = false;
-    resultBox.classList.remove('is-visible');
+    if (urlStart && urlEnd) {
+      startDateInput.value = urlStart;
+      endDateInput.value = urlEnd;
+      includeEndCheckbox.checked = (urlInc === '1' || urlInc === 'true');
+      return;
+    }
+
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) {
+        const data = JSON.parse(saved);
+        if (data.start) startDateInput.value = data.start;
+        if (data.end) endDateInput.value = data.end;
+        if (typeof data.inc === 'boolean') includeEndCheckbox.checked = data.inc;
+        return;
+      }
+    } catch (e) {}
+
+    startDateInput.value = defaultStart;
+    endDateInput.value = defaultEnd;
+  }
+
+  function saveState(start, end, inc) {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({ start, end, inc }));
+    } catch (e) {}
+
+    const url = new URL(window.location.href);
+    if (start && start !== defaultStart) {
+      url.searchParams.set('start', start);
+    } else {
+      url.searchParams.delete('start');
+    }
+    if (end && end !== defaultEnd) {
+      url.searchParams.set('end', end);
+    } else {
+      url.searchParams.delete('end');
+    }
+    if (inc) {
+      url.searchParams.set('inc', '1');
+    } else {
+      url.searchParams.delete('inc');
+    }
+    window.history.replaceState({}, '', url.toString());
+  }
+
+  function clearError() {
+    errorBox.textContent = '';
     errorBox.classList.add('hidden');
-  });
+    startDateInput.removeAttribute('aria-invalid');
+    startDateInput.removeAttribute('aria-describedby');
+    endDateInput.removeAttribute('aria-invalid');
+    endDateInput.removeAttribute('aria-describedby');
+  }
 
-  function calculateDifference() {
+  function showError(msg, targetField) {
+    errorBox.textContent = msg;
+    errorBox.classList.remove('hidden');
+    resultBox.classList.remove('is-visible');
+    if (targetField) {
+      targetField.setAttribute('aria-invalid', 'true');
+      targetField.setAttribute('aria-describedby', 'error-box');
+      targetField.focus();
+    }
+  }
+
+  function calculate() {
+    clearError();
     const rawStart = startDateInput.value;
     const rawEnd = endDateInput.value;
     const includeEnd = includeEndCheckbox.checked;
 
-    if (!rawStart || !rawEnd) {
-      showError('Please select both a start date and an end date.');
+    if (!rawStart) {
+      showError('Please select a valid start date.', startDateInput);
+      return;
+    }
+    if (!rawEnd) {
+      showError('Please select a valid end date.', endDateInput);
       return;
     }
 
-    errorBox.classList.add('hidden');
-
-    // Parse local midnight Date objects
-    const [sY, sM, sD] = rawStart.split('-').map(Number);
-    const [eY, eM, eD] = rawEnd.split('-').map(Number);
-
-    let d1 = new Date(sY, sM - 1, sD);
-    let d2 = new Date(eY, eM - 1, eD);
-
-    let swapped = false;
-    if (d1 > d2) {
-      swapped = true;
-      const temp = d1;
-      d1 = d2;
-      d2 = temp;
+    try {
+      const res = logic.calculateDateDifference(rawStart, rawEnd, { includeEndDate: includeEnd });
+      renderResult(res);
+      saveState(rawStart, rawEnd, includeEnd);
+    } catch (err) {
+      showError(err.message, startDateInput);
     }
+  }
 
-    // Base milliseconds difference
-    const diffTime = d2.getTime() - d1.getTime();
-    let totalDays = Math.round(diffTime / (1000 * 60 * 60 * 24));
+  function renderResult(res) {
+    const numFormatter = new Intl.NumberFormat('en-US');
+    const primaryStr = `${numFormatter.format(res.totalDays)} Day${res.totalDays === 1 ? '' : 's'}`;
+    const swapNotice = res.isReversed ? ' (Dates automatically ordered start to end)' : '';
+    
+    lastResultText = `Total Duration: ${primaryStr}${swapNotice}. Working Business Days: ${numFormatter.format(res.businessDays)} days. Equivalent: ${res.totalWeeks}w ${res.remainingDaysAfterWeeks}d (${res.years}y ${res.months}m ${res.days}d).`;
 
-    if (includeEnd) {
-      totalDays += 1;
-    }
-
-    // Calculate Business Days (Mon-Fri)
-    const businessDays = calculateBusinessDays(d1, d2, includeEnd);
-
-    // Calculate Y / M / D breakdown
-    const ymd = calculateYMD(d1, d2, includeEnd);
-
-    // Calculate Weeks & Days breakdown
-    const weeks = Math.floor(totalDays / 7);
-    const remDaysAfterWeeks = totalDays % 7;
-
-    // Calculate Months & Days breakdown
-    const md = calculateMonthsAndDays(d1, d2, includeEnd);
-
-    // Format UI Output
     const resultHeader = document.getElementById('result-header-text');
     const resultPrimary = document.getElementById('result-primary-text');
     const statTotalDays = document.getElementById('stat-total-days');
@@ -97,123 +144,49 @@ document.addEventListener('DOMContentLoaded', () => {
     const statWeeksDays = document.getElementById('stat-weeks-days');
     const statMonthsDays = document.getElementById('stat-months-days');
 
-    const formattedStart = d1.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-    const formattedEnd = d2.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-
-    if (swapped) {
-      resultHeader.textContent = 'Reversed Dates (Start date was after End date)';
-    } else {
-      resultHeader.textContent = 'Date Difference Calculation Result';
-    }
-
-    resultPrimary.textContent = `${totalDays.toLocaleString()} Day${totalDays === 1 ? '' : 's'} (${formattedStart} – ${formattedEnd})`;
-    statTotalDays.textContent = `${totalDays.toLocaleString()} Days${includeEnd ? ' (inclusive)' : ''}`;
-    statBusinessDays.textContent = `${businessDays.toLocaleString()} Business Days`;
-
-    // Format YMD string
-    const yParts = [];
-    if (ymd.years > 0) yParts.push(`${ymd.years} year${ymd.years === 1 ? '' : 's'}`);
-    if (ymd.months > 0) yParts.push(`${ymd.months} month${ymd.months === 1 ? '' : 's'}`);
-    if (ymd.days > 0 || yParts.length === 0) yParts.push(`${ymd.days} day${ymd.days === 1 ? '' : 's'}`);
-    statYMD.textContent = yParts.join(', ');
-
-    statWeeksDays.textContent = `${weeks} week${weeks === 1 ? '' : 's'}, ${remDaysAfterWeeks} day${remDaysAfterWeeks === 1 ? '' : 's'}`;
-    statMonthsDays.textContent = `${md.months} month${md.months === 1 ? '' : 's'}, ${md.days} day${md.days === 1 ? '' : 's'}`;
+    resultHeader.textContent = `Date Span Difference${swapNotice}`;
+    resultPrimary.textContent = primaryStr;
+    statTotalDays.textContent = `${numFormatter.format(res.totalDays)} Days`;
+    statBusinessDays.textContent = `${numFormatter.format(res.businessDays)} Business Days (${numFormatter.format(res.weekendDays)} Weekend Days)`;
+    statYMD.textContent = `${res.years} Years, ${res.months} Months, ${res.days} Days`;
+    statWeeksDays.textContent = `${res.totalWeeks} Week${res.totalWeeks === 1 ? '' : 's'}, ${res.remainingDaysAfterWeeks} Day${res.remainingDaysAfterWeeks === 1 ? '' : 's'}`;
+    statMonthsDays.textContent = `${numFormatter.format(res.totalHours)} Total Hours`;
 
     resultBox.classList.add('is-visible');
-    resultBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }
 
-  /**
-   * Calculate Business Days (Mon=1, Tue=2, ..., Fri=5)
-   */
-  function calculateBusinessDays(startDate, endDate, includeEnd) {
-    let count = 0;
-    const cur = new Date(startDate.getTime());
-    const target = new Date(endDate.getTime());
+  function debouncedCalculate() {
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(calculate, 150);
+  }
 
-    while (cur < target) {
-      const dayOfWeek = cur.getDay();
-      if (dayOfWeek !== 0 && dayOfWeek !== 6) { // 0=Sun, 6=Sat
-        count++;
+  startDateInput.addEventListener('input', debouncedCalculate);
+  endDateInput.addEventListener('input', debouncedCalculate);
+  includeEndCheckbox.addEventListener('change', debouncedCalculate);
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    clearTimeout(debounceTimer);
+    calculate();
+  });
+
+  resetBtn.addEventListener('click', () => {
+    startDateInput.value = defaultStart;
+    endDateInput.value = defaultEnd;
+    includeEndCheckbox.checked = false;
+    clearError();
+    saveState(defaultStart, defaultEnd, false);
+    calculate();
+  });
+
+  if (copyBtn) {
+    copyBtn.addEventListener('click', () => {
+      if (lastResultText && window.ToolsBuilt && window.ToolsBuilt.copy) {
+        window.ToolsBuilt.copy(lastResultText, 'Date difference copied to clipboard');
       }
-      cur.setDate(cur.getDate() + 1);
-    }
-
-    if (includeEnd) {
-      const endDay = target.getDay();
-      if (endDay !== 0 && endDay !== 6) {
-        count++;
-      }
-    }
-
-    return count;
+    });
   }
 
-  /**
-   * Precise Years, Months, and Days breakdown
-   */
-  function calculateYMD(d1, d2, includeEnd) {
-    let targetD2 = new Date(d2.getTime());
-    if (includeEnd) {
-      targetD2.setDate(targetD2.getDate() + 1);
-    }
-
-    let years = targetD2.getFullYear() - d1.getFullYear();
-    let months = targetD2.getMonth() - d1.getMonth();
-    let days = targetD2.getDate() - d1.getDate();
-
-    if (days < 0) {
-      months--;
-      // Prev month's total days
-      const prevMonthLastDay = new Date(targetD2.getFullYear(), targetD2.getMonth(), 0).getDate();
-      days += prevMonthLastDay;
-    }
-
-    if (months < 0) {
-      years--;
-      months += 12;
-    }
-
-    return { years, months, days };
-  }
-
-  function addMonthsClamped(date, monthsToAdd) {
-    const startYear = date.getFullYear();
-    const startMonth = date.getMonth();
-    const startDay = date.getDate();
-    const totalMonths = startYear * 12 + startMonth + monthsToAdd;
-    const targetYear = Math.floor(totalMonths / 12);
-    const targetMonth = ((totalMonths % 12) + 12) % 12;
-    const maxDay = new Date(targetYear, targetMonth + 1, 0).getDate();
-    const targetDay = Math.min(startDay, maxDay);
-    return new Date(targetYear, targetMonth, targetDay);
-  }
-
-  /**
-   * Total Months + Days breakdown
-   */
-  function calculateMonthsAndDays(d1, d2, includeEnd) {
-    let targetD2 = new Date(d2.getTime());
-    if (includeEnd) {
-      targetD2.setDate(targetD2.getDate() + 1);
-    }
-
-    let months = (targetD2.getFullYear() - d1.getFullYear()) * 12 + (targetD2.getMonth() - d1.getMonth());
-    let tempDate = addMonthsClamped(d1, months);
-
-    if (tempDate > targetD2) {
-      months--;
-      tempDate = addMonthsClamped(d1, months);
-    }
-
-    const diff = Math.round((targetD2.getTime() - tempDate.getTime()) / (1000 * 60 * 60 * 24));
-    return { months, days: diff };
-  }
-
-  function showError(message) {
-    errorBox.textContent = message;
-    errorBox.classList.remove('hidden');
-    resultBox.classList.remove('is-visible');
-  }
+  initInputs();
+  calculate();
 });

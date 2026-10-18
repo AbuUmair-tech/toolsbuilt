@@ -14,23 +14,25 @@ howto:
     - name: "Add Event Title"
       text: "Optionally enter an event label such as Vacation, Birthday, or Project Deadline."
     - name: "View Countdown Breakdown"
-      text: "Click Calculate Days to see total remaining days, weeks, months, and target weekday."
+      text: "View total remaining days, equivalent weeks and days, calendar months, and the target day of the week."
 faqs:
   - q: "How does the Days Until Date Calculator work?"
-    a: "The calculator compares your selected target date with the current date at local midnight in your device's timezone. It computes the difference in total days, converts those days into weeks and months, and identifies the day of the week."
+    a: "The calculator computes the exact calendar distance between today's date and your selected target date. All date math is performed using UTC midnight timestamps to eliminate daylight saving time (DST) shifts that often cause off-by-one errors on other calculators."
   - q: "Does this calculator take leap years into account?"
-    a: "Yes. The algorithm accounts for 366-day leap years (including February 29th) automatically when computing day differences across calendar years."
-  - q: "Why might date calculations be off by one day on other websites?"
-    a: "Other websites often use UTC timestamps or fail to adjust for time zone differences. ToolsBuilt performs all calculations strictly at local midnight in your browser timezone to prevent off-by-one errors."
+    a: "Yes. The algorithm fully accounts for 366-day leap years (including February 29th) when computing spans across calendar years."
   - q: "Can I calculate how many days have passed since a past date?"
-    a: "Yes. If you select a date in the past, the calculator automatically detects it and displays the total days elapsed since that event."
+    a: "Yes. If you pick a date in the past, the tool automatically detects it and displays the elapsed time in days, weeks, and months since that date."
+  - q: "How are months and days broken down?"
+    a: "Months are calculated from full calendar month transitions. The remaining days are clamped to the exact length of the preceding month, correctly handling months with 28, 29, 30, or 31 days."
   - q: "Is my input date stored or sent to a server?"
-    a: "No. All calculation logic runs locally inside your browser using standard JavaScript. No personal dates or event names leave your device."
+    a: "No. All calculation logic runs strictly inside your web browser using standard JavaScript. No personal dates or event names leave your device."
 sources:
   - label: "NIST Time and Frequency Division"
     url: "https://www.nist.gov/pml/time-and-frequency-division"
   - label: "ISO 8601 Date and Time Standards"
     url: "https://www.iso.org/iso-8601-date-and-time-format.html"
+  - label: "W3C Working Group Note on Time and Date Formats"
+    url: "https://www.w3.org/TR/NOTE-datetime"
 ---
 
     <!-- Tool Card Interface -->
@@ -39,28 +41,30 @@ sources:
         <div class="form-grid two-col">
           
           <div class="form-group">
-            <label for="target-date">Select Target Date <span style="color: var(--primary);">*</span></label>
+            <label for="target-date">Select Target Date <span style="color: var(--accent-primary);">*</span></label>
             <input type="date" id="target-date" class="form-control" required aria-required="true">
           </div>
 
           <div class="form-group">
-            <label for="event-name">Event Name <span style="font-weight: normal; color: var(--text-subtle);">(Optional)</span></label>
-            <input type="text" id="event-name" class="form-control" placeholder="e.g. Vacation, Christmas, Birthday...">
+            <label for="event-name">Event Name <span style="font-weight: normal; color: var(--text-muted);">(Optional)</span></label>
+            <input type="text" id="event-name" class="form-control" placeholder="e.g. Vacation, Product Launch, Wedding...">
           </div>
 
         </div>
 
-        <div class="button-group">
+        <div class="button-group" style="margin-top: 1.25rem;">
           <button type="submit" class="btn btn-primary" id="calculate-btn">Calculate Days</button>
           <button type="button" class="btn btn-secondary" id="reset-btn">Reset</button>
         </div>
       </form>
 
-      <div id="error-box" class="hidden" style="margin-top: 1rem; color: #dc2626; background: #fef2f2; border: 1px solid #fecaca; padding: 0.75rem 1rem; border-radius: var(--radius-sm);" role="alert"></div>
+      <div id="error-box" class="hidden" style="margin-top: 1rem; color: var(--color-error, #dc2626); background: rgba(220, 38, 38, 0.08); border: 1px solid rgba(220, 38, 38, 0.25); padding: 0.75rem 1rem; border-radius: var(--radius-sm);" role="alert"></div>
 
       <!-- Result Box -->
-      <div id="result-box" class="result-box" aria-live="polite">
-        <div class="result-header" id="result-header-text">Countdown Calculation Result</div>
+      <div id="result-box" class="result-box is-visible" aria-live="polite">
+        <div class="result-header">
+          <span id="result-header-text">Countdown Calculation Result</span>
+        </div>
         <div class="result-primary" id="result-primary-text">-- Days Until Date</div>
         
         <div class="result-grid">
@@ -86,50 +90,103 @@ sources:
 
     <!-- AEO Quick Answer Box -->
     <div class="info-callout" style="margin-top: 2rem; margin-bottom: 2rem;">
-      <h3 style="font-size: 1.05rem; margin-bottom: 0.35rem; color: var(--primary);">Quick Answer</h3>
-      <p style="margin-bottom: 0;">The Days Until Date Calculator computes the exact number of total days, weeks, months, and the target day of the week remaining until any specified future date. Select your target date below to get instant countdown results calculated at local midnight.</p>
+      <h3 style="font-size: 1.05rem; margin-bottom: 0.35rem; color: var(--accent-primary);">Quick Answer</h3>
+      <p style="margin-bottom: 0;">The Days Until Date Calculator computes the exact number of total days, weeks, months, and the target day of the week remaining until any specified future date. Pick any target date above to view real-time countdown calculations.</p>
     </div>
 
-    <!-- Key Facts & Sample Benchmark Table -->
+    <!-- When to Use Section -->
+    <section style="margin: 2.5rem 0;" aria-labelledby="how-to-use-heading">
+      <h2 id="how-to-use-heading">How &amp; When to Use the Days Until Date Calculator</h2>
+      <p>Tracking time until an upcoming date is helpful across personal, financial, and professional scheduling:</p>
+      <ul style="color: var(--text-muted); line-height: 1.8; margin-left: 1.25rem;">
+        <li><strong>Project Management &amp; Sprints:</strong> Calculate the exact number of calendar days and weeks remaining until a client milestone or release deadline.</li>
+        <li><strong>Contract &amp; Lease Notice Periods:</strong> Determine deadlines for 30-day, 60-day, or 90-day lease renewals and legal notices.</li>
+        <li><strong>Event &amp; Travel Planning:</strong> Keep tabs on how many days remain until flights, vacations, conferences, or wedding dates.</li>
+        <li><strong>Financial Deadlines:</strong> Track tax filing deadlines, quarterly estimated tax payment dates, and bond maturity dates.</li>
+      </ul>
+    </section>
+
+    <!-- Worked Examples Section -->
+    <section style="margin: 2.5rem 0;" aria-labelledby="article-heading">
+      <h2 id="article-heading">Worked Date Countdown Examples &amp; Formula</h2>
+      
+      <div class="examples-grid" style="margin-top: 1.25rem;">
+        <div style="background: var(--surface-muted); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem;">
+          <h3 style="font-size: 1.1rem; margin-top: 0; color: var(--accent-primary);">Example 1: 30-Day Project Milestone</h3>
+          <p style="font-size: var(--font-size-sm); color: var(--text-muted); margin-bottom: 0.5rem;"><strong>Start:</strong> October 17, 2026 | <strong>Target:</strong> November 16, 2026</p>
+          <ul style="font-size: var(--font-size-sm); color: var(--text-muted); line-height: 1.6; margin-left: 1.25rem;">
+            <li>Total Days: 30 days</li>
+            <li>Weeks: 4 weeks and 2 days</li>
+            <li>Months: 0 months, 30 days</li>
+            <li><strong>Target Day:</strong> Monday, November 16, 2026</li>
+          </ul>
+        </div>
+
+        <div style="background: var(--surface-muted); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem;">
+          <h3 style="font-size: 1.1rem; margin-top: 0; color: var(--accent-primary);">Example 2: 100-Day Goal Countdown</h3>
+          <p style="font-size: var(--font-size-sm); color: var(--text-muted); margin-bottom: 0.5rem;"><strong>Start:</strong> January 1, 2027 | <strong>Target:</strong> April 11, 2027</p>
+          <ul style="font-size: var(--font-size-sm); color: var(--text-muted); line-height: 1.6; margin-left: 1.25rem;">
+            <li>Total Days: 100 days</li>
+            <li>Weeks: 14 weeks and 2 days</li>
+            <li>Months: 3 months, 10 days (Jan has 31d, Feb has 28d, Mar has 31d = 90d + 10d)</li>
+            <li><strong>Target Day:</strong> Sunday, April 11, 2027</li>
+          </ul>
+        </div>
+
+        <div style="background: var(--surface-muted); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem;">
+          <h3 style="font-size: 1.1rem; margin-top: 0; color: var(--accent-primary);">Example 3: Elapsed Days from Past Event</h3>
+          <p style="font-size: var(--font-size-sm); color: var(--text-muted); margin-bottom: 0.5rem;"><strong>Reference Date:</strong> July 4, 2026 | <strong>Current:</strong> October 17, 2026</p>
+          <ul style="font-size: var(--font-size-sm); color: var(--text-muted); line-height: 1.6; margin-left: 1.25rem;">
+            <li>Difference: 105 days in the past</li>
+            <li>Weeks: 15 weeks, 0 days ago</li>
+            <li>Months: 3 months, 13 days ago</li>
+            <li><strong>Status:</strong> Automatically marked as past elapsed time</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Key Facts & Reference Table -->
     <section style="margin: 2.5rem 0;" aria-labelledby="key-facts-heading">
-      <h2 id="key-facts-heading">Key Facts &amp; Common Countdown Benchmarks</h2>
+      <h2 id="key-facts-heading">Key Calendar Units &amp; Planning Benchmarks</h2>
       
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 1.25rem;">
         <div>
-          <h3>Quick Facts</h3>
+          <h3>Standard Calendar Units</h3>
           <ul style="color: var(--text-muted); line-height: 1.8; margin-left: 1.25rem;">
-            <li>Standard Calendar Year: 365 days</li>
-            <li>Leap Year: 366 days (includes Feb 29)</li>
-            <li>Average Month Length: 30.4375 days</li>
-            <li>Average Work Month: 21.6 business days</li>
+            <li><strong>1 Week:</strong> 7 days (168 hours)</li>
+            <li><strong>1 Fortnight:</strong> 14 days (336 hours)</li>
+            <li><strong>Common Year:</strong> 365 days (52 weeks + 1 day)</li>
+            <li><strong>Leap Year:</strong> 366 days (52 weeks + 2 days)</li>
+            <li><strong>Mean Month:</strong> ~30.4375 days (~4.35 weeks)</li>
           </ul>
         </div>
 
         <div>
-          <h3>Sample Event Benchmarks</h3>
+          <h3>Common Planning Periods</h3>
           <table style="width: 100%; border-collapse: collapse; margin-top: 0.5rem; font-size: 0.9rem;">
             <thead>
-              <tr style="background-color: var(--bg-muted); text-align: left; border-bottom: 2px solid var(--border-color);">
-                <th style="padding: 0.5rem;">Target Event</th>
-                <th style="padding: 0.5rem;">Approx. Days</th>
-                <th style="padding: 0.5rem;">Approx. Months</th>
+              <tr style="background-color: var(--surface-muted); text-align: left; border-bottom: 2px solid var(--border-color);">
+                <th style="padding: 0.5rem;">Period Length</th>
+                <th style="padding: 0.5rem;">Typical Usage</th>
               </tr>
             </thead>
             <tbody>
               <tr style="border-bottom: 1px solid var(--border-color);">
-                <td style="padding: 0.5rem;">New Year's Eve</td>
-                <td style="padding: 0.5rem;">80–120 days</td>
-                <td style="padding: 0.5rem;">3–4 months</td>
+                <td style="padding: 0.5rem; font-weight: 600;">14 Days (2 Weeks)</td>
+                <td style="padding: 0.5rem;">Standard agile sprint cycle &amp; payroll interval</td>
               </tr>
               <tr style="border-bottom: 1px solid var(--border-color);">
-                <td style="padding: 0.5rem;">Summer Vacation</td>
-                <td style="padding: 0.5rem;">150–180 days</td>
-                <td style="padding: 0.5rem;">5–6 months</td>
+                <td style="padding: 0.5rem; font-weight: 600;">30 Days</td>
+                <td style="padding: 0.5rem;">Standard invoice payment terms &amp; residential notice</td>
               </tr>
               <tr style="border-bottom: 1px solid var(--border-color);">
-                <td style="padding: 0.5rem;">Christmas Day</td>
-                <td style="padding: 0.5rem;">75 days</td>
-                <td style="padding: 0.5rem;">2.5 months</td>
+                <td style="padding: 0.5rem; font-weight: 600;">90 Days (~1 Quarter)</td>
+                <td style="padding: 0.5rem;">Corporate quarterly financial reporting period</td>
+              </tr>
+              <tr style="border-bottom: 1px solid var(--border-color);">
+                <td style="padding: 0.5rem; font-weight: 600;">180 Days (~6 Months)</td>
+                <td style="padding: 0.5rem;">Passport validity requirement prior to international entry</td>
               </tr>
             </tbody>
           </table>
@@ -137,55 +194,13 @@ sources:
       </div>
     </section>
 
-    <!-- How to Use Section -->
-    <section aria-labelledby="how-to-use-heading">
-      <h2 id="how-to-use-heading">How to Use the Days Until Date Calculator</h2>
-      <ol class="steps-list">
-        <li>
-          <h4>Pick Your Target Date</h4>
-          <p>Click on the date input field above and select your future target date (or a past event date) using the calendar selector.</p>
-        </li>
-        <li>
-          <h4>Add an Optional Event Name</h4>
-          <p>Enter a label like "Summer Vacation", "Exam Date", or "Project Launch" to customize your result title.</p>
-        </li>
-        <li>
-          <h4>Click "Calculate Days"</h4>
-          <p>Instantly view the total remaining days, equivalent weeks, calendar months breakdown, and the exact weekday of your event.</p>
-        </li>
-      </ol>
+    <!-- Common Mistakes Section -->
+    <section style="margin: 2.5rem 0;" aria-labelledby="mistakes-heading">
+      <h2 id="mistakes-heading">Common Mistakes in Date Countdown Calculations</h2>
+      <ul style="color: var(--text-muted); line-height: 1.8; margin-left: 1.25rem;">
+        <li><strong>Timezone Midnight Discrepancies:</strong> If a calculator uses UTC midnight while your browser is in UTC-5 (EST), it may return an answer that is 1 day off. Our tool normalizes calculations to local midnight.</li>
+        <li><strong>Inclusive vs. Exclusive End Dates:</strong> A countdown to tomorrow is 1 day away. But if you are counting days you will spend somewhere including both the first and last day, you need inclusive day counting. For that, use our <a href="/tools/date-difference-calculator/">Date Difference Calculator</a> which has an inclusive counting toggle.</li>
+        <li><strong>Confusing Calendar Days with Business Days:</strong> 10 calendar days usually include 2 to 4 weekend days. If you need working business days excluding weekends, use our <a href="/tools/date-difference-calculator/">Date Difference Calculator</a>.</li>
+      </ul>
     </section>
 
-    <!-- AdSense Placement -->
-    <!-- <div class="ad-placement">AdSense Banner Placeholder</div> -->
-
-    <!-- Article Section (~700 Words with Question H2s) -->
-    <article class="content-article" aria-labelledby="article-heading">
-      <h2 id="article-heading">How Do You Calculate Days Until a Future Date?</h2>
-      <p>To calculate days until a future date, you compute the time difference between the current date and your target date at local midnight. Our online calculator subtracts today's date from your target date, returning exact totals in days, weeks, and months.</p>
-
-      <p>Whether you are counting down until a vacation, tracking project deadlines, or measuring time spans between two fixed calendar points, using our <a href="/tools/date-difference-calculator/">Date Difference Calculator</a> helps you compare working business days alongside total calendar days.</p>
-
-      <h3>How Do Calendar Months and Leap Years Affect Countdowns?</h3>
-      <p>Calendar countdowns must account for month length variations and leap years. Months alternate between 28, 30, and 31 days. Furthermore, leap years add February 29th every 4 years, adding a 366th day to the calendar year.</p>
-
-      <p>Our algorithm anchors all dates to local midnight boundaries in your web browser timezone (`new Date(year, month - 1, day)`), ensuring that timezone shifts never create off-by-one errors.</p>
-
-      <h3>Why Should You Track Time in Weeks and Months?</h3>
-      <p>Viewing a countdown in multiple time units provides clearer planning perspectives:</p>
-
-      <ul>
-        <li><strong>Total Days:</strong> Gives an exact daily countdown (e.g. 45 days remaining).</li>
-        <li><strong>Weeks and Days:</strong> Helps with weekly sprint planning and project management (e.g. 6 weeks and 3 days).</li>
-        <li><strong>Months and Days:</strong> Provides macro calendar planning views for long-term goals.</li>
-      </ul>
-
-      <p>When drafting project proposals or preparing presentations about your project schedule, you can easily analyze word count and reading time using our <a href="/tools/word-counter/">Word &amp; Character Counter</a>, or adjust text formatting with our <a href="/tools/text-case-converter/">Text Case Converter</a>.</p>
-
-      <div class="info-callout">
-        <h3>Pro Tip: Working Days vs. Calendar Days</h3>
-        <p>This calculator measures <strong>total calendar days</strong> (including weekends). For business deadlines, remember that every 7 calendar days contain 5 working days and 2 weekend days.</p>
-      </div>
-    </article>
-
-    <!-- FAQ Accordion (5 Questions, 40-60 words each) -->

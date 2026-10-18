@@ -90,7 +90,7 @@
 
   {% include "partials/footer.njk" %}
 
-  <!-- Cookie consent banner placeholder (hidden by default, no tracking).
+  <!-- Cookie consent banner placeholder (hidden by default).
        Will be replaced by Google's certified CMP when AdSense is active for EEA/UK users. -->
   <div id="cookie-consent-banner" class="cookie-banner" style="display:none" aria-hidden="true"></div>
 
@@ -99,6 +99,8 @@
   {% if includeToolsData %}<script src="/assets/js/tools-data.js"></script>{% endif %}
   <script src="/assets/js/common.js"></script>
   <script src="/assets/js/layout.js" defer></script>
+  {% if toolSlug == "password-generator" %}<script src="/tools/password-generator/eff-words.js"></script>{% endif %}
+  {% if toolSlug %}<script src="/tools/{{ toolSlug }}/logic.js"></script>{% endif %}
   {% if toolScript %}<script src="{{ toolScript }}"></script>{% elif toolSlug %}<script src="/tools/{{ toolSlug }}/script.js"></script>{% endif %}
 </body>
 </html>

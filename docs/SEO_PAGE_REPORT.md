@@ -19,24 +19,24 @@
 | `/` | 200 OK | 0 | 116 | 46 chars | 155 chars | `https://toolsbuilt.com/` | `home.png` |
 | `/about/` | 200 OK | 1 | 68 | 21 chars | 144 chars | `https://toolsbuilt.com/about/` | `home.png` |
 | `/category/date-time/` | 200 OK | 1 | 86 | 45 chars | 159 chars | `https://toolsbuilt.com/category/date-time/` | `category-date-time.png` |
-| `/category/fun/` | 200 OK | 1 | 76 | 45 chars | 122 chars | `https://toolsbuilt.com/category/fun/` | `category-fun.png` |
-| `/category/math-finance/` | 200 OK | 1 | 80 | 50 chars | 141 chars | `https://toolsbuilt.com/category/math-finance/` | `category-math-finance.png` |
-| `/category/security/` | 200 OK | 1 | 76 | 46 chars | 132 chars | `https://toolsbuilt.com/category/security/` | `category-security.png` |
+| `/category/fun/` | 200 OK | 1 | 77 | 45 chars | 122 chars | `https://toolsbuilt.com/category/fun/` | `category-fun.png` |
+| `/category/math-finance/` | 200 OK | 1 | 80 | 51 chars | 142 chars | `https://toolsbuilt.com/category/math-finance/` | `category-math-finance.png` |
+| `/category/security/` | 200 OK | 1 | 77 | 46 chars | 132 chars | `https://toolsbuilt.com/category/security/` | `category-security.png` |
 | `/category/text/` | 200 OK | 1 | 80 | 42 chars | 141 chars | `https://toolsbuilt.com/category/text/` | `category-text.png` |
 | `/contact/` | 200 OK | 1 | 94 | 23 chars | 134 chars | `https://toolsbuilt.com/contact/` | `home.png` |
 | `/privacy-policy/` | 200 OK | 1 | 24 | 27 chars | 132 chars | `https://toolsbuilt.com/privacy-policy/` | `home.png` |
 | `/terms/` | 200 OK | 1 | 24 | 29 chars | 122 chars | `https://toolsbuilt.com/terms/` | `home.png` |
-| `/tools/` | 200 OK | 1 | 48 | 52 chars | 153 chars | `https://toolsbuilt.com/tools/` | `tools.png` |
-| `/tools/add-days-to-date-calculator/` | 200 OK | 1 | 106 | 54 chars | 158 chars | `https://toolsbuilt.com/tools/add-days-to-date-calculator/` | `add-days-to-date-calculator.png` |
-| `/tools/age-calculator/` | 200 OK | 1 | 110 | 52 chars | 134 chars | `https://toolsbuilt.com/tools/age-calculator/` | `age-calculator.png` |
-| `/tools/date-difference-calculator/` | 200 OK | 1 | 116 | 53 chars | 136 chars | `https://toolsbuilt.com/tools/date-difference-calculator/` | `date-difference-calculator.png` |
-| `/tools/days-until-date-calculator/` | 200 OK | 1 | 111 | 51 chars | 134 chars | `https://toolsbuilt.com/tools/days-until-date-calculator/` | `days-until-date-calculator.png` |
-| `/tools/discount-calculator/` | 200 OK | 1 | 106 | 52 chars | 133 chars | `https://toolsbuilt.com/tools/discount-calculator/` | `discount-calculator.png` |
-| `/tools/password-generator/` | 200 OK | 1 | 105 | 51 chars | 144 chars | `https://toolsbuilt.com/tools/password-generator/` | `password-generator.png` |
-| `/tools/percentage-change-calculator/` | 200 OK | 1 | 107 | 50 chars | 133 chars | `https://toolsbuilt.com/tools/percentage-change-calculator/` | `percentage-change-calculator.png` |
+| `/tools/` | 200 OK | 1 | 48 | 52 chars | 154 chars | `https://toolsbuilt.com/tools/` | `tools.png` |
+| `/tools/add-days-to-date-calculator/` | 200 OK | 1 | 103 | 54 chars | 158 chars | `https://toolsbuilt.com/tools/add-days-to-date-calculator/` | `add-days-to-date-calculator.png` |
+| `/tools/age-calculator/` | 200 OK | 1 | 105 | 52 chars | 134 chars | `https://toolsbuilt.com/tools/age-calculator/` | `age-calculator.png` |
+| `/tools/date-difference-calculator/` | 200 OK | 1 | 109 | 53 chars | 136 chars | `https://toolsbuilt.com/tools/date-difference-calculator/` | `date-difference-calculator.png` |
+| `/tools/days-until-date-calculator/` | 200 OK | 1 | 110 | 51 chars | 134 chars | `https://toolsbuilt.com/tools/days-until-date-calculator/` | `days-until-date-calculator.png` |
+| `/tools/discount-calculator/` | 200 OK | 1 | 103 | 52 chars | 133 chars | `https://toolsbuilt.com/tools/discount-calculator/` | `discount-calculator.png` |
+| `/tools/password-generator/` | 200 OK | 1 | 59 | 51 chars | 144 chars | `https://toolsbuilt.com/tools/password-generator/` | `password-generator.png` |
+| `/tools/percentage-change-calculator/` | 200 OK | 1 | 105 | 62 chars | 140 chars | `https://toolsbuilt.com/tools/percentage-change-calculator/` | `percentage-change-calculator.png` |
 | `/tools/random-name-picker/` | 200 OK | 1 | 54 | 37 chars | 163 chars | `https://toolsbuilt.com/tools/random-name-picker/` | `random-name-picker.png` |
-| `/tools/text-case-converter/` | 200 OK | 1 | 65 | 51 chars | 136 chars | `https://toolsbuilt.com/tools/text-case-converter/` | `text-case-converter.png` |
-| `/tools/word-counter/` | 200 OK | 1 | 113 | 47 chars | 136 chars | `https://toolsbuilt.com/tools/word-counter/` | `word-counter.png` |
+| `/tools/text-case-converter/` | 200 OK | 1 | 57 | 51 chars | 148 chars | `https://toolsbuilt.com/tools/text-case-converter/` | `text-case-converter.png` |
+| `/tools/word-counter/` | 200 OK | 1 | 59 | 47 chars | 136 chars | `https://toolsbuilt.com/tools/word-counter/` | `word-counter.png` |
 | `/404.html` | Noindex | Unreachable | 2 | 27 chars | 134 chars | `https://toolsbuilt.com/404.html` | `home.png` |
 
 ---
@@ -73,11 +73,11 @@
 - **Canonical:** `https://toolsbuilt.com/category/fun/`
 - **OG Image:** `https://toolsbuilt.com/assets/og/category-fun.png`
 - **Click Depth from /:** 1
-- **Inbound Internal Links:** 76
+- **Inbound Internal Links:** 77
 
 ### `/category/math-finance/`
-- **Title (50 chars):** Free Math &amp; Financial Calculators | ToolsBuilt
-- **Description (141 chars):** Compute percentage changes, stacked discounts, sales tax, and everyday financial math instantly with transparent rounding and clear formulas.
+- **Title (51 chars):** Free Math &amp; Percentage Calculators | ToolsBuilt
+- **Description (142 chars):** Compute percentage changes, stacked discounts, sales tax, and everyday percentage math instantly with transparent rounding and clear formulas.
 - **Canonical:** `https://toolsbuilt.com/category/math-finance/`
 - **OG Image:** `https://toolsbuilt.com/assets/og/category-math-finance.png`
 - **Click Depth from /:** 1
@@ -89,7 +89,7 @@
 - **Canonical:** `https://toolsbuilt.com/category/security/`
 - **OG Image:** `https://toolsbuilt.com/assets/og/category-security.png`
 - **Click Depth from /:** 1
-- **Inbound Internal Links:** 76
+- **Inbound Internal Links:** 77
 
 ### `/category/text/`
 - **Title (42 chars):** Free Text &amp; Writing Tools | ToolsBuilt
@@ -125,7 +125,7 @@
 
 ### `/tools/`
 - **Title (52 chars):** All Free Online Calculators & Web Tools | ToolsBuilt
-- **Description (153 chars):** Browse our complete directory of free online calculators, date utilities, financial tools, text counters, and password generators. 100% free and private.
+- **Description (154 chars):** Browse our complete directory of free online calculators, date utilities, percentage tools, text counters, and password generators. 100% free and private.
 - **Canonical:** `https://toolsbuilt.com/tools/`
 - **OG Image:** `https://toolsbuilt.com/assets/og/tools.png`
 - **Click Depth from /:** 1
@@ -137,7 +137,7 @@
 - **Canonical:** `https://toolsbuilt.com/tools/add-days-to-date-calculator/`
 - **OG Image:** `https://toolsbuilt.com/assets/og/add-days-to-date-calculator.png`
 - **Click Depth from /:** 1
-- **Inbound Internal Links:** 106
+- **Inbound Internal Links:** 103
 
 ### `/tools/age-calculator/`
 - **Title (52 chars):** Age Calculator - Calculate Exact Age & Next Birthday
@@ -145,7 +145,7 @@
 - **Canonical:** `https://toolsbuilt.com/tools/age-calculator/`
 - **OG Image:** `https://toolsbuilt.com/assets/og/age-calculator.png`
 - **Click Depth from /:** 1
-- **Inbound Internal Links:** 110
+- **Inbound Internal Links:** 105
 
 ### `/tools/date-difference-calculator/`
 - **Title (53 chars):** Date Difference Calculator - Count Days Between Dates
@@ -153,7 +153,7 @@
 - **Canonical:** `https://toolsbuilt.com/tools/date-difference-calculator/`
 - **OG Image:** `https://toolsbuilt.com/assets/og/date-difference-calculator.png`
 - **Click Depth from /:** 1
-- **Inbound Internal Links:** 116
+- **Inbound Internal Links:** 109
 
 ### `/tools/days-until-date-calculator/`
 - **Title (51 chars):** Days Until Date Calculator - Count Days to Any Date
@@ -161,7 +161,7 @@
 - **Canonical:** `https://toolsbuilt.com/tools/days-until-date-calculator/`
 - **OG Image:** `https://toolsbuilt.com/assets/og/days-until-date-calculator.png`
 - **Click Depth from /:** 1
-- **Inbound Internal Links:** 111
+- **Inbound Internal Links:** 110
 
 ### `/tools/discount-calculator/`
 - **Title (52 chars):** Discount Calculator - Calculate Sale Price & Savings
@@ -169,7 +169,7 @@
 - **Canonical:** `https://toolsbuilt.com/tools/discount-calculator/`
 - **OG Image:** `https://toolsbuilt.com/assets/og/discount-calculator.png`
 - **Click Depth from /:** 1
-- **Inbound Internal Links:** 106
+- **Inbound Internal Links:** 103
 
 ### `/tools/password-generator/`
 - **Title (51 chars):** Strong Password Generator - Secure Random Passwords
@@ -177,15 +177,15 @@
 - **Canonical:** `https://toolsbuilt.com/tools/password-generator/`
 - **OG Image:** `https://toolsbuilt.com/assets/og/password-generator.png`
 - **Click Depth from /:** 1
-- **Inbound Internal Links:** 105
+- **Inbound Internal Links:** 59
 
 ### `/tools/percentage-change-calculator/`
-- **Title (50 chars):** Percentage Change Calculator - Increase & Decrease
-- **Description (133 chars):** Calculate percentage increase, percentage decrease, percent of numbers, and step-by-step formulas. Free online percentage calculator.
+- **Title (62 chars):** Percentage Change Calculator - Increase, Decrease & Difference
+- **Description (140 chars):** Calculate percentage change, percent increase or decrease, what percent X is of Y, and percentage difference with step-by-step formula math.
 - **Canonical:** `https://toolsbuilt.com/tools/percentage-change-calculator/`
 - **OG Image:** `https://toolsbuilt.com/assets/og/percentage-change-calculator.png`
 - **Click Depth from /:** 1
-- **Inbound Internal Links:** 107
+- **Inbound Internal Links:** 105
 
 ### `/tools/random-name-picker/`
 - **Title (37 chars):** Random Name Picker Wheel | ToolsBuilt
@@ -197,11 +197,11 @@
 
 ### `/tools/text-case-converter/`
 - **Title (51 chars):** Text Case Converter - Convert UPPERCASE & lowercase
-- **Description (136 chars):** Convert text to UPPERCASE, lowercase, Title Case, Sentence case, camelCase, snake_case, or kebab-case instantly with a free online tool.
+- **Description (148 chars):** Convert text to UPPERCASE, lowercase, Title Case, Sentence case, camelCase, PascalCase, snake_case, or kebab-case instantly with a free online tool.
 - **Canonical:** `https://toolsbuilt.com/tools/text-case-converter/`
 - **OG Image:** `https://toolsbuilt.com/assets/og/text-case-converter.png`
 - **Click Depth from /:** 1
-- **Inbound Internal Links:** 65
+- **Inbound Internal Links:** 57
 
 ### `/tools/word-counter/`
 - **Title (47 chars):** Word Counter - Character & Reading Time Counter
@@ -209,7 +209,7 @@
 - **Canonical:** `https://toolsbuilt.com/tools/word-counter/`
 - **OG Image:** `https://toolsbuilt.com/assets/og/word-counter.png`
 - **Click Depth from /:** 1
-- **Inbound Internal Links:** 113
+- **Inbound Internal Links:** 59
 
 ### `/404.html`
 - **Title (27 chars):** Page Not Found | ToolsBuilt

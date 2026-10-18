@@ -1,109 +1,205 @@
 /**
- * Discount Calculator Script
- * Calculates final price, total savings, stacked double discounts, sales tax,
- * and step-by-step mathematical breakdown.
+ * Discount Calculator UI Controller
+ * Powered by DiscountLogic pure module.
+ * Debounced live calculation, URL query sync, localStorage, and clipboard copying.
  */
-
 document.addEventListener('DOMContentLoaded', () => {
+  const logic = window.DiscountLogic;
   const form = document.getElementById('calculator-form');
   const priceInput = document.getElementById('original-price');
   const discountInput = document.getElementById('discount-percent');
   const stackedDiscountInput = document.getElementById('stacked-discount-percent');
   const taxInput = document.getElementById('tax-percent');
+  const currencySelect = document.getElementById('currency-symbol');
   const resetBtn = document.getElementById('reset-btn');
+  const copyBtn = document.getElementById('copy-result-btn');
   const resultBox = document.getElementById('result-box');
   const errorBox = document.getElementById('error-box');
 
-  // Pre-fill defaults (e.g. $100 original, 20% discount)
-  priceInput.value = '100';
-  discountInput.value = '20';
+  const STORAGE_KEY = 'toolsbuilt:discount-calculator';
+  let debounceTimer = null;
+  let lastResultText = '';
+
+  function initInputs() {
+    const params = new URLSearchParams(window.location.search);
+    const urlPrice = params.get('price');
+    const urlDisc = params.get('disc');
+    const urlStacked = params.get('stacked');
+    const urlTax = params.get('tax');
+    const urlCur = params.get('cur');
+
+    if (urlPrice) {
+      priceInput.value = urlPrice;
+      if (urlDisc) discountInput.value = urlDisc;
+      if (urlStacked) stackedDiscountInput.value = urlStacked;
+      if (urlTax) taxInput.value = urlTax;
+      if (urlCur && currencySelect) currencySelect.value = urlCur;
+      return;
+    }
+
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) {
+        const data = JSON.parse(saved);
+        if (data.price) priceInput.value = data.price;
+        if (data.disc) discountInput.value = data.disc;
+        if (data.stacked) stackedDiscountInput.value = data.stacked;
+        if (data.tax) taxInput.value = data.tax;
+        if (data.cur && currencySelect) currencySelect.value = data.cur;
+        return;
+      }
+    } catch (e) {}
+
+    priceInput.value = '100';
+    discountInput.value = '20';
+  }
+
+  function saveState(price, disc, stacked, tax, cur) {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({ price, disc, stacked, tax, cur }));
+    } catch (e) {}
+
+    const url = new URL(window.location.href);
+    if (price && price !== '100') url.searchParams.set('price', price); else url.searchParams.delete('price');
+    if (disc && disc !== '20') url.searchParams.set('disc', disc); else url.searchParams.delete('disc');
+    if (stacked) url.searchParams.set('stacked', stacked); else url.searchParams.delete('stacked');
+    if (tax) url.searchParams.set('tax', tax); else url.searchParams.delete('tax');
+    if (cur && cur !== '$') url.searchParams.set('cur', cur); else url.searchParams.delete('cur');
+    window.history.replaceState({}, '', url.toString());
+  }
+
+  function clearError() {
+    errorBox.textContent = '';
+    errorBox.classList.add('hidden');
+    [priceInput, discountInput, stackedDiscountInput, taxInput].forEach(inp => {
+      inp.removeAttribute('aria-invalid');
+    });
+  }
+
+  function showError(msg, targetField) {
+    errorBox.textContent = msg;
+    errorBox.classList.remove('hidden');
+    resultBox.classList.remove('is-visible');
+    if (targetField) {
+      targetField.setAttribute('aria-invalid', 'true');
+      targetField.focus();
+    }
+  }
+
+  function calculate() {
+    clearError();
+    const rawPrice = priceInput.value.trim();
+    const rawDisc = discountInput.value.trim();
+    const rawStacked = stackedDiscountInput.value.trim();
+    const rawTax = taxInput.value.trim();
+    const cur = currencySelect ? currencySelect.value : '$';
+
+    if (!rawPrice || isNaN(parseFloat(rawPrice))) {
+      showError('Please enter a valid original price.', priceInput);
+      return;
+    }
+
+    if (!rawDisc || isNaN(parseFloat(rawDisc))) {
+      showError('Please enter a valid discount percentage.', discountInput);
+      return;
+    }
+
+    const price = parseFloat(rawPrice);
+    const disc = parseFloat(rawDisc);
+    const stacked = rawStacked ? parseFloat(rawStacked) : 0;
+    const tax = rawTax ? parseFloat(rawTax) : 0;
+
+    if (price < 0 || disc < 0 || stacked < 0 || tax < 0) {
+      showError('Price, discount, and tax percentages cannot be negative.', priceInput);
+      return;
+    }
+
+    try {
+      const res = logic.calculateDiscount(price, disc, {
+        stackedDiscountPercent: stacked,
+        taxPercent: tax,
+        currencySymbol: cur
+      });
+      renderResult(res);
+      saveState(rawPrice, rawDisc, rawStacked, rawTax, cur);
+    } catch (err) {
+      showError(err.message, priceInput);
+    }
+  }
+
+  function renderResult(res) {
+    const cur = res.currencySymbol;
+    const fmt = (num) => cur + num.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+    const finalFormatted = fmt(res.finalPrice);
+    const savedFormatted = fmt(res.totalSavings);
+
+    document.getElementById('result-primary-text').textContent = `Final Price: ${finalFormatted}`;
+    document.getElementById('stat-final-price').textContent = finalFormatted;
+    document.getElementById('stat-total-saved').textContent = `${savedFormatted} (${res.effectiveDiscountPercent}% total)`;
+    document.getElementById('stat-price-before-tax').textContent = fmt(res.priceAfterDiscounts);
+    document.getElementById('stat-tax-amount').textContent = fmt(res.taxAmount);
+
+    lastResultText = `Final Price: ${finalFormatted}. Total Saved: ${savedFormatted} (${res.effectiveDiscountPercent}% off). Price before tax: ${fmt(res.priceAfterDiscounts)}. Sales tax: ${fmt(res.taxAmount)}.`;
+
+    let stepsHtml = `<strong>Calculation Breakdown:</strong><br>`;
+    stepsHtml += `1. Original Price: <code>${fmt(res.originalPrice)}</code><br>`;
+    stepsHtml += `2. Primary Discount (${res.primaryDiscount}%): Saved <code>${fmt(res.primarySavings)}</code> → Subtotal: <code>${fmt(res.subtotalAfterPrimary)}</code><br>`;
+
+    if (res.stackedDiscount > 0) {
+      stepsHtml += `3. Stacked 2nd Discount (${res.stackedDiscount}% off ${fmt(res.subtotalAfterPrimary)}): Saved additional <code>${fmt(res.stackedSavings)}</code> → Subtotal: <code>${fmt(res.priceAfterDiscounts)}</code><br>`;
+    }
+
+    if (res.taxPercent > 0) {
+      stepsHtml += `4. Sales Tax (${res.taxPercent}%): Added <code>${fmt(res.taxAmount)}</code><br>`;
+    }
+    stepsHtml += `5. Total Out-of-Pocket: <strong>${finalFormatted}</strong> (Total Savings: <strong>${savedFormatted}</strong>)`;
+
+    const breakdownBox = document.getElementById('formula-breakdown-box');
+    if (breakdownBox) {
+      breakdownBox.innerHTML = stepsHtml;
+    }
+
+    resultBox.classList.add('is-visible');
+  }
+
+  function debouncedCalculate() {
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(calculate, 150);
+  }
+
+  [priceInput, discountInput, stackedDiscountInput, taxInput].forEach(inp => {
+    inp.addEventListener('input', debouncedCalculate);
+  });
+  if (currencySelect) {
+    currencySelect.addEventListener('change', debouncedCalculate);
+  }
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();
-    calculateDiscount();
+    clearTimeout(debounceTimer);
+    calculate();
   });
 
   resetBtn.addEventListener('click', () => {
-    form.reset();
     priceInput.value = '100';
     discountInput.value = '20';
-    resultBox.classList.remove('is-visible');
-    errorBox.classList.add('hidden');
+    stackedDiscountInput.value = '';
+    taxInput.value = '';
+    if (currencySelect) currencySelect.value = '$';
+    clearError();
+    saveState('100', '20', '', '', '$');
+    calculate();
   });
 
-  function calculateDiscount() {
-    const origPrice = parseFloat(priceInput.value);
-    const discPercent = parseFloat(discountInput.value);
-    const stackedPercent = parseFloat(stackedDiscountInput.value) || 0;
-    const taxPercent = parseFloat(taxInput.value) || 0;
-
-    if (isNaN(origPrice) || isNaN(discPercent)) {
-      showError('Please enter valid numeric values for price and discount percentage.');
-      return;
-    }
-
-    if (origPrice < 0 || discPercent < 0 || stackedPercent < 0 || taxPercent < 0) {
-      showError('Price, discount, and tax percentages cannot be negative numbers.');
-      return;
-    }
-
-    errorBox.classList.add('hidden');
-
-    // Step 1: Primary Discount
-    const primarySavings = (origPrice * discPercent) / 100;
-    const priceAfterPrimary = origPrice - primarySavings;
-
-    // Step 2: Stacked Second Discount (applied to reduced price)
-    const stackedSavings = (priceAfterPrimary * stackedPercent) / 100;
-    const priceAfterDiscounts = priceAfterPrimary - stackedSavings;
-
-    // Total Savings
-    const totalSavings = primarySavings + stackedSavings;
-
-    // Step 3: Sales Tax
-    const taxAmount = (priceAfterDiscounts * taxPercent) / 100;
-    const finalPrice = priceAfterDiscounts + taxAmount;
-
-    // Formatting helper
-    const fmt = (num) => '$' + num.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-
-    // UI Updates
-    document.getElementById('result-header-text').textContent = 'Discount Calculation Result';
-    document.getElementById('result-primary-text').textContent = `Final Price: ${fmt(finalPrice)}`;
-
-    document.getElementById('stat-final-price').textContent = fmt(finalPrice);
-    document.getElementById('stat-total-saved').textContent = fmt(totalSavings);
-    document.getElementById('stat-price-before-tax').textContent = fmt(priceAfterDiscounts);
-    document.getElementById('stat-tax-amount').textContent = fmt(taxAmount);
-
-    // Step-by-Step Breakdown HTML
-    let stepsHtml = `<strong>Calculation Breakdown:</strong><br>`;
-    stepsHtml += `1. Original Price: <code>${fmt(origPrice)}</code><br>`;
-    stepsHtml += `2. Primary Discount (${discPercent}%): Saved <code>${fmt(primarySavings)}</code> → Subtotal: <code>${fmt(priceAfterPrimary)}</code><br>`;
-
-    if (stackedPercent > 0) {
-      stepsHtml += `3. Stacked 2nd Discount (${stackedPercent}%): Saved additional <code>${fmt(stackedSavings)}</code> → Price After Discounts: <code>${fmt(priceAfterDiscounts)}</code><br>`;
-    }
-
-    if (taxPercent > 0) {
-      stepsHtml += `4. Sales Tax (${taxPercent}%): Added <code>${fmt(taxAmount)}</code><br>`;
-      stepsHtml += `5. Total Final Price: <strong>${fmt(finalPrice)}</strong> (You saved a total of <strong>${fmt(totalSavings)}</strong>)`;
-    } else {
-      stepsHtml += `4. Total Final Price: <strong>${fmt(finalPrice)}</strong> (You saved a total of <strong>${fmt(totalSavings)}</strong>)`;
-    }
-
-    document.getElementById('formula-breakdown-box').innerHTML = stepsHtml;
-
-    resultBox.classList.add('is-visible');
-    resultBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  if (copyBtn) {
+    copyBtn.addEventListener('click', () => {
+      if (lastResultText && window.ToolsBuilt && window.ToolsBuilt.copy) {
+        window.ToolsBuilt.copy(lastResultText, 'Discount calculation copied to clipboard');
+      }
+    });
   }
 
-  function showError(message) {
-    errorBox.textContent = message;
-    errorBox.classList.remove('hidden');
-    resultBox.classList.remove('is-visible');
-  }
-
-  // Initial calculation
-  calculateDiscount();
+  initInputs();
+  calculate();
 });
