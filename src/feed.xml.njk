@@ -1,0 +1,29 @@
+---
+permalink: /feed.xml
+eleventyExcludeFromCollections: true
+---
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>ToolsBuilt - New &amp; Updated Tools</title>
+  <subtitle>Free, fast, private online calculators and productivity utilities.</subtitle>
+  <link href="https://toolsbuilt.com/feed.xml" rel="self"/>
+  <link href="https://toolsbuilt.com/"/>
+  <id>https://toolsbuilt.com/feed.xml</id>
+  <updated>2026-10-15T00:00:00Z</updated>
+  <author>
+    <name>ToolsBuilt</name>
+    <uri>https://toolsbuilt.com/</uri>
+  </author>
+{%- for tool in tools %}
+  <entry>
+    <title>{{ tool.name }}</title>
+    <link href="https://toolsbuilt.com/tools/{{ tool.slug }}/"/>
+    <id>https://toolsbuilt.com/tools/{{ tool.slug }}/</id>
+    <updated>{{ tool.updated or "2026-10-15" }}T00:00:00Z</updated>
+    <summary>{{ tool.description }}</summary>
+    <author>
+      <name>ToolsBuilt</name>
+    </author>
+  </entry>
+{%- endfor %}
+</feed>

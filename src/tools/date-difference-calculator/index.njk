@@ -1,0 +1,171 @@
+---
+layout: layouts/tool.njk
+toolSlug: date-difference-calculator
+title: "Date Difference Calculator - Count Days Between Dates"
+description: "Calculate the exact number of days, business days, weeks, months, and years between any two dates. Free online date duration calculator."
+permalink: /tools/date-difference-calculator/
+h1: "Date Difference Calculator"
+howto:
+  name: "How to Calculate the Difference Between Two Dates"
+  description: "Step-by-step instructions for calculating duration and business days between two dates."
+  steps:
+    - name: "Enter Start and End Dates"
+      text: "Select your starting date and ending date from the calendar input fields."
+    - name: "Select Inclusive Option"
+      text: "Optionally check 'Include end date in the count' if your calculation requires counting both boundary days."
+    - name: "View Detailed Breakdown"
+      text: "View total calendar days, working business days (Mon–Fri), weekend days, and breakdown into years, months, and weeks."
+faqs:
+  - q: "What is the difference between calendar days and business days?"
+    a: "Calendar days include all 7 days of each week (Monday through Sunday), whereas business days count only standard working days from Monday through Friday, excluding weekend days."
+  - q: "When should I check 'Include end date in the count'?"
+    a: "Check this option if your activity or rental includes both boundary days. For example, a business conference taking place from Monday to Wednesday spans 3 full event days (inclusive), but is 2 days duration if measuring elapsed time (exclusive)."
+  - q: "What happens if I enter an end date that occurs before the start date?"
+    a: "The calculator detects reversed dates, swaps them to compute the positive span, and shows a helpful notice indicating that the dates were ordered automatically."
+  - q: "How are leap years handled in multi-year durations?"
+    a: "Calculations run on UTC midnight timestamps and evaluate each leap day (February 29th) that occurs within the range, ensuring that 366-day years are counted with complete precision."
+  - q: "Is any of my date data sent to an external server?"
+    a: "No. All date arithmetic executes entirely in your web browser. No dates are transmitted or stored remotely."
+sources:
+  - label: "ISO 8601 Date and Time Standards"
+    url: "https://www.iso.org/iso-8601-date-and-time-format.html"
+  - label: "Gregorian Calendar Arithmetic (US Naval Observatory)"
+    url: "https://aa.usno.navy.mil/"
+  - label: "W3C Note on Date and Time Formats"
+    url: "https://www.w3.org/TR/NOTE-datetime"
+---
+
+    <!-- Tool Form Container -->
+    <section class="tool-container" aria-label="Date Difference Calculator Form">
+      <form id="calculator-form" novalidate>
+        <div class="form-grid two-col">
+          
+          <div class="form-group">
+            <label for="start-date">Start Date <span style="color: var(--accent-primary);">*</span></label>
+            <input type="date" id="start-date" class="form-control" required aria-required="true">
+          </div>
+
+          <div class="form-group">
+            <label for="end-date">End Date <span style="color: var(--accent-primary);">*</span></label>
+            <input type="date" id="end-date" class="form-control" required aria-required="true">
+          </div>
+
+        </div>
+
+        <div style="margin-top: 1.25rem;">
+          <label style="display: inline-flex; align-items: center; gap: 0.6rem; cursor: pointer; font-size: 0.975rem; color: var(--text-main); font-weight: 500;">
+            <input type="checkbox" id="include-end-date" style="width: 1.1rem; height: 1.1rem; accent-color: var(--accent-primary);">
+            <span>Include end date in the count (inclusive calculation)</span>
+          </label>
+        </div>
+
+        <div class="button-group" style="margin-top: 1.25rem;">
+          <button type="submit" class="btn btn-primary">Calculate Difference</button>
+          <button type="button" class="btn btn-secondary" id="reset-btn">Reset</button>
+        </div>
+      </form>
+
+      <div id="error-box" class="hidden" style="margin-top: 1rem; color: var(--color-error, #dc2626); background: rgba(220, 38, 38, 0.08); border: 1px solid rgba(220, 38, 38, 0.25); padding: 0.75rem 1rem; border-radius: var(--radius-sm);" role="alert"></div>
+
+      <!-- Result Box -->
+      <div id="result-box" class="result-box is-visible" aria-live="polite">
+        <div class="result-header">
+          <span id="result-header-text">Date Difference Calculation Result</span>
+          <button type="button" class="btn btn-sm btn-ghost" id="copy-result-btn" title="Copy Result to clipboard" aria-label="Copy Result to clipboard">
+            <span data-icon="copy"></span> Copy Result
+          </button>
+        </div>
+        <div class="result-primary" id="result-primary-text">-- Days</div>
+        
+        <div class="result-grid">
+          <div class="result-stat-card">
+            <div class="result-stat-label">Total Calendar Days</div>
+            <div class="result-stat-value" id="stat-total-days">--</div>
+          </div>
+          <div class="result-stat-card">
+            <div class="result-stat-label">Working / Business Days</div>
+            <div class="result-stat-value" id="stat-business-days">--</div>
+          </div>
+          <div class="result-stat-card">
+            <div class="result-stat-label">Years, Months &amp; Days</div>
+            <div class="result-stat-value" id="stat-ymd">--</div>
+          </div>
+          <div class="result-stat-card">
+            <div class="result-stat-label">Weeks &amp; Days</div>
+            <div class="result-stat-value" id="stat-weeks-days">--</div>
+          </div>
+          <div class="result-stat-card">
+            <div class="result-stat-label">Total Elapsed Hours</div>
+            <div class="result-stat-value" id="stat-months-days">--</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- AEO Quick Answer Box -->
+    <div class="info-callout" style="margin-top: 2rem; margin-bottom: 2rem;">
+      <h3 style="font-size: 1.05rem; margin-bottom: 0.35rem; color: var(--accent-primary);">Quick Answer</h3>
+      <p style="margin-bottom: 0;">The Date Difference Calculator measures the exact duration between two calendar dates, displaying total calendar days, working business days (Monday–Friday), weekend days, and full breakdown into years, months, and weeks.</p>
+    </div>
+
+    <!-- When to Use Section -->
+    <section style="margin: 2.5rem 0;" aria-labelledby="how-to-use-heading">
+      <h2 id="how-to-use-heading">How &amp; When to Use the Date Difference Calculator</h2>
+      <p>Knowing the exact duration between two calendar dates is valuable for:</p>
+      <ul style="color: var(--text-muted); line-height: 1.8; margin-left: 1.25rem;">
+        <li><strong>Payroll &amp; Billing Timesheets:</strong> Determine billable working days between project start and completion dates.</li>
+        <li><strong>Commercial Real Estate &amp; Leases:</strong> Calculate exact tenancy durations, rent proration, or security deposit return windows.</li>
+        <li><strong>Legal &amp; Compliance Deadlines:</strong> Track statutory response windows, court filing deadlines, or statute of limitations timeframes.</li>
+        <li><strong>Travel Itinerary &amp; Accommodation:</strong> Verify hotel stay night counts (exclusive) vs. total travel activity days (inclusive).</li>
+      </ul>
+    </section>
+
+    <!-- Worked Examples Section -->
+    <section style="margin: 2.5rem 0;" aria-labelledby="article-heading">
+      <h2 id="article-heading">Worked Date Duration Examples &amp; Formula</h2>
+      
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 1.25rem;">
+        <div style="background: var(--surface-muted); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem;">
+          <h3 style="font-size: 1.1rem; margin-top: 0; color: var(--accent-primary);">Example 1: Standard Work Month (Exclusive)</h3>
+          <p style="font-size: var(--font-size-sm); color: var(--text-muted); margin-bottom: 0.5rem;"><strong>Start:</strong> June 1, 2026 (Mon) | <strong>End:</strong> July 1, 2026 (Wed)</p>
+          <ul style="font-size: var(--font-size-sm); color: var(--text-muted); line-height: 1.6; margin-left: 1.25rem;">
+            <li>Total Calendar Days: 30 days</li>
+            <li>Working Business Days: 22 days (Mon–Fri)</li>
+            <li>Weekend Days: 8 days (4 weekends)</li>
+            <li>Breakdown: 4 weeks and 2 days (1 month, 0 days)</li>
+          </ul>
+        </div>
+
+        <div style="background: var(--surface-muted); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem;">
+          <h3 style="font-size: 1.1rem; margin-top: 0; color: var(--accent-primary);">Example 2: Inclusive Conference Event</h3>
+          <p style="font-size: var(--font-size-sm); color: var(--text-muted); margin-bottom: 0.5rem;"><strong>Start:</strong> Sept 14, 2026 (Mon) | <strong>End:</strong> Sept 18, 2026 (Fri)</p>
+          <ul style="font-size: var(--font-size-sm); color: var(--text-muted); line-height: 1.6; margin-left: 1.25rem;">
+            <li>Default Exclusive: 4 days</li>
+            <li><strong>Inclusive (Checked):</strong> 5 full days</li>
+            <li>Business Days: 5 business days</li>
+            <li>Weekend Days: 0 weekend days</li>
+          </ul>
+        </div>
+
+        <div style="background: var(--surface-muted); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem;">
+          <h3 style="font-size: 1.1rem; margin-top: 0; color: var(--accent-primary);">Example 3: Cross Leap-Year Duration</h3>
+          <p style="font-size: var(--font-size-sm); color: var(--text-muted); margin-bottom: 0.5rem;"><strong>Start:</strong> Jan 1, 2024 | <strong>End:</strong> Jan 1, 2025</p>
+          <ul style="font-size: var(--font-size-sm); color: var(--text-muted); line-height: 1.6; margin-left: 1.25rem;">
+            <li>2024 is a leap year (includes Feb 29)</li>
+            <li>Total Calendar Days: 366 days</li>
+            <li>Business Days: 262 business days</li>
+            <li>Breakdown: 1 Year, 0 Months, 0 Days (52 weeks, 2 days)</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Common Mistakes Section -->
+    <section style="margin: 2.5rem 0;" aria-labelledby="mistakes-heading">
+      <h2 id="mistakes-heading">Common Mistakes When Measuring Date Spans</h2>
+      <ul style="color: var(--text-muted); line-height: 1.8; margin-left: 1.25rem;">
+        <li><strong>Forgetting the Fencepost (Inclusive) Error:</strong> If you stay at a hotel from Friday to Sunday, you stayed 2 nights (exclusive), but were present across 3 calendar days (inclusive). Be sure to toggle the inclusive checkbox depending on whether you are calculating night duration or day coverage.</li>
+        <li><strong>Treating Business Days as 5/7 of Total Days:</strong> While the ratio is roughly 5/7 (~71.4%), the exact count of working days depends heavily on which day of the week the span starts and ends on. Our algorithm iterates every calendar date to accurately tally Monday through Friday.</li>
+        <li><strong>Public Holidays:</strong> This calculator computes standard Monday–Friday business days. It does not automatically exclude bank or public holidays because statutory holidays vary by country, state, and company.</li>
+      </ul>
+    </section>

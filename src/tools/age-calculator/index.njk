@@ -1,0 +1,228 @@
+---
+layout: layouts/tool.njk
+toolSlug: age-calculator
+title: "Age Calculator - Calculate Exact Age & Next Birthday"
+description: "Calculate your exact age in years, months, days, total hours, and days remaining until your next birthday. Free online age calculator."
+permalink: /tools/age-calculator/
+h1: "Age Calculator"
+howto:
+  name: "How to Calculate Your Exact Age Online"
+  description: "Step-by-step guide to calculating exact age, total days lived, and next birthday countdown."
+  steps:
+    - name: "Select Date of Birth"
+      text: "Choose your birth date from the date selector."
+    - name: "Select Target Calculation Date"
+      text: "Keep today's date or pick a specific historical or future date to measure age at that time."
+    - name: "Choose Leap Day Rule (If Applicable)"
+      text: "If born on February 29th, choose whether non-leap year birthdays are observed on March 1st (UK/HK/common law standard) or February 28th."
+    - name: "View Detailed Age Breakdown"
+      text: "View age in years, months, and days, along with total lived hours, weeks, days, and countdown to your next birthday."
+faqs:
+  - q: "How does the Age Calculator determine exact age in years, months, and days?"
+    a: "The calculator computes the calendar distance between your birth date and target date using UTC midnight timestamps to eliminate daylight saving time artifacts. It borrows days from the preceding month according to the actual month length (28 to 31 days) and accounts for leap year February 29th additions."
+  - q: "How are leap year birthdays (February 29th) handled in common years?"
+    a: "In common 365-day years, jurisdictions and cultures differ. The UK (Family Law Reform Act 1969) and Hong Kong recognize March 1st as the legal completion of the year, while jurisdictions like New Zealand, Taiwan, and several US states recognize February 28th. Our calculator provides a toggle allowing you to switch between both legal conventions."
+  - q: "Can I calculate how old I will be on a future date?"
+    a: "Yes. Change the 'Age at Date' field to any future date—such as a retirement date, visa application cutoff, or school start date—to view your exact age on that date."
+  - q: "Why do lived hours differ from simply multiplying years by 8,760?"
+    a: "A standard non-leap year has 8,760 hours (365 days × 24 hours), but leap years contain 8,784 hours (366 days × 24 hours). Our calculator sums the exact calendar days lived and multiplies by 24, accounting for every leap day that occurred throughout your life."
+  - q: "Is my date of birth private and secure?"
+    a: "Yes. All computations execute locally in your web browser client using pure JavaScript. Your dates are never sent to external servers or stored in any remote database."
+sources:
+  - label: "ISO 8601 Date and Time Standards"
+    url: "https://www.iso.org/iso-8601-date-and-time-format.html"
+  - label: "US Naval Observatory Astronomical Calendar & Leap Years"
+    url: "https://aa.usno.navy.mil/"
+  - label: "UK Family Law Reform Act 1969 (Section 9 - Time at which a person attains a particular age)"
+    url: "https://www.legislation.gov.uk/ukpga/1969/48/section/9"
+---
+
+    <!-- Tool Form Container -->
+    <section class="tool-container" aria-label="Age Calculator Form">
+      <form id="calculator-form" novalidate>
+        <div class="form-grid two-col">
+          
+          <div class="form-group">
+            <label for="dob-date">Date of Birth <span style="color: var(--accent-primary);">*</span></label>
+            <input type="date" id="dob-date" class="form-control" required aria-required="true">
+          </div>
+
+          <div class="form-group">
+            <label for="target-date">Age at Date <span style="font-weight: normal; color: var(--text-muted);">(Default: Today)</span></label>
+            <input type="date" id="target-date" class="form-control" required aria-required="true">
+          </div>
+
+        </div>
+
+        <fieldset style="margin-top: 1rem; border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 0.75rem 1rem;">
+          <legend style="font-size: var(--font-size-sm); font-weight: var(--font-weight-medium); padding: 0 0.5rem; color: var(--text-muted);">For Leap Day (Feb 29) Birthdays in Common Years</legend>
+          <div style="display: flex; gap: 1.5rem; flex-wrap: wrap; margin-top: 0.25rem; font-size: var(--font-size-sm);">
+            <label style="display: inline-flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+              <input type="radio" name="leap-convention" value="mar1" checked>
+              <span>March 1 (UK / HK / Common Law default)</span>
+            </label>
+            <label style="display: inline-flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+              <input type="radio" name="leap-convention" value="feb28">
+              <span>February 28 (US common law / Taiwan rule)</span>
+            </label>
+          </div>
+        </fieldset>
+
+        <div class="button-group" style="margin-top: 1.25rem;">
+          <button type="submit" class="btn btn-primary">Calculate Age</button>
+          <button type="button" class="btn btn-secondary" id="reset-btn">Reset</button>
+        </div>
+      </form>
+
+      <div id="error-box" class="hidden" style="margin-top: 1rem; color: var(--color-error, #dc2626); background: rgba(220, 38, 38, 0.08); border: 1px solid rgba(220, 38, 38, 0.25); padding: 0.75rem 1rem; border-radius: var(--radius-sm);" role="alert"></div>
+
+      <!-- Result Box -->
+      <div id="result-box" class="result-box is-visible" aria-live="polite">
+        <div class="result-header">
+          <span id="result-header-text">Age Calculation Result</span>
+          <button type="button" class="btn btn-sm btn-ghost" id="copy-result-btn" title="Copy Result to clipboard" aria-label="Copy Result to clipboard">
+            <span data-icon="copy"></span> Copy Result
+          </button>
+        </div>
+        <div class="result-primary" id="result-primary-text">-- Years, -- Months, -- Days</div>
+        
+        <div class="result-grid">
+          <div class="result-stat-card">
+            <div class="result-stat-label">Years / Months / Days</div>
+            <div class="result-stat-value" id="stat-years-months-days">--</div>
+          </div>
+          <div class="result-stat-card">
+            <div class="result-stat-label">Total Months</div>
+            <div class="result-stat-value" id="stat-total-months">--</div>
+          </div>
+          <div class="result-stat-card">
+            <div class="result-stat-label">Total Weeks</div>
+            <div class="result-stat-value" id="stat-total-weeks">--</div>
+          </div>
+          <div class="result-stat-card">
+            <div class="result-stat-label">Total Days</div>
+            <div class="result-stat-value" id="stat-total-days">--</div>
+          </div>
+          <div class="result-stat-card">
+            <div class="result-stat-label">Total Lived Hours</div>
+            <div class="result-stat-value" id="stat-total-hours">--</div>
+          </div>
+          <div class="result-stat-card">
+            <div class="result-stat-label">Next Birthday Countdown</div>
+            <div class="result-stat-value" id="stat-next-birthday">--</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- AEO Quick Answer Box -->
+    <div class="info-callout" style="margin-top: 2rem; margin-bottom: 2rem;">
+      <h3 style="font-size: 1.05rem; margin-bottom: 0.35rem; color: var(--accent-primary);">Quick Answer</h3>
+      <p style="margin-bottom: 0;">The ToolsBuilt Age Calculator measures your exact age in years, months, and days, as well as total months, weeks, days, and lived hours. Select your date of birth above to calculate your age live and view the exact days remaining until your next birthday.</p>
+    </div>
+
+    <!-- When to Use Section -->
+    <section style="margin: 2.5rem 0;" aria-labelledby="how-to-use-heading">
+      <h2 id="how-to-use-heading">How &amp; When to Use the Exact Age Calculator</h2>
+      <p>Determining your exact age in days, weeks, and months is essential for several practical, legal, and medical applications:</p>
+      <ul style="color: var(--text-muted); line-height: 1.8; margin-left: 1.25rem;">
+        <li><strong>Official Documentation &amp; Visas:</strong> Government passport agencies, border control, and immigration forms often require age verification down to the exact day.</li>
+        <li><strong>Pediatric &amp; Infant Milestones:</strong> Pediatric health tracking, vaccine schedules, and developmental stages are measured in weeks and months rather than calendar years.</li>
+        <li><strong>School Enrollment Deadlines:</strong> School districts frequently use strict date cutoffs (e.g., must be 5 years old by September 1st) to determine kindergarten eligibility.</li>
+        <li><strong>Retirement &amp; Pension Calculations:</strong> Determine the exact day you hit full pension eligibility age (such as 66 or 67 years).</li>
+      </ul>
+    </section>
+
+    <!-- Worked Examples Section -->
+    <section style="margin: 2.5rem 0;" aria-labelledby="article-heading">
+      <h2 id="article-heading">Worked Age Calculation Examples &amp; Formula</h2>
+      
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 1.25rem;">
+        <div style="background: var(--surface-muted); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem;">
+          <h3 style="font-size: 1.1rem; margin-top: 0; color: var(--accent-primary);">Example 1: Standard Adult Age</h3>
+          <p style="font-size: var(--font-size-sm); color: var(--text-muted); margin-bottom: 0.5rem;"><strong>DOB:</strong> May 15, 1995 | <strong>Target:</strong> October 17, 2026</p>
+          <ul style="font-size: var(--font-size-sm); color: var(--text-muted); line-height: 1.6; margin-left: 1.25rem;">
+            <li>Years: 2026 - 1995 = 31 years</li>
+            <li>Months: October (10) - May (5) = 5 months</li>
+            <li>Days: 17 - 15 = 2 days</li>
+            <li><strong>Result:</strong> 31 Years, 5 Months, 2 Days (11,478 total days)</li>
+          </ul>
+        </div>
+
+        <div style="background: var(--surface-muted); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem;">
+          <h3 style="font-size: 1.1rem; margin-top: 0; color: var(--accent-primary);">Example 2: Leap Day Birthday in Common Year</h3>
+          <p style="font-size: var(--font-size-sm); color: var(--text-muted); margin-bottom: 0.5rem;"><strong>DOB:</strong> February 29, 2004 | <strong>Target:</strong> March 1, 2025</p>
+          <ul style="font-size: var(--font-size-sm); color: var(--text-muted); line-height: 1.6; margin-left: 1.25rem;">
+            <li>2025 is a common year (365 days)</li>
+            <li>Under March 1 convention: exactly 21 Years, 0 Months, 0 Days</li>
+            <li>Under Feb 28 convention: 21 Years, 0 Months, 1 Day</li>
+            <li><strong>Total Days:</strong> 7,671 days lived</li>
+          </ul>
+        </div>
+
+        <div style="background: var(--surface-muted); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem;">
+          <h3 style="font-size: 1.1rem; margin-top: 0; color: var(--accent-primary);">Example 3: Infant Age in Months &amp; Weeks</h3>
+          <p style="font-size: var(--font-size-sm); color: var(--text-muted); margin-bottom: 0.5rem;"><strong>DOB:</strong> January 10, 2026 | <strong>Target:</strong> October 17, 2026</p>
+          <ul style="font-size: var(--font-size-sm); color: var(--text-muted); line-height: 1.6; margin-left: 1.25rem;">
+            <li>Years: 0 Years</li>
+            <li>Months: 9 Months</li>
+            <li>Days: 7 Days</li>
+            <li><strong>Breakdown:</strong> 40 Weeks, 280 Total Days, 6,720 Lived Hours</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Key Facts & Milestones Reference Table -->
+    <section style="margin: 2.5rem 0;" aria-labelledby="key-facts-heading">
+      <h2 id="key-facts-heading">Key Facts &amp; Age Milestones Reference</h2>
+      
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 1.25rem;">
+        <div>
+          <h3>Astronomical &amp; Calendar Units</h3>
+          <ul style="color: var(--text-muted); line-height: 1.8; margin-left: 1.25rem;">
+            <li><strong>Mean Gregorian Year:</strong> 365.2425 days (97 leap years per 400-year cycle)</li>
+            <li><strong>Standard Year:</strong> 365 days = 8,760 hours</li>
+            <li><strong>Leap Year:</strong> 366 days = 8,784 hours</li>
+            <li><strong>Decade:</strong> 120 calendar months</li>
+            <li><strong>Leap Day Birthday:</strong> Observed on March 1st or February 28th in common years</li>
+          </ul>
+        </div>
+
+        <div>
+          <h3>Common Legal Age Milestones</h3>
+          <table style="width: 100%; border-collapse: collapse; margin-top: 0.5rem; font-size: 0.9rem;">
+            <thead>
+              <tr style="background-color: var(--surface-muted); text-align: left; border-bottom: 2px solid var(--border-color);">
+                <th style="padding: 0.5rem;">Age Milestone</th>
+                <th style="padding: 0.5rem;">Typical Legal Significance</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom: 1px solid var(--border-color);">
+                <td style="padding: 0.5rem; font-weight: 600;">18 Years</td>
+                <td style="padding: 0.5rem;">General Age of Majority &amp; Voting Eligibility in &gt;90% of countries</td>
+              </tr>
+              <tr style="border-bottom: 1px solid var(--border-color);">
+                <td style="padding: 0.5rem; font-weight: 600;">21 Years</td>
+                <td style="padding: 0.5rem;">Minimum Purchase Age for Alcohol in US; Majority age in select jurisdictions (e.g. Mississippi)</td>
+              </tr>
+              <tr style="border-bottom: 1px solid var(--border-color);">
+                <td style="padding: 0.5rem; font-weight: 600;">65–67 Years</td>
+                <td style="padding: 0.5rem;">Standard Benchmark for Full State Pension &amp; Retirement Benefits</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Common Mistakes Section -->
+    <section style="margin: 2.5rem 0;" aria-labelledby="mistakes-heading">
+      <h2 id="mistakes-heading">Common Mistakes in Age Calculation</h2>
+      <ul style="color: var(--text-muted); line-height: 1.8; margin-left: 1.25rem;">
+        <li><strong>Assuming All Months Have 30 Days:</strong> Months vary between 28, 29, 30, and 31 days. Simple division by 30 produces inaccurate fractional day counts.</li>
+        <li><strong>Overlooking Daylight Saving Time Shifting:</strong> Doing math with local wall-clock midnight can add or subtract an hour during spring and fall daylight transitions. Our calculator operates on UTC midnight timestamps to maintain absolute daily precision.</li>
+        <li><strong>Neglecting Leap Day Rules:</strong> A person born February 29, 2000 does not have a February 29th in 2001, 2002, or 2003. Depending on local law, their legal birthday falls on February 28 or March 1.</li>
+      </ul>
+    </section>

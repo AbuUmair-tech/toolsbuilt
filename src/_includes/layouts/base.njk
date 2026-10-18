@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ title }}</title>
+  <meta name="description" content="{{ description }}">
+  <link rel="canonical" href="{{ canonical or ('https://toolsbuilt.com' + page.url) }}">
+  {% if (not env.isProduction) or noindex %}<meta name="robots" content="noindex, nofollow">{% endif %}
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#090a0f">
+
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="alternate" type="application/atom+xml" title="ToolsBuilt - New &amp; Updated Tools" href="/feed.xml">
+  <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png">
+  
+  <!-- Open Graph & Social Cards -->
+  {% set computedOgImage = ogImage %}
+  {% if not computedOgImage %}
+    {% if toolSlug %}
+      {% set computedOgImage = "https://toolsbuilt.com/assets/og/" + toolSlug + ".png" %}
+    {% elif category and category.slug %}
+      {% set computedOgImage = "https://toolsbuilt.com/assets/og/category-" + category.slug + ".png" %}
+    {% elif page.url == "/tools/" %}
+      {% set computedOgImage = "https://toolsbuilt.com/assets/og/tools.png" %}
+    {% else %}
+      {% set computedOgImage = "https://toolsbuilt.com/assets/og/home.png" %}
+    {% endif %}
+  {% endif %}
+  <meta property="og:site_name" content="ToolsBuilt">
+  <meta property="og:title" content="{{ ogTitle or title }}">
+  <meta property="og:description" content="{{ ogDescription or description }}">
+  <meta property="og:type" content="{{ ogType or 'website' }}">
+  <meta property="og:url" content="{{ canonical or ('https://toolsbuilt.com' + page.url) }}">
+  <meta property="og:image" content="{{ computedOgImage }}">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="{{ ogImageAlt or (title + ' - ToolsBuilt') }}">
+  <meta property="og:locale" content="en_US">
+  
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="{{ twitterCard or 'summary_large_image' }}">
+  <meta name="twitter:title" content="{{ twitterTitle or ogTitle or title }}">
+  <meta name="twitter:description" content="{{ twitterDescription or ogDescription or description }}">
+  <meta name="twitter:image" content="{{ computedOgImage }}">
+  <meta name="twitter:image:alt" content="{{ ogImageAlt or (title + ' - ToolsBuilt') }}">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
+  <link rel="alternate icon" href="/assets/img/favicon.ico">
+  
+  <!-- Preload Critical Font -->
+  <link rel="preload" href="/assets/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="{% mainCss %}">
+  {% if extraCss %}<link rel="stylesheet" href="{{ extraCss }}">{% endif %}
+
+  <!-- Theme restoration script to prevent FOUC -->
+  <script>
+    (function() {
+      try {
+        var theme = localStorage.getItem('theme');
+        if (theme) {
+          document.documentElement.setAttribute('data-theme', theme);
+        }
+      } catch (e) {}
+    })();
+  </script>
+
+  {% block jsonLd %}{% endblock %}
+
+  <!-- Google Analytics (not loaded at all when Do Not Track is on) -->
+  <script>
+    (function () {
+      if (navigator.doNotTrack === '1' || window.doNotTrack === '1') return;
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      window.gtag = gtag;
+      gtag('js', new Date());
+      gtag('config', 'G-QR15X9WS1J');
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=G-QR15X9WS1J';
+      document.head.appendChild(s);
+    })();
+  </script>
+</head>
+<body{% if toolSlug or slug %} data-tool-id="{{ toolSlug or slug }}"{% endif %}>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  {% include "partials/header.njk" %}
+
+  {{ content | safe }}
+
+  {% include "partials/footer.njk" %}
+
+  <!-- Cookie consent banner placeholder (hidden by default).
+       Will be replaced by Google's certified CMP when AdSense is active for EEA/UK users. -->
+  <div id="cookie-consent-banner" class="cookie-banner" style="display:none" aria-hidden="true"></div>
+
+  <script src="/assets/js/icons.js"></script>
+  <script src="/assets/js/ui.js"></script>
+  {% if includeToolsData %}<script src="/assets/js/tools-data.js"></script>{% endif %}
+  <script src="/assets/js/common.js"></script>
+  <script src="/assets/js/layout.js" defer></script>
+  {% if toolSlug == "password-generator" %}<script src="/tools/password-generator/eff-words.js"></script>{% endif %}
+  {% if toolSlug %}<script src="/tools/{{ toolSlug }}/logic.js"></script>{% endif %}
+  {% if toolScript %}<script src="{{ toolScript }}"></script>{% elif toolSlug %}<script src="/tools/{{ toolSlug }}/script.js"></script>{% endif %}
+</body>
+</html>

@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 /**
  * Comprehensive Automated Verification Suite for ToolsBuilt.com
- * Tests all 10 tools, mathematical formulas, date boundaries,
- * rejection sampling, HTML comment parsing, and link integrity.
+ * Tests Eleventy staging and production builds, link/schema integrity,
+ * HTML comment artifacts, mathematical formulas, date boundaries,
+ * password generator crypto/uniformity, text counters, and JS syntax.
  */
 
 const fs = require('fs');
@@ -26,22 +27,96 @@ console.log('   ToolsBuilt.com Comprehensive Test & Audit Suite      ');
 console.log('========================================================\n');
 
 // -----------------------------------------------------------------
-// Test 1: Link & Schema Checker
+// Test 1: Staging Build & Link/Quality Checker
 // -----------------------------------------------------------------
-console.log('--- 1. Link & Schema Checker (scripts/check-links.js) ---');
+console.log('--- 1. Staging Build & Quality Checker ---');
 try {
-  const linkOutput = execSync('node scripts/check-links.js', { cwd: ROOT, encoding: 'utf8' });
-  assert(linkOutput.includes('All checks passed! No errors or warnings found.'), 'Zero broken links and valid schemas');
+  const stagingEnv = { ...process.env };
+  delete stagingEnv.SITE_ENV;
+  delete stagingEnv.NODE_ENV;
+
+  console.log('Building staging site (npx @11ty/eleventy)...');
+  execSync('npx @11ty/eleventy', {
+    cwd: ROOT,
+    encoding: 'utf8',
+    stdio: 'pipe',
+    env: stagingEnv
+  });
+
+  console.log('Running check-links.js in staging mode...');
+  const stagingOutput = execSync('node scripts/check-links.js', {
+    cwd: ROOT,
+    encoding: 'utf8',
+    stdio: 'pipe',
+    env: stagingEnv
+  });
+
+  assert(
+    stagingOutput.includes('All checks passed! No errors or warnings found.'),
+    'Staging build: all checks passed (pages have noindex, robots.txt disallows all)'
+  );
+
+  const stagingDsHtml = fs.readFileSync(path.join(ROOT, '_site', 'design-system', 'index.html'), 'utf8');
+  assert(
+    /<meta[^>]+name=["']robots["'][^>]+content=["'][^"']*noindex[^"']*["']/i.test(stagingDsHtml),
+    'Staging build: /design-system/ has required noindex meta tag'
+  );
 } catch (e) {
-  assert(false, `check-links.js failed: ${e.message}`);
+  const output = (e.stdout || '') + (e.stderr || '');
+  assert(false, `Staging build or check-links failed: ${e.message}${output ? '\n' + output : ''}`);
 }
 
 // -----------------------------------------------------------------
-// Test 2: Raw `-->` HTML Artifact Audit across all HTML files
+// Test 2: Production Build & Link/Quality Checker
 // -----------------------------------------------------------------
-console.log('\n--- 2. Raw `-->` HTML Rendering Artifact Check ---');
+console.log('\n--- 2. Production Build & Quality Checker ---');
+try {
+  const prodEnv = { ...process.env, SITE_ENV: 'production' };
+
+  console.log('Building production site (SITE_ENV=production npx @11ty/eleventy)...');
+  execSync('SITE_ENV=production npx @11ty/eleventy', {
+    cwd: ROOT,
+    encoding: 'utf8',
+    stdio: 'pipe',
+    env: prodEnv
+  });
+
+  console.log('Running check-links.js in production mode...');
+  const prodOutput = execSync('SITE_ENV=production node scripts/check-links.js', {
+    cwd: ROOT,
+    encoding: 'utf8',
+    stdio: 'pipe',
+    env: prodEnv
+  });
+
+  assert(
+    prodOutput.includes('All checks passed! No errors or warnings found.'),
+    'Production build: all checks passed (no pages have noindex, robots.txt allows all)'
+  );
+
+  const prodDsHtml = fs.readFileSync(path.join(ROOT, '_site', 'design-system', 'index.html'), 'utf8');
+  assert(
+    /<meta[^>]+name=["']robots["'][^>]+content=["'][^"']*noindex[^"']*["']/i.test(prodDsHtml),
+    'Production build: /design-system/ has required noindex meta tag'
+  );
+
+  const sitemapXml = fs.readFileSync(path.join(ROOT, '_site', 'sitemap.xml'), 'utf8');
+  assert(
+    !sitemapXml.includes('design-system'),
+    'Production build: /design-system/ is excluded from sitemap.xml'
+  );
+} catch (e) {
+  const output = (e.stdout || '') + (e.stderr || '');
+  assert(false, `Production build or check-links failed: ${e.message}${output ? '\n' + output : ''}`);
+}
+
+// -----------------------------------------------------------------
+// Test 3: Raw `-->` HTML Artifact Audit in _site/
+// -----------------------------------------------------------------
+console.log('\n--- 3. Raw `-->` HTML Rendering Artifact Check ---');
 function collectHtmlFiles(dir) {
   const results = [];
+  if (!fs.existsSync(dir)) return results;
   const entries = fs.readdirSync(dir, { withFileTypes: true });
   for (const entry of entries) {
     if (entry.name.startsWith('.') || entry.name === 'node_modules') continue;
@@ -55,7 +130,8 @@ function collectHtmlFiles(dir) {
   return results;
 }
 
-const htmlFiles = collectHtmlFiles(ROOT);
+const siteDir = path.join(ROOT, '_site');
+const htmlFiles = collectHtmlFiles(siteDir);
 let rawArtifactsFound = 0;
 for (const file of htmlFiles) {
   const content = fs.readFileSync(file, 'utf8');
@@ -79,12 +155,12 @@ for (const file of htmlFiles) {
     }
   }
 }
-assert(rawArtifactsFound === 0, `No raw '-->' text artifacts across ${htmlFiles.length} HTML files`);
+assert(rawArtifactsFound === 0, `No raw '-->' text artifacts across ${htmlFiles.length} HTML files in _site/`);
 
 // -----------------------------------------------------------------
-// Test 3: Date Arithmetic & Month Clamping Tests
+// Test 4: Date Arithmetic & Month Clamping Tests
 // -----------------------------------------------------------------
-console.log('\n--- 3. Date Arithmetic & Boundary Calculations ---');
+console.log('\n--- 4. Date Arithmetic & Boundary Calculations ---');
 
 function addMonthsClamped(date, monthsToAdd) {
   const startYear = date.getFullYear();
@@ -153,9 +229,9 @@ assert(bdayTest2.getFullYear() === 2026 && bdayTest2.getMonth() === 9 && bdayTes
   'Fri 9 Oct 2026 + 5 business days = Fri 16 Oct 2026');
 
 // -----------------------------------------------------------------
-// Test 4: Password Generator Crypto & Unbiased Generation
+// Test 5: Password Generator Crypto & Unbiased Generation
 // -----------------------------------------------------------------
-console.log('\n--- 4. Password Generator Guarantees & Rejection Sampling ---');
+console.log('\n--- 5. Password Generator Guarantees & Rejection Sampling ---');
 
 const CHARS_UPPER = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 const CHARS_LOWER = 'abcdefghijklmnopqrstuvwxyz';
@@ -222,9 +298,9 @@ const maxDeviation = Math.max(...buckets.map(b => Math.abs(b - expected) / expec
 assert(maxDeviation < 0.05, `Rejection sampling uniformity test passed (max deviation ${(maxDeviation * 100).toFixed(2)}% < 5%)`);
 
 // -----------------------------------------------------------------
-// Test 5: Mathematical & Financial Calculators
+// Test 6: Mathematical & Financial Calculators
 // -----------------------------------------------------------------
-console.log('\n--- 5. Math & Financial Calculator Formulas ---');
+console.log('\n--- 6. Math & Financial Calculator Formulas ---');
 
 // Percentage Change Mode 1: ((New - Old) / |Old|) * 100
 function calcPercentChange(oldVal, newVal) {
@@ -248,9 +324,9 @@ const finalPrice = calcDiscount(100, 20, 10, 5); // 100 -> 80 -> 72 -> 72 + 3.60
 assert(Math.abs(finalPrice - 75.60) < 0.001, 'Stacked discount (20% + 10%) with 5% tax on $100 = $75.60');
 
 // -----------------------------------------------------------------
-// Test 6: Text Tools
+// Test 7: Text Tools
 // -----------------------------------------------------------------
-console.log('\n--- 6. Text Counter & Case Converter ---');
+console.log('\n--- 7. Text Counter & Case Converter ---');
 
 function countWordsAndChars(text) {
   const charWith = text.length;
@@ -264,14 +340,263 @@ assert(textStats.words === 5 && textStats.sentences === 2 && textStats.charNo ==
   'Word, sentence, and character counts are accurate');
 
 // -----------------------------------------------------------------
-// Test 7: JavaScript Syntax Compilation Check
+// Test 8: JavaScript Syntax Compilation Check
 // -----------------------------------------------------------------
-console.log('\n--- 7. JavaScript Syntax Compilation Check ---');
+console.log('\n--- 8. JavaScript Syntax Compilation Check ---');
 try {
-  execSync('node -c assets/js/*.js tools/*/*.js', { cwd: ROOT });
-  assert(true, 'All JavaScript files passed syntax compilation');
+  execSync('node -c src/assets/js/*.js src/tools/*/script.js', { cwd: ROOT, encoding: 'utf8', stdio: 'pipe' });
+
+  // In addition, explicitly compile each file individually to guarantee full coverage
+  const jsFiles = [];
+  const assetsJsDir = path.join(ROOT, 'src', 'assets', 'js');
+  if (fs.existsSync(assetsJsDir)) {
+    fs.readdirSync(assetsJsDir).filter(f => f.endsWith('.js')).forEach(f => {
+      jsFiles.push(path.join('src', 'assets', 'js', f));
+    });
+  }
+  const toolsDir = path.join(ROOT, 'src', 'tools');
+  if (fs.existsSync(toolsDir)) {
+    fs.readdirSync(toolsDir, { withFileTypes: true }).forEach(d => {
+      if (d.isDirectory()) {
+        const scriptFile = path.join('src', 'tools', d.name, 'script.js');
+        if (fs.existsSync(path.join(ROOT, scriptFile))) {
+          jsFiles.push(scriptFile);
+        }
+      }
+    });
+  }
+  for (const file of jsFiles) {
+    execSync(`node -c "${file}"`, { cwd: ROOT, encoding: 'utf8', stdio: 'pipe' });
+  }
+
+  assert(jsFiles.length > 0, `All JavaScript files (${jsFiles.length}) in src/assets/js/*.js and src/tools/*/script.js passed syntax compilation`);
 } catch (e) {
   assert(false, `JS syntax compilation failed: ${e.message}`);
+}
+
+// -----------------------------------------------------------------
+// Test 9: WCAG AA Color Contrast Verification
+// -----------------------------------------------------------------
+console.log('\n--- 9. WCAG AA Color Contrast Verification ---');
+try {
+  const contrastOutput = execSync('node scripts/check-contrast.js', { cwd: ROOT, encoding: 'utf8', stdio: 'pipe' });
+  assert(contrastOutput.includes('ALL WCAG AA CONTRAST CHECKS PASSED'), 'WCAG AA contrast: all token color pairs pass AA standards');
+} catch (e) {
+  assert(false, `WCAG AA contrast check failed: ${e.message}\n${e.stdout || ''}`);
+}
+
+// -----------------------------------------------------------------
+// Test 10: CSS Performance & Size Budget Check
+// -----------------------------------------------------------------
+console.log('\n--- 10. CSS Size Budget & Performance Check ---');
+const zlib = require('zlib');
+const cssDir = path.join(ROOT, '_site', 'assets', 'css');
+let mainCssFile = null;
+if (fs.existsSync(cssDir)) {
+  const files = fs.readdirSync(cssDir);
+  mainCssFile = files.find(f => /^main\.[a-f0-9]+\.css$/.test(f));
+}
+if (!mainCssFile) {
+  assert(false, 'Hashed main CSS bundle (main.[hash].css) not found in _site/assets/css/');
+} else {
+  const cssContent = fs.readFileSync(path.join(cssDir, mainCssFile));
+  const gzipped = zlib.gzipSync(cssContent);
+  const sizeKb = (cssContent.length / 1024).toFixed(2);
+  const gzSizeKb = (gzipped.length / 1024).toFixed(2);
+  console.log(`Main CSS bundle: ${mainCssFile} (${sizeKb} KB minified, ${gzSizeKb} KB gzipped)`);
+  assert(gzipped.length <= 30 * 1024, `CSS size budget: ${gzSizeKb} KB <= 30 KB gzipped limit (target < 25 KB)`);
+}
+
+// -----------------------------------------------------------------
+// Test 11: Design System Navigation Exclusion Check
+// -----------------------------------------------------------------
+console.log('\n--- 11. Design System Navigation Check ---');
+const indexHtml = fs.readFileSync(path.join(ROOT, '_site', 'index.html'), 'utf8');
+const headerNavRegex = /<header[\s\S]*?<\/header>/i;
+const footerNavRegex = /<footer[\s\S]*?<\/footer>/i;
+const headerHtml = (indexHtml.match(headerNavRegex) || [''])[0];
+const footerHtml = (indexHtml.match(footerNavRegex) || [''])[0];
+assert(!headerHtml.includes('/design-system') && !footerHtml.includes('/design-system'),
+  'Design system page does not appear in site navigation');
+
+// -----------------------------------------------------------------
+// Test 12: Playwright Global Layout & Interaction Tests
+// -----------------------------------------------------------------
+console.log('\n--- 12. Playwright Global Layout & Interaction Tests ---');
+try {
+  const interactionOutput = execSync('node scripts/test-interactions.js', {
+    cwd: ROOT,
+    encoding: 'utf8',
+    stdio: 'pipe'
+  });
+  assert(
+    interactionOutput.includes('ALL PLAYWRIGHT INTERACTION TESTS PASSED'),
+    'Playwright interactions: Ctrl+K, search ranking, focus restoration, mobile drawer, focus trap'
+  );
+} catch (e) {
+  assert(false, `Playwright interaction tests failed: ${e.message}\n${e.stdout || ''}${e.stderr || ''}`);
+}
+
+// -----------------------------------------------------------------
+// Test 13: Homepage Structure, Schema & Registry Data Integrity
+// -----------------------------------------------------------------
+console.log('\n--- 13. Homepage Structure, Schema & Data Integrity ---');
+try {
+  const hpOutput = execSync('node scripts/check-homepage.js', {
+    cwd: ROOT,
+    encoding: 'utf8',
+    stdio: 'pipe'
+  });
+  assert(
+    hpOutput.includes('All homepage static audit checks passed!'),
+    'Homepage audit: single H1, all tools present once, categories linked, FAQ JSON-LD parity, no TODOs, no fake stats'
+  );
+} catch (e) {
+  assert(false, `Homepage static audit checks failed: ${e.message}\n${e.stdout || ''}${e.stderr || ''}`);
+}
+
+// -----------------------------------------------------------------
+// Test 14: Playwright Homepage Search & Dynamic Interactions
+// -----------------------------------------------------------------
+console.log('\n--- 14. Playwright Homepage Interactions & Search ---');
+try {
+  const hpInteractionOutput = execSync('node scripts/test-homepage-interactions.js', {
+    cwd: ROOT,
+    encoding: 'utf8',
+    stdio: 'pipe'
+  });
+  assert(
+    hpInteractionOutput.includes('All homepage Playwright interaction tests passed successfully!'),
+    'Homepage interactions: hero live search, Enter to open top match, recent-tools row + Clear, jump pills, no 375px overflow'
+  );
+} catch (e) {
+  assert(false, `Homepage interaction tests failed: ${e.message}\n${e.stdout || ''}${e.stderr || ''}`);
+}
+
+// -----------------------------------------------------------------
+// Test 15: Category Hub, All-Tools Directory & Tool Template Integrity
+// -----------------------------------------------------------------
+console.log('\n--- 15. Category Hub, Directory & Tool Template Integrity ---');
+try {
+  const templateOutput = execSync('node scripts/check-templates.js', {
+    cwd: ROOT,
+    encoding: 'utf8',
+    stdio: 'pipe'
+  });
+  assert(
+    templateOutput.includes('ALL TEMPLATE & DIRECTORY INTEGRITY CHECKS PASSED'),
+    'Template audit: 5 category hubs, /tools/ directory, 10 tool pages, breadcrumbs, JSON-LD, sitemap, result actions'
+  );
+} catch (e) {
+  assert(false, `Template & Directory integrity checks failed: ${e.message}\n${e.stdout || ''}${e.stderr || ''}`);
+}
+
+// -----------------------------------------------------------------
+// Test 16: Playwright Tool Calculations, Result Actions & Directory
+// -----------------------------------------------------------------
+console.log('\n--- 16. Playwright Tool Calculations, Result Actions & Directory ---');
+try {
+  const toolInteractionOutput = execSync('node scripts/test-template-interactions.js', {
+    cwd: ROOT,
+    encoding: 'utf8',
+    stdio: 'pipe'
+  });
+  assert(
+    toolInteractionOutput.includes('ALL PLAYWRIGHT TEMPLATE & DIRECTORY TESTS PASSED'),
+    'Playwright template interactions: age/discount/password calculations, copy toast, reset, category hub, directory filtering'
+  );
+} catch (e) {
+  assert(false, `Tool template interaction tests failed: ${e.message}\n${e.stdout || ''}${e.stderr || ''}`);
+}
+
+// -----------------------------------------------------------------
+// Test 17: Structured Data (JSON-LD) & Schema Parity Audit
+// -----------------------------------------------------------------
+console.log('\n--- 17. Structured Data (JSON-LD) & Schema Parity Audit ---');
+try {
+  const schemaOutput = execSync('node scripts/check-schema.js', {
+    cwd: ROOT,
+    encoding: 'utf8',
+    stdio: 'pipe'
+  });
+  assert(
+    schemaOutput.includes('JSON-LD schemas validated successfully'),
+    'Structured data audit: all JSON-LD schemas valid, proper shapes, DOM-schema parity, no fabricated fields'
+  );
+} catch (e) {
+  assert(false, `Structured data audit failed: ${e.message}\n${e.stdout || ''}${e.stderr || ''}`);
+}
+
+// -----------------------------------------------------------------
+// Test 18: Technical SEO, Link Crawlability, Metadata Bounds & Accessibility
+// -----------------------------------------------------------------
+console.log('\n--- 18. Technical SEO, Crawlability, Metadata & Accessibility ---');
+try {
+  const seoOutput = execSync('node scripts/check-seo.js', {
+    cwd: ROOT,
+    encoding: 'utf8',
+    stdio: 'pipe'
+  });
+  assert(
+    seoOutput.includes('Technical SEO & Accessibility audit PASSED'),
+    'SEO audit: depth <= 3, trailing slashes, anchor integrity, descriptive links, title/desc bounds, og:image <= 100KB'
+  );
+} catch (e) {
+  assert(false, `Technical SEO & Accessibility audit failed: ${e.message}\n${e.stdout || ''}${e.stderr || ''}`);
+}
+
+// -----------------------------------------------------------------
+// Test 19: Pure Tool Logic Modules & Property Fuzz Tests
+// -----------------------------------------------------------------
+console.log('\n--- 19. Pure Tool Logic Modules & Property-Based Fuzz Testing ---');
+try {
+  const logicOutput = execSync('node scripts/test-tool-logic.js', {
+    cwd: ROOT,
+    encoding: 'utf8',
+    stdio: 'pipe'
+  });
+  assert(
+    logicOutput.includes('ALL PURE LOGIC & PROPERTY FUZZ TESTS PASSED'),
+    'Pure logic: 10 tools, unit edge cases, DST/UTC invariance, Mulberry32 property fuzzing (500 runs)'
+  );
+} catch (e) {
+  assert(false, `Pure logic unit/fuzz tests failed: ${e.message}\n${e.stdout || ''}${e.stderr || ''}`);
+}
+
+// -----------------------------------------------------------------
+// Test 20: Playwright Tool UX, Debounce, Enter-Key & axe-core A11y Suite
+// -----------------------------------------------------------------
+console.log('\n--- 20. Playwright Tool UX, Debounce, Enter-Key & axe-core Suite ---');
+try {
+  const toolUxOutput = execSync('node scripts/test-tool-ux.js', {
+    cwd: ROOT,
+    encoding: 'utf8',
+    stdio: 'pipe'
+  });
+  assert(
+    toolUxOutput.includes('ALL TOOL UX, DEBOUNCE, ENTER-KEY & AXE-CORE TESTS PASSED'),
+    'Tool UX: 10 tools, live 150ms debounce, Enter key submission, copy toast, 0 axe-core violations in light & dark mode'
+  );
+} catch (e) {
+  assert(false, `Tool UX & axe-core tests failed: ${e.message}\n${e.stdout || ''}${e.stderr || ''}`);
+}
+
+// -----------------------------------------------------------------
+// Test 21: Layout, Container Alignment, Search Overlap & Privacy Invariance Suite
+// -----------------------------------------------------------------
+console.log('\n--- 21. Layout, Container Alignment, Search Overlap & Privacy Suite ---');
+try {
+  const layoutOutput = execSync('node scripts/test-layout-final.js', {
+    cwd: ROOT,
+    encoding: 'utf8',
+    stdio: 'pipe'
+  });
+  assert(
+    layoutOutput.includes('ALL LAYOUT, UX & PRIVACY REGRESSION TESTS PASSED'),
+    'Layout regression: container alignment, search overlap, 6 chips with icons, 2-col tool page, sticky TOC, privacy audit'
+  );
+} catch (e) {
+  assert(false, `Layout regression suite failed: ${e.message}\n${e.stdout || ''}${e.stderr || ''}`);
 }
 
 console.log('\n========================================================');

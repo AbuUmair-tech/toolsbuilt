@@ -1,0 +1,235 @@
+/* ==========================================================================
+   ToolsBuilt Design System - Base & Reset
+   @layer base
+   ========================================================================== */
+
+@layer base {
+  /* -------------------------------------------------------------------------
+     Modern Reset & Box Sizing
+     ------------------------------------------------------------------------- */
+  *, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html {
+    font-size: 16px;
+    -webkit-text-size-adjust: 100%;
+    color-scheme: light dark;
+    scrollbar-gutter: stable;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border-subtle) transparent;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+  body {
+    font-family: var(--font-sans);
+    font-size: var(--font-size-base);
+    line-height: var(--line-height-normal);
+    color: var(--text-primary);
+    background-color: var(--surface-canvas);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transition: background-color var(--duration-normal) var(--ease-standard),
+                color var(--duration-normal) var(--ease-standard);
+  }
+
+  /* -------------------------------------------------------------------------
+     Accessible Focus & Selection
+     ------------------------------------------------------------------------- */
+  :focus {
+    outline: none;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--border-focus);
+    outline-offset: 2px;
+  }
+
+  ::selection {
+    background-color: var(--accent-subtle);
+    color: var(--accent-subtle-text);
+  }
+
+  /* -------------------------------------------------------------------------
+     Scrollbar Styling (Subtle & Theme-Aware)
+     ------------------------------------------------------------------------- */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--border-subtle);
+    border-radius: var(--radius-full);
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--border-strong);
+  }
+
+  /* -------------------------------------------------------------------------
+     Anchor Scrolling Offset
+     ------------------------------------------------------------------------- */
+  [id], h1, h2, h3, h4, h5, h6 {
+    scroll-margin-top: calc(var(--space-16) + var(--space-4));
+  }
+
+  /* -------------------------------------------------------------------------
+     HTML Elements Defaults
+     ------------------------------------------------------------------------- */
+  h1, h2, h3, h4, h5, h6 {
+    color: var(--text-primary);
+    font-weight: var(--font-weight-bold);
+    line-height: var(--line-height-tight);
+    letter-spacing: var(--letter-spacing-tight);
+  }
+
+  h1 { font-size: var(--font-size-4xl); }
+  h2 { font-size: var(--font-size-3xl); }
+  h3 { font-size: var(--font-size-2xl); }
+  h4 { font-size: var(--font-size-xl); }
+  h5 { font-size: var(--font-size-lg); }
+  h6 { font-size: var(--font-size-base); }
+
+  p, ul, ol {
+    color: var(--text-secondary);
+  }
+
+  ul, ol {
+    padding-left: var(--space-5);
+  }
+
+  li {
+    margin-bottom: var(--space-1);
+  }
+
+  a {
+    color: var(--accent-primary);
+    text-decoration: none;
+    transition: color var(--duration-fast) var(--ease-standard);
+  }
+
+  p a,
+  li > a:not(.btn, .tool-card, .nav-link, .mega-menu-tool-link, .tool-category-chip, .jump-pill) {
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  a:hover {
+    color: var(--accent-hover);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  img, picture, video, canvas {
+    display: block;
+    max-width: 100%;
+    height: auto;
+  }
+
+  svg {
+    display: inline-block;
+    vertical-align: middle;
+    flex-shrink: 0;
+  }
+
+  input, button, textarea, select {
+    font: inherit;
+    color: inherit;
+  }
+
+  button {
+    cursor: pointer;
+    background: none;
+    border: none;
+  }
+
+  hr {
+    border: 0;
+    border-top: 1px solid var(--border-subtle);
+    margin: var(--space-6) 0;
+  }
+
+  /* -------------------------------------------------------------------------
+     Print Stylesheet
+     Ensures calculators and articles print cleanly without nav/footer clutter
+     ------------------------------------------------------------------------- */
+  @media print {
+    header,
+    footer,
+    nav,
+    #theme-toggle,
+    #mobile-menu-btn,
+    .skip-link,
+    .breadcrumb,
+    .ad-placeholder,
+    .cookie-banner,
+    .tb-toast-container,
+    .related-tools-section,
+    .no-print {
+      display: none !important;
+    }
+
+    body {
+      background: #ffffff !important;
+      color: #000000 !important;
+      font-size: 11pt !important;
+      line-height: 1.4 !important;
+    }
+
+    main {
+      width: 100% !important;
+      max-width: 100% !important;
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+
+    .container, .tool-page {
+      max-width: 100% !important;
+      padding: 0 !important;
+    }
+
+    .tool-interface,
+    .result-box,
+    .tool-card,
+    .card {
+      box-shadow: none !important;
+      border: 1px solid #cccccc !important;
+      page-break-inside: avoid;
+    }
+
+    .result-box {
+      background-color: #f8fafc !important;
+      border: 2px solid #000000 !important;
+    }
+
+    a {
+      color: #000000 !important;
+      text-decoration: underline !important;
+    }
+  }
+}

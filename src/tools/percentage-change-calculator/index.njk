@@ -1,0 +1,218 @@
+---
+layout: layouts/tool.njk
+toolSlug: percentage-change-calculator
+title: "Percentage Change Calculator - Increase, Decrease & Difference"
+description: "Calculate percentage change, percent increase or decrease, what percent X is of Y, and percentage difference with step-by-step formula math."
+permalink: /tools/percentage-change-calculator/
+h1: "Percentage Change Calculator"
+howto:
+  name: "How to Calculate Percentage Change Online"
+  description: "Step-by-step instructions for calculating percent change, increase, decrease, and proportions."
+  steps:
+    - name: "Select Calculation Mode"
+      text: "Choose between Percentage Change, Increase/Decrease a Value, What % is X of Y, or Percent Difference."
+    - name: "Enter Numeric Values"
+      text: "Enter your starting and final values into the input fields."
+    - name: "View Instant Results"
+      text: "Instantly view the percentage rate, absolute difference, and step-by-step arithmetic substitution."
+faqs:
+  - q: "What is the difference between percentage change and percentage points?"
+    a: "Percentage change measures relative growth or drop compared to the starting baseline. Percentage points measure the simple arithmetic difference between two percentage values. For example, if an interest rate moves from 5% to 7%, the increase is 2 percentage points, but a 40% percentage change."
+  - q: "Why can't percentage change be calculated when starting from zero?"
+    a: "The percentage change formula divides the difference by the initial value: ((New - Old) / |Old|) × 100. When the old value is zero, division by zero occurs, which is mathematically undefined."
+  - q: "What is the difference between percentage change and percentage difference?"
+    a: "Percentage change has a chronological direction (old value to new value). Percentage difference compares two values where neither is considered the baseline or original, dividing the absolute difference by the average of the two numbers."
+  - q: "Can percentage change exceed 100%?"
+    a: "Yes. Any time a quantity more than doubles, the percentage change exceeds +100%. For instance, increasing from 20 to 60 is a +200% increase."
+  - q: "Can percentage decrease exceed 100%?"
+    a: "For standard positive physical quantities (like prices or weight), a decrease cannot exceed 100% because dropping by 100% brings the value to zero. Decreases beyond -100% only occur when quantities move into negative numbers."
+sources:
+  - label: "NIST Guide to the SI - Percentage Rules and Units"
+    url: "https://www.nist.gov/pml/special-publication-811"
+  - label: "Khan Academy: Percent Change and Percent Difference"
+    url: "https://www.khanacademy.org/math/algebra"
+  - label: "ISO 80000-2 Quantities and units - Mathematical signs and symbols"
+    url: "https://www.iso.org/standard/64973.html"
+---
+
+    <!-- Tool Form Container -->
+    <section class="tool-container" aria-label="Percentage Change Calculator Form">
+      
+      <!-- Segmented Mode Control Tabs -->
+      <div class="segmented-control" role="tablist" aria-label="Percentage Calculator Modes" style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.5rem;">
+        <button type="button" class="btn btn-sm mode-tab-btn active" data-mode="mode-1" role="tab" aria-selected="true">1. Percentage Change</button>
+        <button type="button" class="btn btn-sm mode-tab-btn" data-mode="mode-2" role="tab" aria-selected="false">2. Increase / Decrease Value</button>
+        <button type="button" class="btn btn-sm mode-tab-btn" data-mode="mode-3" role="tab" aria-selected="false">3. What % is X of Y?</button>
+        <button type="button" class="btn btn-sm mode-tab-btn" data-mode="mode-4" role="tab" aria-selected="false">4. Percent Difference</button>
+      </div>
+
+      <!-- Mode 1: Percentage Change Form -->
+      <form id="mode-1-form" class="calculator-mode-form" novalidate>
+        <div class="form-grid two-col">
+          <div class="form-group">
+            <label for="m1-old-val">Initial (Old) Value <span style="color: var(--accent-primary);">*</span></label>
+            <input type="number" step="any" id="m1-old-val" class="form-control" placeholder="e.g. 50" required aria-required="true">
+          </div>
+          <div class="form-group">
+            <label for="m1-new-val">Final (New) Value <span style="color: var(--accent-primary);">*</span></label>
+            <input type="number" step="any" id="m1-new-val" class="form-control" placeholder="e.g. 75" required aria-required="true">
+          </div>
+        </div>
+
+        <div class="button-group" style="margin-top: 1rem;">
+          <button type="submit" class="btn btn-primary">Calculate Change</button>
+          <button type="button" class="btn btn-secondary" id="reset-mode-1">Reset</button>
+        </div>
+      </form>
+
+      <!-- Mode 2: Increase/Decrease Value Form -->
+      <form id="mode-2-form" class="calculator-mode-form hidden" novalidate>
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="m2-operation">Select Operation <span style="color: var(--accent-primary);">*</span></label>
+            <select id="m2-operation" class="form-control">
+              <option value="increase">Increase (+)</option>
+              <option value="decrease">Decrease (-)</option>
+            </select>
+          </div>
+          <div class="form-grid two-col">
+            <div class="form-group">
+              <label for="m2-base-val">Starting Number <span style="color: var(--accent-primary);">*</span></label>
+              <input type="number" step="any" id="m2-base-val" class="form-control" placeholder="e.g. 120" required aria-required="true">
+            </div>
+            <div class="form-group">
+              <label for="m2-percent-val">Percentage (%) <span style="color: var(--accent-primary);">*</span></label>
+              <input type="number" step="any" id="m2-percent-val" class="form-control" placeholder="e.g. 15" required aria-required="true">
+            </div>
+          </div>
+        </div>
+
+        <div class="button-group" style="margin-top: 1rem;">
+          <button type="submit" class="btn btn-primary">Calculate Value</button>
+          <button type="button" class="btn btn-secondary" id="reset-mode-2">Reset</button>
+        </div>
+      </form>
+
+      <!-- Mode 3: What Percent is X of Y Form -->
+      <form id="mode-3-form" class="calculator-mode-form hidden" novalidate>
+        <div class="form-grid two-col">
+          <div class="form-group">
+            <label for="m3-x-val">Part Value (X) <span style="color: var(--accent-primary);">*</span></label>
+            <input type="number" step="any" id="m3-x-val" class="form-control" placeholder="e.g. 25" required aria-required="true">
+          </div>
+          <div class="form-group">
+            <label for="m3-y-val">Total Value (Y) <span style="color: var(--accent-primary);">*</span></label>
+            <input type="number" step="any" id="m3-y-val" class="form-control" placeholder="e.g. 200" required aria-required="true">
+          </div>
+        </div>
+
+        <div class="button-group" style="margin-top: 1rem;">
+          <button type="submit" class="btn btn-primary">Calculate Percent</button>
+          <button type="button" class="btn btn-secondary" id="reset-mode-3">Reset</button>
+        </div>
+      </form>
+
+      <!-- Mode 4: Percent Difference Form -->
+      <form id="mode-4-form" class="calculator-mode-form hidden" novalidate>
+        <div class="form-grid two-col">
+          <div class="form-group">
+            <label for="m4-a-val">First Value (V1) <span style="color: var(--accent-primary);">*</span></label>
+            <input type="number" step="any" id="m4-a-val" class="form-control" placeholder="e.g. 100" required aria-required="true">
+          </div>
+          <div class="form-group">
+            <label for="m4-b-val">Second Value (V2) <span style="color: var(--accent-primary);">*</span></label>
+            <input type="number" step="any" id="m4-b-val" class="form-control" placeholder="e.g. 120" required aria-required="true">
+          </div>
+        </div>
+
+        <div class="button-group" style="margin-top: 1rem;">
+          <button type="submit" class="btn btn-primary">Calculate Difference</button>
+          <button type="button" class="btn btn-secondary" id="reset-mode-4">Reset</button>
+        </div>
+      </form>
+
+      <div id="error-box" class="hidden" style="margin-top: 1rem; color: var(--color-error, #dc2626); background: rgba(220, 38, 38, 0.08); border: 1px solid rgba(220, 38, 38, 0.25); padding: 0.75rem 1rem; border-radius: var(--radius-sm);" role="alert"></div>
+
+      <!-- Result Box -->
+      <div id="result-box" class="result-box is-visible" aria-live="polite">
+        <div class="result-header">
+          <span id="result-header-text">Calculation Result</span>
+          <button type="button" class="btn btn-sm btn-ghost" id="copy-result-btn" title="Copy Result to clipboard" aria-label="Copy Result to clipboard">
+            <span data-icon="copy"></span> Copy Result
+          </button>
+        </div>
+        <div class="result-primary" id="result-primary-text">--%</div>
+        
+        <div class="result-grid" id="result-stats-grid">
+          <!-- Dynamic stat cards inserted by script.js -->
+        </div>
+
+        <div class="formula-box" id="formula-explanation" style="margin-top: 1rem; background: var(--surface-default); border: 1px solid var(--border-subtle); padding: 1rem; border-radius: var(--radius-md); font-size: 0.9rem; line-height: 1.6;">
+          <!-- Step-by-step formula inserted by script.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- AEO Quick Answer Box -->
+    <div class="info-callout" style="margin-top: 2rem; margin-bottom: 2rem;">
+      <h3 style="font-size: 1.05rem; margin-bottom: 0.35rem; color: var(--accent-primary);">Quick Answer</h3>
+      <p style="margin-bottom: 0;">To calculate percentage change between an old number and a new number: subtract the old value from the new value, divide by the absolute value of the old number, and multiply by 100. Formula: <code>((New - Old) / |Old|) × 100</code>.</p>
+    </div>
+
+    <!-- When to Use Section -->
+    <section style="margin: 2.5rem 0;" aria-labelledby="how-to-use-heading">
+      <h2 id="how-to-use-heading">How &amp; When to Use the Percentage Change Calculator</h2>
+      <ul style="color: var(--text-muted); line-height: 1.8; margin-left: 1.25rem;">
+        <li><strong>Financial &amp; Investment Analysis:</strong> Measure stock price gains, revenue year-over-year (YoY) growth, or quarterly budget shifts.</li>
+        <li><strong>Retail Pricing &amp; Markups:</strong> Compute wholesale to retail markups or consumer inflation adjustments.</li>
+        <li><strong>Health &amp; Fitness Tracking:</strong> Monitor body weight loss or muscle mass gains relative to initial baseline metrics.</li>
+        <li><strong>Web Analytics &amp; Conversion Rates:</strong> Calculate visitor growth or checkout funnel drop-offs.</li>
+      </ul>
+    </section>
+
+    <!-- Worked Examples Section -->
+    <section style="margin: 2.5rem 0;" aria-labelledby="article-heading">
+      <h2 id="article-heading">Worked Percentage Examples &amp; Formula</h2>
+      
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 1.25rem;">
+        <div style="background: var(--surface-muted); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem;">
+          <h3 style="font-size: 1.1rem; margin-top: 0; color: var(--accent-primary);">Example 1: Revenue Increase</h3>
+          <p style="font-size: var(--font-size-sm); color: var(--text-muted); margin-bottom: 0.5rem;"><strong>Old:</strong> $50,000 | <strong>New:</strong> $75,000</p>
+          <ul style="font-size: var(--font-size-sm); color: var(--text-muted); line-height: 1.6; margin-left: 1.25rem;">
+            <li>Difference: $75,000 - $50,000 = +$25,000</li>
+            <li>Divide by Old: 25,000 / 50,000 = 0.50</li>
+            <li>Multiply by 100: <strong>+50.00% Increase</strong></li>
+          </ul>
+        </div>
+
+        <div style="background: var(--surface-muted); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem;">
+          <h3 style="font-size: 1.1rem; margin-top: 0; color: var(--accent-primary);">Example 2: Price Reduction</h3>
+          <p style="font-size: var(--font-size-sm); color: var(--text-muted); margin-bottom: 0.5rem;"><strong>Old:</strong> $80 | <strong>New:</strong> $60</p>
+          <ul style="font-size: var(--font-size-sm); color: var(--text-muted); line-height: 1.6; margin-left: 1.25rem;">
+            <li>Difference: $60 - $80 = -$20</li>
+            <li>Divide by Old: -20 / 80 = -0.25</li>
+            <li>Multiply by 100: <strong>-25.00% Decrease</strong></li>
+          </ul>
+        </div>
+
+        <div style="background: var(--surface-muted); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem;">
+          <h3 style="font-size: 1.1rem; margin-top: 0; color: var(--accent-primary);">Example 3: Percent Difference (Two Labs)</h3>
+          <p style="font-size: var(--font-size-sm); color: var(--text-muted); margin-bottom: 0.5rem;"><strong>Lab A:</strong> 100 units | <strong>Lab B:</strong> 120 units</p>
+          <ul style="font-size: var(--font-size-sm); color: var(--text-muted); line-height: 1.6; margin-left: 1.25rem;">
+            <li>Difference: |100 - 120| = 20</li>
+            <li>Average: (100 + 120) / 2 = 110</li>
+            <li>Difference: (20 / 110) × 100 = <strong>18.18%</strong></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Common Mistakes Section -->
+    <section style="margin: 2.5rem 0;" aria-labelledby="mistakes-heading">
+      <h2 id="mistakes-heading">Common Percentage Calculation Mistakes</h2>
+      <ul style="color: var(--text-muted); line-height: 1.8; margin-left: 1.25rem;">
+        <li><strong>Dividing by the New Value Instead of the Old:</strong> The percentage change formula requires dividing by the initial baseline value (`Old`). Dividing by the `New` value will give the wrong percentage.</li>
+        <li><strong>Confusing Percentage Points with Percentage Change:</strong> If tax increases from 10% to 12%, that is an increase of 2 percentage points, but a 20% relative percentage increase ((12 - 10) / 10 = 0.20).</li>
+        <li><strong>Asymmetry of Increases and Decreases:</strong> A 50% drop requires a 100% gain to break even. For example, if $100 drops by 50% to $50, gaining 50% only brings it to $75, not back to $100.</li>
+      </ul>
+    </section>

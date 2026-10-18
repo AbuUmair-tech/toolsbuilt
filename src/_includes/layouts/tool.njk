@@ -1,0 +1,251 @@
+---
+layout: layouts/base.njk
+---
+{% set currentTool = tools | findTool(toolSlug or slug) %}
+{% set currentCategory = categories | findCategory(currentTool.category) %}
+
+{% set authorName = "ToolsBuilt editorial team" %}
+{% if site.authorName and not site.authorName.includes("TODO_") %}
+  {% set authorName = site.authorName %}
+{% endif %}
+
+{% set reviewerName = "" %}
+{% if site.reviewerName and not site.reviewerName.includes("TODO_") %}
+  {% set reviewerName = site.reviewerName %}
+{% endif %}
+
+{% block jsonLd %}
+  <!-- JSON-LD Schema 1: BreadcrumbList (Home > Category > Tool) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://toolsbuilt.com/"
+      },
+      {% if currentCategory %}
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "{{ currentCategory.name }}",
+        "item": "https://toolsbuilt.com/category/{{ currentCategory.slug }}/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "{{ currentTool.name if currentTool else title }}",
+        "item": "https://toolsbuilt.com/tools/{{ currentTool.slug if currentTool else (toolSlug or slug) }}/"
+      }
+      {% else %}
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "{{ currentTool.name if currentTool else title }}",
+        "item": "https://toolsbuilt.com/tools/{{ currentTool.slug if currentTool else (toolSlug or slug) }}/"
+      }
+      {% endif %}
+    ]
+  }
+  </script>
+
+  <!-- JSON-LD Schema 2: WebApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "{{ currentTool.name if currentTool else title }}",
+    "url": "https://toolsbuilt.com/tools/{{ currentTool.slug if currentTool else (toolSlug or slug) }}/",
+    "applicationCategory": "{{ applicationCategory or 'UtilitiesApplication' }}",
+    "operatingSystem": "Any",
+    "browserRequirements": "Requires JavaScript. Requires HTML5.",
+    "description": "{{ description }}",
+    "inLanguage": "en-US",
+    "dateModified": "{{ (currentTool.updated if currentTool else '') or '2026-10-15' }}",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "author": {
+      "@type": "Organization",
+      "name": "ToolsBuilt",
+      "url": "https://toolsbuilt.com/"
+    }
+  }
+  </script>
+
+  {% if howto %}
+  <!-- JSON-LD Schema 3: HowTo -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "{{ howto.name }}",
+    "description": "{{ howto.description }}",
+    "step": [
+      {% for step in howto.steps %}
+      {
+        "@type": "HowToStep",
+        "position": {{ loop.index }},
+        "name": "{{ step.name }}",
+        "text": "{{ step.text }}"
+      }{% if not loop.last %},{% endif %}
+      {% endfor %}
+    ]
+  }
+  </script>
+  {% endif %}
+
+  {% if faqs and faqs.length > 0 %}
+  <!-- JSON-LD Schema 4: FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {% for faq in faqs %}
+      {
+        "@type": "Question",
+        "name": "{{ faq.q }}",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "{{ faq.a }}"
+        }
+      }{% if not loop.last %},{% endif %}
+      {% endfor %}
+    ]
+  }
+  </script>
+  {% endif %}
+{% endblock %}
+
+  <!-- Main Content -->
+  <div class="container page-container tool-page-layout">
+    <div class="tool-page-grid">
+      <main id="main-content" class="tool-main-col">
+        
+        <!-- Breadcrumb Navigation -->
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <ol>
+            <li><a href="/">Home</a></li>
+            {% if currentCategory %}
+            <li><a href="{{ currentCategory.slug | categoryUrl }}">{{ currentCategory.name }}</a></li>
+            {% endif %}
+            <li aria-current="page">{{ currentTool.shortName or currentTool.name or title }}</li>
+          </ol>
+        </nav>
+
+        <!-- Tool Page Hero Header (Above the fold) -->
+        <div class="tool-hero-header">
+          <div class="tool-hero-meta">
+            {% if currentCategory %}
+            <a href="{{ currentCategory.slug | categoryUrl }}" class="tool-category-chip" data-cat="{{ currentCategory.slug }}">
+              {{ currentCategory.name }}
+            </a>
+            {% endif %}
+            <span class="tool-privacy-pill">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+              Runs locally in browser
+            </span>
+          </div>
+          <h1 class="tool-hero-title">{{ h1 or (currentTool.name if currentTool else title) }}</h1>
+          <p class="tool-hero-description">{{ currentTool.description if currentTool else description }}</p>
+          <p class="tool-byline">
+            By ToolsBuilt editorial team
+            · Updated <time datetime="{{ currentTool.updated or '2026-10-15' }}">{{ (currentTool.updated or '2026-10-15') | humanDate }}</time>
+          </p>
+        </div>
+
+        <!-- Main Tool Workspace -->
+        <div class="tool-workspace">
+          {{ content | safe }}
+
+          <!-- Result Actions Bar (Progressive Enhancement) -->
+          <div class="result-actions-bar" id="result-actions-bar" hidden aria-label="Result actions">
+            <button type="button" class="btn btn-sm btn-secondary action-copy-btn" id="action-copy-btn" title="Copy result to clipboard">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              <span>Copy result</span>
+            </button>
+            <button type="button" class="btn btn-sm btn-ghost action-share-btn" id="action-share-btn" title="Share tool result">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
+              <span>Share</span>
+            </button>
+            <button type="button" class="btn btn-sm btn-ghost action-print-btn" id="action-print-btn" title="Print calculation report">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+              <span>Print</span>
+            </button>
+            <button type="button" class="btn btn-sm btn-ghost action-reset-btn" id="action-reset-btn" title="Reset all inputs">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><polyline points="3 3 3 8 8 8"></polyline></svg>
+              <span>Reset</span>
+            </button>
+          </div>
+
+          <p class="tool-privacy-note">Your inputs never leave your browser — calculations run entirely client-side.</p>
+        </div>
+
+        <!-- FAQ Section -->
+        {% if faqs and faqs.length > 0 %}
+        <section class="faq-section" aria-labelledby="faq-heading">
+          <h2 id="faq-heading">Frequently Asked Questions</h2>
+          <div class="accordion-group">
+            {% for faq in faqs %}
+            <details class="faq-item">
+              <summary class="faq-question">
+                <span>{{ faq.q }}</span>
+              </summary>
+              <div class="faq-answer">
+                <p>{{ faq.a }}</p>
+              </div>
+            </details>
+            {% endfor %}
+          </div>
+        </section>
+        {% endif %}
+
+        <!-- Sources & References Section -->
+        {% if sources and sources.length > 0 %}
+        <section class="tool-sources-section" aria-labelledby="sources-heading">
+          <h2 id="sources-heading">Sources &amp; References</h2>
+          <ul class="sources-list">
+            {% for src in sources %}
+            <li>
+              <a href="{{ src.url }}" target="_blank" rel="noopener noreferrer">
+                {{ src.label }}
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+              </a>
+            </li>
+            {% endfor %}
+          </ul>
+        </section>
+        {% endif %}
+
+        <!-- Related Tools Section (Curated) -->
+        {% include "partials/related-tools.njk" %}
+
+      </main>
+
+      <!-- Desktop Sticky Table of Contents (hidden < 1100px) -->
+      <aside class="tool-toc-aside" aria-label="On this page">
+        <div class="tool-toc-sticky">
+          <span class="toc-heading">On This Page</span>
+          <nav class="toc-nav" aria-label="Table of contents">
+            <ul class="toc-list">
+              <li><a href="#main-content">Calculator</a></li>
+              <li><a href="#how-to-use-heading">How to Use</a></li>
+              <li><a href="#article-heading">Formula &amp; Method</a></li>
+              {% if faqs and faqs.length > 0 %}
+              <li><a href="#faq-heading">Frequently Asked Questions</a></li>
+              {% endif %}
+              <li><a href="#related-tools-heading">Related Tools</a></li>
+            </ul>
+          </nav>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <script src="/assets/js/tool-actions.js" defer></script>

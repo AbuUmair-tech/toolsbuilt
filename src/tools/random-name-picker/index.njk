@@ -1,0 +1,181 @@
+---
+layout: layouts/tool.njk
+toolSlug: random-name-picker
+title: "Random Name Picker Wheel | ToolsBuilt"
+description: "Free online random name picker wheel. Enter names, spin the interactive wheel, and select unbiased winners for raffles, classrooms, giveaways, and decision making."
+permalink: /tools/random-name-picker/
+h1: "Random Name Picker Wheel"
+howto:
+  name: "How to Pick a Random Name Using the Wheel"
+  description: "Step-by-step instructions for selecting random winners using cryptographically unbiased wheel spins."
+  steps:
+    - name: "Enter Participant Names"
+      text: "Type or paste your list of names into the text box (one name per line, or comma-separated)."
+    - name: "Configure Settings"
+      text: "Optionally click Deduplicate to remove duplicate entries, or check 'Remove winner automatically after spin' for multi-round draws."
+    - name: "Spin Wheel to Pick Winner"
+      text: "Click Spin Wheel to initiate the spin animation or instant selection if reduced motion is preferred."
+    - name: "Announce and Copy Winner"
+      text: "View the winning name in the modal announcement dialog and copy the winner's name to your clipboard."
+faqs:
+  - q: "How does the random name picker ensure fair and unbiased selection?"
+    a: "The tool utilizes your browser's native Web Crypto API via crypto.getRandomValues with rejection sampling to eliminate modulo bias. Unlike standard Math.random algorithms, hardware-level OS entropy ensures uniform probability distribution across all entries. Every name has an equal mathematical chance of being chosen on each spin."
+  - q: "Can I remove winning names automatically after each spin?"
+    a: "Yes. Simply enable the 'Remove winner automatically after spin' checkbox, or click 'Remove Winner & Close' in the announcement modal. The tool removes the chosen entry immediately and redraws the wheel geometry for subsequent rounds."
+  - q: "Does the wheel accommodate users with motion sensitivity or vestibular disorders?"
+    a: "Yes. The random name picker respects your device's system-level accessibility preferences. When 'prefers-reduced-motion' is active, spinning animations are bypassed entirely. The tool computes the winning slice instantly and opens the winner dialog immediately."
+  - q: "Is there a limit on how many names I can paste into the wheel?"
+    a: "You can enter hundreds of names into the text box. The generator automatically calculates slice angles and fits labels on the wheel. Each slice remains mathematically distinct throughout the cryptographic selection process."
+  - q: "Are my participant names stored on remote servers or tracked?"
+    a: "No. All name lists, spin computations, and winner selections operate exclusively in local browser memory. None of your entered names are transmitted to external servers, logged in databases, or stored in URLs."
+sources:
+  - label: "W3C Web Cryptography API Specification"
+    url: "https://www.w3.org/TR/WebCryptoAPI/"
+  - label: "NIST SP 800-90A: Recommendation for Random Number Generation"
+    url: "https://csrc.nist.gov/publications/detail/sp/800-90a/rev-1/final"
+---
+
+<div class="tool-card">
+  <div class="wheel-layout">
+    <div class="wheel-controls-col">
+      <div class="form-group">
+        <div class="label-row" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+          <label for="namesInput" style="font-weight: 600; margin-bottom: 0;">Names List (one per line):</label>
+          <span id="nameCount" class="text-sm text-muted">8 entries</span>
+        </div>
+        <textarea id="namesInput" class="form-input code-input" rows="8" placeholder="Enter names here..."></textarea>
+      </div>
+
+      <div class="form-group" style="margin-top: 1rem;">
+        <label class="checkbox-label" style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+          <input type="checkbox" id="removeWinner">
+          <span>Remove winner automatically after spin</span>
+        </label>
+      </div>
+
+      <div class="btn-group" style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 1rem;">
+        <button type="button" id="spinBtn" class="btn btn-primary" style="flex: 1 1 100%;">Spin Wheel!</button>
+        <button type="button" id="shuffleBtn" class="btn btn-secondary">Shuffle</button>
+        <button type="button" id="dedupeBtn" class="btn btn-secondary">Deduplicate</button>
+        <button type="button" id="clearBtn" class="btn btn-ghost">Clear</button>
+      </div>
+    </div>
+
+    <div class="wheel-canvas-col">
+      <div class="canvas-wrapper" style="display: flex; justify-content: center; align-items: center;">
+        <canvas id="wheelCanvas" width="400" height="400" aria-label="Random Name Wheel"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- Winner Modal -->
+  <div id="winnerModal" class="modal-overlay hidden" aria-hidden="true" role="dialog" aria-labelledby="winnerTitle">
+    <div class="modal-card text-center" style="max-width: 420px; margin: 2rem auto; background: var(--surface-default); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 2rem; box-shadow: var(--shadow-lg);">
+      <h2 id="winnerTitle" class="modal-title" style="margin-top: 0; color: var(--accent-primary);">🎉 We Have a Winner!</h2>
+      <div id="winnerName" class="winner-display-name" style="font-size: 2rem; font-weight: 800; margin: 1.5rem 0; word-break: break-word;">---</div>
+      <div class="modal-actions" style="display: flex; gap: 0.75rem; flex-direction: column;">
+        <button type="button" id="copyWinnerBtn" class="btn btn-outline"><span data-icon="copy"></span> Copy Winner</button>
+        <button type="button" id="removeWinnerBtn" class="btn btn-primary">Remove Winner &amp; Close</button>
+        <button type="button" id="closeModalBtn" class="btn btn-secondary">Keep in List &amp; Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="quick-answer-box" style="margin-top: 2rem;">
+  <h2 id="how-to-use-heading">Quick Answer: How to Use the Random Name Picker Wheel</h2>
+  <p>Paste your list of names into the text box, click <strong>Spin Wheel!</strong>, and watch the wheel rotate to select a random winner. The selection uses native Web Crypto API hardware entropy, guaranteeing every participant an equal and verifiably unbiased probability.</p>
+</div>
+
+<!-- When to Use Section -->
+<section style="margin: 2.5rem 0;" aria-labelledby="when-to-use-heading">
+  <h2 id="when-to-use-heading">When to Use the Random Name Picker Wheel</h2>
+  <ul style="color: var(--text-muted); line-height: 1.8; margin-left: 1.25rem;">
+    <li><strong>Classrooms &amp; Student Cold Calling:</strong> Ensure equal, tension-free participation by having a neutral spinning wheel choose student speakers.</li>
+    <li><strong>Raffles &amp; Social Giveaways:</strong> Run live-streamed giveaway draws where participants can visually see the fairness of the draw.</li>
+    <li><strong>Team Standups &amp; Agile Retrospectives:</strong> Randomly determine speaking order during daily standup meetings or code review assignments.</li>
+    <li><strong>Decision Making &amp; Dinner Choices:</strong> Pick between competing choices or restaurants with unbiased finality.</li>
+  </ul>
+</section>
+
+<!-- Worked Examples Section -->
+<section style="margin: 2.5rem 0;" aria-labelledby="examples-heading">
+  <h2 id="examples-heading">Worked Raffle &amp; Selection Examples</h2>
+  
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 1.25rem;">
+    <div style="background: var(--surface-muted); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem;">
+      <h3 style="font-size: 1.1rem; margin-top: 0; color: var(--accent-primary);">Example 1: Single Winner Draw</h3>
+      <p style="font-size: var(--font-size-sm); color: var(--text-muted); margin-bottom: 0.5rem;"><strong>Participants:</strong> 8 candidates</p>
+      <ul style="font-size: var(--font-size-sm); color: var(--text-muted); line-height: 1.6; margin-left: 1.25rem;">
+        <li>Each candidate has exact 1/8 (12.5%) probability</li>
+        <li>Wheel slice angle: 360° / 8 = 45° per slice</li>
+        <li>Crypto rejection sampling selects integer in [0, 7]</li>
+      </ul>
+    </div>
+
+    <div style="background: var(--surface-muted); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem;">
+      <h3 style="font-size: 1.1rem; margin-top: 0; color: var(--accent-primary);">Example 2: Multi-Prize Raffle (Without Replacement)</h3>
+      <p style="font-size: var(--font-size-sm); color: var(--text-muted); margin-bottom: 0.5rem;"><strong>3 Prizes, 20 Entrants:</strong></p>
+      <ul style="font-size: var(--font-size-sm); color: var(--text-muted); line-height: 1.6; margin-left: 1.25rem;">
+        <li>Round 1: 1st place selected from 20 (1/20 chance)</li>
+        <li>Winner removed: pool drops to 19 entries</li>
+        <li>Round 2: 2nd place selected from 19 (1/19 chance)</li>
+        <li>Winner removed: pool drops to 18 entries for 3rd prize</li>
+      </ul>
+    </div>
+
+    <div style="background: var(--surface-muted); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem;">
+      <h3 style="font-size: 1.1rem; margin-top: 0; color: var(--accent-primary);">Example 3: Deduplication Safeguard</h3>
+      <p style="font-size: var(--font-size-sm); color: var(--text-muted); margin-bottom: 0.5rem;"><strong>Accidental Duplicate Entries:</strong></p>
+      <ul style="font-size: var(--font-size-sm); color: var(--text-muted); line-height: 1.6; margin-left: 1.25rem;">
+        <li>If an entrant submitted twice, click 'Deduplicate'</li>
+        <li>Duplicate names are merged into a single ticket</li>
+        <li>Restores strict 1-ticket-per-person fair odds</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- Common Mistakes Section -->
+<section style="margin: 2.5rem 0;" aria-labelledby="mistakes-heading">
+  <h2 id="mistakes-heading">Common Giveaway &amp; Raffle Mistakes</h2>
+  <ul style="color: var(--text-muted); line-height: 1.8; margin-left: 1.25rem;">
+    <li><strong>Allowing Duplicate Entries by Mistake:</strong> When combining lists from multiple spreadsheets, names frequently appear twice. Always click the Deduplicate button before spinning unless multiple tickets per person are intentionally permitted.</li>
+    <li><strong>Forgetting to Remove Winners in Multi-Draw Raffles:</strong> If you are awarding 1st, 2nd, and 3rd prizes, make sure 'Remove winner automatically after spin' is checked so the same entrant cannot accidentally win multiple tiers.</li>
+  </ul>
+</section>
+
+<div class="article-content">
+  <h2 id="article-heading">Why Use a Digital Random Name Picker Wheel?</h2>
+  <p>Whether you are running a social media giveaway, choosing students for classroom participation, organizing team secret Santa exchanges, or deciding who pays for coffee, choosing fairly is essential. Physical drawings with paper slips take time to assemble and can raise suspicions of bias. Digital spinning wheels provide a transparent, engaging, and verifiably fair method for picking winners in real time.</p>
+
+  <h2>Cryptographically Secure Randomness</h2>
+  <p>Many online wheels rely on standard pseudorandom number generators like <code>Math.random()</code>, which are fine for basic games but exhibit predictable mathematical patterns over repeated runs. Our tool utilizes the browser's native <strong>Web Crypto API (<code>crypto.getRandomValues</code>)</strong>. This provides hardware-level entropy and cryptographically strong randomness, guaranteeing that every single spin is completely independent and un-biased.</p>
+</div>
+
+<section class="related-tools mt-12">
+  <h2>Related Tools</h2>
+  <div class="tools-grid" id="relatedToolsGrid">
+    <a href="/tools/password-generator/" class="tool-card-link">
+      <div class="tool-card-sm">
+        <div class="tool-icon-wrapper text" data-icon="lock"></div>
+        <h3>Password Generator</h3>
+        <p>Generate secure random passwords and EFF word passphrases.</p>
+      </div>
+    </a>
+    <a href="/tools/text-case-converter/" class="tool-card-link">
+      <div class="tool-card-sm">
+        <div class="tool-icon-wrapper text" data-icon="type"></div>
+        <h3>Text Case Converter</h3>
+        <p>Convert text casing between Title Case, camelCase, snake_case, and UPPERCASE.</p>
+      </div>
+    </a>
+    <a href="/tools/word-counter/" class="tool-card-link">
+      <div class="tool-card-sm">
+        <div class="tool-icon-wrapper text" data-icon="file-text"></div>
+        <h3>Word Counter</h3>
+        <p>Count words, characters, sentences, paragraphs, and reading time.</p>
+      </div>
+    </a>
+  </div>
+</section>
