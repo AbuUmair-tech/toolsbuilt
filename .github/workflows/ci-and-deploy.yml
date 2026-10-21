@@ -52,6 +52,23 @@ jobs:
       - run: npm ci
       - name: Build (production)
         run: npm run build:prod
+      - name: Check links (production)
+        run: SITE_ENV=production node scripts/check-links.js
+      - name: Check JSON-LD schemas (production)
+        run: SITE_ENV=production node scripts/check-schema.js
+      - name: Check SEO (production)
+        run: SITE_ENV=production node scripts/check-seo.js
+      - name: Assert no noindex in homepage & robots.txt allows all
+        run: |
+          if grep -qi 'noindex' _site/index.html; then
+            echo "❌ _site/index.html contains noindex — aborting deploy"
+            exit 1
+          fi
+          if ! grep -q 'Allow: /' _site/robots.txt; then
+            echo "❌ _site/robots.txt does not contain 'Allow: /' — aborting deploy"
+            exit 1
+          fi
+          echo "✅ Homepage has no noindex; robots.txt contains Allow: /"
       - name: Setup Pages
         uses: actions/configure-pages@v4
       - name: Upload artifact

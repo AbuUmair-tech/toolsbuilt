@@ -170,13 +170,18 @@
     }
 
     const sum = cleanFloat(a + b);
-    if (sum === 0) {
+    if (sum === 0 && a === 0 && b === 0) {
       throw new Error('Sum of both values is zero; percentage difference is undefined.');
     }
 
     const absDiff = Math.abs(cleanFloat(a - b));
     const average = cleanFloat(sum / 2);
-    const ratio = absDiff / average;
+    // Percentage difference is always positive; divide by |average| to handle
+    // cases where both values are negative (average would be negative, flipping sign).
+    if (average === 0) {
+      throw new Error('Average of both values is zero; percentage difference is undefined.');
+    }
+    const ratio = absDiff / Math.abs(average);
     const diffPercent = cleanFloat(ratio * 100);
     const roundedDiff = roundSensible(diffPercent, 4);
 

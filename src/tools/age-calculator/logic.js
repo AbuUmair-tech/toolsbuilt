@@ -36,6 +36,17 @@
   }
 
   /**
+   * Advance (year, month [1-12], day) by monthsToAdd months, clamping day to month end.
+   */
+  function addMonthsClamped(year, month, day, monthsToAdd) {
+    const totalMonths = year * 12 + (month - 1) + monthsToAdd;
+    const targetYear = Math.floor(totalMonths / 12);
+    const targetMonth = ((totalMonths % 12) + 12) % 12 + 1;
+    const maxDay = new Date(Date.UTC(targetYear, targetMonth, 0)).getUTCDate();
+    return { year: targetYear, month: targetMonth, day: Math.min(day, maxDay) };
+  }
+
+  /**
    * Calculates exact age in years, months, days, total hours, and next birthday countdown.
    * @param {string} dobStr - 'YYYY-MM-DD'
    * @param {string} targetDateStr - 'YYYY-MM-DD'
@@ -81,14 +92,21 @@
 
     if (days < 0) {
       months--;
-      // Days in previous month of target
-      const prevMonthLastDay = new Date(Date.UTC(targetParts.year, targetParts.month - 1, 0)).getUTCDate();
-      days += prevMonthLastDay;
+      // Advance DOB by the (now decremented) month total and measure remaining days.
+      const totalM = years * 12 + months;
+      const anchor = addMonthsClamped(dobParts.year, effectiveBdayMonth, effectiveBdayDay, totalM);
+      const anchorUtc = Date.UTC(anchor.year, anchor.month - 1, anchor.day);
+      days = Math.round((targetUtc - anchorUtc) / 86400000);
     }
 
     if (months < 0) {
       years--;
       months += 12;
+      // Recompute days with the corrected anchor
+      const totalM = years * 12 + months;
+      const anchor = addMonthsClamped(dobParts.year, effectiveBdayMonth, effectiveBdayDay, totalM);
+      const anchorUtc = Date.UTC(anchor.year, anchor.month - 1, anchor.day);
+      days = Math.round((targetUtc - anchorUtc) / 86400000);
     }
 
     // Total metrics using UTC millisecond difference

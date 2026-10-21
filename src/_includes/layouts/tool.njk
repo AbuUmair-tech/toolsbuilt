@@ -31,20 +31,20 @@ layout: layouts/base.njk
       {
         "@type": "ListItem",
         "position": 2,
-        "name": "{{ currentCategory.name }}",
+        "name": {{ currentCategory.name | jsonStr }},
         "item": "https://toolsbuilt.com/category/{{ currentCategory.slug }}/"
       },
       {
         "@type": "ListItem",
         "position": 3,
-        "name": "{{ currentTool.name if currentTool else title }}",
+        "name": {{ (currentTool.name if currentTool else title) | jsonStr }},
         "item": "https://toolsbuilt.com/tools/{{ currentTool.slug if currentTool else (toolSlug or slug) }}/"
       }
       {% else %}
       {
         "@type": "ListItem",
         "position": 2,
-        "name": "{{ currentTool.name if currentTool else title }}",
+        "name": {{ (currentTool.name if currentTool else title) | jsonStr }},
         "item": "https://toolsbuilt.com/tools/{{ currentTool.slug if currentTool else (toolSlug or slug) }}/"
       }
       {% endif %}
@@ -57,14 +57,14 @@ layout: layouts/base.njk
   {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    "name": "{{ currentTool.name if currentTool else title }}",
+    "name": {{ (currentTool.name if currentTool else title) | jsonStr }},
     "url": "https://toolsbuilt.com/tools/{{ currentTool.slug if currentTool else (toolSlug or slug) }}/",
-    "applicationCategory": "{{ applicationCategory or 'UtilitiesApplication' }}",
+    "applicationCategory": {{ (applicationCategory or 'UtilitiesApplication') | jsonStr }},
     "operatingSystem": "Any",
     "browserRequirements": "Requires JavaScript. Requires HTML5.",
-    "description": "{{ description }}",
+    "description": {{ description | jsonStr }},
     "inLanguage": "en-US",
-    "dateModified": "{{ (currentTool.updated if currentTool else '') or '2026-10-15' }}",
+    "dateModified": {{ ((currentTool.updated if currentTool else '') or '2026-10-15') | jsonStr }},
     "offers": {
       "@type": "Offer",
       "price": "0",
@@ -84,15 +84,15 @@ layout: layouts/base.njk
   {
     "@context": "https://schema.org",
     "@type": "HowTo",
-    "name": "{{ howto.name }}",
-    "description": "{{ howto.description }}",
+    "name": {{ howto.name | jsonStr }},
+    "description": {{ howto.description | jsonStr }},
     "step": [
       {% for step in howto.steps %}
       {
         "@type": "HowToStep",
         "position": {{ loop.index }},
-        "name": "{{ step.name }}",
-        "text": "{{ step.text }}"
+        "name": {{ step.name | jsonStr }},
+        "text": {{ step.text | jsonStr }}
       }{% if not loop.last %},{% endif %}
       {% endfor %}
     ]
@@ -110,10 +110,10 @@ layout: layouts/base.njk
       {% for faq in faqs %}
       {
         "@type": "Question",
-        "name": "{{ faq.q }}",
+        "name": {{ faq.q | jsonStr }},
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "{{ faq.a }}"
+          "text": {{ faq.a | jsonStr }}
         }
       }{% if not loop.last %},{% endif %}
       {% endfor %}
