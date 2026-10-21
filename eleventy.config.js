@@ -62,6 +62,24 @@ module.exports = function(eleventyConfig) {
     return categories.find(c => c.slug === slug) || null;
   });
 
+  // jsonStr: safely serialise a value into a JSON string literal for use inside
+  // JSON-LD <script> blocks. Nunjucks' default {{ }} auto-escapes to &amp; / &#39;
+  // which is invalid inside <script type="application/ld+json">.
+  // Usage in template:  "name": {{ myVar | jsonStr }}
+  const nunjucks = require('nunjucks');
+  eleventyConfig.addFilter('jsonStr', function(value) {
+    if (value === null || value === undefined) return 'null';
+    // Nunjucks auto-escapes values before filters run, so unescape HTML entities first.
+    const unescaped = String(value)
+      .replace(/&amp;/g, '&')
+      .replace(/&quot;/g, '"')
+      .replace(/&#39;/g, "'")
+      .replace(/&lt;/g, '<')
+      .replace(/&gt;/g, '>');
+    // Return as SafeString so Nunjucks doesn't double-escape the JSON quotes.
+    return new nunjucks.runtime.SafeString(JSON.stringify(unescaped));
+  });
+
   eleventyConfig.addFilter('filterByCategory', function(tools, catSlug) {
     if (!tools || !Array.isArray(tools)) return [];
     return tools.filter(t => t.category === catSlug);
