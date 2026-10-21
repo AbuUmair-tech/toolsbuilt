@@ -49,19 +49,37 @@
       targetD2 = new Date(d2.getTime() + 86400000);
     }
 
-    let years = targetD2.getUTCFullYear() - d1.getUTCFullYear();
-    let months = targetD2.getUTCMonth() - d1.getUTCMonth();
-    let days = targetD2.getUTCDate() - d1.getUTCDate();
+    const y1 = d1.getUTCFullYear(), m1 = d1.getUTCMonth() + 1, day1 = d1.getUTCDate();
+    const y2 = targetD2.getUTCFullYear(), m2 = targetD2.getUTCMonth() + 1, day2 = targetD2.getUTCDate();
 
+    let years = y2 - y1;
+    let months = m2 - m1;
+    let days = day2 - day1;
+
+    // When the remaining days are negative, borrow one month.
+    // The "borrow" month is the month immediately before targetD2 in the result's anchor position.
+    // After advancing d1 by (years, months) clamped, we measure remaining days.
+    // Use addMonthsClampedUtc: advance d1 by (years * 12 + months) to get an anchor date,
+    // then remaining days = targetD2 - anchor.
     if (days < 0) {
       months--;
-      const prevMonthDays = new Date(Date.UTC(targetD2.getUTCFullYear(), targetD2.getUTCMonth(), 0)).getUTCDate();
-      days += prevMonthDays;
+      // The anchor is d1 advanced by (years * 12 + months) months.
+      const totalM = years * 12 + months;
+      const anchor = addMonthsClampedUtc(y1, m1, day1, totalM);
+      const anchorUtc = Date.UTC(anchor.year, anchor.month - 1, anchor.day);
+      const endUtc = Date.UTC(y2, m2 - 1, day2);
+      days = Math.round((endUtc - anchorUtc) / 86400000);
     }
 
     if (months < 0) {
       years--;
       months += 12;
+      // Recompute days with the corrected year/month anchor
+      const totalM = years * 12 + months;
+      const anchor = addMonthsClampedUtc(y1, m1, day1, totalM);
+      const anchorUtc = Date.UTC(anchor.year, anchor.month - 1, anchor.day);
+      const endUtc = Date.UTC(y2, m2 - 1, day2);
+      days = Math.round((endUtc - anchorUtc) / 86400000);
     }
 
     return { years, months, days };

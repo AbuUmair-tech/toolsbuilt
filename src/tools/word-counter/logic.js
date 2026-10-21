@@ -48,8 +48,10 @@
     const withoutSpaces = raw.replace(/\s/gu, '');
     const charsWithoutSpaces = Array.from(withoutSpaces).length;
 
-    // Word tokens using Unicode property escapes
-    const wordMatches = raw.match(/[\p{L}\p{N}]+/gu) || [];
+    // Word tokens: Unicode letters/numbers, with contractions (apostrophe between letters)
+    // treated as single words. Hyphens between letters also join compound words.
+    // Pattern: one or more (letter|digit) with optional internal apostrophe/hyphen sequences.
+    const wordMatches = raw.match(/[\p{L}\p{N}]+(?:['\u2018\u2019-][\p{L}\p{N}]+)*/gu) || [];
     const words = wordMatches.length;
 
     // Sentences: split on sentence terminators (. ! ?)

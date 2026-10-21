@@ -19,10 +19,13 @@
     const cleaned = text
       .replace(/([a-z\d])([A-Z])/g, '$1 $2')
       .replace(/([A-Z]+)([A-Z][a-z\d]+)/g, '$1 $2');
-    
-    // Match unicode letters and numbers
-    const matches = cleaned.match(/[\p{L}\p{N}]+/gu);
-    return matches || [];
+
+    // Match unicode letters/numbers with optional internal apostrophes/curly-quotes
+    // so contractions like "don't" are treated as a single word "dont".
+    const matches = cleaned.match(/[\p{L}\p{N}]+(?:['\u2018\u2019][\p{L}\p{N}]+)*/gu);
+    if (!matches) return [];
+    // Strip apostrophes/curly-quotes so "don't" → "dont"
+    return matches.map(w => w.replace(/['\u2018\u2019]/g, ''));
   }
 
   // Small words typically lowercased in title case (unless first or last word)
@@ -86,9 +89,12 @@
 
   function toCapitalizeEachWord(text) {
     if (!text) return '';
-    // Capitalize every single word regardless of minor word status
-    return text.replace(/\b([\p{L}])/gu, function (_, char) {
-      return char.toUpperCase();
+    // Capitalize the first Unicode letter of each whitespace-separated token.
+    // We cannot use \b here because it does not recognize boundaries before
+    // accented characters like é (ASCII-only boundary). Instead we split on
+    // whitespace tokens and capitalize the leading letter of each one.
+    return text.replace(/(^|\s)([\p{L}])/gu, function (match, space, char) {
+      return space + char.toUpperCase();
     });
   }
 

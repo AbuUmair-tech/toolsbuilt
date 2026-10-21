@@ -67,9 +67,28 @@
       throw new Error('Please enter a valid start date (YYYY-MM-DD).');
     }
 
-    const numAmount = parseInt(amount, 10);
+    // Strict integer validation: reject floats ("1.9"), mixed strings ("5abc"),
+    // and negative values. Only pure non-negative integers are accepted.
+    const amountStr = String(amount).trim();
+    if (!/^\d+$/.test(amountStr)) {
+      throw new Error(
+        `Invalid amount "${amount}". Please enter a whole non-negative number (e.g. 5, not "5abc" or "1.9").`
+      );
+    }
+    const numAmount = parseInt(amountStr, 10);
     if (isNaN(numAmount) || numAmount < 0) {
-      throw new Error('Please enter a valid non-negative number.');
+      throw new Error('Please enter a valid non-negative whole number.');
+    }
+    // Reject astronomically large amounts that would produce nonsensical dates
+    const MAX_DAYS_EQUIVALENT = 3650000; // ~10,000 years worth of days
+    const daysEquivalent = unit === 'years' ? numAmount * 365
+      : unit === 'months' ? numAmount * 30
+      : unit === 'weeks' ? numAmount * 7
+      : numAmount;
+    if (daysEquivalent > MAX_DAYS_EQUIVALENT) {
+      throw new Error(
+        `Amount ${numAmount} ${unit} exceeds the maximum supported range of ~10,000 years. Please enter a smaller value.`
+      );
     }
 
     const isAdd = operation !== 'subtract';
