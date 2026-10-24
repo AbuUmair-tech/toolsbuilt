@@ -223,6 +223,26 @@ layout: layouts/base.njk
         </section>
         {% endif %}
 
+        <!-- Related Guides Section (Blog Posts) -->
+        {% set relatedGuides = collections.post | filterGuidesByTool(slug) %}
+        {% if relatedGuides and relatedGuides.length > 0 %}
+        <section class="related-guides-section" aria-labelledby="related-guides-heading">
+          <h2 id="related-guides-heading">Related Guides</h2>
+          <ul class="related-guides-list">
+            {% for guide in relatedGuides %}
+            <li class="related-guide-item">
+              <a href="{{ guide.url }}" class="related-guide-link">
+                <span class="related-guide-title">{{ guide.data.title }}</span>
+                {% if guide.data.description %}
+                <span class="related-guide-desc">{{ guide.data.description }}</span>
+                {% endif %}
+              </a>
+            </li>
+            {% endfor %}
+          </ul>
+        </section>
+        {% endif %}
+
         <!-- Related Tools Section (Curated) -->
         {% include "partials/related-tools.njk" %}
 
@@ -239,6 +259,9 @@ layout: layouts/base.njk
               <li><a href="#article-heading">Formula &amp; Method</a></li>
               {% if faqs and faqs.length > 0 %}
               <li><a href="#faq-heading">Frequently Asked Questions</a></li>
+              {% endif %}
+              {% if relatedGuides and relatedGuides.length > 0 %}
+              <li><a href="#related-guides-heading">Related Guides</a></li>
               {% endif %}
               <li><a href="#related-tools-heading">Related Tools</a></li>
             </ul>

@@ -26,4 +26,16 @@ eleventyExcludeFromCollections: true
     </author>
   </entry>
 {%- endfor %}
+{%- for post in collections.post | reverse %}
+  <entry>
+    <title>{{ post.data.title }}</title>
+    <link href="https://toolsbuilt.com{{ post.url }}"/>
+    <id>https://toolsbuilt.com{{ post.url }}</id>
+    <updated>{{ post.data.updated | isoDate or post.date | isoDate }}</updated>
+    <summary>{{ post.data.description }}</summary>
+    <author>
+      <name>{{ post.data.author or site.authorName }}</name>
+    </author>
+  </entry>
+{%- endfor %}
 </feed>

@@ -25,8 +25,14 @@ ToolsBuilt provides focused, single-purpose calculation and conversion tools wit
 - [{{ tool.name }}](https://toolsbuilt.com/tools/{{ tool.slug }}/): {{ tool.description }}
 {%- endfor %}
 
+## Blog & Guides
+{% for post in collections.post | reverse %}
+- [{{ post.data.title }}](https://toolsbuilt.com{{ post.url }}): {{ post.data.description }}
+{%- endfor %}
+
 ## Additional Links
 
 - All Tools Directory: https://toolsbuilt.com/tools/
+- Blog: https://toolsbuilt.com/blog/
 - Website: https://toolsbuilt.com/
 - Atom Feed: https://toolsbuilt.com/feed.xml

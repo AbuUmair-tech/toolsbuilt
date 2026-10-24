@@ -6,6 +6,13 @@
   <title>{{ title }}</title>
   <meta name="description" content="{{ description }}">
   <link rel="canonical" href="{{ canonical or ('https://toolsbuilt.com' + page.url) }}">
+  {% if pagination and pagination.href.previous %}
+  <link rel="prev" href="https://toolsbuilt.com{{ pagination.href.previous }}">
+  {% endif %}
+  {% if pagination and pagination.href.next %}
+  <link rel="next" href="https://toolsbuilt.com{{ pagination.href.next }}">
+  {% endif %}
+  {% block extraHead %}{% endblock %}
   {% if (not env.isProduction) or noindex %}<meta name="robots" content="noindex, nofollow">{% endif %}
   <meta name="color-scheme" content="light dark">
   <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">

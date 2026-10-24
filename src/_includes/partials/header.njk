@@ -51,6 +51,7 @@
         </div>
 
         <a href="/about/" class="nav-link{% if page.url == '/about/' %} active{% endif %}"{% if page.url == '/about/' %} aria-current="page"{% endif %}>About</a>
+        <a href="/blog/" class="nav-link{% if page.url and page.url.startsWith('/blog/') %} active{% endif %}"{% if page.url and page.url.startsWith('/blog/') %} aria-current="page"{% endif %}>Blog</a>
       </nav>
 
       <!-- Header Actions -->
@@ -160,6 +161,7 @@
         </div>
 
         <div class="mobile-drawer-links">
+          <a href="/blog/" class="mobile-drawer-link{% if page.url and page.url.startsWith('/blog/') %} active{% endif %}"{% if page.url and page.url.startsWith('/blog/') %} aria-current="page"{% endif %}>Blog</a>
           <a href="/about/" class="mobile-drawer-link{% if page.url == '/about/' %} active{% endif %}"{% if page.url == '/about/' %} aria-current="page"{% endif %}>About</a>
           <a href="/contact/" class="mobile-drawer-link{% if page.url == '/contact/' %} active{% endif %}"{% if page.url == '/contact/' %} aria-current="page"{% endif %}>Contact</a>
         </div>
