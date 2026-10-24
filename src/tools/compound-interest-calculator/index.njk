@@ -1,0 +1,226 @@
+---
+layout: layouts/tool.njk
+toolSlug: compound-interest-calculator
+title: "Compound Interest Calculator - Growth & APY"
+description: "Calculate compound interest with daily, monthly, quarterly, or annual compounding and optional regular deposits with visual growth charts. Free tool."
+permalink: /tools/compound-interest-calculator/
+h1: "Compound Interest Calculator"
+extraCss: "/tools/compound-interest-calculator/style.css"
+howto:
+  name: "How to Calculate Compound Interest Growth"
+  description: "Step-by-step instructions for modeling compounding frequencies, periodic deposits, and annual percentage yields (APY)."
+  steps:
+    - name: "Enter Starting Principal"
+      text: "Input your initial lump sum investment or savings balance (can be $0 if starting purely with regular deposits)."
+    - name: "Enter Annual Interest Rate"
+      text: "Input the nominal annual percentage rate (APR) earned by your high-yield savings account, CD, or investment."
+    - name: "Select Compounding Frequency"
+      text: "Choose how often interest compounds into your principal: daily, monthly, quarterly, or annually."
+    - name: "Set Investment Time Horizon"
+      text: "Specify how many years you plan to allow your money to compound untouched."
+    - name: "Add Optional Monthly Contributions"
+      text: "Optionally enter recurring monthly deposits to project exponential dollar-cost growth."
+    - name: "Review Visual Growth Chart & Balances"
+      text: "Inspect your final future value, total interest earned, effective APY, and interactive SVG growth trajectory chart."
+faqs:
+  - q: "What is the difference between simple interest and compound interest?"
+    a: "Simple interest calculates interest solely on the original principal amount. Compound interest calculates interest on both the initial principal and the accumulated interest from prior periods, accelerating growth exponentially over time."
+  - q: "What is the mathematical compound interest formula?"
+    a: "Without periodic contributions, the formula is: A = P × (1 + r/n)^(n×t), where P is the principal, r is the annual nominal interest rate in decimal form, n is the number of compounding periods per year, and t is the time horizon in years."
+  - q: "What is the difference between APR and APY?"
+    a: "APR (Annual Percentage Rate) is the stated nominal interest rate without accounting for intraday or intramonth compounding. APY (Annual Percentage Yield) reflects the true effective annual rate including the compounding effect: APY = (1 + r/n)^n - 1."
+  - q: "How often should interest compound for maximum growth?"
+    a: "More frequent compounding produces higher effective returns. Daily compounding (365 times per year) yields slightly higher total interest than monthly (12 times) or annual (1 time) compounding for the exact same nominal interest rate."
+  - q: "Are any investment or personal balance numbers stored?"
+    a: "No. All compound interest calculations and SVG charts render purely in memory within your web browser. No private financial balances leave your device."
+sources:
+  - label: "U.S. Securities and Exchange Commission (SEC) - Compound Interest Calculator"
+    url: "https://www.investor.gov/"
+  - label: "Consumer Financial Protection Bureau - APY & Savings Explainer"
+    url: "https://www.consumerfinance.gov/"
+  - label: "Federal Deposit Insurance Corporation (FDIC) - Deposit Accounts"
+    url: "https://www.fdic.gov/"
+---
+
+    <!-- Tool Form Container -->
+    <section class="tool-container" aria-label="Compound Interest Calculator Form">
+      <form id="calculator-form" novalidate>
+        <div class="form-grid two-col">
+          
+          <div class="form-group">
+            <label for="principal">Initial Principal ($) <span style="color: var(--accent-primary);">*</span></label>
+            <input type="number" step="any" min="0" id="principal" class="form-control" placeholder="e.g. 10000" required aria-required="true">
+          </div>
+
+          <div class="form-group">
+            <label for="interest-rate">Annual Interest Rate (%) <span style="color: var(--accent-primary);">*</span></label>
+            <input type="number" step="0.01" min="0" max="100" id="interest-rate" class="form-control" placeholder="e.g. 7.0" required aria-required="true">
+          </div>
+
+          <div class="form-group">
+            <label for="years">Investment Horizon (Years) <span style="color: var(--accent-primary);">*</span></label>
+            <input type="number" step="1" min="1" max="60" id="years" class="form-control" placeholder="e.g. 10" required aria-required="true">
+          </div>
+
+          <div class="form-group">
+            <label for="compounding-frequency">Compounding Frequency</label>
+            <select id="compounding-frequency" class="form-control">
+              <option value="daily">Daily (365 times/year)</option>
+              <option value="monthly">Monthly (12 times/year)</option>
+              <option value="quarterly">Quarterly (4 times/year)</option>
+              <option value="annual" selected>Annually (1 time/year)</option>
+            </select>
+          </div>
+
+          <div class="form-group" style="grid-column: 1 / -1;">
+            <label for="regular-contribution">Optional Monthly Contribution ($) <span style="font-weight: normal; color: var(--text-muted);">(Deposited at Start of Month)</span></label>
+            <input type="number" step="any" min="0" id="regular-contribution" class="form-control" placeholder="e.g. 200">
+          </div>
+
+        </div>
+
+        <div class="button-group" style="margin-top: 1.25rem;">
+          <button type="submit" class="btn btn-primary">Calculate Growth</button>
+          <button type="button" class="btn btn-secondary" id="reset-btn">Reset</button>
+        </div>
+      </form>
+
+      <div id="error-box" class="hidden" style="margin-top: 1rem; color: var(--color-error, #dc2626); background: rgba(220, 38, 38, 0.08); border: 1px solid rgba(220, 38, 38, 0.25); padding: 0.75rem 1rem; border-radius: var(--radius-sm);" role="alert"></div>
+
+      <!-- Result Box -->
+      <div id="result-box" class="result-box is-visible" aria-live="polite">
+        <div class="result-header">
+          <span id="result-header-text">Compound Growth Projection</span>
+          <button type="button" class="btn btn-sm btn-ghost" id="copy-result-btn" title="Copy Calculation Summary" aria-label="Copy Calculation Summary">
+            <span data-icon="copy"></span> Copy Summary
+          </button>
+        </div>
+        <div class="result-primary" id="result-primary-text">Future Value: $0.00</div>
+        
+        <div class="result-grid">
+          <div class="result-stat-card">
+            <div class="result-stat-label">Ending Future Value</div>
+            <div class="result-stat-value" id="stat-final-balance" style="color: var(--accent-primary);">$0.00</div>
+          </div>
+          <div class="result-stat-card">
+            <div class="result-stat-label">Total Principal Invested</div>
+            <div class="result-stat-value" id="stat-total-principal">$0.00</div>
+          </div>
+          <div class="result-stat-card">
+            <div class="result-stat-label">Total Compound Interest</div>
+            <div class="result-stat-value" id="stat-total-interest" style="color: var(--color-success, #059669);">$0.00</div>
+          </div>
+          <div class="result-stat-card">
+            <div class="result-stat-label">Effective APY</div>
+            <div class="result-stat-value" id="stat-effective-apy">0.00% APY</div>
+          </div>
+        </div>
+
+        <!-- Inline SVG Growth Chart Card -->
+        <div class="chart-card">
+          <div class="chart-header">
+            <h3 class="chart-title">Balance Growth Over Time</h3>
+            <div class="chart-legend">
+              <span class="legend-item"><span class="legend-dot principal"></span> Total Principal</span>
+              <span class="legend-item"><span class="legend-dot balance"></span> Total Balance</span>
+            </div>
+          </div>
+          <div class="chart-container-inner" id="growth-chart-container">
+            <!-- Lightweight SVG rendered by script.js -->
+          </div>
+        </div>
+
+        <!-- Yearly Breakdown Table -->
+        <div class="chart-card" style="margin-top: 1.5rem;">
+          <h3 class="chart-title">Annual Balance &amp; Interest Schedule</h3>
+          <div class="compound-scroll-table">
+            <table class="compound-table" aria-label="Year-by-year compound interest growth table">
+              <thead>
+                <tr>
+                  <th>Year</th>
+                  <th>Annual Deposits</th>
+                  <th>Total Principal</th>
+                  <th>Interest Earned</th>
+                  <th>Ending Balance</th>
+                </tr>
+              </thead>
+              <tbody id="compound-table-body">
+                <!-- Rows injected by script.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Quick Answer Box -->
+    <div class="info-callout" style="margin-top: 2rem; margin-bottom: 2rem;">
+      <h3 style="font-size: 1.05rem; margin-bottom: 0.35rem; color: var(--accent-primary);">Quick Answer</h3>
+      <p style="margin-bottom: 0;">Compound interest causes balances to accelerate over time by earning interest on accumulated interest. Without contributions, future value is computed as: <code>A = P × (1 + r/n)^(n×t)</code>. For instance, $10,000 deposited at 7% interest for 10 years compounded annually grows to <strong>$19,671.51</strong>, almost doubling your initial principal through $9,671.51 in pure compound earnings.</p>
+    </div>
+
+    <!-- Reusable Financial Disclaimer -->
+    {% include "partials/financial-disclaimer.njk" %}
+
+    <!-- When to Use Section -->
+    <section style="margin: 2.5rem 0;" aria-labelledby="how-to-use-heading">
+      <h2 id="how-to-use-heading">How &amp; When to Use the Compound Interest Calculator</h2>
+      <ul style="color: var(--text-muted); line-height: 1.8; margin-left: 1.25rem;">
+        <li><strong>High-Yield Savings &amp; CDs:</strong> Compare daily vs monthly compounding rates offered by online banks to find the highest true APY.</li>
+        <li><strong>Long-Term Retirement Compounding:</strong> Calculate how monthly contributions into index funds compound over 20, 30, or 40-year careers.</li>
+        <li><strong>Children's College Funds &amp; 529 Plans:</strong> Estimate the compound future value of an initial gift supplemented by regular monthly deposits.</li>
+        <li><strong>Rule of 72 Validation:</strong> Cross-examine how long your money takes to double at various interest rates and compounding frequencies.</li>
+      </ul>
+    </section>
+
+    <!-- Worked Examples Section -->
+    <section style="margin: 2.5rem 0;" aria-labelledby="article-heading">
+      <h2 id="article-heading">Worked Compound Interest Examples &amp; Formula</h2>
+      <p style="color: var(--text-muted); line-height: 1.6;">Below are 3 realistic worked examples illustrating lump-sum, regular deposit, and daily compounding scenarios.</p>
+      
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 1.25rem;">
+        <div style="background: var(--surface-muted); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem;">
+          <h3 style="font-size: 1.1rem; margin-top: 0; color: var(--accent-primary);">Example 1: Lump Sum Annual Compounding</h3>
+          <p style="font-size: var(--font-size-sm); color: var(--text-muted); margin-bottom: 0.5rem;"><strong>Principal:</strong> $10,000 | <strong>Rate:</strong> 7.0% | <strong>Tenure:</strong> 10 Years | <strong>Frequency:</strong> Annual</p>
+          <ul style="font-size: var(--font-size-sm); color: var(--text-muted); line-height: 1.6; margin-left: 1.25rem;">
+            <li>Formula: $10,000 × (1 + 0.07)^10</li>
+            <li>Ending Balance: <strong>$19,671.51</strong></li>
+            <li>Compound Interest: <strong>$9,671.51</strong></li>
+            <li>Effective APY: 7.00%</li>
+          </ul>
+        </div>
+
+        <div style="background: var(--surface-muted); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem;">
+          <h3 style="font-size: 1.1rem; margin-top: 0; color: var(--accent-primary);">Example 2: Monthly Deposits</h3>
+          <p style="font-size: var(--font-size-sm); color: var(--text-muted); margin-bottom: 0.5rem;"><strong>Principal:</strong> $5,000 | <strong>Rate:</strong> 8.0% | <strong>Tenure:</strong> 5 Years | <strong>Deposit:</strong> $200/mo</p>
+          <ul style="font-size: var(--font-size-sm); color: var(--text-muted); line-height: 1.6; margin-left: 1.25rem;">
+            <li>Total Principal Invested: $17,000.00 ($5,000 + $12,000 deposits)</li>
+            <li>Ending Future Value: <strong>$22,242.57</strong></li>
+            <li>Compound Interest Earned: <strong>$5,242.57</strong></li>
+            <li>Effective APY: 8.30%</li>
+          </ul>
+        </div>
+
+        <div style="background: var(--surface-muted); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem;">
+          <h3 style="font-size: 1.1rem; margin-top: 0; color: var(--accent-primary);">Example 3: Daily High-Yield Savings</h3>
+          <p style="font-size: var(--font-size-sm); color: var(--text-muted); margin-bottom: 0.5rem;"><strong>Principal:</strong> $20,000 | <strong>Rate:</strong> 5.0% | <strong>Tenure:</strong> 3 Years | <strong>Frequency:</strong> Daily (365/yr)</p>
+          <ul style="font-size: var(--font-size-sm); color: var(--text-muted); line-height: 1.6; margin-left: 1.25rem;">
+            <li>Daily Compounding Formula: $20,000 × (1 + 0.05/365)^(365 × 3)</li>
+            <li>Ending Balance: <strong>$23,236.45</strong></li>
+            <li>Interest Earned: <strong>$3,236.45</strong></li>
+            <li>Effective APY: 5.13%</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Common Mistakes Section -->
+    <section style="margin: 2.5rem 0;" aria-labelledby="mistakes-heading">
+      <h2 id="mistakes-heading">Common Compounding Pitfalls</h2>
+      <ul style="color: var(--text-muted); line-height: 1.8; margin-left: 1.25rem;">
+        <li><strong>Comparing APR to APY Directly:</strong> A bank advertising 5.00% APR with daily compounding actually pays 5.13% APY. Always compare APY against APY for true apples-to-apples evaluation.</li>
+        <li><strong>Delaying Contributions:</strong> Thanks to geometric exponential growth, depositing early in your twenties compounds far more wealth than depositing twice as much later in your forties.</li>
+        <li><strong>Ignoring Inflation &amp; Taxes:</strong> High nominal interest rates must be adjusted for inflation and annual tax obligations on interest income to gauge real purchasing power growth.</li>
+      </ul>
+    </section>

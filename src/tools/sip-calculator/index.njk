@@ -1,0 +1,202 @@
+---
+layout: layouts/tool.njk
+toolSlug: sip-calculator
+title: "SIP Calculator - Mutual Fund Returns & Step-Up Wealth Growth"
+description: "Calculate mutual fund SIP returns, total invested capital, estimated wealth gain, and annual step-up maturity values. Free online SIP calculator."
+permalink: /tools/sip-calculator/
+h1: "SIP Calculator"
+extraCss: "/tools/sip-calculator/style.css"
+howto:
+  name: "How to Calculate SIP Mutual Fund Returns"
+  description: "Step-by-step instructions for modeling monthly investments, annual compounding returns, and annual step-up contributions."
+  steps:
+    - name: "Enter Monthly Investment Amount"
+      text: "Input the fixed dollar amount you intend to invest every month into your mutual fund or ETF portfolio."
+    - name: "Specify Expected Annual Return Rate"
+      text: "Enter your estimated long-term annualized rate of return (e.g. 10% to 14% for diversified equities)."
+    - name: "Set Investment Time Horizon"
+      text: "Specify the number of years you plan to remain continuously invested."
+    - name: "Add Optional Annual Step-Up Percentage"
+      text: "Optionally model annual salary increases by stepping up your monthly contributions by 5% or 10% each year."
+    - name: "Analyze Wealth Accumulation"
+      text: "Review total principal invested, estimated compound wealth gains, final portfolio value, and the annual growth breakdown."
+faqs:
+  - q: "What is a Systematic Investment Plan (SIP)?"
+    a: "A Systematic Investment Plan (SIP) is an investment vehicle that allows individuals to contribute a fixed dollar amount into a mutual fund, ETF, or index portfolio at regular monthly intervals, taking advantage of rupee/dollar cost averaging and compounding returns."
+  - q: "Are the returns projected by this SIP calculator guaranteed?"
+    a: "No. The returns displayed are mathematical projections based strictly on your assumed annual return rate. Mutual funds and stock market securities carry market risk and returns fluctuate continuously."
+  - q: "What is an annual Step-Up SIP?"
+    a: "A Step-Up (or Top-Up) SIP automatically increases your monthly installment amount by a fixed percentage (e.g., 10%) once every 12 months. This mirrors annual career salary raises and substantially accelerates long-term wealth compounding."
+  - q: "What is the formula for calculating SIP returns?"
+    a: "The standard monthly compounding formula is: M = P × [((1 + i)^n - 1) / i] × (1 + i), where P is the periodic monthly investment, i is the periodic monthly interest rate (annual rate ÷ 1200), and n is the total number of monthly contributions."
+  - q: "Is my investment plan or financial data uploaded to any server?"
+    a: "No. All SIP calculations execute 100% locally in your web browser. No portfolio amounts or private financial plans are ever uploaded or tracked."
+sources:
+  - label: "Financial Industry Regulatory Authority (FINRA) - Dollar-Cost Averaging"
+    url: "https://www.finra.org/"
+  - label: "U.S. Securities and Exchange Commission (SEC) - Compound Interest Calculator"
+    url: "https://www.investor.gov/"
+  - label: "Investment Company Institute (ICI) - Mutual Fund Research"
+    url: "https://www.ici.org/"
+---
+
+    <!-- Tool Form Container -->
+    <section class="tool-container" aria-label="SIP Calculator Form">
+      <form id="calculator-form" novalidate>
+        <div class="form-grid two-col">
+          
+          <div class="form-group">
+            <label for="monthly-investment">Monthly Investment ($) <span style="color: var(--accent-primary);">*</span></label>
+            <input type="number" step="any" min="1" id="monthly-investment" class="form-control" placeholder="e.g. 500" required aria-required="true">
+          </div>
+
+          <div class="form-group">
+            <label for="expected-return">Expected Return Rate (% p.a.) <span style="color: var(--accent-primary);">*</span></label>
+            <input type="number" step="0.1" min="0" max="100" id="expected-return" class="form-control" placeholder="e.g. 12" required aria-required="true">
+          </div>
+
+          <div class="form-group">
+            <label for="investment-years">Time Horizon (Years) <span style="color: var(--accent-primary);">*</span></label>
+            <input type="number" step="1" min="1" max="50" id="investment-years" class="form-control" placeholder="e.g. 10" required aria-required="true">
+          </div>
+
+          <div class="form-group">
+            <label for="step-up-percent">Annual Step-Up (%) <span style="font-weight: normal; color: var(--text-muted);">(Optional Top-Up)</span></label>
+            <input type="number" step="1" min="0" max="100" id="step-up-percent" class="form-control" placeholder="e.g. 10">
+          </div>
+
+        </div>
+
+        <div class="button-group" style="margin-top: 1.25rem;">
+          <button type="submit" class="btn btn-primary">Calculate SIP Returns</button>
+          <button type="button" class="btn btn-secondary" id="reset-btn">Reset</button>
+        </div>
+      </form>
+
+      <div id="error-box" class="hidden" style="margin-top: 1rem; color: var(--color-error, #dc2626); background: rgba(220, 38, 38, 0.08); border: 1px solid rgba(220, 38, 38, 0.25); padding: 0.75rem 1rem; border-radius: var(--radius-sm);" role="alert"></div>
+
+      <!-- Result Box -->
+      <div id="result-box" class="result-box is-visible" aria-live="polite">
+        <div class="result-header">
+          <span id="result-header-text">SIP Growth Projection</span>
+          <button type="button" class="btn btn-sm btn-ghost" id="copy-result-btn" title="Copy Calculation Summary" aria-label="Copy Calculation Summary">
+            <span data-icon="copy"></span> Copy Summary
+          </button>
+        </div>
+        <div class="result-primary" id="result-primary-text">Maturity Value: $0.00</div>
+        
+        <div class="result-grid">
+          <div class="result-stat-card">
+            <div class="result-stat-label">Projected Maturity Value</div>
+            <div class="result-stat-value" id="stat-maturity-value" style="color: var(--accent-primary);">$0.00</div>
+          </div>
+          <div class="result-stat-card">
+            <div class="result-stat-label">Total Amount Invested</div>
+            <div class="result-stat-value" id="stat-total-invested">$0.00</div>
+          </div>
+          <div class="result-stat-card">
+            <div class="result-stat-label">Estimated Wealth Gain</div>
+            <div class="result-stat-value" id="stat-estimated-returns" style="color: var(--color-success, #059669);">$0.00</div>
+          </div>
+          <div class="result-stat-card">
+            <div class="result-stat-label">Capital Multiplier</div>
+            <div class="result-stat-value" id="stat-wealth-multiplier">1.00x</div>
+          </div>
+        </div>
+
+        <div class="assumption-alert">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+          <span>Note: Projected returns are estimates based on assumed rates and do not guarantee future returns. Actual performance depends on market volatility.</span>
+        </div>
+
+        <!-- Yearly Milestone Table -->
+        <div class="sip-breakdown-card">
+          <h3 class="sip-breakdown-title">Year-by-Year Wealth Progression</h3>
+          <div class="sip-scroll-table">
+            <table class="sip-table" aria-label="Year-by-year SIP growth table">
+              <thead>
+                <tr>
+                  <th>Year</th>
+                  <th>Monthly Installment</th>
+                  <th>Annual Deposit</th>
+                  <th>Total Invested</th>
+                  <th>Future Value</th>
+                </tr>
+              </thead>
+              <tbody id="sip-table-body">
+                <!-- Rows injected by script.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Quick Answer Box -->
+    <div class="info-callout" style="margin-top: 2rem; margin-bottom: 2rem;">
+      <h3 style="font-size: 1.05rem; margin-bottom: 0.35rem; color: var(--accent-primary);">Quick Answer</h3>
+      <p style="margin-bottom: 0;">A Systematic Investment Plan compounds monthly contributions via the annuity formula: <code>M = P × [((1 + i)^n - 1) / i] × (1 + i)</code>. For instance, investing $500 monthly at an assumed 12% annual return for 10 years turns $60,000 of personal deposits into approximately $116,169.54, generating $56,169.54 in compound growth.</p>
+    </div>
+
+    <!-- Reusable Financial Disclaimer -->
+    {% include "partials/financial-disclaimer.njk" %}
+
+    <!-- When to Use Section -->
+    <section style="margin: 2.5rem 0;" aria-labelledby="how-to-use-heading">
+      <h2 id="how-to-use-heading">How &amp; When to Use the SIP Calculator</h2>
+      <ul style="color: var(--text-muted); line-height: 1.8; margin-left: 1.25rem;">
+        <li><strong>Retirement Horizon Planning:</strong> Determine how disciplined monthly deposits into an index fund or IRA accumulate over 10, 20, or 30 years.</li>
+        <li><strong>Salary Step-Up Compounding:</strong> Discover how increasing your monthly investment by just 5% or 10% alongside annual job raises multiplies your ending net worth.</li>
+        <li><strong>Major Milestones &amp; College Funds:</strong> Calculate the monthly savings target needed to reach a specific financial goal like a home down payment or tuition fund.</li>
+        <li><strong>Lump Sum vs SIP Comparisons:</strong> Compare the risk-mitigating benefits of dollar-cost averaging every month versus investing a single lump sum.</li>
+      </ul>
+    </section>
+
+    <!-- Worked Examples Section -->
+    <section style="margin: 2.5rem 0;" aria-labelledby="article-heading">
+      <h2 id="article-heading">Worked SIP Examples &amp; Formula</h2>
+      <p style="color: var(--text-muted); line-height: 1.6;">Explore 3 realistic worked examples showing flat and step-up SIP wealth accumulation.</p>
+      
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 1.25rem;">
+        <div style="background: var(--surface-muted); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem;">
+          <h3 style="font-size: 1.1rem; margin-top: 0; color: var(--accent-primary);">Example 1: 10-Year Long-Term Equity SIP</h3>
+          <p style="font-size: var(--font-size-sm); color: var(--text-muted); margin-bottom: 0.5rem;"><strong>Investment:</strong> $500/mo | <strong>Return:</strong> 12.0% | <strong>Tenure:</strong> 10 Years (120 Mos)</p>
+          <ul style="font-size: var(--font-size-sm); color: var(--text-muted); line-height: 1.6; margin-left: 1.25rem;">
+            <li>Total Invested: <strong>$60,000.00</strong></li>
+            <li>Estimated Returns: <strong>$56,169.54</strong></li>
+            <li>Maturity Value: <strong>$116,169.54</strong> (1.94x initial capital)</li>
+          </ul>
+        </div>
+
+        <div style="background: var(--surface-muted); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem;">
+          <h3 style="font-size: 1.1rem; margin-top: 0; color: var(--accent-primary);">Example 2: 5-Year Moderate Portfolio</h3>
+          <p style="font-size: var(--font-size-sm); color: var(--text-muted); margin-bottom: 0.5rem;"><strong>Investment:</strong> $200/mo | <strong>Return:</strong> 8.0% | <strong>Tenure:</strong> 5 Years (60 Mos)</p>
+          <ul style="font-size: var(--font-size-sm); color: var(--text-muted); line-height: 1.6; margin-left: 1.25rem;">
+            <li>Total Invested: <strong>$12,000.00</strong></li>
+            <li>Estimated Returns: <strong>$2,793.34</strong></li>
+            <li>Maturity Value: <strong>$14,793.34</strong> (1.23x initial capital)</li>
+          </ul>
+        </div>
+
+        <div style="background: var(--surface-muted); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem;">
+          <h3 style="font-size: 1.1rem; margin-top: 0; color: var(--accent-primary);">Example 3: 15-Year 10% Step-Up SIP</h3>
+          <p style="font-size: var(--font-size-sm); color: var(--text-muted); margin-bottom: 0.5rem;"><strong>Initial:</strong> $1,000/mo | <strong>Return:</strong> 12.0% | <strong>Tenure:</strong> 15 Years + <strong>10% Annual Step-Up</strong></p>
+          <ul style="font-size: var(--font-size-sm); color: var(--text-muted); line-height: 1.6; margin-left: 1.25rem;">
+            <li>Total Invested: <strong>$381,269.88</strong></li>
+            <li>Estimated Returns: <strong>$487,115.24</strong></li>
+            <li>Maturity Value: <strong>$868,385.12</strong> (2.28x initial capital)</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Common Mistakes Section -->
+    <section style="margin: 2.5rem 0;" aria-labelledby="mistakes-heading">
+      <h2 id="mistakes-heading">Common SIP Investing Pitfalls</h2>
+      <ul style="color: var(--text-muted); line-height: 1.8; margin-left: 1.25rem;">
+        <li><strong>Stopping During Market Corrections:</strong> Market pullbacks allow your fixed monthly installment to purchase mutual fund units at lower NAVs, which powers subsequent recovery gains.</li>
+        <li><strong>Ignoring Expense Ratios:</strong> High fund management fees compound negatively over decades. Opt for low-cost broad index funds to keep more of your returns.</li>
+        <li><strong>Treating Projections as Guarantees:</strong> Equity markets do not deliver constant geometric returns every year; annual performance fluctuates above and below historical averages.</li>
+      </ul>
+    </section>

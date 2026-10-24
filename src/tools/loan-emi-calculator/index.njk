@@ -1,0 +1,258 @@
+---
+layout: layouts/tool.njk
+toolSlug: loan-emi-calculator
+title: "Loan EMI Calculator - Monthly Payment & Payoff"
+description: "Calculate monthly loan EMI, total interest, full amortization schedule, and payoff savings with extra monthly payments. Free online loan calculator."
+permalink: /tools/loan-emi-calculator/
+h1: "Loan EMI Calculator"
+extraCss: "/tools/loan-emi-calculator/style.css"
+howto:
+  name: "How to Calculate Loan EMI and Amortization"
+  description: "Step-by-step instructions for calculating monthly loan payments, interest charges, and accelerated payoff schedules."
+  steps:
+    - name: "Select Currency & Loan Amount"
+      text: "Choose your currency symbol and enter the total principal borrowed."
+    - name: "Enter Annual Interest Rate"
+      text: "Input the annual interest rate (APR) charged by your lender."
+    - name: "Specify Loan Tenure"
+      text: "Enter your repayment duration and toggle between years or months."
+    - name: "Add Optional Extra Payment"
+      text: "Optionally enter an additional monthly principal payment to see how many months and interest dollars you save."
+    - name: "Review Monthly EMI & Download Schedule"
+      text: "View your monthly payment, total interest, interactive amortization schedule, and export the table to CSV."
+faqs:
+  - q: "What is an EMI (Equated Monthly Installment)?"
+    a: "An Equated Monthly Installment (EMI) is a fixed monthly payment made by a borrower to a lender on a specified calendar date. Each installment covers both interest accrued for the month and a portion of the principal balance."
+  - q: "What is the standard formula for calculating loan EMI?"
+    a: "The standard EMI formula is: EMI = P × r × (1 + r)^n / ((1 + r)^n - 1), where P is the loan principal, r is the periodic monthly interest rate (annual rate divided by 1200), and n is the total number of monthly payments."
+  - q: "How does paying extra each month shorten loan duration?"
+    a: "Any payment above the required EMI is credited entirely against the loan's outstanding principal balance. With a smaller principal, future monthly interest charges decrease, accelerating repayment and saving substantial interest charges."
+  - q: "Does this loan calculator support multiple international currencies?"
+    a: "Yes. You can switch between PKR, INR, USD, EUR, GBP, AED, and SAR without changing the mathematical annuity formula."
+  - q: "Can I export my full amortization schedule?"
+    a: "Yes. Click the 'Download Schedule (CSV)' button to export your complete month-by-month payment, interest, principal, and balance schedule as a CSV spreadsheet."
+  - q: "Is my personal loan data uploaded to any server?"
+    a: "No. All loan computations execute 100% locally in your web browser. No financial numbers or loan amounts are transmitted or saved."
+sources:
+  - label: "Consumer Financial Protection Bureau (CFPB) - Loan Basics"
+    url: "https://www.consumerfinance.gov/"
+  - label: "Federal Reserve Board - Consumer Guide to Mortgages"
+    url: "https://www.federalreserve.gov/"
+  - label: "Bank for International Settlements - Credit Standards"
+    url: "https://www.bis.org/"
+---
+
+    <!-- Tool Form Container -->
+    <section class="tool-container" aria-label="Loan EMI Calculator Form">
+      <form id="calculator-form" novalidate>
+        <div class="form-grid two-col">
+          
+          <div class="form-group">
+            <label for="currency-select">Currency</label>
+            <select id="currency-select" class="form-control">
+              <option value="USD" selected>USD ($) - US Dollar</option>
+              <option value="PKR">PKR (₨) - Pakistani Rupee</option>
+              <option value="INR">INR (₹) - Indian Rupee</option>
+              <option value="EUR">EUR (€) - Euro</option>
+              <option value="GBP">GBP (£) - British Pound</option>
+              <option value="AED">AED - UAE Dirham</option>
+              <option value="SAR">SAR - Saudi Riyal</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="loan-amount">Loan Amount <span style="color: var(--accent-primary);">*</span></label>
+            <input type="number" step="any" min="1" id="loan-amount" class="form-control" placeholder="e.g. 250000" required aria-required="true">
+          </div>
+
+          <div class="form-group">
+            <label for="interest-rate">Annual Interest Rate (%) <span style="color: var(--accent-primary);">*</span></label>
+            <input type="number" step="0.01" min="0" max="100" id="interest-rate" class="form-control" placeholder="e.g. 6.5" required aria-required="true">
+          </div>
+
+          <div class="form-group">
+            <label for="tenure-value">Loan Tenure <span style="color: var(--accent-primary);">*</span></label>
+            <div class="loan-input-row">
+              <input type="number" step="1" min="1" max="600" id="tenure-value" class="form-control" placeholder="e.g. 30" required aria-required="true">
+              <select id="tenure-unit" class="form-control" aria-label="Tenure unit">
+                <option value="years" selected>Years</option>
+                <option value="months">Months</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group" style="grid-column: 1 / -1;">
+            <label for="extra-payment">Optional Extra Monthly Payment <span style="font-weight: normal; color: var(--text-muted);">(Accelerates Payoff)</span></label>
+            <input type="number" step="any" min="0" id="extra-payment" class="form-control" placeholder="e.g. 100">
+          </div>
+
+        </div>
+
+        <div class="button-group" style="margin-top: 1.25rem;">
+          <button type="submit" class="btn btn-primary">Calculate EMI</button>
+          <button type="button" class="btn btn-secondary" id="reset-btn">Reset</button>
+        </div>
+      </form>
+
+      <div id="error-box" class="hidden" style="margin-top: 1rem; color: var(--color-error, #dc2626); background: rgba(220, 38, 38, 0.08); border: 1px solid rgba(220, 38, 38, 0.25); padding: 0.75rem 1rem; border-radius: var(--radius-sm);" role="alert"></div>
+
+      <!-- Result Box -->
+      <div id="result-box" class="result-box is-visible" aria-live="polite">
+        <div class="result-header">
+          <span id="result-header-text">Loan Repayment Summary</span>
+          <button type="button" class="btn btn-sm btn-ghost" id="copy-result-btn" title="Copy Calculation Summary" aria-label="Copy Calculation Summary">
+            <span data-icon="copy"></span> Copy Summary
+          </button>
+        </div>
+        <div class="result-primary" id="result-primary-text">Monthly EMI: $0.00</div>
+        
+        <div class="result-grid">
+          <div class="result-stat-card">
+            <div class="result-stat-label">Monthly EMI Payment</div>
+            <div class="result-stat-value" id="stat-monthly-emi">$0.00</div>
+          </div>
+          <div class="result-stat-card">
+            <div class="result-stat-label">Total Interest Charged</div>
+            <div class="result-stat-value" id="stat-total-interest">$0.00</div>
+          </div>
+          <div class="result-stat-card">
+            <div class="result-stat-label">Total Repayment Amount</div>
+            <div class="result-stat-value" id="stat-total-payment">$0.00</div>
+          </div>
+          <div class="result-stat-card">
+            <div class="result-stat-label">Repayment Tenure</div>
+            <div class="result-stat-value" id="stat-tenure">0 Months</div>
+          </div>
+        </div>
+
+        <!-- Extra Monthly Payment Accelerated Card -->
+        <div id="extra-savings-card" class="hidden" style="margin-top: 1.5rem; background: var(--surface-muted); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem;">
+          <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem;">
+            <h3 style="margin: 0; font-size: 1.05rem; color: var(--accent-primary);">Extra Payment Payoff Accelerator</h3>
+            <span class="extra-savings-badge">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              Faster Payoff
+            </span>
+          </div>
+          <div class="result-grid" style="margin-top: 1rem;">
+            <div class="result-stat-card">
+              <div class="result-stat-label">Total Interest Saved</div>
+              <div class="result-stat-value" id="stat-extra-saved" style="color: var(--color-success, #059669);">$0.00</div>
+            </div>
+            <div class="result-stat-card">
+              <div class="result-stat-label">Repayment Time Saved</div>
+              <div class="result-stat-value" id="stat-months-saved">0 Months</div>
+            </div>
+            <div class="result-stat-card" style="grid-column: 1 / -1;">
+              <div class="result-stat-label">New Payoff Horizon</div>
+              <div class="result-stat-value" id="stat-new-tenure" style="font-size: 1.1rem;">0 Months</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Full Amortization Table -->
+        <div class="amortization-container">
+          <div class="amortization-header">
+            <div>
+              <h3 class="amortization-title">Full Loan Amortization Schedule</h3>
+              <p style="margin: 0.25rem 0 0 0; font-size: var(--font-size-xs); color: var(--text-muted);">Month-by-month principal reduction and interest charges.</p>
+            </div>
+            <div class="amortization-actions">
+              <button type="button" class="btn btn-sm btn-secondary" id="download-csv-btn">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                Download Schedule (CSV)
+              </button>
+            </div>
+          </div>
+          <div class="amortization-scroll">
+            <table class="amortization-table" aria-label="Amortization Schedule Table">
+              <thead>
+                <tr>
+                  <th>Month</th>
+                  <th>Payment <span class="table-currency-symbol">($)</span></th>
+                  <th>Principal <span class="table-currency-symbol">($)</span></th>
+                  <th>Interest <span class="table-currency-symbol">($)</span></th>
+                  <th>Total Interest <span class="table-currency-symbol">($)</span></th>
+                  <th>Balance <span class="table-currency-symbol">($)</span></th>
+                </tr>
+              </thead>
+              <tbody id="amortization-table-body">
+                <!-- Rows populated by script.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Quick Answer Box -->
+    <div class="info-callout" style="margin-top: 2rem; margin-bottom: 2rem;">
+      <h3 style="font-size: 1.05rem; margin-bottom: 0.35rem; color: var(--accent-primary);">Quick Answer</h3>
+      <p style="margin-bottom: 0;">Loan EMI (Equated Monthly Installment) is computed using the annuity formula: <code>EMI = P × r × (1 + r)^n / ((1 + r)^n - 1)</code>, where <strong>P</strong> is the principal loan amount, <strong>r</strong> is the monthly interest rate (annual interest rate ÷ 1200), and <strong>n</strong> is the loan tenure in total months.</p>
+    </div>
+
+    <!-- Reusable Financial Disclaimer -->
+    {% include "partials/financial-disclaimer.njk" %}
+
+    <!-- When to Use Section -->
+    <section style="margin: 2.5rem 0;" aria-labelledby="how-to-use-heading">
+      <h2 id="how-to-use-heading">How &amp; When to Use the Loan EMI Calculator</h2>
+      <ul style="color: var(--text-muted); line-height: 1.8; margin-left: 1.25rem;">
+        <li><strong>Home Mortgages &amp; Real Estate:</strong> Compare 15-year versus 30-year fixed loans to evaluate monthly cash flow versus lifetime interest expenses.</li>
+        <li><strong>Vehicle &amp; Auto Financing:</strong> Estimate car loan payments across different dealer rates and down payment scenarios before visiting showrooms.</li>
+        <li><strong>Personal Loans &amp; Debt Consolidation:</strong> Determine the exact monthly installment required to consolidate higher-interest credit card balances.</li>
+        <li><strong>Early Payoff Acceleration:</strong> Model extra principal contributions (such as $50, $100, or $200 per month) to discover how many years of debt you eliminate.</li>
+      </ul>
+    </section>
+
+    <!-- Worked Examples Section -->
+    <section style="margin: 2.5rem 0;" aria-labelledby="article-heading">
+      <h2 id="article-heading">Worked Loan EMI Examples &amp; Formula</h2>
+      <p style="color: var(--text-muted); line-height: 1.6;">Below are 3 realistic loan examples verified with banking-standard half-up rounding.</p>
+      
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 1.25rem;">
+        <div style="background: var(--surface-muted); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem;">
+          <h3 style="font-size: 1.1rem; margin-top: 0; color: var(--accent-primary);">Example 1: 30-Year Home Mortgage</h3>
+          <p style="font-size: var(--font-size-sm); color: var(--text-muted); margin-bottom: 0.5rem;"><strong>Principal:</strong> $250,000 | <strong>Rate:</strong> 6.5% | <strong>Tenure:</strong> 30 Years (360 Months)</p>
+          <ul style="font-size: var(--font-size-sm); color: var(--text-muted); line-height: 1.6; margin-left: 1.25rem;">
+            <li>Monthly rate: 6.5 / 1200 ≈ 0.005417</li>
+            <li>Monthly EMI: <strong>$1,580.17</strong></li>
+            <li>Total Interest: <strong>$318,861.58</strong></li>
+            <li>Total Repayment: $568,861.58</li>
+          </ul>
+        </div>
+
+        <div style="background: var(--surface-muted); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem;">
+          <h3 style="font-size: 1.1rem; margin-top: 0; color: var(--accent-primary);">Example 2: 5-Year Auto Loan</h3>
+          <p style="font-size: var(--font-size-sm); color: var(--text-muted); margin-bottom: 0.5rem;"><strong>Principal:</strong> $25,000 | <strong>Rate:</strong> 4.5% | <strong>Tenure:</strong> 5 Years (60 Months)</p>
+          <ul style="font-size: var(--font-size-sm); color: var(--text-muted); line-height: 1.6; margin-left: 1.25rem;">
+            <li>Monthly rate: 4.5 / 1200 = 0.00375</li>
+            <li>Monthly EMI: <strong>$466.08</strong></li>
+            <li>Total Interest: <strong>$2,964.46</strong></li>
+            <li>Total Repayment: $27,964.46</li>
+          </ul>
+        </div>
+
+        <div style="background: var(--surface-muted); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem;">
+          <h3 style="font-size: 1.1rem; margin-top: 0; color: var(--accent-primary);">Example 3: Extra Monthly Payments</h3>
+          <p style="font-size: var(--font-size-sm); color: var(--text-muted); margin-bottom: 0.5rem;"><strong>Principal:</strong> $10,000 | <strong>Rate:</strong> 10.0% | <strong>Tenure:</strong> 3 Years (36 Months) + <strong>$100 Extra/mo</strong></p>
+          <ul style="font-size: var(--font-size-sm); color: var(--text-muted); line-height: 1.6; margin-left: 1.25rem;">
+            <li>Base Monthly EMI: $322.67</li>
+            <li>New Monthly Payment: $422.67</li>
+            <li>Payoff Horizon: <strong>27 Months</strong> (9 months saved!)</li>
+            <li>Interest Saved: <strong>$431.24</strong> (Total interest reduced from $1,616.20 to $1,184.96)</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Common Mistakes Section -->
+    <section style="margin: 2.5rem 0;" aria-labelledby="mistakes-heading">
+      <h2 id="mistakes-heading">Common Loan &amp; Mortgage Calculation Pitfalls</h2>
+      <ul style="color: var(--text-muted); line-height: 1.8; margin-left: 1.25rem;">
+        <li><strong>Focusing Only on Monthly Payment:</strong> Extending loan tenure lowers your monthly payment but drastically balloons total lifetime interest charges. Always evaluate total loan cost alongside monthly cash flow.</li>
+        <li><strong>Confusing APR with Base Interest Rate:</strong> An annual percentage rate (APR) includes lender fees, points, and closing costs, whereas the nominal note rate dictates your exact monthly amortization calculation.</li>
+        <li><strong>Assuming Equal Principal Reduction:</strong> During the early years of a loan, the vast majority of each payment goes toward interest. Principal reduction accelerates only in the latter half of the amortization schedule.</li>
+      </ul>
+    </section>

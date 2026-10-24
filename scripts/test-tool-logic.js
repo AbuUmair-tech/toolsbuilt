@@ -291,7 +291,6 @@ const pickerLogic = require(path.join(ROOT, 'src/tools/random-name-picker/logic.
   assert(multi.winners[0] !== multi.winners[1], 'PickerLogic: winners are unique without replacement');
   assert(multi.remaining.length === 2, 'PickerLogic: 2 remaining candidates');
 }
-
 // 11. Percentage Calculator Logic (4 Modes)
 const pctDirectLogic = require(path.join(ROOT, 'src/tools/percentage-calculator/logic.js'));
 {
@@ -543,6 +542,116 @@ const unitLogic = require(path.join(ROOT, 'src/tools/unit-converter/logic.js'));
   assert(table.length === Object.keys(defs.length.units).length, 'UnitLogic: conversion table includes all units');
 }
 
+// 11. Loan EMI Calculator Logic
+const loanLogic = require(path.join(ROOT, 'src/tools/loan-emi-calculator/logic.js'));
+{
+  console.log('\n--- Testing Loan EMI Calculator Logic (3 Worked Examples & Amortization) ---');
+
+  // Example 1: 30-Year Home Mortgage ($250,000 at 6.5% for 30 years / 360 months)
+  const ex1 = loanLogic.calculateLoanEmi(250000, 6.5, 30, 'years');
+  assert(ex1.monthlyEmi === 1580.17, `LoanLogic Ex 1: monthly EMI = 1580.17 (got ${ex1.monthlyEmi})`);
+  assert(ex1.totalPayment === 568861.58, `LoanLogic Ex 1: total payment = 568861.58 (got ${ex1.totalPayment})`);
+  assert(ex1.totalInterest === 318861.58, `LoanLogic Ex 1: total interest = 318861.58 (got ${ex1.totalInterest})`);
+  assert(ex1.schedule.length === 360, `LoanLogic Ex 1: amortization schedule has 360 months (got ${ex1.schedule.length})`);
+  assert(ex1.schedule[359].balance === 0, 'LoanLogic Ex 1: final amortization month leaves 0 balance');
+
+  // Example 2: 5-Year Auto Loan ($25,000 at 4.5% for 5 years / 60 months)
+  const ex2 = loanLogic.calculateLoanEmi(25000, 4.5, 60, 'months');
+  assert(ex2.monthlyEmi === 466.08, `LoanLogic Ex 2: monthly EMI = 466.08 (got ${ex2.monthlyEmi})`);
+  assert(ex2.totalPayment === 27964.46, `LoanLogic Ex 2: total payment = 27964.46 (got ${ex2.totalPayment})`);
+  assert(ex2.totalInterest === 2964.46, `LoanLogic Ex 2: total interest = 2964.46 (got ${ex2.totalInterest})`);
+  assert(ex2.schedule.length === 60, 'LoanLogic Ex 2: amortization schedule has 60 months');
+  assert(ex2.schedule[59].balance === 0, 'LoanLogic Ex 2: final amortization month leaves 0 balance');
+
+  // Example 3: Personal Loan with Extra Monthly Payments ($10,000 at 10.0% for 3 years + $100/mo extra)
+  const ex3 = loanLogic.calculateLoanEmi(10000, 10, 3, 'years', { extraMonthlyPayment: 100 });
+  assert(ex3.monthlyEmi === 322.67, `LoanLogic Ex 3: base EMI = 322.67 (got ${ex3.monthlyEmi})`);
+  assert(ex3.extra !== null, 'LoanLogic Ex 3: extra calculation present');
+  assert(ex3.extra.payoffMonths === 27, `LoanLogic Ex 3: payoff months = 27 (got ${ex3.extra.payoffMonths})`);
+  assert(ex3.extra.monthsSaved === 9, `LoanLogic Ex 3: months saved = 9 (got ${ex3.extra.monthsSaved})`);
+  assert(ex3.extra.totalInterestWithExtra === 1184.96, `LoanLogic Ex 3: interest with extra = 1184.96 (got ${ex3.extra.totalInterestWithExtra})`);
+  assert(ex3.extra.interestSaved === 431.24, `LoanLogic Ex 3: interest saved = 431.24 (got ${ex3.extra.interestSaved})`);
+
+  // Currency Formatter & Selector check
+  assert(loanLogic.formatCurrency(1580.17, 'PKR') === '₨ 1,580.17', 'LoanLogic: PKR formatting uses ₨ symbol');
+  assert(loanLogic.formatCurrency(1580.17, 'INR') === '₹ 1,580.17', 'LoanLogic: INR formatting uses ₹ symbol');
+  assert(loanLogic.formatCurrency(1580.17, 'USD') === '$ 1,580.17', 'LoanLogic: USD formatting uses $ symbol');
+  assert(loanLogic.formatCurrency(1580.17, 'EUR') === '€ 1,580.17', 'LoanLogic: EUR formatting uses € symbol');
+  assert(loanLogic.formatCurrency(1580.17, 'GBP') === '£ 1,580.17', 'LoanLogic: GBP formatting uses £ symbol');
+  assert(loanLogic.formatCurrency(1580.17, 'AED') === 'AED 1,580.17', 'LoanLogic: AED formatting uses AED symbol');
+  assert(loanLogic.formatCurrency(1580.17, 'SAR') === 'SAR 1,580.17', 'LoanLogic: SAR formatting uses SAR symbol');
+
+  // CSV Generation check
+  const csv = loanLogic.generateAmortizationCsv(ex2.schedule, '$');
+  assert(csv.startsWith('Month,Payment ($)'), 'LoanLogic: CSV starts with correct headers');
+  assert(csv.split('\r\n').length === 61, `LoanLogic: CSV has 61 lines (header + 60 months, got ${csv.split('\r\n').length})`);
+}
+
+// 12. SIP Calculator Logic
+const sipLogic = require(path.join(ROOT, 'src/tools/sip-calculator/logic.js'));
+{
+  console.log('\n--- Testing SIP Calculator Logic (3 Worked Examples & Step-Up) ---');
+
+  // Example 1: 10-Year Long-Term Equity SIP ($500/mo, 12%, 10y)
+  const sip1 = sipLogic.calculateSip(500, 12, 10);
+  assert(sip1.totalInvested === 60000, `SipLogic Ex 1: total invested = 60000 (got ${sip1.totalInvested})`);
+  assert(sip1.maturityValue === 116169.54, `SipLogic Ex 1: maturity value = 116169.54 (got ${sip1.maturityValue})`);
+  assert(sip1.estimatedReturns === 56169.54, `SipLogic Ex 1: estimated returns = 56169.54 (got ${sip1.estimatedReturns})`);
+  assert(sip1.yearlyBreakdown.length === 10, 'SipLogic Ex 1: yearly breakdown has 10 years');
+
+  // Example 2: 5-Year Moderate Portfolio ($200/mo, 8%, 5y)
+  const sip2 = sipLogic.calculateSip(200, 8, 5);
+  assert(sip2.totalInvested === 12000, `SipLogic Ex 2: total invested = 12000 (got ${sip2.totalInvested})`);
+  assert(sip2.maturityValue === 14793.34, `SipLogic Ex 2: maturity value = 14793.34 (got ${sip2.maturityValue})`);
+  assert(sip2.estimatedReturns === 2793.34, `SipLogic Ex 2: estimated returns = 2793.34 (got ${sip2.estimatedReturns})`);
+
+  // Example 3: 15-Year 10% Step-Up SIP ($1000/mo, 12%, 15y, 10% annual step-up)
+  const sip3 = sipLogic.calculateSip(1000, 12, 15, { stepUpPercent: 10 });
+  assert(sip3.totalInvested === 381269.88, `SipLogic Ex 3: total invested = 381269.88 (got ${sip3.totalInvested})`);
+  assert(sip3.maturityValue === 868385.12, `SipLogic Ex 3: maturity value = 868385.12 (got ${sip3.maturityValue})`);
+  assert(sip3.estimatedReturns === 487115.24, `SipLogic Ex 3: estimated returns = 487115.24 (got ${sip3.estimatedReturns})`);
+  assert(sip3.yearlyBreakdown.length === 15, 'SipLogic Ex 3: yearly breakdown has 15 years');
+
+  // Edge case: 0% return
+  const sipZero = sipLogic.calculateSip(100, 0, 2);
+  assert(sipZero.totalInvested === 2400, 'SipLogic: 0% return total invested = 2400');
+  assert(sipZero.maturityValue === 2400, 'SipLogic: 0% return maturity value = 2400');
+  assert(sipZero.estimatedReturns === 0, 'SipLogic: 0% return estimated returns = 0');
+}
+
+// 13. Compound Interest Calculator Logic
+const ciLogic = require(path.join(ROOT, 'src/tools/compound-interest-calculator/logic.js'));
+{
+  console.log('\n--- Testing Compound Interest Logic (3 Worked Examples & SVG Chart) ---');
+
+  // Example 1: Lump Sum 10-Year Annual Compounding ($10,000, 7%, 10y, annual)
+  const ci1 = ciLogic.calculateCompoundInterest(10000, 7, 10, 'annual');
+  assert(ci1.totalPrincipal === 10000, `CiLogic Ex 1: total principal = 10000 (got ${ci1.totalPrincipal})`);
+  assert(ci1.finalBalance === 19671.51, `CiLogic Ex 1: final balance = 19671.51 (got ${ci1.finalBalance})`);
+  assert(ci1.totalInterest === 9671.51, `CiLogic Ex 1: total interest = 9671.51 (got ${ci1.totalInterest})`);
+  assert(ci1.apyPercent === 7, `CiLogic Ex 1: APY = 7% (got ${ci1.apyPercent})`);
+
+  // Example 2: Monthly Deposits ($5,000 principal, 8% rate, 5 years, monthly, $200/mo deposit)
+  const ci2 = ciLogic.calculateCompoundInterest(5000, 8, 5, 'monthly', { contributionAmount: 200 });
+  assert(ci2.totalPrincipal === 17000, `CiLogic Ex 2: total principal = 17000 (got ${ci2.totalPrincipal})`);
+  assert(ci2.finalBalance === 22242.57, `CiLogic Ex 2: final balance = 22242.57 (got ${ci2.finalBalance})`);
+  assert(ci2.totalInterest === 5242.57, `CiLogic Ex 2: total interest = 5242.57 (got ${ci2.totalInterest})`);
+  assert(ci2.apyPercent === 8.3, `CiLogic Ex 2: APY = 8.30% (got ${ci2.apyPercent})`);
+
+  // Example 3: Daily High-Yield Savings ($20,000 principal, 5% rate, 3 years, daily, pmt=0)
+  const ci3 = ciLogic.calculateCompoundInterest(20000, 5, 3, 'daily');
+  assert(ci3.totalPrincipal === 20000, `CiLogic Ex 3: total principal = 20000 (got ${ci3.totalPrincipal})`);
+  assert(ci3.finalBalance === 23236.45, `CiLogic Ex 3: final balance = 23236.45 (got ${ci3.finalBalance})`);
+  assert(ci3.totalInterest === 3236.45, `CiLogic Ex 3: total interest = 3236.45 (got ${ci3.totalInterest})`);
+  assert(ci3.apyPercent === 5.13, `CiLogic Ex 3: APY = 5.13% (got ${ci3.apyPercent})`);
+
+  // SVG Chart Verification
+  const svg = ciLogic.generateSvgGrowthChart(ci1.yearlyData, '$');
+  assert(svg.includes('<svg') && svg.includes('role="img"'), 'CiLogic: SVG chart contains valid root SVG element and role="img"');
+  assert(svg.includes('compound-growth-svg'), 'CiLogic: SVG chart has compound-growth-svg class');
+  assert(svg.includes('<path d='), 'CiLogic: SVG chart contains path elements for area growth');
+}
+
 // Seeded Property-Based Fuzz Testing
 console.log('\n--- Seeded Property-Based Fuzz Testing (500 iterations) ---');
 {
@@ -597,6 +706,54 @@ console.log('\n--- Seeded Property-Based Fuzz Testing (500 iterations) ---');
     }
   }
   assert(true, 'Discount Fuzz: 100 random pricing configurations satisfied boundary bounds');
+
+  // Fuzz Loan EMI: total payment >= principal, remaining balance == 0
+  for (let i = 0; i < 100; i++) {
+    const P = 1000 + prngGen() * 500000;
+    const R = 0.5 + prngGen() * 20;
+    const n = 12 + Math.floor(prngGen() * 348);
+    const res = loanLogic.calculateLoanEmi(P, R, n, 'months');
+    if (res.totalPayment < P || res.monthlyEmi <= 0) {
+      assert(false, `Loan EMI Fuzz fail: P=${P}, R=${R}, n=${n}, totalPayment=${res.totalPayment}`);
+      break;
+    }
+    const finalBal = res.schedule[res.schedule.length - 1].balance;
+    if (finalBal !== 0) {
+      assert(false, `Loan EMI Fuzz fail: final balance !== 0 (${finalBal})`);
+      break;
+    }
+  }
+  assert(true, 'Loan EMI Fuzz: 100 random loan amortization setups verified non-negative and zero balance');
+
+  // Fuzz SIP: maturityValue >= totalInvested and estimatedReturns >= 0
+  for (let i = 0; i < 100; i++) {
+    const P = 50 + prngGen() * 2000;
+    const R = 1 + prngGen() * 25;
+    const y = 1 + Math.floor(prngGen() * 30);
+    const step = prngGen() > 0.5 ? Math.floor(prngGen() * 15) : 0;
+    const res = sipLogic.calculateSip(P, R, y, { stepUpPercent: step });
+    if (res.maturityValue < res.totalInvested || res.estimatedReturns < 0) {
+      assert(false, `SIP Fuzz fail: P=${P}, R=${R}, y=${y}, maturity=${res.maturityValue}, invested=${res.totalInvested}`);
+      break;
+    }
+  }
+  assert(true, 'SIP Fuzz: 100 random SIP portfolios verified monotonic wealth growth');
+
+  // Fuzz Compound Interest: finalBalance >= totalPrincipal, apyPercent >= rate
+  for (let i = 0; i < 100; i++) {
+    const P = 100 + prngGen() * 50000;
+    const R = 0.5 + prngGen() * 15;
+    const y = 1 + Math.floor(prngGen() * 25);
+    const freqs = ['daily', 'monthly', 'quarterly', 'annual'];
+    const f = freqs[Math.floor(prngGen() * freqs.length)];
+    const pmt = prngGen() > 0.5 ? 50 + prngGen() * 500 : 0;
+    const res = ciLogic.calculateCompoundInterest(P, R, y, f, { contributionAmount: pmt });
+    if (res.finalBalance < res.totalPrincipal || res.apyPercent < R - 0.05) {
+      assert(false, `Compound Interest Fuzz fail: P=${P}, R=${R}, y=${y}, f=${f}`);
+      break;
+    }
+  }
+  assert(true, 'Compound Interest Fuzz: 100 random compound scenarios satisfied bounds and APY');
 }
 
 console.log(`\nLogic Tests Summary: ${passed} passed, ${failures} failed.`);

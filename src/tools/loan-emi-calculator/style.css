@@ -1,0 +1,106 @@
+/* Loan EMI Calculator Specific Styles */
+
+.loan-input-row {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.loan-input-row input {
+  flex: 1;
+}
+
+.loan-input-row select {
+  width: auto;
+  min-width: 100px;
+}
+
+.amortization-container {
+  margin-top: var(--space-6);
+  background-color: var(--surface-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4) var(--space-5);
+}
+
+.amortization-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+
+.amortization-title {
+  margin: 0;
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+}
+
+.amortization-actions {
+  display: flex;
+  gap: var(--space-2);
+  align-items: center;
+}
+
+.amortization-scroll {
+  max-height: 420px;
+  overflow-y: auto;
+  overflow-x: auto;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+}
+
+.amortization-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--font-size-xs);
+  text-align: right;
+}
+
+.amortization-table th {
+  position: sticky;
+  top: 0;
+  background-color: var(--surface-muted);
+  color: var(--text-primary);
+  font-weight: var(--font-weight-semibold);
+  padding: var(--space-2) var(--space-3);
+  border-bottom: 1px solid var(--border-subtle);
+  white-space: nowrap;
+  z-index: 1;
+}
+
+.amortization-table th:first-child,
+.amortization-table td:first-child {
+  text-align: center;
+}
+
+.amortization-table td {
+  padding: var(--space-2) var(--space-3);
+  border-bottom: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.amortization-table tr:last-child td {
+  border-bottom: none;
+}
+
+.amortization-table tbody tr:hover {
+  background-color: var(--surface-muted);
+}
+
+.extra-savings-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: 0.25rem 0.625rem;
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  background-color: rgba(16, 185, 129, 0.12);
+  color: var(--color-success, #059669);
+  margin-top: var(--space-2);
+}
