@@ -63,7 +63,11 @@ const TOOLS = [
   'word-counter',
   'text-case-converter',
   'password-generator',
-  'random-name-picker'
+  'random-name-picker',
+  'json-formatter',
+  'base64-encoder-decoder',
+  'url-encoder-decoder',
+  'lorem-ipsum-generator'
 ];
 
 async function runAxe(page) {

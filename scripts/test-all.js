@@ -343,6 +343,33 @@ const textStats = countWordsAndChars('Hello world! This is ToolsBuilt.');
 assert(textStats.words === 5 && textStats.sentences === 2 && textStats.charNo === 28,
   'Word, sentence, and character counts are accurate');
 
+// Base64 known vector test (RFC 4648: "Man" = "TWFu")
+const base64Mod = require(path.join(ROOT, 'src/tools/base64-encoder-decoder/logic.js'));
+const manEncoded = base64Mod.encode('Man');
+assert(manEncoded.success && manEncoded.result === 'TWFu', 'Known vector: Base64 of "Man" = "TWFu"');
+assert(base64Mod.decode('TWFu').result === 'Man', 'Known vector: Base64 "TWFu" decodes to "Man"');
+assert(base64Mod.encode('café 🚀').result === 'Y2Fmw6kg8J+agA==', 'UTF-8 safe Base64 encoding handles accents and emojis');
+
+// Malformed JSON error positions test
+const jsonMod = require(path.join(ROOT, 'src/tools/json-formatter/logic.js'));
+const malformedJson = '{\n  "name": "ToolsBuilt",\n  "status": \n}';
+const jsonErr = jsonMod.validateJson(malformedJson);
+assert(jsonErr.valid === false && jsonErr.line === 4 && jsonErr.column === 1,
+  `Known vector: Malformed JSON error position line 4 column 1 (got line ${jsonErr.line}, col ${jsonErr.column})`);
+
+// URL Encoder / Decoder modes test
+const urlMod = require(path.join(ROOT, 'src/tools/url-encoder-decoder/logic.js'));
+assert(urlMod.encode('https://example.com/?q=a&b=c', 'component').result.includes('%26'),
+  'URL component mode encodes query ampersand to %26');
+assert(urlMod.encode('https://example.com/?q=a&b=c', 'full').result.includes('&'),
+  'URL full mode preserves query ampersand');
+
+// Lorem Ipsum Generator tests
+const loremMod = require(path.join(ROOT, 'src/tools/lorem-ipsum-generator/logic.js'));
+const loremGen = loremMod.generate('words', 30, { startWithLorem: true });
+assert(loremGen.stats.words === 30 && loremGen.text.startsWith('Lorem ipsum'),
+  'Lorem Ipsum generator produces exact word count and starts with Lorem ipsum');
+
 // -----------------------------------------------------------------
 // Test 8: JavaScript Syntax Compilation Check
 // -----------------------------------------------------------------

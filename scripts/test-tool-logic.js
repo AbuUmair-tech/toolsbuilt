@@ -30,7 +30,7 @@ function mulberry32(seed) {
   };
 }
 
-console.log('--- Testing 10 Pure Logic Modules ---');
+console.log('--- Testing 14 Pure Logic Modules ---');
 
 // 1. Age Calculator Logic
 const ageLogic = require(path.join(ROOT, 'src/tools/age-calculator/logic.js'));
@@ -650,6 +650,186 @@ const ciLogic = require(path.join(ROOT, 'src/tools/compound-interest-calculator/
   assert(svg.includes('<svg') && svg.includes('role="img"'), 'CiLogic: SVG chart contains valid root SVG element and role="img"');
   assert(svg.includes('compound-growth-svg'), 'CiLogic: SVG chart has compound-growth-svg class');
   assert(svg.includes('<path d='), 'CiLogic: SVG chart contains path elements for area growth');
+}
+
+// 11. JSON Formatter & Validator Logic
+const jsonLogic = require(path.join(ROOT, 'src/tools/json-formatter/logic.js'));
+{
+  // 1. Formatting with 2 spaces, 4 spaces, tab
+  const rawObj = { z: 1, a: { y: "test", b: [1, 2] } };
+  const rawStr = JSON.stringify(rawObj);
+
+  const f2 = jsonLogic.formatJson(rawStr, { indent: '2' });
+  assert(f2.success && f2.formatted.includes('  "z": 1'), 'JsonLogic: formatted with 2 spaces');
+
+  const f4 = jsonLogic.formatJson(rawStr, { indent: '4' });
+  assert(f4.success && f4.formatted.includes('    "z": 1'), 'JsonLogic: formatted with 4 spaces');
+
+  const fTab = jsonLogic.formatJson(rawStr, { indent: 'tab' });
+  assert(fTab.success && fTab.formatted.includes('\t"z": 1'), 'JsonLogic: formatted with tab');
+
+  // 2. Sort keys option (recursive)
+  const fSorted = jsonLogic.formatJson(rawStr, { sortKeys: true });
+  assert(fSorted.success, 'JsonLogic: sort keys formatted successfully');
+  const aIdx = fSorted.formatted.indexOf('"a"');
+  const zIdx = fSorted.formatted.indexOf('"z"');
+  assert(aIdx !== -1 && zIdx !== -1 && aIdx < zIdx, 'JsonLogic: top-level keys sorted alphabetically');
+  const bIdx = fSorted.formatted.indexOf('"b"');
+  const yIdx = fSorted.formatted.indexOf('"y"');
+  assert(bIdx !== -1 && yIdx !== -1 && bIdx < yIdx, 'JsonLogic: nested keys sorted alphabetically');
+
+  // 3. Minification
+  const minRes = jsonLogic.minifyJson(f2.formatted);
+  assert(minRes.success && minRes.minified === rawStr, 'JsonLogic: minified output matches compact JSON');
+
+  // 4. Validate with line and column error messages
+  const validCheck = jsonLogic.validateJson(rawStr);
+  assert(validCheck.valid === true, 'JsonLogic: valid JSON returns valid: true');
+
+  const malformed1 = '{\n  "title": "Book",\n  "pages": \n}';
+  const malformed1Res = jsonLogic.validateJson(malformed1);
+  assert(malformed1Res.valid === false, 'JsonLogic: malformed JSON returns valid: false');
+  assert(malformed1Res.line === 4 && malformed1Res.column === 1, `JsonLogic: malformed JSON line 4 column 1 (got line ${malformed1Res.line}, col ${malformed1Res.column})`);
+
+  const malformed2 = '{\n  "a": 1,\n  "b": 2,\n}';
+  const malformed2Res = jsonLogic.validateJson(malformed2);
+  assert(malformed2Res.valid === false && malformed2Res.line >= 3, 'JsonLogic: trailing comma error caught with line number');
+
+  // 5. 1 MB limit safety check
+  const hugeJson = '"' + 'x'.repeat(1048577) + '"';
+  const hugeRes = jsonLogic.validateJson(hugeJson);
+  assert(hugeRes.valid === false && hugeRes.isSizeLimit === true, 'JsonLogic: 1 MB safety cap triggers clear size error');
+}
+
+// 12. Base64 Encoder & Decoder Logic
+const base64Logic = require(path.join(ROOT, 'src/tools/base64-encoder-decoder/logic.js'));
+{
+  // 1. Known RFC 4648 standard test vector: "Man" = "TWFu"
+  const manRes = base64Logic.encode('Man');
+  assert(manRes.success && manRes.result === 'TWFu', `Base64Logic: "Man" encodes to "TWFu" (got "${manRes.result}")`);
+  const manDec = base64Logic.decode('TWFu');
+  assert(manDec.success && manDec.result === 'Man', `Base64Logic: "TWFu" decodes to "Man" (got "${manDec.result}")`);
+
+  // 2. Full RFC 4648 test vector suite
+  const rfcVectors = [
+    ['', ''],
+    ['f', 'Zg=='],
+    ['fo', 'Zm8='],
+    ['foo', 'Zm9v'],
+    ['foob', 'Zm9vYg=='],
+    ['fooba', 'Zm9vYmE='],
+    ['foobar', 'Zm9vYmFy']
+  ];
+  for (const [plain, expectedB64] of rfcVectors) {
+    const enc = base64Logic.encode(plain);
+    assert(enc.success && enc.result === expectedB64, `Base64Logic RFC vector "${plain}" -> "${expectedB64}"`);
+    const dec = base64Logic.decode(expectedB64);
+    assert(dec.success && dec.result === plain, `Base64Logic RFC decode "${expectedB64}" -> "${plain}"`);
+  }
+
+  // 3. UTF-8 safe text encode/decode (accents, emojis, CJK)
+  const unicodeSample = 'Hello world 🚀 café crème 日本語';
+  const uniEnc = base64Logic.encode(unicodeSample);
+  assert(uniEnc.success, 'Base64Logic: UTF-8 string encoded successfully');
+  const uniDec = base64Logic.decode(uniEnc.result);
+  assert(uniDec.success && uniDec.result === unicodeSample, 'Base64Logic: UTF-8 string round-trip decoded with exact fidelity');
+
+  // 4. URL-safe variant toggle: '+' -> '-', '/' -> '_'
+  const urlSafeSample = 'subjects?_d'; // standard contains / and +
+  const stdEnc = base64Logic.encode(urlSafeSample, { urlSafe: false });
+  assert(stdEnc.result.includes('/') || stdEnc.result.includes('+'), 'Base64Logic: standard contains / or +');
+  const urlEnc = base64Logic.encode(urlSafeSample, { urlSafe: true });
+  assert(!urlEnc.result.includes('/') && !urlEnc.result.includes('+'), 'Base64Logic: URL-safe replaces + and /');
+  assert(urlEnc.result.includes('-') || urlEnc.result.includes('_'), 'Base64Logic: URL-safe contains - or _');
+
+  // URL-safe decode back
+  const urlDec = base64Logic.decode(urlEnc.result);
+  assert(urlDec.success && urlDec.result === urlSafeSample, 'Base64Logic: URL-safe string decodes back to original text');
+
+  // 5. Unpadded Base64 handling
+  const unpadded = base64Logic.decode('Zm8'); // "fo" without trailing "="
+  assert(unpadded.success && unpadded.result === 'fo', 'Base64Logic: decodes unpadded input "Zm8" -> "fo"');
+
+  // 6. Invalid Base64 error handling
+  const invalidRes = base64Logic.decode('ThisIsNotValidBase64!@#%');
+  assert(invalidRes.success === false, 'Base64Logic: invalid characters return error');
+
+  // 7. 1 MB limit safety
+  const hugeText = 'A'.repeat(1048577);
+  const hugeB64 = base64Logic.encode(hugeText);
+  assert(hugeB64.success === false && hugeB64.isSizeLimit === true, 'Base64Logic: 1 MB safety cap triggers size error');
+}
+
+// 13. URL Encoder & Decoder Logic
+const urlLogic = require(path.join(ROOT, 'src/tools/url-encoder-decoder/logic.js'));
+{
+  const testUrl = 'https://example.com/search?q=toolsbuilt & more=yes#frag';
+
+  // 1. encodeURIComponent vs encodeURI modes
+  const compEnc = urlLogic.encode(testUrl, 'component');
+  assert(compEnc.success, 'UrlLogic: component encode succeeded');
+  assert(compEnc.result.includes('%3A%2F%2F') && compEnc.result.includes('%3F') && compEnc.result.includes('%26'),
+    'UrlLogic: component mode percent-encodes delimiters (:, /, ?, &)');
+
+  const fullEnc = urlLogic.encode(testUrl, 'full');
+  assert(fullEnc.success, 'UrlLogic: full URI encode succeeded');
+  assert(fullEnc.result.startsWith('https://example.com/search?q=toolsbuilt%20&') && fullEnc.result.includes('#frag'),
+    'UrlLogic: full URI mode preserves protocol, ?, &, =, and # delimiters while encoding space to %20');
+
+  // 2. Decode modes (including '+' as space in component mode)
+  const decComp = urlLogic.decode('search+term%20with%20spaces%26symbols', 'component');
+  assert(decComp.success && decComp.result === 'search term with spaces&symbols',
+    'UrlLogic: component decode converts both + and %20 to spaces and decodes %26 to &');
+
+  // 3. Query string parser table
+  const queryStr = 'https://example.com/api?user=alice&topic=tech%26science&limit=10&flag';
+  const parsedParams = urlLogic.parseQueryString(queryStr);
+  assert(parsedParams.length === 4, `UrlLogic: parsed 4 query parameters (got ${parsedParams.length})`);
+  assert(parsedParams[0].key === 'user' && parsedParams[0].decodedValue === 'alice', 'UrlLogic: param 1 parsed');
+  assert(parsedParams[1].key === 'topic' && parsedParams[1].decodedValue === 'tech&science' && parsedParams[1].encodedValue === 'tech%26science',
+    'UrlLogic: param 2 decoded & preserved raw encoded value');
+  assert(parsedParams[2].key === 'limit' && parsedParams[2].decodedValue === '10', 'UrlLogic: param 3 parsed');
+
+  // 4. Malformed percent sequence error handling
+  const badSequence = urlLogic.decode('broken%E0%A4percent', 'component');
+  assert(badSequence.success === false && badSequence.error.includes('Decoding error'), 'UrlLogic: surfaces malformed percent error');
+
+  // 5. 1 MB limit safety
+  const hugeStr = 'a'.repeat(1048577);
+  assert(urlLogic.encode(hugeStr).success === false, 'UrlLogic: 1 MB safety cap enforced');
+}
+
+// 14. Lorem Ipsum Generator Logic
+const loremLogic = require(path.join(ROOT, 'src/tools/lorem-ipsum-generator/logic.js'));
+{
+  // 1. Words generation
+  const wordsRes = loremLogic.generate('words', 25, { startWithLorem: true });
+  assert(wordsRes.success, 'LoremLogic: words generation succeeded');
+  assert(wordsRes.stats.words === 25, `LoremLogic: exactly 25 words generated (got ${wordsRes.stats.words})`);
+  assert(wordsRes.text.startsWith('Lorem ipsum dolor sit amet'), 'LoremLogic: words start with "Lorem ipsum" when toggled on');
+
+  const wordsNoStart = loremLogic.generate('words', 20, { startWithLorem: false });
+  assert(wordsNoStart.stats.words === 20, 'LoremLogic: 20 words generated with startWithLorem: false');
+
+  // 2. Sentences generation
+  const sentRes = loremLogic.generate('sentences', 4, { startWithLorem: true });
+  assert(sentRes.success, 'LoremLogic: sentences generation succeeded');
+  assert(sentRes.text.startsWith(loremLogic.STANDARD_OPENING_SENTENCE), 'LoremLogic: first sentence is canonical opening');
+  const periodCount = (sentRes.text.match(/\./g) || []).length;
+  assert(periodCount >= 4, `LoremLogic: at least 4 sentence terminators (got ${periodCount})`);
+
+  // 3. Paragraphs generation
+  const paraRes = loremLogic.generate('paragraphs', 3, { startWithLorem: true, asHtml: false });
+  assert(paraRes.success, 'LoremLogic: paragraphs generation succeeded');
+  const paragraphs = paraRes.text.split('\n\n');
+  assert(paragraphs.length === 3, `LoremLogic: exactly 3 paragraphs generated (got ${paragraphs.length})`);
+  assert(paraRes.text.startsWith('Lorem ipsum dolor sit amet'), 'LoremLogic: first paragraph starts with canonical opening');
+
+  // 4. HTML markup tags
+  const htmlRes = loremLogic.generate('paragraphs', 2, { startWithLorem: true, asHtml: true });
+  assert(htmlRes.text.startsWith('<p>') && htmlRes.text.endsWith('</p>'), 'LoremLogic: HTML tags properly wrap paragraphs');
+  const pTags = (htmlRes.text.match(/<p>/g) || []).length;
+  assert(pTags === 2, `LoremLogic: 2 <p> tags generated (got ${pTags})`);
 }
 
 // Seeded Property-Based Fuzz Testing

@@ -1,0 +1,164 @@
+---
+layout: layouts/tool.njk
+toolSlug: json-formatter
+title: "JSON Formatter & Validator - Prettify, Minify"
+description: "Free online JSON formatter, validator, and minifier. Prettify with 2/4 spaces or tabs, sort keys, detect syntax errors with line numbers, and download."
+permalink: /tools/json-formatter/
+extraCss: /tools/json-formatter/style.css
+h1: "JSON Formatter &amp; Validator"
+howto:
+  name: "How to Format and Validate JSON Online"
+  description: "Step-by-step instructions to prettify, validate syntax, and minify JSON payloads in your browser."
+  steps:
+    - name: "Paste or Type JSON"
+      text: "Paste your raw JSON code into the Input JSON editor box or click Load Sample."
+    - name: "Choose Formatting Options"
+      text: "Select your preferred indentation (2 spaces, 4 spaces, or tab) and optionally toggle alphabetical key sorting."
+    - name: "Format, Validate, or Download"
+      text: "View the formatted result in real time, inspect syntax errors with line and column numbers, or click Copy/Download."
+faqs:
+  - q: "What causes common JSON syntax errors?"
+    a: "The most frequent JSON syntax errors are trailing commas after the last array item or object property, unquoted keys, single quotes instead of double quotes, and unescaped newline characters inside strings."
+  - q: "Does this JSON formatter sort keys recursively?"
+    a: "Yes. When 'Sort keys alphabetically' is enabled, keys are sorted in alphabetical order at the top level and inside all nested child objects."
+  - q: "What is the maximum file size for formatting?"
+    a: "For browser safety and smooth responsiveness, the tool enforces a client-side safety limit of 1 MB (1,048,576 characters). Large payloads are debounced to prevent interface lag."
+  - q: "Is my JSON data uploaded to an external server?"
+    a: "No. All formatting, key sorting, validation, and minification happen 100% locally in your browser memory. Your confidential API keys, payload dumps, and configuration files are never sent over the network."
+  - q: "What is the difference between JSON formatting and minification?"
+    a: "Formatting adds indentation and line breaks so human developers can easily inspect and debug data. Minification strips all unnecessary whitespace to minimize payload bandwidth for network transmissions."
+sources:
+  - label: "ECMA-404: The JSON Data Interchange Standard"
+    url: "https://www.ecma-international.org/publications-and-standards/standards/ecma-404/"
+  - label: "RFC 8259: The JavaScript Object Notation (JSON) Data Interchange Format"
+    url: "https://datatracker.ietf.org/doc/html/rfc8259"
+  - label: "MDN Web Docs: JSON.parse() specification"
+    url: "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/parse"
+---
+
+    <!-- Main Tool Container -->
+    <section class="tool-container" aria-label="JSON Formatter &amp; Validator Form">
+      <div class="json-controls-bar">
+        <div class="json-controls-group">
+          <label for="indent-select" style="font-weight: 600; font-size: 0.9rem;">Indentation:</label>
+          <select id="indent-select" class="form-control" style="width: auto; padding: 0.35rem 0.75rem; font-size: 0.875rem;">
+            <option value="2">2 Spaces</option>
+            <option value="4">4 Spaces</option>
+            <option value="tab">Tab</option>
+          </select>
+
+          <label style="display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.875rem; margin-left: 0.5rem; cursor: pointer;">
+            <input type="checkbox" id="sort-keys-toggle" style="cursor: pointer;">
+            <span>Sort keys alphabetically</span>
+          </label>
+        </div>
+
+        <div class="json-controls-group">
+          <button type="button" class="btn btn-secondary btn-sm" id="sample-btn">Load Sample</button>
+          <button type="button" class="btn btn-ghost btn-sm" id="clear-btn">Clear</button>
+        </div>
+      </div>
+
+      <div class="json-editor-grid">
+        <div class="form-group" style="margin-bottom: 0;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
+            <label for="json-input" style="font-weight: 600; font-size: 0.95rem;">Input JSON:</label>
+            <span id="size-meter" style="font-size: 0.8rem; color: var(--text-muted);">0.0 KB / 1 MB</span>
+          </div>
+          <textarea id="json-input" class="json-textarea" rows="12" placeholder='Paste your raw or minified JSON here... e.g. {"name":"example","items":[1,2,3]}'></textarea>
+        </div>
+
+        <div class="form-group" style="margin-bottom: 0;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
+            <label for="json-output" style="font-weight: 600; font-size: 0.95rem;">Formatted / Minified Output:</label>
+          </div>
+          <textarea id="json-output" class="json-textarea" rows="12" readonly placeholder="Formatted output will appear here live as you type..."></textarea>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="button-group" style="margin-top: 1rem; display: flex; flex-wrap: wrap; gap: 0.75rem;">
+        <button type="button" class="btn btn-primary" id="format-btn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+          Format JSON
+        </button>
+        <button type="button" class="btn btn-secondary" id="minify-btn">Minify JSON</button>
+        <button type="button" class="btn btn-secondary" id="validate-btn">Validate Syntax</button>
+        <button type="button" class="btn btn-secondary" id="copy-btn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+          Copy Output
+        </button>
+        <button type="button" class="btn btn-ghost" id="download-btn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+          Download .json
+        </button>
+      </div>
+
+      <!-- Live Status & Error Alert Container -->
+      <div id="json-status" class="alert-box alert-info" hidden aria-live="polite"></div>
+    </section>
+
+    <!-- AEO Quick Answer Box -->
+    <div class="info-callout" style="margin-top: 2rem; margin-bottom: 2rem;">
+      <h3 style="font-size: 1.05rem; margin-bottom: 0.35rem; color: var(--accent-primary);">Quick Answer</h3>
+      <p style="margin-bottom: 0;">The ToolsBuilt JSON Formatter parses, validates, and beautifies JSON payloads with 2-space, 4-space, or tab indentation. It accurately detects syntax errors with line and column markers, sorts object keys alphabetically, and minifies payloads for fast network transport. All data is processed client-side in your browser with complete privacy.</p>
+    </div>
+
+    <!-- When to Use Section -->
+    <section style="margin: 2.5rem 0;" aria-labelledby="how-to-use-heading">
+      <h2 id="how-to-use-heading">How &amp; When to Use the JSON Formatter</h2>
+      <ul style="color: var(--text-muted); line-height: 1.8; margin-left: 1.25rem;">
+        <li><strong>Debugging REST &amp; GraphQL APIs:</strong> Format unformatted single-line API responses from cURL or Postman into readable, nested structures.</li>
+        <li><strong>Validating Configuration Files:</strong> Quickly check <code>tsconfig.json</code>, <code>package.json</code>, or Kubernetes configurations for syntax mistakes before deploying.</li>
+        <li><strong>Payload Size Optimization:</strong> Minify JSON files prior to bundling or web transmission to reduce HTTP transfer size and bandwidth consumption.</li>
+        <li><strong>Deterministic Key Comparison:</strong> Use alphabetical key sorting to normalize two JSON documents so you can easily compare diffs without false key-order mismatches.</li>
+      </ul>
+    </section>
+
+    <!-- Worked Examples & Standards Section -->
+    <section style="margin: 2.5rem 0;" aria-labelledby="article-heading">
+      <h2 id="article-heading">JSON Formatting Standards, Indentation &amp; Formulas</h2>
+      <p style="color: var(--text-muted); line-height: 1.7;">JavaScript Object Notation (JSON) is a strict, text-based data interchange format specified in ECMA-404 and RFC 8259. Unlike JavaScript object literals, JSON requires double quotes around all keys and strings and strictly forbids trailing commas, comments, and unquoted identifiers.</p>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 1.25rem;">
+        <div style="background: var(--surface-muted); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem;">
+          <h3 style="font-size: 1.1rem; margin-top: 0; color: var(--accent-primary);">Example 1: Unformatted Input</h3>
+          <p style="font-size: var(--font-size-sm); color: var(--text-muted); margin-bottom: 0.5rem;">Single-line compact payload:</p>
+          <pre tabindex="0" aria-label="Example unformatted JSON" style="background: var(--surface-card); padding: 0.75rem; border-radius: var(--radius-sm); font-size: 0.8rem; overflow-x: auto;"><code>{"id":101,"user":"alex","roles":["admin","editor"]}</code></pre>
+        </div>
+
+        <div style="background: var(--surface-muted); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem;">
+          <h3 style="font-size: 1.1rem; margin-top: 0; color: var(--accent-primary);">Example 2: Formatted (2 Spaces)</h3>
+          <p style="font-size: var(--font-size-sm); color: var(--text-muted); margin-bottom: 0.5rem;">Beautified with standard indentation:</p>
+          <pre tabindex="0" aria-label="Example formatted JSON with 2-space indentation" style="background: var(--surface-card); padding: 0.75rem; border-radius: var(--radius-sm); font-size: 0.8rem; overflow-x: auto;"><code>{
+  "id": 101,
+  "roles": [
+    "admin",
+    "editor"
+  ],
+  "user": "alex"
+}</code></pre>
+        </div>
+
+        <div style="background: var(--surface-muted); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem;">
+          <h3 style="font-size: 1.1rem; margin-top: 0; color: var(--accent-primary);">Example 3: Key Sorting Comparison</h3>
+          <p style="font-size: var(--font-size-sm); color: var(--text-muted); margin-bottom: 0.5rem;">Alphabetical sorting sorts keys uniformly:</p>
+          <ul style="font-size: var(--font-size-sm); color: var(--text-muted); line-height: 1.6; margin-left: 1.25rem;">
+            <li>Before: <code>{"z": 1, "a": 2}</code></li>
+            <li>After: <code>{"a": 2, "z": 1}</code></li>
+            <li>Enables deterministic hashing and version control diffing.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Common Mistakes Section -->
+    <section style="margin: 2.5rem 0;" aria-labelledby="mistakes-heading">
+      <h2 id="mistakes-heading">Common JSON Syntax Errors &amp; Troubleshooting</h2>
+      <ul style="color: var(--text-muted); line-height: 1.8; margin-left: 1.25rem;">
+        <li><strong>Trailing Commas:</strong> Adding a comma after the final item in an array (<code>[1, 2, 3,]</code>) or object (<code>{"a": 1,}</code>) is valid in modern JavaScript but throws an immediate syntax error in standard JSON.</li>
+        <li><strong>Single Quotes for Strings:</strong> JSON strictly requires double quotation marks (<code>"key": "value"</code>). Using single quotes (<code>'key': 'value'</code>) is rejected by all compliant JSON parsers.</li>
+        <li><strong>Unquoted Object Keys:</strong> In JavaScript, keys can omit quotes (<code>{name: "value"}</code>). In JSON, keys must always be enclosed in double quotes.</li>
+        <li><strong>Unescaped Control Characters:</strong> Literal unescaped tab characters or raw unescaped newlines inside string values break JSON parsing and must be escaped as <code>\t</code> or <code>\n</code>.</li>
+      </ul>
+    </section>

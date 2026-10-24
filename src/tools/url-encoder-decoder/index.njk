@@ -1,0 +1,204 @@
+---
+layout: layouts/tool.njk
+toolSlug: url-encoder-decoder
+title: "URL Encoder & Decoder - encodeURIComponent & encodeURI Tool"
+description: "Free online URL encoder and decoder. Switch between encodeURIComponent and encodeURI modes, inspect query strings in a parameter table, and copy results."
+permalink: /tools/url-encoder-decoder/
+extraCss: /tools/url-encoder-decoder/style.css
+h1: "URL Encoder &amp; Decoder"
+howto:
+  name: "How to Encode and Decode URLs Online"
+  description: "Step-by-step guide to encoding URL components, full URIs, and parsing query string parameters."
+  steps:
+    - name: "Select Operation & Mode"
+      text: "Choose 'Encode' or 'Decode' and pick either Component mode (encodeURIComponent) or Full URI mode (encodeURI)."
+    - name: "Enter String or URL"
+      text: "Type or paste your query parameter, text snippet, or complete web address into the input box."
+    - name: "Inspect & Copy Output"
+      text: "View converted output live, inspect parsed query parameter key-value pairs in the table, and copy the result."
+faqs:
+  - q: "What is the difference between encodeURIComponent and encodeURI?"
+    a: "encodeURIComponent encodes all reserved punctuation characters (including &, =, ?, /, :, and #) into percent-encoded hex sequences. It is intended for encoding individual query parameter keys and values. In contrast, encodeURI preserves valid URL structure characters (;,/?:@&=+$#) and only encodes characters forbidden in standard URIs like spaces and Unicode glyphs."
+  - q: "When should I use encodeURIComponent instead of encodeURI?"
+    a: "Always use encodeURIComponent when preparing values to append to a query string (e.g., ?q=search+term or ?redirect_url=https://example.com). If you used encodeURI, symbols like & and = inside your value would be mistaken for additional query delimiters."
+  - q: "How does this tool handle '+' plus signs in query strings?"
+    a: "In application/x-www-form-urlencoded query strings, plus signs (+) commonly represent spaces. When decoding in Component mode, this tool translates both '+' and '%20' into standard space characters."
+  - q: "Is my URL or private query parameter data sent to a server?"
+    a: "No. All URL encoding, decoding, and query string table parsing run 100% locally in your web browser. Sensitive API tokens and query strings never leave your device."
+  - q: "What is the maximum URL size supported?"
+    a: "The tool supports inputs up to a 1 MB safety cap (1,048,576 characters). Live debounced processing ensures instant UI updates without lag."
+sources:
+  - label: "RFC 3986: Uniform Resource Identifier (URI): Generic Syntax"
+    url: "https://datatracker.ietf.org/doc/html/rfc3986"
+  - label: "MDN Web Docs: encodeURIComponent()"
+    url: "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent"
+  - label: "MDN Web Docs: encodeURI()"
+    url: "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURI"
+---
+
+    <!-- Main Tool Container -->
+    <section class="tool-container" aria-label="URL Encoder &amp; Decoder Form">
+      <div class="url-controls-bar">
+        <div class="mode-radio-group">
+          <span style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Direction:</span>
+          <label class="mode-radio-label">
+            <input type="radio" name="url-direction" value="encode" checked style="cursor: pointer;">
+            <span>Encode</span>
+          </label>
+          <label class="mode-radio-label">
+            <input type="radio" name="url-direction" value="decode" style="cursor: pointer;">
+            <span>Decode</span>
+          </label>
+        </div>
+
+        <div class="mode-radio-group">
+          <span style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Mode:</span>
+          <label class="mode-radio-label" title="Encodes all delimiters (;,/?:@&=+$#). Best for parameter keys & values.">
+            <input type="radio" name="url-mode" value="component" checked style="cursor: pointer;">
+            <span>Component (encodeURIComponent)</span>
+          </label>
+          <label class="mode-radio-label" title="Preserves URL structure delimiters. Best for full web addresses.">
+            <input type="radio" name="url-mode" value="full" style="cursor: pointer;">
+            <span>Full URL (encodeURI)</span>
+          </label>
+          <button type="button" class="btn btn-ghost btn-sm" id="clear-btn" style="margin-left: 0.5rem;">Clear</button>
+        </div>
+      </div>
+
+      <div class="url-editor-grid">
+        <div class="form-group" style="margin-bottom: 0;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
+            <label for="url-input" id="input-label" style="font-weight: 600; font-size: 0.95rem;">Text or URL to Encode (Component):</label>
+            <span id="size-meter" style="font-size: 0.8rem; color: var(--text-muted);">0.0 KB / 1 MB</span>
+          </div>
+          <textarea id="url-input" class="url-textarea" rows="8" placeholder="Paste parameter or text here... e.g. hello world &amp; symbols=?"></textarea>
+        </div>
+
+        <div class="form-group" style="margin-bottom: 0;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
+            <label for="url-output" id="output-label" style="font-weight: 600; font-size: 0.95rem;">Encoded URL Output:</label>
+          </div>
+          <textarea id="url-output" class="url-textarea" rows="8" readonly placeholder="Output will appear here live as you type..."></textarea>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="button-group" style="margin-top: 1rem; display: flex; flex-wrap: wrap; gap: 0.75rem;">
+        <button type="button" class="btn btn-primary" id="convert-btn">Encode URL</button>
+        <button type="button" class="btn btn-secondary" id="swap-btn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="17 1 21 5 17 9"></polyline><path d="M3 11V9a4 4 0 0 1 4-4h14"></path><polyline points="7 23 3 19 7 15"></polyline><path d="M21 13v2a4 4 0 0 1-4 4H3"></path></svg>
+          Swap Input &amp; Output
+        </button>
+        <button type="button" class="btn btn-secondary" id="copy-btn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+          Copy Result
+        </button>
+      </div>
+
+      <!-- Live Status & Error Alert Container -->
+      <div id="url-status" class="alert-box alert-info" hidden aria-live="polite"></div>
+
+      <!-- Live Query String Parser Table -->
+      <div id="query-table-container" class="query-table-wrapper" hidden>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+          <h3 style="font-size: 1rem; margin: 0; color: var(--text-main);">Parsed Query String Parameters</h3>
+          <span id="query-count-badge" style="font-size: 0.8rem; background: var(--surface-card); border: 1px solid var(--border-subtle); padding: 0.2rem 0.5rem; border-radius: var(--radius-sm); color: var(--accent-primary);">0 parameters</span>
+        </div>
+        <div tabindex="0" style="overflow-x: auto;">
+          <table class="query-table" aria-label="Parsed query string parameters">
+            <thead>
+              <tr>
+                <th scope="col" style="width: 25%;">Parameter Key</th>
+                <th scope="col" style="width: 35%;">Raw / Encoded Value</th>
+                <th scope="col" style="width: 40%;">Decoded Value</th>
+              </tr>
+            </thead>
+            <tbody id="query-table-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- AEO Quick Answer Box -->
+    <div class="info-callout" style="margin-top: 2rem; margin-bottom: 2rem;">
+      <h3 style="font-size: 1.05rem; margin-bottom: 0.35rem; color: var(--accent-primary);">Quick Answer</h3>
+      <p style="margin-bottom: 0;">Use <code>encodeURIComponent</code> when encoding individual query string keys or values to safely escape reserved characters like <code>&amp;</code>, <code>=</code>, and <code>?</code>. Use <code>encodeURI</code> only when encoding a complete URL address where protocol and query delimiters must remain unencoded. All processing is debounced and performed entirely in your browser.</p>
+    </div>
+
+    <!-- When to Use Section -->
+    <section style="margin: 2.5rem 0;" aria-labelledby="how-to-use-heading">
+      <h2 id="how-to-use-heading">How &amp; When to Use the URL Encoder / Decoder</h2>
+      <ul style="color: var(--text-muted); line-height: 1.8; margin-left: 1.25rem;">
+        <li><strong>Passing Nested URLs in Redirects:</strong> When passing a return URL (e.g. <code>?returnTo=https://example.com/dashboard?tab=billing</code>), use <code>encodeURIComponent</code> so the nested query parameters aren't parsed by the outer server.</li>
+        <li><strong>Fixing Broken Links with Spaces:</strong> Web browsers require valid ASCII URIs. Encode spaces as <code>%20</code> (or <code>+</code>) and non-ASCII Unicode characters before sharing links.</li>
+        <li><strong>Debugging Webhook Payloads &amp; Query Strings:</strong> Paste complex query strings to view every parameter neatly parsed into a structured table.</li>
+        <li><strong>Safe Form Data Encoding:</strong> Verify how input field data will be transmitted in <code>application/x-www-form-urlencoded</code> POST requests.</li>
+      </ul>
+    </section>
+
+    <!-- Worked Examples & Comparison Section -->
+    <section style="margin: 2.5rem 0;" aria-labelledby="article-heading">
+      <h2 id="article-heading">URL Encoding Specification &amp; Mode Comparison</h2>
+      <p style="color: var(--text-muted); line-height: 1.7;">RFC 3986 specifies percent-encoding to represent characters in URIs outside the allowed ASCII character set. Understanding the distinction between component and full URI modes prevents broken routes and corrupted parameters.</p>
+
+      <div tabindex="0" style="overflow-x: auto; margin-top: 1.25rem;">
+        <table class="query-table" style="background: var(--surface-muted); border-radius: var(--radius-md); padding: 0.5rem;" aria-label="Mode Comparison">
+          <thead>
+            <tr>
+              <th scope="col">Character</th>
+              <th scope="col">encodeURI Mode</th>
+              <th scope="col">encodeURIComponent Mode</th>
+              <th scope="col">Reason</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>Space ( )</code></td>
+              <td><code>%20</code></td>
+              <td><code>%20</code></td>
+              <td>Spaces are never permitted in valid URIs.</td>
+            </tr>
+            <tr>
+              <td><code>Ampersand (&amp;)</code></td>
+              <td><code>&amp;</code> (Preserved)</td>
+              <td><code>%26</code> (Encoded)</td>
+              <td>Delimits query parameters; must be encoded inside values.</td>
+            </tr>
+            <tr>
+              <td><code>Equals (=)</code></td>
+              <td><code>=</code> (Preserved)</td>
+              <td><code>%3D</code> (Encoded)</td>
+              <td>Separates key and value; must be encoded inside values.</td>
+            </tr>
+            <tr>
+              <td><code>Question Mark (?)</code></td>
+              <td><code>?</code> (Preserved)</td>
+              <td><code>%3F</code> (Encoded)</td>
+              <td>Begins query string; must be encoded inside values.</td>
+            </tr>
+            <tr>
+              <td><code>Slash (/)</code></td>
+              <td><code>/</code> (Preserved)</td>
+              <td><code>%2F</code> (Encoded)</td>
+              <td>Separates path segments; must be encoded inside values.</td>
+            </tr>
+            <tr>
+              <td><code>Hash (#)</code></td>
+              <td><code>#</code> (Preserved)</td>
+              <td><code>%23</code> (Encoded)</td>
+              <td>Begins fragment anchor; must be encoded inside values.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Common Mistakes Section -->
+    <section style="margin: 2.5rem 0;" aria-labelledby="mistakes-heading">
+      <h2 id="mistakes-heading">Common URL Encoding Mistakes</h2>
+      <ul style="color: var(--text-muted); line-height: 1.8; margin-left: 1.25rem;">
+        <li><strong>Double-Encoding:</strong> Encoding an already percent-encoded string converts existing <code>%</code> characters into <code>%25</code> (e.g. <code>%20</code> becomes <code>%2520</code>). Always verify whether incoming data is already encoded before applying transformation.</li>
+        <li><strong>Using encodeURI for Query Values:</strong> Running <code>encodeURI</code> on a parameter value leaves characters like <code>&amp;</code> and <code>+</code> unencoded, causing server parsers to truncate or split values unexpectedly.</li>
+        <li><strong>Malformed Percent Sequences:</strong> Decoding a string with a bare percent sign (such as <code>discount=50%</code> instead of <code>discount=50%25</code>) throws a fatal JavaScript <code>URIError: URI malformed</code>. Safe tools catch and surface this error clearly.</li>
+      </ul>
+    </section>
