@@ -1,0 +1,188 @@
+---
+layout: layouts/tool.njk
+toolSlug: gpa-calculator
+title: "GPA Calculator - 4.0 Scale Cumulative & Semester GPA"
+description: "Calculate high school and college GPA on a 4.0 scale with plus/minus toggles, credit hour weights, and multi-semester cumulative tracking."
+permalink: /tools/gpa-calculator/
+h1: "GPA Calculator"
+lastReviewed: "2026-10-24"
+howto:
+  name: "How to Calculate Semester and Cumulative GPA Online"
+  description: "Step-by-step instructions to calculate credit-weighted grade point averages on a standard 4.0 scale."
+  steps:
+    - name: "Select Grading Scale Options"
+      text: "Toggle whether your institution includes plus and minus letter grades (e.g. A- = 3.7 vs solid A = 4.0)."
+    - name: "Add Completed Terms and Courses"
+      text: "Enter your course titles, letter grades earned, and credit hour values for each class."
+    - name: "Include Prior Academic History (Optional)"
+      text: "Input existing cumulative GPA and total earned credit hours to project your new overall cumulative standing."
+faqs:
+  - q: "How is GPA calculated on a 4.0 scale?"
+    a: "GPA is calculated by multiplying each course's grade point value by its credit hours to find total grade points, summing those points across all classes, and dividing by total earned credit hours: GPA = Total Grade Points ÷ Total Credit Hours."
+  - q: "What are the standard 4.0 scale grade points with plus and minus?"
+    a: "On a standard plus/minus 4.0 scale: A+ = 4.0, A = 4.0, A- = 3.7, B+ = 3.3, B = 3.0, B- = 2.7, C+ = 2.3, C = 2.0, C- = 1.7, D+ = 1.3, D = 1.0, D- = 0.7, and F = 0.0."
+  - q: "Do all colleges and high schools use the same grading scale?"
+    a: "No. Grading scales vary significantly by institution. Some universities award 4.33 points for an A+, while others cap all A grades at 4.00 or do not use plus/minus distinctions at all. High schools often use weighted 5.0 scales for Honors and Advanced Placement (AP) coursework. Always verify with your institution's official registrar."
+  - q: "How do credit hours affect my GPA?"
+    a: "Credit hours act as mathematical multipliers. A 4-credit lab science or calculus course has twice the impact on your GPA as a 2-credit elective course. Earning an A in a 4-credit course provides 16 grade points, whereas an A in a 2-credit course provides 8 points."
+  - q: "How do I calculate cumulative GPA from past semesters?"
+    a: "Multiply your previous cumulative GPA by previous completed credit hours to find prior points. Add your new semester points, then divide by the new total credit hours: Cumulative GPA = (Prior Points + New Semester Points) ÷ (Prior Credits + New Credits)."
+  - q: "Do Pass/Fail or Withdrawn (W) courses impact GPA?"
+    a: "Standard Pass/Fail, Satisfactory/Unsatisfactory, and Withdrawn (W) notations do not carry grade points and are excluded from both total points and total GPA credit denominators."
+  - q: "Is my personal transcript or GPA information stored?"
+    a: "Never. All calculations run strictly client-side inside your browser memory. We do not store, track, or transmit any student data, course names, or grades."
+sources:
+  - label: "College Board: How to Convert Your GPA to a 4.0 Scale"
+    url: "https://bigfuture.collegeboard.org"
+  - label: "AACRAO: Academic Record and Transcript Evaluation Standards"
+    url: "https://www.aacrao.org"
+  - label: "US Dept of Education: Postsecondary Grading Metric Guidelines"
+    url: "https://www.ed.gov"
+---
+
+    <!-- Important Notice Callout: Different School Scales -->
+    <div class="info-callout" style="margin-top: 0; margin-bottom: 1.5rem; border-left: 4px solid var(--accent-primary);">
+      <h3 style="font-size: 1.05rem; margin-bottom: 0.35rem; color: var(--accent-primary);">Grading Scale Notice</h3>
+      <p style="margin-bottom: 0;">Academic institutions use different grading scales. This calculator uses the standard North American 4.0 scale with optional plus/minus toggles. Some schools assign 4.33 for an A+, while others use unweighted scales or 5.0 weighted scales for AP/Honors classes.</p>
+    </div>
+
+    <!-- Tool Form Container -->
+    <section class="tool-container" aria-label="GPA Calculator Form">
+      <form id="gpa-form" novalidate>
+        
+        <!-- Global Options: Plus/Minus Toggle & Prior History -->
+        <div style="background: var(--surface-muted); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem; margin-bottom: 1.5rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 1rem;">
+            <div>
+              <label for="toggle-plus-minus" style="font-weight: 600; font-size: 0.95rem; cursor: pointer; display: flex; align-items: center; gap: 0.5rem;">
+                <input type="checkbox" id="toggle-plus-minus" checked style="width: 18px; height: 18px; cursor: pointer;">
+                Include Plus &amp; Minus Letter Grades (e.g. A- = 3.7, B+ = 3.3)
+              </label>
+              <span style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-top: 0.25rem;">Uncheck for standard whole letter grades (A = 4.0, B = 3.0, C = 2.0).</span>
+            </div>
+          </div>
+
+          <div class="form-grid two-col" style="margin-top: 1rem; border-top: 1px solid var(--border-subtle); padding-top: 1rem;">
+            <div class="form-group">
+              <label for="prior-gpa-val">Prior Cumulative GPA (Optional)</label>
+              <input type="number" step="0.01" min="0" max="4.00" id="prior-gpa-val" class="form-control" placeholder="e.g. 3.50">
+            </div>
+            <div class="form-group">
+              <label for="prior-credits-val">Prior Earned Credits (Optional)</label>
+              <input type="number" step="any" min="0" max="300" id="prior-credits-val" class="form-control" placeholder="e.g. 30">
+            </div>
+          </div>
+        </div>
+
+        <!-- Semesters Container -->
+        <div id="semesters-container">
+          <!-- Populated by script.js -->
+        </div>
+
+        <div style="display: flex; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 1.5rem;">
+          <button type="button" class="btn btn-secondary" id="add-semester-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            Add Another Semester
+          </button>
+        </div>
+
+        <div class="button-group">
+          <button type="submit" class="btn btn-primary">Calculate GPA</button>
+          <button type="button" class="btn btn-secondary" id="reset-gpa-form">Reset Form</button>
+        </div>
+      </form>
+
+      <div id="error-box" class="hidden" style="margin-top: 1rem; color: var(--color-error, #dc2626); background: rgba(220, 38, 38, 0.08); border: 1px solid rgba(220, 38, 38, 0.25); padding: 0.75rem 1rem; border-radius: var(--radius-sm);" role="alert"></div>
+
+      <!-- Result Box -->
+      <div id="result-box" class="result-box is-visible" aria-live="polite">
+        <div class="result-header">
+          <span id="result-header-text">Cumulative GPA Result</span>
+          <button type="button" class="btn btn-sm btn-ghost" id="copy-result-btn" title="Copy result to clipboard" aria-label="Copy result to clipboard">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            <span>Copy</span>
+          </button>
+        </div>
+        <div class="result-primary" id="result-primary-text">3.71 / 4.00</div>
+        
+        <div class="result-grid" id="result-stats-grid">
+          <!-- Dynamic stats -->
+        </div>
+
+        <div class="formula-box" id="formula-explanation" style="margin-top: 1rem; background: var(--surface-default); border: 1px solid var(--border-subtle); padding: 1rem; border-radius: var(--radius-md); font-size: 0.9rem; line-height: 1.6;">
+          <!-- Breakdown -->
+        </div>
+      </div>
+    </section>
+
+    <!-- AEO Quick Answer Box -->
+    <div class="info-callout" style="margin-top: 2rem; margin-bottom: 2rem;">
+      <h3 style="font-size: 1.05rem; margin-bottom: 0.35rem; color: var(--accent-primary);">Quick Answer</h3>
+      <p style="margin-bottom: 0;">To calculate GPA on a 4.0 scale: multiply each class's grade point (A = 4.0, B = 3.0, C = 2.0, D = 1.0, F = 0.0) by its course credit hours to get grade points. Sum the points for all courses and divide by the total credit hours: <code>GPA = Total Points ÷ Total Credits</code>.</p>
+    </div>
+
+    <!-- When to Use Section -->
+    <section style="margin: 2.5rem 0;" aria-labelledby="how-to-use-heading">
+      <h2 id="how-to-use-heading">How &amp; When to Use the GPA Calculator</h2>
+      <ul style="color: var(--text-muted); line-height: 1.8; margin-left: 1.25rem;">
+        <li><strong>Semester End Academic Standing:</strong> Calculate Dean's List eligibility and academic honors qualifications across current term courses.</li>
+        <li><strong>Cumulative College Projections:</strong> Project how upcoming semester grades will influence your multi-year degree GPA before registering for classes.</li>
+        <li><strong>Graduate School Applications:</strong> Recompute your undergraduate GPA with standard unweighted 4.0 conversions required for law, medical, or business school admissions.</li>
+        <li><strong>Course Final Strategy:</strong> Need to compute your final exam score needed for an individual course? Use our companion <a href="/tools/grade-calculator/">Grade Calculator</a>.</li>
+      </ul>
+    </section>
+
+    <!-- Worked Examples Section -->
+    <section style="margin: 2.5rem 0;" aria-labelledby="article-heading">
+      <h2 id="article-heading">Worked 4.0 Scale GPA Examples &amp; Formula</h2>
+      
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 1.25rem;">
+        <div style="background: var(--surface-muted); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem;">
+          <h3 style="font-size: 1.1rem; margin-top: 0; color: var(--accent-primary);">Example 1: Single Semester (14 Credits)</h3>
+          <p style="font-size: var(--font-size-sm); color: var(--text-muted); margin-bottom: 0.5rem;"><strong>Classes:</strong> A (4 cr), B+ (3 cr), A- (4 cr), B (3 cr)</p>
+          <ul style="font-size: var(--font-size-sm); color: var(--text-muted); line-height: 1.6; margin-left: 1.25rem;">
+            <li>Class 1: 4.0 × 4 = 16.0 points</li>
+            <li>Class 2: 3.3 × 3 = 9.9 points</li>
+            <li>Class 3: 3.7 × 4 = 14.8 points</li>
+            <li>Class 4: 3.0 × 3 = 9.0 points</li>
+            <li>Total Points: 49.7 ÷ 14 = <strong>3.55 Term GPA</strong></li>
+          </ul>
+        </div>
+
+        <div style="background: var(--surface-muted); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem;">
+          <h3 style="font-size: 1.1rem; margin-top: 0; color: var(--accent-primary);">Example 2: Adding Prior Academic History</h3>
+          <p style="font-size: var(--font-size-sm); color: var(--text-muted); margin-bottom: 0.5rem;"><strong>Prior:</strong> 3.20 GPA (30 cr) | <strong>New Term:</strong> 3.80 GPA (15 cr)</p>
+          <ul style="font-size: var(--font-size-sm); color: var(--text-muted); line-height: 1.6; margin-left: 1.25rem;">
+            <li>Prior Points: 3.20 × 30 = 96.0 points</li>
+            <li>New Points: 3.80 × 15 = 57.0 points</li>
+            <li>Total Points: 96.0 + 57.0 = 153.0</li>
+            <li>Total Credits: 30 + 15 = 45 credits</li>
+            <li>Cumulative: 153.0 ÷ 45 = <strong>3.40 Cumulative GPA</strong></li>
+          </ul>
+        </div>
+
+        <div style="background: var(--surface-muted); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem;">
+          <h3 style="font-size: 1.1rem; margin-top: 0; color: var(--accent-primary);">Example 3: Credit Weighting Impact</h3>
+          <p style="font-size: var(--font-size-sm); color: var(--text-muted); margin-bottom: 0.5rem;"><strong>Chemistry Lab:</strong> A (1 cr) | <strong>Organic Chem:</strong> C (4 cr)</p>
+          <ul style="font-size: var(--font-size-sm); color: var(--text-muted); line-height: 1.6; margin-left: 1.25rem;">
+            <li>Lab Points: 4.0 × 1 = 4.0 points</li>
+            <li>Lecture Points: 2.0 × 4 = 8.0 points</li>
+            <li>Total Credits: 5 credits</li>
+            <li>Total Points: 12.0 ÷ 5 = <strong>2.40 GPA</strong></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Common Mistakes Section -->
+    <section style="margin: 2.5rem 0;" aria-labelledby="mistakes-heading">
+      <h2 id="mistakes-heading">Common GPA Calculation Pitfalls</h2>
+      <ul style="color: var(--text-muted); line-height: 1.8; margin-left: 1.25rem;">
+        <li><strong>Averaging Letter Grades Without Credit Weights:</strong> Giving equal weight to a 4-credit organic chemistry course and a 1-credit seminar will give an inaccurate GPA. Always multiply each course by its credit hours.</li>
+        <li><strong>Averaging Semester GPAs Directly:</strong> You cannot take the simple average of two semester GPAs unless both terms had the exact same number of completed credit hours. Always sum total grade points and divide by total credits.</li>
+        <li><strong>Assuming All Schools Use 4.0 Unweighted:</strong> Many secondary schools use 5.0 scales for Honors/AP classes, and some colleges don't distinguish plus and minus grades. Use the toggle above to match your institution's policy.</li>
+      </ul>
+    </section>
+
+    <script src="./logic.js"></script>
+    <script src="./script.js"></script>
