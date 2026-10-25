@@ -148,3 +148,28 @@ All 10 core tools were refactored to separate pure computational logic from DOM/
   * *Input:* List of 8 entrants.
   * *Before:* Standard `Math.random` spin.
   * *After:* Cryptographically secure draw with rejection sampling eliminating bias, with copyable winner card and optional deduplication.
+
+---
+
+## 13 New Tools Shipped (Version 2.1.0 - October 25, 2026)
+
+All 13 new tools are engineered to be 100% client-side with pure UMD logic modules, zero network requests, responsive layouts, progressive enhancement, and automated schema/SEO validation:
+
+### Math & Finance (7 Tools)
+11. **Percentage Calculator (`percentage-calculator`):** 4 direct modes (X% of Y, X is what % of Y, increase/decrease by X%, find original base value).
+12. **Grade Calculator (`grade-calculator`):** Dynamic weighted assignments table, target grade final exam score solver.
+13. **GPA Calculator (`gpa-calculator`):** 4.0 scale with plus/minus toggles, credit hours weighting, cumulative multi-semester tracker.
+14. **Unit Converter (`unit-converter`):** Length, weight, temperature, area, volume, and speed with exact NIST/SI factors and reference tables.
+15. **Loan EMI Calculator (`loan-emi-calculator`):** Principal, rate, tenure, amortization schedule, payoff accelerator with extra monthly payments, and CSV export.
+16. **SIP Calculator (`sip-calculator`):** Monthly investment, annual return, investment duration, optional annual step-up %, wealth gain estimation.
+17. **Compound Interest Calculator (`compound-interest-calculator`):** Daily, monthly, quarterly, annual compounding, regular contributions, custom SVG growth chart.
+
+### Text & Writing (4 Tools)
+18. **JSON Formatter & Validator (`json-formatter`):** Prettify with 2/4 spaces or tabs, minify, sort keys, line/column error detection, 1 MB safety cap.
+19. **Base64 Encoder & Decoder (`base64-encoder-decoder`):** UTF-8 safe with emoji/accent support, standard or URL-safe toggles, 1 MB safety cap.
+20. **URL Encoder & Decoder (`url-encoder-decoder`):** Dual modes (`encodeURIComponent` vs `encodeURI`), live query string parser table.
+21. **Lorem Ipsum Generator (`lorem-ipsum-generator`):** Paragraphs, sentences, and words generation with optional classic opening and HTML paragraph wrapping.
+
+### Security (2 Tools)
+22. **UUID Generator (`uuid-generator`):** RFC 4122 v4 UUIDs via `crypto.randomUUID`, bulk generation up to 100, formatting options (upper/lower, hyphens, braces), `.txt` download.
+23. **Hash Generator (`hash-generator`):** SHA-1, SHA-256, SHA-384, SHA-512 via native Web Crypto API, hex uppercase toggle, two-hash comparison utility.

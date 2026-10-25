@@ -81,19 +81,30 @@
 
   {% block jsonLd %}{% endblock %}
 
-  <!-- Google Analytics (not loaded at all when Do Not Track is on) -->
+  <!-- Google Analytics & Cookie Consent initialization -->
   <script>
     (function () {
-      if (navigator.doNotTrack === '1' || window.doNotTrack === '1') return;
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       window.gtag = gtag;
-      gtag('js', new Date());
-      gtag('config', 'G-QR15X9WS1J');
-      var s = document.createElement('script');
-      s.async = true;
-      s.src = 'https://www.googletagmanager.com/gtag/js?id=G-QR15X9WS1J';
-      document.head.appendChild(s);
+
+      window.initAnalyticsIfConsented = function() {
+        if (navigator.doNotTrack === '1' || window.doNotTrack === '1') return;
+        try {
+          if (localStorage.getItem('tb_cookie_consent') !== 'accepted') return;
+        } catch (e) { return; }
+        if (window.__ga_loaded) return;
+        window.__ga_loaded = true;
+        gtag('js', new Date());
+        gtag('config', 'G-QR15X9WS1J');
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-QR15X9WS1J';
+        document.head.appendChild(s);
+      };
+
+      // Try early init if user has previously granted consent
+      window.initAnalyticsIfConsented();
     })();
   </script>
 </head>
@@ -106,9 +117,68 @@
 
   {% include "partials/footer.njk" %}
 
-  <!-- Cookie consent banner placeholder (hidden by default).
-       Will be replaced by Google's certified CMP when AdSense is active for EEA/UK users. -->
-  <div id="cookie-consent-banner" class="cookie-banner" style="display:none" aria-hidden="true"></div>
+  <!-- Lightweight Privacy Cookie Consent Banner -->
+  <aside id="cookie-consent-banner" class="cookie-banner" role="region" aria-label="Cookie Consent" style="display:none">
+    <div class="cookie-banner-content" style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:var(--space-4);">
+      <div class="cookie-banner-text" style="flex:1 1 300px;font-size:var(--font-size-sm);color:var(--text-secondary);line-height:var(--line-height-relaxed);">
+        We respect your privacy. Our tools run completely client-side in your browser. We only use cookies for aggregated traffic analytics with your explicit consent. Read our <a href="/privacy-policy/" style="color:var(--accent-primary);text-decoration:underline;">Privacy Policy</a>.
+      </div>
+      <div class="cookie-banner-actions" style="display:flex;gap:var(--space-2);flex-shrink:0;">
+        <button type="button" class="btn btn-sm btn-secondary" id="cookie-reject-btn">Decline</button>
+        <button type="button" class="btn btn-sm btn-primary" id="cookie-accept-btn">Accept</button>
+      </div>
+    </div>
+  </aside>
+
+  <script>
+    (function () {
+      var banner = document.getElementById('cookie-consent-banner');
+      var acceptBtn = document.getElementById('cookie-accept-btn');
+      var rejectBtn = document.getElementById('cookie-reject-btn');
+      var settingsBtn = document.getElementById('open-cookie-settings');
+
+      function showBanner() {
+        if (banner) banner.style.display = 'block';
+      }
+
+      function hideBanner() {
+        if (banner) banner.style.display = 'none';
+      }
+
+      try {
+        var consent = localStorage.getItem('tb_cookie_consent');
+        if (!consent) {
+          // If no previous choice, show banner
+          showBanner();
+        }
+      } catch (e) {
+        showBanner();
+      }
+
+      if (acceptBtn) {
+        acceptBtn.addEventListener('click', function () {
+          try { localStorage.setItem('tb_cookie_consent', 'accepted'); } catch (e) {}
+          hideBanner();
+          if (window.initAnalyticsIfConsented) window.initAnalyticsIfConsented();
+        });
+      }
+
+      if (rejectBtn) {
+        rejectBtn.addEventListener('click', function () {
+          try { localStorage.setItem('tb_cookie_consent', 'rejected'); } catch (e) {}
+          hideBanner();
+        });
+      }
+
+      if (settingsBtn) {
+        settingsBtn.addEventListener('click', function (e) {
+          e.preventDefault();
+          showBanner();
+          if (banner) banner.scrollIntoView({ behavior: 'smooth' });
+        });
+      }
+    })();
+  </script>
 
   <script src="/assets/js/icons.js"></script>
   <script src="/assets/js/ui.js"></script>

@@ -197,8 +197,8 @@ Tools are scored and prioritized based on:
 
 ## 13. Backlog Summary & Milestone Targets
 
-* **Existing Catalog:** 10 tools
-* **New Tools in Backlog:** 88 tools
+* **Existing Live Catalog:** 23 tools (10 initial + 13 shipped in October 2026: Percentage Calculator, Grade Calculator, GPA Calculator, Unit Converter, Loan EMI Calculator, SIP Calculator, Compound Interest Calculator, JSON Formatter, Base64 Encoder/Decoder, URL Encoder/Decoder, Lorem Ipsum Generator, UUID Generator, Hash Generator)
+* **Remaining Tools in Backlog:** 75 tools
 * **Total Target Catalog:** **98 tools across 11 categories**
 
 ### Phased Roadmap

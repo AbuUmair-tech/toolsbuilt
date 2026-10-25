@@ -56,8 +56,12 @@ All HTML `<head>` metadata is centrally governed by [`src/_includes/layouts/base
 <meta name="twitter:image:alt" content="{{ ogImageAlt or (title + ' - ToolsBuilt') }}">
 ```
 
-### Privacy & Analytics (Do Not Track)
-The Google Analytics 4 tag (`G-QR15X9WS1J`) respects user privacy preferences by checking `navigator.doNotTrack` and `window.doNotTrack`. If DNT is set to `'1'`, `gtag('config')` is bypassed completely.
+### Privacy, Analytics & Cookie Consent
+ToolsBuilt adheres to strict privacy-by-design standards:
+- **Client-Side Execution:** All calculator logic executes locally in the user's browser.
+- **Explicit Cookie Consent:** Google Analytics 4 (`G-QR15X9WS1J`) is blocked by default and only initialized if the user explicitly clicks "Accept" on the cookie consent banner (`localStorage.getItem('tb_cookie_consent') === 'accepted'`).
+- **Do Not Track Protection:** If `navigator.doNotTrack === '1'` or `window.doNotTrack === '1'`, Google Analytics is completely disabled regardless of consent banner status.
+- **Cookie Settings:** Users can revisit or toggle their choices at any time via the "Cookie Settings" link in the footer.
 
 ---
 

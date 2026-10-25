@@ -4,8 +4,8 @@
 
 ## Audit Summary
 
-- **Total Audited Pages:** 38
-- **Indexable Pages:** 37
+- **Total Audited Pages:** 39
+- **Indexable Pages:** 0
 - **Maximum Click Depth:** 2
 - **Audit Errors:** 0
 - **Audit Warnings:** 0
@@ -16,43 +16,44 @@
 
 | URL | Status | Depth | Inbound Links | Title Length | Description Length | Canonical | Open Graph Card |
 | :--- | :---: | :---: | :---: | :---: | :---: | :--- | :--- |
-| `/` | 200 OK | 0 | 159 | 46 chars | 155 chars | `https://toolsbuilt.com/` | `home.png` |
-| `/about/` | 200 OK | 1 | 117 | 54 chars | 144 chars | `https://toolsbuilt.com/about/` | `home.png` |
-| `/blog/` | 200 OK | 1 | 118 | 47 chars | 144 chars | `https://toolsbuilt.com/blog/` | `home.png` |
-| `/category/date-time/` | 200 OK | 1 | 173 | 45 chars | 159 chars | `https://toolsbuilt.com/category/date-time/` | `category-date-time.png` |
-| `/category/fun/` | 200 OK | 1 | 164 | 45 chars | 122 chars | `https://toolsbuilt.com/category/fun/` | `category-fun.png` |
-| `/category/math-finance/` | 200 OK | 1 | 188 | 48 chars | 159 chars | `https://toolsbuilt.com/category/math-finance/` | `category-math-finance.png` |
-| `/category/security/` | 200 OK | 1 | 171 | 46 chars | 147 chars | `https://toolsbuilt.com/category/security/` | `category-security.png` |
-| `/category/text/` | 200 OK | 1 | 179 | 42 chars | 143 chars | `https://toolsbuilt.com/category/text/` | `category-text.png` |
-| `/contact/` | 200 OK | 1 | 159 | 46 chars | 134 chars | `https://toolsbuilt.com/contact/` | `home.png` |
-| `/privacy-policy/` | 200 OK | 1 | 41 | 50 chars | 132 chars | `https://toolsbuilt.com/privacy-policy/` | `home.png` |
-| `/sitemap/` | 200 OK | 1 | 40 | 45 chars | 146 chars | `https://toolsbuilt.com/sitemap/` | `home.png` |
-| `/terms/` | 200 OK | 1 | 41 | 48 chars | 122 chars | `https://toolsbuilt.com/terms/` | `home.png` |
-| `/tools/` | 200 OK | 1 | 119 | 52 chars | 154 chars | `https://toolsbuilt.com/tools/` | `tools.png` |
-| `/tools/add-days-to-date-calculator/` | 200 OK | 1 | 93 | 54 chars | 158 chars | `https://toolsbuilt.com/tools/add-days-to-date-calculator/` | `add-days-to-date-calculator.png` |
-| `/tools/age-calculator/` | 200 OK | 1 | 93 | 52 chars | 134 chars | `https://toolsbuilt.com/tools/age-calculator/` | `age-calculator.png` |
-| `/tools/base64-encoder-decoder/` | 200 OK | 1 | 93 | 58 chars | 145 chars | `https://toolsbuilt.com/tools/base64-encoder-decoder/` | `base64-encoder-decoder.png` |
-| `/tools/compound-interest-calculator/` | 200 OK | 1 | 92 | 55 chars | 149 chars | `https://toolsbuilt.com/tools/compound-interest-calculator/` | `compound-interest-calculator.png` |
-| `/tools/date-difference-calculator/` | 200 OK | 1 | 93 | 53 chars | 136 chars | `https://toolsbuilt.com/tools/date-difference-calculator/` | `date-difference-calculator.png` |
-| `/tools/days-until-date-calculator/` | 200 OK | 1 | 176 | 51 chars | 134 chars | `https://toolsbuilt.com/tools/days-until-date-calculator/` | `days-until-date-calculator.png` |
-| `/tools/discount-calculator/` | 200 OK | 1 | 94 | 52 chars | 133 chars | `https://toolsbuilt.com/tools/discount-calculator/` | `discount-calculator.png` |
-| `/tools/gpa-calculator/` | 200 OK | 1 | 16 | 52 chars | 138 chars | `https://toolsbuilt.com/tools/gpa-calculator/` | `gpa-calculator.png` |
-| `/tools/grade-calculator/` | 200 OK | 1 | 16 | 54 chars | 141 chars | `https://toolsbuilt.com/tools/grade-calculator/` | `grade-calculator.png` |
-| `/tools/hash-generator/` | 200 OK | 1 | 94 | 56 chars | 141 chars | `https://toolsbuilt.com/tools/hash-generator/` | `hash-generator.png` |
-| `/tools/json-formatter/` | 200 OK | 1 | 93 | 55 chars | 151 chars | `https://toolsbuilt.com/tools/json-formatter/` | `json-formatter.png` |
-| `/tools/loan-emi-calculator/` | 200 OK | 1 | 172 | 53 chars | 148 chars | `https://toolsbuilt.com/tools/loan-emi-calculator/` | `loan-emi-calculator.png` |
-| `/tools/lorem-ipsum-generator/` | 200 OK | 1 | 91 | 56 chars | 155 chars | `https://toolsbuilt.com/tools/lorem-ipsum-generator/` | `lorem-ipsum-generator.png` |
-| `/tools/password-generator/` | 200 OK | 1 | 172 | 51 chars | 144 chars | `https://toolsbuilt.com/tools/password-generator/` | `password-generator.png` |
-| `/tools/percentage-calculator/` | 200 OK | 1 | 179 | 57 chars | 140 chars | `https://toolsbuilt.com/tools/percentage-calculator/` | `percentage-calculator.png` |
-| `/tools/percentage-change-calculator/` | 200 OK | 1 | 94 | 50 chars | 140 chars | `https://toolsbuilt.com/tools/percentage-change-calculator/` | `percentage-change-calculator.png` |
-| `/tools/random-name-picker/` | 200 OK | 1 | 172 | 37 chars | 146 chars | `https://toolsbuilt.com/tools/random-name-picker/` | `random-name-picker.png` |
-| `/tools/sip-calculator/` | 200 OK | 1 | 91 | 60 chars | 145 chars | `https://toolsbuilt.com/tools/sip-calculator/` | `sip-calculator.png` |
-| `/tools/text-case-converter/` | 200 OK | 1 | 93 | 51 chars | 148 chars | `https://toolsbuilt.com/tools/text-case-converter/` | `text-case-converter.png` |
-| `/tools/unit-converter/` | 200 OK | 1 | 14 | 51 chars | 143 chars | `https://toolsbuilt.com/tools/unit-converter/` | `unit-converter.png` |
-| `/tools/url-encoder-decoder/` | 200 OK | 1 | 91 | 59 chars | 153 chars | `https://toolsbuilt.com/tools/url-encoder-decoder/` | `url-encoder-decoder.png` |
-| `/tools/uuid-generator/` | 200 OK | 1 | 94 | 53 chars | 144 chars | `https://toolsbuilt.com/tools/uuid-generator/` | `uuid-generator.png` |
-| `/tools/word-counter/` | 200 OK | 1 | 173 | 47 chars | 136 chars | `https://toolsbuilt.com/tools/word-counter/` | `word-counter.png` |
-| `/blog/welcome-to-toolsbuilt/` | 200 OK | 2 | 11 | 59 chars | 151 chars | `https://toolsbuilt.com/blog/welcome-to-toolsbuilt/` | `home.png` |
+| `/` | Noindex | 0 | 163 | 46 chars | 155 chars | `https://toolsbuilt.com/` | `home.png` |
+| `/about/` | Noindex | 1 | 120 | 54 chars | 144 chars | `https://toolsbuilt.com/about/` | `home.png` |
+| `/blog/` | Noindex | 1 | 121 | 47 chars | 144 chars | `https://toolsbuilt.com/blog/` | `home.png` |
+| `/category/date-time/` | Noindex | 1 | 177 | 45 chars | 159 chars | `https://toolsbuilt.com/category/date-time/` | `category-date-time.png` |
+| `/category/fun/` | Noindex | 1 | 168 | 45 chars | 122 chars | `https://toolsbuilt.com/category/fun/` | `category-fun.png` |
+| `/category/math-finance/` | Noindex | 1 | 192 | 48 chars | 149 chars | `https://toolsbuilt.com/category/math-finance/` | `category-math-finance.png` |
+| `/category/security/` | Noindex | 1 | 175 | 46 chars | 147 chars | `https://toolsbuilt.com/category/security/` | `category-security.png` |
+| `/category/text/` | Noindex | 1 | 183 | 42 chars | 143 chars | `https://toolsbuilt.com/category/text/` | `category-text.png` |
+| `/contact/` | Noindex | 1 | 164 | 46 chars | 143 chars | `https://toolsbuilt.com/contact/` | `home.png` |
+| `/disclaimer/` | Noindex | 1 | 42 | 50 chars | 144 chars | `https://toolsbuilt.com/disclaimer/` | `home.png` |
+| `/privacy-policy/` | Noindex | 1 | 82 | 50 chars | 132 chars | `https://toolsbuilt.com/privacy-policy/` | `home.png` |
+| `/sitemap/` | Noindex | 1 | 41 | 45 chars | 146 chars | `https://toolsbuilt.com/sitemap/` | `home.png` |
+| `/terms/` | Noindex | 1 | 42 | 48 chars | 122 chars | `https://toolsbuilt.com/terms/` | `home.png` |
+| `/tools/` | Noindex | 1 | 122 | 52 chars | 154 chars | `https://toolsbuilt.com/tools/` | `tools.png` |
+| `/tools/add-days-to-date-calculator/` | Noindex | 1 | 95 | 54 chars | 158 chars | `https://toolsbuilt.com/tools/add-days-to-date-calculator/` | `add-days-to-date-calculator.png` |
+| `/tools/age-calculator/` | Noindex | 1 | 95 | 52 chars | 134 chars | `https://toolsbuilt.com/tools/age-calculator/` | `age-calculator.png` |
+| `/tools/base64-encoder-decoder/` | Noindex | 1 | 95 | 58 chars | 145 chars | `https://toolsbuilt.com/tools/base64-encoder-decoder/` | `base64-encoder-decoder.png` |
+| `/tools/compound-interest-calculator/` | Noindex | 1 | 94 | 55 chars | 149 chars | `https://toolsbuilt.com/tools/compound-interest-calculator/` | `compound-interest-calculator.png` |
+| `/tools/date-difference-calculator/` | Noindex | 1 | 95 | 53 chars | 136 chars | `https://toolsbuilt.com/tools/date-difference-calculator/` | `date-difference-calculator.png` |
+| `/tools/days-until-date-calculator/` | Noindex | 1 | 180 | 51 chars | 134 chars | `https://toolsbuilt.com/tools/days-until-date-calculator/` | `days-until-date-calculator.png` |
+| `/tools/discount-calculator/` | Noindex | 1 | 96 | 52 chars | 133 chars | `https://toolsbuilt.com/tools/discount-calculator/` | `discount-calculator.png` |
+| `/tools/gpa-calculator/` | Noindex | 1 | 16 | 52 chars | 138 chars | `https://toolsbuilt.com/tools/gpa-calculator/` | `gpa-calculator.png` |
+| `/tools/grade-calculator/` | Noindex | 1 | 16 | 54 chars | 141 chars | `https://toolsbuilt.com/tools/grade-calculator/` | `grade-calculator.png` |
+| `/tools/hash-generator/` | Noindex | 1 | 96 | 56 chars | 141 chars | `https://toolsbuilt.com/tools/hash-generator/` | `hash-generator.png` |
+| `/tools/json-formatter/` | Noindex | 1 | 95 | 55 chars | 151 chars | `https://toolsbuilt.com/tools/json-formatter/` | `json-formatter.png` |
+| `/tools/loan-emi-calculator/` | Noindex | 1 | 176 | 53 chars | 148 chars | `https://toolsbuilt.com/tools/loan-emi-calculator/` | `loan-emi-calculator.png` |
+| `/tools/lorem-ipsum-generator/` | Noindex | 1 | 93 | 56 chars | 155 chars | `https://toolsbuilt.com/tools/lorem-ipsum-generator/` | `lorem-ipsum-generator.png` |
+| `/tools/password-generator/` | Noindex | 1 | 177 | 51 chars | 144 chars | `https://toolsbuilt.com/tools/password-generator/` | `password-generator.png` |
+| `/tools/percentage-calculator/` | Noindex | 1 | 183 | 57 chars | 140 chars | `https://toolsbuilt.com/tools/percentage-calculator/` | `percentage-calculator.png` |
+| `/tools/percentage-change-calculator/` | Noindex | 1 | 96 | 50 chars | 140 chars | `https://toolsbuilt.com/tools/percentage-change-calculator/` | `percentage-change-calculator.png` |
+| `/tools/random-name-picker/` | Noindex | 1 | 176 | 37 chars | 146 chars | `https://toolsbuilt.com/tools/random-name-picker/` | `random-name-picker.png` |
+| `/tools/sip-calculator/` | Noindex | 1 | 93 | 60 chars | 145 chars | `https://toolsbuilt.com/tools/sip-calculator/` | `sip-calculator.png` |
+| `/tools/text-case-converter/` | Noindex | 1 | 95 | 51 chars | 148 chars | `https://toolsbuilt.com/tools/text-case-converter/` | `text-case-converter.png` |
+| `/tools/unit-converter/` | Noindex | 1 | 14 | 51 chars | 143 chars | `https://toolsbuilt.com/tools/unit-converter/` | `unit-converter.png` |
+| `/tools/url-encoder-decoder/` | Noindex | 1 | 93 | 59 chars | 153 chars | `https://toolsbuilt.com/tools/url-encoder-decoder/` | `url-encoder-decoder.png` |
+| `/tools/uuid-generator/` | Noindex | 1 | 96 | 53 chars | 144 chars | `https://toolsbuilt.com/tools/uuid-generator/` | `uuid-generator.png` |
+| `/tools/word-counter/` | Noindex | 1 | 177 | 47 chars | 136 chars | `https://toolsbuilt.com/tools/word-counter/` | `word-counter.png` |
+| `/blog/welcome-to-toolsbuilt/` | Noindex | 2 | 11 | 59 chars | 151 chars | `https://toolsbuilt.com/blog/welcome-to-toolsbuilt/` | `home.png` |
 | `/404.html` | Noindex | Unreachable | 2 | 27 chars | 134 chars | `https://toolsbuilt.com/404.html` | `home.png` |
 
 ---
@@ -65,7 +66,7 @@
 - **Canonical:** `https://toolsbuilt.com/`
 - **OG Image:** `https://toolsbuilt.com/assets/og/home.png`
 - **Click Depth from /:** 0
-- **Inbound Internal Links:** 159
+- **Inbound Internal Links:** 163
 
 ### `/about/`
 - **Title (54 chars):** About ToolsBuilt - Fast & Free Privacy Web Calculators
@@ -73,7 +74,7 @@
 - **Canonical:** `https://toolsbuilt.com/about/`
 - **OG Image:** `https://toolsbuilt.com/assets/og/home.png`
 - **Click Depth from /:** 1
-- **Inbound Internal Links:** 117
+- **Inbound Internal Links:** 120
 
 ### `/blog/`
 - **Title (47 chars):** Blog - Guides & Web Tool Tutorials | ToolsBuilt
@@ -81,7 +82,7 @@
 - **Canonical:** `https://toolsbuilt.com/blog/`
 - **OG Image:** `https://toolsbuilt.com/assets/og/home.png`
 - **Click Depth from /:** 1
-- **Inbound Internal Links:** 118
+- **Inbound Internal Links:** 121
 
 ### `/category/date-time/`
 - **Title (45 chars):** Free Date &amp; Time Calculators | ToolsBuilt
@@ -89,7 +90,7 @@
 - **Canonical:** `https://toolsbuilt.com/category/date-time/`
 - **OG Image:** `https://toolsbuilt.com/assets/og/category-date-time.png`
 - **Click Depth from /:** 1
-- **Inbound Internal Links:** 173
+- **Inbound Internal Links:** 177
 
 ### `/category/fun/`
 - **Title (45 chars):** Free Random &amp; Decision Tools | ToolsBuilt
@@ -97,15 +98,15 @@
 - **Canonical:** `https://toolsbuilt.com/category/fun/`
 - **OG Image:** `https://toolsbuilt.com/assets/og/category-fun.png`
 - **Click Depth from /:** 1
-- **Inbound Internal Links:** 164
+- **Inbound Internal Links:** 168
 
 ### `/category/math-finance/`
 - **Title (48 chars):** Free Math &amp; Finance Calculators | ToolsBuilt
-- **Description (159 chars):** Calculate loan EMIs, compound interest growth, SIP mutual fund returns, percentages, course grades, GPA, and unit conversions instantly with verified formulas.
+- **Description (149 chars):** Calculate loan EMIs, compound interest growth, SIP returns, percentages, discounts, course grades, GPAs, and unit conversions with verified formulas.
 - **Canonical:** `https://toolsbuilt.com/category/math-finance/`
 - **OG Image:** `https://toolsbuilt.com/assets/og/category-math-finance.png`
 - **Click Depth from /:** 1
-- **Inbound Internal Links:** 188
+- **Inbound Internal Links:** 192
 
 ### `/category/security/`
 - **Title (46 chars):** Free Security &amp; Privacy Tools | ToolsBuilt
@@ -113,7 +114,7 @@
 - **Canonical:** `https://toolsbuilt.com/category/security/`
 - **OG Image:** `https://toolsbuilt.com/assets/og/category-security.png`
 - **Click Depth from /:** 1
-- **Inbound Internal Links:** 171
+- **Inbound Internal Links:** 175
 
 ### `/category/text/`
 - **Title (42 chars):** Free Text &amp; Writing Tools | ToolsBuilt
@@ -121,15 +122,23 @@
 - **Canonical:** `https://toolsbuilt.com/category/text/`
 - **OG Image:** `https://toolsbuilt.com/assets/og/category-text.png`
 - **Click Depth from /:** 1
-- **Inbound Internal Links:** 179
+- **Inbound Internal Links:** 183
 
 ### `/contact/`
 - **Title (46 chars):** Contact Us - Get in Touch with ToolsBuilt Team
-- **Description (134 chars):** Get in touch with the ToolsBuilt team for feedback, feature requests, or technical support. Contact our editorial developers directly.
+- **Description (143 chars):** Get in touch with the ToolsBuilt team for feedback, feature requests, or technical support. Contact Abu Umair and the ToolsBuilt team directly.
 - **Canonical:** `https://toolsbuilt.com/contact/`
 - **OG Image:** `https://toolsbuilt.com/assets/og/home.png`
 - **Click Depth from /:** 1
-- **Inbound Internal Links:** 159
+- **Inbound Internal Links:** 164
+
+### `/disclaimer/`
+- **Title (50 chars):** Disclaimer - General Information & Financial Tools
+- **Description (144 chars):** ToolsBuilt calculators and tools are provided for general educational purposes only. Read our full financial and general information disclaimer.
+- **Canonical:** `https://toolsbuilt.com/disclaimer/`
+- **OG Image:** `https://toolsbuilt.com/assets/og/home.png`
+- **Click Depth from /:** 1
+- **Inbound Internal Links:** 42
 
 ### `/privacy-policy/`
 - **Title (50 chars):** Privacy Policy - How ToolsBuilt Protects Your Data
@@ -137,7 +146,7 @@
 - **Canonical:** `https://toolsbuilt.com/privacy-policy/`
 - **OG Image:** `https://toolsbuilt.com/assets/og/home.png`
 - **Click Depth from /:** 1
-- **Inbound Internal Links:** 41
+- **Inbound Internal Links:** 82
 
 ### `/sitemap/`
 - **Title (45 chars):** HTML Sitemap - Complete Overview | ToolsBuilt
@@ -145,7 +154,7 @@
 - **Canonical:** `https://toolsbuilt.com/sitemap/`
 - **OG Image:** `https://toolsbuilt.com/assets/og/home.png`
 - **Click Depth from /:** 1
-- **Inbound Internal Links:** 40
+- **Inbound Internal Links:** 41
 
 ### `/terms/`
 - **Title (48 chars):** Terms of Service & Usage Guidelines | ToolsBuilt
@@ -153,7 +162,7 @@
 - **Canonical:** `https://toolsbuilt.com/terms/`
 - **OG Image:** `https://toolsbuilt.com/assets/og/home.png`
 - **Click Depth from /:** 1
-- **Inbound Internal Links:** 41
+- **Inbound Internal Links:** 42
 
 ### `/tools/`
 - **Title (52 chars):** All Free Online Calculators & Web Tools | ToolsBuilt
@@ -161,7 +170,7 @@
 - **Canonical:** `https://toolsbuilt.com/tools/`
 - **OG Image:** `https://toolsbuilt.com/assets/og/tools.png`
 - **Click Depth from /:** 1
-- **Inbound Internal Links:** 119
+- **Inbound Internal Links:** 122
 
 ### `/tools/add-days-to-date-calculator/`
 - **Title (54 chars):** Add or Subtract Days from Date Calculator | ToolsBuilt
@@ -169,7 +178,7 @@
 - **Canonical:** `https://toolsbuilt.com/tools/add-days-to-date-calculator/`
 - **OG Image:** `https://toolsbuilt.com/assets/og/add-days-to-date-calculator.png`
 - **Click Depth from /:** 1
-- **Inbound Internal Links:** 93
+- **Inbound Internal Links:** 95
 
 ### `/tools/age-calculator/`
 - **Title (52 chars):** Age Calculator - Calculate Exact Age & Next Birthday
@@ -177,7 +186,7 @@
 - **Canonical:** `https://toolsbuilt.com/tools/age-calculator/`
 - **OG Image:** `https://toolsbuilt.com/assets/og/age-calculator.png`
 - **Click Depth from /:** 1
-- **Inbound Internal Links:** 93
+- **Inbound Internal Links:** 95
 
 ### `/tools/base64-encoder-decoder/`
 - **Title (58 chars):** Base64 Encoder & Decoder - UTF-8 & URL-Safe Text Converter
@@ -185,7 +194,7 @@
 - **Canonical:** `https://toolsbuilt.com/tools/base64-encoder-decoder/`
 - **OG Image:** `https://toolsbuilt.com/assets/og/base64-encoder-decoder.png`
 - **Click Depth from /:** 1
-- **Inbound Internal Links:** 93
+- **Inbound Internal Links:** 95
 
 ### `/tools/compound-interest-calculator/`
 - **Title (55 chars):** Compound Interest Calculator - Daily & Regular Deposits
@@ -193,7 +202,7 @@
 - **Canonical:** `https://toolsbuilt.com/tools/compound-interest-calculator/`
 - **OG Image:** `https://toolsbuilt.com/assets/og/compound-interest-calculator.png`
 - **Click Depth from /:** 1
-- **Inbound Internal Links:** 92
+- **Inbound Internal Links:** 94
 
 ### `/tools/date-difference-calculator/`
 - **Title (53 chars):** Date Difference Calculator - Count Days Between Dates
@@ -201,7 +210,7 @@
 - **Canonical:** `https://toolsbuilt.com/tools/date-difference-calculator/`
 - **OG Image:** `https://toolsbuilt.com/assets/og/date-difference-calculator.png`
 - **Click Depth from /:** 1
-- **Inbound Internal Links:** 93
+- **Inbound Internal Links:** 95
 
 ### `/tools/days-until-date-calculator/`
 - **Title (51 chars):** Days Until Date Calculator - Count Days to Any Date
@@ -209,7 +218,7 @@
 - **Canonical:** `https://toolsbuilt.com/tools/days-until-date-calculator/`
 - **OG Image:** `https://toolsbuilt.com/assets/og/days-until-date-calculator.png`
 - **Click Depth from /:** 1
-- **Inbound Internal Links:** 176
+- **Inbound Internal Links:** 180
 
 ### `/tools/discount-calculator/`
 - **Title (52 chars):** Discount Calculator - Calculate Sale Price & Savings
@@ -217,7 +226,7 @@
 - **Canonical:** `https://toolsbuilt.com/tools/discount-calculator/`
 - **OG Image:** `https://toolsbuilt.com/assets/og/discount-calculator.png`
 - **Click Depth from /:** 1
-- **Inbound Internal Links:** 94
+- **Inbound Internal Links:** 96
 
 ### `/tools/gpa-calculator/`
 - **Title (52 chars):** GPA Calculator - 4.0 Scale Cumulative & Semester GPA
@@ -241,7 +250,7 @@
 - **Canonical:** `https://toolsbuilt.com/tools/hash-generator/`
 - **OG Image:** `https://toolsbuilt.com/assets/og/hash-generator.png`
 - **Click Depth from /:** 1
-- **Inbound Internal Links:** 94
+- **Inbound Internal Links:** 96
 
 ### `/tools/json-formatter/`
 - **Title (55 chars):** JSON Formatter & Validator - Format, Minify & Sort Keys
@@ -249,7 +258,7 @@
 - **Canonical:** `https://toolsbuilt.com/tools/json-formatter/`
 - **OG Image:** `https://toolsbuilt.com/assets/og/json-formatter.png`
 - **Click Depth from /:** 1
-- **Inbound Internal Links:** 93
+- **Inbound Internal Links:** 95
 
 ### `/tools/loan-emi-calculator/`
 - **Title (53 chars):** Loan EMI Calculator - Monthly Payments & Amortization
@@ -257,7 +266,7 @@
 - **Canonical:** `https://toolsbuilt.com/tools/loan-emi-calculator/`
 - **OG Image:** `https://toolsbuilt.com/assets/og/loan-emi-calculator.png`
 - **Click Depth from /:** 1
-- **Inbound Internal Links:** 172
+- **Inbound Internal Links:** 176
 
 ### `/tools/lorem-ipsum-generator/`
 - **Title (56 chars):** Lorem Ipsum Generator - Dummy Text by Words & Paragraphs
@@ -265,7 +274,7 @@
 - **Canonical:** `https://toolsbuilt.com/tools/lorem-ipsum-generator/`
 - **OG Image:** `https://toolsbuilt.com/assets/og/lorem-ipsum-generator.png`
 - **Click Depth from /:** 1
-- **Inbound Internal Links:** 91
+- **Inbound Internal Links:** 93
 
 ### `/tools/password-generator/`
 - **Title (51 chars):** Strong Password Generator - Secure Random Passwords
@@ -273,7 +282,7 @@
 - **Canonical:** `https://toolsbuilt.com/tools/password-generator/`
 - **OG Image:** `https://toolsbuilt.com/assets/og/password-generator.png`
 - **Click Depth from /:** 1
-- **Inbound Internal Links:** 172
+- **Inbound Internal Links:** 177
 
 ### `/tools/percentage-calculator/`
 - **Title (57 chars):** Percentage Calculator - What is X% of Y & Reverse Percent
@@ -281,7 +290,7 @@
 - **Canonical:** `https://toolsbuilt.com/tools/percentage-calculator/`
 - **OG Image:** `https://toolsbuilt.com/assets/og/percentage-calculator.png`
 - **Click Depth from /:** 1
-- **Inbound Internal Links:** 179
+- **Inbound Internal Links:** 183
 
 ### `/tools/percentage-change-calculator/`
 - **Title (50 chars):** Percentage Change Calculator - Increase & Decrease
@@ -289,7 +298,7 @@
 - **Canonical:** `https://toolsbuilt.com/tools/percentage-change-calculator/`
 - **OG Image:** `https://toolsbuilt.com/assets/og/percentage-change-calculator.png`
 - **Click Depth from /:** 1
-- **Inbound Internal Links:** 94
+- **Inbound Internal Links:** 96
 
 ### `/tools/random-name-picker/`
 - **Title (37 chars):** Random Name Picker Wheel | ToolsBuilt
@@ -297,7 +306,7 @@
 - **Canonical:** `https://toolsbuilt.com/tools/random-name-picker/`
 - **OG Image:** `https://toolsbuilt.com/assets/og/random-name-picker.png`
 - **Click Depth from /:** 1
-- **Inbound Internal Links:** 172
+- **Inbound Internal Links:** 176
 
 ### `/tools/sip-calculator/`
 - **Title (60 chars):** SIP Calculator - Mutual Fund Returns & Step-Up Wealth Growth
@@ -305,7 +314,7 @@
 - **Canonical:** `https://toolsbuilt.com/tools/sip-calculator/`
 - **OG Image:** `https://toolsbuilt.com/assets/og/sip-calculator.png`
 - **Click Depth from /:** 1
-- **Inbound Internal Links:** 91
+- **Inbound Internal Links:** 93
 
 ### `/tools/text-case-converter/`
 - **Title (51 chars):** Text Case Converter - Convert UPPERCASE & lowercase
@@ -313,7 +322,7 @@
 - **Canonical:** `https://toolsbuilt.com/tools/text-case-converter/`
 - **OG Image:** `https://toolsbuilt.com/assets/og/text-case-converter.png`
 - **Click Depth from /:** 1
-- **Inbound Internal Links:** 93
+- **Inbound Internal Links:** 95
 
 ### `/tools/unit-converter/`
 - **Title (51 chars):** Unit Converter - Length, Weight, Temp, Area & Speed
@@ -329,7 +338,7 @@
 - **Canonical:** `https://toolsbuilt.com/tools/url-encoder-decoder/`
 - **OG Image:** `https://toolsbuilt.com/assets/og/url-encoder-decoder.png`
 - **Click Depth from /:** 1
-- **Inbound Internal Links:** 91
+- **Inbound Internal Links:** 93
 
 ### `/tools/uuid-generator/`
 - **Title (53 chars):** UUID Generator - Free Online Bulk UUID v4 & GUID Tool
@@ -337,7 +346,7 @@
 - **Canonical:** `https://toolsbuilt.com/tools/uuid-generator/`
 - **OG Image:** `https://toolsbuilt.com/assets/og/uuid-generator.png`
 - **Click Depth from /:** 1
-- **Inbound Internal Links:** 94
+- **Inbound Internal Links:** 96
 
 ### `/tools/word-counter/`
 - **Title (47 chars):** Word Counter - Character & Reading Time Counter
@@ -345,7 +354,7 @@
 - **Canonical:** `https://toolsbuilt.com/tools/word-counter/`
 - **OG Image:** `https://toolsbuilt.com/assets/og/word-counter.png`
 - **Click Depth from /:** 1
-- **Inbound Internal Links:** 173
+- **Inbound Internal Links:** 177
 
 ### `/blog/welcome-to-toolsbuilt/`
 - **Title (59 chars):** Welcome to ToolsBuilt: Free Browser Tools Built for Privacy
