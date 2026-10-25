@@ -165,24 +165,36 @@
   {
     "slug": "security",
     "name": "Security & Privacy Tools",
-    "description": "Client-side password generators and security tools.",
+    "description": "Client-side password generators, UUID v4 generators, and cryptographic hash tools.",
     "seoTitle": "Free Security & Privacy Tools | ToolsBuilt",
-    "seoDescription": "Generate strong, cryptographically secure passwords locally on your device with customizable character sets and zero server storage.",
-    "intro": "Online account protection begins with unique, unpredictable passwords. Our security tools generate strong credentials locally in your browser using modern cryptographic standards, keeping your data entirely in your own hands.",
+    "seoDescription": "Generate strong passwords, create bulk UUID v4 identifiers, and compute SHA-256 and SHA-512 hashes locally with Web Crypto and zero server storage.",
+    "intro": "Online account protection, data integrity, and unique entity identification begin with cryptographically secure generation. Our security tools generate strong passwords, bulk RFC 4122 UUID v4 identifiers, and multi-algorithm cryptographic hashes locally in your browser using modern Web Cryptography standards, keeping your data entirely in your own hands.",
     "howToChoose": [
       {
         "title": "To create resilient credentials",
         "description": "Use the Strong Password Generator with custom lengths (up to 64 characters), character set toggles, and ambiguous character exclusions."
+      },
+      {
+        "title": "To generate unique identifiers and GUIDs",
+        "description": "Use the UUID / GUID Generator for RFC 4122 version 4 identifiers with bulk generation up to 100, custom casing, hyphens, and text export."
+      },
+      {
+        "title": "To compute cryptographic checksums or verify integrity",
+        "description": "Use the Cryptographic Hash Generator to calculate SHA-256, SHA-512, SHA-384, or SHA-1 hashes and compare checksum matches live."
       }
     ],
     "faqs": [
       {
-        "question": "How are passwords generated securely?",
-        "answer": "We utilize the Web Cryptography API (crypto.getRandomValues) rather than pseudo-random functions, ensuring true hardware-backed entropy."
+        "question": "How are passwords and UUIDs generated securely?",
+        "answer": "We utilize the Web Cryptography API (crypto.getRandomValues and crypto.randomUUID) rather than pseudo-random functions, ensuring true hardware-backed entropy from your operating system."
       },
       {
-        "question": "Are generated passwords saved on your servers?",
-        "answer": "Never. Generation runs entirely client-side. The moment you close the tab, the generated string is erased from memory."
+        "question": "Are generated passwords, UUIDs, or text hashes saved on your servers?",
+        "answer": "Never. All generation and hash computations run 100% client-side in browser memory. The moment you close the tab, all inputs and outputs are wiped."
+      },
+      {
+        "question": "Why does the hash generator not support MD5?",
+        "answer": "MD5 is cryptographically broken and vulnerable to practical collision attacks. To promote security best practices, we only provide collision-resistant SHA-2 algorithms and warn against using SHA-1 for passwords."
       },
       {
         "question": "What is the recommended password length?",

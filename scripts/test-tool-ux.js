@@ -67,7 +67,9 @@ const TOOLS = [
   'json-formatter',
   'base64-encoder-decoder',
   'url-encoder-decoder',
-  'lorem-ipsum-generator'
+  'lorem-ipsum-generator',
+  'uuid-generator',
+  'hash-generator'
 ];
 
 async function runAxe(page) {
@@ -123,7 +125,7 @@ async function runAllToolUxTests() {
         document.documentElement.setAttribute('data-theme', 'light');
         localStorage.setItem('tb-theme', 'light');
       });
-      await page.waitForTimeout(100);
+      await page.waitForTimeout(300);
 
       const axeLight = await runAxe(page);
       assert(
@@ -141,7 +143,7 @@ async function runAllToolUxTests() {
         document.documentElement.setAttribute('data-theme', 'dark');
         localStorage.setItem('tb-theme', 'dark');
       });
-      await page.waitForTimeout(100);
+      await page.waitForTimeout(300);
 
       const axeDark = await runAxe(page);
       assert(
@@ -149,7 +151,7 @@ async function runAllToolUxTests() {
         `[${toolSlug}] axe-core accessibility in dark mode: 0 serious/critical violations (found ${axeDark.violations.length})`
       );
       if (axeDark.violations.length > 0) {
-        console.error(JSON.stringify(axeDark.violations.map(v => ({ id: v.id, impact: v.impact, description: v.description })), null, 2));
+        console.error(JSON.stringify(axeDark.violations.map(v => ({ id: v.id, impact: v.impact, description: v.description, nodes: v.nodes.map(n => ({ target: n.target, html: n.html, failure: n.failureSummary })) })), null, 2));
       }
 
       await page.screenshot({ path: path.join(SCREENSHOTS_DIR, `${toolSlug}-1280-dark.png`), fullPage: false });
@@ -161,7 +163,7 @@ async function runAllToolUxTests() {
         document.documentElement.setAttribute('data-theme', 'light');
         localStorage.setItem('tb-theme', 'light');
       });
-      await page.waitForTimeout(100);
+      await page.waitForTimeout(300);
       await page.screenshot({ path: path.join(SCREENSHOTS_DIR, `${toolSlug}-375-light.png`), fullPage: false });
 
       // Reset to Desktop for interaction tests

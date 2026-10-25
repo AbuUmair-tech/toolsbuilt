@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * Comprehensive Unit & Seeded Property-Based Fuzz Tests
- * for all 10 ToolsBuilt Pure Logic Modules.
+ * for all 16 ToolsBuilt Pure Logic Modules.
  */
 
 const path = require('path');
@@ -30,7 +30,7 @@ function mulberry32(seed) {
   };
 }
 
-console.log('--- Testing 14 Pure Logic Modules ---');
+console.log('--- Testing 16 Pure Logic Modules ---');
 
 // 1. Age Calculator Logic
 const ageLogic = require(path.join(ROOT, 'src/tools/age-calculator/logic.js'));
@@ -830,6 +830,149 @@ const loremLogic = require(path.join(ROOT, 'src/tools/lorem-ipsum-generator/logi
   assert(htmlRes.text.startsWith('<p>') && htmlRes.text.endsWith('</p>'), 'LoremLogic: HTML tags properly wrap paragraphs');
   const pTags = (htmlRes.text.match(/<p>/g) || []).length;
   assert(pTags === 2, `LoremLogic: 2 <p> tags generated (got ${pTags})`);
+}
+
+// 22. UUID Generator Logic
+const uuidLogic = require(path.join(ROOT, 'src/tools/uuid-generator/logic.js'));
+{
+  // generateRawV4 produces canonical lowercase hyphenated UUID
+  const raw = uuidLogic.generateRawV4();
+  const V4_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/;
+  assert(V4_RE.test(raw), `UuidLogic: generateRawV4 produces valid v4 UUID (got "${raw}")`);
+
+  // version nibble must be '4'
+  assert(raw[14] === '4', 'UuidLogic: version nibble is 4');
+
+  // variant nibble must be 8, 9, a, or b
+  assert(/[89ab]/.test(raw[19]), `UuidLogic: variant nibble is 8/9/a/b (got "${raw[19]}")`);
+
+  // formatUuid – uppercase
+  const upper = uuidLogic.formatUuid(raw, { uppercase: true });
+  assert(upper === raw.toUpperCase(), 'UuidLogic: formatUuid uppercase');
+
+  // formatUuid – strip hyphens
+  const noHyph = uuidLogic.formatUuid(raw, { hyphens: false });
+  assert(noHyph.length === 32 && !noHyph.includes('-'), 'UuidLogic: formatUuid no hyphens = 32 hex chars');
+
+  // formatUuid – braces
+  const braced = uuidLogic.formatUuid(raw, { braces: true });
+  assert(braced.startsWith('{') && braced.endsWith('}'), 'UuidLogic: formatUuid braces wraps in {}');
+
+  // formatUuid – combined: uppercase + no hyphens + braces
+  const combo = uuidLogic.formatUuid(raw, { uppercase: true, hyphens: false, braces: true });
+  assert(/^\{[0-9A-F]{32}\}$/.test(combo), `UuidLogic: formatUuid uppercase+no-hyphens+braces (got "${combo}")`);
+
+  // validateCount – valid range
+  const v1 = uuidLogic.validateCount(1);
+  assert(v1.valid && v1.sanitized === 1, 'UuidLogic: validateCount(1) valid');
+  const v100 = uuidLogic.validateCount(100);
+  assert(v100.valid && v100.sanitized === 100, 'UuidLogic: validateCount(100) valid');
+
+  // validateCount – out of range
+  const v0 = uuidLogic.validateCount(0);
+  assert(!v0.valid && v0.sanitized === 1, 'UuidLogic: validateCount(0) invalid, sanitized to 1');
+  const v101 = uuidLogic.validateCount(101);
+  assert(!v101.valid && v101.sanitized === 100, 'UuidLogic: validateCount(101) invalid, sanitized to 100');
+  const vFloat = uuidLogic.validateCount(5.5);
+  assert(!vFloat.valid, 'UuidLogic: validateCount(5.5) invalid (not integer)');
+
+  // generateBulk
+  const bulk5 = uuidLogic.generateBulk(5);
+  assert(bulk5.length === 5, 'UuidLogic: generateBulk(5) returns 5 UUIDs');
+  assert(bulk5.every(u => V4_RE.test(u)), 'UuidLogic: generateBulk all items are valid v4');
+  // All 5 must be unique
+  assert(new Set(bulk5).size === 5, 'UuidLogic: generateBulk(5) produces unique UUIDs');
+
+  // generateBulk with formatting options
+  const bulkUp = uuidLogic.generateBulk(3, { uppercase: true });
+  assert(bulkUp.every(u => u === u.toUpperCase()), 'UuidLogic: generateBulk uppercase option applied');
+
+  // generateBulk throws on invalid count
+  let threw = false;
+  try { uuidLogic.generateBulk(0); } catch (e) { threw = true; }
+  assert(threw, 'UuidLogic: generateBulk(0) throws');
+
+  // isValidV4 – canonical form
+  assert(uuidLogic.isValidV4(raw), 'UuidLogic: isValidV4 accepts canonical UUID');
+  // no hyphens
+  assert(uuidLogic.isValidV4(noHyph), 'UuidLogic: isValidV4 accepts 32-char hex string');
+  // braced
+  assert(uuidLogic.isValidV4(braced), 'UuidLogic: isValidV4 accepts braced UUID');
+  // uppercase
+  assert(uuidLogic.isValidV4(upper), 'UuidLogic: isValidV4 accepts uppercase UUID');
+  // invalid cases
+  assert(!uuidLogic.isValidV4('not-a-uuid'), 'UuidLogic: isValidV4 rejects garbage string');
+  assert(!uuidLogic.isValidV4(''), 'UuidLogic: isValidV4 rejects empty string');
+  assert(!uuidLogic.isValidV4(null), 'UuidLogic: isValidV4 rejects null');
+  // version 1 UUID (should fail – version nibble is not 4)
+  assert(!uuidLogic.isValidV4('550e8400-e29b-11d4-a716-446655440000'), 'UuidLogic: isValidV4 rejects v1 UUID');
+
+  // generateTxtExport
+  const txt = uuidLogic.generateTxtExport(['uuid-one', 'uuid-two', 'uuid-three']);
+  assert(txt.includes('uuid-one') && txt.includes('uuid-two') && txt.includes('uuid-three'), 'UuidLogic: generateTxtExport includes all UUIDs');
+  assert(txt.split('\n').filter(l => l.trim()).length >= 3, 'UuidLogic: generateTxtExport has at least 3 lines');
+}
+
+// 23. Hash Generator Logic (synchronous helpers only – computeHash/computeAllHashes are async and browser-tested)
+const hashLogic = require(path.join(ROOT, 'src/tools/hash-generator/logic.js'));
+{
+  // SUPPORTED_ALGORITHMS exists and includes expected algorithms
+  assert(Array.isArray(hashLogic.SUPPORTED_ALGORITHMS), 'HashLogic: SUPPORTED_ALGORITHMS is an array');
+  assert(hashLogic.SUPPORTED_ALGORITHMS.includes('SHA-256'), 'HashLogic: SUPPORTED_ALGORITHMS includes SHA-256');
+  assert(hashLogic.SUPPORTED_ALGORITHMS.includes('SHA-512'), 'HashLogic: SUPPORTED_ALGORITHMS includes SHA-512');
+  assert(hashLogic.SUPPORTED_ALGORITHMS.includes('SHA-384'), 'HashLogic: SUPPORTED_ALGORITHMS includes SHA-384');
+  assert(hashLogic.SUPPORTED_ALGORITHMS.includes('SHA-1'), 'HashLogic: SUPPORTED_ALGORITHMS includes SHA-1');
+  // Must NOT include MD5
+  assert(!hashLogic.SUPPORTED_ALGORITHMS.includes('MD5'), 'HashLogic: SUPPORTED_ALGORITHMS does NOT include MD5');
+
+  // PASSWORD_WARNING string is non-empty and mentions SHA-1
+  assert(typeof hashLogic.PASSWORD_WARNING === 'string' && hashLogic.PASSWORD_WARNING.length > 0, 'HashLogic: PASSWORD_WARNING is a non-empty string');
+  assert(/sha-?1/i.test(hashLogic.PASSWORD_WARNING) || /password/i.test(hashLogic.PASSWORD_WARNING), 'HashLogic: PASSWORD_WARNING mentions SHA-1 or passwords');
+
+  // compareHashes – exact match
+  const cmpSame = hashLogic.compareHashes('abc123', 'abc123');
+  assert(cmpSame.match === true, 'HashLogic: compareHashes identical strings match');
+
+  // case-insensitive match
+  const cmpCase = hashLogic.compareHashes('ABC123', 'abc123');
+  assert(cmpCase.match === true, 'HashLogic: compareHashes is case-insensitive');
+
+  // whitespace trimming
+  const cmpTrim = hashLogic.compareHashes('  abc123  ', 'abc123');
+  assert(cmpTrim.match === true, 'HashLogic: compareHashes trims whitespace');
+
+  // mismatch
+  const cmpDiff = hashLogic.compareHashes('abc123', 'def456');
+  assert(cmpDiff.match === false, 'HashLogic: compareHashes different strings do not match');
+
+  // empty/null inputs
+  const cmpEmpty = hashLogic.compareHashes('', 'abc123');
+  assert(cmpEmpty.match === false, 'HashLogic: compareHashes empty string does not match');
+  const cmpNull = hashLogic.compareHashes(null, 'abc123');
+  assert(cmpNull.match === false, 'HashLogic: compareHashes null does not match');
+
+  // findMatchingAlgorithm – matching case
+  const fakeMap = {
+    'SHA-256': 'deadbeef1234',
+    'SHA-512': 'cafebabe5678',
+    'SHA-384': 'feedface9012',
+    'SHA-1':   'badc0ffee000'
+  };
+  const found256 = hashLogic.findMatchingAlgorithm(fakeMap, 'deadbeef1234');
+  assert(found256.matched === true && found256.algorithm === 'SHA-256', 'HashLogic: findMatchingAlgorithm finds SHA-256');
+
+  const found512 = hashLogic.findMatchingAlgorithm(fakeMap, 'CAFEBABE5678'); // uppercase target
+  assert(found512.matched === true && found512.algorithm === 'SHA-512', 'HashLogic: findMatchingAlgorithm is case-insensitive on target');
+
+  // no match
+  const notFound = hashLogic.findMatchingAlgorithm(fakeMap, 'ffffffffffffffff');
+  assert(notFound.matched === false && notFound.algorithm === null, 'HashLogic: findMatchingAlgorithm returns false when no match');
+
+  // null/empty guard
+  const nullMap = hashLogic.findMatchingAlgorithm(null, 'abc');
+  assert(nullMap.matched === false, 'HashLogic: findMatchingAlgorithm handles null map');
+  const nullTarget = hashLogic.findMatchingAlgorithm(fakeMap, '');
+  assert(nullTarget.matched === false, 'HashLogic: findMatchingAlgorithm handles empty target');
 }
 
 // Seeded Property-Based Fuzz Testing

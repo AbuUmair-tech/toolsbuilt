@@ -1,7 +1,7 @@
 ---
 layout: layouts/tool.njk
 toolSlug: loan-emi-calculator
-title: "Loan EMI Calculator - Monthly Payment & Payoff"
+title: "Loan EMI Calculator - Monthly Payments & Amortization"
 description: "Calculate monthly loan EMI, total interest, full amortization schedule, and payoff savings with extra monthly payments. Free online loan calculator."
 permalink: /tools/loan-emi-calculator/
 h1: "Loan EMI Calculator"
@@ -40,6 +40,42 @@ sources:
     url: "https://www.federalreserve.gov/"
   - label: "Bank for International Settlements - Credit Standards"
     url: "https://www.bis.org/"
+quickAnswer: "Loan EMI (Equated Monthly Installment) is computed using the annuity formula: EMI = P × r × (1 + r)^n ÷ ((1 + r)^n − 1), where P is principal, r is monthly interest rate (annual rate ÷ 1200), and n is total months. Total interest equals (EMI × n) − P. Making extra monthly payments reduces principal directly, cutting total interest and loan tenure."
+workedExamples:
+  - title: "$200,000 Mortgage at 6.5% for 30 Years (360 Months)"
+    inputs:
+      - "Loan Principal (P): $200,000"
+      - "Annual Interest Rate: 6.5%"
+      - "Loan Tenure: 30 years (360 months)"
+      - "Extra Monthly Payment: $0"
+    steps:
+      - "Monthly rate r = 6.5 ÷ 1200 ≈ 0.0054167"
+      - "Monthly EMI = 200,000 × 0.0054167 × (1.0054167)^360 ÷ ((1.0054167)^360 − 1)"
+      - "Monthly EMI = $1,264.14"
+      - "Total repayment = $1,264.14 × 360 = $455,088.94"
+      - "Total interest = $455,088.94 − $200,000 = $255,088.94"
+    result: "$1,264.14 monthly payment ($255,088.94 total interest)"
+  - title: "$25,000 Car Loan at 5.0% for 5 Years (60 Months)"
+    inputs:
+      - "Loan Principal: $25,000"
+      - "Annual Interest Rate: 5.0%"
+      - "Loan Tenure: 5 years (60 months)"
+    steps:
+      - "Monthly rate r = 5.0 ÷ 1200 ≈ 0.0041667"
+      - "Monthly EMI = $471.78"
+      - "Total payment = $471.78 × 60 = $28,306.86"
+      - "Total interest = $3,306.86"
+    result: "$471.78 monthly payment ($3,306.86 total interest)"
+  - title: "Accelerated Payoff with $100 Extra Monthly Payment"
+    inputs:
+      - "Base Loan: $200,000 at 6.5% for 30 years ($1,264.14 base EMI)"
+      - "Extra Monthly Prepayment: $100 ($1,364.14 total monthly)"
+    steps:
+      - "Extra $100 applies directly to outstanding principal reduction each month"
+      - "Loan paid off in 304 months (25.3 years) instead of 360 months (30 years)"
+      - "Term shortened by 56 months (4.7 years)"
+      - "Interest saved = $46,419.00"
+    result: "Paid off 4.7 years earlier ($46,419.00 in interest saved)"
 ---
 
     <!-- Tool Form Container -->

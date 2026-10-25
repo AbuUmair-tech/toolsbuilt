@@ -1,7 +1,7 @@
 ---
 layout: layouts/tool.njk
 toolSlug: compound-interest-calculator
-title: "Compound Interest Calculator - Growth & APY"
+title: "Compound Interest Calculator - Daily & Regular Deposits"
 description: "Calculate compound interest with daily, monthly, quarterly, or annual compounding and optional regular deposits with visual growth charts. Free tool."
 permalink: /tools/compound-interest-calculator/
 h1: "Compound Interest Calculator"
@@ -40,6 +40,44 @@ sources:
     url: "https://www.consumerfinance.gov/"
   - label: "Federal Deposit Insurance Corporation (FDIC) - Deposit Accounts"
     url: "https://www.fdic.gov/"
+quickAnswer: "Compound interest is calculated using the formula A = P(1 + r/n)^(nt), where P is principal, r is annual interest rate (decimal), n is compounding frequency per year, and t is time in years. When making regular monthly deposits PMT, future value also compounds via the annuity formula: PMT × [((1 + r/n)^(nt) - 1) / (r/n)]. All calculations and growth charts run in your browser."
+workedExamples:
+  - title: "$10,000 Initial Principal at 7% for 10 Years (Annual Compounding)"
+    inputs:
+      - "Initial Principal (P): $10,000"
+      - "Annual Interest Rate (r): 7%"
+      - "Compounding Frequency (n): Annually (1/yr)"
+      - "Time Horizon (t): 10 years"
+      - "Monthly Contribution: $0"
+    steps:
+      - "Formula: A = 10,000 × (1 + 0.07/1)^(1 × 10)"
+      - "A = 10,000 × (1.07)^10 = 10,000 × 1.96715"
+      - "Total Future Value = $19,671.51"
+      - "Total Interest Earned = $19,671.51 − $10,000 = $9,671.51"
+    result: "$19,671.51 final balance ($9,671.51 interest earned)"
+  - title: "$5,000 Principal with $200 Monthly Deposits at 8% for 5 Years"
+    inputs:
+      - "Initial Principal: $5,000"
+      - "Annual Interest Rate: 8% (Monthly Compounding)"
+      - "Monthly Deposit: $200"
+      - "Time Horizon: 5 years"
+    steps:
+      - "Principal growth: 5,000 × (1 + 0.08/12)^60 = $7,449.23"
+      - "Contributions growth: 200 × [((1 + 0.08/12)^60 - 1) / (0.08/12)] = $14,695.37"
+      - "Total Future Value = $7,449.23 + $14,695.37 = $22,144.60"
+      - "Total Deposits = $5,000 + ($200 × 60) = $17,000"
+    result: "$22,144.60 balance ($5,144.60 interest earned)"
+  - title: "Daily Compounding Comparison ($10,000 at 5% for 1 Year)"
+    inputs:
+      - "Principal: $10,000"
+      - "Rate: 5%"
+      - "Frequency: Daily (365 times/year)"
+      - "Time: 1 year"
+    steps:
+      - "Effective APY = (1 + 0.05/365)^365 − 1 ≈ 5.127%"
+      - "Future value = 10,000 × (1 + 0.05/365)^365 = $10,512.67"
+      - "Yields $12.67 more than simple annual compounding ($10,500.00)"
+    result: "$10,512.67 (5.13% APY)"
 ---
 
     <!-- Tool Form Container -->

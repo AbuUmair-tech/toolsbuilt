@@ -1,7 +1,7 @@
 ---
 layout: layouts/tool.njk
 toolSlug: json-formatter
-title: "JSON Formatter & Validator - Prettify, Minify"
+title: "JSON Formatter & Validator - Format, Minify & Sort Keys"
 description: "Free online JSON formatter, validator, and minifier. Prettify with 2/4 spaces or tabs, sort keys, detect syntax errors with line numbers, and download."
 permalink: /tools/json-formatter/
 extraCss: /tools/json-formatter/style.css
@@ -34,6 +34,34 @@ sources:
     url: "https://datatracker.ietf.org/doc/html/rfc8259"
   - label: "MDN Web Docs: JSON.parse() specification"
     url: "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/parse"
+quickAnswer: "To format and validate JSON, paste your raw string into the editor. The tool parses the text via JSON.parse(), validates syntax, highlights exact error lines and column positions if invalid, and prettifies the structure with 2 spaces, 4 spaces, or tabs. You can also minify to strip whitespace or sort keys alphabetically. Operates 100% in your browser."
+workedExamples:
+  - title: "Prettify Compact JSON with 2-Space Indentation"
+    inputs:
+      - "Input: {\"name\":\"ToolsBuilt\",\"tools\":23,\"free\":true}"
+      - "Indentation: 2 Spaces"
+      - "Sort Keys: Disabled"
+    steps:
+      - "Parse string into memory tree representation"
+      - "Serialize with 2-space indentation and newline formatting"
+    result: "{\n  \"name\": \"ToolsBuilt\",\n  \"tools\": 23,\n  \"free\": true\n}"
+  - title: "Alphabetical Key Sorting (Nested Object)"
+    inputs:
+      - "Input: {\"z\": 1, \"a\": {\"y\": 2, \"b\": 3}}"
+      - "Sort Keys: Enabled"
+    steps:
+      - "Traverse JSON object recursively"
+      - "Order top-level keys: 'a' before 'z'"
+      - "Order child keys inside 'a': 'b' before 'y'"
+    result: "{\n  \"a\": {\n    \"b\": 3,\n    \"y\": 2\n  },\n  \"z\": 1\n}"
+  - title: "Minify JSON for Network Payloads"
+    inputs:
+      - "Input: Formatted JSON with whitespace and multi-line formatting"
+      - "Action: Minify"
+    steps:
+      - "Strip all unnecessary spaces, tabs, and line breaks outside string literals"
+      - "Reduce payload byte size for efficient HTTP transmission"
+    result: "{\"name\":\"ToolsBuilt\",\"tools\":23,\"free\":true}"
 ---
 
     <!-- Main Tool Container -->

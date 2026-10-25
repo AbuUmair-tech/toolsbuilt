@@ -34,6 +34,34 @@ sources:
     url: "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent"
   - label: "MDN Web Docs: encodeURI()"
     url: "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURI"
+quickAnswer: "encodeURIComponent() encodes every character except A–Z, a–z, 0–9, -, _, ., !, ~, *, ', (, ). Use it for individual query-string values. encodeURI() preserves structural characters (:, /, ?, #, &, =) and is used for complete URLs. To decode, paste percent-encoded text and the tool reverses each %XX sequence to the original UTF-8 character."
+workedExamples:
+  - title: "Encode a Query Parameter Value"
+    inputs:
+      - "Mode: encodeURIComponent"
+      - "Input: hello world & goodbye!"
+    steps:
+      - "Spaces → %20, & → %26, ! → %21"
+      - "Output: hello%20world%20%26%20goodbye%21"
+    result: "hello%20world%20%26%20goodbye%21"
+  - title: "Encode a Full URL"
+    inputs:
+      - "Mode: encodeURI"
+      - "Input: https://example.com/search?q=hello world&lang=en"
+    steps:
+      - "Structural characters preserved: ://?&="
+      - "Space → %20, other special chars encoded"
+      - "Output: https://example.com/search?q=hello%20world&lang=en"
+    result: "https://example.com/search?q=hello%20world&lang=en"
+  - title: "Decode a Percent-Encoded String"
+    inputs:
+      - "Mode: Decode"
+      - "Input: Caf%C3%A9%20au%20lait"
+    steps:
+      - "%C3%A9 is the UTF-8 encoding for é (e with acute)"
+      - "%20 is a space character"
+      - "Decoded: Café au lait"
+    result: "Café au lait"
 ---
 
     <!-- Main Tool Container -->
