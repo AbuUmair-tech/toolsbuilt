@@ -31,20 +31,25 @@
                   <p class="mega-menu-cat-desc">{{ cat.description }}</p>
                   <ul class="mega-menu-tool-list">
                     {% set catTools = tools | filterByCategory(cat.slug) %}
-                    {% for tool in catTools %}
+                    {% for tool in catTools.slice(0, 6) %}
                       <li>
                         <a href="/tools/{{ tool.slug }}/" class="mega-menu-tool-link{% if page.url == '/tools/' + tool.slug + '/' %} active{% endif %}"{% if page.url == '/tools/' + tool.slug + '/' %} aria-current="page"{% endif %}>
                           {{ tool.shortName or tool.name }}
                         </a>
                       </li>
                     {% endfor %}
+                    <li>
+                      <a href="{{ cat.slug | categoryUrl }}" class="mega-menu-cat-all-link">
+                        View all {{ cat.name }} &rarr;
+                      </a>
+                    </li>
                   </ul>
                 </div>
               {% endfor %}
             </div>
             <div class="mega-menu-footer">
-              <a href="/#cat-date-time" class="mega-menu-view-all">
-                <span>View all tools on homepage &rarr;</span>
+              <a href="/tools/" class="mega-menu-view-all">
+                <span>View all tools directory &rarr;</span>
               </a>
             </div>
           </div>
@@ -142,7 +147,7 @@
               <div class="mobile-accordion-content" id="mobile-cat-panel-{{ cat.slug }}" hidden>
                 <ul>
                   {% set catTools = tools | filterByCategory(cat.slug) %}
-                  {% for tool in catTools %}
+                  {% for tool in catTools.slice(0, 6) %}
                     <li>
                       <a href="/tools/{{ tool.slug }}/" class="mobile-tool-link{% if page.url == '/tools/' + tool.slug + '/' %} active{% endif %}"{% if page.url == '/tools/' + tool.slug + '/' %} aria-current="page"{% endif %}>
                         {{ tool.shortName or tool.name }}

@@ -3,8 +3,7 @@ const site = require('./site.json');
 module.exports = function() {
   let authorAnswer;
   if (!site.authorName || site.authorName.includes('TODO_')) {
-    console.warn('⚠️  [WARN] site.json author fields contain TODO placeholders. Rendering neutral "ToolsBuilt editorial team" in homepage FAQ.');
-    authorAnswer = 'ToolsBuilt is designed, developed, and maintained by the ToolsBuilt editorial team—independent software engineers and designers dedicated to building fast, accessible, privacy-first web utilities with zero trackers or subscriptions.';
+    authorAnswer = 'ToolsBuilt is designed, developed, and maintained by Abu Umair—independent software engineer and designer dedicated to building fast, accessible, privacy-first web utilities with no data storage or subscriptions.';
   } else {
     authorAnswer = `ToolsBuilt is designed, developed, and maintained by ${site.authorName}${site.authorBio ? '—' + site.authorBio : ''}.`;
   }

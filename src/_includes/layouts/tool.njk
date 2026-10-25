@@ -4,9 +4,9 @@ layout: layouts/base.njk
 {% set currentTool = tools | findTool(toolSlug or slug) %}
 {% set currentCategory = categories | findCategory(currentTool.category) %}
 
-{% set authorName = "ToolsBuilt editorial team" %}
-{% if site.authorName and not site.authorName.includes("TODO_") %}
-  {% set authorName = site.authorName %}
+{% set authorName = site.authorName or "Abu Umair" %}
+{% if site.authorName and site.authorName.includes("TODO_") %}
+  {% set authorName = "Abu Umair" %}
 {% endif %}
 
 {% set reviewerName = "" %}
@@ -155,7 +155,7 @@ layout: layouts/base.njk
           <h1 class="tool-hero-title">{{ h1 or (currentTool.name if currentTool else title) }}</h1>
           <p class="tool-hero-description">{{ currentTool.description if currentTool else description }}</p>
           <p class="tool-byline">
-            By ToolsBuilt editorial team
+            By {{ authorName }}
             · Updated <time datetime="{{ currentTool.updated or '2026-10-15' }}">{{ (currentTool.updated or '2026-10-15') | humanDate }}</time>
           </p>
         </div>

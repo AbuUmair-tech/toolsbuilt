@@ -1,6 +1,33 @@
+const fs = require('fs');
+const path = require('path');
+const { execSync } = require('child_process');
 const { buildCss } = require('./scripts/bundle-css.js');
 const { buildSearchIndex } = require('./scripts/build-search-index.js');
 const { generateAllCards } = require('./scripts/generate-og-cards.js');
+
+function syncToolsDataJs() {
+  const toolsPath = path.join(__dirname, 'src', '_data', 'tools.json');
+  const catPath = path.join(__dirname, 'src', '_data', 'categories.json');
+  const outPath = path.join(__dirname, 'src', 'assets', 'js', 'tools-data.js');
+  if (fs.existsSync(toolsPath) && fs.existsSync(catPath)) {
+    const tools = JSON.parse(fs.readFileSync(toolsPath, 'utf8'));
+    const cats = JSON.parse(fs.readFileSync(catPath, 'utf8'));
+    const catMap = new Map(cats.map(c => [c.slug, c.name]));
+    const data = tools.map(t => ({
+      id: t.slug,
+      name: t.name,
+      url: `/tools/${t.slug}/`,
+      icon: t.iconName || '',
+      description: t.description || '',
+      category: catMap.get(t.category) || t.category,
+      categoryId: t.category,
+      popular: !!t.popular,
+      related: t.related || []
+    }));
+    const content = `/**\n * Shared Registry of ToolsBuilt Tools (Generated from tools.json & categories.json)\n */\n\nwindow.TOOLS_DATA = ${JSON.stringify(data, null, 2)};\n`;
+    fs.writeFileSync(outPath, content, 'utf8');
+  }
+}
 
 module.exports = function(eleventyConfig) {
   const isProduction = process.env.NODE_ENV === 'production' || process.env.SITE_ENV === 'production';
@@ -8,17 +35,20 @@ module.exports = function(eleventyConfig) {
   // Watch CSS directory for hot reloading
   eleventyConfig.addWatchTarget('src/assets/css/');
 
-  // Initial CSS and search index build to get hashes before any template renders
+  // Initial CSS, tools-data, and search index build to get hashes before any template renders
+  syncToolsDataJs();
   let cssBundle = buildCss({ isProduction });
   let searchBundle = buildSearchIndex();
 
   eleventyConfig.on('eleventy.before', async () => {
+    syncToolsDataJs();
     cssBundle = buildCss({ isProduction });
     searchBundle = buildSearchIndex();
     await generateAllCards();
   });
 
   eleventyConfig.on('eleventy.after', async () => {
+    syncToolsDataJs();
     buildCss({ isProduction });
     buildSearchIndex();
   });
@@ -259,6 +289,92 @@ module.exports = function(eleventyConfig) {
     }
 
     return result.slice(0, limit);
+  });
+
+  eleventyConfig.addGlobalData('buildDate', () => new Date().toISOString().split('T')[0]);
+
+  eleventyConfig.addFilter('limit', function(arr, count) {
+    if (!Array.isArray(arr)) return [];
+    return arr.slice(0, count);
+  });
+
+  eleventyConfig.addFilter('fileLastmod', function(relativePath) {
+    const fullPath = path.join(__dirname, relativePath);
+    if (!fs.existsSync(fullPath)) return new Date().toISOString().split('T')[0];
+    try {
+      const content = fs.readFileSync(fullPath, 'utf8');
+      const match = content.match(/^updated:\s*["']?([0-9]{4}-[0-9]{2}-[0-9]{2})["']?/m);
+      if (match) return match[1];
+    } catch (e) {}
+    try {
+      const gitDate = execSync(`git log -1 --format=%cs "${fullPath}"`, { encoding: 'utf8' }).trim();
+      if (gitDate && /^\d{4}-\d{2}-\d{2}$/.test(gitDate)) {
+        return gitDate;
+      }
+    } catch (e) {}
+    try {
+      const stat = fs.statSync(fullPath);
+      return stat.mtime.toISOString().split('T')[0];
+    } catch (e) {}
+    return '2026-10-24';
+  });
+
+  eleventyConfig.addFilter('latestToolDate', function(tools, catSlug) {
+    if (!Array.isArray(tools) || tools.length === 0) return '2026-10-15';
+    let filtered = tools;
+    if (catSlug) {
+      filtered = tools.filter(t => t.category === catSlug);
+    }
+    const dates = filtered.map(t => t.updated).filter(Boolean).sort().reverse();
+    return dates[0] || '2026-10-15';
+  });
+
+  function formatIsoDate(val) {
+    if (!val) return '';
+    const d = val instanceof Date ? val : new Date(val);
+    return isNaN(d.getTime()) ? '' : d.toISOString().split('T')[0];
+  }
+
+  eleventyConfig.addFilter('latestSiteDate', function(tools, posts) {
+    const dates = [];
+    if (Array.isArray(tools)) {
+      tools.forEach(t => {
+        if (t.updated) {
+          const iso = formatIsoDate(t.updated);
+          if (iso) dates.push(iso);
+        }
+      });
+    }
+    if (Array.isArray(posts)) {
+      posts.forEach(p => {
+        const raw = (p.data && p.data.updated) || p.date;
+        const iso = formatIsoDate(raw);
+        if (iso) dates.push(iso);
+      });
+    }
+    dates.sort().reverse();
+    return dates[0] || '2026-10-15';
+  });
+
+  eleventyConfig.addFilter('blogPagesList', function(posts, pageSize = 9) {
+    if (!Array.isArray(posts) || posts.length === 0) return [];
+    const isProd = process.env.NODE_ENV === 'production' || process.env.SITE_ENV === 'production';
+    const published = isProd ? posts.filter(p => !p.data.draft) : posts;
+    const sorted = [...published].reverse();
+    const totalPages = Math.ceil(sorted.length / pageSize) || 1;
+    const pages = [];
+    for (let i = 0; i < totalPages; i++) {
+      const chunk = sorted.slice(i * pageSize, (i + 1) * pageSize);
+      const latestPost = chunk[0];
+      const raw = (latestPost && latestPost.data && latestPost.data.updated) || (latestPost && latestPost.date);
+      const lastmod = formatIsoDate(raw) || '2026-10-24';
+      pages.push({
+        pageNumber: i + 1,
+        url: i === 0 ? '/blog/' : `/blog/page/${i + 1}/`,
+        lastmod
+      });
+    }
+    return pages;
   });
 
   return {

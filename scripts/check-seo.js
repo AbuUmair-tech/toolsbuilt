@@ -270,7 +270,33 @@ function checkSeo() {
     }
   }
 
-  // 5. Audit Metadata Bounds & Uniqueness
+  // 5. Verify Sitemap URLs Exist on Disk in _site
+  const sitemapFile = path.join(SITE_DIR, 'sitemap.xml');
+  if (!fs.existsSync(sitemapFile)) {
+    errors.push(`sitemap.xml not found at ${sitemapFile}`);
+  } else {
+    const xml = fs.readFileSync(sitemapFile, 'utf8');
+    const locMatches = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m => m[1].trim());
+    if (locMatches.length === 0) {
+      errors.push('sitemap.xml contains no <loc> entries');
+    }
+    for (const loc of locMatches) {
+      if (loc.includes('design-system')) {
+        errors.push(`sitemap.xml includes forbidden design-system URL: ${loc}`);
+      }
+      if (!loc.startsWith(BASE_URL)) {
+        errors.push(`sitemap.xml URL does not start with BASE_URL (${BASE_URL}): ${loc}`);
+        continue;
+      }
+      const urlPath = loc.slice(BASE_URL.length) || '/';
+      const diskPath = urlPathToFilePath(urlPath);
+      if (!fs.existsSync(diskPath)) {
+        errors.push(`Sitemap URL "${loc}" does not exist in _site (expected: ${diskPath})`);
+      }
+    }
+  }
+
+  // 6. Audit Metadata Bounds & Uniqueness
   const titles = new Map();
   const descriptions = new Map();
 
@@ -289,8 +315,8 @@ function checkSeo() {
     if (!data.title) {
       errors.push(`${url}: Missing <title>`);
     } else {
-      if (data.title.length < 15 || data.title.length > 65) {
-        errors.push(`${url}: <title> length ${data.title.length} is outside allowed range [15, 65] ("${data.title}")`);
+      if (data.title.length < 30 || data.title.length > 60) {
+        errors.push(`${url}: <title> length ${data.title.length} is outside allowed range [30, 60] ("${data.title}")`);
       }
       if (titles.has(data.title)) {
         errors.push(`${url}: Duplicate <title> shared with ${titles.get(data.title)} ("${data.title}")`);
@@ -303,8 +329,8 @@ function checkSeo() {
     if (!data.description) {
       errors.push(`${url}: Missing meta description`);
     } else {
-      if (data.description.length < 70 || data.description.length > 170) {
-        errors.push(`${url}: Meta description length ${data.description.length} is outside allowed range [70, 170] ("${data.description.slice(0, 50)}...")`);
+      if (data.description.length < 120 || data.description.length > 160) {
+        errors.push(`${url}: Meta description length ${data.description.length} is outside allowed range [120, 160] ("${data.description.slice(0, 50)}...")`);
       }
       if (descriptions.has(data.description)) {
         errors.push(`${url}: Duplicate meta description shared with ${descriptions.get(data.description)}`);
@@ -344,11 +370,37 @@ function checkSeo() {
   // 6. Audit Published Blog Posts (non-draft only)
   checkBlogPosts(errors, warnings);
 
+  // 7. Forbidden text check: fail if "TODO_", "editorial team" or "zero trackers" appears in _site
+  const forbiddenPhrases = ['TODO_', 'editorial team', 'zero trackers'];
+  function scanSiteForForbidden(dir) {
+    const entries = fs.readdirSync(dir, { withFileTypes: true });
+    for (const entry of entries) {
+      const fullPath = path.join(dir, entry.name);
+      if (entry.isDirectory()) {
+        scanSiteForForbidden(fullPath);
+      } else if (entry.isFile()) {
+        const ext = path.extname(entry.name).toLowerCase();
+        if (['.png', '.jpg', '.jpeg', '.gif', '.ico', '.webp', '.woff', '.woff2', '.ttf', '.eot'].includes(ext)) {
+          continue;
+        }
+        const content = fs.readFileSync(fullPath, 'utf8');
+        for (const phrase of forbiddenPhrases) {
+          const regex = new RegExp(phrase.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i');
+          if (regex.test(content)) {
+            const rel = path.relative(SITE_DIR, fullPath).replace(/\\/g, '/');
+            errors.push(`Forbidden phrase "${phrase}" found in _site/${rel}`);
+          }
+        }
+      }
+    }
+  }
+  scanSiteForForbidden(SITE_DIR);
+
   // Print Summary Table
   console.log('\n========================================================================================');
   console.log('PAGE AUDIT SUMMARY');
   console.log('========================================================================================');
-  console.log(`URL`.padEnd(46) + `| Depth | Links | Title (${'[15,65]'}) | Desc (${'[70,170]'}`);
+  console.log(`URL`.padEnd(46) + `| Depth | Links | Title (${'[30,60]'}) | Desc (${'[120,160]'}`);
   console.log('----------------------------------------------------------------------------------------');
 
   const sortedPages = Array.from(pageDataMap.values()).sort((a, b) => a.clickDepth - b.clickDepth || a.url.localeCompare(b.url));

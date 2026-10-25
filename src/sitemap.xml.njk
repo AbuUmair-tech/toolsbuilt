@@ -6,20 +6,20 @@ eleventyExcludeFromCollections: true
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://toolsbuilt.com/</loc>
-    <lastmod>2026-10-15</lastmod>
+    <lastmod>{{ buildDate }}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://toolsbuilt.com/tools/</loc>
-    <lastmod>2026-10-15</lastmod>
+    <lastmod>{{ buildDate }}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
 {%- for cat in categories %}
   <url>
     <loc>https://toolsbuilt.com/category/{{ cat.slug }}/</loc>
-    <lastmod>2026-10-15</lastmod>
+    <lastmod>{{ buildDate }}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -32,44 +32,52 @@ eleventyExcludeFromCollections: true
     <priority>0.9</priority>
   </url>
 {%- endfor %}
+{%- for bPage in collections.post | blogPagesList(9) %}
   <url>
-    <loc>https://toolsbuilt.com/about/</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://toolsbuilt.com/contact/</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://toolsbuilt.com/privacy-policy/</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
-  </url>
-  <url>
-    <loc>https://toolsbuilt.com/terms/</loc>
-    <lastmod>2026-10-15</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
-  </url>
-  <url>
-    <loc>https://toolsbuilt.com/blog/</loc>
-    <lastmod>2026-10-24</lastmod>
+    <loc>https://toolsbuilt.com{{ bPage.url }}</loc>
+    <lastmod>{{ bPage.lastmod }}</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>{% if bPage.pageNumber == 1 %}0.8{% else %}0.7{% endif %}</priority>
   </url>
+{%- endfor %}
 {%- for post in collections.post %}
   {%- if not (env.isProduction and post.data.draft) %}
   <url>
     <loc>https://toolsbuilt.com{{ post.url }}</loc>
-    <lastmod>{{ post.data.updated or post.date | isoDate }}</lastmod>
+    <lastmod>{{ (post.data.updated or post.date) | isoDate }}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   {%- endif %}
 {%- endfor %}
+  <url>
+    <loc>https://toolsbuilt.com/about/</loc>
+    <lastmod>{{ "src/about/index.njk" | fileLastmod }}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://toolsbuilt.com/contact/</loc>
+    <lastmod>{{ "src/contact/index.njk" | fileLastmod }}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://toolsbuilt.com/privacy-policy/</loc>
+    <lastmod>{{ "src/privacy-policy/index.njk" | fileLastmod }}</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://toolsbuilt.com/terms/</loc>
+    <lastmod>{{ "src/terms/index.njk" | fileLastmod }}</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://toolsbuilt.com/sitemap/</loc>
+    <lastmod>{{ "src/sitemap/index.njk" | fileLastmod }}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
 </urlset>

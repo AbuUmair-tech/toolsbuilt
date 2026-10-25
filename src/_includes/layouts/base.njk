@@ -12,6 +12,11 @@
   {% if pagination and pagination.href.next %}
   <link rel="next" href="https://toolsbuilt.com{{ pagination.href.next }}">
   {% endif %}
+  {% if alternates and alternates.length %}
+  {% for alt in alternates %}
+  <link rel="alternate" hreflang="{{ alt.lang }}" href="{{ alt.url }}">
+  {% endfor %}
+  {% endif %}
   {% block extraHead %}{% endblock %}
   {% if (not env.isProduction) or noindex or draft %}<meta name="robots" content="noindex, nofollow">{% endif %}
   <meta name="color-scheme" content="light dark">

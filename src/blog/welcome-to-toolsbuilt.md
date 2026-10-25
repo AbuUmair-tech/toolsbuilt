@@ -36,7 +36,7 @@ This architecture has a practical performance benefit too. Because there is no r
 
 ## Privacy in Practice
 
-Claiming "zero trackers" would be inaccurate. ToolsBuilt uses **Google Analytics** for anonymous traffic statistics—page views, bounce rate, which tools are popular—and serves **Google AdSense** display ads to keep the lights on. These are standard web services, and their presence is disclosed in the [Privacy Policy](/privacy-policy/).
+ToolsBuilt does not claim to operate without standard web analytics. ToolsBuilt uses **Google Analytics** for anonymous traffic statistics—page views, bounce rate, which tools are popular—and serves **Google AdSense** display ads to keep the lights on. These are standard web services, and their presence is disclosed in the [Privacy Policy](/privacy-policy/).
 
 What ToolsBuilt does **not** do is send your calculation inputs anywhere. The password you generate, the salary you enter into the tax calculator, the loan amount you run through the mortgage tool—none of that is captured, stored, or transmitted. The distinction matters: analytics tells me which pages people visit, not what they type into the form fields.
 

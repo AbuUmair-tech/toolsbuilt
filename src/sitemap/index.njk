@@ -1,0 +1,53 @@
+---
+layout: layouts/page.njk
+title: "HTML Sitemap - Complete Overview | ToolsBuilt"
+description: "Explore the complete HTML sitemap for ToolsBuilt. Find all free online calculators, utility categories, blog guides, and legal pages in one place."
+permalink: /sitemap/
+breadcrumbTitle: "HTML Sitemap"
+h1: "HTML Sitemap"
+subtitle: "A comprehensive directory of all calculators, categories, guides, and pages on ToolsBuilt."
+updated: 2026-10-24
+---
+      <section class="sitemap-section">
+        <h2>Main Pages</h2>
+        <ul>
+          <li><a href="/">Home</a> - Fast, client-side, privacy-first online calculators.</li>
+          <li><a href="/tools/">All Tools Directory</a> - Complete directory of all available online utilities.</li>
+          <li><a href="/blog/">Blog &amp; Guides</a> - Practical tutorials and engineering insights.</li>
+          <li><a href="/about/">About Us</a> - Learn about our mission and client-side privacy architecture.</li>
+          <li><a href="/contact/">Contact Us</a> - Get in touch with our team or suggest a calculator.</li>
+        </ul>
+      </section>
+
+      <section class="sitemap-section">
+        <h2>Tool Categories &amp; Calculators</h2>
+        {% for cat in categories %}
+          <h3><a href="{{ cat.slug | categoryUrl }}">{{ cat.name }}</a></h3>
+          <p>{{ cat.description }}</p>
+          <ul>
+            {% set catTools = tools | filterByCategory(cat.slug) %}
+            {% for tool in catTools %}
+              <li><a href="/tools/{{ tool.slug }}/">{{ tool.name }}</a> - {{ tool.description }}</li>
+            {% endfor %}
+          </ul>
+        {% endfor %}
+      </section>
+
+      <section class="sitemap-section">
+        <h2>Blog Articles &amp; Guides</h2>
+        <ul>
+          {% for post in collections.post | reverse %}
+            {% if not (env.isProduction and post.data.draft) %}
+              <li><a href="{{ post.url }}">{{ post.data.title }}</a> - {{ post.data.description }}</li>
+            {% endif %}
+          {% endfor %}
+        </ul>
+      </section>
+
+      <section class="sitemap-section">
+        <h2>Legal &amp; Policy Pages</h2>
+        <ul>
+          <li><a href="/privacy-policy/">Privacy Policy</a> - How we protect your data with 100% client-side computing.</li>
+          <li><a href="/terms/">Terms of Service</a> - Terms, disclaimers, and acceptable usage guidelines.</li>
+        </ul>
+      </section>

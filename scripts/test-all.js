@@ -11,6 +11,8 @@ const path = require('path');
 const { execSync } = require('child_process');
 
 const ROOT = path.resolve(__dirname, '..');
+const toolsData = JSON.parse(fs.readFileSync(path.join(ROOT, 'src', '_data', 'tools.json'), 'utf8'));
+const categoriesData = JSON.parse(fs.readFileSync(path.join(ROOT, 'src', '_data', 'categories.json'), 'utf8'));
 let failures = 0;
 
 function assert(condition, message) {
@@ -487,7 +489,7 @@ try {
   });
   assert(
     templateOutput.includes('ALL TEMPLATE & DIRECTORY INTEGRITY CHECKS PASSED'),
-    'Template audit: 5 category hubs, /tools/ directory, 10 tool pages, breadcrumbs, JSON-LD, sitemap, result actions'
+    `Template audit: ${categoriesData.length} category hubs, /tools/ directory, ${toolsData.length} tool pages, breadcrumbs, JSON-LD, sitemap, result actions`
   );
 } catch (e) {
   assert(false, `Template & Directory integrity checks failed: ${e.message}\n${e.stdout || ''}${e.stderr || ''}`);
@@ -559,7 +561,7 @@ try {
   });
   assert(
     logicOutput.includes('ALL PURE LOGIC & PROPERTY FUZZ TESTS PASSED'),
-    'Pure logic: 10 tools, unit edge cases, DST/UTC invariance, Mulberry32 property fuzzing (500 runs)'
+    `Pure logic: ${toolsData.length} tools, unit edge cases, DST/UTC invariance, Mulberry32 property fuzzing (500 runs)`
   );
 } catch (e) {
   assert(false, `Pure logic unit/fuzz tests failed: ${e.message}\n${e.stdout || ''}${e.stderr || ''}`);
@@ -577,7 +579,7 @@ try {
   });
   assert(
     toolUxOutput.includes('ALL TOOL UX, DEBOUNCE, ENTER-KEY & AXE-CORE TESTS PASSED'),
-    'Tool UX: 10 tools, live 150ms debounce, Enter key submission, copy toast, 0 axe-core violations in light & dark mode'
+    `Tool UX: ${toolsData.length} tools, live 150ms debounce, Enter key submission, copy toast, 0 axe-core violations in light & dark mode`
   );
 } catch (e) {
   assert(false, `Tool UX & axe-core tests failed: ${e.message}\n${e.stdout || ''}${e.stderr || ''}`);
