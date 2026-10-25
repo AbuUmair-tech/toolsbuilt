@@ -5,6 +5,65 @@ title: "Percentage Change Calculator - Increase & Decrease"
 description: "Calculate percentage change, percent increase or decrease, what percent X is of Y, and percentage difference with step-by-step formula math."
 permalink: /tools/percentage-change-calculator/
 h1: "Percentage Change Calculator"
+quickAnswer: "To calculate the percentage change between an old number and a new number, subtract the old value from the new value, divide that difference by the absolute value of the old number, and multiply by 100. The tool also supports percent difference, parts of a whole, and direct percentage values."
+formula:
+  title: "Percentage Change & Difference Formulas"
+  expression: "Percentage Change = ((New Value - Old Value) / |Old Value|) × 100"
+  explanation: "Subtract the original baseline value (Old) from the ending value (New) to obtain the raw difference. Divide by the absolute value of the old number to preserve direction, then multiply by 100. For comparisons without a baseline, percentage difference divides absolute difference by the mean of both numbers."
+workedExamples:
+  - title: "Revenue Increase (+50%)"
+    inputs:
+      - "Old Value: $50,000"
+      - "New Value: $75,000"
+    steps:
+      - "Calculate difference: $75,000 - $50,000 = +$25,000"
+      - "Divide by original baseline: $25,000 ÷ $50,000 = 0.50"
+      - "Multiply by 100: 0.50 × 100 = +50.00%"
+    result: "+50.00% Increase (+$25,000 difference)"
+  - title: "Price Reduction (-25%)"
+    inputs:
+      - "Old Value: $80.00"
+      - "New Value: $60.00"
+    steps:
+      - "Calculate difference: $60.00 - $80.00 = -$20.00"
+      - "Divide by original baseline: -$20.00 ÷ 80.00 = -0.25"
+      - "Multiply by 100: -0.25 × 100 = -25.00%"
+    result: "-25.00% Decrease (-$20.00 difference)"
+  - title: "Percent Difference Between Two Lab Measurements"
+    inputs:
+      - "Measurement A: 100 units"
+      - "Measurement B: 120 units"
+    steps:
+      - "Find absolute difference: |100 - 120| = 20"
+      - "Find average of values: (100 + 120) ÷ 2 = 110"
+      - "Divide difference by average: 20 ÷ 110 ≈ 0.181818"
+      - "Multiply by 100: 0.181818 × 100 ≈ 18.18%"
+    result: "18.18% Difference (Average: 110)"
+  - title: "What is 25% of 200?"
+    inputs:
+      - "Percentage: 25%"
+      - "Total: 200"
+    steps:
+      - "Convert percent to decimal: 25 ÷ 100 = 0.25"
+      - "Multiply by total: 0.25 × 200 = 50"
+    result: "50"
+commonMistakes:
+  - title: "Dividing by the New Value"
+    description: "Always divide by the original starting baseline (Old Value). Dividing by the new value gives the fraction of the final number, producing an incorrect percentage."
+  - title: "Confusing Percentage Points with Percentage Change"
+    description: "If tax rises from 10% to 12%, that is a 2 percentage point increase, but a 20% relative percentage increase ((12 - 10) / 10 = 0.20)."
+  - title: "Assuming Inverse Symmetry"
+    description: "A 50% drop requires a 100% gain to break even. If a $100 stock falls 50% to $50, gaining 50% only returns it to $75."
+  - title: "Attempting to Calculate Change from Zero"
+    description: "Division by zero is mathematically undefined. You cannot calculate relative percentage change from an initial baseline of zero."
+sources:
+  - name: "NIST Guide to the SI - Percentage Rules and Units"
+    url: "https://www.nist.gov/pml/special-publication-811"
+  - name: "Khan Academy: Percent Change and Percent Difference"
+    url: "https://www.khanacademy.org/math/algebra"
+  - name: "ISO 80000-2 Quantities and Units - Mathematical Signs and Symbols"
+    url: "https://www.iso.org/standard/64973.html"
+lastReviewed: "October 24, 2026"
 howto:
   name: "How to Calculate Percentage Change Online"
   description: "Step-by-step instructions for calculating percent change, increase, decrease, and proportions."
@@ -26,13 +85,10 @@ faqs:
     a: "Yes. Any time a quantity more than doubles, the percentage change exceeds +100%. For instance, increasing from 20 to 60 is a +200% increase."
   - q: "Can percentage decrease exceed 100%?"
     a: "For standard positive physical quantities (like prices or weight), a decrease cannot exceed 100% because dropping by 100% brings the value to zero. Decreases beyond -100% only occur when quantities move into negative numbers."
-sources:
-  - label: "NIST Guide to the SI - Percentage Rules and Units"
-    url: "https://www.nist.gov/pml/special-publication-811"
-  - label: "Khan Academy: Percent Change and Percent Difference"
-    url: "https://www.khanacademy.org/math/algebra"
-  - label: "ISO 80000-2 Quantities and units - Mathematical signs and symbols"
-    url: "https://www.iso.org/standard/64973.html"
+  - q: "How does the tool handle negative baseline numbers?"
+    a: "The formula uses the absolute value of the baseline in the denominator: ((New - Old) / |Old|) × 100. This ensures that moving from -100 to -50 correctly registers as an increase (+50%)."
+  - q: "Can I use this calculator for year-over-year (YoY) revenue calculations?"
+    a: "Yes. Enter last year's revenue in the Old Value field and this year's revenue in the New Value field to compute YoY business growth."
 ---
 
     <!-- Tool Form Container -->
@@ -153,66 +209,13 @@ sources:
       </div>
     </section>
 
-    <!-- AEO Quick Answer Box -->
-    <div class="info-callout" style="margin-top: 2rem; margin-bottom: 2rem;">
-      <h3 style="font-size: 1.05rem; margin-bottom: 0.35rem; color: var(--accent-primary);">Quick Answer</h3>
-      <p style="margin-bottom: 0;">To calculate percentage change between an old number and a new number: subtract the old value from the new value, divide by the absolute value of the old number, and multiply by 100. Formula: <code>((New - Old) / |Old|) × 100</code>.</p>
-    </div>
-
     <!-- When to Use Section -->
-    <section style="margin: 2.5rem 0;" aria-labelledby="how-to-use-heading">
-      <h2 id="how-to-use-heading">How &amp; When to Use the Percentage Change Calculator</h2>
+    <section style="margin: 2.5rem 0;">
+      <h2>How &amp; When to Use the Percentage Change Calculator</h2>
       <ul style="color: var(--text-muted); line-height: 1.8; margin-left: 1.25rem;">
         <li><strong>Financial &amp; Investment Analysis:</strong> Measure stock price gains, revenue year-over-year (YoY) growth, or quarterly budget shifts.</li>
         <li><strong>Retail Pricing &amp; Markups:</strong> Compute wholesale to retail markups or consumer inflation adjustments.</li>
         <li><strong>Health &amp; Fitness Tracking:</strong> Monitor body weight loss or muscle mass gains relative to initial baseline metrics.</li>
         <li><strong>Web Analytics &amp; Conversion Rates:</strong> Calculate visitor growth or checkout funnel drop-offs.</li>
-      </ul>
-    </section>
-
-    <!-- Worked Examples Section -->
-    <section style="margin: 2.5rem 0;" aria-labelledby="article-heading">
-      <h2 id="article-heading">Worked Percentage Examples &amp; Formula</h2>
-      
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 1.25rem;">
-        <div style="background: var(--surface-muted); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem;">
-          <h3 style="font-size: 1.1rem; margin-top: 0; color: var(--accent-primary);">Example 1: Revenue Increase</h3>
-          <p style="font-size: var(--font-size-sm); color: var(--text-muted); margin-bottom: 0.5rem;"><strong>Old:</strong> $50,000 | <strong>New:</strong> $75,000</p>
-          <ul style="font-size: var(--font-size-sm); color: var(--text-muted); line-height: 1.6; margin-left: 1.25rem;">
-            <li>Difference: $75,000 - $50,000 = +$25,000</li>
-            <li>Divide by Old: 25,000 / 50,000 = 0.50</li>
-            <li>Multiply by 100: <strong>+50.00% Increase</strong></li>
-          </ul>
-        </div>
-
-        <div style="background: var(--surface-muted); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem;">
-          <h3 style="font-size: 1.1rem; margin-top: 0; color: var(--accent-primary);">Example 2: Price Reduction</h3>
-          <p style="font-size: var(--font-size-sm); color: var(--text-muted); margin-bottom: 0.5rem;"><strong>Old:</strong> $80 | <strong>New:</strong> $60</p>
-          <ul style="font-size: var(--font-size-sm); color: var(--text-muted); line-height: 1.6; margin-left: 1.25rem;">
-            <li>Difference: $60 - $80 = -$20</li>
-            <li>Divide by Old: -20 / 80 = -0.25</li>
-            <li>Multiply by 100: <strong>-25.00% Decrease</strong></li>
-          </ul>
-        </div>
-
-        <div style="background: var(--surface-muted); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem;">
-          <h3 style="font-size: 1.1rem; margin-top: 0; color: var(--accent-primary);">Example 3: Percent Difference (Two Labs)</h3>
-          <p style="font-size: var(--font-size-sm); color: var(--text-muted); margin-bottom: 0.5rem;"><strong>Lab A:</strong> 100 units | <strong>Lab B:</strong> 120 units</p>
-          <ul style="font-size: var(--font-size-sm); color: var(--text-muted); line-height: 1.6; margin-left: 1.25rem;">
-            <li>Difference: |100 - 120| = 20</li>
-            <li>Average: (100 + 120) / 2 = 110</li>
-            <li>Difference: (20 / 110) × 100 = <strong>18.18%</strong></li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <!-- Common Mistakes Section -->
-    <section style="margin: 2.5rem 0;" aria-labelledby="mistakes-heading">
-      <h2 id="mistakes-heading">Common Percentage Calculation Mistakes</h2>
-      <ul style="color: var(--text-muted); line-height: 1.8; margin-left: 1.25rem;">
-        <li><strong>Dividing by the New Value Instead of the Old:</strong> The percentage change formula requires dividing by the initial baseline value (`Old`). Dividing by the `New` value will give the wrong percentage.</li>
-        <li><strong>Confusing Percentage Points with Percentage Change:</strong> If tax increases from 10% to 12%, that is an increase of 2 percentage points, but a 20% relative percentage increase ((12 - 10) / 10 = 0.20).</li>
-        <li><strong>Asymmetry of Increases and Decreases:</strong> A 50% drop requires a 100% gain to break even. For example, if $100 drops by 50% to $50, gaining 50% only brings it to $75, not back to $100.</li>
       </ul>
     </section>

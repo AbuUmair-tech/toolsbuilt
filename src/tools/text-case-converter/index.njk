@@ -6,6 +6,67 @@ description: "Convert text to UPPERCASE, lowercase, Title Case, Sentence case, c
 permalink: /tools/text-case-converter/
 h1: "Text Case Converter"
 extraCss: "/tools/text-case-converter/style.css"
+quickAnswer: "To convert text between case styles, paste your content into the input box and select any transformation style. The tool instantly transforms text into UPPERCASE, lowercase, Title Case, Sentence case, camelCase, PascalCase, snake_case, kebab-case, and more while preserving punctuation and Unicode characters entirely in your browser."
+formula:
+  title: "Case Transformation & Tokenization Rules"
+  expression: "Transformed Text = ApplyCaseTransform(TokenizeWords(InputString, UnicodeRegex), StyleRule)"
+  explanation: "Input strings are tokenized into words using Unicode letter property escapes (\\p{L}). Words are then restructured according to specific style rules: Chicago Manual of Style minor word rules for Title Case, or underscore/hyphen delimiters for programmatic identifiers."
+workedExamples:
+  - title: "Headline to Chicago Title Case"
+    inputs:
+      - "Input: 'the quick brown fox jumps over the lazy dog'"
+      - "Target Style: Title Case"
+    steps:
+      - "Tokenize words across Unicode whitespace boundaries"
+      - "Capitalize leading and trailing words ('The', 'Dog')"
+      - "Capitalize major words ('Quick', 'Brown', 'Fox', 'Jumps', 'Lazy')"
+      - "Keep minor prepositions and articles lowercase ('over', 'the')"
+    result: "'The Quick Brown Fox Jumps Over the Lazy Dog'"
+  - title: "Title to camelCase (JavaScript Identifier)"
+    inputs:
+      - "Input: 'user profile setting'"
+      - "Target Style: camelCase"
+    steps:
+      - "Extract alphanumeric word tokens: ['user', 'profile', 'setting']"
+      - "Lower-case the first word: 'user'"
+      - "Capitalize first character of subsequent words: 'Profile', 'Setting'"
+      - "Concatenate without spaces"
+    result: "'userProfileSetting'"
+  - title: "Title to kebab-case (URL Slug)"
+    inputs:
+      - "Input: 'Annual Financial Report 2026'"
+      - "Target Style: kebab-case"
+    steps:
+      - "Tokenize words: ['Annual', 'Financial', 'Report', '2026']"
+      - "Convert all characters to lowercase"
+      - "Join tokens using hyphens (-)"
+    result: "'annual-financial-report-2026'"
+  - title: "Sentence Case Capitalization"
+    inputs:
+      - "Input: 'hello world! this is a test. here is another one.'"
+      - "Target Style: Sentence case"
+    steps:
+      - "Identify sentence terminators (. ! ?)"
+      - "Capitalize initial letter of each sentence"
+      - "Keep remaining sentence characters lowercase"
+    result: "'Hello world! This is a test. Here is another one.'"
+commonMistakes:
+  - title: "Capitalizing Minor Prepositions in Title Case"
+    description: "In Chicago and AP style, minor prepositions, articles, and conjunctions under four letters (e.g., 'in', 'on', 'the', 'and', 'for') remain lowercase unless starting a sentence."
+  - title: "Breaking Unicode & Accented Characters"
+    description: "Naive case conversion using standard ASCII regex fails on accented letters like 'é' or non-Latin alphabets; Unicode property escapes (\\p{L}) must be used."
+  - title: "Losing Delimiters When Converting Code"
+    description: "Converting camelCase or snake_case code into sentence case strips programming delimiters. Keep backups or use the Undo button."
+  - title: "Title Case on All-Caps Input"
+    description: "If all-caps text is fed into a title case engine without initial lower-casing, minor prepositions remain capitalized. Our algorithm normalizes tokens first."
+sources:
+  - name: "The Chicago Manual of Style: Headings and Title Capitalization Rules"
+    url: "https://www.chicagomanualofstyle.org/"
+  - name: "Unicode Standard Annex #29: Unicode Text Segmentation"
+    url: "https://unicode.org/reports/tr29/"
+  - name: "W3C Internationalization (i18n) Case Mapping Standards"
+    url: "https://www.w3.org/International/"
+lastReviewed: "October 24, 2026"
 howto:
   name: "How to Convert Text Casing Online"
   description: "Step-by-step guide to converting text casing across 12 distinct formats using ToolsBuilt."
@@ -27,13 +88,10 @@ faqs:
     a: "Yes. Click the Undo button to revert to your previous text state at any time."
   - q: "Is my text data private when using the converter?"
     a: "Yes. All text transformation logic executes strictly in local browser memory via client-side JavaScript. Your text is never stored in URLs, never saved to cookies, and never sent to remote servers."
-sources:
-  - label: "Unicode Standard Annex #29: Unicode Text Segmentation"
-    url: "https://unicode.org/reports/tr29/"
-  - label: "W3C Internationalization (i18n) Case Mapping Standards"
-    url: "https://www.w3.org/International/"
-  - label: "The Chicago Manual of Style (17th ed.) - Rules for Capitalizing Titles"
-    url: "https://www.chicagomanualofstyle.org/"
+  - q: "Does the converter support foreign languages and accented characters?"
+    a: "Yes. The text engine uses Unicode property escapes (\\p{L}) to handle accents, umlauts, and international alphabets like Spanish, French, and German seamlessly."
+  - q: "What is CONSTANT_CASE used for?"
+    a: "CONSTANT_CASE converts text to uppercase with underscores, the standard naming convention for global variables, immutable constants, and environment variables in programming."
 ---
 
     <!-- Tool Form Container -->
@@ -75,15 +133,9 @@ sources:
       </div>
     </section>
 
-    <!-- AEO Quick Answer Box -->
-    <div class="info-callout" style="margin-top: 2rem; margin-bottom: 2rem;">
-      <h3 style="font-size: 1.05rem; margin-bottom: 0.35rem; color: var(--accent-primary);">Quick Answer</h3>
-      <p style="margin-bottom: 0;">The ToolsBuilt Text Case Converter transforms any block of text across 12 distinct casing conventions, including Title Case, Sentence case, camelCase, snake_case, PascalCase, and CONSTANT_CASE. Paste your text, click any button to convert live, and copy with one click.</p>
-    </div>
-
     <!-- When to Use Section -->
-    <section style="margin: 2.5rem 0;" aria-labelledby="how-to-use-heading">
-      <h2 id="how-to-use-heading">How &amp; When to Use the Text Case Converter</h2>
+    <section style="margin: 2.5rem 0;">
+      <h2>How &amp; When to Use the Text Case Converter</h2>
       <ul style="color: var(--text-muted); line-height: 1.8; margin-left: 1.25rem;">
         <li><strong>Software Development &amp; Coding:</strong> Convert user input or schema definitions into standardized code conventions (e.g. `camelCase` for JavaScript variables, `snake_case` for Python/database columns, or `CONSTANT_CASE` for global environment variables).</li>
         <li><strong>Blog &amp; Article Headline Publishing:</strong> Convert messy rough draft titles into elegant Chicago-style Title Case where minor prepositions remain lowercased.</li>
@@ -92,46 +144,9 @@ sources:
       </ul>
     </section>
 
-    <!-- Worked Examples Section -->
-    <section style="margin: 2.5rem 0;" aria-labelledby="article-heading">
-      <h2 id="article-heading">Worked Case Transformation Examples &amp; Formula</h2>
-      
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 1.25rem;">
-        <div style="background: var(--surface-muted); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem;">
-          <h3 style="font-size: 1.1rem; margin-top: 0; color: var(--accent-primary);">Example 1: Headline to Title Case</h3>
-          <p style="font-size: var(--font-size-sm); color: var(--text-muted); margin-bottom: 0.5rem;"><strong>Input:</strong> <em>"the lord of the rings: a return of the king"</em></p>
-          <ul style="font-size: var(--font-size-sm); color: var(--text-muted); line-height: 1.6; margin-left: 1.25rem;">
-            <li>Minor words ('of', 'the', 'a') stay lowercase unless leading</li>
-            <li><strong>Output:</strong> <code>The Lord of the Rings: A Return of the King</code></li>
-          </ul>
-        </div>
-
-        <div style="background: var(--surface-muted); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem;">
-          <h3 style="font-size: 1.1rem; margin-top: 0; color: var(--accent-primary);">Example 2: Title to Programming Cases</h3>
-          <p style="font-size: var(--font-size-sm); color: var(--text-muted); margin-bottom: 0.5rem;"><strong>Input:</strong> <em>"User Account Balance"</em></p>
-          <ul style="font-size: var(--font-size-sm); color: var(--text-muted); line-height: 1.6; margin-left: 1.25rem;">
-            <li><strong>camelCase:</strong> <code>userAccountBalance</code></li>
-            <li><strong>PascalCase:</strong> <code>UserAccountBalance</code></li>
-            <li><strong>snake_case:</strong> <code>user_account_balance</code></li>
-            <li><strong>kebab-case:</strong> <code>user-account-balance</code></li>
-            <li><strong>CONSTANT_CASE:</strong> <code>USER_ACCOUNT_BALANCE</code></li>
-          </ul>
-        </div>
-
-        <div style="background: var(--surface-muted); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem;">
-          <h3 style="font-size: 1.1rem; margin-top: 0; color: var(--accent-primary);">Example 3: Fixing Accidental Caps Lock</h3>
-          <p style="font-size: var(--font-size-sm); color: var(--text-muted); margin-bottom: 0.5rem;"><strong>Input:</strong> <em>"WE FORGOT TO TURN OFF CAPS LOCK. PLEASE FIX THIS."</em></p>
-          <ul style="font-size: var(--font-size-sm); color: var(--text-muted); line-height: 1.6; margin-left: 1.25rem;">
-            <li>Applying <strong>Sentence case</strong></li>
-            <li><strong>Output:</strong> <code>We forgot to turn off caps lock. Please fix this.</code></li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
     <!-- Key Facts & Conversion Reference Table -->
-    <section style="margin: 2.5rem 0;" aria-labelledby="key-facts-heading">
-      <h2 id="key-facts-heading">Case Style Reference &amp; Developer Conventions</h2>
+    <section style="margin: 2.5rem 0;">
+      <h2>Case Style Reference &amp; Developer Conventions</h2>
       
       <div style="margin-top: 1.25rem; overflow-x: auto;">
         <table style="width: 100%; border-collapse: collapse; font-size: 0.925rem;">
@@ -196,13 +211,4 @@ sources:
           </tbody>
         </table>
       </div>
-    </section>
-
-    <!-- Common Mistakes Section -->
-    <section style="margin: 2.5rem 0;" aria-labelledby="mistakes-heading">
-      <h2 id="mistakes-heading">Common Case Conversion Pitfalls</h2>
-      <ul style="color: var(--text-muted); line-height: 1.8; margin-left: 1.25rem;">
-        <li><strong>Converting Formatted Code Without Backup:</strong> Converting camelCase or snake_case code into sentence case will introduce spaces and strip formatting. Always keep backups or use our Undo button.</li>
-        <li><strong>Title Case on All-Caps Input:</strong> If you input `HELLO OF WORLD` directly into simple Title Case algorithms, words like `OF` might stay capitalized unless lowered first. Our converter automatically normalizes case token by token.</li>
-      </ul>
     </section>

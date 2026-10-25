@@ -29,16 +29,16 @@
 | `/sitemap/` | 200 OK | 1 | 27 | 45 chars | 146 chars | `https://toolsbuilt.com/sitemap/` | `home.png` |
 | `/terms/` | 200 OK | 1 | 28 | 48 chars | 122 chars | `https://toolsbuilt.com/terms/` | `home.png` |
 | `/tools/` | 200 OK | 1 | 80 | 52 chars | 154 chars | `https://toolsbuilt.com/tools/` | `tools.png` |
-| `/tools/add-days-to-date-calculator/` | 200 OK | 1 | 116 | 54 chars | 158 chars | `https://toolsbuilt.com/tools/add-days-to-date-calculator/` | `add-days-to-date-calculator.png` |
-| `/tools/age-calculator/` | 200 OK | 1 | 118 | 52 chars | 134 chars | `https://toolsbuilt.com/tools/age-calculator/` | `age-calculator.png` |
+| `/tools/add-days-to-date-calculator/` | 200 OK | 1 | 119 | 54 chars | 158 chars | `https://toolsbuilt.com/tools/add-days-to-date-calculator/` | `add-days-to-date-calculator.png` |
+| `/tools/age-calculator/` | 200 OK | 1 | 120 | 52 chars | 134 chars | `https://toolsbuilt.com/tools/age-calculator/` | `age-calculator.png` |
 | `/tools/date-difference-calculator/` | 200 OK | 1 | 122 | 53 chars | 136 chars | `https://toolsbuilt.com/tools/date-difference-calculator/` | `date-difference-calculator.png` |
-| `/tools/days-until-date-calculator/` | 200 OK | 1 | 124 | 51 chars | 134 chars | `https://toolsbuilt.com/tools/days-until-date-calculator/` | `days-until-date-calculator.png` |
-| `/tools/discount-calculator/` | 200 OK | 1 | 117 | 52 chars | 133 chars | `https://toolsbuilt.com/tools/discount-calculator/` | `discount-calculator.png` |
-| `/tools/password-generator/` | 200 OK | 1 | 68 | 51 chars | 144 chars | `https://toolsbuilt.com/tools/password-generator/` | `password-generator.png` |
-| `/tools/percentage-change-calculator/` | 200 OK | 1 | 118 | 50 chars | 140 chars | `https://toolsbuilt.com/tools/percentage-change-calculator/` | `percentage-change-calculator.png` |
-| `/tools/random-name-picker/` | 200 OK | 1 | 61 | 37 chars | 146 chars | `https://toolsbuilt.com/tools/random-name-picker/` | `random-name-picker.png` |
-| `/tools/text-case-converter/` | 200 OK | 1 | 65 | 51 chars | 148 chars | `https://toolsbuilt.com/tools/text-case-converter/` | `text-case-converter.png` |
-| `/tools/word-counter/` | 200 OK | 1 | 67 | 47 chars | 136 chars | `https://toolsbuilt.com/tools/word-counter/` | `word-counter.png` |
+| `/tools/days-until-date-calculator/` | 200 OK | 1 | 126 | 51 chars | 134 chars | `https://toolsbuilt.com/tools/days-until-date-calculator/` | `days-until-date-calculator.png` |
+| `/tools/discount-calculator/` | 200 OK | 1 | 120 | 52 chars | 133 chars | `https://toolsbuilt.com/tools/discount-calculator/` | `discount-calculator.png` |
+| `/tools/password-generator/` | 200 OK | 1 | 70 | 51 chars | 144 chars | `https://toolsbuilt.com/tools/password-generator/` | `password-generator.png` |
+| `/tools/percentage-change-calculator/` | 200 OK | 1 | 121 | 50 chars | 140 chars | `https://toolsbuilt.com/tools/percentage-change-calculator/` | `percentage-change-calculator.png` |
+| `/tools/random-name-picker/` | 200 OK | 1 | 64 | 37 chars | 146 chars | `https://toolsbuilt.com/tools/random-name-picker/` | `random-name-picker.png` |
+| `/tools/text-case-converter/` | 200 OK | 1 | 67 | 51 chars | 148 chars | `https://toolsbuilt.com/tools/text-case-converter/` | `text-case-converter.png` |
+| `/tools/word-counter/` | 200 OK | 1 | 69 | 47 chars | 136 chars | `https://toolsbuilt.com/tools/word-counter/` | `word-counter.png` |
 | `/blog/welcome-to-toolsbuilt/` | 200 OK | 2 | 11 | 59 chars | 151 chars | `https://toolsbuilt.com/blog/welcome-to-toolsbuilt/` | `home.png` |
 | `/404.html` | Noindex | Unreachable | 2 | 27 chars | 134 chars | `https://toolsbuilt.com/404.html` | `home.png` |
 
@@ -156,7 +156,7 @@
 - **Canonical:** `https://toolsbuilt.com/tools/add-days-to-date-calculator/`
 - **OG Image:** `https://toolsbuilt.com/assets/og/add-days-to-date-calculator.png`
 - **Click Depth from /:** 1
-- **Inbound Internal Links:** 116
+- **Inbound Internal Links:** 119
 
 ### `/tools/age-calculator/`
 - **Title (52 chars):** Age Calculator - Calculate Exact Age & Next Birthday
@@ -164,7 +164,7 @@
 - **Canonical:** `https://toolsbuilt.com/tools/age-calculator/`
 - **OG Image:** `https://toolsbuilt.com/assets/og/age-calculator.png`
 - **Click Depth from /:** 1
-- **Inbound Internal Links:** 118
+- **Inbound Internal Links:** 120
 
 ### `/tools/date-difference-calculator/`
 - **Title (53 chars):** Date Difference Calculator - Count Days Between Dates
@@ -180,7 +180,7 @@
 - **Canonical:** `https://toolsbuilt.com/tools/days-until-date-calculator/`
 - **OG Image:** `https://toolsbuilt.com/assets/og/days-until-date-calculator.png`
 - **Click Depth from /:** 1
-- **Inbound Internal Links:** 124
+- **Inbound Internal Links:** 126
 
 ### `/tools/discount-calculator/`
 - **Title (52 chars):** Discount Calculator - Calculate Sale Price & Savings
@@ -188,7 +188,7 @@
 - **Canonical:** `https://toolsbuilt.com/tools/discount-calculator/`
 - **OG Image:** `https://toolsbuilt.com/assets/og/discount-calculator.png`
 - **Click Depth from /:** 1
-- **Inbound Internal Links:** 117
+- **Inbound Internal Links:** 120
 
 ### `/tools/password-generator/`
 - **Title (51 chars):** Strong Password Generator - Secure Random Passwords
@@ -196,7 +196,7 @@
 - **Canonical:** `https://toolsbuilt.com/tools/password-generator/`
 - **OG Image:** `https://toolsbuilt.com/assets/og/password-generator.png`
 - **Click Depth from /:** 1
-- **Inbound Internal Links:** 68
+- **Inbound Internal Links:** 70
 
 ### `/tools/percentage-change-calculator/`
 - **Title (50 chars):** Percentage Change Calculator - Increase & Decrease
@@ -204,7 +204,7 @@
 - **Canonical:** `https://toolsbuilt.com/tools/percentage-change-calculator/`
 - **OG Image:** `https://toolsbuilt.com/assets/og/percentage-change-calculator.png`
 - **Click Depth from /:** 1
-- **Inbound Internal Links:** 118
+- **Inbound Internal Links:** 121
 
 ### `/tools/random-name-picker/`
 - **Title (37 chars):** Random Name Picker Wheel | ToolsBuilt
@@ -212,7 +212,7 @@
 - **Canonical:** `https://toolsbuilt.com/tools/random-name-picker/`
 - **OG Image:** `https://toolsbuilt.com/assets/og/random-name-picker.png`
 - **Click Depth from /:** 1
-- **Inbound Internal Links:** 61
+- **Inbound Internal Links:** 64
 
 ### `/tools/text-case-converter/`
 - **Title (51 chars):** Text Case Converter - Convert UPPERCASE & lowercase
@@ -220,7 +220,7 @@
 - **Canonical:** `https://toolsbuilt.com/tools/text-case-converter/`
 - **OG Image:** `https://toolsbuilt.com/assets/og/text-case-converter.png`
 - **Click Depth from /:** 1
-- **Inbound Internal Links:** 65
+- **Inbound Internal Links:** 67
 
 ### `/tools/word-counter/`
 - **Title (47 chars):** Word Counter - Character & Reading Time Counter
@@ -228,7 +228,7 @@
 - **Canonical:** `https://toolsbuilt.com/tools/word-counter/`
 - **OG Image:** `https://toolsbuilt.com/assets/og/word-counter.png`
 - **Click Depth from /:** 1
-- **Inbound Internal Links:** 67
+- **Inbound Internal Links:** 69
 
 ### `/blog/welcome-to-toolsbuilt/`
 - **Title (59 chars):** Welcome to ToolsBuilt: Free Browser Tools Built for Privacy
