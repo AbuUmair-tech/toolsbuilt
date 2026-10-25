@@ -56,8 +56,11 @@
     const P = parseFloat(principal);
     const R = parseFloat(annualRatePercent);
     const years = parseFloat(tenureYears);
-    const freqKey = (frequency || 'monthly').toLowerCase();
-    const freqInfo = FREQ_MAP[freqKey] || FREQ_MAP.monthly;
+    const freqKey = (typeof frequency === 'string' ? frequency : '').toLowerCase();
+    if (!['daily', 'monthly', 'quarterly', 'annual'].includes(freqKey)) {
+      throw new Error('Invalid compounding frequency');
+    }
+    const freqInfo = FREQ_MAP[freqKey];
     const n = freqInfo.n;
     const pmt = options.contributionAmount ? parseFloat(options.contributionAmount) : 0;
     const timing = options.contributionTiming === 'end' ? 'end' : 'beginning';

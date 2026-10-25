@@ -127,7 +127,7 @@ window.TOOLS_DATA = [
   },
   {
     "id": "add-days-to-date-calculator",
-    "name": "Add or Subtract Days Calculator",
+    "name": "Add or Subtract Days from Date Calculator",
     "url": "/tools/add-days-to-date-calculator/",
     "icon": "calendar-plus",
     "description": "Add or subtract days, weeks, months, or years from any start date. Optional business days only mode.",

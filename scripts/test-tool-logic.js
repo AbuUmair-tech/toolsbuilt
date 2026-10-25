@@ -650,6 +650,17 @@ const ciLogic = require(path.join(ROOT, 'src/tools/compound-interest-calculator/
   assert(svg.includes('<svg') && svg.includes('role="img"'), 'CiLogic: SVG chart contains valid root SVG element and role="img"');
   assert(svg.includes('compound-growth-svg'), 'CiLogic: SVG chart has compound-growth-svg class');
   assert(svg.includes('<path d='), 'CiLogic: SVG chart contains path elements for area growth');
+
+  // Invalid Compounding Frequency Test
+  let freqErrorCaught = false;
+  try {
+    ciLogic.calculateCompoundInterest(10000, 7, 10, 'semi-annually');
+  } catch (err) {
+    if (err.message === 'Invalid compounding frequency') {
+      freqErrorCaught = true;
+    }
+  }
+  assert(freqErrorCaught, 'CiLogic: throws Error("Invalid compounding frequency") for unrecognized frequency');
 }
 
 // 11. JSON Formatter & Validator Logic
