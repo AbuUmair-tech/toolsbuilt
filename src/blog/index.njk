@@ -100,7 +100,12 @@ eleventyComputed:
             <div class="tool-icon-tile" style="background: var(--accent-1); color: var(--accent-primary);">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
             </div>
-            <span class="tool-category-chip" data-cat="tech">{{ post.data.category or "Guides" }}</span>
+            <div style="display: flex; gap: var(--space-2); align-items: center;">
+              {% if post.data.draft %}
+              <span class="badge badge-warning" style="font-size: var(--font-size-2xs); font-weight: 700; text-transform: uppercase; padding: 2px 6px; border-radius: 4px; background: #d97706; color: #ffffff;">DRAFT</span>
+              {% endif %}
+              <span class="tool-category-chip" data-cat="tech">{{ post.data.category or "Guides" }}</span>
+            </div>
           </div>
           <h3 class="tool-title" style="font-size: var(--font-size-lg);">{{ post.data.title }}</h3>
           <p class="tool-desc">{{ post.data.description }}</p>

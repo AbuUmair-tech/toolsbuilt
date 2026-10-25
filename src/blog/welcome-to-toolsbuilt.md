@@ -1,5 +1,5 @@
 ---
-title: "Welcome to ToolsBuilt: Free Browser-Based Tools Built for Privacy"
+title: "Welcome to ToolsBuilt: Free Browser Tools Built for Privacy"
 description: "ToolsBuilt offers free, fast calculators and web tools that run entirely in your browser. No sign-ups, private local inputs, no server-side processing."
 date: 2026-10-24
 updated: 2026-10-24
@@ -30,13 +30,13 @@ Every tool is free to use with no registration required. You open the page, ente
 
 The defining technical choice behind ToolsBuilt is that **all computation happens in your browser**. The tools are built with vanilla HTML, CSS, and JavaScript—no heavy frameworks, no server-side endpoints that receive your data.
 
-Take the Password Generator as an example. When you click "Generate", the cryptographic randomness comes from the `window.crypto.getRandomValues()` API built into your browser—the same API used by password managers and secure applications. The generated password never leaves your device. It is displayed on the page and discarded when you navigate away. No server log ever records it.
+Take the [Password Generator](/tools/password-generator/) as an example. When you click "Generate", the cryptographic randomness comes from the `window.crypto.getRandomValues()` API built into your browser—the same API used by password managers and secure applications. The generated password never leaves your device. It is displayed on the page and discarded when you navigate away. No server log ever records it.
 
 This architecture has a practical performance benefit too. Because there is no round-trip to a server, the tool responds in milliseconds regardless of your network connection. Once the page is loaded, the tool would work just as well offline.
 
 ## Privacy in Practice
 
-Claiming "zero trackers" would be inaccurate. ToolsBuilt uses **Google Analytics** for anonymous traffic statistics—page views, bounce rate, which tools are popular—and serves **Google AdSense** display ads to keep the lights on. These are standard web services, and their presence is disclosed in the Privacy Policy.
+Claiming "zero trackers" would be inaccurate. ToolsBuilt uses **Google Analytics** for anonymous traffic statistics—page views, bounce rate, which tools are popular—and serves **Google AdSense** display ads to keep the lights on. These are standard web services, and their presence is disclosed in the [Privacy Policy](/privacy-policy/).
 
 What ToolsBuilt does **not** do is send your calculation inputs anywhere. The password you generate, the salary you enter into the tax calculator, the loan amount you run through the mortgage tool—none of that is captured, stored, or transmitted. The distinction matters: analytics tells me which pages people visit, not what they type into the form fields.
 
@@ -52,7 +52,7 @@ There are no JavaScript frameworks on the front end. Vanilla JS keeps the bundle
 
 The immediate roadmap includes more tools in the Finance and Health categories, a proper search experience that filters by category and use-case, and this blog—where I'll write about how specific tools are built, the math behind the calculations, and practical guides for getting the most out of the tools.
 
-If there's a tool you'd like to see, use the **Contact** or **Suggest a Tool** links in the footer. Every tool on the site started as a real need someone expressed, and the best requests come from people who actually need the thing built.
+If there's a tool you'd like to see, use the [Contact](/contact/) page or Suggest a Tool links in the footer. Every tool on the site started as a real need someone expressed, and the best requests come from people who actually need the thing built.
 
 Thanks for visiting. I hope ToolsBuilt saves you some time.
 

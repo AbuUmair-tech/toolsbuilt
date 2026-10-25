@@ -102,6 +102,14 @@ layout: layouts/base.njk
           </ol>
         </nav>
 
+        {% if draft %}
+        <!-- Visible DRAFT Banner for Dev / Staging -->
+        <div class="alert alert-warning draft-banner" role="alert" style="margin-bottom: var(--space-6); display: flex; align-items: center; gap: var(--space-3); padding: var(--space-4); border: 2px dashed var(--color-warning-border); border-radius: var(--radius-lg); background-color: var(--color-warning-bg); color: var(--color-warning-text);">
+          <span class="badge badge-warning" style="font-weight: 800; font-size: var(--font-size-xs); letter-spacing: 0.05em; text-transform: uppercase; padding: 2px 8px; border-radius: 4px; background: #d97706; color: #ffffff;">DRAFT</span>
+          <span style="font-weight: 500;">This post is a <strong>draft</strong>. It is only visible in development/staging and is excluded from production builds.</span>
+        </div>
+        {% endif %}
+
         <!-- Post Hero Header -->
         <div class="post-hero-header" style="margin-bottom: var(--space-8);">
           <div class="category-hero-meta" style="margin-bottom: var(--space-3); display: flex; align-items: center; gap: var(--space-2);">

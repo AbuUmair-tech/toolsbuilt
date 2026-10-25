@@ -27,6 +27,7 @@ eleventyExcludeFromCollections: true
   </entry>
 {%- endfor %}
 {%- for post in collections.post | reverse %}
+  {%- if not (env.isProduction and post.data.draft) %}
   <entry>
     <title>{{ post.data.title }}</title>
     <link href="https://toolsbuilt.com{{ post.url }}"/>
@@ -37,5 +38,6 @@ eleventyExcludeFromCollections: true
       <name>{{ post.data.author or site.authorName }}</name>
     </author>
   </entry>
+  {%- endif %}
 {%- endfor %}
 </feed>

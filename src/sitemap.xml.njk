@@ -63,11 +63,13 @@ eleventyExcludeFromCollections: true
     <priority>0.8</priority>
   </url>
 {%- for post in collections.post %}
+  {%- if not (env.isProduction and post.data.draft) %}
   <url>
     <loc>https://toolsbuilt.com{{ post.url }}</loc>
     <lastmod>{{ post.data.updated or post.date | isoDate }}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
+  {%- endif %}
 {%- endfor %}
 </urlset>

@@ -13,7 +13,7 @@
   <link rel="next" href="https://toolsbuilt.com{{ pagination.href.next }}">
   {% endif %}
   {% block extraHead %}{% endblock %}
-  {% if (not env.isProduction) or noindex %}<meta name="robots" content="noindex, nofollow">{% endif %}
+  {% if (not env.isProduction) or noindex or draft %}<meta name="robots" content="noindex, nofollow">{% endif %}
   <meta name="color-scheme" content="light dark">
   <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
   <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#090a0f">

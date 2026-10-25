@@ -35,7 +35,8 @@ try {
   delete stagingEnv.SITE_ENV;
   delete stagingEnv.NODE_ENV;
 
-  console.log('Building staging site (npx @11ty/eleventy)...');
+  console.log('Cleaning _site and building staging site (npx @11ty/eleventy)...');
+  fs.rmSync(path.join(ROOT, '_site'), { recursive: true, force: true });
   execSync('npx @11ty/eleventy', {
     cwd: ROOT,
     encoding: 'utf8',
@@ -73,7 +74,8 @@ console.log('\n--- 2. Production Build & Quality Checker ---');
 try {
   const prodEnv = { ...process.env, SITE_ENV: 'production' };
 
-  console.log('Building production site (SITE_ENV=production npx @11ty/eleventy)...');
+  console.log('Cleaning _site and building production site (SITE_ENV=production npx @11ty/eleventy)...');
+  fs.rmSync(path.join(ROOT, '_site'), { recursive: true, force: true });
   execSync('SITE_ENV=production npx @11ty/eleventy', {
     cwd: ROOT,
     encoding: 'utf8',
@@ -597,6 +599,73 @@ try {
   );
 } catch (e) {
   assert(false, `Layout regression suite failed: ${e.message}\n${e.stdout || ''}${e.stderr || ''}`);
+}
+
+// -----------------------------------------------------------------
+// Test 22: Blog Tooling, Draft Rendering & Published Post SEO Audit
+// -----------------------------------------------------------------
+console.log('\n--- 22. Blog Tooling, Draft Rendering & Published Post SEO Audit ---');
+try {
+  const testTitle = 'Automated Verification Draft Post';
+  const testSlug = 'percentage-change-calculator';
+  const expectedFile = path.join(ROOT, 'src', 'blog', 'automated-verification-draft-post.md');
+
+  // 1. Test scripts/new-post.js scaffolding
+  if (fs.existsSync(expectedFile)) fs.unlinkSync(expectedFile);
+  execSync(`node scripts/new-post.js "${testTitle}" ${testSlug}`, { cwd: ROOT, encoding: 'utf8', stdio: 'pipe' });
+  assert(fs.existsSync(expectedFile), 'new-post script created draft post file in src/blog/');
+
+  const createdContent = fs.readFileSync(expectedFile, 'utf8');
+  assert(createdContent.includes('draft: true'), 'New post has draft: true');
+  assert(createdContent.includes('## Quick answer'), 'New post has Quick answer H2 skeleton');
+  assert(createdContent.includes('tool: "percentage-change-calculator"'), 'New post includes tool slug');
+
+  // 2. Drafts must pass check-seo because they are skipped
+  const seoCheckWithDraft = execSync('node scripts/check-seo.js', { cwd: ROOT, encoding: 'utf8', stdio: 'pipe' });
+  assert(seoCheckWithDraft.includes('Technical SEO & Accessibility audit PASSED'), 'Draft posts are skipped by check-seo.js');
+
+  // 3. Staging build renders draft with DRAFT banner
+  execSync('npx @11ty/eleventy', { cwd: ROOT, encoding: 'utf8', stdio: 'pipe' });
+  const draftHtmlPath = path.join(ROOT, '_site', 'blog', 'automated-verification-draft-post', 'index.html');
+  assert(fs.existsSync(draftHtmlPath), 'Staging build renders draft post page');
+  if (fs.existsSync(draftHtmlPath)) {
+    const draftHtml = fs.readFileSync(draftHtmlPath, 'utf8');
+    assert(draftHtml.includes('draft-banner') && draftHtml.includes('DRAFT'), 'Draft post page displays visible DRAFT banner in staging');
+    assert(draftHtml.includes('noindex, nofollow'), 'Draft post has noindex meta in staging');
+  }
+
+  // 4. Production build excludes draft post
+  fs.rmSync(path.join(ROOT, '_site'), { recursive: true, force: true });
+  execSync('SITE_ENV=production npx @11ty/eleventy', { cwd: ROOT, encoding: 'utf8', stdio: 'pipe' });
+  assert(!fs.existsSync(draftHtmlPath), 'Production build does not output draft post HTML');
+  const prodSitemap = fs.readFileSync(path.join(ROOT, '_site', 'sitemap.xml'), 'utf8');
+  assert(!prodSitemap.includes('automated-verification-draft-post'), 'Production sitemap excludes draft post');
+  const prodFeed = fs.readFileSync(path.join(ROOT, '_site', 'feed.xml'), 'utf8');
+  assert(!prodFeed.includes('automated-verification-draft-post'), 'Production feed excludes draft post');
+  const prodLlms = fs.readFileSync(path.join(ROOT, '_site', 'llms.txt'), 'utf8');
+  assert(!prodLlms.includes('automated-verification-draft-post'), 'Production llms.txt excludes draft post');
+  const prodBlogIndex = fs.readFileSync(path.join(ROOT, '_site', 'blog', 'index.html'), 'utf8');
+  assert(!prodBlogIndex.includes('automated-verification-draft-post'), 'Production blog index excludes draft post');
+
+  // 5. check-seo fails on non-draft post with missing requirements
+  fs.writeFileSync(expectedFile, createdContent.replace('draft: true', 'draft: false'));
+  let seoFailedAsExpected = false;
+  try {
+    execSync('node scripts/check-seo.js', { cwd: ROOT, encoding: 'utf8', stdio: 'pipe' });
+  } catch (err) {
+    seoFailedAsExpected = true;
+    const errOutput = (err.stdout || '') + (err.stderr || '');
+    assert(errOutput.includes('automated-verification-draft-post.md'), 'Failing message names the file');
+    assert(errOutput.includes('Word count') || errOutput.includes('Missing description') || errOutput.includes('Missing link'), 'Failing message names specific problem(s)');
+  }
+  assert(seoFailedAsExpected, 'check-seo.js fails when published post violates quality/SEO rules');
+
+  // Cleanup test file
+  if (fs.existsSync(expectedFile)) fs.unlinkSync(expectedFile);
+} catch (e) {
+  assert(false, `Blog tooling verification failed: ${e.message}\n${e.stdout || ''}${e.stderr || ''}`);
+  const cleanupFile = path.join(ROOT, 'src', 'blog', 'automated-verification-draft-post.md');
+  if (fs.existsSync(cleanupFile)) fs.unlinkSync(cleanupFile);
 }
 
 console.log('\n========================================================');

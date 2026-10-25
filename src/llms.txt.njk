@@ -27,7 +27,9 @@ ToolsBuilt provides focused, single-purpose calculation and conversion tools wit
 
 ## Blog & Guides
 {% for post in collections.post | reverse %}
+  {%- if not (env.isProduction and post.data.draft) %}
 - [{{ post.data.title }}](https://toolsbuilt.com{{ post.url }}): {{ post.data.description }}
+  {%- endif %}
 {%- endfor %}
 
 ## Additional Links

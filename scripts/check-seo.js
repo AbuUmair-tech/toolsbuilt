@@ -20,6 +20,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const yaml = require('js-yaml');
 
 const ROOT = path.resolve(__dirname, '..');
 const SITE_DIR = path.join(ROOT, '_site');
@@ -125,6 +126,7 @@ function checkSeo() {
     const ogImage = ogImageMatch ? ogImageMatch[1].trim() : '';
 
     const isNoindex = /<meta\b[^>]*name=["']robots["'][^>]*content=["'][^"']*noindex/i.test(html);
+    const isDraft = html.includes('draft-banner');
 
     pageDataMap.set(url, {
       url,
@@ -135,6 +137,7 @@ function checkSeo() {
       canonical,
       ogImage,
       isNoindex,
+      isDraft,
       ids: extractIds(html),
       inboundLinks: 0,
       clickDepth: url === '/' ? 0 : Infinity,
@@ -272,8 +275,8 @@ function checkSeo() {
   const descriptions = new Map();
 
   for (const [url, data] of pageDataMap.entries()) {
-    // 404 page is excluded from standard click-depth and duplicate rules
-    if (url === '/404.html') {
+    // 404 page and draft pages are excluded from standard click-depth and duplicate rules
+    if (url === '/404.html' || data.isDraft) {
       continue;
     }
 
@@ -337,6 +340,9 @@ function checkSeo() {
       }
     }
   }
+
+  // 6. Audit Published Blog Posts (non-draft only)
+  checkBlogPosts(errors, warnings);
 
   // Print Summary Table
   console.log('\n========================================================================================');
@@ -422,6 +428,161 @@ function generateReport(pages, errors, warnings) {
   }
 
   fs.writeFileSync(REPORT_FILE, md);
+}
+
+function checkBlogPosts(errors, warnings) {
+  const blogDir = path.join(ROOT, 'src', 'blog');
+  const toolsFile = path.join(ROOT, 'src', '_data', 'tools.json');
+
+  if (!fs.existsSync(blogDir)) return;
+
+  let tools = [];
+  if (fs.existsSync(toolsFile)) {
+    try {
+      tools = JSON.parse(fs.readFileSync(toolsFile, 'utf8'));
+    } catch (e) {
+      errors.push(`src/_data/tools.json: Failed to parse JSON: ${e.message}`);
+    }
+  }
+  const validToolSlugs = new Set(tools.map(t => t.slug));
+
+  const blogFiles = fs.readdirSync(blogDir).filter(f => f.endsWith('.md'));
+
+  for (const filename of blogFiles) {
+    const fullPath = path.join(blogDir, filename);
+    const relPath = path.relative(ROOT, fullPath).replace(/\\/g, '/');
+    const rawContent = fs.readFileSync(fullPath, 'utf8');
+
+    // Parse front matter
+    let frontMatter = {};
+    let body = rawContent;
+
+    if (rawContent.startsWith('---')) {
+      const endMatch = rawContent.indexOf('\n---', 3);
+      if (endMatch !== -1) {
+        const yamlStr = rawContent.slice(3, endMatch).trim();
+        body = rawContent.slice(endMatch + 4).trim();
+        try {
+          frontMatter = yaml.load(yamlStr) || {};
+        } catch (e) {
+          errors.push(`${relPath}: YAML parse error: ${e.message}`);
+          continue;
+        }
+      }
+    }
+
+    // Published (non-draft) posts only: skip if draft: true
+    if (frontMatter.draft === true) {
+      continue;
+    }
+
+    // 1. Title: 30-60 chars
+    const title = frontMatter.title;
+    if (!title || typeof title !== 'string' || !title.trim()) {
+      errors.push(`${relPath}: Missing title in front matter`);
+    } else {
+      const titleLen = title.trim().length;
+      if (titleLen < 30 || titleLen > 60) {
+        errors.push(`${relPath}: Title length ${titleLen} is outside allowed range [30, 60] ("${title.trim()}")`);
+      }
+    }
+
+    // 2. Description: 120-160 chars
+    const description = frontMatter.description;
+    if (!description || typeof description !== 'string' || !description.trim()) {
+      errors.push(`${relPath}: Missing description in front matter`);
+    } else {
+      const descLen = description.trim().length;
+      if (descLen < 120 || descLen > 160) {
+        errors.push(`${relPath}: Description length ${descLen} is outside allowed range [120, 160] ("${description.trim()}")`);
+      }
+    }
+
+    // 3. Tool exists and valid in tools.json
+    const tool = frontMatter.tool;
+    if (!tool || typeof tool !== 'string' || !tool.trim()) {
+      errors.push(`${relPath}: Missing "tool" property in front matter`);
+    } else if (!validToolSlugs.has(tool.trim())) {
+      errors.push(`${relPath}: Tool "${tool.trim()}" does not exist in tools.json`);
+    }
+
+    // 4. At least 600 words in body
+    const cleanBody = body
+      .replace(/```[\s\S]*?```/g, ' ')
+      .replace(/`[^`]*`/g, ' ')
+      .replace(/!\[[^\]]*\]\([^)]*\)/g, ' ')
+      .replace(/\[([^\]]+)\]\([^)]*\)/g, '$1')
+      .replace(/<[^>]+>/g, ' ')
+      .trim();
+    const words = cleanBody.split(/\s+/).filter(Boolean);
+    if (words.length < 600) {
+      errors.push(`${relPath}: Word count (${words.length}) is below required minimum of 600 words`);
+    }
+
+    // 5. At least 3 internal links & at least one link to its tool
+    const links = [];
+    const mdLinkRegex = /\[([^\]]+)\]\(([^)]+)\)/g;
+    let mdM;
+    while ((mdM = mdLinkRegex.exec(body)) !== null) {
+      links.push(mdM[2].trim());
+    }
+    const htmlLinkRegex = /<a\b[^>]*href=["']([^"']*)["']/gi;
+    let htmlM;
+    while ((htmlM = htmlLinkRegex.exec(body)) !== null) {
+      links.push(htmlM[1].trim());
+    }
+
+    const internalLinks = links.filter(href => {
+      if (!href) return false;
+      if (href.startsWith('mailto:') || href.startsWith('tel:') || href.startsWith('javascript:') || href.startsWith('#')) return false;
+      if (href.startsWith('http://') || href.startsWith('https://')) {
+        return href.startsWith('https://toolsbuilt.com') || href.startsWith('http://toolsbuilt.com');
+      }
+      return href.startsWith('/');
+    });
+
+    if (internalLinks.length < 3) {
+      errors.push(`${relPath}: Has ${internalLinks.length} internal link(s) (minimum 3 required)`);
+    }
+
+    if (tool) {
+      const toolSlug = tool.trim();
+      const hasToolLink = internalLinks.some(href => {
+        let clean = href.replace(/^https?:\/\/toolsbuilt\.com/, '');
+        clean = clean.split('?')[0].split('#')[0];
+        if (!clean.endsWith('/')) clean += '/';
+        return clean === `/tools/${toolSlug}/`;
+      });
+      if (!hasToolLink) {
+        errors.push(`${relPath}: Missing link to its tool (/tools/${toolSlug}/)`);
+      }
+    }
+
+    // 7. No "TODO"/"VERIFY"/lorem text
+    if (/\bTODO\b/i.test(rawContent)) {
+      errors.push(`${relPath}: Contains forbidden placeholder text "TODO"`);
+    }
+    if (/\bVERIFY\b/.test(rawContent)) {
+      errors.push(`${relPath}: Contains forbidden placeholder text "VERIFY"`);
+    }
+    const nonToolContent = rawContent
+      .replace(/lorem-ipsum-generator/gi, '')
+      .replace(/lorem\s+ipsum\s+generator/gi, '');
+    if (/\blorem\b/i.test(nonToolContent)) {
+      errors.push(`${relPath}: Contains forbidden placeholder text "lorem"`);
+    }
+
+    // 8. FAQs present and non-empty
+    const faqs = frontMatter.faqs;
+    if (!faqs || !Array.isArray(faqs) || faqs.length === 0) {
+      errors.push(`${relPath}: Missing or empty "faqs" in front matter`);
+    } else {
+      const incompleteFaqs = faqs.filter(f => !f || !(f.question || f.q)?.trim() || !(f.answer || f.a)?.trim());
+      if (incompleteFaqs.length > 0) {
+        errors.push(`${relPath}: Contains ${incompleteFaqs.length} empty or incomplete FAQ item(s)`);
+      }
+    }
+  }
 }
 
 if (require.main === module) {

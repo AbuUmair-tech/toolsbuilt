@@ -51,6 +51,16 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPassthroughCopy('src/tools/**/*.js');
   eleventyConfig.addPassthroughCopy('src/tools/**/*.css');
 
+  // Collections: filter drafts out of production builds
+  eleventyConfig.addCollection('post', function(collectionApi) {
+    const isProd = process.env.NODE_ENV === 'production' || process.env.SITE_ENV === 'production';
+    const posts = collectionApi.getFilteredByTag('post');
+    if (isProd) {
+      return posts.filter(item => !item.data.draft);
+    }
+    return posts;
+  });
+
   // Filters
   eleventyConfig.addFilter('findTool', function(tools, slug) {
     if (!tools || !Array.isArray(tools)) return null;
