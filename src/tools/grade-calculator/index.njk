@@ -1,0 +1,278 @@
+---
+layout: layouts/tool.njk
+toolSlug: grade-calculator
+title: "Grade Calculator - Weighted Grades & Final Exam Target"
+description: "Calculate current weighted course grades across assignments and determine the exact score needed on your final exam to hit your target grade."
+permalink: /tools/grade-calculator/
+h1: "Grade Calculator"
+lastReviewed: "2026-10-24"
+howto:
+  name: "How to Calculate Weighted Course Grades and Final Exam Targets"
+  description: "Step-by-step instructions to calculate weighted class averages and required final test scores."
+  steps:
+    - name: "Enter Completed Coursework"
+      text: "Input each assignment category name, your earned percentage grade, and its syllabus weight percentage."
+    - name: "Set Target Course Grade"
+      text: "Enter your desired final overall grade (e.g. 90% for an A) and final exam weight percentage."
+    - name: "Inspect Required Final Score"
+      text: "Instantly view your current weighted average, letter grade, and the required final exam score."
+faqs:
+  - q: "How is a weighted grade calculated?"
+    a: "To calculate a weighted grade, multiply each assignment score by its percentage weight, add all the resulting points together, and divide by the total completed weight percentage. Mathematically: Weighted Grade = Σ(Score × Weight) ÷ Σ(Weight)."
+  - q: "How do you calculate what score you need on the final exam?"
+    a: "Subtract your current weighted points contribution from your total required points, then divide by the final exam's weight percentage: Required Score = (Target Points - Current Points) ÷ Final Weight. For example, if you need 30 points and the final is worth 30% of the class, you need 30 ÷ 0.30 = 100% on the final."
+  - q: "What happens if total assignment weights do not add up to 100%?"
+    a: "Our calculator automatically divides your accumulated points by the sum of completed weights. This normalizes your score to accurately represent your true current standing at any point in the semester."
+  - q: "What should I do if my syllabus uses total points instead of percentages?"
+    a: "If your syllabus uses points (e.g. Homework 200 pts, Midterm 300 pts, Final 500 pts out of 1000), divide each category's points by the total course points to find the percentage weight: 200 ÷ 1000 = 20% weight."
+  - q: "What does it mean if the calculator says I need over 100% on the final?"
+    a: "If the required score exceeds 100%, it means mathematical perfection on the final exam alone will fall short of your target grade. You would need extra credit points or a curved grading scale to reach that target."
+  - q: "What does it mean if the calculator says I need 0% or negative on the final?"
+    a: "This means you have already accumulated enough weighted points throughout the term that you are mathematically guaranteed to achieve your target grade, even with a zero on the final test."
+  - q: "Does this grade calculator save my private coursework grades?"
+    a: "No. All grade arithmetic runs purely client-side in your local browser window. No assignment names, test scores, or personal academic records are transmitted or saved."
+sources:
+  - label: "AACRAO: Grading Practices and Academic Record Standards"
+    url: "https://www.aacrao.org"
+  - label: "Carnegie Mellon Eberly Center: Grading and Assessment Strategies"
+    url: "https://www.cmu.edu/teaching/assessment"
+  - label: "Indiana University Bloomington: Weighted Grading Calculations"
+    url: "https://teaching.iu.edu"
+quickAnswer: "To calculate your weighted grade, multiply each assignment score by its syllabus weight percentage, sum the weighted scores, and divide by the total weight completed: Weighted Grade = Σ(Score × Weight) ÷ Σ(Weight). To find the score needed on a final exam, use: Required Final = (Target Grade − Current Grade Points) ÷ Final Weight. All calculations run client-side."
+workedExamples:
+  - title: "Standard Weighted Course Average"
+    inputs:
+      - "Homework (20% weight): 95%"
+      - "Midterm 1 (25% weight): 84%"
+      - "Midterm 2 (25% weight): 88%"
+    steps:
+      - "Homework points: 95 × 0.20 = 19.0"
+      - "Midterm 1 points: 84 × 0.25 = 21.0"
+      - "Midterm 2 points: 88 × 0.25 = 22.0"
+      - "Current points: 19.0 + 21.0 + 22.0 = 62.0 out of 70% completed"
+      - "Current normalized grade: 62.0 ÷ 0.70 = 88.57% (B+)"
+    result: "88.57% Current Weighted Grade (B+)"
+  - title: "Calculate Needed Score on Final Exam for an 'A'"
+    inputs:
+      - "Target Course Grade: 90.0% (A)"
+      - "Current Weighted Points: 62.0 points earned out of 70% completed"
+      - "Final Exam Weight: 30%"
+    steps:
+      - "Target points needed: 90.0 total points"
+      - "Remaining points required from final: 90.0 − 62.0 = 28.0 points"
+      - "Required score on final: 28.0 ÷ 0.30 = 93.33%"
+    result: "93.33% needed on final exam to secure an A"
+  - title: "Guaranteed Passing Grade (0% Needed)"
+    inputs:
+      - "Target Course Grade: 70.0% (C)"
+      - "Current Weighted Points: 72.5 points earned out of 80% completed"
+      - "Final Exam Weight: 20%"
+    steps:
+      - "Points needed: 70.0 − 72.5 = −2.5 points"
+      - "Because current points exceed target, required final score is ≤ 0%"
+    result: "0.0% needed (Passing grade already locked in)"
+---
+
+    <!-- Tool Form Container -->
+    <section class="tool-container" aria-label="Grade Calculator Form">
+      <form id="grade-calc-form" novalidate>
+        
+        <!-- Weighted Assignments Table -->
+        <div style="overflow-x: auto; margin-bottom: 1.5rem;">
+          <table class="table" style="width: 100%; border-collapse: collapse; min-width: 480px;" aria-label="Weighted Coursework Table">
+            <thead>
+              <tr style="border-bottom: 2px solid var(--border-subtle); text-align: left;">
+                <th scope="col" style="padding: 0.75rem 0.5rem; font-weight: 600; font-size: 0.9rem;">Assignment / Category</th>
+                <th scope="col" style="padding: 0.75rem 0.5rem; font-weight: 600; font-size: 0.9rem; width: 120px;">Grade (%)</th>
+                <th scope="col" style="padding: 0.75rem 0.5rem; font-weight: 600; font-size: 0.9rem; width: 120px;">Weight (%)</th>
+                <th scope="col" style="padding: 0.75rem 0.5rem; font-weight: 600; font-size: 0.9rem; width: 60px; text-align: center;">Action</th>
+              </tr>
+            </thead>
+            <tbody id="assignments-tbody">
+              <tr>
+                <td style="padding: 0.5rem;">
+                  <input type="text" class="form-control assign-name" placeholder="e.g. Homework" value="Homework" aria-label="Assignment Name">
+                </td>
+                <td style="padding: 0.5rem;">
+                  <input type="number" step="any" min="0" max="200" class="form-control assign-score" placeholder="95" value="95" required aria-label="Grade Percentage">
+                </td>
+                <td style="padding: 0.5rem;">
+                  <input type="number" step="any" min="0" max="100" class="form-control assign-weight" placeholder="20" value="20" required aria-label="Weight Percentage">
+                </td>
+                <td style="padding: 0.5rem; text-align: center;">
+                  <button type="button" class="btn btn-sm btn-ghost remove-row-btn" aria-label="Remove Homework assignment row" title="Remove assignment row">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                  </button>
+                </td>
+              </tr>
+              <tr>
+                <td style="padding: 0.5rem;">
+                  <input type="text" class="form-control assign-name" placeholder="e.g. Midterm Exam" value="Midterm Exam" aria-label="Assignment Name">
+                </td>
+                <td style="padding: 0.5rem;">
+                  <input type="number" step="any" min="0" max="200" class="form-control assign-score" placeholder="82" value="82" required aria-label="Grade Percentage">
+                </td>
+                <td style="padding: 0.5rem;">
+                  <input type="number" step="any" min="0" max="100" class="form-control assign-weight" placeholder="25" value="25" required aria-label="Weight Percentage">
+                </td>
+                <td style="padding: 0.5rem; text-align: center;">
+                  <button type="button" class="btn btn-sm btn-ghost remove-row-btn" aria-label="Remove Midterm Exam row" title="Remove assignment row">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                  </button>
+                </td>
+              </tr>
+              <tr>
+                <td style="padding: 0.5rem;">
+                  <input type="text" class="form-control assign-name" placeholder="e.g. Class Project" value="Class Project" aria-label="Assignment Name">
+                </td>
+                <td style="padding: 0.5rem;">
+                  <input type="number" step="any" min="0" max="200" class="form-control assign-score" placeholder="90" value="90" required aria-label="Grade Percentage">
+                </td>
+                <td style="padding: 0.5rem;">
+                  <input type="number" step="any" min="0" max="100" class="form-control assign-weight" placeholder="15" value="15" required aria-label="Weight Percentage">
+                </td>
+                <td style="padding: 0.5rem; text-align: center;">
+                  <button type="button" class="btn btn-sm btn-ghost remove-row-btn" aria-label="Remove Class Project row" title="Remove assignment row">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                  </button>
+                </td>
+              </tr>
+              <tr>
+                <td style="padding: 0.5rem;">
+                  <input type="text" class="form-control assign-name" placeholder="e.g. Quizzes" value="Quizzes" aria-label="Assignment Name">
+                </td>
+                <td style="padding: 0.5rem;">
+                  <input type="number" step="any" min="0" max="200" class="form-control assign-score" placeholder="88" value="88" required aria-label="Grade Percentage">
+                </td>
+                <td style="padding: 0.5rem;">
+                  <input type="number" step="any" min="0" max="100" class="form-control assign-weight" placeholder="10" value="10" required aria-label="Weight Percentage">
+                </td>
+                <td style="padding: 0.5rem; text-align: center;">
+                  <button type="button" class="btn btn-sm btn-ghost remove-row-btn" aria-label="Remove Quizzes row" title="Remove assignment row">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <button type="button" class="btn btn-sm btn-secondary" id="add-assignment-btn" style="margin-bottom: 1.5rem;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+          Add Assignment Row
+        </button>
+
+        <!-- Final Exam Target Card -->
+        <div style="background: var(--surface-muted); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem; margin-bottom: 1.5rem;">
+          <h3 style="font-size: 1.05rem; margin-top: 0; margin-bottom: 0.75rem; color: var(--accent-primary);">Final Exam Target Setting</h3>
+          <div class="form-grid two-col">
+            <div class="form-group">
+              <label for="target-grade-val">Desired Overall Course Grade (%) <span style="color: var(--accent-primary);">*</span></label>
+              <input type="number" step="any" min="0" max="100" id="target-grade-val" class="form-control" placeholder="e.g. 90" value="90" required aria-required="true">
+            </div>
+            <div class="form-group">
+              <label for="final-weight-val">Final Exam Weight (%) <span style="color: var(--accent-primary);">*</span></label>
+              <input type="number" step="any" min="1" max="100" id="final-weight-val" class="form-control" placeholder="e.g. 30" value="30" required aria-required="true">
+            </div>
+          </div>
+        </div>
+
+        <div class="button-group">
+          <button type="submit" class="btn btn-primary">Calculate Grade</button>
+          <button type="button" class="btn btn-secondary" id="reset-grade-form">Reset All</button>
+        </div>
+      </form>
+
+      <div id="error-box" class="hidden" style="margin-top: 1rem; color: var(--color-error, #dc2626); background: rgba(220, 38, 38, 0.08); border: 1px solid rgba(220, 38, 38, 0.25); padding: 0.75rem 1rem; border-radius: var(--radius-sm);" role="alert"></div>
+
+      <!-- Result Box -->
+      <div id="result-box" class="result-box is-visible" aria-live="polite">
+        <div class="result-header">
+          <span id="result-header-text">Current Grade &amp; Final Target</span>
+          <button type="button" class="btn btn-sm btn-ghost" id="copy-result-btn" title="Copy result to clipboard" aria-label="Copy result to clipboard">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            <span>Copy</span>
+          </button>
+        </div>
+        <div class="result-primary" id="result-primary-text">88.14% (B+)</div>
+        
+        <div class="result-grid" id="result-stats-grid">
+          <!-- Populated by script.js -->
+        </div>
+
+        <div class="formula-box" id="formula-explanation" style="margin-top: 1rem; background: var(--surface-default); border: 1px solid var(--border-subtle); padding: 1rem; border-radius: var(--radius-md); font-size: 0.9rem; line-height: 1.6;">
+          <!-- Populated by script.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- AEO Quick Answer Box -->
+    <div class="info-callout" style="margin-top: 2rem; margin-bottom: 2rem;">
+      <h3 style="font-size: 1.05rem; margin-bottom: 0.35rem; color: var(--accent-primary);">Quick Answer</h3>
+      <p style="margin-bottom: 0;">To calculate a weighted class grade: multiply each score by its syllabus percentage weight, sum the points, and divide by total completed weight (<code>Weighted Grade = Σ(Score × Weight) ÷ Σ(Weight)</code>). To find the grade needed on the final exam: <code>Required Final = [Target Grade × 100 - Current Weighted Points] ÷ Final Weight</code>.</p>
+    </div>
+
+    <!-- When to Use Section -->
+    <section style="margin: 2.5rem 0;" aria-labelledby="how-to-use-heading">
+      <h2 id="how-to-use-heading">How &amp; When to Use the Grade Calculator</h2>
+      <ul style="color: var(--text-muted); line-height: 1.8; margin-left: 1.25rem;">
+        <li><strong>Midterm Status Checks:</strong> Audit your true course percentage halfway through the term when only homework and quizzes have been graded.</li>
+        <li><strong>Finals Week Strategy:</strong> Determine exactly what percentage score you need on the final exam to maintain an A or prevent dropping below a passing threshold.</li>
+        <li><strong>Syllabus Weight Planning:</strong> Plan study schedules by identifying which high-weight assignments (like 30% group projects or 25% exams) carry the greatest impact.</li>
+        <li><strong>Cumulative College GPAs:</strong> Tracking overall degree performance across terms? Pair this tool with our <a href="/tools/gpa-calculator/">GPA Calculator</a>.</li>
+      </ul>
+    </section>
+
+    <!-- Worked Examples Section -->
+    <section style="margin: 2.5rem 0;" aria-labelledby="article-heading">
+      <h2 id="article-heading">Worked Grade Calculation Examples &amp; Formula</h2>
+      
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 1.25rem;">
+        <div style="background: var(--surface-muted); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem;">
+          <h3 style="font-size: 1.1rem; margin-top: 0; color: var(--accent-primary);">Example 1: Weighted Course Average</h3>
+          <p style="font-size: var(--font-size-sm); color: var(--text-muted); margin-bottom: 0.5rem;"><strong>Homework:</strong> 95% (20% wt) | <strong>Midterm:</strong> 80% (30% wt)</p>
+          <ul style="font-size: var(--font-size-sm); color: var(--text-muted); line-height: 1.6; margin-left: 1.25rem;">
+            <li>Homework points: 95 × 0.20 = 19.0</li>
+            <li>Midterm points: 80 × 0.30 = 24.0</li>
+            <li>Total points: 19.0 + 24.0 = 43.0</li>
+            <li>Completed weight: 20% + 30% = 50%</li>
+            <li>Current Grade: 43.0 ÷ 0.50 = <strong>86.00% (B)</strong></li>
+          </ul>
+        </div>
+
+        <div style="background: var(--surface-muted); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem;">
+          <h3 style="font-size: 1.1rem; margin-top: 0; color: var(--accent-primary);">Example 2: Final Exam Target for 90%</h3>
+          <p style="font-size: var(--font-size-sm); color: var(--text-muted); margin-bottom: 0.5rem;"><strong>Current Points:</strong> 60 out of 70% | <strong>Final Weight:</strong> 30%</p>
+          <ul style="font-size: var(--font-size-sm); color: var(--text-muted); line-height: 1.6; margin-left: 1.25rem;">
+            <li>Desired target: 90.0 points total</li>
+            <li>Points needed: 90.0 - 60.0 = 30.0 points</li>
+            <li>Final exam weight: 30% (0.30)</li>
+            <li>Required score: 30.0 ÷ 0.30 = <strong>100.00% on Final</strong></li>
+          </ul>
+        </div>
+
+        <div style="background: var(--surface-muted); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem;">
+          <h3 style="font-size: 1.1rem; margin-top: 0; color: var(--accent-primary);">Example 3: Target Already Clinched</h3>
+          <p style="font-size: var(--font-size-sm); color: var(--text-muted); margin-bottom: 0.5rem;"><strong>Current Points:</strong> 72 out of 80% | <strong>Target:</strong> 70% (C)</p>
+          <ul style="font-size: var(--font-size-sm); color: var(--text-muted); line-height: 1.6; margin-left: 1.25rem;">
+            <li>Accumulated points: 72 points</li>
+            <li>Passing target: 70 points</li>
+            <li>Points needed from final: 70 - 72 = -2.0</li>
+            <li>Status: <strong>Target already guaranteed (0% needed)</strong></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Common Mistakes Section -->
+    <section style="margin: 2.5rem 0;" aria-labelledby="mistakes-heading">
+      <h2 id="mistakes-heading">Common Grade Calculation Pitfalls</h2>
+      <ul style="color: var(--text-muted); line-height: 1.8; margin-left: 1.25rem;">
+        <li><strong>Simple Averaging Instead of Weighting:</strong> Taking a simple mathematical average of test scores ignores that a 20-minute quiz and a comprehensive midterm exam carry vastly different weight percentages in your syllabus.</li>
+        <li><strong>Failing to Normalize Incomplete Semesters:</strong> If only 50% of coursework is completed, having 42 total accumulated points does not mean you have a 42% (F). You must divide by 0.50, revealing an 84% (B).</li>
+        <li><strong>Assuming 100% Weight Sum Before Finals:</strong> Your completed assignments will rarely sum to 100% until the final exam is graded. Always account for remaining final exam weight when calculating current standing.</li>
+      </ul>
+    </section>
+
+    <script src="./logic.js"></script>
+    <script src="./script.js"></script>

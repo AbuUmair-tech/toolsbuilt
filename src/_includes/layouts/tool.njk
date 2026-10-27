@@ -4,9 +4,9 @@ layout: layouts/base.njk
 {% set currentTool = tools | findTool(toolSlug or slug) %}
 {% set currentCategory = categories | findCategory(currentTool.category) %}
 
-{% set authorName = "ToolsBuilt editorial team" %}
-{% if site.authorName and not site.authorName.includes("TODO_") %}
-  {% set authorName = site.authorName %}
+{% set authorName = site.authorName or "Abu Umair" %}
+{% if site.authorName and site.authorName.includes("TODO_") %}
+  {% set authorName = "Abu Umair" %}
 {% endif %}
 
 {% set reviewerName = "" %}
@@ -110,10 +110,10 @@ layout: layouts/base.njk
       {% for faq in faqs %}
       {
         "@type": "Question",
-        "name": {{ faq.q | jsonStr }},
+        "name": {{ (faq.q or faq.question) | jsonStr }},
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": {{ faq.a | jsonStr }}
+          "text": {{ (faq.a or faq.answer) | jsonStr }}
         }
       }{% if not loop.last %},{% endif %}
       {% endfor %}
@@ -155,10 +155,20 @@ layout: layouts/base.njk
           <h1 class="tool-hero-title">{{ h1 or (currentTool.name if currentTool else title) }}</h1>
           <p class="tool-hero-description">{{ currentTool.description if currentTool else description }}</p>
           <p class="tool-byline">
-            By ToolsBuilt editorial team
+            By {{ authorName }}
             · Updated <time datetime="{{ currentTool.updated or '2026-10-15' }}">{{ (currentTool.updated or '2026-10-15') | humanDate }}</time>
           </p>
         </div>
+
+        {% if quickAnswer %}
+        <!-- Quick Answer Callout (Shown at the top) -->
+        <section class="tool-quick-answer-section" aria-labelledby="quick-answer-heading">
+          <div class="info-callout tool-quick-answer">
+            <h2 id="quick-answer-heading" class="quick-answer-title" style="font-size: 1.05rem; margin-top: 0; margin-bottom: 0.35rem; color: var(--text-primary, var(--text-main));">Quick Answer</h2>
+            <p class="quick-answer-text" style="margin-bottom: 0; line-height: 1.6;">{{ quickAnswer }}</p>
+          </div>
+        </section>
+        {% endif %}
 
         <!-- Main Tool Workspace -->
         <div class="tool-workspace">
@@ -168,41 +178,107 @@ layout: layouts/base.njk
           <div class="result-actions-bar" id="result-actions-bar" hidden aria-label="Result actions">
             <button type="button" class="btn btn-sm btn-secondary action-copy-btn" id="action-copy-btn" title="Copy result to clipboard">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-              <span>Copy result</span>
+              <span>Copy Result</span>
             </button>
-            <button type="button" class="btn btn-sm btn-ghost action-share-btn" id="action-share-btn" title="Share tool result">
+            <button type="button" class="btn btn-sm btn-secondary" id="action-share-btn" title="Share this tool">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
               <span>Share</span>
             </button>
-            <button type="button" class="btn btn-sm btn-ghost action-print-btn" id="action-print-btn" title="Print calculation report">
+            <button type="button" class="btn btn-sm btn-secondary" id="action-print-btn" title="Print this page">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
               <span>Print</span>
             </button>
-            <button type="button" class="btn btn-sm btn-ghost action-reset-btn" id="action-reset-btn" title="Reset all inputs">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><polyline points="3 3 3 8 8 8"></polyline></svg>
+            <button type="button" class="btn btn-sm btn-secondary action-reset-btn" id="action-reset-btn" title="Reset all input fields">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="1 4 1 10 7 10"></polyline><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path></svg>
               <span>Reset</span>
             </button>
+            <div class="action-toast" id="action-toast" role="status" aria-live="polite" hidden>Copied to clipboard!</div>
           </div>
 
+          <!-- Privacy Note -->
           <p class="tool-privacy-note">Your inputs never leave your browser — calculations run entirely client-side.</p>
         </div>
 
-        <!-- FAQ Section -->
-        {% if faqs and faqs.length > 0 %}
-        <section class="faq-section" aria-labelledby="faq-heading">
-          <h2 id="faq-heading">Frequently Asked Questions</h2>
-          <div class="accordion-group">
-            {% for faq in faqs %}
-            <details class="faq-item">
-              <summary class="faq-question">
-                <span>{{ faq.q }}</span>
-              </summary>
-              <div class="faq-answer">
-                <p>{{ faq.a }}</p>
+        <!-- Formula Section -->
+        {% if formula %}
+        <section class="tool-formula-section" aria-labelledby="formula-heading">
+          <h2 id="formula-heading">{{ formula.title or "Formula & Method" }}</h2>
+          <div class="formula-card">
+            {% if formula.expression %}
+            <div class="formula-expression" role="region" aria-label="Mathematical formula">
+              <code>{{ formula.expression }}</code>
+            </div>
+            {% endif %}
+            {% if formula.explanation %}
+            <p class="formula-explanation">{{ formula.explanation }}</p>
+            {% elif formula is string %}
+            <p class="formula-explanation">{{ formula }}</p>
+            {% endif %}
+            {% if formula.variables and formula.variables.length > 0 %}
+            <ul class="formula-variables">
+              {% for v in formula.variables %}
+              <li><strong>{{ v.name }}:</strong> {{ v.description }}</li>
+              {% endfor %}
+            </ul>
+            {% endif %}
+          </div>
+        </section>
+        {% endif %}
+
+        <!-- Worked Examples Section -->
+        {% if workedExamples and workedExamples.length > 0 %}
+        <section class="tool-worked-examples-section tool-worked-examples" aria-labelledby="worked-examples-heading">
+          <h2 id="worked-examples-heading">Worked Examples</h2>
+          <div class="worked-examples-grid">
+            {% for ex in workedExamples %}
+            <div class="worked-example-card">
+              <h3 class="worked-example-title">{{ ex.title or ex.label or ("Example " + loop.index) }}</h3>
+              {% if ex.inputs and ex.inputs.length > 0 %}
+              <div class="worked-example-inputs">
+                <span class="example-subtitle">Inputs:</span>
+                <ul>
+                  {% for inp in ex.inputs %}
+                  <li>{{ inp }}</li>
+                  {% endfor %}
+                </ul>
               </div>
-            </details>
+              {% endif %}
+              {% if ex.steps and ex.steps.length > 0 %}
+              <div class="worked-example-steps">
+                <span class="example-subtitle">Calculation Steps:</span>
+                <ol>
+                  {% for step in ex.steps %}
+                  <li>{{ step }}</li>
+                  {% endfor %}
+                </ol>
+              </div>
+              {% endif %}
+              {% if ex.result %}
+              <div class="worked-example-result">
+                <strong>Result:</strong> <span>{{ ex.result }}</span>
+              </div>
+              {% endif %}
+            </div>
             {% endfor %}
           </div>
+        </section>
+        {% endif %}
+
+        <!-- Common Mistakes Section -->
+        {% if commonMistakes and commonMistakes.length > 0 %}
+        <section class="tool-common-mistakes-section" aria-labelledby="common-mistakes-heading">
+          <h2 id="common-mistakes-heading">Common Mistakes to Avoid</h2>
+          <ul class="common-mistakes-list">
+            {% for mistake in commonMistakes %}
+            <li>
+              {% if mistake.title %}
+              <strong>{{ mistake.title }}:</strong> {{ mistake.description }}
+              {% else %}
+              {{ mistake }}
+              {% endif %}
+            </li>
+            {% endfor %}
+          </ul>
         </section>
         {% endif %}
 
@@ -214,8 +290,54 @@ layout: layouts/base.njk
             {% for src in sources %}
             <li>
               <a href="{{ src.url }}" target="_blank" rel="noopener noreferrer">
-                {{ src.label }}
+                {{ src.name or src.label }}
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+              </a>
+            </li>
+            {% endfor %}
+          </ul>
+        </section>
+        {% endif %}
+
+        <!-- Last Reviewed Metadata Banner -->
+        {% if lastReviewed %}
+        <div class="tool-last-reviewed-banner">
+          <p style="margin: 0;">Last reviewed: <time datetime="{{ lastReviewed }}">{{ lastReviewed }}</time> by {{ site.authorName }}.</p>
+        </div>
+        {% endif %}
+
+        <!-- FAQ Section -->
+        {% if faqs and faqs.length > 0 %}
+        <section class="faq-section" aria-labelledby="faq-heading">
+          <h2 id="faq-heading">Frequently Asked Questions</h2>
+          <div class="accordion-group">
+            {% for faq in faqs %}
+            <details class="faq-item">
+              <summary class="faq-question">
+                <span>{{ faq.q or faq.question }}</span>
+              </summary>
+              <div class="faq-answer">
+                <p>{{ faq.a or faq.answer }}</p>
+              </div>
+            </details>
+            {% endfor %}
+          </div>
+        </section>
+        {% endif %}
+
+        <!-- Related Guides Section (Blog Posts) -->
+        {% set relatedGuides = collections.post | filterGuidesByTool(slug) %}
+        {% if relatedGuides and relatedGuides.length > 0 %}
+        <section class="related-guides-section" aria-labelledby="related-guides-heading">
+          <h2 id="related-guides-heading">Related Guides</h2>
+          <ul class="related-guides-list">
+            {% for guide in relatedGuides %}
+            <li class="related-guide-item">
+              <a href="{{ guide.url }}" class="related-guide-link">
+                <span class="related-guide-title">{{ guide.data.title }}</span>
+                {% if guide.data.description %}
+                <span class="related-guide-desc">{{ guide.data.description }}</span>
+                {% endif %}
               </a>
             </li>
             {% endfor %}
@@ -235,12 +357,28 @@ layout: layouts/base.njk
           <nav class="toc-nav" aria-label="Table of contents">
             <ul class="toc-list">
               <li><a href="#main-content">Calculator</a></li>
-              <li><a href="#how-to-use-heading">How to Use</a></li>
-              <li><a href="#article-heading">Formula &amp; Method</a></li>
+              {% if quickAnswer %}
+              <li><a href="#quick-answer-heading">Quick Answer</a></li>
+              {% endif %}
+              {% if formula %}
+              <li><a href="#formula-heading">Formula &amp; Method</a></li>
+              {% endif %}
+              {% if workedExamples and workedExamples.length > 0 %}
+              <li><a href="#worked-examples-heading">Worked Examples</a></li>
+              {% endif %}
+              {% if commonMistakes and commonMistakes.length > 0 %}
+              <li><a href="#common-mistakes-heading">Common Mistakes</a></li>
+              {% endif %}
+              {% if sources and sources.length > 0 %}
+              <li><a href="#sources-heading">Sources &amp; References</a></li>
+              {% endif %}
               {% if faqs and faqs.length > 0 %}
               <li><a href="#faq-heading">Frequently Asked Questions</a></li>
               {% endif %}
-              <li><a href="#related-tools-heading">Related Tools</a></li>
+              {% if relatedGuides and relatedGuides.length > 0 %}
+              <li><a href="#related-guides-heading">Related Guides</a></li>
+              {% endif %}
+              <li><a href="#related-tools-heading">Tools People Also Use</a></li>
             </ul>
           </nav>
         </div>

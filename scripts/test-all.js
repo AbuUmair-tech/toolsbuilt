@@ -11,6 +11,8 @@ const path = require('path');
 const { execSync } = require('child_process');
 
 const ROOT = path.resolve(__dirname, '..');
+const toolsData = JSON.parse(fs.readFileSync(path.join(ROOT, 'src', '_data', 'tools.json'), 'utf8'));
+const categoriesData = JSON.parse(fs.readFileSync(path.join(ROOT, 'src', '_data', 'categories.json'), 'utf8'));
 let failures = 0;
 
 function assert(condition, message) {
@@ -35,7 +37,8 @@ try {
   delete stagingEnv.SITE_ENV;
   delete stagingEnv.NODE_ENV;
 
-  console.log('Building staging site (npx @11ty/eleventy)...');
+  console.log('Cleaning _site and building staging site (npx @11ty/eleventy)...');
+  fs.rmSync(path.join(ROOT, '_site'), { recursive: true, force: true });
   execSync('npx @11ty/eleventy', {
     cwd: ROOT,
     encoding: 'utf8',
@@ -73,7 +76,8 @@ console.log('\n--- 2. Production Build & Quality Checker ---');
 try {
   const prodEnv = { ...process.env, SITE_ENV: 'production' };
 
-  console.log('Building production site (SITE_ENV=production npx @11ty/eleventy)...');
+  console.log('Cleaning _site and building production site (SITE_ENV=production npx @11ty/eleventy)...');
+  fs.rmSync(path.join(ROOT, '_site'), { recursive: true, force: true });
   execSync('SITE_ENV=production npx @11ty/eleventy', {
     cwd: ROOT,
     encoding: 'utf8',
@@ -339,6 +343,33 @@ const textStats = countWordsAndChars('Hello world! This is ToolsBuilt.');
 assert(textStats.words === 5 && textStats.sentences === 2 && textStats.charNo === 28,
   'Word, sentence, and character counts are accurate');
 
+// Base64 known vector test (RFC 4648: "Man" = "TWFu")
+const base64Mod = require(path.join(ROOT, 'src/tools/base64-encoder-decoder/logic.js'));
+const manEncoded = base64Mod.encode('Man');
+assert(manEncoded.success && manEncoded.result === 'TWFu', 'Known vector: Base64 of "Man" = "TWFu"');
+assert(base64Mod.decode('TWFu').result === 'Man', 'Known vector: Base64 "TWFu" decodes to "Man"');
+assert(base64Mod.encode('café 🚀').result === 'Y2Fmw6kg8J+agA==', 'UTF-8 safe Base64 encoding handles accents and emojis');
+
+// Malformed JSON error positions test
+const jsonMod = require(path.join(ROOT, 'src/tools/json-formatter/logic.js'));
+const malformedJson = '{\n  "name": "ToolsBuilt",\n  "status": \n}';
+const jsonErr = jsonMod.validateJson(malformedJson);
+assert(jsonErr.valid === false && jsonErr.line === 4 && jsonErr.column === 1,
+  `Known vector: Malformed JSON error position line 4 column 1 (got line ${jsonErr.line}, col ${jsonErr.column})`);
+
+// URL Encoder / Decoder modes test
+const urlMod = require(path.join(ROOT, 'src/tools/url-encoder-decoder/logic.js'));
+assert(urlMod.encode('https://example.com/?q=a&b=c', 'component').result.includes('%26'),
+  'URL component mode encodes query ampersand to %26');
+assert(urlMod.encode('https://example.com/?q=a&b=c', 'full').result.includes('&'),
+  'URL full mode preserves query ampersand');
+
+// Lorem Ipsum Generator tests
+const loremMod = require(path.join(ROOT, 'src/tools/lorem-ipsum-generator/logic.js'));
+const loremGen = loremMod.generate('words', 30, { startWithLorem: true });
+assert(loremGen.stats.words === 30 && loremGen.text.startsWith('Lorem ipsum'),
+  'Lorem Ipsum generator produces exact word count and starts with Lorem ipsum');
+
 // -----------------------------------------------------------------
 // Test 8: JavaScript Syntax Compilation Check
 // -----------------------------------------------------------------
@@ -485,7 +516,7 @@ try {
   });
   assert(
     templateOutput.includes('ALL TEMPLATE & DIRECTORY INTEGRITY CHECKS PASSED'),
-    'Template audit: 5 category hubs, /tools/ directory, 10 tool pages, breadcrumbs, JSON-LD, sitemap, result actions'
+    `Template audit: ${categoriesData.length} category hubs, /tools/ directory, ${toolsData.length} tool pages, breadcrumbs, JSON-LD, sitemap, result actions`
   );
 } catch (e) {
   assert(false, `Template & Directory integrity checks failed: ${e.message}\n${e.stdout || ''}${e.stderr || ''}`);
@@ -557,7 +588,7 @@ try {
   });
   assert(
     logicOutput.includes('ALL PURE LOGIC & PROPERTY FUZZ TESTS PASSED'),
-    'Pure logic: 10 tools, unit edge cases, DST/UTC invariance, Mulberry32 property fuzzing (500 runs)'
+    `Pure logic: ${toolsData.length} tools, unit edge cases, DST/UTC invariance, Mulberry32 property fuzzing (500 runs)`
   );
 } catch (e) {
   assert(false, `Pure logic unit/fuzz tests failed: ${e.message}\n${e.stdout || ''}${e.stderr || ''}`);
@@ -575,7 +606,7 @@ try {
   });
   assert(
     toolUxOutput.includes('ALL TOOL UX, DEBOUNCE, ENTER-KEY & AXE-CORE TESTS PASSED'),
-    'Tool UX: 10 tools, live 150ms debounce, Enter key submission, copy toast, 0 axe-core violations in light & dark mode'
+    `Tool UX: ${toolsData.length} tools, live 150ms debounce, Enter key submission, copy toast, 0 axe-core violations in light & dark mode`
   );
 } catch (e) {
   assert(false, `Tool UX & axe-core tests failed: ${e.message}\n${e.stdout || ''}${e.stderr || ''}`);
@@ -597,6 +628,73 @@ try {
   );
 } catch (e) {
   assert(false, `Layout regression suite failed: ${e.message}\n${e.stdout || ''}${e.stderr || ''}`);
+}
+
+// -----------------------------------------------------------------
+// Test 22: Blog Tooling, Draft Rendering & Published Post SEO Audit
+// -----------------------------------------------------------------
+console.log('\n--- 22. Blog Tooling, Draft Rendering & Published Post SEO Audit ---');
+try {
+  const testTitle = 'Automated Verification Draft Post';
+  const testSlug = 'percentage-change-calculator';
+  const expectedFile = path.join(ROOT, 'src', 'blog', 'automated-verification-draft-post.md');
+
+  // 1. Test scripts/new-post.js scaffolding
+  if (fs.existsSync(expectedFile)) fs.unlinkSync(expectedFile);
+  execSync(`node scripts/new-post.js "${testTitle}" ${testSlug}`, { cwd: ROOT, encoding: 'utf8', stdio: 'pipe' });
+  assert(fs.existsSync(expectedFile), 'new-post script created draft post file in src/blog/');
+
+  const createdContent = fs.readFileSync(expectedFile, 'utf8');
+  assert(createdContent.includes('draft: true'), 'New post has draft: true');
+  assert(createdContent.includes('## Quick answer'), 'New post has Quick answer H2 skeleton');
+  assert(createdContent.includes('tool: "percentage-change-calculator"'), 'New post includes tool slug');
+
+  // 2. Drafts must pass check-seo because they are skipped
+  const seoCheckWithDraft = execSync('node scripts/check-seo.js', { cwd: ROOT, encoding: 'utf8', stdio: 'pipe' });
+  assert(seoCheckWithDraft.includes('Technical SEO & Accessibility audit PASSED'), 'Draft posts are skipped by check-seo.js');
+
+  // 3. Staging build renders draft with DRAFT banner
+  execSync('npx @11ty/eleventy', { cwd: ROOT, encoding: 'utf8', stdio: 'pipe' });
+  const draftHtmlPath = path.join(ROOT, '_site', 'blog', 'automated-verification-draft-post', 'index.html');
+  assert(fs.existsSync(draftHtmlPath), 'Staging build renders draft post page');
+  if (fs.existsSync(draftHtmlPath)) {
+    const draftHtml = fs.readFileSync(draftHtmlPath, 'utf8');
+    assert(draftHtml.includes('draft-banner') && draftHtml.includes('DRAFT'), 'Draft post page displays visible DRAFT banner in staging');
+    assert(draftHtml.includes('noindex, nofollow'), 'Draft post has noindex meta in staging');
+  }
+
+  // 4. Production build excludes draft post
+  fs.rmSync(path.join(ROOT, '_site'), { recursive: true, force: true });
+  execSync('SITE_ENV=production npx @11ty/eleventy', { cwd: ROOT, encoding: 'utf8', stdio: 'pipe' });
+  assert(!fs.existsSync(draftHtmlPath), 'Production build does not output draft post HTML');
+  const prodSitemap = fs.readFileSync(path.join(ROOT, '_site', 'sitemap.xml'), 'utf8');
+  assert(!prodSitemap.includes('automated-verification-draft-post'), 'Production sitemap excludes draft post');
+  const prodFeed = fs.readFileSync(path.join(ROOT, '_site', 'feed.xml'), 'utf8');
+  assert(!prodFeed.includes('automated-verification-draft-post'), 'Production feed excludes draft post');
+  const prodLlms = fs.readFileSync(path.join(ROOT, '_site', 'llms.txt'), 'utf8');
+  assert(!prodLlms.includes('automated-verification-draft-post'), 'Production llms.txt excludes draft post');
+  const prodBlogIndex = fs.readFileSync(path.join(ROOT, '_site', 'blog', 'index.html'), 'utf8');
+  assert(!prodBlogIndex.includes('automated-verification-draft-post'), 'Production blog index excludes draft post');
+
+  // 5. check-seo fails on non-draft post with missing requirements
+  fs.writeFileSync(expectedFile, createdContent.replace('draft: true', 'draft: false'));
+  let seoFailedAsExpected = false;
+  try {
+    execSync('node scripts/check-seo.js', { cwd: ROOT, encoding: 'utf8', stdio: 'pipe' });
+  } catch (err) {
+    seoFailedAsExpected = true;
+    const errOutput = (err.stdout || '') + (err.stderr || '');
+    assert(errOutput.includes('automated-verification-draft-post.md'), 'Failing message names the file');
+    assert(errOutput.includes('Word count') || errOutput.includes('Missing description') || errOutput.includes('Missing link'), 'Failing message names specific problem(s)');
+  }
+  assert(seoFailedAsExpected, 'check-seo.js fails when published post violates quality/SEO rules');
+
+  // Cleanup test file
+  if (fs.existsSync(expectedFile)) fs.unlinkSync(expectedFile);
+} catch (e) {
+  assert(false, `Blog tooling verification failed: ${e.message}\n${e.stdout || ''}${e.stderr || ''}`);
+  const cleanupFile = path.join(ROOT, 'src', 'blog', 'automated-verification-draft-post.md');
+  if (fs.existsSync(cleanupFile)) fs.unlinkSync(cleanupFile);
 }
 
 console.log('\n========================================================');

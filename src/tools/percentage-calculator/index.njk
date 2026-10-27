@@ -1,0 +1,281 @@
+---
+layout: layouts/tool.njk
+toolSlug: percentage-calculator
+title: "Percentage Calculator - What is X% of Y & Reverse Percent"
+description: "Calculate percentages, proportions, percentage markups or markdowns, and reverse percentages to find original values with step-by-step math."
+permalink: /tools/percentage-calculator/
+h1: "Percentage Calculator"
+lastReviewed: "2026-10-24"
+howto:
+  name: "How to Calculate Percentages and Reverse Percentages"
+  description: "Step-by-step guide for calculating percent of numbers, proportions, and recovering original values."
+  steps:
+    - name: "Select Calculation Mode"
+      text: "Choose between What is X% of Y, X is What % of Y, Increase or Decrease by X%, or Find Original Value."
+    - name: "Enter Known Values"
+      text: "Input the percentage rate and base numeric amount into the corresponding fields."
+    - name: "Inspect Instant Results"
+      text: "View computed values, absolute differences, and step-by-step arithmetic explanations instantly."
+faqs:
+  - q: "What is the formula to calculate a percentage of a number?"
+    a: "To find X% of Y, divide the percentage X by 100 to convert it into a decimal rate, then multiply by the total number Y. Mathematically: Result = (X ÷ 100) × Y. For example, 15% of 200 is (15 ÷ 100) × 200 = 30."
+  - q: "How do I calculate what percentage one number is of another?"
+    a: "Divide the partial amount (X) by the total baseline amount (Y) and multiply the quotient by 100: Percentage = (X ÷ Y) × 100. For instance, if you scored 45 out of 50 on a quiz, your percentage score is (45 ÷ 50) × 100 = 90%."
+  - q: "How do you find the original price before a discount?"
+    a: "To recover the original value after a discount, divide the sale price by (1 minus the discount rate as a decimal). If an item costs $80 after a 20% discount: Original Price = $80 ÷ (1 - 0.20) = $80 ÷ 0.80 = $100."
+  - q: "How do you find the original price before sales tax or markup?"
+    a: "Divide the final price by (1 plus the tax or markup rate as a decimal). If a total receipt is $108 with an 8% sales tax included: Pre-tax Original = $108 ÷ (1 + 0.08) = $108 ÷ 1.08 = $100."
+  - q: "How does this tool differ from the Percentage Change Calculator?"
+    a: "This Percentage Calculator solves direct proportions, base rates, and reverse percentage recovery. To calculate the historical relative increase or decrease between two distinct baseline values, use our dedicated Percentage Change Calculator."
+  - q: "Can a percentage calculation result in a number greater than 100%?"
+    a: "Yes. When the part value (X) is greater than the whole value (Y), the percentage will exceed 100%. For example, 150 is 150% of 100, which commonly occurs in growth metrics and sales quotas."
+  - q: "Are percentage calculations reversible?"
+    a: "Direct percentages have an interesting symmetry: X% of Y is always mathematically identical to Y% of X. For example, 8% of 50 is 4, and 50% of 8 is also 4."
+sources:
+  - label: "NIST Guide to SI Units: Percentages and Decimals"
+    url: "https://www.nist.gov/pml/special-publication-811"
+  - label: "Khan Academy: Finding Percentages and Proportions"
+    url: "https://www.khanacademy.org/math/algebra"
+  - label: "ISO 80000-2: Quantities and Units - Mathematical Signs"
+    url: "https://www.iso.org/standard/64973.html"
+quickAnswer: "To find what X percent of Y equals, multiply Y by X and divide by 100. To find what percentage X is of Y, divide X by Y and multiply by 100. To recover the original value before a known percentage change, divide the result by (1 ± rate as decimal). All four modes run instantly in your browser with no data sent to any server."
+workedExamples:
+  - title: "What is 15% of 200?"
+    inputs:
+      - "Mode: What is X% of Y?"
+      - "Percentage (X): 15"
+      - "Value (Y): 200"
+    steps:
+      - "Convert 15% to decimal: 15 ÷ 100 = 0.15"
+      - "Multiply: 0.15 × 200 = 30"
+    result: "30"
+  - title: "45 is what % of 90?"
+    inputs:
+      - "Mode: X is what % of Y?"
+      - "Part (X): 45"
+      - "Whole (Y): 90"
+    steps:
+      - "Divide: 45 ÷ 90 = 0.5"
+      - "Multiply by 100: 0.5 × 100 = 50%"
+    result: "50%"
+  - title: "Find original price before 20% discount — final price $80"
+    inputs:
+      - "Mode: Find Original Value"
+      - "Result: 80"
+      - "Percentage change: −20%"
+    steps:
+      - "Rate as decimal: 20 ÷ 100 = 0.20"
+      - "Original = 80 ÷ (1 − 0.20) = 80 ÷ 0.80 = 100"
+    result: "$100"
+---
+
+    <!-- Tool Form Container -->
+    <section class="tool-container" aria-label="Percentage Calculator Form">
+      
+      <!-- Segmented Mode Control Tabs -->
+      <div class="segmented-control" role="tablist" aria-label="Percentage Calculator Modes" style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.5rem;">
+        <button type="button" class="btn btn-sm mode-tab-btn active" data-mode="mode-1" role="tab" aria-selected="true">1. What is X% of Y?</button>
+        <button type="button" class="btn btn-sm mode-tab-btn" data-mode="mode-2" role="tab" aria-selected="false">2. X is what % of Y?</button>
+        <button type="button" class="btn btn-sm mode-tab-btn" data-mode="mode-3" role="tab" aria-selected="false">3. Increase / Decrease by X%</button>
+        <button type="button" class="btn btn-sm mode-tab-btn" data-mode="mode-4" role="tab" aria-selected="false">4. Find Original Value</button>
+      </div>
+
+      <!-- Mode 1: What is X% of Y Form -->
+      <form id="mode-1-form" class="calculator-mode-form" novalidate>
+        <div class="form-grid two-col">
+          <div class="form-group">
+            <label for="m1-percent-val">Percentage (%) <span style="color: var(--accent-primary);">*</span></label>
+            <input type="number" step="any" id="m1-percent-val" class="form-control" placeholder="e.g. 15" value="15" required aria-required="true">
+          </div>
+          <div class="form-group">
+            <label for="m1-total-val">Total Number (Y) <span style="color: var(--accent-primary);">*</span></label>
+            <input type="number" step="any" id="m1-total-val" class="form-control" placeholder="e.g. 200" value="200" required aria-required="true">
+          </div>
+        </div>
+
+        <div class="button-group" style="margin-top: 1rem;">
+          <button type="submit" class="btn btn-primary">Calculate Amount</button>
+          <button type="button" class="btn btn-secondary" id="reset-mode-1">Reset</button>
+        </div>
+      </form>
+
+      <!-- Mode 2: X is what % of Y Form -->
+      <form id="mode-2-form" class="calculator-mode-form hidden" novalidate>
+        <div class="form-grid two-col">
+          <div class="form-group">
+            <label for="m2-part-val">Part Value (X) <span style="color: var(--accent-primary);">*</span></label>
+            <input type="number" step="any" id="m2-part-val" class="form-control" placeholder="e.g. 25" required aria-required="true">
+          </div>
+          <div class="form-group">
+            <label for="m2-whole-val">Whole Value (Y) <span style="color: var(--accent-primary);">*</span></label>
+            <input type="number" step="any" id="m2-whole-val" class="form-control" placeholder="e.g. 200" required aria-required="true">
+          </div>
+        </div>
+
+        <div class="button-group" style="margin-top: 1rem;">
+          <button type="submit" class="btn btn-primary">Calculate Percent</button>
+          <button type="button" class="btn btn-secondary" id="reset-mode-2">Reset</button>
+        </div>
+      </form>
+
+      <!-- Mode 3: Increase/Decrease by X% Form -->
+      <form id="mode-3-form" class="calculator-mode-form hidden" novalidate>
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="m3-operation">Operation Type <span style="color: var(--accent-primary);">*</span></label>
+            <select id="m3-operation" class="form-control">
+              <option value="increase">Increase (+)</option>
+              <option value="decrease">Decrease (-)</option>
+            </select>
+          </div>
+          <div class="form-grid two-col">
+            <div class="form-group">
+              <label for="m3-base-val">Starting Number (Y) <span style="color: var(--accent-primary);">*</span></label>
+              <input type="number" step="any" id="m3-base-val" class="form-control" placeholder="e.g. 100" required aria-required="true">
+            </div>
+            <div class="form-group">
+              <label for="m3-percent-val">Percentage (%) <span style="color: var(--accent-primary);">*</span></label>
+              <input type="number" step="any" id="m3-percent-val" class="form-control" placeholder="e.g. 20" required aria-required="true">
+            </div>
+          </div>
+        </div>
+
+        <div class="button-group" style="margin-top: 1rem;">
+          <button type="submit" class="btn btn-primary">Apply Percentage</button>
+          <button type="button" class="btn btn-secondary" id="reset-mode-3">Reset</button>
+        </div>
+      </form>
+
+      <!-- Mode 4: Find Original Value Form -->
+      <form id="mode-4-form" class="calculator-mode-form hidden" novalidate>
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="m4-type">Known Scenario <span style="color: var(--accent-primary);">*</span></label>
+            <select id="m4-type" class="form-control">
+              <option value="of">Value represents X% of original</option>
+              <option value="increase">Value is after X% markup / tax increase</option>
+              <option value="decrease">Value is after X% discount decrease</option>
+            </select>
+          </div>
+          <div class="form-grid two-col">
+            <div class="form-group">
+              <label for="m4-val">Known Value <span style="color: var(--accent-primary);">*</span></label>
+              <input type="number" step="any" id="m4-val" class="form-control" placeholder="e.g. 80" required aria-required="true">
+            </div>
+            <div class="form-group">
+              <label for="m4-percent-val">Percentage (%) <span style="color: var(--accent-primary);">*</span></label>
+              <input type="number" step="any" id="m4-percent-val" class="form-control" placeholder="e.g. 20" required aria-required="true">
+            </div>
+          </div>
+        </div>
+
+        <div class="button-group" style="margin-top: 1rem;">
+          <button type="submit" class="btn btn-primary">Find Original Value</button>
+          <button type="button" class="btn btn-secondary" id="reset-mode-4">Reset</button>
+        </div>
+      </form>
+
+      <div id="error-box" class="hidden" style="margin-top: 1rem; color: var(--color-error, #dc2626); background: rgba(220, 38, 38, 0.08); border: 1px solid rgba(220, 38, 38, 0.25); padding: 0.75rem 1rem; border-radius: var(--radius-sm);" role="alert"></div>
+
+      <!-- Result Box -->
+      <div id="result-box" class="result-box is-visible" aria-live="polite">
+        <div class="result-header">
+          <span id="result-header-text">Percentage Result</span>
+          <button type="button" class="btn btn-sm btn-ghost" id="copy-result-btn" title="Copy result to clipboard" aria-label="Copy result to clipboard">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            <span>Copy</span>
+          </button>
+        </div>
+        <div class="result-primary" id="result-primary-text">30</div>
+        
+        <div class="result-grid" id="result-stats-grid">
+          <div class="result-stat-card">
+            <span class="stat-label">Percentage</span>
+            <span class="stat-value">15%</span>
+          </div>
+          <div class="result-stat-card">
+            <span class="stat-label">Base Amount (Y)</span>
+            <span class="stat-value">200</span>
+          </div>
+          <div class="result-stat-card">
+            <span class="stat-label">Calculated Amount (X)</span>
+            <span class="stat-value">30</span>
+          </div>
+        </div>
+
+        <div class="formula-box" id="formula-explanation" style="margin-top: 1rem; background: var(--surface-default); border: 1px solid var(--border-subtle); padding: 1rem; border-radius: var(--radius-md); font-size: 0.9rem; line-height: 1.6;">
+          <strong>Step-by-Step Calculation:</strong>
+          <ul style="margin: 0.5rem 0 0 1.25rem; padding: 0;">
+            <li>Convert percentage to decimal: 15 ÷ 100 = 0.15</li>
+            <li>Multiply by base value: 0.15 × 200 = 30</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- AEO Quick Answer Box -->
+    <div class="info-callout" style="margin-top: 2rem; margin-bottom: 2rem;">
+      <h3 style="font-size: 1.05rem; margin-bottom: 0.35rem; color: var(--accent-primary);">Quick Answer</h3>
+      <p style="margin-bottom: 0;">To calculate X% of a number Y: divide X by 100 to convert it into a decimal rate, then multiply by Y (<code>(X ÷ 100) × Y</code>). To find what percent X is of Y: divide X by Y and multiply by 100 (<code>(X ÷ Y) × 100</code>). To recover an original baseline after a discount, divide the sale price by <code>(1 - Discount Rate)</code>.</p>
+    </div>
+
+    <!-- When to Use Section -->
+    <section style="margin: 2.5rem 0;" aria-labelledby="how-to-use-heading">
+      <h2 id="how-to-use-heading">How &amp; When to Use the Percentage Calculator</h2>
+      <ul style="color: var(--text-muted); line-height: 1.8; margin-left: 1.25rem;">
+        <li><strong>Everyday Shopping &amp; Tax Estimation:</strong> Calculate standard tips, sales tax amounts, and restaurant bill additions instantly before checkout.</li>
+        <li><strong>Academic Test Scoring:</strong> Determine your exact percentage grade by inputting your earned points over the total possible points.</li>
+        <li><strong>Reverse Accounting &amp; Net Receipts:</strong> Back out state sales tax or supplier discounts from aggregate gross payments to find original net amounts.</li>
+        <li><strong>Financial Proportions:</strong> Need to measure historical growth or drops between two distinct time periods? Visit our companion <a href="/tools/percentage-change-calculator/">Percentage Change Calculator</a>.</li>
+      </ul>
+    </section>
+
+    <!-- Worked Examples Section -->
+    <section style="margin: 2.5rem 0;" aria-labelledby="article-heading">
+      <h2 id="article-heading">Worked Percentage Examples &amp; Core Formulas</h2>
+      
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 1.25rem;">
+        <div style="background: var(--surface-muted); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem;">
+          <h3 style="font-size: 1.1rem; margin-top: 0; color: var(--accent-primary);">Example 1: Finding 18% Tip</h3>
+          <p style="font-size: var(--font-size-sm); color: var(--text-muted); margin-bottom: 0.5rem;"><strong>Bill:</strong> $65.00 | <strong>Rate:</strong> 18%</p>
+          <ul style="font-size: var(--font-size-sm); color: var(--text-muted); line-height: 1.6; margin-left: 1.25rem;">
+            <li>Decimal rate: 18 ÷ 100 = 0.18</li>
+            <li>Tip amount: 0.18 × $65.00 = <strong>$11.70</strong></li>
+            <li>Total with tip: $65.00 + $11.70 = $76.70</li>
+          </ul>
+        </div>
+
+        <div style="background: var(--surface-muted); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem;">
+          <h3 style="font-size: 1.1rem; margin-top: 0; color: var(--accent-primary);">Example 2: Exam Score Proportion</h3>
+          <p style="font-size: var(--font-size-sm); color: var(--text-muted); margin-bottom: 0.5rem;"><strong>Earned:</strong> 34 points | <strong>Total:</strong> 40 points</p>
+          <ul style="font-size: var(--font-size-sm); color: var(--text-muted); line-height: 1.6; margin-left: 1.25rem;">
+            <li>Divide part by whole: 34 ÷ 40 = 0.85</li>
+            <li>Convert to percent: 0.85 × 100 = <strong>85.00%</strong></li>
+            <li>Equivalent Letter Grade: Solid B</li>
+          </ul>
+        </div>
+
+        <div style="background: var(--surface-muted); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem;">
+          <h3 style="font-size: 1.1rem; margin-top: 0; color: var(--accent-primary);">Example 3: Reverse Price Recovery</h3>
+          <p style="font-size: var(--font-size-sm); color: var(--text-muted); margin-bottom: 0.5rem;"><strong>Discounted Price:</strong> $48.00 | <strong>Discount:</strong> 20%</p>
+          <ul style="font-size: var(--font-size-sm); color: var(--text-muted); line-height: 1.6; margin-left: 1.25rem;">
+            <li>Remaining factor: 1 - 0.20 = 0.80</li>
+            <li>Original baseline: $48.00 ÷ 0.80 = <strong>$60.00</strong></li>
+            <li>Verified savings: $60.00 - $48.00 = $12.00</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Common Mistakes Section -->
+    <section style="margin: 2.5rem 0;" aria-labelledby="mistakes-heading">
+      <h2 id="mistakes-heading">Common Percentage Calculation Mistakes</h2>
+      <ul style="color: var(--text-muted); line-height: 1.8; margin-left: 1.25rem;">
+        <li><strong>Reversing Markup to Find Original:</strong> If a $100 item is discounted by 20% to $80, adding 20% of $80 does not recover $100 ($80 + $16 = $96). Always divide by the remaining decimal factor <code>(1 - Rate)</code>.</li>
+        <li><strong>Confusing Proportions with Multipliers:</strong> Multiplying a number by 20% means finding one-fifth of that number. To increase a number by 20%, multiply by 1.20, not 0.20.</li>
+        <li><strong>Dividing by Zero:</strong> When determining what percentage X is of Y, the denominator Y cannot be zero. Zero represents an empty whole, making the percentage ratio undefined.</li>
+      </ul>
+    </section>
+
+    <script src="./logic.js"></script>
+    <script src="./script.js"></script>

@@ -1,0 +1,90 @@
+.base64-editor-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+@media (min-width: 900px) {
+  .base64-editor-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.base64-textarea {
+  width: 100%;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  padding: 0.875rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-subtle);
+  background-color: var(--surface-card);
+  color: var(--text-main);
+  resize: vertical;
+  min-height: 200px;
+}
+
+.base64-textarea:focus {
+  outline: none;
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+.base64-controls-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+  justify-content: space-between;
+  margin: 1rem 0;
+  padding: 0.75rem 1rem;
+  background-color: var(--surface-muted);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+}
+
+.mode-radio-group {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.mode-radio-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.925rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.alert-box {
+  padding: 0.875rem 1.125rem;
+  border-radius: var(--radius-md);
+  margin-top: 1rem;
+  font-size: 0.925rem;
+  line-height: 1.5;
+}
+
+.alert-box[hidden] {
+  display: none !important;
+}
+
+.alert-error {
+  background-color: var(--color-danger-bg, #fff1f2);
+  border: 1px solid var(--color-danger-border, #fecdd3);
+  color: var(--color-danger-text, #9f1239);
+}
+
+.alert-success {
+  background-color: var(--color-success-bg, #ecfdf5);
+  border: 1px solid var(--color-success-border, #a7f3d0);
+  color: var(--color-success-text, #065f46);
+}
+
+.alert-info {
+  background-color: var(--surface-muted);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-muted);
+}

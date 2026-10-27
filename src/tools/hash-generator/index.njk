@@ -1,0 +1,196 @@
+---
+layout: layouts/tool.njk
+toolSlug: hash-generator
+title: "Online Hash Generator - SHA-256, SHA-512, SHA-384, SHA-1"
+description: "Compute cryptographic hashes for text locally using Web Crypto. Supports SHA-256, SHA-512, SHA-384, and SHA-1 with instant hash verification."
+permalink: /tools/hash-generator/
+h1: "Cryptographic Hash Generator"
+extraCss: "/tools/hash-generator/style.css"
+quickAnswer: "To generate cryptographic hashes for plain text, type or paste your string below. The tool calculates SHA-256, SHA-512, SHA-384, and legacy SHA-1 concurrently in your browser using the hardware-accelerated Web Cryptography API. All operations run entirely in local memory with zero remote transmission."
+formula:
+  title: "Cryptographic Hash Function Principle"
+  expression: "H = Hash(M)  |  Where H is fixed-size digest, M is variable-length message"
+  explanation: "A cryptographic hash function maps arbitrary-length binary data to a fixed-length hexadecimal digest. Ideal hash functions are deterministic, fast to compute, non-reversible (pre-image resistance), collision-resistant (no two messages yield the same digest), and exhibit an avalanche effect where a 1-bit input change alters over 50% of the output bits."
+workedExamples:
+  - title: "SHA-256 Digest of Empty String"
+    inputs:
+      - "Algorithm: SHA-256 (256-bit digest)"
+      - "Input: Empty String (\"\")"
+    steps:
+      - "Initialize standard 8 32-bit state words from fractional parts of square roots of first 8 primes"
+      - "Pad input with bit 1 followed by zeros and 64-bit length descriptor"
+      - "Process 512-bit message block through 64 compression rounds"
+      - "Produce canonical 64-character hexadecimal digest"
+    result: "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  - title: "SHA-512 Digest of Standard Greeting"
+    inputs:
+      - "Algorithm: SHA-512 (512-bit digest)"
+      - "Input: \"hello world\""
+    steps:
+      - "Encode ASCII characters to UTF-8 byte stream [0x68, 0x65, 0x6c, 0x6c, 0x6f, 0x20, 0x77, 0x6f, 0x72, 0x6c, 0x64]"
+      - "Execute 80 compression rounds on 1024-bit blocks using 64-bit word operations"
+      - "Convert output 64 bytes to 128-character hexadecimal string"
+    result: "309ecc489c12d6eb4cc40f50c902f2b4d0ed77ee511a7c7a9bcd3ca86d4cd86f989dd35bc5ff499670da34255b45b0cfd830e81f605dcf7dc5542e40ae9074da"
+  - title: "SHA-1 Legacy Test Vector"
+    inputs:
+      - "Algorithm: SHA-1 (160-bit digest)"
+      - "Input: \"The quick brown fox jumps over the lazy dog\""
+    steps:
+      - "Execute SHA-1 compression rounds producing 20-byte digest"
+      - "Format as 40 hexadecimal characters"
+    result: "2fd4e1c67a2d28fced849ee1bb76e7391b93eb12"
+commonMistakes:
+  - title: "Using Fast Hashes (SHA-256/MD5) for Passwords"
+    description: "Fast cryptographic hash functions can compute billions of guesses per second on consumer GPUs. Passwords must always use slow, memory-hard key derivation functions like Argon2, bcrypt, or PBKDF2 with unique salts."
+  - title: "Using SHA-1 or MD5 in New Systems"
+    description: "SHA-1 and MD5 have proven practical collision vulnerabilities (e.g. SHAttered attack). They are obsolete and insecure for digital signatures, certificates, and integrity guarantees."
+  - title: "Ignoring Character Encoding (UTF-8 vs Latin-1)"
+    description: "Hashing depends on raw binary bytes. Hashing multi-byte Unicode characters (accents, emojis) in different encodings produces completely divergent digests."
+  - title: "Relying on Unsalted Hashes"
+    description: "Hashing without cryptographic salting allows attackers to reverse digests instantly using precomputed rainbow tables."
+sources:
+  - name: "NIST FIPS PUB 180-4: Secure Hash Standard (SHS)"
+    url: "https://csrc.nist.gov/publications/detail/fips/180-4/final"
+  - name: "W3C Web Cryptography API: SubtleCrypto.digest()"
+    url: "https://www.w3.org/TR/WebCryptoAPI/#SubtleCrypto-method-digest"
+  - name: "CWI Amsterdam & Google: SHAttered SHA-1 Collision Attack"
+    url: "https://shattered.io/"
+lastReviewed: "October 24, 2026"
+howto:
+  name: "How to Compute and Compare Cryptographic Hashes"
+  description: "Step-by-step instructions for hashing text and verifying checksum matches online."
+  steps:
+    - name: "Enter Plain Text"
+      text: "Type or paste your message or secret in the input area to calculate hashes live."
+    - name: "Select Digest Format"
+      text: "Toggle between lowercase hex (standard) and uppercase hex format."
+    - name: "Verify or Copy"
+      text: "Copy any hash with a single click, or paste a target checksum into the compare field to verify a match."
+faqs:
+  - q: "Is SHA-256 safe for storing passwords?"
+    a: "No. SHA-256 is designed to be extremely fast for checksums, allowing modern GPUs to guess over 10 billion hashes per second. For passwords, always use slow, salted, memory-hard algorithms such as Argon2id, bcrypt, or scrypt."
+  - q: "Why is MD5 not available in this tool?"
+    a: "MD5 has been cryptographically broken since 2004, with trivial collision vulnerabilities demonstrated in under one second. Because MD5 presents critical security risks when used in modern applications, ToolsBuilt does not implement or offer MD5."
+  - q: "Can a cryptographic hash be decrypted or reversed?"
+    a: "No. Hash functions are strictly one-way mathematical operations that compress data, discarding original length and structure. A hash cannot be mathematically reversed; it can only be guessed by brute force."
+  - q: "What is the difference between SHA-256 and SHA-512?"
+    a: "SHA-256 produces a 256-bit (32-byte) digest using 32-bit operations, while SHA-512 produces a 512-bit (64-byte) digest using 64-bit operations. On 64-bit CPU architectures, SHA-512 is frequently faster than SHA-256."
+  - q: "Does ToolsBuilt send my text to a server to compute the hash?"
+    a: "No. All hashes are calculated locally inside your web browser using Web Crypto (crypto.subtle). Your input text and computed hashes are never transmitted across the network."
+---
+
+<div class="tool-container hash-container" aria-label="Cryptographic Hash Generator Tool">
+
+  <!-- Prominent Security Advisory Warning -->
+  <div class="hash-warning-banner" role="alert">
+    <span data-icon="warning" style="flex-shrink: 0; margin-top: 2px;"></span>
+    <div>
+      <strong>Security Notice:</strong> SHA-1 and MD5 are cryptographically broken and vulnerable to collision attacks. They must never be used for password hashing, digital signatures, or security-critical authentication. ToolsBuilt intentionally does not implement MD5. For passwords, always use salted algorithms like <strong>Argon2</strong> or <strong>bcrypt</strong>. For file integrity, use <strong>SHA-256</strong> or <strong>SHA-512</strong>.
+    </div>
+  </div>
+
+  <!-- Text Input Section -->
+  <div class="form-group">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+      <label for="hash-input-text" style="font-weight: 600; margin-bottom: 0;">Plain Text Input:</label>
+      <div style="display: flex; align-items: center; gap: 1rem;">
+        <label class="checkbox-label" style="display: flex; align-items: center; gap: 0.4rem; cursor: pointer; font-size: 0.85rem;">
+          <input type="checkbox" id="opt-hash-uppercase">
+          <span>Uppercase Hex</span>
+        </label>
+        <button type="button" class="btn btn-secondary btn-sm" id="clear-input-btn">
+          <span data-icon="trash"></span> Clear
+        </button>
+      </div>
+    </div>
+    <textarea id="hash-input-text" class="form-control hash-input-area" placeholder="Enter text to hash..." aria-label="Plain Text Input"></textarea>
+    <div class="hash-input-meta">
+      <span id="hash-byte-counter">0 chars / 0 bytes</span>
+      <span>Calculated locally via Web Crypto API</span>
+    </div>
+  </div>
+
+  <!-- Hash Cards Outputs -->
+  <div class="hash-cards-grid">
+    
+    <!-- SHA-256 Card (Primary) -->
+    <div class="hash-card" id="card-sha256">
+      <div class="hash-card-header">
+        <div class="hash-algo-title">
+          <span>SHA-256</span>
+          <span style="font-size: 0.75rem; color: var(--color-success-text); font-weight: 600;">(Recommended for integrity)</span>
+        </div>
+        <span style="font-size: 0.8rem; color: var(--text-muted);">256 bits (64 hex chars)</span>
+      </div>
+      <div class="hash-card-body">
+        <div id="hash-sha256-val" class="hash-value-display" aria-label="SHA-256 Hash Output"></div>
+        <button type="button" class="btn btn-primary btn-sm" data-copy-hash="SHA-256" aria-label="Copy SHA-256 Hash">
+          <span data-icon="copy"></span> Copy
+        </button>
+      </div>
+    </div>
+
+    <!-- SHA-512 Card -->
+    <div class="hash-card" id="card-sha512">
+      <div class="hash-card-header">
+        <div class="hash-algo-title">
+          <span>SHA-512</span>
+        </div>
+        <span style="font-size: 0.8rem; color: var(--text-muted);">512 bits (128 hex chars)</span>
+      </div>
+      <div class="hash-card-body">
+        <div id="hash-sha512-val" class="hash-value-display" aria-label="SHA-512 Hash Output"></div>
+        <button type="button" class="btn btn-primary btn-sm" data-copy-hash="SHA-512" aria-label="Copy SHA-512 Hash">
+          <span data-icon="copy"></span> Copy
+        </button>
+      </div>
+    </div>
+
+    <!-- SHA-384 Card -->
+    <div class="hash-card" id="card-sha384">
+      <div class="hash-card-header">
+        <div class="hash-algo-title">
+          <span>SHA-384</span>
+        </div>
+        <span style="font-size: 0.8rem; color: var(--text-muted);">384 bits (96 hex chars)</span>
+      </div>
+      <div class="hash-card-body">
+        <div id="hash-sha384-val" class="hash-value-display" aria-label="SHA-384 Hash Output"></div>
+        <button type="button" class="btn btn-secondary btn-sm" data-copy-hash="SHA-384" aria-label="Copy SHA-384 Hash">
+          <span data-icon="copy"></span> Copy
+        </button>
+      </div>
+    </div>
+
+    <!-- SHA-1 Card (Legacy) -->
+    <div class="hash-card" id="card-sha1">
+      <div class="hash-card-header">
+        <div class="hash-algo-title">
+          <span>SHA-1</span>
+          <span class="hash-badge-legacy">Legacy / Insecure for Passwords</span>
+        </div>
+        <span style="font-size: 0.8rem; color: var(--text-muted);">160 bits (40 hex chars)</span>
+      </div>
+      <div class="hash-card-body">
+        <div id="hash-sha1-val" class="hash-value-display" aria-label="SHA-1 Hash Output"></div>
+        <button type="button" class="btn btn-secondary btn-sm" data-copy-hash="SHA-1" aria-label="Copy SHA-1 Hash">
+          <span data-icon="copy"></span> Copy
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Compare Two Hashes Section -->
+  <div class="hash-compare-section">
+    <label for="hash-compare-input" style="font-weight: 600; font-size: 0.95rem;">Compare / Verify Hash:</label>
+    <input type="text" id="hash-compare-input" class="form-control" placeholder="Paste an external checksum or hash to compare..." style="font-family: var(--font-mono, monospace); font-size: 0.9rem;" aria-label="Target Hash for Comparison">
+    <div id="hash-compare-status" class="hash-match-status" aria-live="polite">
+      <span style="color: var(--text-muted);">Paste a hash above to verify match against calculated values.</span>
+    </div>
+  </div>
+
+</div>
+
+<script src="/tools/hash-generator/logic.js"></script>
+<script src="/tools/hash-generator/script.js"></script>

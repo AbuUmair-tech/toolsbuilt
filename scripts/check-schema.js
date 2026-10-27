@@ -4,7 +4,7 @@
  * Validates all JSON-LD structured data blocks across built HTML files in _site/
  * Ensures:
  * 1. Valid JSON syntax
- * 2. Proper Schema.org shapes (WebSite, Organization, WebApplication, BreadcrumbList, ItemList, FAQPage, CollectionPage)
+ * 2. Proper Schema.org shapes (WebSite, Organization, WebApplication, BreadcrumbList, ItemList, FAQPage, CollectionPage, BlogPosting, Blog)
  * 3. DOM-Schema parity (page title / H1 matches schema name; description matches)
  * 4. Zero fabricated data: fails on aggregateRating, reviewCount, ratingValue, review, award
  */
@@ -236,6 +236,28 @@ function checkSchema() {
                 totalErrors++;
               }
             }
+          }
+        } else if (type === 'BlogPosting') {
+          if (!item.headline) {
+            console.error(`❌ ${relPath}: BlogPosting missing headline`);
+            totalErrors++;
+          }
+          if (!item.datePublished) {
+            console.error(`❌ ${relPath}: BlogPosting missing datePublished`);
+            totalErrors++;
+          }
+          if (!item.author || !item.author.name) {
+            console.error(`❌ ${relPath}: BlogPosting missing author.name`);
+            totalErrors++;
+          }
+          if (!item.publisher || !item.publisher.name) {
+            console.error(`❌ ${relPath}: BlogPosting missing publisher.name`);
+            totalErrors++;
+          }
+        } else if (type === 'Blog') {
+          if (!item.name || !item.url) {
+            console.error(`❌ ${relPath}: Blog schema missing name or url`);
+            totalErrors++;
           }
         }
       }

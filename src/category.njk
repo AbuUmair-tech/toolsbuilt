@@ -6,10 +6,10 @@ pagination:
   alias: category
 permalink: "/category/{{ category.slug }}/index.html"
 eleventyComputed:
-  title: "{{ category.seoTitle }}"
-  description: "{{ category.seoDescription }}"
+  title: "{{ category.seoTitle | safe }}"
+  description: "{{ category.seoDescription | safe }}"
   canonical: "https://toolsbuilt.com/category/{{ category.slug }}/"
-  breadcrumbTitle: "{{ category.name }}"
+  breadcrumbTitle: "{{ category.name | safe }}"
 ---
 
 {% set catTools = tools | filterByCategory(category.slug) %}

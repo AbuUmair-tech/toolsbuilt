@@ -4,7 +4,55 @@ toolSlug: word-counter
 title: "Word Counter - Character & Reading Time Counter"
 description: "Free online word counter and character count tool. Calculate words, characters, sentences, reading time, and top words live as you type."
 permalink: /tools/word-counter/
-h1: "Word &amp; Character Counter"
+h1: "Word & Character Counter"
+quickAnswer: "To analyze your text, type or paste content directly into the editor. The tool live-counts words, characters with and without spaces, sentences, paragraphs, and reading time based on 225 words per minute. Everything processes locally with full Unicode support, ensuring your writing remains private and secure."
+formula:
+  title: "Lexical Analysis & Reading Speed Formulas"
+  expression: "Word Count = Total Unicode Word Tokens (\\p{L}\\p{N}+)  |  Reading Time = Words / 225 wpm"
+  explanation: "Words are tokenized by matching contiguous sequences of Unicode letters and numbers, properly recognizing contractions and multi-script characters. Estimated silent reading time applies the peer-reviewed cognitive benchmark of 225 words per minute (Brysbaert 2019 meta-analysis)."
+workedExamples:
+  - title: "Short Social Media Post"
+    inputs:
+      - "Text: 'ToolsBuilt provides instant calculators that run entirely in your browser without data collection.'"
+    steps:
+      - "Extract Unicode word tokens: 13 words"
+      - "Count total characters with spaces: 98 characters"
+      - "Count printable characters without whitespace: 86 characters"
+      - "Calculate silent reading time (13 / 225 wpm): 3 seconds"
+    result: "13 words | 98 characters (86 no spaces) | 1 sentence | 3 sec reading time"
+  - title: "Unicode Multilingual Text with Emoji"
+    inputs:
+      - "Text: 'Café au lait costs €4.50 in Paris! ☕'"
+    steps:
+      - "Tokenize accented words and numbers: ['Café', 'au', 'lait', 'costs', '4', '50', 'in', 'Paris'] = 8 words"
+      - "Count Unicode code points (emoji counted as 1 glyph): 36 characters"
+      - "Count characters without whitespace: 29 characters"
+    result: "8 words | 36 characters (29 no spaces) | 1 sentence | 2 sec reading time"
+  - title: "Long Form Essay Timing (450 Words)"
+    inputs:
+      - "Text: 450 words of body text"
+    steps:
+      - "Tally total words: 450 words"
+      - "Calculate silent reading duration: 450 ÷ 225 wpm = 2 min 0 sec"
+      - "Calculate conversational speaking duration: 450 ÷ 140 wpm = 3 min 13 sec"
+    result: "450 words | Reading Time: 2 min 0 sec | Speaking Time: 3 min 13 sec"
+commonMistakes:
+  - title: "Relying on Simple Whitespace Splitting"
+    description: "Using text.split(' ') counts standalone punctuation, double spaces, and emojis as separate words. Accurate counts require Unicode letter tokenization."
+  - title: "Assuming 300 WPM Reading Speed"
+    description: "While 300 wpm is commonly claimed, empirical cognitive meta-analyses (Brysbaert 2019) establish the standard adult silent reading benchmark at 225 wpm."
+  - title: "Confusing Characters With and Without Spaces"
+    description: "Social media, translation agencies, and character-limited forms distinguish between total glyphs with spaces and printable characters without spaces."
+  - title: "Miscounting UTF-16 Emoji Surrogate Pairs"
+    description: "In basic JavaScript, emoji surrogates register as 2 characters. Accurate length calculation requires Array.from(text) or regex unicode code point counting."
+sources:
+  - name: "Unicode Standard Annex #29: Unicode Text Segmentation"
+    url: "https://unicode.org/reports/tr29/"
+  - name: "W3C Internationalization Working Group"
+    url: "https://www.w3.org/International/"
+  - name: "Brysbaert, M. (2019) How many words do we read per minute? A review and meta-analysis"
+    url: "https://doi.org/10.1016/j.jml.2019.104047"
+lastReviewed: "October 24, 2026"
 howto:
   name: "How to Count Words and Characters Online"
   description: "Step-by-step guide to using the free ToolsBuilt Word Counter."
@@ -26,13 +74,10 @@ faqs:
     a: "Common grammatical words like 'the', 'is', 'at', and 'and' occur frequently in nearly all English text. Filtering out stop words reveals the meaningful topical keywords in your content."
   - q: "Is my typed text saved or transmitted to a server?"
     a: "No. All text analysis runs 100% locally in your browser memory. Your writing is never transmitted, stored, or analyzed on any external server."
-sources:
-  - label: "Unicode Standard Annex #29: Unicode Text Segmentation"
-    url: "https://unicode.org/reports/tr29/"
-  - label: "W3C Internationalization Working Group"
-    url: "https://www.w3.org/International/"
-  - label: "Brysbaert, M. (2019) How many words do we read per minute? A review and meta-analysis"
-    url: "https://doi.org/10.1016/j.jml.2019.104047"
+  - q: "How does the tool count sentences and paragraphs?"
+    a: "Sentences are identified by standard terminal punctuation marks (. ! ?). Paragraphs are counted based on consecutive line break transitions."
+  - q: "Can I use this word counter on mobile devices?"
+    a: "Yes. The tool is fully responsive and executes instantly on smartphones and tablets directly within any mobile browser."
 ---
 
     <!-- Tool Form Container -->
@@ -95,67 +140,13 @@ sources:
       </div>
     </section>
 
-    <!-- AEO Quick Answer Box -->
-    <div class="info-callout" style="margin-top: 2rem; margin-bottom: 2rem;">
-      <h3 style="font-size: 1.05rem; margin-bottom: 0.35rem; color: var(--accent-primary);">Quick Answer</h3>
-      <p style="margin-bottom: 0;">The ToolsBuilt Word &amp; Character Counter analyzes text in real time as you type, providing accurate counts of words, characters, sentences, paragraphs, reading speed duration, and keyword frequencies. Everything runs securely in browser memory without sending text to any server.</p>
-    </div>
-
     <!-- When to Use Section -->
-    <section style="margin: 2.5rem 0;" aria-labelledby="how-to-use-heading">
-      <h2 id="how-to-use-heading">How &amp; When to Use the Word Counter</h2>
+    <section style="margin: 2.5rem 0;">
+      <h2>How &amp; When to Use the Word Counter</h2>
       <ul style="color: var(--text-muted); line-height: 1.8; margin-left: 1.25rem;">
         <li><strong>Social Media Character Limits:</strong> Check character counts before posting to platforms like X / Twitter (280 characters), LinkedIn posts (3,000 characters), or Instagram captions (2,200 characters).</li>
         <li><strong>Academic &amp; Essay Writing:</strong> Ensure essays, abstracts, and term papers meet mandatory length constraints (e.g. 500-word personal statements or 250-word journal abstracts).</li>
         <li><strong>Speech &amp; Presentation Rehearsal:</strong> Estimate presentation duration accurately using the 140-wpm speaking benchmark to ensure you fit within allocated speaking slots.</li>
         <li><strong>SEO Meta Descriptions &amp; Page Titles:</strong> Keep meta descriptions within the recommended 150–160 character window to avoid search engine snippet truncation.</li>
-      </ul>
-    </section>
-
-    <!-- Worked Examples Section -->
-    <section style="margin: 2.5rem 0;" aria-labelledby="article-heading">
-      <h2 id="article-heading">Worked Text Analysis Examples &amp; Formula</h2>
-      
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 1.25rem;">
-        <div style="background: var(--surface-muted); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem;">
-          <h3 style="font-size: 1.1rem; margin-top: 0; color: var(--accent-primary);">Example 1: Short Social Post</h3>
-          <p style="font-size: var(--font-size-sm); color: var(--text-muted); margin-bottom: 0.5rem;"><em>"ToolsBuilt provides fast, free, and private browser calculators."</em></p>
-          <ul style="font-size: var(--font-size-sm); color: var(--text-muted); line-height: 1.6; margin-left: 1.25rem;">
-            <li>Words: 8 words</li>
-            <li>Characters (with spaces): 68 characters</li>
-            <li>Characters (no spaces): 61 characters</li>
-            <li>Reading Time: &lt; 1 sec</li>
-          </ul>
-        </div>
-
-        <div style="background: var(--surface-muted); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem;">
-          <h3 style="font-size: 1.1rem; margin-top: 0; color: var(--accent-primary);">Example 2: 500-Word Essay Timing</h3>
-          <p style="font-size: var(--font-size-sm); color: var(--text-muted); margin-bottom: 0.5rem;">A standard 500-word college admissions essay:</p>
-          <ul style="font-size: var(--font-size-sm); color: var(--text-muted); line-height: 1.6; margin-left: 1.25rem;">
-            <li>Characters: ~3,000 characters with spaces</li>
-            <li>Reading Time: ~2 min 13 sec (at 225 wpm)</li>
-            <li>Speaking Time: ~3 min 34 sec (at 140 wpm)</li>
-            <li>Paragraphs: Typically 4 to 5 paragraphs</li>
-          </ul>
-        </div>
-
-        <div style="background: var(--surface-muted); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem;">
-          <h3 style="font-size: 1.1rem; margin-top: 0; color: var(--accent-primary);">Example 3: Unicode &amp; Multi-byte Text</h3>
-          <p style="font-size: var(--font-size-sm); color: var(--text-muted); margin-bottom: 0.5rem;"><em>"Hello world 🚀 café crème"</em></p>
-          <ul style="font-size: var(--font-size-sm); color: var(--text-muted); line-height: 1.6; margin-left: 1.25rem;">
-            <li>Words: 4 words ('Hello', 'world', 'café', 'crème')</li>
-            <li>Characters: 25 code points (rocket emoji counted as 1 character)</li>
-            <li>Accents handled seamlessly across all Latin extended sets</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <!-- Common Mistakes Section -->
-    <section style="margin: 2.5rem 0;" aria-labelledby="mistakes-heading">
-      <h2 id="mistakes-heading">Common Text Counting Discrepancies</h2>
-      <ul style="color: var(--text-muted); line-height: 1.8; margin-left: 1.25rem;">
-        <li><strong>Hyphenated Compound Words:</strong> Different word processors count hyphenated words differently (e.g., 'state-of-the-art'). Microsoft Word counts this as 4 words, while some older editors count it as 1. Our tool treats hyphenated components as individual lexical units.</li>
-        <li><strong>Emoji Surrogate Pairs:</strong> JavaScript strings traditionally measure UTF-16 code units, causing emojis like 🚀 to count as 2 characters. Our Unicode-aware character counter normalizes surrogate pairs so each visible emoji counts as 1 character.</li>
       </ul>
     </section>
