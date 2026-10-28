@@ -272,126 +272,21 @@
     --max-width: var(--container-max);
     --transition: var(--transition-all);
   }
+} /* end @layer tokens */
 
-  /* -------------------------------------------------------------------------
-     Dark Theme Tokens
-     Applied via:
-     1. Automatic prefers-color-scheme when no explicit theme is set
-     2. Explicit :root[data-theme="dark"]
-     ------------------------------------------------------------------------- */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) {
-      /* Neutral 12-step Scale (Deep obsidian / slate) */
-      --neutral-1: #090d16;
-      --neutral-2: #0f172a;
-      --neutral-3: #161f33;
-      --neutral-4: #1e293b;
-      --neutral-5: #334155;
-      --neutral-6: #475569;
-      --neutral-7: #64748b;
-      --neutral-8: #94a3b8;
-      --neutral-9: #cbd5e1;
-      --neutral-10: #e2e8f0;
-      --neutral-11: #f8fafc;
-      --neutral-12: #ffffff;
+/* =============================================================================
+   Dark Theme Token Overrides — OUTSIDE @layer tokens
+   Unlayered rules have higher cascade priority than any @layer rule, which
+   ensures that axe-core and browsers reliably resolve CSS custom properties
+   in dark mode regardless of how the layer order is set up elsewhere.
 
-      /* Brand Accent Scale (Luminous Iris / Indigo) */
-      --accent-1: #1e1b4b;
-      --accent-2: #312e81;
-      --accent-3: #3730a3;
-      --accent-4: #4338ca;
-      --accent-5: #4f46e5;
-      --accent-6: #6366f1;
-      --accent-7: #8183f8;
-      --accent-8: #a5a6fb;
-      --accent-9: #c3c5fd;
-      --accent-10: #dddefe;
-      --accent-11: #eceeff;
-      --accent-12: #f5f6ff;
-
-      --surface-canvas: #090d16;
-      --surface-card: #161f33;
-      --surface-card-hover: #1e293b;
-      --surface-header: rgba(9, 13, 22, 0.88);
-      --surface-input: #0f172a;
-      --surface-muted: #1e293b;
-      --surface-badge: rgba(99, 102, 241, 0.16);
-
-      --border-subtle: #334155;
-      --border-strong: #64748b;   /* Accessible >= 3:1 on dark card */
-      --border-focus: #8183f8;
-
-      --text-primary: #f8fafc;    /* 15.7:1 on dark card */
-      --text-secondary: #cbd5e1;  /* 11.1:1 on dark card */
-      --text-tertiary: #94a3b8;   /* 6.4:1 on dark card */
-      --text-inverse: #090d16;
-
-      --accent-primary: #818cf8;
-      --accent-btn-bg: #4f46e5;
-      --accent-hover: #a5b4fc;
-      --accent-active: #c7d2fe;
-      --accent-contrast: #ffffff;
-      --accent-subtle: rgba(99, 102, 241, 0.2);
-      --accent-subtle-text: #c7d2fe;
-
-      /* Semantic Feedback Colors - Dark Mode */
-      --color-success-bg: rgba(16, 185, 129, 0.15);
-      --color-success-border: rgba(16, 185, 129, 0.35);
-      --color-success-text: #6ee7b7;
-      --color-success-icon: #34d399;
-
-      --color-warning-bg: rgba(245, 158, 11, 0.15);
-      --color-warning-border: rgba(245, 158, 11, 0.35);
-      --color-warning-text: #fcd34d;
-      --color-warning-icon: #fbbf24;
-
-      --color-danger-bg: rgba(244, 63, 94, 0.15);
-      --color-danger-border: rgba(244, 63, 94, 0.35);
-      --color-danger-text: #fda4af;
-      --color-danger-icon: #fb7185;
-
-      --color-info-bg: rgba(14, 165, 233, 0.15);
-      --color-info-border: rgba(14, 165, 233, 0.35);
-      --color-info-text: #7dd3fc;
-      --color-info-icon: #38bdf8;
-
-      /* Category Accent Tokens - Dark Mode */
-      --cat-date-bg: rgba(79, 70, 229, 0.2);
-      --cat-date-border: rgba(99, 102, 241, 0.35);
-      --cat-date-color: #c7d2fe;
-
-      --cat-math-bg: rgba(5, 150, 105, 0.2);
-      --cat-math-border: rgba(16, 185, 129, 0.35);
-      --cat-math-color: #a7f3d0;
-
-      --cat-text-bg: rgba(217, 119, 6, 0.2);
-      --cat-text-border: rgba(245, 158, 11, 0.35);
-      --cat-text-color: #fde68a;
-
-      --cat-security-bg: rgba(225, 29, 72, 0.2);
-      --cat-security-border: rgba(244, 63, 94, 0.35);
-      --cat-security-color: #fecdd3;
-
-      --cat-fun-bg: rgba(126, 34, 206, 0.2);
-      --cat-fun-border: rgba(168, 85, 247, 0.35);
-      --cat-fun-color: #e9d5ff;
-
-      --cat-dev-bg: rgba(15, 118, 110, 0.2);
-      --cat-dev-border: rgba(20, 184, 166, 0.35);
-      --cat-dev-color: #99f6e4;
-
-      /* Elevation / Shadows - Dark Mode */
-      --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.3);
-      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4), 0 1px 2px rgba(0, 0, 0, 0.25);
-      --shadow-md: 0 4px 8px -1px rgba(0, 0, 0, 0.45), 0 2px 4px -2px rgba(0, 0, 0, 0.35);
-      --shadow-lg: 0 10px 20px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -4px rgba(0, 0, 0, 0.4);
-      --shadow-xl: 0 20px 30px -5px rgba(0, 0, 0, 0.55), 0 8px 12px -6px rgba(0, 0, 0, 0.45);
-      --shadow-inner: inset 0 2px 4px rgba(0, 0, 0, 0.4);
-      --shadow-glow: 0 0 0 1px rgba(99, 102, 241, 0.35), 0 8px 24px -4px rgba(99, 102, 241, 0.3);
-    }
-  }
-
-  :root[data-theme="dark"] {
+   Applied via:
+   1. Automatic prefers-color-scheme when no explicit theme is set
+   2. Explicit :root[data-theme="dark"]
+   ============================================================================= */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    /* Neutral 12-step Scale (Deep obsidian / slate) */
     --neutral-1: #090d16;
     --neutral-2: #0f172a;
     --neutral-3: #161f33;
@@ -405,6 +300,7 @@
     --neutral-11: #f8fafc;
     --neutral-12: #ffffff;
 
+    /* Brand Accent Scale (Luminous Iris / Indigo) */
     --accent-1: #1e1b4b;
     --accent-2: #312e81;
     --accent-3: #3730a3;
@@ -427,12 +323,12 @@
     --surface-badge: rgba(99, 102, 241, 0.16);
 
     --border-subtle: #334155;
-    --border-strong: #64748b;
+    --border-strong: #64748b;   /* Accessible >= 3:1 on dark card */
     --border-focus: #8183f8;
 
-    --text-primary: #f8fafc;
-    --text-secondary: #cbd5e1;
-    --text-tertiary: #94a3b8;
+    --text-primary: #f8fafc;    /* 15.7:1 on dark card */
+    --text-secondary: #cbd5e1;  /* 11.1:1 on dark card */
+    --text-tertiary: #94a3b8;   /* 6.4:1 on dark card */
     --text-inverse: #090d16;
 
     --accent-primary: #818cf8;
@@ -443,6 +339,7 @@
     --accent-subtle: rgba(99, 102, 241, 0.2);
     --accent-subtle-text: #c7d2fe;
 
+    /* Semantic Feedback Colors - Dark Mode */
     --color-success-bg: rgba(16, 185, 129, 0.15);
     --color-success-border: rgba(16, 185, 129, 0.35);
     --color-success-text: #6ee7b7;
@@ -463,6 +360,7 @@
     --color-info-text: #7dd3fc;
     --color-info-icon: #38bdf8;
 
+    /* Category Accent Tokens - Dark Mode */
     --cat-date-bg: rgba(79, 70, 229, 0.2);
     --cat-date-border: rgba(99, 102, 241, 0.35);
     --cat-date-color: #c7d2fe;
@@ -487,6 +385,7 @@
     --cat-dev-border: rgba(20, 184, 166, 0.35);
     --cat-dev-color: #99f6e4;
 
+    /* Elevation / Shadows - Dark Mode */
     --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.3);
     --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4), 0 1px 2px rgba(0, 0, 0, 0.25);
     --shadow-md: 0 4px 8px -1px rgba(0, 0, 0, 0.45), 0 2px 4px -2px rgba(0, 0, 0, 0.35);
@@ -495,12 +394,115 @@
     --shadow-inner: inset 0 2px 4px rgba(0, 0, 0, 0.4);
     --shadow-glow: 0 0 0 1px rgba(99, 102, 241, 0.35), 0 8px 24px -4px rgba(99, 102, 241, 0.3);
   }
+}
 
-  :root[data-theme="light"] {
-    color-scheme: light;
-  }
+:root[data-theme="dark"] {
+  --neutral-1: #090d16;
+  --neutral-2: #0f172a;
+  --neutral-3: #161f33;
+  --neutral-4: #1e293b;
+  --neutral-5: #334155;
+  --neutral-6: #475569;
+  --neutral-7: #64748b;
+  --neutral-8: #94a3b8;
+  --neutral-9: #cbd5e1;
+  --neutral-10: #e2e8f0;
+  --neutral-11: #f8fafc;
+  --neutral-12: #ffffff;
 
-  :root[data-theme="dark"] {
-    color-scheme: dark;
-  }
+  --accent-1: #1e1b4b;
+  --accent-2: #312e81;
+  --accent-3: #3730a3;
+  --accent-4: #4338ca;
+  --accent-5: #4f46e5;
+  --accent-6: #6366f1;
+  --accent-7: #8183f8;
+  --accent-8: #a5a6fb;
+  --accent-9: #c3c5fd;
+  --accent-10: #dddefe;
+  --accent-11: #eceeff;
+  --accent-12: #f5f6ff;
+
+  --surface-canvas: #090d16;
+  --surface-card: #161f33;
+  --surface-card-hover: #1e293b;
+  --surface-header: rgba(9, 13, 22, 0.88);
+  --surface-input: #0f172a;
+  --surface-muted: #1e293b;
+  --surface-badge: rgba(99, 102, 241, 0.16);
+
+  --border-subtle: #334155;
+  --border-strong: #64748b;
+  --border-focus: #8183f8;
+
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --text-tertiary: #94a3b8;
+  --text-inverse: #090d16;
+
+  --accent-primary: #818cf8;
+  --accent-btn-bg: #4f46e5;
+  --accent-hover: #a5b4fc;
+  --accent-active: #c7d2fe;
+  --accent-contrast: #ffffff;
+  --accent-subtle: rgba(99, 102, 241, 0.2);
+  --accent-subtle-text: #c7d2fe;
+
+  --color-success-bg: rgba(16, 185, 129, 0.15);
+  --color-success-border: rgba(16, 185, 129, 0.35);
+  --color-success-text: #6ee7b7;
+  --color-success-icon: #34d399;
+
+  --color-warning-bg: rgba(245, 158, 11, 0.15);
+  --color-warning-border: rgba(245, 158, 11, 0.35);
+  --color-warning-text: #fcd34d;
+  --color-warning-icon: #fbbf24;
+
+  --color-danger-bg: rgba(244, 63, 94, 0.15);
+  --color-danger-border: rgba(244, 63, 94, 0.35);
+  --color-danger-text: #fda4af;
+  --color-danger-icon: #fb7185;
+
+  --color-info-bg: rgba(14, 165, 233, 0.15);
+  --color-info-border: rgba(14, 165, 233, 0.35);
+  --color-info-text: #7dd3fc;
+  --color-info-icon: #38bdf8;
+
+  --cat-date-bg: rgba(79, 70, 229, 0.2);
+  --cat-date-border: rgba(99, 102, 241, 0.35);
+  --cat-date-color: #c7d2fe;
+
+  --cat-math-bg: rgba(5, 150, 105, 0.2);
+  --cat-math-border: rgba(16, 185, 129, 0.35);
+  --cat-math-color: #a7f3d0;
+
+  --cat-text-bg: rgba(217, 119, 6, 0.2);
+  --cat-text-border: rgba(245, 158, 11, 0.35);
+  --cat-text-color: #fde68a;
+
+  --cat-security-bg: rgba(225, 29, 72, 0.2);
+  --cat-security-border: rgba(244, 63, 94, 0.35);
+  --cat-security-color: #fecdd3;
+
+  --cat-fun-bg: rgba(126, 34, 206, 0.2);
+  --cat-fun-border: rgba(168, 85, 247, 0.35);
+  --cat-fun-color: #e9d5ff;
+
+  --cat-dev-bg: rgba(15, 118, 110, 0.2);
+  --cat-dev-border: rgba(20, 184, 166, 0.35);
+  --cat-dev-color: #99f6e4;
+
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4), 0 1px 2px rgba(0, 0, 0, 0.25);
+  --shadow-md: 0 4px 8px -1px rgba(0, 0, 0, 0.45), 0 2px 4px -2px rgba(0, 0, 0, 0.35);
+  --shadow-lg: 0 10px 20px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -4px rgba(0, 0, 0, 0.4);
+  --shadow-xl: 0 20px 30px -5px rgba(0, 0, 0, 0.55), 0 8px 12px -6px rgba(0, 0, 0, 0.45);
+  --shadow-inner: inset 0 2px 4px rgba(0, 0, 0, 0.4);
+  --shadow-glow: 0 0 0 1px rgba(99, 102, 241, 0.35), 0 8px 24px -4px rgba(99, 102, 241, 0.3);
+
+  color-scheme: dark;
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
 }
