@@ -1,0 +1,97 @@
+/* UUID / GUID Generator Tool Styles */
+
+.uuid-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.uuid-quick-box {
+  background: var(--surface-muted);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.uuid-quick-row {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.uuid-display-input {
+  font-family: var(--font-mono, monospace);
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--text-main);
+  background: var(--surface-canvas, #ffffff);
+}
+
+.uuid-options-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  padding: 1.25rem;
+  background: var(--surface-muted);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+}
+
+.uuid-bulk-output {
+  width: 100%;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  resize: vertical;
+  min-height: 200px;
+  max-height: 500px;
+  background: var(--surface-muted);
+  color: var(--text-main);
+  padding: 1rem;
+}
+
+.uuid-actions-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.uuid-action-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.uuid-meta-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  background: var(--surface-muted);
+  padding: 0.35rem 0.75rem;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border-subtle);
+}
+
+@media (max-width: 640px) {
+  .uuid-quick-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .uuid-actions-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .uuid-action-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+}

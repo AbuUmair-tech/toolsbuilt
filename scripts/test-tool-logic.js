@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * Comprehensive Unit & Seeded Property-Based Fuzz Tests
- * for all 10 ToolsBuilt Pure Logic Modules.
+ * for all 16 ToolsBuilt Pure Logic Modules.
  */
 
 const path = require('path');
@@ -30,7 +30,7 @@ function mulberry32(seed) {
   };
 }
 
-console.log('--- Testing 10 Pure Logic Modules ---');
+console.log('--- Testing 16 Pure Logic Modules ---');
 
 // 1. Age Calculator Logic
 const ageLogic = require(path.join(ROOT, 'src/tools/age-calculator/logic.js'));
@@ -291,6 +291,700 @@ const pickerLogic = require(path.join(ROOT, 'src/tools/random-name-picker/logic.
   assert(multi.winners[0] !== multi.winners[1], 'PickerLogic: winners are unique without replacement');
   assert(multi.remaining.length === 2, 'PickerLogic: 2 remaining candidates');
 }
+// 11. Percentage Calculator Logic (4 Modes)
+const pctDirectLogic = require(path.join(ROOT, 'src/tools/percentage-calculator/logic.js'));
+{
+  console.log('\n--- Testing Percentage Calculator Logic ---');
+  // Mode 1: What is X% of Y?
+  const m1 = pctDirectLogic.calculatePercentOf(15, 200);
+  assert(m1.result === 30, 'PercentageLogic: 15% of 200 = 30');
+  const m1Decimal = pctDirectLogic.calculatePercentOf(12.5, 80);
+  assert(m1Decimal.result === 10, 'PercentageLogic: 12.5% of 80 = 10');
+  const m1Zero = pctDirectLogic.calculatePercentOf(0, 500);
+  assert(m1Zero.result === 0, 'PercentageLogic: 0% of 500 = 0');
+  const m1Large = pctDirectLogic.calculatePercentOf(250, 40);
+  assert(m1Large.result === 100, 'PercentageLogic: 250% of 40 = 100');
+
+  let m1Error = false;
+  try { pctDirectLogic.calculatePercentOf('abc', 100); } catch (e) { m1Error = true; }
+  assert(m1Error, 'PercentageLogic: calculatePercentOf throws on invalid input');
+
+  // Mode 2: X is what % of Y?
+  const m2 = pctDirectLogic.calculateWhatPercentIs(25, 200);
+  assert(m2.result === 12.5, 'PercentageLogic: 25 is 12.5% of 200');
+  const m2Over = pctDirectLogic.calculateWhatPercentIs(150, 100);
+  assert(m2Over.result === 150, 'PercentageLogic: 150 is 150% of 100');
+
+  let m2ZeroDiv = false;
+  try { pctDirectLogic.calculateWhatPercentIs(50, 0); } catch (e) { m2ZeroDiv = true; }
+  assert(m2ZeroDiv, 'PercentageLogic: calculateWhatPercentIs throws on division by zero (whole=0)');
+
+  // Mode 3: Increase or Decrease Y by X%
+  const m3Inc = pctDirectLogic.calculateIncreaseDecrease(100, 20, false);
+  assert(m3Inc.result === 120 && m3Inc.delta === 20, 'PercentageLogic: 100 increased by 20% = 120');
+  const m3Dec = pctDirectLogic.calculateIncreaseDecrease(100, 20, true);
+  assert(m3Dec.result === 80 && m3Dec.delta === 20, 'PercentageLogic: 100 decreased by 20% = 80');
+  const m3Zero = pctDirectLogic.calculateIncreaseDecrease(50, 0, false);
+  assert(m3Zero.result === 50 && m3Zero.delta === 0, 'PercentageLogic: 50 increased by 0% = 50');
+
+  // Mode 4: Find Original Value (Reverse Percentage)
+  const m4Of = pctDirectLogic.calculateOriginalValue(30, 15, 'of');
+  assert(m4Of.result === 200, 'PercentageLogic: 30 is 15% of original -> 200');
+
+  const m4Inc = pctDirectLogic.calculateOriginalValue(120, 20, 'increase');
+  assert(m4Inc.result === 100, 'PercentageLogic: 120 after 20% increase -> original = 100');
+
+  const m4Dec = pctDirectLogic.calculateOriginalValue(80, 20, 'decrease');
+  assert(m4Dec.result === 100, 'PercentageLogic: 80 after 20% decrease -> original = 100');
+
+  let m4ZeroErr = false;
+  try { pctDirectLogic.calculateOriginalValue(50, 0, 'of'); } catch (e) { m4ZeroErr = true; }
+  assert(m4ZeroErr, 'PercentageLogic: calculateOriginalValue throws on 0% for type of');
+
+  let m4Dec100Err = false;
+  try { pctDirectLogic.calculateOriginalValue(50, 100, 'decrease'); } catch (e) { m4Dec100Err = true; }
+  assert(m4Dec100Err, 'PercentageLogic: calculateOriginalValue throws on 100% discount');
+}
+
+// 12. Grade Calculator Logic
+const gradeLogic = require(path.join(ROOT, 'src/tools/grade-calculator/logic.js'));
+{
+  console.log('\n--- Testing Grade Calculator Logic ---');
+  // Letter grades
+  assert(gradeLogic.getLetterGrade(98) === 'A+', 'GradeLogic: 98% = A+');
+  assert(gradeLogic.getLetterGrade(94) === 'A', 'GradeLogic: 94% = A');
+  assert(gradeLogic.getLetterGrade(91) === 'A-', 'GradeLogic: 91% = A-');
+  assert(gradeLogic.getLetterGrade(88) === 'B+', 'GradeLogic: 88% = B+');
+  assert(gradeLogic.getLetterGrade(84) === 'B', 'GradeLogic: 84% = B');
+  assert(gradeLogic.getLetterGrade(80) === 'B-', 'GradeLogic: 80% = B-');
+  assert(gradeLogic.getLetterGrade(78) === 'C+', 'GradeLogic: 78% = C+');
+  assert(gradeLogic.getLetterGrade(74) === 'C', 'GradeLogic: 74% = C');
+  assert(gradeLogic.getLetterGrade(70) === 'C-', 'GradeLogic: 70% = C-');
+  assert(gradeLogic.getLetterGrade(68) === 'D+', 'GradeLogic: 68% = D+');
+  assert(gradeLogic.getLetterGrade(64) === 'D', 'GradeLogic: 64% = D');
+  assert(gradeLogic.getLetterGrade(60) === 'D-', 'GradeLogic: 60% = D-');
+  assert(gradeLogic.getLetterGrade(55) === 'F', 'GradeLogic: 55% = F');
+
+  // Weighted assignments
+  const assignments = [
+    { name: 'Homework', score: 95, weight: 20 },
+    { name: 'Midterm', score: 82, weight: 25 },
+    { name: 'Project', score: 90, weight: 15 },
+    { name: 'Quizzes', score: 88, weight: 10 }
+  ];
+  const curRes = gradeLogic.calculateCurrentGrade(assignments);
+  assert(curRes.totalWeight === 70, 'GradeLogic: total completed weight = 70%');
+  assert(Math.abs(curRes.currentGrade - 88.29) < 0.05, `GradeLogic: current weighted average = 88.29% (got ${curRes.currentGrade})`);
+  assert(curRes.letterGrade === 'B+', 'GradeLogic: letter grade is B+');
+
+  // Needed on final exam
+  const neededTarget90 = gradeLogic.calculateFinalExamNeeded(90, 70, curRes.currentGrade, 30);
+  assert(neededTarget90.neededScore > 93, `GradeLogic: score needed for 90% is >93% (got ${neededTarget90.neededScore}%)`);
+  assert(neededTarget90.status === 'achievable', 'GradeLogic: target status is achievable');
+
+  // Target already achieved
+  const clinched = gradeLogic.calculateFinalExamNeeded(60, 80, 90, 20);
+  assert(clinched.neededScore <= 0, 'GradeLogic: clinched grade returns <= 0 needed score');
+  assert(clinched.status === 'already-achieved', 'GradeLogic: status is already-achieved');
+
+  // Target requires extra credit (> 100%)
+  const impossible = gradeLogic.calculateFinalExamNeeded(98, 70, 80, 30);
+  assert(impossible.neededScore > 100, 'GradeLogic: target requires >100% on final');
+  assert(impossible.status === 'extra-credit', 'GradeLogic: status is extra-credit');
+
+  // Guards
+  let emptyErr = false;
+  try { gradeLogic.calculateCurrentGrade([]); } catch (e) { emptyErr = true; }
+  assert(emptyErr, 'GradeLogic: throws error on empty assignments');
+
+  let zeroWeightErr = false;
+  try { gradeLogic.calculateFinalExamNeeded(90, 70, 85, 0); } catch (e) { zeroWeightErr = true; }
+  assert(zeroWeightErr, 'GradeLogic: throws error if final exam weight <= 0');
+}
+
+// 13. GPA Calculator Logic
+const gpaLogic = require(path.join(ROOT, 'src/tools/gpa-calculator/logic.js'));
+{
+  console.log('\n--- Testing GPA Calculator Logic ---');
+  // Grade points standard and +/-
+  assert(gpaLogic.getGradePoint('A+', true) === 4.0, 'GpaLogic: A+ with +/- = 4.0');
+  assert(gpaLogic.getGradePoint('A-', true) === 3.7, 'GpaLogic: A- with +/- = 3.7');
+  assert(gpaLogic.getGradePoint('B+', true) === 3.3, 'GpaLogic: B+ with +/- = 3.3');
+  assert(gpaLogic.getGradePoint('B-', true) === 2.7, 'GpaLogic: B- with +/- = 2.7');
+  assert(gpaLogic.getGradePoint('C+', true) === 2.3, 'GpaLogic: C+ with +/- = 2.3');
+  assert(gpaLogic.getGradePoint('D-', true) === 0.7, 'GpaLogic: D- with +/- = 0.7');
+  assert(gpaLogic.getGradePoint('F', true) === 0.0, 'GpaLogic: F with +/- = 0.0');
+
+  // Without plus/minus toggle
+  assert(gpaLogic.getGradePoint('A-', false) === 4.0, 'GpaLogic: A- without +/- reverts to 4.0 (A)');
+  assert(gpaLogic.getGradePoint('B+', false) === 3.0, 'GpaLogic: B+ without +/- reverts to 3.0 (B)');
+
+  // Single Semester GPA
+  const coursesSem1 = [
+    { name: 'Calculus I', grade: 'A', credits: 4 },
+    { name: 'English', grade: 'B+', credits: 3 },
+    { name: 'History', grade: 'A-', credits: 3 }
+  ];
+  const sem1 = gpaLogic.calculateSemesterGpa(coursesSem1, true);
+  // (4*4 + 3*3.3 + 3*3.7) = 16 + 9.9 + 11.1 = 37.0 / 10 credits = 3.70 GPA
+  assert(sem1.totalCredits === 10, 'GpaLogic: semester total credits = 10');
+  assert(sem1.gpa === 3.70, `GpaLogic: semester GPA = 3.70 (got ${sem1.gpa})`);
+
+  // Multiple Semesters Cumulative GPA with Prior History
+  const semesters = [
+    { name: 'Semester 1', courses: coursesSem1 },
+    {
+      name: 'Semester 2',
+      courses: [
+        { name: 'Physics', grade: 'A', credits: 4 },
+        { name: 'Chemistry', grade: 'A', credits: 4 },
+        { name: 'Programming', grade: 'A', credits: 4 }
+      ]
+    }
+  ];
+  // Sem 2: 12 credits, all A (4.0) = 48 points
+  // Total from semesters: 10 + 12 = 22 credits, 37 + 48 = 85 points -> 85 / 22 = 3.86 GPA
+  const cumResNoPrior = gpaLogic.calculateCumulativeGpa(semesters, 0, 0, true);
+  assert(cumResNoPrior.cumulativeCredits === 22, 'GpaLogic: multi-semester total credits = 22');
+  assert(cumResNoPrior.cumulativeGpa === 3.86, `GpaLogic: multi-semester GPA = 3.86 (got ${cumResNoPrior.cumulativeGpa})`);
+
+  // With prior history: 30 credits @ 3.20 GPA = 96 points
+  // Grand total: 96 + 85 = 181 points / 52 credits = 3.48 GPA
+  const cumWithPrior = gpaLogic.calculateCumulativeGpa(semesters, 3.20, 30, true);
+  assert(cumWithPrior.cumulativeCredits === 52, 'GpaLogic: cumulative credits with prior history = 52');
+  assert(cumWithPrior.cumulativeGpa === 3.48, `GpaLogic: cumulative GPA with prior history = 3.48 (got ${cumWithPrior.cumulativeGpa})`);
+}
+
+// 14. Unit Converter Logic (Every Factor Tested)
+const unitLogic = require(path.join(ROOT, 'src/tools/unit-converter/logic.js'));
+{
+  console.log('\n--- Testing Unit Converter Logic (Every Factor & Mode) ---');
+  const defs = unitLogic.UNIT_DEFINITIONS;
+
+  // Verify all 6 categories exist
+  const categories = ['length', 'weight', 'temperature', 'area', 'volume', 'speed'];
+  categories.forEach(cat => {
+    assert(defs[cat] !== undefined, `UnitLogic: category "${cat}" is defined`);
+  });
+
+  // Length: Test every factor relative to meter
+  assert(unitLogic.convert('length', 1, 'km', 'm') === 1000, 'UnitLogic length: 1 km = 1000 m');
+  assert(unitLogic.convert('length', 1, 'm', 'cm') === 100, 'UnitLogic length: 1 m = 100 cm');
+  assert(unitLogic.convert('length', 1, 'm', 'mm') === 1000, 'UnitLogic length: 1 m = 1000 mm');
+  assert(unitLogic.convert('length', 1, 'mi', 'm') === 1609.344, 'UnitLogic length: 1 mi = 1609.344 m');
+  assert(unitLogic.convert('length', 1, 'yd', 'm') === 0.9144, 'UnitLogic length: 1 yd = 0.9144 m');
+  assert(unitLogic.convert('length', 1, 'ft', 'm') === 0.3048, 'UnitLogic length: 1 ft = 0.3048 m');
+  assert(unitLogic.convert('length', 1, 'in', 'm') === 0.0254, 'UnitLogic length: 1 in = 0.0254 m');
+  assert(unitLogic.convert('length', 1, 'nmi', 'm') === 1852, 'UnitLogic length: 1 nmi = 1852 m');
+
+  // Weight: Test every factor relative to kilogram
+  assert(unitLogic.convert('weight', 1, 'kg', 'g') === 1000, 'UnitLogic weight: 1 kg = 1000 g');
+  assert(unitLogic.convert('weight', 1000000, 'mg', 'kg') === 1, 'UnitLogic weight: 1,000,000 mg = 1 kg');
+  assert(unitLogic.convert('weight', 1, 't', 'kg') === 1000, 'UnitLogic weight: 1 metric ton = 1000 kg');
+  assert(unitLogic.convert('weight', 1, 'lb', 'kg') === 0.453592, 'UnitLogic weight: 1 lb = 0.453592 kg');
+  assert(unitLogic.convert('weight', 16, 'oz', 'lb') === 1, 'UnitLogic weight: 16 oz = 1 lb');
+  assert(unitLogic.convert('weight', 1, 'st', 'lb') === 14, 'UnitLogic weight: 1 stone = 14 lb');
+  assert(unitLogic.convert('weight', 1, 'ton', 'lb') === 2000, 'UnitLogic weight: 1 short ton = 2000 lb');
+
+  // Temperature: Test conversions in all directions
+  assert(unitLogic.convertTemperature(0, 'c', 'f') === 32, 'UnitLogic temp: 0°C = 32°F');
+  assert(unitLogic.convertTemperature(100, 'c', 'f') === 212, 'UnitLogic temp: 100°C = 212°F');
+  assert(unitLogic.convertTemperature(-40, 'c', 'f') === -40, 'UnitLogic temp: -40°C = -40°F');
+  assert(unitLogic.convertTemperature(37, 'c', 'f') === 98.6, 'UnitLogic temp: 37°C = 98.6°F');
+  assert(unitLogic.convertTemperature(98.6, 'f', 'c') === 37, 'UnitLogic temp: 98.6°F = 37°C');
+  assert(unitLogic.convertTemperature(0, 'c', 'k') === 273.15, 'UnitLogic temp: 0°C = 273.15 K');
+  assert(unitLogic.convertTemperature(273.15, 'k', 'c') === 0, 'UnitLogic temp: 273.15 K = 0°C');
+  assert(unitLogic.convertTemperature(77, 'f', 'k') === 298.15, 'UnitLogic temp: 77°F = 298.15 K');
+
+  // Area: Test every factor relative to square meter
+  assert(unitLogic.convert('area', 1, 'sqkm', 'sqm') === 1000000, 'UnitLogic area: 1 km² = 1,000,000 m²');
+  assert(unitLogic.convert('area', 10000, 'sqcm', 'sqm') === 1, 'UnitLogic area: 10,000 cm² = 1 m²');
+  assert(unitLogic.convert('area', 1, 'ha', 'sqm') === 10000, 'UnitLogic area: 1 ha = 10,000 m²');
+  assert(unitLogic.convert('area', 1, 'sqyd', 'sqft') === 9, 'UnitLogic area: 1 yd² = 9 ft²');
+  assert(unitLogic.convert('area', 1, 'sqft', 'sqin') === 144, 'UnitLogic area: 1 ft² = 144 in²');
+  assert(Math.abs(unitLogic.convert('area', 1, 'ac', 'sqm') - 4046.856422) < 0.01, 'UnitLogic area: 1 acre ≈ 4046.86 m²');
+  assert(Math.abs(unitLogic.convert('area', 1, 'sqmi', 'ac') - 640) < 0.01, 'UnitLogic area: 1 sq mi = 640 acres');
+
+  // Volume: Test every factor relative to liter
+  assert(unitLogic.convert('volume', 1, 'l', 'ml') === 1000, 'UnitLogic volume: 1 L = 1000 mL');
+  assert(unitLogic.convert('volume', 1, 'cum', 'l') === 1000, 'UnitLogic volume: 1 m³ = 1000 L');
+  assert(Math.abs(unitLogic.convert('volume', 1, 'gal', 'l') - 3.785412) < 0.001, 'UnitLogic volume: 1 US gal ≈ 3.785 L');
+  assert(unitLogic.convert('volume', 1, 'gal', 'qt') === 4, 'UnitLogic volume: 1 gal = 4 qt');
+  assert(unitLogic.convert('volume', 1, 'qt', 'pt') === 2, 'UnitLogic volume: 1 qt = 2 pt');
+  assert(unitLogic.convert('volume', 1, 'pt', 'cup') === 2, 'UnitLogic volume: 1 pt = 2 cups');
+  assert(Math.abs(unitLogic.convert('volume', 1, 'cup', 'floz') - 8) < 0.001, 'UnitLogic volume: 1 cup = 8 fl oz');
+  assert(Math.abs(unitLogic.convert('volume', 1, 'impgal', 'l') - 4.54609) < 0.001, 'UnitLogic volume: 1 imp gal = 4.54609 L');
+
+  // Speed: Test every factor relative to m/s
+  assert(Math.abs(unitLogic.convert('speed', 3.6, 'kph', 'mps') - 1.0) < 0.001, 'UnitLogic speed: 3.6 km/h = 1 m/s');
+  assert(Math.abs(unitLogic.convert('speed', 1, 'mph', 'kph') - 1.609344) < 0.001, 'UnitLogic speed: 1 mph ≈ 1.609 km/h');
+  assert(Math.abs(unitLogic.convert('speed', 1, 'kn', 'kph') - 1.852) < 0.001, 'UnitLogic speed: 1 knot = 1.852 km/h');
+  assert(Math.abs(unitLogic.convert('speed', 1, 'mps', 'fps') - 3.28084) < 0.001, 'UnitLogic speed: 1 m/s ≈ 3.28084 ft/s');
+
+  // Two-way reversible property across random unit pairs
+  const testPairs = [
+    { cat: 'length', a: 'm', b: 'ft' },
+    { cat: 'weight', a: 'kg', b: 'lb' },
+    { cat: 'temperature', a: 'c', b: 'f' },
+    { cat: 'area', a: 'ac', b: 'ha' },
+    { cat: 'volume', a: 'gal', b: 'l' },
+    { cat: 'speed', a: 'mph', b: 'kph' }
+  ];
+  for (const pair of testPairs) {
+    const orig = 42.5;
+    const forward = unitLogic.convert(pair.cat, orig, pair.a, pair.b);
+    const back = unitLogic.convert(pair.cat, forward, pair.b, pair.a);
+    assert(Math.abs(back - orig) < 0.01, `UnitLogic: Two-way reversibility passed for ${pair.cat} (${pair.a} <-> ${pair.b})`);
+  }
+
+  // Conversion table generation
+  const table = unitLogic.getConversionTable('length', 'm', 1);
+  assert(table.length === Object.keys(defs.length.units).length, 'UnitLogic: conversion table includes all units');
+}
+
+// 11. Loan EMI Calculator Logic
+const loanLogic = require(path.join(ROOT, 'src/tools/loan-emi-calculator/logic.js'));
+{
+  console.log('\n--- Testing Loan EMI Calculator Logic (3 Worked Examples & Amortization) ---');
+
+  // Example 1: 30-Year Home Mortgage ($250,000 at 6.5% for 30 years / 360 months)
+  const ex1 = loanLogic.calculateLoanEmi(250000, 6.5, 30, 'years');
+  assert(ex1.monthlyEmi === 1580.17, `LoanLogic Ex 1: monthly EMI = 1580.17 (got ${ex1.monthlyEmi})`);
+  assert(ex1.totalPayment === 568861.58, `LoanLogic Ex 1: total payment = 568861.58 (got ${ex1.totalPayment})`);
+  assert(ex1.totalInterest === 318861.58, `LoanLogic Ex 1: total interest = 318861.58 (got ${ex1.totalInterest})`);
+  assert(ex1.schedule.length === 360, `LoanLogic Ex 1: amortization schedule has 360 months (got ${ex1.schedule.length})`);
+  assert(ex1.schedule[359].balance === 0, 'LoanLogic Ex 1: final amortization month leaves 0 balance');
+
+  // Example 2: 5-Year Auto Loan ($25,000 at 4.5% for 5 years / 60 months)
+  const ex2 = loanLogic.calculateLoanEmi(25000, 4.5, 60, 'months');
+  assert(ex2.monthlyEmi === 466.08, `LoanLogic Ex 2: monthly EMI = 466.08 (got ${ex2.monthlyEmi})`);
+  assert(ex2.totalPayment === 27964.46, `LoanLogic Ex 2: total payment = 27964.46 (got ${ex2.totalPayment})`);
+  assert(ex2.totalInterest === 2964.46, `LoanLogic Ex 2: total interest = 2964.46 (got ${ex2.totalInterest})`);
+  assert(ex2.schedule.length === 60, 'LoanLogic Ex 2: amortization schedule has 60 months');
+  assert(ex2.schedule[59].balance === 0, 'LoanLogic Ex 2: final amortization month leaves 0 balance');
+
+  // Example 3: Personal Loan with Extra Monthly Payments ($10,000 at 10.0% for 3 years + $100/mo extra)
+  const ex3 = loanLogic.calculateLoanEmi(10000, 10, 3, 'years', { extraMonthlyPayment: 100 });
+  assert(ex3.monthlyEmi === 322.67, `LoanLogic Ex 3: base EMI = 322.67 (got ${ex3.monthlyEmi})`);
+  assert(ex3.extra !== null, 'LoanLogic Ex 3: extra calculation present');
+  assert(ex3.extra.payoffMonths === 27, `LoanLogic Ex 3: payoff months = 27 (got ${ex3.extra.payoffMonths})`);
+  assert(ex3.extra.monthsSaved === 9, `LoanLogic Ex 3: months saved = 9 (got ${ex3.extra.monthsSaved})`);
+  assert(ex3.extra.totalInterestWithExtra === 1184.96, `LoanLogic Ex 3: interest with extra = 1184.96 (got ${ex3.extra.totalInterestWithExtra})`);
+  assert(ex3.extra.interestSaved === 431.24, `LoanLogic Ex 3: interest saved = 431.24 (got ${ex3.extra.interestSaved})`);
+
+  // Currency Formatter & Selector check
+  assert(loanLogic.formatCurrency(1580.17, 'PKR') === '₨ 1,580.17', 'LoanLogic: PKR formatting uses ₨ symbol');
+  assert(loanLogic.formatCurrency(1580.17, 'INR') === '₹ 1,580.17', 'LoanLogic: INR formatting uses ₹ symbol');
+  assert(loanLogic.formatCurrency(1580.17, 'USD') === '$ 1,580.17', 'LoanLogic: USD formatting uses $ symbol');
+  assert(loanLogic.formatCurrency(1580.17, 'EUR') === '€ 1,580.17', 'LoanLogic: EUR formatting uses € symbol');
+  assert(loanLogic.formatCurrency(1580.17, 'GBP') === '£ 1,580.17', 'LoanLogic: GBP formatting uses £ symbol');
+  assert(loanLogic.formatCurrency(1580.17, 'AED') === 'AED 1,580.17', 'LoanLogic: AED formatting uses AED symbol');
+  assert(loanLogic.formatCurrency(1580.17, 'SAR') === 'SAR 1,580.17', 'LoanLogic: SAR formatting uses SAR symbol');
+
+  // CSV Generation check
+  const csv = loanLogic.generateAmortizationCsv(ex2.schedule, '$');
+  assert(csv.startsWith('Month,Payment ($)'), 'LoanLogic: CSV starts with correct headers');
+  assert(csv.split('\r\n').length === 61, `LoanLogic: CSV has 61 lines (header + 60 months, got ${csv.split('\r\n').length})`);
+}
+
+// 12. SIP Calculator Logic
+const sipLogic = require(path.join(ROOT, 'src/tools/sip-calculator/logic.js'));
+{
+  console.log('\n--- Testing SIP Calculator Logic (3 Worked Examples & Step-Up) ---');
+
+  // Example 1: 10-Year Long-Term Equity SIP ($500/mo, 12%, 10y)
+  const sip1 = sipLogic.calculateSip(500, 12, 10);
+  assert(sip1.totalInvested === 60000, `SipLogic Ex 1: total invested = 60000 (got ${sip1.totalInvested})`);
+  assert(sip1.maturityValue === 116169.54, `SipLogic Ex 1: maturity value = 116169.54 (got ${sip1.maturityValue})`);
+  assert(sip1.estimatedReturns === 56169.54, `SipLogic Ex 1: estimated returns = 56169.54 (got ${sip1.estimatedReturns})`);
+  assert(sip1.yearlyBreakdown.length === 10, 'SipLogic Ex 1: yearly breakdown has 10 years');
+
+  // Example 2: 5-Year Moderate Portfolio ($200/mo, 8%, 5y)
+  const sip2 = sipLogic.calculateSip(200, 8, 5);
+  assert(sip2.totalInvested === 12000, `SipLogic Ex 2: total invested = 12000 (got ${sip2.totalInvested})`);
+  assert(sip2.maturityValue === 14793.34, `SipLogic Ex 2: maturity value = 14793.34 (got ${sip2.maturityValue})`);
+  assert(sip2.estimatedReturns === 2793.34, `SipLogic Ex 2: estimated returns = 2793.34 (got ${sip2.estimatedReturns})`);
+
+  // Example 3: 15-Year 10% Step-Up SIP ($1000/mo, 12%, 15y, 10% annual step-up)
+  const sip3 = sipLogic.calculateSip(1000, 12, 15, { stepUpPercent: 10 });
+  assert(sip3.totalInvested === 381269.88, `SipLogic Ex 3: total invested = 381269.88 (got ${sip3.totalInvested})`);
+  assert(sip3.maturityValue === 868385.12, `SipLogic Ex 3: maturity value = 868385.12 (got ${sip3.maturityValue})`);
+  assert(sip3.estimatedReturns === 487115.24, `SipLogic Ex 3: estimated returns = 487115.24 (got ${sip3.estimatedReturns})`);
+  assert(sip3.yearlyBreakdown.length === 15, 'SipLogic Ex 3: yearly breakdown has 15 years');
+
+  // Edge case: 0% return
+  const sipZero = sipLogic.calculateSip(100, 0, 2);
+  assert(sipZero.totalInvested === 2400, 'SipLogic: 0% return total invested = 2400');
+  assert(sipZero.maturityValue === 2400, 'SipLogic: 0% return maturity value = 2400');
+  assert(sipZero.estimatedReturns === 0, 'SipLogic: 0% return estimated returns = 0');
+}
+
+// 13. Compound Interest Calculator Logic
+const ciLogic = require(path.join(ROOT, 'src/tools/compound-interest-calculator/logic.js'));
+{
+  console.log('\n--- Testing Compound Interest Logic (3 Worked Examples & SVG Chart) ---');
+
+  // Example 1: Lump Sum 10-Year Annual Compounding ($10,000, 7%, 10y, annual)
+  const ci1 = ciLogic.calculateCompoundInterest(10000, 7, 10, 'annual');
+  assert(ci1.totalPrincipal === 10000, `CiLogic Ex 1: total principal = 10000 (got ${ci1.totalPrincipal})`);
+  assert(ci1.finalBalance === 19671.51, `CiLogic Ex 1: final balance = 19671.51 (got ${ci1.finalBalance})`);
+  assert(ci1.totalInterest === 9671.51, `CiLogic Ex 1: total interest = 9671.51 (got ${ci1.totalInterest})`);
+  assert(ci1.apyPercent === 7, `CiLogic Ex 1: APY = 7% (got ${ci1.apyPercent})`);
+
+  // Example 2: Monthly Deposits ($5,000 principal, 8% rate, 5 years, monthly, $200/mo deposit)
+  const ci2 = ciLogic.calculateCompoundInterest(5000, 8, 5, 'monthly', { contributionAmount: 200 });
+  assert(ci2.totalPrincipal === 17000, `CiLogic Ex 2: total principal = 17000 (got ${ci2.totalPrincipal})`);
+  assert(ci2.finalBalance === 22242.57, `CiLogic Ex 2: final balance = 22242.57 (got ${ci2.finalBalance})`);
+  assert(ci2.totalInterest === 5242.57, `CiLogic Ex 2: total interest = 5242.57 (got ${ci2.totalInterest})`);
+  assert(ci2.apyPercent === 8.3, `CiLogic Ex 2: APY = 8.30% (got ${ci2.apyPercent})`);
+
+  // Example 3: Daily High-Yield Savings ($20,000 principal, 5% rate, 3 years, daily, pmt=0)
+  const ci3 = ciLogic.calculateCompoundInterest(20000, 5, 3, 'daily');
+  assert(ci3.totalPrincipal === 20000, `CiLogic Ex 3: total principal = 20000 (got ${ci3.totalPrincipal})`);
+  assert(ci3.finalBalance === 23236.45, `CiLogic Ex 3: final balance = 23236.45 (got ${ci3.finalBalance})`);
+  assert(ci3.totalInterest === 3236.45, `CiLogic Ex 3: total interest = 3236.45 (got ${ci3.totalInterest})`);
+  assert(ci3.apyPercent === 5.13, `CiLogic Ex 3: APY = 5.13% (got ${ci3.apyPercent})`);
+
+  // SVG Chart Verification
+  const svg = ciLogic.generateSvgGrowthChart(ci1.yearlyData, '$');
+  assert(svg.includes('<svg') && svg.includes('role="img"'), 'CiLogic: SVG chart contains valid root SVG element and role="img"');
+  assert(svg.includes('compound-growth-svg'), 'CiLogic: SVG chart has compound-growth-svg class');
+  assert(svg.includes('<path d='), 'CiLogic: SVG chart contains path elements for area growth');
+
+  // Invalid Compounding Frequency Test
+  let freqErrorCaught = false;
+  try {
+    ciLogic.calculateCompoundInterest(10000, 7, 10, 'semi-annually');
+  } catch (err) {
+    if (err.message === 'Invalid compounding frequency') {
+      freqErrorCaught = true;
+    }
+  }
+  assert(freqErrorCaught, 'CiLogic: throws Error("Invalid compounding frequency") for unrecognized frequency');
+}
+
+// 11. JSON Formatter & Validator Logic
+const jsonLogic = require(path.join(ROOT, 'src/tools/json-formatter/logic.js'));
+{
+  // 1. Formatting with 2 spaces, 4 spaces, tab
+  const rawObj = { z: 1, a: { y: "test", b: [1, 2] } };
+  const rawStr = JSON.stringify(rawObj);
+
+  const f2 = jsonLogic.formatJson(rawStr, { indent: '2' });
+  assert(f2.success && f2.formatted.includes('  "z": 1'), 'JsonLogic: formatted with 2 spaces');
+
+  const f4 = jsonLogic.formatJson(rawStr, { indent: '4' });
+  assert(f4.success && f4.formatted.includes('    "z": 1'), 'JsonLogic: formatted with 4 spaces');
+
+  const fTab = jsonLogic.formatJson(rawStr, { indent: 'tab' });
+  assert(fTab.success && fTab.formatted.includes('\t"z": 1'), 'JsonLogic: formatted with tab');
+
+  // 2. Sort keys option (recursive)
+  const fSorted = jsonLogic.formatJson(rawStr, { sortKeys: true });
+  assert(fSorted.success, 'JsonLogic: sort keys formatted successfully');
+  const aIdx = fSorted.formatted.indexOf('"a"');
+  const zIdx = fSorted.formatted.indexOf('"z"');
+  assert(aIdx !== -1 && zIdx !== -1 && aIdx < zIdx, 'JsonLogic: top-level keys sorted alphabetically');
+  const bIdx = fSorted.formatted.indexOf('"b"');
+  const yIdx = fSorted.formatted.indexOf('"y"');
+  assert(bIdx !== -1 && yIdx !== -1 && bIdx < yIdx, 'JsonLogic: nested keys sorted alphabetically');
+
+  // 3. Minification
+  const minRes = jsonLogic.minifyJson(f2.formatted);
+  assert(minRes.success && minRes.minified === rawStr, 'JsonLogic: minified output matches compact JSON');
+
+  // 4. Validate with line and column error messages
+  const validCheck = jsonLogic.validateJson(rawStr);
+  assert(validCheck.valid === true, 'JsonLogic: valid JSON returns valid: true');
+
+  const malformed1 = '{\n  "title": "Book",\n  "pages": \n}';
+  const malformed1Res = jsonLogic.validateJson(malformed1);
+  assert(malformed1Res.valid === false, 'JsonLogic: malformed JSON returns valid: false');
+  assert(malformed1Res.line === 4 && malformed1Res.column === 1, `JsonLogic: malformed JSON line 4 column 1 (got line ${malformed1Res.line}, col ${malformed1Res.column})`);
+
+  const malformed2 = '{\n  "a": 1,\n  "b": 2,\n}';
+  const malformed2Res = jsonLogic.validateJson(malformed2);
+  assert(malformed2Res.valid === false && malformed2Res.line >= 3, 'JsonLogic: trailing comma error caught with line number');
+
+  // 5. 1 MB limit safety check
+  const hugeJson = '"' + 'x'.repeat(1048577) + '"';
+  const hugeRes = jsonLogic.validateJson(hugeJson);
+  assert(hugeRes.valid === false && hugeRes.isSizeLimit === true, 'JsonLogic: 1 MB safety cap triggers clear size error');
+}
+
+// 12. Base64 Encoder & Decoder Logic
+const base64Logic = require(path.join(ROOT, 'src/tools/base64-encoder-decoder/logic.js'));
+{
+  // 1. Known RFC 4648 standard test vector: "Man" = "TWFu"
+  const manRes = base64Logic.encode('Man');
+  assert(manRes.success && manRes.result === 'TWFu', `Base64Logic: "Man" encodes to "TWFu" (got "${manRes.result}")`);
+  const manDec = base64Logic.decode('TWFu');
+  assert(manDec.success && manDec.result === 'Man', `Base64Logic: "TWFu" decodes to "Man" (got "${manDec.result}")`);
+
+  // 2. Full RFC 4648 test vector suite
+  const rfcVectors = [
+    ['', ''],
+    ['f', 'Zg=='],
+    ['fo', 'Zm8='],
+    ['foo', 'Zm9v'],
+    ['foob', 'Zm9vYg=='],
+    ['fooba', 'Zm9vYmE='],
+    ['foobar', 'Zm9vYmFy']
+  ];
+  for (const [plain, expectedB64] of rfcVectors) {
+    const enc = base64Logic.encode(plain);
+    assert(enc.success && enc.result === expectedB64, `Base64Logic RFC vector "${plain}" -> "${expectedB64}"`);
+    const dec = base64Logic.decode(expectedB64);
+    assert(dec.success && dec.result === plain, `Base64Logic RFC decode "${expectedB64}" -> "${plain}"`);
+  }
+
+  // 3. UTF-8 safe text encode/decode (accents, emojis, CJK)
+  const unicodeSample = 'Hello world 🚀 café crème 日本語';
+  const uniEnc = base64Logic.encode(unicodeSample);
+  assert(uniEnc.success, 'Base64Logic: UTF-8 string encoded successfully');
+  const uniDec = base64Logic.decode(uniEnc.result);
+  assert(uniDec.success && uniDec.result === unicodeSample, 'Base64Logic: UTF-8 string round-trip decoded with exact fidelity');
+
+  // 4. URL-safe variant toggle: '+' -> '-', '/' -> '_'
+  const urlSafeSample = 'subjects?_d'; // standard contains / and +
+  const stdEnc = base64Logic.encode(urlSafeSample, { urlSafe: false });
+  assert(stdEnc.result.includes('/') || stdEnc.result.includes('+'), 'Base64Logic: standard contains / or +');
+  const urlEnc = base64Logic.encode(urlSafeSample, { urlSafe: true });
+  assert(!urlEnc.result.includes('/') && !urlEnc.result.includes('+'), 'Base64Logic: URL-safe replaces + and /');
+  assert(urlEnc.result.includes('-') || urlEnc.result.includes('_'), 'Base64Logic: URL-safe contains - or _');
+
+  // URL-safe decode back
+  const urlDec = base64Logic.decode(urlEnc.result);
+  assert(urlDec.success && urlDec.result === urlSafeSample, 'Base64Logic: URL-safe string decodes back to original text');
+
+  // 5. Unpadded Base64 handling
+  const unpadded = base64Logic.decode('Zm8'); // "fo" without trailing "="
+  assert(unpadded.success && unpadded.result === 'fo', 'Base64Logic: decodes unpadded input "Zm8" -> "fo"');
+
+  // 6. Invalid Base64 error handling
+  const invalidRes = base64Logic.decode('ThisIsNotValidBase64!@#%');
+  assert(invalidRes.success === false, 'Base64Logic: invalid characters return error');
+
+  // 7. 1 MB limit safety
+  const hugeText = 'A'.repeat(1048577);
+  const hugeB64 = base64Logic.encode(hugeText);
+  assert(hugeB64.success === false && hugeB64.isSizeLimit === true, 'Base64Logic: 1 MB safety cap triggers size error');
+}
+
+// 13. URL Encoder & Decoder Logic
+const urlLogic = require(path.join(ROOT, 'src/tools/url-encoder-decoder/logic.js'));
+{
+  const testUrl = 'https://example.com/search?q=toolsbuilt & more=yes#frag';
+
+  // 1. encodeURIComponent vs encodeURI modes
+  const compEnc = urlLogic.encode(testUrl, 'component');
+  assert(compEnc.success, 'UrlLogic: component encode succeeded');
+  assert(compEnc.result.includes('%3A%2F%2F') && compEnc.result.includes('%3F') && compEnc.result.includes('%26'),
+    'UrlLogic: component mode percent-encodes delimiters (:, /, ?, &)');
+
+  const fullEnc = urlLogic.encode(testUrl, 'full');
+  assert(fullEnc.success, 'UrlLogic: full URI encode succeeded');
+  assert(fullEnc.result.startsWith('https://example.com/search?q=toolsbuilt%20&') && fullEnc.result.includes('#frag'),
+    'UrlLogic: full URI mode preserves protocol, ?, &, =, and # delimiters while encoding space to %20');
+
+  // 2. Decode modes (including '+' as space in component mode)
+  const decComp = urlLogic.decode('search+term%20with%20spaces%26symbols', 'component');
+  assert(decComp.success && decComp.result === 'search term with spaces&symbols',
+    'UrlLogic: component decode converts both + and %20 to spaces and decodes %26 to &');
+
+  // 3. Query string parser table
+  const queryStr = 'https://example.com/api?user=alice&topic=tech%26science&limit=10&flag';
+  const parsedParams = urlLogic.parseQueryString(queryStr);
+  assert(parsedParams.length === 4, `UrlLogic: parsed 4 query parameters (got ${parsedParams.length})`);
+  assert(parsedParams[0].key === 'user' && parsedParams[0].decodedValue === 'alice', 'UrlLogic: param 1 parsed');
+  assert(parsedParams[1].key === 'topic' && parsedParams[1].decodedValue === 'tech&science' && parsedParams[1].encodedValue === 'tech%26science',
+    'UrlLogic: param 2 decoded & preserved raw encoded value');
+  assert(parsedParams[2].key === 'limit' && parsedParams[2].decodedValue === '10', 'UrlLogic: param 3 parsed');
+
+  // 4. Malformed percent sequence error handling
+  const badSequence = urlLogic.decode('broken%E0%A4percent', 'component');
+  assert(badSequence.success === false && badSequence.error.includes('Decoding error'), 'UrlLogic: surfaces malformed percent error');
+
+  // 5. 1 MB limit safety
+  const hugeStr = 'a'.repeat(1048577);
+  assert(urlLogic.encode(hugeStr).success === false, 'UrlLogic: 1 MB safety cap enforced');
+}
+
+// 14. Lorem Ipsum Generator Logic
+const loremLogic = require(path.join(ROOT, 'src/tools/lorem-ipsum-generator/logic.js'));
+{
+  // 1. Words generation
+  const wordsRes = loremLogic.generate('words', 25, { startWithLorem: true });
+  assert(wordsRes.success, 'LoremLogic: words generation succeeded');
+  assert(wordsRes.stats.words === 25, `LoremLogic: exactly 25 words generated (got ${wordsRes.stats.words})`);
+  assert(wordsRes.text.startsWith('Lorem ipsum dolor sit amet'), 'LoremLogic: words start with "Lorem ipsum" when toggled on');
+
+  const wordsNoStart = loremLogic.generate('words', 20, { startWithLorem: false });
+  assert(wordsNoStart.stats.words === 20, 'LoremLogic: 20 words generated with startWithLorem: false');
+
+  // 2. Sentences generation
+  const sentRes = loremLogic.generate('sentences', 4, { startWithLorem: true });
+  assert(sentRes.success, 'LoremLogic: sentences generation succeeded');
+  assert(sentRes.text.startsWith(loremLogic.STANDARD_OPENING_SENTENCE), 'LoremLogic: first sentence is canonical opening');
+  const periodCount = (sentRes.text.match(/\./g) || []).length;
+  assert(periodCount >= 4, `LoremLogic: at least 4 sentence terminators (got ${periodCount})`);
+
+  // 3. Paragraphs generation
+  const paraRes = loremLogic.generate('paragraphs', 3, { startWithLorem: true, asHtml: false });
+  assert(paraRes.success, 'LoremLogic: paragraphs generation succeeded');
+  const paragraphs = paraRes.text.split('\n\n');
+  assert(paragraphs.length === 3, `LoremLogic: exactly 3 paragraphs generated (got ${paragraphs.length})`);
+  assert(paraRes.text.startsWith('Lorem ipsum dolor sit amet'), 'LoremLogic: first paragraph starts with canonical opening');
+
+  // 4. HTML markup tags
+  const htmlRes = loremLogic.generate('paragraphs', 2, { startWithLorem: true, asHtml: true });
+  assert(htmlRes.text.startsWith('<p>') && htmlRes.text.endsWith('</p>'), 'LoremLogic: HTML tags properly wrap paragraphs');
+  const pTags = (htmlRes.text.match(/<p>/g) || []).length;
+  assert(pTags === 2, `LoremLogic: 2 <p> tags generated (got ${pTags})`);
+}
+
+// 22. UUID Generator Logic
+const uuidLogic = require(path.join(ROOT, 'src/tools/uuid-generator/logic.js'));
+{
+  // generateRawV4 produces canonical lowercase hyphenated UUID
+  const raw = uuidLogic.generateRawV4();
+  const V4_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/;
+  assert(V4_RE.test(raw), `UuidLogic: generateRawV4 produces valid v4 UUID (got "${raw}")`);
+
+  // version nibble must be '4'
+  assert(raw[14] === '4', 'UuidLogic: version nibble is 4');
+
+  // variant nibble must be 8, 9, a, or b
+  assert(/[89ab]/.test(raw[19]), `UuidLogic: variant nibble is 8/9/a/b (got "${raw[19]}")`);
+
+  // formatUuid – uppercase
+  const upper = uuidLogic.formatUuid(raw, { uppercase: true });
+  assert(upper === raw.toUpperCase(), 'UuidLogic: formatUuid uppercase');
+
+  // formatUuid – strip hyphens
+  const noHyph = uuidLogic.formatUuid(raw, { hyphens: false });
+  assert(noHyph.length === 32 && !noHyph.includes('-'), 'UuidLogic: formatUuid no hyphens = 32 hex chars');
+
+  // formatUuid – braces
+  const braced = uuidLogic.formatUuid(raw, { braces: true });
+  assert(braced.startsWith('{') && braced.endsWith('}'), 'UuidLogic: formatUuid braces wraps in {}');
+
+  // formatUuid – combined: uppercase + no hyphens + braces
+  const combo = uuidLogic.formatUuid(raw, { uppercase: true, hyphens: false, braces: true });
+  assert(/^\{[0-9A-F]{32}\}$/.test(combo), `UuidLogic: formatUuid uppercase+no-hyphens+braces (got "${combo}")`);
+
+  // validateCount – valid range
+  const v1 = uuidLogic.validateCount(1);
+  assert(v1.valid && v1.sanitized === 1, 'UuidLogic: validateCount(1) valid');
+  const v100 = uuidLogic.validateCount(100);
+  assert(v100.valid && v100.sanitized === 100, 'UuidLogic: validateCount(100) valid');
+
+  // validateCount – out of range
+  const v0 = uuidLogic.validateCount(0);
+  assert(!v0.valid && v0.sanitized === 1, 'UuidLogic: validateCount(0) invalid, sanitized to 1');
+  const v101 = uuidLogic.validateCount(101);
+  assert(!v101.valid && v101.sanitized === 100, 'UuidLogic: validateCount(101) invalid, sanitized to 100');
+  const vFloat = uuidLogic.validateCount(5.5);
+  assert(!vFloat.valid, 'UuidLogic: validateCount(5.5) invalid (not integer)');
+
+  // generateBulk
+  const bulk5 = uuidLogic.generateBulk(5);
+  assert(bulk5.length === 5, 'UuidLogic: generateBulk(5) returns 5 UUIDs');
+  assert(bulk5.every(u => V4_RE.test(u)), 'UuidLogic: generateBulk all items are valid v4');
+  // All 5 must be unique
+  assert(new Set(bulk5).size === 5, 'UuidLogic: generateBulk(5) produces unique UUIDs');
+
+  // generateBulk with formatting options
+  const bulkUp = uuidLogic.generateBulk(3, { uppercase: true });
+  assert(bulkUp.every(u => u === u.toUpperCase()), 'UuidLogic: generateBulk uppercase option applied');
+
+  // generateBulk throws on invalid count
+  let threw = false;
+  try { uuidLogic.generateBulk(0); } catch (e) { threw = true; }
+  assert(threw, 'UuidLogic: generateBulk(0) throws');
+
+  // isValidV4 – canonical form
+  assert(uuidLogic.isValidV4(raw), 'UuidLogic: isValidV4 accepts canonical UUID');
+  // no hyphens
+  assert(uuidLogic.isValidV4(noHyph), 'UuidLogic: isValidV4 accepts 32-char hex string');
+  // braced
+  assert(uuidLogic.isValidV4(braced), 'UuidLogic: isValidV4 accepts braced UUID');
+  // uppercase
+  assert(uuidLogic.isValidV4(upper), 'UuidLogic: isValidV4 accepts uppercase UUID');
+  // invalid cases
+  assert(!uuidLogic.isValidV4('not-a-uuid'), 'UuidLogic: isValidV4 rejects garbage string');
+  assert(!uuidLogic.isValidV4(''), 'UuidLogic: isValidV4 rejects empty string');
+  assert(!uuidLogic.isValidV4(null), 'UuidLogic: isValidV4 rejects null');
+  // version 1 UUID (should fail – version nibble is not 4)
+  assert(!uuidLogic.isValidV4('550e8400-e29b-11d4-a716-446655440000'), 'UuidLogic: isValidV4 rejects v1 UUID');
+
+  // generateTxtExport
+  const txt = uuidLogic.generateTxtExport(['uuid-one', 'uuid-two', 'uuid-three']);
+  assert(txt.includes('uuid-one') && txt.includes('uuid-two') && txt.includes('uuid-three'), 'UuidLogic: generateTxtExport includes all UUIDs');
+  assert(txt.split('\n').filter(l => l.trim()).length >= 3, 'UuidLogic: generateTxtExport has at least 3 lines');
+}
+
+// 23. Hash Generator Logic (synchronous helpers only – computeHash/computeAllHashes are async and browser-tested)
+const hashLogic = require(path.join(ROOT, 'src/tools/hash-generator/logic.js'));
+{
+  // SUPPORTED_ALGORITHMS exists and includes expected algorithms
+  assert(Array.isArray(hashLogic.SUPPORTED_ALGORITHMS), 'HashLogic: SUPPORTED_ALGORITHMS is an array');
+  assert(hashLogic.SUPPORTED_ALGORITHMS.includes('SHA-256'), 'HashLogic: SUPPORTED_ALGORITHMS includes SHA-256');
+  assert(hashLogic.SUPPORTED_ALGORITHMS.includes('SHA-512'), 'HashLogic: SUPPORTED_ALGORITHMS includes SHA-512');
+  assert(hashLogic.SUPPORTED_ALGORITHMS.includes('SHA-384'), 'HashLogic: SUPPORTED_ALGORITHMS includes SHA-384');
+  assert(hashLogic.SUPPORTED_ALGORITHMS.includes('SHA-1'), 'HashLogic: SUPPORTED_ALGORITHMS includes SHA-1');
+  // Must NOT include MD5
+  assert(!hashLogic.SUPPORTED_ALGORITHMS.includes('MD5'), 'HashLogic: SUPPORTED_ALGORITHMS does NOT include MD5');
+
+  // PASSWORD_WARNING string is non-empty and mentions SHA-1
+  assert(typeof hashLogic.PASSWORD_WARNING === 'string' && hashLogic.PASSWORD_WARNING.length > 0, 'HashLogic: PASSWORD_WARNING is a non-empty string');
+  assert(/sha-?1/i.test(hashLogic.PASSWORD_WARNING) || /password/i.test(hashLogic.PASSWORD_WARNING), 'HashLogic: PASSWORD_WARNING mentions SHA-1 or passwords');
+
+  // compareHashes – exact match
+  const cmpSame = hashLogic.compareHashes('abc123', 'abc123');
+  assert(cmpSame.match === true, 'HashLogic: compareHashes identical strings match');
+
+  // case-insensitive match
+  const cmpCase = hashLogic.compareHashes('ABC123', 'abc123');
+  assert(cmpCase.match === true, 'HashLogic: compareHashes is case-insensitive');
+
+  // whitespace trimming
+  const cmpTrim = hashLogic.compareHashes('  abc123  ', 'abc123');
+  assert(cmpTrim.match === true, 'HashLogic: compareHashes trims whitespace');
+
+  // mismatch
+  const cmpDiff = hashLogic.compareHashes('abc123', 'def456');
+  assert(cmpDiff.match === false, 'HashLogic: compareHashes different strings do not match');
+
+  // empty/null inputs
+  const cmpEmpty = hashLogic.compareHashes('', 'abc123');
+  assert(cmpEmpty.match === false, 'HashLogic: compareHashes empty string does not match');
+  const cmpNull = hashLogic.compareHashes(null, 'abc123');
+  assert(cmpNull.match === false, 'HashLogic: compareHashes null does not match');
+
+  // findMatchingAlgorithm – matching case
+  const fakeMap = {
+    'SHA-256': 'deadbeef1234',
+    'SHA-512': 'cafebabe5678',
+    'SHA-384': 'feedface9012',
+    'SHA-1':   'badc0ffee000'
+  };
+  const found256 = hashLogic.findMatchingAlgorithm(fakeMap, 'deadbeef1234');
+  assert(found256.matched === true && found256.algorithm === 'SHA-256', 'HashLogic: findMatchingAlgorithm finds SHA-256');
+
+  const found512 = hashLogic.findMatchingAlgorithm(fakeMap, 'CAFEBABE5678'); // uppercase target
+  assert(found512.matched === true && found512.algorithm === 'SHA-512', 'HashLogic: findMatchingAlgorithm is case-insensitive on target');
+
+  // no match
+  const notFound = hashLogic.findMatchingAlgorithm(fakeMap, 'ffffffffffffffff');
+  assert(notFound.matched === false && notFound.algorithm === null, 'HashLogic: findMatchingAlgorithm returns false when no match');
+
+  // null/empty guard
+  const nullMap = hashLogic.findMatchingAlgorithm(null, 'abc');
+  assert(nullMap.matched === false, 'HashLogic: findMatchingAlgorithm handles null map');
+  const nullTarget = hashLogic.findMatchingAlgorithm(fakeMap, '');
+  assert(nullTarget.matched === false, 'HashLogic: findMatchingAlgorithm handles empty target');
+}
 
 // Seeded Property-Based Fuzz Testing
 console.log('\n--- Seeded Property-Based Fuzz Testing (500 iterations) ---');
@@ -346,6 +1040,54 @@ console.log('\n--- Seeded Property-Based Fuzz Testing (500 iterations) ---');
     }
   }
   assert(true, 'Discount Fuzz: 100 random pricing configurations satisfied boundary bounds');
+
+  // Fuzz Loan EMI: total payment >= principal, remaining balance == 0
+  for (let i = 0; i < 100; i++) {
+    const P = 1000 + prngGen() * 500000;
+    const R = 0.5 + prngGen() * 20;
+    const n = 12 + Math.floor(prngGen() * 348);
+    const res = loanLogic.calculateLoanEmi(P, R, n, 'months');
+    if (res.totalPayment < P || res.monthlyEmi <= 0) {
+      assert(false, `Loan EMI Fuzz fail: P=${P}, R=${R}, n=${n}, totalPayment=${res.totalPayment}`);
+      break;
+    }
+    const finalBal = res.schedule[res.schedule.length - 1].balance;
+    if (finalBal !== 0) {
+      assert(false, `Loan EMI Fuzz fail: final balance !== 0 (${finalBal})`);
+      break;
+    }
+  }
+  assert(true, 'Loan EMI Fuzz: 100 random loan amortization setups verified non-negative and zero balance');
+
+  // Fuzz SIP: maturityValue >= totalInvested and estimatedReturns >= 0
+  for (let i = 0; i < 100; i++) {
+    const P = 50 + prngGen() * 2000;
+    const R = 1 + prngGen() * 25;
+    const y = 1 + Math.floor(prngGen() * 30);
+    const step = prngGen() > 0.5 ? Math.floor(prngGen() * 15) : 0;
+    const res = sipLogic.calculateSip(P, R, y, { stepUpPercent: step });
+    if (res.maturityValue < res.totalInvested || res.estimatedReturns < 0) {
+      assert(false, `SIP Fuzz fail: P=${P}, R=${R}, y=${y}, maturity=${res.maturityValue}, invested=${res.totalInvested}`);
+      break;
+    }
+  }
+  assert(true, 'SIP Fuzz: 100 random SIP portfolios verified monotonic wealth growth');
+
+  // Fuzz Compound Interest: finalBalance >= totalPrincipal, apyPercent >= rate
+  for (let i = 0; i < 100; i++) {
+    const P = 100 + prngGen() * 50000;
+    const R = 0.5 + prngGen() * 15;
+    const y = 1 + Math.floor(prngGen() * 25);
+    const freqs = ['daily', 'monthly', 'quarterly', 'annual'];
+    const f = freqs[Math.floor(prngGen() * freqs.length)];
+    const pmt = prngGen() > 0.5 ? 50 + prngGen() * 500 : 0;
+    const res = ciLogic.calculateCompoundInterest(P, R, y, f, { contributionAmount: pmt });
+    if (res.finalBalance < res.totalPrincipal || res.apyPercent < R - 0.05) {
+      assert(false, `Compound Interest Fuzz fail: P=${P}, R=${R}, y=${y}, f=${f}`);
+      break;
+    }
+  }
+  assert(true, 'Compound Interest Fuzz: 100 random compound scenarios satisfied bounds and APY');
 }
 
 console.log(`\nLogic Tests Summary: ${passed} passed, ${failures} failed.`);

@@ -20,6 +20,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const yaml = require('js-yaml');
 
 const ROOT = path.resolve(__dirname, '..');
 const SITE_DIR = path.join(ROOT, '_site');
@@ -125,6 +126,7 @@ function checkSeo() {
     const ogImage = ogImageMatch ? ogImageMatch[1].trim() : '';
 
     const isNoindex = /<meta\b[^>]*name=["']robots["'][^>]*content=["'][^"']*noindex/i.test(html);
+    const isDraft = html.includes('draft-banner');
 
     pageDataMap.set(url, {
       url,
@@ -135,6 +137,7 @@ function checkSeo() {
       canonical,
       ogImage,
       isNoindex,
+      isDraft,
       ids: extractIds(html),
       inboundLinks: 0,
       clickDepth: url === '/' ? 0 : Infinity,
@@ -267,13 +270,39 @@ function checkSeo() {
     }
   }
 
-  // 5. Audit Metadata Bounds & Uniqueness
+  // 5. Verify Sitemap URLs Exist on Disk in _site
+  const sitemapFile = path.join(SITE_DIR, 'sitemap.xml');
+  if (!fs.existsSync(sitemapFile)) {
+    errors.push(`sitemap.xml not found at ${sitemapFile}`);
+  } else {
+    const xml = fs.readFileSync(sitemapFile, 'utf8');
+    const locMatches = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m => m[1].trim());
+    if (locMatches.length === 0) {
+      errors.push('sitemap.xml contains no <loc> entries');
+    }
+    for (const loc of locMatches) {
+      if (loc.includes('design-system')) {
+        errors.push(`sitemap.xml includes forbidden design-system URL: ${loc}`);
+      }
+      if (!loc.startsWith(BASE_URL)) {
+        errors.push(`sitemap.xml URL does not start with BASE_URL (${BASE_URL}): ${loc}`);
+        continue;
+      }
+      const urlPath = loc.slice(BASE_URL.length) || '/';
+      const diskPath = urlPathToFilePath(urlPath);
+      if (!fs.existsSync(diskPath)) {
+        errors.push(`Sitemap URL "${loc}" does not exist in _site (expected: ${diskPath})`);
+      }
+    }
+  }
+
+  // 6. Audit Metadata Bounds & Uniqueness
   const titles = new Map();
   const descriptions = new Map();
 
   for (const [url, data] of pageDataMap.entries()) {
-    // 404 page is excluded from standard click-depth and duplicate rules
-    if (url === '/404.html') {
+    // 404 page and draft pages are excluded from standard click-depth and duplicate rules
+    if (url === '/404.html' || data.isDraft) {
       continue;
     }
 
@@ -286,8 +315,8 @@ function checkSeo() {
     if (!data.title) {
       errors.push(`${url}: Missing <title>`);
     } else {
-      if (data.title.length < 15 || data.title.length > 65) {
-        errors.push(`${url}: <title> length ${data.title.length} is outside allowed range [15, 65] ("${data.title}")`);
+      if (data.title.length < 30 || data.title.length > 60) {
+        errors.push(`${url}: <title> length ${data.title.length} is outside allowed range [30, 60] ("${data.title}")`);
       }
       if (titles.has(data.title)) {
         errors.push(`${url}: Duplicate <title> shared with ${titles.get(data.title)} ("${data.title}")`);
@@ -300,8 +329,8 @@ function checkSeo() {
     if (!data.description) {
       errors.push(`${url}: Missing meta description`);
     } else {
-      if (data.description.length < 70 || data.description.length > 170) {
-        errors.push(`${url}: Meta description length ${data.description.length} is outside allowed range [70, 170] ("${data.description.slice(0, 50)}...")`);
+      if (data.description.length < 120 || data.description.length > 160) {
+        errors.push(`${url}: Meta description length ${data.description.length} is outside allowed range [120, 160] ("${data.description.slice(0, 50)}...")`);
       }
       if (descriptions.has(data.description)) {
         errors.push(`${url}: Duplicate meta description shared with ${descriptions.get(data.description)}`);
@@ -338,11 +367,62 @@ function checkSeo() {
     }
   }
 
+  // 6. Audit Published Blog Posts (non-draft only)
+  checkBlogPosts(errors, warnings);
+
+  // 7. Forbidden text check: fail if "TODO_", "editorial team" or "zero trackers" appears in _site
+  const forbiddenPhrases = ['TODO_', 'editorial team', 'zero trackers'];
+  function scanSiteForForbidden(dir) {
+    const entries = fs.readdirSync(dir, { withFileTypes: true });
+    for (const entry of entries) {
+      const fullPath = path.join(dir, entry.name);
+      if (entry.isDirectory()) {
+        scanSiteForForbidden(fullPath);
+      } else if (entry.isFile()) {
+        const ext = path.extname(entry.name).toLowerCase();
+        if (['.png', '.jpg', '.jpeg', '.gif', '.ico', '.webp', '.woff', '.woff2', '.ttf', '.eot'].includes(ext)) {
+          continue;
+        }
+        const content = fs.readFileSync(fullPath, 'utf8');
+        for (const phrase of forbiddenPhrases) {
+          const regex = new RegExp(phrase.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i');
+          if (regex.test(content)) {
+            const rel = path.relative(SITE_DIR, fullPath).replace(/\\/g, '/');
+            errors.push(`Forbidden phrase "${phrase}" found in _site/${rel}`);
+          }
+        }
+      }
+    }
+  }
+  scanSiteForForbidden(SITE_DIR);
+
+  // 8. Double-escaped HTML entity and plain-text entity checks
+  const doubleEscapedEntities = ['&amp;amp;', '&amp;quot;', '&amp;#39;', '&amp;lt;', '&amp;gt;'];
+  for (const f of allHtmlFiles) {
+    const html = fs.readFileSync(f, 'utf8');
+    const rel = path.relative(SITE_DIR, f).replace(/\\/g, '/');
+    for (const ent of doubleEscapedEntities) {
+      if (html.includes(ent)) {
+        errors.push(`Double-escaped entity "${ent}" found in _site/${rel}`);
+      }
+    }
+  }
+
+  for (const plainTextRel of ['llms.txt', 'robots.txt']) {
+    const plainTextFile = path.join(SITE_DIR, plainTextRel);
+    if (fs.existsSync(plainTextFile)) {
+      const text = fs.readFileSync(plainTextFile, 'utf8');
+      if (text.includes('&amp;')) {
+        errors.push(`HTML entity "&amp;" found in _site/${plainTextRel}`);
+      }
+    }
+  }
+
   // Print Summary Table
   console.log('\n========================================================================================');
   console.log('PAGE AUDIT SUMMARY');
   console.log('========================================================================================');
-  console.log(`URL`.padEnd(46) + `| Depth | Links | Title (${'[15,65]'}) | Desc (${'[70,170]'}`);
+  console.log(`URL`.padEnd(46) + `| Depth | Links | Title (${'[30,60]'}) | Desc (${'[120,160]'}`);
   console.log('----------------------------------------------------------------------------------------');
 
   const sortedPages = Array.from(pageDataMap.values()).sort((a, b) => a.clickDepth - b.clickDepth || a.url.localeCompare(b.url));
@@ -422,6 +502,161 @@ function generateReport(pages, errors, warnings) {
   }
 
   fs.writeFileSync(REPORT_FILE, md);
+}
+
+function checkBlogPosts(errors, warnings) {
+  const blogDir = path.join(ROOT, 'src', 'blog');
+  const toolsFile = path.join(ROOT, 'src', '_data', 'tools.json');
+
+  if (!fs.existsSync(blogDir)) return;
+
+  let tools = [];
+  if (fs.existsSync(toolsFile)) {
+    try {
+      tools = JSON.parse(fs.readFileSync(toolsFile, 'utf8'));
+    } catch (e) {
+      errors.push(`src/_data/tools.json: Failed to parse JSON: ${e.message}`);
+    }
+  }
+  const validToolSlugs = new Set(tools.map(t => t.slug));
+
+  const blogFiles = fs.readdirSync(blogDir).filter(f => f.endsWith('.md'));
+
+  for (const filename of blogFiles) {
+    const fullPath = path.join(blogDir, filename);
+    const relPath = path.relative(ROOT, fullPath).replace(/\\/g, '/');
+    const rawContent = fs.readFileSync(fullPath, 'utf8');
+
+    // Parse front matter
+    let frontMatter = {};
+    let body = rawContent;
+
+    if (rawContent.startsWith('---')) {
+      const endMatch = rawContent.indexOf('\n---', 3);
+      if (endMatch !== -1) {
+        const yamlStr = rawContent.slice(3, endMatch).trim();
+        body = rawContent.slice(endMatch + 4).trim();
+        try {
+          frontMatter = yaml.load(yamlStr) || {};
+        } catch (e) {
+          errors.push(`${relPath}: YAML parse error: ${e.message}`);
+          continue;
+        }
+      }
+    }
+
+    // Published (non-draft) posts only: skip if draft: true
+    if (frontMatter.draft === true) {
+      continue;
+    }
+
+    // 1. Title: 30-60 chars
+    const title = frontMatter.title;
+    if (!title || typeof title !== 'string' || !title.trim()) {
+      errors.push(`${relPath}: Missing title in front matter`);
+    } else {
+      const titleLen = title.trim().length;
+      if (titleLen < 30 || titleLen > 60) {
+        errors.push(`${relPath}: Title length ${titleLen} is outside allowed range [30, 60] ("${title.trim()}")`);
+      }
+    }
+
+    // 2. Description: 120-160 chars
+    const description = frontMatter.description;
+    if (!description || typeof description !== 'string' || !description.trim()) {
+      errors.push(`${relPath}: Missing description in front matter`);
+    } else {
+      const descLen = description.trim().length;
+      if (descLen < 120 || descLen > 160) {
+        errors.push(`${relPath}: Description length ${descLen} is outside allowed range [120, 160] ("${description.trim()}")`);
+      }
+    }
+
+    // 3. Tool exists and valid in tools.json
+    const tool = frontMatter.tool;
+    if (!tool || typeof tool !== 'string' || !tool.trim()) {
+      errors.push(`${relPath}: Missing "tool" property in front matter`);
+    } else if (!validToolSlugs.has(tool.trim())) {
+      errors.push(`${relPath}: Tool "${tool.trim()}" does not exist in tools.json`);
+    }
+
+    // 4. At least 600 words in body
+    const cleanBody = body
+      .replace(/```[\s\S]*?```/g, ' ')
+      .replace(/`[^`]*`/g, ' ')
+      .replace(/!\[[^\]]*\]\([^)]*\)/g, ' ')
+      .replace(/\[([^\]]+)\]\([^)]*\)/g, '$1')
+      .replace(/<[^>]+>/g, ' ')
+      .trim();
+    const words = cleanBody.split(/\s+/).filter(Boolean);
+    if (words.length < 600) {
+      errors.push(`${relPath}: Word count (${words.length}) is below required minimum of 600 words`);
+    }
+
+    // 5. At least 3 internal links & at least one link to its tool
+    const links = [];
+    const mdLinkRegex = /\[([^\]]+)\]\(([^)]+)\)/g;
+    let mdM;
+    while ((mdM = mdLinkRegex.exec(body)) !== null) {
+      links.push(mdM[2].trim());
+    }
+    const htmlLinkRegex = /<a\b[^>]*href=["']([^"']*)["']/gi;
+    let htmlM;
+    while ((htmlM = htmlLinkRegex.exec(body)) !== null) {
+      links.push(htmlM[1].trim());
+    }
+
+    const internalLinks = links.filter(href => {
+      if (!href) return false;
+      if (href.startsWith('mailto:') || href.startsWith('tel:') || href.startsWith('javascript:') || href.startsWith('#')) return false;
+      if (href.startsWith('http://') || href.startsWith('https://')) {
+        return href.startsWith('https://toolsbuilt.com') || href.startsWith('http://toolsbuilt.com');
+      }
+      return href.startsWith('/');
+    });
+
+    if (internalLinks.length < 3) {
+      errors.push(`${relPath}: Has ${internalLinks.length} internal link(s) (minimum 3 required)`);
+    }
+
+    if (tool) {
+      const toolSlug = tool.trim();
+      const hasToolLink = internalLinks.some(href => {
+        let clean = href.replace(/^https?:\/\/toolsbuilt\.com/, '');
+        clean = clean.split('?')[0].split('#')[0];
+        if (!clean.endsWith('/')) clean += '/';
+        return clean === `/tools/${toolSlug}/`;
+      });
+      if (!hasToolLink) {
+        errors.push(`${relPath}: Missing link to its tool (/tools/${toolSlug}/)`);
+      }
+    }
+
+    // 7. No "TODO"/"VERIFY"/lorem text
+    if (/\bTODO\b/i.test(rawContent)) {
+      errors.push(`${relPath}: Contains forbidden placeholder text "TODO"`);
+    }
+    if (/\bVERIFY\b/.test(rawContent)) {
+      errors.push(`${relPath}: Contains forbidden placeholder text "VERIFY"`);
+    }
+    const nonToolContent = rawContent
+      .replace(/lorem-ipsum-generator/gi, '')
+      .replace(/lorem\s+ipsum\s+generator/gi, '');
+    if (/\blorem\b/i.test(nonToolContent)) {
+      errors.push(`${relPath}: Contains forbidden placeholder text "lorem"`);
+    }
+
+    // 8. FAQs present and non-empty
+    const faqs = frontMatter.faqs;
+    if (!faqs || !Array.isArray(faqs) || faqs.length === 0) {
+      errors.push(`${relPath}: Missing or empty "faqs" in front matter`);
+    } else {
+      const incompleteFaqs = faqs.filter(f => !f || !(f.question || f.q)?.trim() || !(f.answer || f.a)?.trim());
+      if (incompleteFaqs.length > 0) {
+        errors.push(`${relPath}: Contains ${incompleteFaqs.length} empty or incomplete FAQ item(s)`);
+      }
+    }
+  }
 }
 
 if (require.main === module) {

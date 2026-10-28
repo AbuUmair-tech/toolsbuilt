@@ -231,7 +231,7 @@ async function run() {
 
     // Verify Byline
     const byline = await page.textContent('.tool-byline');
-    assert(byline.includes('By ToolsBuilt editorial team'), 'Byline displays editorial author');
+    assert(byline.includes('By Abu Umair'), 'Byline displays author Abu Umair');
     assert(!byline.includes('TODO_'), 'Byline contains no TODO_ placeholder');
     const hasTimeTag = await page.locator('.tool-byline time[datetime]').count();
     assert(hasTimeTag >= 1, 'Byline contains machine-readable time element with datetime');

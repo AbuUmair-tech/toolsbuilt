@@ -1,0 +1,236 @@
+---
+layout: layouts/base.njk
+---
+{% set renderedContent = content | withHeadingIds %}
+{% set toc = renderedContent | extractToc %}
+
+{% block jsonLd %}
+  <!-- JSON-LD BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://toolsbuilt.com/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Blog",
+        "item": "https://toolsbuilt.com/blog/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": {{ title | jsonStr | safe }},
+        "item": "https://toolsbuilt.com{{ page.url }}"
+      }
+    ]
+  }
+  </script>
+
+  <!-- JSON-LD BlogPosting -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": {{ title | jsonStr | safe }},
+    "description": {{ description | jsonStr | safe }},
+    "url": "https://toolsbuilt.com{{ page.url }}",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://toolsbuilt.com{{ page.url }}"
+    },
+    "datePublished": "{{ date | isoDate }}",
+    "dateModified": "{{ (updated or date) | isoDate }}",
+    "image": {{ (ogImage or computedOgImage or "https://toolsbuilt.com/assets/og/home.png") | jsonStr | safe }},
+    "author": {
+      "@type": "Person",
+      "name": {{ (site.authorName or "Abu Umair") | jsonStr | safe }},
+      "url": {{ (site.authorUrl or "https://toolsbuilt.com/about/") | jsonStr | safe }}
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "ToolsBuilt",
+      "url": "https://toolsbuilt.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://toolsbuilt.com/assets/img/favicon.svg"
+      }
+    }
+  }
+  </script>
+
+  {% if faqs and faqs.length > 0 %}
+  <!-- JSON-LD FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {% for faq in faqs %}
+      {
+        "@type": "Question",
+        "name": {{ (faq.q or faq.question) | jsonStr | safe }},
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": {{ (faq.a or faq.answer) | jsonStr | safe }}
+        }
+      }{% if not loop.last %},{% endif %}
+      {% endfor %}
+    ]
+  }
+  </script>
+  {% endif %}
+{% endblock %}
+
+  <!-- Main Content -->
+  <div class="container page-container tool-page-layout">
+    <div class="tool-page-grid">
+      <main id="main-content" class="tool-main-col">
+        
+        <!-- Breadcrumb Navigation -->
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <ol>
+            <li><a href="/">Home</a></li>
+            <li><a href="/blog/">Blog</a></li>
+            <li aria-current="page">{{ shortTitle or title }}</li>
+          </ol>
+        </nav>
+
+        {% if draft %}
+        <!-- Visible DRAFT Banner for Dev / Staging -->
+        <div class="alert alert-warning draft-banner" role="alert" style="margin-bottom: var(--space-6); display: flex; align-items: center; gap: var(--space-3); padding: var(--space-4); border: 2px dashed var(--color-warning-border); border-radius: var(--radius-lg); background-color: var(--color-warning-bg); color: var(--color-warning-text);">
+          <span class="badge badge-warning" style="font-weight: 800; font-size: var(--font-size-xs); letter-spacing: 0.05em; text-transform: uppercase; padding: 2px 8px; border-radius: 4px; background: #d97706; color: #ffffff;">DRAFT</span>
+          <span style="font-weight: 500;">This post is a <strong>draft</strong>. It is only visible in development/staging and is excluded from production builds.</span>
+        </div>
+        {% endif %}
+
+        <!-- Post Hero Header -->
+        <div class="post-hero-header" style="margin-bottom: var(--space-8);">
+          <div class="category-hero-meta" style="margin-bottom: var(--space-3); display: flex; align-items: center; gap: var(--space-2);">
+            <span class="tool-category-chip" data-cat="tech">{{ category or "Guide" }}</span>
+            <span class="category-count-badge">{{ renderedContent | readingTime }}</span>
+          </div>
+          <h1 class="tool-hero-title" style="margin-bottom: var(--space-4);">{{ title }}</h1>
+          {% if description %}
+          <p class="tool-hero-description" style="font-size: var(--font-size-md); color: var(--text-secondary); margin-bottom: var(--space-4); line-height: 1.6;">{{ description }}</p>
+          {% endif %}
+          <div class="tool-byline" style="display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); color: var(--text-tertiary); font-size: var(--font-size-sm);">
+            <span>By <strong>{{ site.authorName or "Abu Umair" }}</strong></span>
+            <span>&bull;</span>
+            <span>Published <time datetime="{{ date | isoDate }}">{{ date | readableDate }}</time></span>
+            {% if updated and (updated | isoDate) != (date | isoDate) %}
+            <span>&bull;</span>
+            <span>Updated <time datetime="{{ updated | isoDate }}">{{ updated | readableDate }}</time></span>
+            {% endif %}
+            <span>&bull;</span>
+            <span>{{ renderedContent | readingTime }}</span>
+          </div>
+        </div>
+
+        <!-- Try the tool CTA Box (driven by front matter `tool: <slug>`) -->
+        {% if tool %}
+          {% set matchedTool = tools | findTool(tool) %}
+          {% if matchedTool %}
+          <div class="tool-cta-box" style="margin-bottom: var(--space-8); padding: var(--space-6); background: var(--surface-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-xl); box-shadow: var(--shadow-sm); display: flex; flex-direction: column; gap: var(--space-4);">
+            <div style="display: flex; align-items: center; gap: var(--space-4);">
+              <div class="tool-icon-tile" data-cat="{{ matchedTool.category }}" style="width: 48px; height: 48px; border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                {{ matchedTool.icon | safe }}
+              </div>
+              <div>
+                <span class="tool-category-chip" data-cat="{{ matchedTool.category }}" style="font-size: var(--font-size-2xs); margin-bottom: var(--space-1); display: inline-block;">{{ matchedTool.category }}</span>
+                <h2 style="font-size: var(--font-size-lg); margin: 0; color: var(--text-primary);">Try the {{ matchedTool.name }}</h2>
+              </div>
+            </div>
+            <p style="margin: 0; color: var(--text-secondary); font-size: var(--font-size-sm); line-height: 1.5;">{{ matchedTool.description }}</p>
+            <div>
+              <a href="/tools/{{ matchedTool.slug }}/" class="btn btn-primary btn-md" style="display: inline-flex; align-items: center; gap: var(--space-2); text-decoration: none;">
+                <span>Open {{ matchedTool.shortName or matchedTool.name }}</span>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+              </a>
+            </div>
+          </div>
+          {% endif %}
+        {% endif %}
+
+        <!-- Post Content Body -->
+        <article class="content-article post-article" style="line-height: 1.7; font-size: var(--font-size-base);">
+          {{ renderedContent | safe }}
+        </article>
+
+        <!-- FAQs Section (if present) -->
+        {% if faqs and faqs.length > 0 %}
+        <section class="faq-section" aria-labelledby="faq-heading" style="margin-top: var(--space-10);">
+          <h2 id="faq-heading" class="section-title">Frequently Asked Questions</h2>
+          <div class="accordion-group">
+            {% for faq in faqs %}
+            <details class="faq-item">
+              <summary class="faq-question">
+                <span>{{ faq.q or faq.question }}</span>
+              </summary>
+              <div class="faq-answer">
+                <p>{{ faq.a or faq.answer }}</p>
+              </div>
+            </details>
+            {% endfor %}
+          </div>
+        </section>
+        {% endif %}
+
+        <!-- Related Posts Section -->
+        {% set otherPosts = collections.post | filterOtherPosts(page.url, 2) %}
+        {% if otherPosts and otherPosts.length > 0 %}
+        <section class="related-posts-section" aria-labelledby="related-posts-heading" style="margin-top: var(--space-12); padding-top: var(--space-8); border-top: 1px solid var(--border-subtle);">
+          <h2 id="related-posts-heading" class="section-title">More Guides &amp; Articles</h2>
+          <div class="tools-grid">
+            {% for p in otherPosts %}
+            <a href="{{ p.url }}" class="tool-card">
+              <div class="tool-card-header">
+                <span class="tool-category-chip" data-cat="tech">{{ p.data.category or "Guide" }}</span>
+                <span style="font-size: var(--font-size-xs); color: var(--text-tertiary);">{{ p.templateContent | readingTime }}</span>
+              </div>
+              <h3 class="tool-title">{{ p.data.title }}</h3>
+              <p class="tool-desc">{{ p.data.description }}</p>
+              <div class="tool-card-action">
+                <span>Read Guide</span>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+              </div>
+            </a>
+            {% endfor %}
+          </div>
+        </section>
+        {% endif %}
+
+        <!-- Existing Related Tools Partial -->
+        {% set toolSlug = tool or "password-generator" %}
+        {% include "partials/related-tools.njk" %}
+      </main>
+
+      <!-- Desktop Sticky Table of Contents (hidden < 1100px) -->
+      {% if toc and toc.length > 0 %}
+      <aside class="tool-toc-aside" aria-label="On this page">
+        <div class="tool-toc-sticky">
+          <span class="toc-heading">On This Page</span>
+          <nav class="toc-nav" aria-label="Table of contents">
+            <ul class="toc-list">
+              {% for item in toc %}
+              <li class="toc-item toc-level-{{ item.level }}"{% if item.level == 3 %} style="padding-left: var(--space-3); font-size: var(--font-size-xs);"{% endif %}>
+                <a href="#{{ item.id }}">{{ item.text }}</a>
+              </li>
+              {% endfor %}
+              {% if faqs and faqs.length > 0 %}
+              <li><a href="#faq-heading">Frequently Asked Questions</a></li>
+              {% endif %}
+              <li><a href="#related-tools-heading">Related Tools</a></li>
+            </ul>
+          </nav>
+        </div>
+      </aside>
+      {% endif %}
+    </div>
+  </div>

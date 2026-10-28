@@ -1,6 +1,33 @@
+const fs = require('fs');
+const path = require('path');
+const { execSync } = require('child_process');
 const { buildCss } = require('./scripts/bundle-css.js');
 const { buildSearchIndex } = require('./scripts/build-search-index.js');
 const { generateAllCards } = require('./scripts/generate-og-cards.js');
+
+function syncToolsDataJs() {
+  const toolsPath = path.join(__dirname, 'src', '_data', 'tools.json');
+  const catPath = path.join(__dirname, 'src', '_data', 'categories.json');
+  const outPath = path.join(__dirname, 'src', 'assets', 'js', 'tools-data.js');
+  if (fs.existsSync(toolsPath) && fs.existsSync(catPath)) {
+    const tools = JSON.parse(fs.readFileSync(toolsPath, 'utf8'));
+    const cats = JSON.parse(fs.readFileSync(catPath, 'utf8'));
+    const catMap = new Map(cats.map(c => [c.slug, c.name]));
+    const data = tools.map(t => ({
+      id: t.slug,
+      name: t.name,
+      url: `/tools/${t.slug}/`,
+      icon: t.iconName || '',
+      description: t.description || '',
+      category: catMap.get(t.category) || t.category,
+      categoryId: t.category,
+      popular: !!t.popular,
+      related: t.related || []
+    }));
+    const content = `/**\n * Shared Registry of ToolsBuilt Tools (Generated from tools.json & categories.json)\n */\n\nwindow.TOOLS_DATA = ${JSON.stringify(data, null, 2)};\n`;
+    fs.writeFileSync(outPath, content, 'utf8');
+  }
+}
 
 module.exports = function(eleventyConfig) {
   const isProduction = process.env.NODE_ENV === 'production' || process.env.SITE_ENV === 'production';
@@ -8,17 +35,20 @@ module.exports = function(eleventyConfig) {
   // Watch CSS directory for hot reloading
   eleventyConfig.addWatchTarget('src/assets/css/');
 
-  // Initial CSS and search index build to get hashes before any template renders
+  // Initial CSS, tools-data, and search index build to get hashes before any template renders
+  syncToolsDataJs();
   let cssBundle = buildCss({ isProduction });
   let searchBundle = buildSearchIndex();
 
   eleventyConfig.on('eleventy.before', async () => {
+    syncToolsDataJs();
     cssBundle = buildCss({ isProduction });
     searchBundle = buildSearchIndex();
     await generateAllCards();
   });
 
   eleventyConfig.on('eleventy.after', async () => {
+    syncToolsDataJs();
     buildCss({ isProduction });
     buildSearchIndex();
   });
@@ -50,6 +80,16 @@ module.exports = function(eleventyConfig) {
   // Passthrough tool-specific scripts and styles
   eleventyConfig.addPassthroughCopy('src/tools/**/*.js');
   eleventyConfig.addPassthroughCopy('src/tools/**/*.css');
+
+  // Collections: filter drafts out of production builds
+  eleventyConfig.addCollection('post', function(collectionApi) {
+    const isProd = process.env.NODE_ENV === 'production' || process.env.SITE_ENV === 'production';
+    const posts = collectionApi.getFilteredByTag('post');
+    if (isProd) {
+      return posts.filter(item => !item.data.draft);
+    }
+    return posts;
+  });
 
   // Filters
   eleventyConfig.addFilter('findTool', function(tools, slug) {
@@ -158,6 +198,76 @@ module.exports = function(eleventyConfig) {
     return isNaN(d.getTime()) ? str : d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
   });
 
+  // Blog Filters: readingTime, isoDate, readableDate, jsonStr
+  eleventyConfig.addFilter('readingTime', function(content) {
+    if (!content) return '1 min read';
+    const text = String(content).replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+    const words = text ? text.split(/\s+/).length : 0;
+    const minutes = Math.max(1, Math.ceil(words / 200));
+    return `${minutes} min read`;
+  });
+
+  eleventyConfig.addFilter('isoDate', function(date) {
+    if (!date) return '';
+    const d = date instanceof Date ? date : new Date(date);
+    return isNaN(d.getTime()) ? '' : d.toISOString().split('T')[0];
+  });
+
+  eleventyConfig.addFilter('readableDate', function(date) {
+    if (!date) return '';
+    const d = date instanceof Date ? date : new Date(date);
+    return isNaN(d.getTime()) ? String(date) : d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+  });
+
+
+  function slugifyHeading(text) {
+    return text
+      .toLowerCase()
+      .replace(/<[^>]*>/g, '')
+      .replace(/[^\w\s-]/g, '')
+      .trim()
+      .replace(/\s+/g, '-');
+  }
+
+  eleventyConfig.addFilter('withHeadingIds', function(content) {
+    if (!content) return '';
+    return content.replace(/<(h[23])(\s*[^>]*)>(.*?)<\/\1>/gi, (match, tag, attrs, text) => {
+      if (/id=["']/i.test(attrs)) return match;
+      const cleanText = text.replace(/<[^>]*>/g, '').trim();
+      const id = slugifyHeading(cleanText);
+      return `<${tag} id="${id}"${attrs}>${text}</${tag}>`;
+    });
+  });
+
+  eleventyConfig.addFilter('extractToc', function(content) {
+    if (!content) return [];
+    const toc = [];
+    const regex = /<(h[23])\b([^>]*)>(.*?)<\/\1>/gi;
+    let match;
+    while ((match = regex.exec(content)) !== null) {
+      const level = parseInt(match[1].slice(1), 10);
+      const attrs = match[2];
+      const rawText = match[3];
+      const text = rawText.replace(/<[^>]*>/g, '').trim();
+      const idMatch = attrs.match(/id=["']([^"']+)["']/i);
+      const id = idMatch ? idMatch[1] : slugifyHeading(text);
+      toc.push({ level, text, id });
+    }
+    return toc;
+  });
+
+  eleventyConfig.addFilter('filterGuidesByTool', function(posts, toolSlug) {
+    if (!posts || !Array.isArray(posts) || !toolSlug) return [];
+    return posts.filter(p => p.data && p.data.tool === toolSlug);
+  });
+
+  eleventyConfig.addFilter('filterOtherPosts', function(posts, currentUrl, limit = 3) {
+    if (!posts || !Array.isArray(posts)) return [];
+    return posts
+      .filter(p => p.url !== currentUrl)
+      .slice(0, limit);
+  });
+
   eleventyConfig.addFilter('getCuratedRelatedTools', function(currentTool, allTools, limit = 4) {
     if (!currentTool || !Array.isArray(allTools)) return [];
     const result = [];
@@ -193,6 +303,92 @@ module.exports = function(eleventyConfig) {
     }
 
     return result.slice(0, limit);
+  });
+
+  eleventyConfig.addGlobalData('buildDate', () => new Date().toISOString().split('T')[0]);
+
+  eleventyConfig.addFilter('limit', function(arr, count) {
+    if (!Array.isArray(arr)) return [];
+    return arr.slice(0, count);
+  });
+
+  eleventyConfig.addFilter('fileLastmod', function(relativePath) {
+    const fullPath = path.join(__dirname, relativePath);
+    if (!fs.existsSync(fullPath)) return new Date().toISOString().split('T')[0];
+    try {
+      const content = fs.readFileSync(fullPath, 'utf8');
+      const match = content.match(/^updated:\s*["']?([0-9]{4}-[0-9]{2}-[0-9]{2})["']?/m);
+      if (match) return match[1];
+    } catch (e) {}
+    try {
+      const gitDate = execSync(`git log -1 --format=%cs "${fullPath}"`, { encoding: 'utf8' }).trim();
+      if (gitDate && /^\d{4}-\d{2}-\d{2}$/.test(gitDate)) {
+        return gitDate;
+      }
+    } catch (e) {}
+    try {
+      const stat = fs.statSync(fullPath);
+      return stat.mtime.toISOString().split('T')[0];
+    } catch (e) {}
+    return '2026-10-24';
+  });
+
+  eleventyConfig.addFilter('latestToolDate', function(tools, catSlug) {
+    if (!Array.isArray(tools) || tools.length === 0) return '2026-10-15';
+    let filtered = tools;
+    if (catSlug) {
+      filtered = tools.filter(t => t.category === catSlug);
+    }
+    const dates = filtered.map(t => t.updated).filter(Boolean).sort().reverse();
+    return dates[0] || '2026-10-15';
+  });
+
+  function formatIsoDate(val) {
+    if (!val) return '';
+    const d = val instanceof Date ? val : new Date(val);
+    return isNaN(d.getTime()) ? '' : d.toISOString().split('T')[0];
+  }
+
+  eleventyConfig.addFilter('latestSiteDate', function(tools, posts) {
+    const dates = [];
+    if (Array.isArray(tools)) {
+      tools.forEach(t => {
+        if (t.updated) {
+          const iso = formatIsoDate(t.updated);
+          if (iso) dates.push(iso);
+        }
+      });
+    }
+    if (Array.isArray(posts)) {
+      posts.forEach(p => {
+        const raw = (p.data && p.data.updated) || p.date;
+        const iso = formatIsoDate(raw);
+        if (iso) dates.push(iso);
+      });
+    }
+    dates.sort().reverse();
+    return dates[0] || '2026-10-15';
+  });
+
+  eleventyConfig.addFilter('blogPagesList', function(posts, pageSize = 9) {
+    if (!Array.isArray(posts) || posts.length === 0) return [];
+    const isProd = process.env.NODE_ENV === 'production' || process.env.SITE_ENV === 'production';
+    const published = isProd ? posts.filter(p => !p.data.draft) : posts;
+    const sorted = [...published].reverse();
+    const totalPages = Math.ceil(sorted.length / pageSize) || 1;
+    const pages = [];
+    for (let i = 0; i < totalPages; i++) {
+      const chunk = sorted.slice(i * pageSize, (i + 1) * pageSize);
+      const latestPost = chunk[0];
+      const raw = (latestPost && latestPost.data && latestPost.data.updated) || (latestPost && latestPost.date);
+      const lastmod = formatIsoDate(raw) || '2026-10-24';
+      pages.push({
+        pageNumber: i + 1,
+        url: i === 0 ? '/blog/' : `/blog/page/${i + 1}/`,
+        lastmod
+      });
+    }
+    return pages;
   });
 
   return {

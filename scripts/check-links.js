@@ -304,8 +304,9 @@ function checkSearchIndex() {
   try {
     const raw = fs.readFileSync(path.join(assetsDir, indexFile), 'utf8');
     const tools = JSON.parse(raw);
-    if (!Array.isArray(tools) || tools.length !== 10) {
-      errors.push(`[ERROR] Search index must contain 10 tools, found ${tools ? tools.length : 0}`);
+    const expectedTools = JSON.parse(fs.readFileSync(path.join(ROOT, 'src', '_data', 'tools.json'), 'utf8'));
+    if (!Array.isArray(tools) || tools.length !== expectedTools.length) {
+      errors.push(`[ERROR] Search index must contain ${expectedTools.length} tools, found ${tools ? tools.length : 0}`);
       return;
     }
     for (const t of tools) {

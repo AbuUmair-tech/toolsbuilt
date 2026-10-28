@@ -5,6 +5,64 @@ title: "Add or Subtract Days from Date Calculator | ToolsBuilt"
 description: "Free online date addition and subtraction calculator. Easily add or subtract days, weeks, months, or years from any starting date with business day filtering."
 permalink: /tools/add-days-to-date-calculator/
 h1: "Add or Subtract Days from a Date"
+quickAnswer: "To add or subtract days from a date, enter your starting calendar date, specify the number of days, weeks, months, or years, and select addition or subtraction. Toggle business days to skip Saturdays and Sundays. The tool instantly calculates the resulting date, weekday, and elapsed calendar days locally in your browser."
+formula:
+  title: "Date Arithmetic & Clamping Formula"
+  expression: "Target Date = Start Date ± (Amount × Unit Interval)"
+  explanation: "Calendar days and weeks increment sequentially in 24-hour UTC steps. Month and year calculations adjust month indices while clamping day overflow to the final calendar day of the target month. Business day mode increments day-by-day, skipping Saturdays and Sundays."
+workedExamples:
+  - title: "Adding 10 Business Days"
+    inputs:
+      - "Start Date: Friday, October 16, 2026"
+      - "Operation: Add 10 Business Days"
+    steps:
+      - "Skip weekend: Oct 17-18 (Saturday-Sunday)"
+      - "Count 5 business days: Oct 19 to Oct 23"
+      - "Skip weekend: Oct 24-25 (Saturday-Sunday)"
+      - "Count remaining 5 business days: Oct 26 to Oct 30"
+    result: "Friday, October 30, 2026 (14 calendar days elapsed: 10 business, 4 weekend)"
+  - title: "Adding 1 Month to Month-End (Clamped)"
+    inputs:
+      - "Start Date: Sunday, January 31, 2027"
+      - "Operation: Add 1 Month"
+    steps:
+      - "Increment month from January to February 2027"
+      - "2027 is a common year (non-leap), so February has 28 days"
+      - "Clamp day 31 to maximum month-end day 28"
+    result: "Sunday, February 28, 2027 (28 calendar days elapsed)"
+  - title: "Subtracting 90 Calendar Days"
+    inputs:
+      - "Start Date: Saturday, October 17, 2026"
+      - "Operation: Subtract 90 Calendar Days"
+    steps:
+      - "Step backward 90 consecutive calendar days"
+      - "Traverses through October, September, August, and July"
+    result: "Sunday, July 19, 2026 (90 calendar days elapsed)"
+  - title: "Adding 3 Weeks"
+    inputs:
+      - "Start Date: Sunday, March 1, 2026"
+      - "Operation: Add 3 Weeks"
+    steps:
+      - "Convert 3 weeks to 21 calendar days (3 × 7)"
+      - "Advance 21 calendar days from March 1, 2026"
+    result: "Sunday, March 22, 2026 (21 calendar days elapsed)"
+commonMistakes:
+  - title: "Equating 30 Days to 1 Month"
+    description: "Calendar months vary between 28 and 31 days. Adding 30 days to January 1 lands on January 31, whereas adding 1 month lands on February 1."
+  - title: "Assuming 5 Business Days Equals 5 Calendar Days"
+    description: "Business days skip Saturdays and Sundays. Adding 5 business days always spans at least 7 calendar days."
+  - title: "Unclamped Month Overflows"
+    description: "Adding 1 month to January 31 must clamp to February 28 (or 29 in leap years). Naive math can inadvertently roll into March."
+  - title: "Ignoring Daylight Saving Artifacts"
+    description: "Local 24-hour additions can drift by 1 hour on clock-change days. UTC midnight normalization ensures exact calendar alignment."
+sources:
+  - name: "ISO 8601 Calendar Arithmetic Standards"
+    url: "https://www.iso.org/iso-8601-date-and-time-format.html"
+  - name: "US Naval Observatory Astronomical Calendar & Leap Years"
+    url: "https://aa.usno.navy.mil/"
+  - name: "W3C Note on Date and Time Formats"
+    url: "https://www.w3.org/TR/NOTE-datetime"
+lastReviewed: "October 24, 2026"
 howto:
   name: "How to Add or Subtract Days from a Date"
   description: "Step-by-step instructions for computing target dates with calendar or business day filtering."
@@ -30,13 +88,10 @@ faqs:
     a: "Standard calendar math adjusts month-end overflows to the last valid day of the target month. For example, adding one month to January 31st lands on February 28th (or February 29th during leap years)."
   - q: "Is any of my date input data stored on external servers?"
     a: "No. All date calculations perform locally inside your web browser using client-side JavaScript. None of your input dates or calculated results are transmitted to external servers or logged in database records."
-sources:
-  - label: "ISO 8601 Calendar Arithmetic Standards"
-    url: "https://www.iso.org/iso-8601-date-and-time-format.html"
-  - label: "US Naval Observatory Leap Year and Calendar Rules"
-    url: "https://aa.usno.navy.mil/"
-  - label: "W3C Note on Date and Time Formats"
-    url: "https://www.w3.org/TR/NOTE-datetime"
+  - q: "How does the calculator handle negative date subtraction?"
+    a: "Selecting Subtract steps backward in time across days, weeks, months, or years. The algorithm respects month boundaries and leap year days symmetrically in reverse."
+  - q: "Does the business day counter skip bank holidays?"
+    a: "The tool automatically excludes weekend days (Saturday and Sunday). Statutory bank and federal holidays vary by country and region and are not automatically deducted."
 ---
 
 <div class="tool-card">
@@ -98,89 +153,10 @@ sources:
   </div>
 </div>
 
-<div class="quick-answer-box" style="margin-top: 2rem;">
-  <h2 id="how-to-use-heading">Quick Answer: How to Add Days to Any Date</h2>
-  <p>To calculate a future or past date, choose your starting date, specify the number of days, weeks, months, or years to add or subtract, and toggle the business days filter if you need to skip weekends. The tool immediately displays the resulting calendar date, weekday, and duration details.</p>
-</div>
-
-<!-- Worked Examples Section -->
-<section style="margin: 2.5rem 0;" aria-labelledby="examples-heading">
-  <h2 id="examples-heading">Worked Date Addition Examples</h2>
-  
-  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 1.25rem;">
-    <div style="background: var(--surface-muted); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem;">
-      <h3 style="font-size: 1.1rem; margin-top: 0; color: var(--accent-primary);">Example 1: Adding 10 Business Days</h3>
-      <p style="font-size: var(--font-size-sm); color: var(--text-muted); margin-bottom: 0.5rem;"><strong>Start:</strong> Friday, October 16, 2026 | <strong>Operation:</strong> Add 10 Business Days</p>
-      <ul style="font-size: var(--font-size-sm); color: var(--text-muted); line-height: 1.6; margin-left: 1.25rem;">
-        <li>Skips weekends (Oct 17-18 and Oct 24-25)</li>
-        <li>Elapsed Calendar Days: 14 days</li>
-        <li><strong>Result:</strong> Friday, October 30, 2026</li>
-      </ul>
-    </div>
-
-    <div style="background: var(--surface-muted); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem;">
-      <h3 style="font-size: 1.1rem; margin-top: 0; color: var(--accent-primary);">Example 2: Adding 1 Month to January 31st</h3>
-      <p style="font-size: var(--font-size-sm); color: var(--text-muted); margin-bottom: 0.5rem;"><strong>Start:</strong> January 31, 2027 | <strong>Operation:</strong> Add 1 Month</p>
-      <ul style="font-size: var(--font-size-sm); color: var(--text-muted); line-height: 1.6; margin-left: 1.25rem;">
-        <li>February has 28 days in 2027</li>
-        <li>Algorithm clamps month overflow to month-end</li>
-        <li><strong>Result:</strong> Sunday, February 28, 2027</li>
-      </ul>
-    </div>
-
-    <div style="background: var(--surface-muted); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem;">
-      <h3 style="font-size: 1.1rem; margin-top: 0; color: var(--accent-primary);">Example 3: Subtracting 90 Calendar Days</h3>
-      <p style="font-size: var(--font-size-sm); color: var(--text-muted); margin-bottom: 0.5rem;"><strong>Start:</strong> October 17, 2026 | <strong>Operation:</strong> Subtract 90 Days</p>
-      <ul style="font-size: var(--font-size-sm); color: var(--text-muted); line-height: 1.6; margin-left: 1.25rem;">
-        <li>Counts backward 90 calendar days (12 weeks, 6 days)</li>
-        <li>Crosses through September, August, and July</li>
-        <li><strong>Result:</strong> Sunday, July 19, 2026</li>
-      </ul>
-    </div>
-  </div>
-</section>
-
-<!-- Common Mistakes Section -->
-<section style="margin: 2.5rem 0;" aria-labelledby="mistakes-heading">
-  <h2 id="mistakes-heading">Common Date Arithmetic Mistakes</h2>
-  <ul style="color: var(--text-muted); line-height: 1.8; margin-left: 1.25rem;">
-    <li><strong>Equating 30 Days to 1 Month:</strong> Adding "1 month" is not identical to adding "30 days". Adding 30 days to January 1 lands on January 31, while adding 1 month lands on February 1.</li>
-    <li><strong>Forgetting Weekend Extension in Business Days:</strong> Adding 5 business days always spans at least 7 calendar days because it spans a weekend. Adding 10 business days spans at least 14 calendar days.</li>
-    <li><strong>Month-End Overflows:</strong> Without proper month-end clamping, adding 1 month to March 31 could slip into May 1 on primitive date libraries. Our tool clamps directly to April 30.</li>
-  </ul>
-</section>
-
 <div class="article-content">
-  <h2 id="article-heading">Why Is Calculating Target Dates Essential?</h2>
-  <p>Accurate date arithmetic is a fundamental requirement across project planning, legal agreements, financial forecasting, and personal organization. Manually counting days on a physical calendar often leads to miscalculations due to varying month lengths, weekend overlaps, and leap year days. Utilizing an automated date addition calculator guarantees exact calendar placement every time.</p>
+  <h2>Why Is Accurate Date Arithmetic Essential?</h2>
+  <p>Accurate date arithmetic is a fundamental requirement across project planning, legal agreements, financial forecasting, and personal scheduling. Counting days manually on a calendar often leads to errors due to variable month lengths, weekend overlaps, and leap days. Utilizing automated client-side date arithmetic ensures exact calendar placement every time.</p>
 
-  <h2>How Does Business Day Calculation Work?</h2>
-  <p>When planning business operations, standard calendar days often fail to reflect actual working timelines. Project deliverables, payment terms, and legal notice periods routinely specify business days. When the <strong>Business days only</strong> option is active, our calculator skips Saturdays and Sundays. For example, adding 5 business days to a Friday advances through Monday, Tuesday, Wednesday, Thursday, and reaches target completion on the following Friday.</p>
+  <h2>How Business Day Filtering Works</h2>
+  <p>When planning business operations, standard calendar days often fail to reflect actual working timelines. Project deliverables, payment terms, and legal notice periods routinely specify business days. When the business days filter is active, the calculator skips Saturdays and Sundays, ensuring deadlines accurately reflect actual operational business days.</p>
 </div>
-
-<section class="related-tools mt-12">
-  <h2>Related Tools</h2>
-  <div class="tools-grid" id="relatedToolsGrid">
-    <a href="/tools/days-until-date-calculator/" class="tool-card-link">
-      <div class="tool-card-sm">
-        <div class="tool-icon-wrapper date-time" data-icon="calendar-clock"></div>
-        <h3>Days Until Date Calculator</h3>
-        <p>Count down exact days, hours, and minutes until any target date.</p>
-      </div>
-    </a>
-    <a href="/tools/date-difference-calculator/" class="tool-card-link">
-      <div class="tool-card-sm">
-        <div class="tool-icon-wrapper date-time" data-icon="calendar-range"></div>
-        <h3>Date Difference Calculator</h3>
-        <p>Find total days, weeks, months, and working days between two dates.</p>
-      </div>
-    </a>
-    <a href="/tools/age-calculator/" class="tool-card-link">
-      <div class="tool-card-sm">
-        <div class="tool-icon-wrapper date-time" data-icon="cake"></div>
-        <h3>Age Calculator</h3>
-        <p>Calculate exact age in years, months, days, hours, and minutes.</p>
-      </div>
-    </a>
-  </div>
-</section>

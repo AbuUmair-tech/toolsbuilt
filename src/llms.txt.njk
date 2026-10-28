@@ -17,16 +17,24 @@ ToolsBuilt provides focused, single-purpose calculation and conversion tools wit
 
 ## Tool Categories
 {% for cat in categories %}
-- [{{ cat.name }}](https://toolsbuilt.com/category/{{ cat.slug }}/): {{ cat.description }}
+- [{{ cat.name | safe }}](https://toolsbuilt.com/category/{{ cat.slug }}/): {{ cat.description | safe }}
 {%- endfor %}
 
 ## Available Tools
 {% for tool in tools %}
-- [{{ tool.name }}](https://toolsbuilt.com/tools/{{ tool.slug }}/): {{ tool.description }}
+- [{{ tool.name | safe }}](https://toolsbuilt.com/tools/{{ tool.slug }}/): {{ tool.description | safe }}
+{%- endfor %}
+
+## Blog & Guides
+{% for post in collections.post | reverse %}
+  {%- if not (env.isProduction and post.data.draft) %}
+- [{{ post.data.title | safe }}](https://toolsbuilt.com{{ post.url }}): {{ post.data.description | safe }}
+  {%- endif %}
 {%- endfor %}
 
 ## Additional Links
 
 - All Tools Directory: https://toolsbuilt.com/tools/
+- Blog: https://toolsbuilt.com/blog/
 - Website: https://toolsbuilt.com/
 - Atom Feed: https://toolsbuilt.com/feed.xml

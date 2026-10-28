@@ -39,7 +39,7 @@ if (fs.existsSync(sitemapPath)) {
 }
 
 // 2. Check each Category Hub page
-console.log('\n--- Checking 5 Category Hub Pages ---');
+console.log(`\n--- Checking ${categories.length} Category Hub Pages ---`);
 categories.forEach(cat => {
   const catFile = path.join(SITE_DIR, 'category', cat.slug, 'index.html');
   assert(fs.existsSync(catFile), `Category page exists: /category/${cat.slug}/index.html`);
@@ -123,7 +123,7 @@ if (fs.existsSync(dirFile)) {
 }
 
 // 4. Check all Tool Pages
-console.log('\n--- Checking All 10 Tool Pages Template Upgrades ---');
+console.log(`\n--- Checking All ${tools.length} Tool Pages Template Upgrades ---`);
 tools.forEach(tool => {
   const toolFile = path.join(SITE_DIR, 'tools', tool.slug, 'index.html');
   assert(fs.existsSync(toolFile), `Tool page exists: /tools/${tool.slug}/index.html`);
@@ -173,8 +173,8 @@ tools.forEach(tool => {
 
   // Byline & Privacy Note (replaces old large trust block)
   assert(
-    toolHtml.includes('class="tool-byline"') || toolHtml.includes('ToolsBuilt editorial team'),
-    `/tools/${tool.slug}/ renders author 'ToolsBuilt editorial team'`
+    toolHtml.includes('class="tool-byline"') && toolHtml.includes('Abu Umair'),
+    `/tools/${tool.slug}/ renders author 'Abu Umair'`
   );
   assert(
     !toolHtml.includes('TODO_'),

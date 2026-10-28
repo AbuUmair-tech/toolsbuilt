@@ -1,0 +1,238 @@
+---
+layout: layouts/tool.njk
+toolSlug: unit-converter
+title: "Unit Converter - Length, Weight, Temp, Area & Speed"
+description: "Instantly convert between metric and imperial units for length, weight, temperature, area, volume, and speed with high-precision factor tables."
+permalink: /tools/unit-converter/
+h1: "Unit Converter"
+lastReviewed: "2026-10-24"
+howto:
+  name: "How to Convert Measurement Units Online"
+  description: "Step-by-step instructions for converting between metric and imperial units with exact factors."
+  steps:
+    - name: "Select Measurement Category"
+      text: "Choose between Length, Weight, Temperature, Area, Volume, or Speed."
+    - name: "Choose Source and Target Units"
+      text: "Select your input and output measurement units from the two synchronized dropdowns."
+    - name: "Enter Quantity for Instant Two-Way Conversion"
+      text: "Type in any value into either field to view real-time two-way converted results and dynamic reference tables."
+faqs:
+  - q: "How are measurement conversions calculated accurately?"
+    a: "Non-temperature conversions normalize the source value to a fundamental SI base unit (like meters for length or kilograms for weight) using international NIST definitions, then divide by the target unit's exact conversion factor."
+  - q: "What is the formula to convert Celsius to Fahrenheit?"
+    a: "Multiply the Celsius temperature by 9/5 (or 1.8) and add 32: °F = (°C × 9/5) + 32. For example, 20°C converts to (20 × 1.8) + 32 = 68°F."
+  - q: "What is the formula to convert Fahrenheit to Celsius?"
+    a: "Subtract 32 from the Fahrenheit temperature, then multiply by 5/9: °C = (°F - 32) × 5/9. For instance, 98.6°F converts to (98.6 - 32) × 5/9 = 37°C."
+  - q: "What is the difference between a US gallon and an Imperial gallon?"
+    a: "A US liquid gallon is defined as exactly 231 cubic inches or approximately 3.78541 liters. An Imperial (British) gallon is defined as exactly 4.54609 liters, making the Imperial gallon approximately 20% larger than the US gallon."
+  - q: "Are international conversion factors exact?"
+    a: "Yes. By international agreement (the 1959 International Yard and Pound Agreement), 1 inch is defined as exactly 0.0254 meters, and 1 avoirdupois pound is defined as exactly 0.45359237 kilograms."
+  - q: "How many decimal places of precision are displayed?"
+    a: "Our unit converter displays high-precision floating-point values rounded to 6 decimal places for everyday physical units and 4 decimal places for temperatures, eliminating floating-point rounding errors."
+  - q: "Are any measurements or user inputs stored or uploaded?"
+    a: "No. All unit transformations occur entirely in your local browser using client-side JavaScript. No data is ever transmitted or logged."
+sources:
+  - label: "NIST Special Publication 811: Guide for the Use of the International System of Units (SI)"
+    url: "https://www.nist.gov/pml/special-publication-811"
+  - label: "BIPM: The International System of Units (SI Brochure)"
+    url: "https://www.bipm.org/en/publications/si-brochure"
+  - label: "ISO 80000-1: Quantities and Units - General Principles"
+    url: "https://www.iso.org/standard/30669.html"
+quickAnswer: "To convert between units, multiply the source value by the appropriate conversion factor. For length: 1 mile = 1.60934 km, 1 inch = 2.54 cm, 1 foot = 0.3048 m. For weight: 1 lb = 453.592 g, 1 kg = 2.20462 lb. For temperature: °C = (°F − 32) × 5 ÷ 9. All conversions run instantly in your browser using NIST-standard factor tables."
+workedExamples:
+  - title: "Convert 5 Miles to Kilometres"
+    inputs:
+      - "Category: Length"
+      - "From: Miles"
+      - "To: Kilometres"
+      - "Value: 5"
+    steps:
+      - "Conversion factor: 1 mile = 1.60934 km"
+      - "Result = 5 × 1.60934 = 8.0467 km"
+    result: "8.047 km"
+  - title: "Convert 100°F to Celsius"
+    inputs:
+      - "Category: Temperature"
+      - "From: Fahrenheit"
+      - "To: Celsius"
+      - "Value: 100"
+    steps:
+      - "Formula: °C = (°F − 32) × 5 ÷ 9"
+      - "= (100 − 32) × 5 ÷ 9 = 68 × 5 ÷ 9 ≈ 37.78"
+    result: "37.78 °C"
+  - title: "Convert 10 kg to Pounds"
+    inputs:
+      - "Category: Weight / Mass"
+      - "From: Kilograms"
+      - "To: Pounds"
+      - "Value: 10"
+    steps:
+      - "Conversion factor: 1 kg = 2.20462 lb"
+      - "Result = 10 × 2.20462 = 22.046 lb"
+    result: "22.046 lb"
+---
+
+    <!-- Tool Form Container -->
+    <section class="tool-container" aria-label="Unit Converter Form">
+      
+      <!-- Category Tabs -->
+      <div class="segmented-control" role="tablist" aria-label="Measurement Categories" style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.5rem;">
+        <button type="button" class="btn btn-sm category-tab-btn active" data-cat="length" role="tab" aria-selected="true">Length</button>
+        <button type="button" class="btn btn-sm category-tab-btn" data-cat="weight" role="tab" aria-selected="false">Weight / Mass</button>
+        <button type="button" class="btn btn-sm category-tab-btn" data-cat="temperature" role="tab" aria-selected="false">Temperature</button>
+        <button type="button" class="btn btn-sm category-tab-btn" data-cat="area" role="tab" aria-selected="false">Area</button>
+        <button type="button" class="btn btn-sm category-tab-btn" data-cat="volume" role="tab" aria-selected="false">Volume</button>
+        <button type="button" class="btn btn-sm category-tab-btn" data-cat="speed" role="tab" aria-selected="false">Speed</button>
+      </div>
+
+      <!-- Two-Way Interactive Inputs Grid -->
+      <form id="unit-converter-form" novalidate onsubmit="return false;">
+        <div class="form-grid two-col" style="align-items: flex-end; gap: 1rem;">
+          
+          <!-- Column A -->
+          <div style="background: var(--surface-muted); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem;">
+            <div class="form-group" style="margin-bottom: 0.75rem;">
+              <label for="unit-select-a" style="font-weight: 600;">From Unit</label>
+              <select id="unit-select-a" class="form-control" aria-label="Source Unit">
+                <!-- Populated by script.js -->
+              </select>
+            </div>
+            <div class="form-group" style="margin-bottom: 0;">
+              <label for="unit-val-a" style="font-weight: 600;">Amount</label>
+              <input type="number" step="any" id="unit-val-a" class="form-control" placeholder="1" value="1" aria-label="Source Amount">
+            </div>
+          </div>
+
+          <!-- Column B -->
+          <div style="background: var(--surface-muted); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem;">
+            <div class="form-group" style="margin-bottom: 0.75rem;">
+              <label for="unit-select-b" style="font-weight: 600;">To Unit</label>
+              <select id="unit-select-b" class="form-control" aria-label="Target Unit">
+                <!-- Populated by script.js -->
+              </select>
+            </div>
+            <div class="form-group" style="margin-bottom: 0;">
+              <label for="unit-val-b" style="font-weight: 600;">Converted Amount</label>
+              <input type="number" step="any" id="unit-val-b" class="form-control" placeholder="3.28084" aria-label="Target Amount">
+            </div>
+          </div>
+
+        </div>
+
+        <div class="button-group" style="margin-top: 1.25rem;">
+          <button type="button" class="btn btn-secondary" id="swap-units-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="17 1 21 5 17 9"></polyline><path d="M3 11V9a4 4 0 0 1 4-4h14"></path><polyline points="7 23 3 19 7 15"></polyline><path d="M21 13v2a4 4 0 0 1-4 4H3"></path></svg>
+            Swap Units
+          </button>
+          <button type="button" class="btn btn-ghost" id="reset-unit-btn">Reset</button>
+        </div>
+      </form>
+
+      <div id="error-box" class="hidden" style="margin-top: 1rem; color: var(--color-error, #dc2626); background: rgba(220, 38, 38, 0.08); border: 1px solid rgba(220, 38, 38, 0.25); padding: 0.75rem 1rem; border-radius: var(--radius-sm);" role="alert"></div>
+
+      <!-- Result Box -->
+      <div id="result-box" class="result-box is-visible" aria-live="polite">
+        <div class="result-header">
+          <span id="result-header-text">Length Conversion</span>
+          <button type="button" class="btn btn-sm btn-ghost" id="copy-result-btn" title="Copy result to clipboard" aria-label="Copy result to clipboard">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            <span>Copy</span>
+          </button>
+        </div>
+        <div class="result-primary" id="result-primary-text">1 Meter (m) = 3.28084 Foot (ft)</div>
+        
+        <div class="result-grid" id="result-stats-grid">
+          <!-- Populated by script.js -->
+        </div>
+
+        <div class="formula-box" id="formula-explanation" style="margin-top: 1rem; background: var(--surface-default); border: 1px solid var(--border-subtle); padding: 1rem; border-radius: var(--radius-md); font-size: 0.9rem; line-height: 1.6;">
+          <!-- Formula details -->
+        </div>
+      </div>
+
+      <!-- Conversion Reference Table -->
+      <div style="margin-top: 2rem;">
+        <h3 style="font-size: 1.15rem; margin-bottom: 0.75rem; color: var(--text-default);">Equivalent Measurements Table</h3>
+        <div style="overflow-x: auto; background: var(--surface-default); border: 1px solid var(--border-subtle); border-radius: var(--radius-md);">
+          <table class="table" style="width: 100%; border-collapse: collapse; min-width: 480px;" aria-label="Equivalent Conversion Units">
+            <thead>
+              <tr style="border-bottom: 2px solid var(--border-subtle); background: var(--surface-muted); text-align: left;">
+                <th scope="col" style="padding: 0.6rem 0.75rem; font-size: 0.85rem;">Input Quantity</th>
+                <th scope="col" style="padding: 0.6rem 0.75rem; font-size: 0.85rem; text-align: right;">Converted Value</th>
+                <th scope="col" style="padding: 0.6rem 0.75rem; font-size: 0.85rem;">Equivalent Unit</th>
+              </tr>
+            </thead>
+            <tbody id="conversion-table-body">
+              <!-- Populated by script.js -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- AEO Quick Answer Box -->
+    <div class="info-callout" style="margin-top: 2rem; margin-bottom: 2rem;">
+      <h3 style="font-size: 1.05rem; margin-bottom: 0.35rem; color: var(--accent-primary);">Quick Answer</h3>
+      <p style="margin-bottom: 0;">To convert physical units between metric and imperial: multiply by the exact conversion factor relative to the base SI standard unit (e.g. 1 meter = 3.28084 feet, 1 kilogram = 2.20462 pounds). For temperature, apply the standard linear formula: <code>°F = (°C × 9/5) + 32</code> or <code>°C = (°F - 32) × 5/9</code>.</p>
+    </div>
+
+    <!-- When to Use Section -->
+    <section style="margin: 2.5rem 0;" aria-labelledby="how-to-use-heading">
+      <h2 id="how-to-use-heading">How &amp; When to Use the Unit Converter</h2>
+      <ul style="color: var(--text-muted); line-height: 1.8; margin-left: 1.25rem;">
+        <li><strong>International Cooking &amp; Baking Recipes:</strong> Convert milliliters, grams, ounces, and US cups seamlessly when following European or American recipes.</li>
+        <li><strong>Travel &amp; Speed Limits:</strong> Convert kilometers per hour (km/h) to miles per hour (mph) and outdoor temperatures between Celsius and Fahrenheit.</li>
+        <li><strong>Real Estate &amp; Land Measurement:</strong> Convert acres, hectares, square meters, and square feet when reviewing property listings or architectural floor plans.</li>
+        <li><strong>Engineering &amp; Science Homework:</strong> Verify exact metric and imperial conversions with transparent BIPM/NIST SI conversion factors.</li>
+      </ul>
+    </section>
+
+    <!-- Worked Examples Section -->
+    <section style="margin: 2.5rem 0;" aria-labelledby="article-heading">
+      <h2 id="article-heading">Worked Unit Conversion Examples &amp; Formulas</h2>
+      
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 1.25rem;">
+        <div style="background: var(--surface-muted); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem;">
+          <h3 style="font-size: 1.1rem; margin-top: 0; color: var(--accent-primary);">Example 1: Miles to Kilometers</h3>
+          <p style="font-size: var(--font-size-sm); color: var(--text-muted); margin-bottom: 0.5rem;"><strong>Value:</strong> 5.0 miles | <strong>Factor:</strong> 1.609344 km/mi</p>
+          <ul style="font-size: var(--font-size-sm); color: var(--text-muted); line-height: 1.6; margin-left: 1.25rem;">
+            <li>Exact conversion: 5.0 × 1.609344</li>
+            <li>Result: <strong>8.04672 km</strong></li>
+            <li>Reverse: 8.04672 ÷ 1.609344 = 5.0 mi</li>
+          </ul>
+        </div>
+
+        <div style="background: var(--surface-muted); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem;">
+          <h3 style="font-size: 1.1rem; margin-top: 0; color: var(--accent-primary);">Example 2: Body Temperature (F to C)</h3>
+          <p style="font-size: var(--font-size-sm); color: var(--text-muted); margin-bottom: 0.5rem;"><strong>Value:</strong> 98.6°F | <strong>Formula:</strong> (F - 32) × 5/9</p>
+          <ul style="font-size: var(--font-size-sm); color: var(--text-muted); line-height: 1.6; margin-left: 1.25rem;">
+            <li>Subtract 32: 98.6 - 32 = 66.6</li>
+            <li>Multiply by 5/9: 66.6 × 5/9 = <strong>37.00°C</strong></li>
+            <li>Standard human body temperature</li>
+          </ul>
+        </div>
+
+        <div style="background: var(--surface-muted); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem;">
+          <h3 style="font-size: 1.1rem; margin-top: 0; color: var(--accent-primary);">Example 3: Area (Acres to Square Meters)</h3>
+          <p style="font-size: var(--font-size-sm); color: var(--text-muted); margin-bottom: 0.5rem;"><strong>Value:</strong> 2.5 acres | <strong>Factor:</strong> 4046.8564 m²/ac</p>
+          <ul style="font-size: var(--font-size-sm); color: var(--text-muted); line-height: 1.6; margin-left: 1.25rem;">
+            <li>Multiply by factor: 2.5 × 4046.8564</li>
+            <li>Result: <strong>10,117.14 m²</strong></li>
+            <li>Equivalent to ~1.0117 hectares</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Common Mistakes Section -->
+    <section style="margin: 2.5rem 0;" aria-labelledby="mistakes-heading">
+      <h2 id="mistakes-heading">Common Unit Conversion Pitfalls</h2>
+      <ul style="color: var(--text-muted); line-height: 1.8; margin-left: 1.25rem;">
+        <li><strong>Confusing US Liquid and Imperial Gallons:</strong> A British (Imperial) gallon is 4.546 liters, while a US gallon is only 3.785 liters. Using the wrong gallon definition leads to a 20% measurement discrepancy.</li>
+        <li><strong>Applying Direct Factors to Temperatures:</strong> You cannot multiply Fahrenheit by a single ratio because Fahrenheit and Celsius have different zero points (freezing is 32°F and 0°C). Always subtract 32 before scaling.</li>
+        <li><strong>Squaring Linear Conversion Factors for Area:</strong> Since 1 yard = 3 feet, 1 square yard is not 3 square feet, but <code>3 × 3 = 9</code> square feet. Area factors square the linear relationship.</li>
+      </ul>
+    </section>
+
+    <script src="./logic.js"></script>
+    <script src="./script.js"></script>

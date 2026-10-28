@@ -12,9 +12,10 @@
 4. [Structured Data System (JSON-LD)](#4-structured-data-system-json-ld)
 5. [Crawlability, Click Depth & Architecture](#5-crawlability-click-depth--architecture)
 6. [Staging vs. Production Indexing Guardrails](#6-staging-vs-production-indexing-guardrails)
-7. [GitHub Pages Limitations & Recommended Cloudflare Rules](#7-github-pages-limitations--recommended-cloudflare-rules)
-8. [Adding New Tools & Categories Checklist](#8-adding-new-tools--categories-checklist)
-9. [Post-Launch Search Console Verification Checklist](#9-post-launch-search-console-verification-checklist)
+7. [IndexNow Manual Submission Protocol](#7-indexnow-manual-submission-protocol)
+8. [GitHub Pages Limitations & Recommended Cloudflare Rules](#8-github-pages-limitations--recommended-cloudflare-rules)
+9. [Adding New Tools & Categories Checklist](#9-adding-new-tools--categories-checklist)
+10. [Post-Launch Search Console Verification Checklist](#10-post-launch-search-console-verification-checklist)
 
 ---
 
@@ -55,8 +56,12 @@ All HTML `<head>` metadata is centrally governed by [`src/_includes/layouts/base
 <meta name="twitter:image:alt" content="{{ ogImageAlt or (title + ' - ToolsBuilt') }}">
 ```
 
-### Privacy & Analytics (Do Not Track)
-The Google Analytics 4 tag (`G-QR15X9WS1J`) respects user privacy preferences by checking `navigator.doNotTrack` and `window.doNotTrack`. If DNT is set to `'1'`, `gtag('config')` is bypassed completely.
+### Privacy, Analytics & Cookie Consent
+ToolsBuilt adheres to strict privacy-by-design standards:
+- **Client-Side Execution:** All calculator logic executes locally in the user's browser.
+- **Explicit Cookie Consent:** Google Analytics 4 (`G-QR15X9WS1J`) is blocked by default and only initialized if the user explicitly clicks "Accept" on the cookie consent banner (`localStorage.getItem('tb_cookie_consent') === 'accepted'`).
+- **Do Not Track Protection:** If `navigator.doNotTrack === '1'` or `window.doNotTrack === '1'`, Google Analytics is completely disabled regardless of consent banner status.
+- **Cookie Settings:** Users can revisit or toggle their choices at any time via the "Cookie Settings" link in the footer.
 
 ---
 
@@ -146,7 +151,28 @@ To prevent search engines from accidentally indexing pre-production builds or pu
 
 ---
 
-## 7. GitHub Pages Limitations & Recommended Cloudflare Rules
+## 7. IndexNow Manual Submission Protocol
+
+ToolsBuilt supports the [IndexNow protocol](https://www.indexnow.org/) to instantly notify participating search engines (such as Microsoft Bing, Yandex, Naver, and Seznam) of newly published and updated URLs.
+
+### Configuration & Key Verification
+- Key is configured in `src/_data/indexnow.json`.
+- Key file template is located at `src/indexnow-key.njk`, automatically generating `/<key>.txt` (e.g. `https://toolsbuilt.com/8f3b610c3b24479383637e7592cfdf36.txt`) at site build time.
+
+### How to Run
+Run manually after production deployments (**do NOT run in CI** to prevent spamming search engines or submitting test runs):
+
+```bash
+# Preview the submission payload without sending HTTP request:
+npm run indexnow -- --dry-run
+
+# Submit all production sitemap URLs to IndexNow:
+npm run indexnow
+```
+
+---
+
+## 8. GitHub Pages Limitations & Recommended Cloudflare Rules
 
 GitHub Pages is a static file host that does **not** allow custom HTTP response headers (such as `X-Robots-Tag`, `Content-Security-Policy`, `Strict-Transport-Security`, or custom `Cache-Control` max-age headers).
 
@@ -173,7 +199,7 @@ Permissions-Policy: camera=(), microphone=(), geolocation=()
 
 ---
 
-## 8. Adding New Tools & Categories Checklist
+## 9. Adding New Tools & Categories Checklist
 
 When adding a tool or category to ToolsBuilt, follow these steps to guarantee full technical SEO compliance:
 
@@ -192,7 +218,7 @@ When adding a tool or category to ToolsBuilt, follow these steps to guarantee fu
 
 ---
 
-## 9. Post-Launch Search Console Verification Checklist
+## 10. Post-Launch Search Console Verification Checklist
 
 After deploying the production build to GitHub Pages and pointing `https://toolsbuilt.com`:
 

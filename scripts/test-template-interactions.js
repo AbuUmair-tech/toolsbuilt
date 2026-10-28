@@ -6,6 +6,7 @@ const { chromium } = require('playwright');
 
 const ROOT = path.resolve(__dirname, '..');
 const SITE_DIR = path.join(ROOT, '_site');
+const CATEGORIES_DATA = JSON.parse(fs.readFileSync(path.join(ROOT, 'src', '_data', 'categories.json'), 'utf8'));
 
 function createServer() {
   const mimeTypes = {
@@ -150,7 +151,8 @@ async function runTemplateInteractionTests() {
     await page.goto('http://localhost:8089/tools/', { waitUntil: 'domcontentloaded' });
 
     const totalChips = await page.locator('.directory-filter-bar .tool-filter-chip').count();
-    assert(totalChips === 6, `Directory page has 6 filter chips (All + 5 categories)`);
+    const expectedChips = CATEGORIES_DATA.length + 1;
+    assert(totalChips === expectedChips, `Directory page has ${expectedChips} filter chips (All + ${CATEGORIES_DATA.length} categories)`);
 
     // Filter by 'math-finance'
     await page.click('.tool-filter-chip[data-category="math-finance"]');
