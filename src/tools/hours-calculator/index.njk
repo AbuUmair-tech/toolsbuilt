@@ -1,0 +1,250 @@
+---
+layout: layouts/tool.njk
+toolSlug: hours-calculator
+title: "Hours Calculator: Time Duration & Work Hours"
+description: "Calculate hours between two times, including overnight shifts and unpaid breaks, or total a weekly timesheet with hourly pay and overtime."
+permalink: /tools/hours-calculator/
+h1: "Hours Calculator"
+extraCss: "/tools/hours-calculator/style.css"
+quickAnswer: "To calculate hours worked, subtract the start time from the end time, then subtract any unpaid break. 9:00 AM to 5:30 PM with a 30-minute break is 8 hours 30 minutes minus 30 minutes = 8:00, or 8.00 decimal hours. If the end time is earlier than the start time, the shift crossed midnight, so add 24 hours to the end time first."
+formula:
+  title: "Hours Worked Formula"
+  expression: "Hours worked = (End time − Start time [+ 24 h if the end is earlier]) − Unpaid break"
+  explanation: "Both times are converted to minutes after midnight. If the end is earlier than the start, the shift ran past midnight and 1,440 minutes (24 hours) are added to the end. The unpaid break is subtracted, and the result is shown as hours and minutes (h:mm) and as decimal hours (minutes ÷ 60). For pay, hours up to the weekly overtime threshold are paid at the hourly rate, and hours above it at the rate times the overtime multiplier."
+  variables:
+    - name: "Decimal hours"
+      description: "Minutes ÷ 60. 45 minutes is 0.75 hours, so 8 hours 45 minutes is 8.75 hours."
+    - name: "Regular pay"
+      description: "min(total hours, overtime threshold) × hourly rate."
+    - name: "Overtime pay"
+      description: "max(0, total hours − overtime threshold) × hourly rate × overtime multiplier."
+workedExamples:
+  - title: "Day shift with a 30-minute lunch"
+    inputs:
+      - "Start: 09:00"
+      - "End: 17:30"
+      - "Unpaid break: 30 minutes"
+    steps:
+      - "17:30 − 09:00 = 8 hours 30 minutes (510 minutes)"
+      - "510 − 30 minute break = 480 minutes"
+      - "480 ÷ 60 = 8.00 decimal hours"
+    result: "8:00 (8.00 hours)"
+    link: "/tools/hours-calculator/?mode=single&start=09%3A00&end=17%3A30&brk=30#tool"
+  - title: "Night shift that crosses midnight"
+    inputs:
+      - "Start: 22:00"
+      - "End: 06:00 (next morning)"
+      - "Unpaid break: none"
+    steps:
+      - "The end time is earlier than the start, so add 24 hours: 06:00 becomes 30:00"
+      - "30:00 − 22:00 = 8 hours"
+    result: "8:00 (8.00 hours)"
+    link: "/tools/hours-calculator/?mode=single&start=22%3A00&end=06%3A00&brk=0#tool"
+  - title: "Converting 8 hours 45 minutes to decimal"
+    inputs:
+      - "Start: 08:15"
+      - "End: 17:30"
+      - "Unpaid break: 30 minutes"
+    steps:
+      - "17:30 − 08:15 = 9 hours 15 minutes (555 minutes)"
+      - "555 − 30 = 525 minutes = 8 hours 45 minutes"
+      - "45 ÷ 60 = 0.75, so 8:45 = 8.75 decimal hours"
+    result: "8:45 (8.75 hours)"
+    link: "/tools/hours-calculator/?mode=single&start=08%3A15&end=17%3A30&brk=30#tool"
+  - title: "45-hour week at 20 per hour with overtime"
+    inputs:
+      - "Monday to Friday: 08:00 to 17:00, no break (9 hours a day)"
+      - "Hourly rate: 20"
+      - "Overtime after 40 hours at 1.5×"
+    steps:
+      - "Total: 5 × 9 = 45 hours"
+      - "Regular: 40 × 20 = 800"
+      - "Overtime: 5 × 20 × 1.5 = 150"
+    result: "Total pay 950 (800 regular + 150 overtime)"
+    link: "/tools/hours-calculator/?mode=week&mon_s=08%3A00&mon_e=17%3A00&mon_b=0&tue_s=08%3A00&tue_e=17%3A00&tue_b=0&wed_s=08%3A00&wed_e=17%3A00&wed_b=0&thu_s=08%3A00&thu_e=17%3A00&thu_b=0&fri_s=08%3A00&fri_e=17%3A00&fri_b=0&rate=20&ot=1&ota=40&otm=1.5#tool"
+commonMistakes:
+  - title: "Writing 8:45 as 8.45 on a timesheet"
+    description: "8 hours 45 minutes is 8.75 decimal hours, not 8.45. Payroll systems multiply decimal hours by the rate, so 8.45 underpays 18 minutes of work. Divide the minutes by 60: 15 min = 0.25, 30 min = 0.5, 45 min = 0.75."
+  - title: "Getting a negative result for night shifts"
+    description: "A shift from 22:00 to 06:00 looks like −16 hours if you subtract directly. When the end time is earlier than the start, the shift ran into the next day: add 24 hours to the end time. This calculator does that automatically."
+  - title: "Subtracting paid breaks"
+    description: "Only unpaid breaks should be deducted. Under US federal rules, short rest breaks of about 5 to 20 minutes are generally counted as paid working time, while bona fide meal periods of 30 minutes or more usually are not. Check your contract or local law."
+  - title: "Working out overtime per day when the rule is per week"
+    description: "The US Fair Labor Standards Act sets overtime at 1.5× the regular rate for hours over 40 in a workweek, not per day. Some states (such as California) and many contracts add daily overtime, so a weekly total alone may not match your payslip."
+  - title: "Mixing 12-hour and 24-hour times"
+    description: "5:30 written without AM or PM is ambiguous. Use 24-hour times (17:30) or make sure the AM/PM setting on the time field is right, otherwise a shift can come out 12 hours too short or too long."
+faqs:
+  - q: "How do I calculate hours worked between two times?"
+    a: "Subtract the start time from the end time, then subtract unpaid breaks. For 8:30 AM to 5:00 PM with a 30-minute lunch: 17:00 − 8:30 = 8 hours 30 minutes, minus 30 minutes = 8 hours."
+  - q: "How do I convert hours and minutes to decimal hours?"
+    a: "Divide the minutes by 60 and add them to the hours. 7 hours 20 minutes = 7 + 20/60 = 7.33 hours; 8 hours 45 minutes = 8.75 hours; 6 hours 15 minutes = 6.25 hours."
+  - q: "How many hours is 9 to 5?"
+    a: "9:00 AM to 5:00 PM is 8 hours. With an unpaid 30-minute lunch it is 7.5 hours (7:30); with an unpaid one-hour lunch it is 7 hours."
+  - q: "How do you calculate hours for a shift that goes past midnight?"
+    a: "Add 24 hours to the end time before subtracting. 10:00 PM to 6:00 AM becomes 22:00 to 30:00, which is 8 hours. The calculator detects this when the end time is earlier than the start time."
+  - q: "How is overtime pay calculated?"
+    a: "Hours above the threshold (40 per week under the US FLSA) are paid at the regular rate times the multiplier, usually 1.5. For 45 hours at 20 per hour: 40 × 20 = 800 plus 5 × 30 = 150, so 950 in total."
+  - q: "How many hours is a full-time work week?"
+    a: "It depends on the country and employer. 40 hours (five 8-hour days) is common in the US, 37.5 hours is common in the UK, and 35 hours is the legal reference week in France. Enter your own hours and threshold in the timesheet."
+  - q: "Should lunch breaks be deducted from hours worked?"
+    a: "Deduct only unpaid breaks. If your employer pays for the break, leave the break field at 0 so it counts as working time."
+  - q: "Does this hours calculator save my timesheet?"
+    a: "Your entries stay in this browser only. They are kept in the page address so you can bookmark or copy a link to the result, and nothing is sent to a server."
+sources:
+  - name: "U.S. Department of Labor: Overtime Pay (FLSA)"
+    url: "https://www.dol.gov/agencies/whd/overtime"
+  - name: "U.S. Department of Labor: Breaks and Meal Periods"
+    url: "https://www.dol.gov/general/topic/workhours/breaks"
+  - name: "U.S. Department of Labor: Hours Worked fact sheet #22"
+    url: "https://www.dol.gov/agencies/whd/fact-sheets/22-flsa-hours-worked"
+  - name: "GOV.UK: Maximum weekly working hours"
+    url: "https://www.gov.uk/maximum-weekly-working-hours"
+lastReviewed: "2026-10-31"
+howto:
+  name: "How to Calculate Hours Worked"
+  description: "Work out the hours between two times, or total a weekly timesheet with pay and overtime."
+  steps:
+    - name: "Choose a mode"
+      text: "Use Time duration for a single shift, or Weekly timesheet to add up Monday to Sunday."
+    - name: "Enter start and end times"
+      text: "Type or pick the start and end time. If the end is earlier than the start, the shift is treated as running past midnight."
+    - name: "Enter the unpaid break"
+      text: "Add the unpaid break in minutes. Leave it at 0 if breaks are paid."
+    - name: "Add pay details (optional)"
+      text: "In the timesheet, enter an hourly rate and the overtime threshold and multiplier to see regular, overtime and total pay."
+---
+
+    <!-- Tool Form Container -->
+    <section class="tool-container" aria-label="Hours Calculator">
+      <div class="segmented-control mb-6" role="tablist" aria-label="Calculator mode">
+        <button type="button" class="btn btn-sm mode-tab-btn active" id="tab-single" data-mode="single" role="tab" aria-selected="true" aria-controls="single-form">Time duration</button>
+        <button type="button" class="btn btn-sm mode-tab-btn" id="tab-week" data-mode="week" role="tab" aria-selected="false" aria-controls="week-form" tabindex="-1">Weekly timesheet</button>
+      </div>
+      <input type="hidden" id="mode" data-param="mode" value="single">
+
+      <!-- Mode 1: single duration -->
+      <form id="single-form" class="hours-mode-form" role="tabpanel" aria-labelledby="tab-single" novalidate>
+        <div class="form-grid hours-single-grid">
+          <div class="form-group">
+            <label for="start-time">Start time <span class="text-accent">*</span></label>
+            <input type="time" id="start-time" data-param="start" class="form-control" value="09:00" required aria-required="true">
+          </div>
+          <div class="form-group">
+            <label for="end-time">End time <span class="text-accent">*</span></label>
+            <input type="time" id="end-time" data-param="end" class="form-control" value="17:30" required aria-required="true">
+          </div>
+          <div class="form-group">
+            <label for="break-min">Unpaid break (minutes)</label>
+            <input type="number" inputmode="numeric" min="0" step="1" id="break-min" data-param="brk" class="form-control" value="30">
+          </div>
+        </div>
+        <p class="form-hint">If the end time is earlier than the start time, the shift is counted as finishing the next day.</p>
+
+        <div class="button-group mt-6">
+          <button type="submit" class="btn btn-primary">Calculate Hours</button>
+          <button type="button" class="btn btn-secondary" id="reset-btn">Reset</button>
+        </div>
+      </form>
+
+      <!-- Mode 2: weekly timesheet -->
+      <form id="week-form" class="hours-mode-form" role="tabpanel" aria-labelledby="tab-week" hidden novalidate>
+        <div class="timesheet" role="group" aria-label="Weekly timesheet">
+          <div class="timesheet-head" aria-hidden="true">
+            <span>Day</span><span>Start</span><span>End</span><span>Break (min)</span><span>Hours</span>
+          </div>
+          {% set days = [["mon","Monday"],["tue","Tuesday"],["wed","Wednesday"],["thu","Thursday"],["fri","Friday"],["sat","Saturday"],["sun","Sunday"]] %}
+          {% for d in days %}
+          <div class="timesheet-row" data-day="{{ loop.index0 }}">
+            <span class="timesheet-day" id="day-{{ d[0] }}">{{ d[1] }}</span>
+            <div class="timesheet-cell">
+              <label class="timesheet-label" for="{{ d[0] }}-start">Start</label>
+              <input type="time" id="{{ d[0] }}-start" class="form-control ts-start" data-param="{{ d[0] }}_s" aria-describedby="day-{{ d[0] }}"{% if loop.index0 < 5 %} value="09:00"{% endif %}>
+            </div>
+            <div class="timesheet-cell">
+              <label class="timesheet-label" for="{{ d[0] }}-end">End</label>
+              <input type="time" id="{{ d[0] }}-end" class="form-control ts-end" data-param="{{ d[0] }}_e" aria-describedby="day-{{ d[0] }}"{% if loop.index0 < 5 %} value="17:30"{% endif %}>
+            </div>
+            <div class="timesheet-cell">
+              <label class="timesheet-label" for="{{ d[0] }}-break">Break (min)</label>
+              <input type="number" inputmode="numeric" min="0" step="1" id="{{ d[0] }}-break" class="form-control ts-break" data-param="{{ d[0] }}_b" aria-describedby="day-{{ d[0] }}"{% if loop.index0 < 5 %} value="30"{% endif %}>
+            </div>
+            <output class="timesheet-total tabular-nums" id="{{ d[0] }}-total" for="{{ d[0] }}-start {{ d[0] }}-end {{ d[0] }}-break" aria-label="{{ d[1] }} hours">–</output>
+          </div>
+          {% endfor %}
+        </div>
+        <p class="form-hint">Leave both times empty for a day off.</p>
+
+        <fieldset class="hours-fieldset">
+          <legend>Pay and overtime (optional)</legend>
+          <div class="form-grid hours-pay-grid">
+            <div class="form-group">
+              <label for="hourly-rate">Hourly rate</label>
+              <input type="number" inputmode="decimal" min="0" step="any" id="hourly-rate" data-param="rate" class="form-control" placeholder="e.g. 15">
+            </div>
+            <div class="form-group">
+              <label for="ot-after">Overtime after (hours per week)</label>
+              <input type="number" inputmode="decimal" min="0" step="any" id="ot-after" data-param="ota" class="form-control" value="40">
+            </div>
+            <div class="form-group">
+              <label for="ot-mult">Overtime rate multiplier</label>
+              <input type="number" inputmode="decimal" min="1" step="any" id="ot-mult" data-param="otm" class="form-control" value="1.5">
+            </div>
+          </div>
+          <label class="checkbox-label">
+            <input type="checkbox" id="ot-enabled" data-param="ot" checked>
+            <span>Pay overtime above the weekly threshold</span>
+          </label>
+        </fieldset>
+
+        <div class="button-group mt-6">
+          <button type="submit" class="btn btn-primary">Total My Week</button>
+          <button type="button" class="btn btn-secondary" id="reset-week-btn">Reset</button>
+        </div>
+      </form>
+
+      <div id="error-box" class="hidden form-error" role="alert"></div>
+
+      <!-- Result Box -->
+      <div id="result-box" class="result-box is-visible" aria-live="polite">
+        <div class="result-header">
+          <span id="result-header-text">Hours worked</span>
+          <button type="button" class="btn btn-sm btn-ghost" id="copy-result-btn" title="Copy result to clipboard" aria-label="Copy result to clipboard">
+            <span data-icon="copy"></span> Copy Result
+          </button>
+        </div>
+        <div class="result-primary" id="result-primary-text">--</div>
+        <p class="form-hint" id="result-note"></p>
+        <div class="result-grid" id="result-stats"></div>
+      </div>
+    </section>
+
+    <!-- tool-end -->
+
+    <section class="content-section">
+      <h2>Hours and Minutes vs Decimal Hours</h2>
+      <p>Clocks count in base 60 but payroll counts in base 10, which is where most timesheet errors come from. A shift of 7 hours 30 minutes is written <strong>7:30</strong> on a clock and <strong>7.5</strong> in decimal hours. To convert, divide the minutes by 60:</p>
+      <div class="table-wrapper">
+        <table class="table">
+          <caption class="visually-hidden">Minutes to decimal hours</caption>
+          <thead><tr><th scope="col">Minutes</th><th scope="col">Decimal</th><th scope="col">Minutes</th><th scope="col">Decimal</th></tr></thead>
+          <tbody>
+            <tr><td>5</td><td>0.08</td><td>35</td><td>0.58</td></tr>
+            <tr><td>10</td><td>0.17</td><td>40</td><td>0.67</td></tr>
+            <tr><td>15</td><td>0.25</td><td>45</td><td>0.75</td></tr>
+            <tr><td>20</td><td>0.33</td><td>50</td><td>0.83</td></tr>
+            <tr><td>25</td><td>0.42</td><td>55</td><td>0.92</td></tr>
+            <tr><td>30</td><td>0.50</td><td>60</td><td>1.00</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>The calculator shows both forms side by side, so you can copy the clock format into a timesheet and the decimal format into a payroll or invoicing system.</p>
+
+      <h2>When to Use the Weekly Timesheet</h2>
+      <ul class="content-list">
+        <li><strong>Hourly employees:</strong> check that your payslip matches the hours you worked, including overtime above 40 hours.</li>
+        <li><strong>Freelancers and contractors:</strong> total billable hours for the week and multiply by your rate for an invoice.</li>
+        <li><strong>Shift workers:</strong> night shifts that end the next morning are handled per row, so a Friday 22:00 to Saturday 06:00 shift counts as 8 hours on Friday.</li>
+        <li><strong>Managers and small businesses:</strong> sanity-check rota hours before running payroll.</li>
+      </ul>
+      <p>Overtime rules differ by country. In the US, the Fair Labor Standards Act requires 1.5 times the regular rate for hours over 40 in a workweek for non-exempt employees. In the UK there is no legal overtime premium, but the Working Time Regulations cap average working time at 48 hours a week unless you opt out. Set the threshold and multiplier to match your contract, or untick overtime to pay every hour at the same rate.</p>
+    </section>

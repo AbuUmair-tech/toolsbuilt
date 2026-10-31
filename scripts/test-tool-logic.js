@@ -1421,6 +1421,228 @@ const salesTaxLogic = require(path.join(ROOT, 'src/tools/sales-tax-calculator/lo
   });
 }
 
+// Hours Calculator Logic
+const hoursLogic = require(path.join(ROOT, 'src/tools/hours-calculator/logic.js'));
+{
+  const day = hoursLogic.calculateDuration('09:00', '17:30', 30);
+  assert(day.hhmm === '8:00' && day.decimalHours === 8 && day.workedMinutes === 480, `Hours: 09:00-17:30 with 30 min break = 8:00 (8.00 h) (got ${day.hhmm}, ${day.decimalHours})`);
+
+  const night = hoursLogic.calculateDuration('22:00', '06:00', 0);
+  assert(night.hhmm === '8:00' && night.crossesMidnight === true, `Hours: 22:00-06:00 crosses midnight = 8:00 (got ${night.hhmm})`);
+
+  assert(hoursLogic.minutesToDecimal(8 * 60 + 45) === 8.75, 'Hours: 8 h 45 min = 8.75 decimal hours');
+  const quarterTo = hoursLogic.calculateDuration('08:15', '17:30', 30);
+  assert(quarterTo.hhmm === '8:45' && quarterTo.decimalHours === 8.75, 'Hours: 08:15-17:30 with 30 min break = 8:45 = 8.75 h');
+  assert(hoursLogic.decimalToMinutes(8.75) === 525, 'Hours: 8.75 h = 525 minutes');
+
+  const fiveDays = Array.from({ length: 5 }, () => ({ start: '09:00', end: '17:00', break: 0 }));
+  const week40 = hoursLogic.calculateTimesheet(fiveDays, { rate: 15 });
+  assert(week40.decimalHours === 40 && week40.totalPay === 600 && week40.overtimePay === 0, `Hours: five 8 h days at 15/hour = 600 (got ${week40.totalPay})`);
+
+  const nineHourDays = Array.from({ length: 5 }, () => ({ start: '08:00', end: '17:00', break: 0 }));
+  const week45 = hoursLogic.calculateTimesheet(nineHourDays, { rate: 20, overtimeAfterHours: 40, overtimeMultiplier: 1.5 });
+  assert(week45.decimalHours === 45 && week45.regularPay === 800 && week45.overtimePay === 150 && week45.totalPay === 950,
+    `Hours: 45 h at 20/h with overtime after 40 at 1.5x = 800 + 150 = 950 (got ${week45.regularPay} + ${week45.overtimePay} = ${week45.totalPay})`);
+  const noOt = hoursLogic.calculateTimesheet(nineHourDays, { rate: 20, overtime: false });
+  assert(noOt.totalPay === 900 && noOt.overtimeMinutes === 0, 'Hours: overtime switched off pays 45 h x 20 = 900');
+
+  // Empty days are skipped, half-filled days and impossible breaks are rejected
+  const withDaysOff = hoursLogic.calculateTimesheet([{ start: '09:00', end: '17:00' }, {}, { start: '', end: '' }]);
+  assert(withDaysOff.daysWorked === 1 && withDaysOff.hhmm === '8:00' && withDaysOff.hasRate === false, 'Hours: empty timesheet rows count as days off; no rate means no pay figures');
+  const half = hoursLogic.calculateTimesheet([{ start: '09:00', end: '' }]);
+  assert(half.error && half.rowIndex === 0 && /Monday/.test(half.error), 'Hours: a row with only a start time names the day in its error');
+  assert(hoursLogic.calculateDuration('09:00', '10:00', 90).error, 'Hours: a break longer than the shift is an error');
+  assert(hoursLogic.calculateDuration('09:00', '17:00', -5).error, 'Hours: a negative break is an error');
+  assert(hoursLogic.calculateDuration('25:00', '17:00', 0).error && hoursLogic.calculateDuration('', '17:00', 0).error, 'Hours: invalid or missing start time is an error');
+  assert(hoursLogic.calculateTimesheet(fiveDays, { rate: 10, overtimeMultiplier: 0.5 }).error, 'Hours: an overtime multiplier below 1 is an error');
+
+  // 12-hour input and formatting
+  assert(hoursLogic.parseTime('5:30 pm') === 1050 && hoursLogic.parseTime('12am') === 0 && hoursLogic.parseTime('12:15 PM') === 735, 'Hours: 12-hour times parse (5:30 pm, 12am, 12:15 PM)');
+  assert(hoursLogic.parseTime('9') === null, 'Hours: a bare hour without am/pm is rejected as ambiguous');
+  assert(hoursLogic.formatHoursMinutes(2705) === '45:05', 'Hours: totals over 24 h format as 45:05');
+
+  // Property: duration + break always equals the clock span, and is within one day
+  const rand = mulberry32(2026);
+  for (let i = 0; i < 300; i++) {
+    const s = Math.floor(rand() * 1440), e = Math.floor(rand() * 1440);
+    const fmt = m => `${String(Math.floor(m / 60)).padStart(2, '0')}:${String(m % 60).padStart(2, '0')}`;
+    const span = ((e - s) + 1440) % 1440;
+    const brk = Math.floor(rand() * (span + 1));
+    const r = hoursLogic.calculateDuration(fmt(s), fmt(e), brk);
+    if (r.error || r.workedMinutes + brk !== span || r.workedMinutes < 0 || r.workedMinutes >= 1440) {
+      assert(false, `Hours fuzz: ${fmt(s)}-${fmt(e)} break ${brk} gave ${JSON.stringify(r)}`);
+      break;
+    }
+  }
+}
+
+// Unix Timestamp Converter Logic
+const unixLogic = require(path.join(ROOT, 'src/tools/unix-timestamp-converter/logic.js'));
+{
+  const now = Date.UTC(2026, 9, 31, 12, 0, 0);
+  const epoch = unixLogic.convertTimestamp('0', { now });
+  assert(epoch.iso === '1970-01-01T00:00:00Z' && epoch.unit === 's', `Unix: 0 -> 1970-01-01T00:00:00Z (got ${epoch.iso})`);
+
+  const sec = unixLogic.convertTimestamp('1700000000', { now });
+  assert(sec.iso === '2023-11-14T22:13:20Z' && sec.unit === 's' && sec.detected, `Unix: 1700000000 -> 2023-11-14T22:13:20Z (got ${sec.iso})`);
+  assert(sec.rfc2822 === 'Tue, 14 Nov 2023 22:13:20 +0000', `Unix: RFC 2822 for 1700000000 (got ${sec.rfc2822})`);
+
+  const ms = unixLogic.convertTimestamp('1700000000000', { now });
+  assert(ms.unit === 'ms' && ms.iso === '2023-11-14T22:13:20Z' && ms.seconds === 1700000000, `Unix: 1700000000000 detected as ms -> same date (got ${ms.unit}, ${ms.iso})`);
+
+  const y2038 = unixLogic.convertTimestamp(String(unixLogic.INT32_MAX), { now });
+  assert(y2038.iso === '2038-01-19T03:14:07Z' && y2038.beyond2038 === false, `Unix: 2147483647 -> 2038-01-19T03:14:07Z (got ${y2038.iso})`);
+  assert(unixLogic.convertTimestamp('2147483648', { now }).beyond2038 === true, 'Unix: 2147483648 is past the signed 32-bit limit');
+
+  // Units, negatives and invalid input
+  assert(unixLogic.detectUnit(1700000000) === 's' && unixLogic.detectUnit(1700000000000) === 'ms' && unixLogic.detectUnit(1700000000000000) === 'us' && unixLogic.detectUnit(1700000000000000000) === 'ns', 'Unix: unit detection for s, ms, us and ns');
+  assert(unixLogic.convertTimestamp('1700000000', { unit: 'ms', now }).iso === '1970-01-20T16:13:20Z', 'Unix: forcing ms reads 1700000000 as 20 January 1970');
+  assert(unixLogic.convertTimestamp('-86400', { now }).iso === '1969-12-31T00:00:00Z', 'Unix: -86400 -> 1969-12-31T00:00:00Z');
+  assert(unixLogic.convertTimestamp('1,700,000,000', { now }).seconds === 1700000000, 'Unix: thousands separators are ignored');
+  assert(unixLogic.convertTimestamp('1700000000123', { now }).iso === '2023-11-14T22:13:20.123Z', 'Unix: milliseconds are kept in ISO output');
+  assert(unixLogic.convertTimestamp('abc', { now }).error && unixLogic.convertTimestamp('', { now }).error, 'Unix: text and empty input are errors');
+  assert(unixLogic.convertTimestamp('99999999999999999999999', { unit: 's', now }).error, 'Unix: out-of-range timestamps are errors');
+
+  // Relative time
+  assert(unixLogic.relativeTime(now - 3 * 86400000, now) === '3 days ago', 'Unix: relative "3 days ago"');
+  assert(unixLogic.relativeTime(now + 2 * 3600000, now) === 'in 2 hours', 'Unix: relative "in 2 hours"');
+  assert(unixLogic.relativeTime(now + 1000, now) === 'just now', 'Unix: relative "just now"');
+
+  // Offsets and date -> timestamp
+  assert(unixLogic.toIsoWithOffset(1700000000000, 300) === '2023-11-15T03:13:20+05:00', 'Unix: ISO with +05:00 offset');
+  assert(unixLogic.toRfc2822(1700000000000, -300) === 'Tue, 14 Nov 2023 17:13:20 -0500', 'Unix: RFC 2822 with -0500 offset');
+  const back = unixLogic.dateToTimestamp('2023-11-14T22:13:20', { zone: 'utc' });
+  assert(back.seconds === 1700000000 && back.milliseconds === 1700000000000, 'Unix: 2023-11-14T22:13:20 UTC -> 1700000000');
+  assert(unixLogic.dateToTimestamp('2038-01-19 03:14:07', { zone: 'utc' }).seconds === 2147483647, 'Unix: 2038-01-19 03:14:07 UTC -> 2147483647');
+  assert(unixLogic.dateToTimestamp('2026-02-30T00:00', { zone: 'utc' }).error, 'Unix: 30 February is rejected');
+
+  // Property: date -> timestamp -> date round-trips
+  const rand = mulberry32(1970);
+  for (let i = 0; i < 300; i++) {
+    const t = Math.floor((rand() * 2 - 0.5) * 4e9);
+    const iso = unixLogic.convertTimestamp(String(t), { unit: 's', now }).iso;
+    const round = unixLogic.dateToTimestamp(iso.replace('Z', ''), { zone: 'utc' });
+    if (round.seconds !== t) {
+      assert(false, `Unix fuzz: ${t} -> ${iso} -> ${round.seconds}`);
+      break;
+    }
+  }
+}
+
+// Week Number Calculator Logic
+const weekLogic = require(path.join(ROOT, 'src/tools/week-number-calculator/logic.js'));
+{
+  const cases = [
+    ['2026-01-01', '2026-W01'],
+    ['2027-01-01', '2026-W53'],
+    ['2024-12-30', '2025-W01'],
+    ['2026-12-28', '2026-W53'],
+    ['2025-12-29', '2026-W01'],
+    ['2021-01-03', '2020-W53'],
+    ['2024-01-01', '2024-W01'],
+    ['2026-10-31', '2026-W44']
+  ];
+  cases.forEach(([date, expected]) => {
+    const info = weekLogic.weekInfo(date);
+    assert(info.isoLabel === expected, `Week: ${date} -> ${expected} (got ${info.isoLabel})`);
+  });
+  assert(weekLogic.isoWeeksInYear(2026) === 53, 'Week: 2026 has 53 ISO weeks');
+  assert(weekLogic.isoWeeksInYear(2025) === 52 && weekLogic.isoWeeksInYear(2027) === 52, 'Week: 2025 and 2027 have 52 ISO weeks');
+  assert(weekLogic.isoWeeksInYear(2020) === 53 && weekLogic.isoWeeksInYear(2032) === 53, 'Week: 2020 (leap, starts Wednesday) and 2032 have 53 ISO weeks');
+
+  const w1 = weekLogic.isoWeekRange(2026, 1);
+  assert(w1.start === '2025-12-29' && w1.end === '2026-01-04', `Week: 2026-W01 runs 2025-12-29 to 2026-01-04 (got ${w1.start} to ${w1.end})`);
+  const w53 = weekLogic.isoWeekRange(2026, 53);
+  assert(w53.start === '2026-12-28' && w53.end === '2027-01-03' && w53.days.length === 7, 'Week: 2026-W53 runs 2026-12-28 to 2027-01-03');
+  assert(weekLogic.isoWeekRange(2025, 53).error, 'Week: 2025-W53 does not exist');
+  assert(weekLogic.isoWeekRange(2026, 0).error, 'Week: week 0 is rejected');
+
+  const jan1 = weekLogic.weekInfo('2027-01-01');
+  assert(jan1.weekYearDiffers === true && jan1.isoWeekYear === 2026 && jan1.isoWeekday === 5 && jan1.isoFullLabel === '2026-W53-5', 'Week: 2027-01-01 is 2026-W53-5, flagged as a different week-year');
+
+  // US-style numbering: Sunday start, week 1 contains January 1
+  assert(weekLogic.weekInfo('2026-01-03').usWeek === 1 && weekLogic.weekInfo('2026-01-04').usWeek === 2, 'Week US: 2026-01-03 (Sat) is week 1, 2026-01-04 (Sun) starts week 2');
+  assert(weekLogic.weekInfo('2027-01-01').usWeek === 1, 'Week US: 1 January is always US week 1');
+  assert(weekLogic.weekInfo('2000-12-31').usWeek === 54, 'Week US: 2000-12-31 is US week 54');
+
+  assert(weekLogic.weekInfo('2026-02-29').error && weekLogic.weekInfo('').error, 'Week: invalid dates are errors');
+  const parsedWeek = weekLogic.parseIsoWeekString('2026-W53-4');
+  assert(parsedWeek && parsedWeek.year === 2026 && parsedWeek.week === 53 && parsedWeek.day === 4, 'Week: parses "2026-W53-4"');
+
+  // Property: every day maps into a week whose Monday-Sunday range contains it
+  const rand = mulberry32(8601);
+  for (let i = 0; i < 400; i++) {
+    const d = new Date(Date.UTC(1990, 0, 1) + Math.floor(rand() * 20000) * 86400000);
+    const iso = d.toISOString().slice(0, 10);
+    const info = weekLogic.weekInfo(iso);
+    if (!(info.weekStart <= iso && iso <= info.weekEnd) || info.isoWeek < 1 || info.isoWeek > info.weeksInIsoYear) {
+      assert(false, `Week fuzz: ${iso} -> ${info.isoLabel} (${info.weekStart} to ${info.weekEnd})`);
+      break;
+    }
+  }
+}
+
+// Time Zone Converter Logic
+const tzLogic = require(path.join(ROOT, 'src/tools/time-zone-converter/logic.js'));
+{
+  const summer = tzLogic.convert('2026-07-01', '12:00', 'America/New_York', ['UTC', 'Asia/Karachi']);
+  assert(summer.iso === '2026-07-01T16:00:00Z', `TimeZone: 2026-07-01 12:00 New York = 16:00 UTC (got ${summer.iso})`);
+  assert(summer.targets[0].time === '16:00' && summer.targets[1].time === '21:00' && summer.targets[1].dayDiff === 0,
+    `TimeZone: ... = 21:00 Asia/Karachi (got ${summer.targets.map(t => t.time).join(', ')})`);
+  assert(summer.source.offsetLabel === 'UTC−04:00', 'TimeZone: New York is UTC-4 in July (EDT)');
+
+  const winter = tzLogic.convert('2026-01-15', '09:00', 'Europe/London', ['Asia/Karachi']);
+  assert(winter.targets[0].time === '14:00' && winter.targets[0].date === '2026-01-15', `TimeZone: 2026-01-15 09:00 London = 14:00 Karachi (got ${winter.targets[0].time})`);
+  assert(tzLogic.convert('2026-07-15', '09:00', 'Europe/London', ['Asia/Karachi']).targets[0].time === '13:00', 'TimeZone: in July (BST) 09:00 London = 13:00 Karachi');
+
+  // Day changes and half-hour zones
+  const late = tzLogic.convert('2026-03-10', '18:00', 'America/Los_Angeles', ['Asia/Tokyo', 'Asia/Kolkata']);
+  assert(late.targets[0].time === '10:00' && late.targets[0].date === '2026-03-11' && late.targets[0].dayDiff === 1, 'TimeZone: 18:00 Los Angeles (PDT) = 10:00 next day in Tokyo');
+  assert(late.targets[1].time === '06:30' && late.targets[1].offsetLabel === 'UTC+05:30', 'TimeZone: Kolkata keeps its half-hour offset');
+  assert(tzLogic.convert('2026-01-01', '01:00', 'Asia/Tokyo', ['America/New_York']).targets[0].dayDiff === -1, 'TimeZone: 01:00 Tokyo is the previous day in New York');
+
+  // DST edges
+  const gap = tzLogic.zonedToUtc('2026-03-08', '02:30', 'America/New_York');
+  assert(gap.nonexistent === true && new Date(gap.utcMs).toISOString() === '2026-03-08T07:30:00.000Z', 'TimeZone: 02:30 on the US spring-forward day is moved to 03:30 EDT');
+  const repeat = tzLogic.zonedToUtc('2026-11-01', '01:30', 'America/New_York');
+  assert(repeat.ambiguous === true && new Date(repeat.utcMs).toISOString() === '2026-11-01T05:30:00.000Z', 'TimeZone: 01:30 on the US fall-back day uses the first (EDT) occurrence');
+  assert(tzLogic.offsetMinutes('Europe/London', Date.UTC(2026, 2, 29, 0, 59)) === 0 && tzLogic.offsetMinutes('Europe/London', Date.UTC(2026, 2, 29, 1, 0)) === 60, 'TimeZone: London switches to BST at 01:00 UTC on 29 March 2026');
+
+  // Overlap strip
+  const strip = tzLogic.overlapStrip('2026-07-01', 'Europe/London', ['Europe/Berlin']);
+  assert(strip.rows.length === 2 && strip.rows[0].slots.length === 24, 'TimeZone: strip has a row per zone and 24 hourly slots');
+  assert(JSON.stringify(strip.overlap) === JSON.stringify([9, 10, 11, 12, 13, 14, 15]), `TimeZone: London/Berlin overlap is 09:00-16:00 London time (got ${strip.overlap})`);
+  assert(tzLogic.overlapStrip('2026-07-01', 'America/Los_Angeles', ['Asia/Tokyo', 'Europe/London']).overlap.length === 0, 'TimeZone: LA, Tokyo and London share no 9-5 hour');
+
+  // Zone search and validation
+  assert(tzLogic.resolveZone('pakistan') === 'Asia/Karachi' && tzLogic.resolveZone('Lahore') === 'Asia/Karachi', 'TimeZone: "pakistan" and "Lahore" resolve to Asia/Karachi');
+  assert(tzLogic.resolveZone('new york') === 'America/New_York' && tzLogic.resolveZone('asia/tokyo') === 'Asia/Tokyo', 'TimeZone: city names and lower-case IANA names resolve');
+  assert(tzLogic.resolveZone('PST') === 'America/Los_Angeles' && tzLogic.resolveZone('India') === 'Asia/Kolkata', 'TimeZone: "PST" and "India" resolve to their main zones');
+  assert(tzLogic.resolveZone('Narnia') === null, 'TimeZone: unknown places do not resolve');
+  assert(tzLogic.canonicalZone('Asia/Calcutta') === 'Asia/Kolkata' && tzLogic.resolveZone('Asia/Calcutta') === 'Asia/Kolkata', 'TimeZone: legacy ICU names map to current IANA names');
+  assert(!tzLogic.listZones().includes('Asia/Calcutta') && tzLogic.listZones().includes('Asia/Kolkata'), 'TimeZone: the zone list uses current names (Asia/Kolkata, not Asia/Calcutta)');
+  assert(tzLogic.convert('2026-07-01', '12:00', 'Mars/Olympus', []).error && tzLogic.convert('2026-13-01', '12:00', 'UTC', []).error, 'TimeZone: unknown zones and invalid dates are errors');
+  const zones = tzLogic.listZones();
+  assert(zones[0] === 'UTC' && zones.includes('Asia/Karachi') && zones.length > 300, `TimeZone: zone list comes from Intl and starts with UTC (${zones.length} zones)`);
+
+  // Property: converting there and back returns the same wall time
+  const rand = mulberry32(1884);
+  const sample = ['America/New_York', 'Europe/London', 'Asia/Karachi', 'Asia/Kolkata', 'Australia/Sydney', 'America/Sao_Paulo', 'Pacific/Auckland'];
+  for (let i = 0; i < 200; i++) {
+    const a = sample[Math.floor(rand() * sample.length)], b = sample[Math.floor(rand() * sample.length)];
+    const day = new Date(Date.UTC(2026, 0, 1) + Math.floor(rand() * 365) * 86400000).toISOString().slice(0, 10);
+    const time = `${String(Math.floor(rand() * 24)).padStart(2, '0')}:${rand() < 0.5 ? '00' : '30'}`;
+    const there = tzLogic.convert(day, time, a, [b]);
+    if (there.nonexistent || there.ambiguous) continue;
+    const t = there.targets[0];
+    const back = tzLogic.convert(t.date, t.time, b, [a]);
+    if (back.utcMs !== there.utcMs && !back.ambiguous) {
+      assert(false, `TimeZone fuzz: ${day} ${time} ${a} -> ${t.date} ${t.time} ${b} did not round-trip`);
+      break;
+    }
+  }
+}
+
 // Code formatters (async: the engines load with dynamic import)
 async function testCodeFormatters() {
   const pyFormatter = require(path.join(ROOT, 'src/tools/python-formatter/logic.js'));

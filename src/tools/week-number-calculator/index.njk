@@ -1,0 +1,193 @@
+---
+layout: layouts/tool.njk
+toolSlug: week-number-calculator
+title: "Week Number Calculator: What Week Is It? (ISO)"
+description: "See today's ISO 8601 week number, find the week for any date, get the Monday to Sunday dates of a week, and check whether a year has 52 or 53 weeks."
+permalink: /tools/week-number-calculator/
+h1: "Week Number Calculator"
+extraCss: "/tools/week-number-calculator/style.css"
+quickAnswer: "ISO 8601 weeks start on Monday, and week 1 is the week that contains the year's first Thursday (equivalently, the week with January 4 in it). So 1 January 2026 is in 2026-W01, but 1 January 2027 is still in 2026-W53, and 30 December 2024 already belongs to 2025-W01. Most years have 52 ISO weeks; 2026 has 53."
+formula:
+  title: "ISO 8601 Week Number Rule"
+  expression: "ISO week = ⌊(day of year of that week's Thursday − 1) ÷ 7⌋ + 1, in the year that contains that Thursday"
+  explanation: "Find the Thursday of the date's Monday-to-Sunday week (add 4 minus the ISO weekday, where Monday is 1 and Sunday is 7). The year that Thursday falls in is the ISO week-year, and counting whole weeks from January 1 of that year gives the week number. A year has 53 ISO weeks when it starts on a Thursday, or is a leap year that starts on a Wednesday; December 28 is always in the last week."
+  variables:
+    - name: "ISO weekday"
+      description: "Monday = 1, Tuesday = 2 … Sunday = 7. Written after the week, as in 2026-W44-6 for a Saturday."
+    - name: "ISO week-year"
+      description: "The year the week belongs to. It differs from the calendar year for a few days around 1 January."
+    - name: "US week number"
+      description: "A different convention: weeks start on Sunday and week 1 is the week containing January 1, so the numbers can differ from ISO by one."
+workedExamples:
+  - title: "1 January 2026 (a Thursday)"
+    inputs:
+      - "Date: 2026-01-01"
+    steps:
+      - "The date is itself a Thursday, so its week's Thursday is in 2026"
+      - "That Thursday is the first of the year"
+    result: "2026-W01 (Monday 29 December 2025 to Sunday 4 January 2026)"
+    link: "/tools/week-number-calculator/?date=2026-01-01#tool"
+  - title: "1 January 2027 (a Friday)"
+    inputs:
+      - "Date: 2027-01-01"
+    steps:
+      - "The Thursday of its week is 31 December 2026"
+      - "So the week belongs to ISO year 2026, and it is that year's last week"
+    result: "2026-W53"
+    link: "/tools/week-number-calculator/?date=2027-01-01#tool"
+  - title: "30 December 2024 (a Monday)"
+    inputs:
+      - "Date: 2024-12-30"
+    steps:
+      - "The Thursday of its week is 2 January 2025"
+      - "So the week is the first week of ISO year 2025"
+    result: "2025-W01"
+    link: "/tools/week-number-calculator/?date=2024-12-30#tool"
+  - title: "Dates of week 53 in 2026"
+    inputs:
+      - "Year: 2026"
+      - "Week: 53"
+    steps:
+      - "2026 starts on a Thursday, so it has 53 ISO weeks"
+      - "Week 1 starts Monday 29 December 2025; add 52 × 7 days"
+    result: "Monday 28 December 2026 to Sunday 3 January 2027"
+    link: "/tools/week-number-calculator/?wy=2026&wn=53#tool"
+commonMistakes:
+  - title: "Assuming week 1 starts on January 1"
+    description: "In ISO 8601, week 1 can start as early as 29 December or as late as 4 January. Days at the very start or end of a year often belong to the neighbouring year's week."
+  - title: "Using the calendar year with the ISO week"
+    description: "1 January 2027 is week 53 of 2026, not week 53 of 2027. Always write the ISO week-year with the week (2026-W53). In code, use the week-year format (<code>%G</code> with <code>%V</code> in strftime, or <code>IYYY</code> with <code>IW</code> in PostgreSQL and Oracle) rather than the calendar year."
+  - title: "Mixing US and ISO week numbers"
+    description: "US calendars and some spreadsheets start weeks on Sunday and count the week containing January 1 as week 1. The same date can then be one week apart in the two systems. Excel's <code>WEEKNUM</code> uses the US rule by default; <code>ISOWEEKNUM</code> uses ISO 8601."
+  - title: "Assuming every year has 52 weeks"
+    description: "52 × 7 = 364 days, so the leftover day or two add up to a 53rd ISO week every five or six years. 2020, 2026 and 2032 all have 53 weeks, which matters for weekly payroll, reporting and fiscal calendars."
+  - title: "Calculating with local time near midnight"
+    description: "If code computes weeks from a timestamp in UTC while the user is in another time zone, Sunday night or Monday morning can land in the wrong week. Convert to the user's local date first, then take the week number."
+faqs:
+  - q: "What week number is it today?"
+    a: "The box at the top of the calculator shows today's ISO 8601 week number, using your device's date, along with its Monday and Sunday dates."
+  - q: "How are week numbers calculated?"
+    a: "Under ISO 8601, weeks run Monday to Sunday and week 1 is the week containing the first Thursday of the year. Each week belongs to the year in which its Thursday falls."
+  - q: "Which years have 53 weeks?"
+    a: "A year has 53 ISO weeks if 1 January is a Thursday, or if it is a leap year and 1 January is a Wednesday. Recent and upcoming examples are 2015, 2020, 2026, 2032 and 2037."
+  - q: "Does the week start on Monday or Sunday?"
+    a: "ISO 8601, used across Europe and most of Asia, starts weeks on Monday. In the US, Canada and some other countries, calendars usually start the week on Sunday. The calculator shows the ISO number and, labelled separately, the US-style number."
+  - q: "What dates are in week 1 of 2026?"
+    a: "ISO week 1 of 2026 runs from Monday 29 December 2025 to Sunday 4 January 2026."
+  - q: "What is the difference between ISOWEEKNUM and WEEKNUM in Excel?"
+    a: "ISOWEEKNUM returns the ISO 8601 week (Monday start, first-Thursday rule). WEEKNUM with its default return type counts weeks from Sunday, with week 1 being the week containing January 1, which matches the US-style number here."
+  - q: "How do I write an ISO week date?"
+    a: "Write the ISO week-year, W, the two-digit week number and optionally the weekday: 2026-W44 for the week or 2026-W44-6 for its Saturday. The compact form is 2026W446."
+sources:
+  - name: "ISO 8601 Date and time format (ISO)"
+    url: "https://www.iso.org/iso-8601-date-and-time-format.html"
+  - name: "W3C HTML Standard: Weeks (valid week string)"
+    url: "https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#weeks"
+  - name: "Microsoft Support: ISOWEEKNUM function"
+    url: "https://support.microsoft.com/en-us/office/isoweeknum-function-1c2d0afe-d25b-4ab1-8894-8d0520e90e0e"
+  - name: "Microsoft Support: WEEKNUM function"
+    url: "https://support.microsoft.com/en-us/office/weeknum-function-e5c43a03-b4ab-426c-b411-b18c13c75340"
+lastReviewed: "2026-10-31"
+howto:
+  name: "How to Find the Week Number of a Date"
+  description: "Look up the ISO 8601 week of any date, or the dates in any week."
+  steps:
+    - name: "Check today's week"
+      text: "The top of the tool shows the current ISO week and its Monday to Sunday dates."
+    - name: "Enter a date"
+      text: "Pick any date to see its ISO week, ISO week-year, weekday number and the US-style week number."
+    - name: "Look up a week's dates"
+      text: "Enter a year and a week number to see the Monday to Sunday dates of that ISO week and whether the year has 52 or 53 weeks."
+---
+
+    <!-- Tool Form Container -->
+    <section class="tool-container" aria-label="Week Number Calculator">
+      <div class="week-today" id="week-today">
+        <span class="week-today-label">This week (ISO 8601)</span>
+        <span class="week-today-value" id="today-week">–</span>
+        <span class="week-today-range" id="today-range"></span>
+      </div>
+
+      <h2 class="week-heading">Week number of a date</h2>
+      <form id="date-form" novalidate>
+        <div class="form-grid week-date-grid">
+          <div class="form-group">
+            <label for="week-date">Date <span class="text-accent">*</span></label>
+            <div class="input-with-button">
+              <input type="date" id="week-date" data-param="date" class="form-control" required aria-required="true">
+              <button type="button" class="btn btn-secondary" id="today-btn">Today</button>
+            </div>
+          </div>
+        </div>
+        <div class="button-group">
+          <button type="submit" class="btn btn-primary">Find Week Number</button>
+          <button type="button" class="btn btn-secondary" id="reset-btn">Reset</button>
+        </div>
+      </form>
+
+      <div id="error-box" class="hidden form-error" role="alert"></div>
+
+      <div id="result-box" class="result-box is-visible" aria-live="polite">
+        <div class="result-header">
+          <span id="result-header-text">ISO week</span>
+          <button type="button" class="btn btn-sm btn-ghost" id="copy-result-btn" title="Copy result to clipboard" aria-label="Copy result to clipboard">
+            <span data-icon="copy"></span> Copy Result
+          </button>
+        </div>
+        <div class="result-primary" id="result-primary-text">--</div>
+        <p class="form-hint" id="week-note"></p>
+        <div class="result-grid" id="week-stats"></div>
+      </div>
+
+      <h2 class="week-heading">Dates in a week</h2>
+      <form id="range-form" novalidate>
+        <div class="form-grid week-range-grid">
+          <div class="form-group">
+            <label for="range-year">ISO year <span class="text-accent">*</span></label>
+            <input type="number" inputmode="numeric" min="1" max="9999" step="1" id="range-year" data-param="wy" class="form-control" required aria-required="true">
+          </div>
+          <div class="form-group">
+            <label for="range-week">Week number <span class="text-accent">*</span></label>
+            <input type="number" inputmode="numeric" min="1" max="53" step="1" id="range-week" data-param="wn" class="form-control" required aria-required="true">
+          </div>
+        </div>
+      </form>
+      <div id="range-error" class="hidden form-error" role="alert"></div>
+      <div class="week-range-result" id="range-result" aria-live="polite">
+        <p class="week-range-summary" id="range-summary"></p>
+        <ol class="week-days" id="range-days"></ol>
+      </div>
+    </section>
+
+    <!-- tool-end -->
+
+    <section class="content-section">
+      <h2>How Many Weeks Are in a Year?</h2>
+      <p>Most years have 52 ISO weeks. A 53rd week appears when the year starts on a Thursday, or when a leap year starts on a Wednesday, because that is when the year contains 53 Thursdays. This happens 71 times in every 400 years, roughly every five or six years.</p>
+      <div class="table-wrapper">
+        <table class="table">
+          <caption class="visually-hidden">ISO weeks per year, 2024 to 2032</caption>
+          <thead><tr><th scope="col">ISO year</th><th scope="col">Weeks</th><th scope="col">Week 1 starts</th><th scope="col">1 January is a</th></tr></thead>
+          <tbody>
+            <tr><td>2024</td><td>52</td><td>Mon 1 Jan 2024</td><td>Monday</td></tr>
+            <tr><td>2025</td><td>52</td><td>Mon 30 Dec 2024</td><td>Wednesday</td></tr>
+            <tr><td>2026</td><td><strong>53</strong></td><td>Mon 29 Dec 2025</td><td>Thursday</td></tr>
+            <tr><td>2027</td><td>52</td><td>Mon 4 Jan 2027</td><td>Friday</td></tr>
+            <tr><td>2028</td><td>52</td><td>Mon 3 Jan 2028</td><td>Saturday</td></tr>
+            <tr><td>2029</td><td>52</td><td>Mon 1 Jan 2029</td><td>Monday</td></tr>
+            <tr><td>2030</td><td>52</td><td>Mon 31 Dec 2029</td><td>Tuesday</td></tr>
+            <tr><td>2031</td><td>52</td><td>Mon 30 Dec 2030</td><td>Wednesday</td></tr>
+            <tr><td>2032</td><td><strong>53</strong></td><td>Mon 29 Dec 2031</td><td>Thursday</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>ISO vs US Week Numbers</h2>
+      <p>The ISO system is used for business planning, manufacturing, logistics and government statistics across Europe and much of the world. Each week has exactly seven days and belongs to exactly one year, which makes week-based reports add up. The US convention is simpler to read off a wall calendar but produces partial weeks: week 1 can be a single Saturday, and a year can have 53 or even 54 numbered weeks.</p>
+      <ul class="content-list">
+        <li><strong>Planning across countries:</strong> say "ISO week" in emails and contracts, and include the week-year (2026-W53) to avoid ambiguity at year end.</li>
+        <li><strong>Spreadsheets:</strong> use <code>ISOWEEKNUM</code> in Excel and Google Sheets for ISO weeks, or <code>WEEKNUM(date, 21)</code>, which also follows ISO 8601.</li>
+        <li><strong>Code:</strong> JavaScript has no built-in week number, Python offers <code>date.isocalendar()</code>, and PostgreSQL has <code>extract(week from date)</code> with <code>isoyear</code> for the week-year.</li>
+        <li><strong>HTML forms:</strong> the <code>&lt;input type="week"&gt;</code> field uses the ISO format, such as 2026-W44.</li>
+      </ul>
+    </section>

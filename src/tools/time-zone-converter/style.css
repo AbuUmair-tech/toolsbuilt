@@ -1,0 +1,204 @@
+/* Time Zone Converter */
+
+@media (min-width: 640px) {
+  .tz-source-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .tz-source-grid .tz-zone-field {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (min-width: 900px) {
+  .tz-source-grid {
+    grid-template-columns: 1fr 0.8fr 2fr;
+  }
+
+  .tz-source-grid .tz-zone-field {
+    grid-column: auto;
+  }
+}
+
+.tz-source-grid {
+  margin-bottom: var(--space-4);
+}
+
+.tz-fieldset {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+
+.tz-fieldset legend {
+  margin-bottom: var(--space-3);
+  padding: 0;
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+}
+
+.tz-target-grid {
+  margin-bottom: var(--space-2);
+}
+
+/* A sentence listing several zones: smaller than a single-number result */
+.result-box .tz-primary {
+  font-size: var(--font-size-lg);
+  line-height: var(--line-height-snug);
+}
+
+@media (min-width: 640px) {
+  .result-box .tz-primary {
+    font-size: var(--font-size-xl);
+  }
+}
+
+/* Result cards */
+.tz-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  gap: var(--space-3);
+  margin: var(--space-4) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tz-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  background-color: var(--surface-card);
+  min-width: 0;
+}
+
+.tz-card-city {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-secondary);
+  overflow-wrap: anywhere;
+}
+
+.tz-card-time {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  font-variant-numeric: tabular-nums;
+  color: var(--text-primary);
+}
+
+.tz-card-meta {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+}
+
+.tz-card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+  margin-top: var(--space-1);
+}
+
+/* Working hours strip */
+.tz-heading {
+  margin: var(--space-8) 0 var(--space-2);
+  font-size: var(--font-size-lg);
+}
+
+.tz-strip-wrapper {
+  margin-top: var(--space-3);
+}
+
+.tz-strip-wrapper:focus-visible {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 2px;
+}
+
+.tz-strip {
+  border-collapse: separate;
+  border-spacing: 2px;
+  font-size: var(--font-size-sm);
+  font-variant-numeric: tabular-nums;
+  min-width: 100%;
+}
+
+.tz-strip th[scope="row"] {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  min-width: 6.5rem;
+  max-width: 9rem;
+  padding: var(--space-1) var(--space-2);
+  text-align: left;
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+  background-color: var(--surface-card);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tz-strip td {
+  min-width: 2rem;
+  padding: var(--space-1) 0;
+  text-align: center;
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  background-color: var(--surface-muted);
+}
+
+.tz-strip td.is-work {
+  color: var(--text-primary);
+  background-color: var(--cat-green-tint);
+}
+
+.tz-strip td.is-overlap {
+  box-shadow: inset 0 0 0 2px var(--cat-green);
+  font-weight: var(--font-weight-semibold);
+}
+
+.tz-strip td.is-selected {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: -2px;
+  font-weight: var(--font-weight-bold);
+}
+
+.tz-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-4);
+  margin: var(--space-3) 0 0;
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+}
+
+.tz-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.tz-swatch {
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+  border-radius: var(--radius-sm);
+  background-color: var(--surface-muted);
+}
+
+.tz-swatch-work {
+  background-color: var(--cat-green-tint);
+}
+
+.tz-swatch-overlap {
+  background-color: var(--cat-green-tint);
+  box-shadow: inset 0 0 0 2px var(--cat-green);
+}
+
+.tz-swatch-selected {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: -2px;
+}

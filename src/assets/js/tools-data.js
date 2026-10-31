@@ -13,6 +13,8 @@ window.TOOLS_DATA = [
     "categoryId": "date-time",
     "popular": true,
     "related": [
+      "time-zone-converter",
+      "unix-timestamp-converter",
       "date-difference-calculator",
       "add-days-to-date-calculator",
       "age-calculator"
@@ -107,6 +109,8 @@ window.TOOLS_DATA = [
     "categoryId": "date-time",
     "popular": false,
     "related": [
+      "unix-timestamp-converter",
+      "time-zone-converter",
       "days-until-date-calculator",
       "date-difference-calculator",
       "add-days-to-date-calculator"
@@ -122,6 +126,8 @@ window.TOOLS_DATA = [
     "categoryId": "date-time",
     "popular": false,
     "related": [
+      "hours-calculator",
+      "week-number-calculator",
       "days-until-date-calculator",
       "add-days-to-date-calculator",
       "age-calculator"
@@ -137,6 +143,8 @@ window.TOOLS_DATA = [
     "categoryId": "date-time",
     "popular": false,
     "related": [
+      "week-number-calculator",
+      "hours-calculator",
       "days-until-date-calculator",
       "date-difference-calculator",
       "age-calculator"
@@ -537,6 +545,70 @@ window.TOOLS_DATA = [
       "json-formatter",
       "url-encoder-decoder",
       "base64-encoder-decoder"
+    ]
+  },
+  {
+    "id": "hours-calculator",
+    "name": "Hours Calculator",
+    "url": "/tools/hours-calculator/",
+    "icon": "clock",
+    "description": "Calculate hours between two times with breaks and overnight shifts, or total a weekly timesheet with pay and overtime.",
+    "category": "Date & Time Tools",
+    "categoryId": "date-time",
+    "popular": false,
+    "related": [
+      "date-difference-calculator",
+      "time-zone-converter",
+      "week-number-calculator",
+      "add-days-to-date-calculator"
+    ]
+  },
+  {
+    "id": "unix-timestamp-converter",
+    "name": "Unix Timestamp Converter",
+    "url": "/tools/unix-timestamp-converter/",
+    "icon": "code",
+    "description": "Convert Unix epoch timestamps to UTC and local dates, ISO 8601 and RFC 2822, or dates back to seconds and milliseconds.",
+    "category": "Date & Time Tools",
+    "categoryId": "date-time",
+    "popular": false,
+    "related": [
+      "time-zone-converter",
+      "date-difference-calculator",
+      "week-number-calculator",
+      "days-until-date-calculator"
+    ]
+  },
+  {
+    "id": "week-number-calculator",
+    "name": "Week Number Calculator",
+    "url": "/tools/week-number-calculator/",
+    "icon": "calendar",
+    "description": "See today's ISO 8601 week number, find the week of any date, and list the Monday to Sunday dates of any week.",
+    "category": "Date & Time Tools",
+    "categoryId": "date-time",
+    "popular": false,
+    "related": [
+      "date-difference-calculator",
+      "add-days-to-date-calculator",
+      "days-until-date-calculator",
+      "hours-calculator"
+    ]
+  },
+  {
+    "id": "time-zone-converter",
+    "name": "Time Zone Converter & Meeting Planner",
+    "url": "/tools/time-zone-converter/",
+    "icon": "globe",
+    "description": "Convert a date and time between world time zones with daylight saving applied, and find overlapping working hours for meetings.",
+    "category": "Date & Time Tools",
+    "categoryId": "date-time",
+    "popular": false,
+    "related": [
+      "unix-timestamp-converter",
+      "hours-calculator",
+      "date-difference-calculator",
+      "week-number-calculator"
     ]
   }
 ];

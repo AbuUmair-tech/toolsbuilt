@@ -1,0 +1,126 @@
+/* Unix Timestamp Converter */
+
+.epoch-now {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-3) var(--space-4);
+  padding: var(--space-4);
+  margin-bottom: var(--space-6);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  background-color: var(--surface-muted);
+}
+
+.epoch-now-item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  min-width: 0;
+}
+
+.epoch-now-label {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+}
+
+.epoch-now-value {
+  font-family: var(--font-mono);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+  overflow-wrap: anywhere;
+}
+
+@media (min-width: 480px) {
+  .epoch-now {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.epoch-now-actions {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.epoch-heading {
+  margin: var(--space-8) 0 var(--space-4);
+  font-size: var(--font-size-lg);
+}
+
+.epoch-now + .epoch-heading {
+  margin-top: 0;
+}
+
+.epoch-ts-grid,
+.epoch-date-grid {
+  margin-bottom: var(--space-4);
+}
+
+@media (min-width: 640px) {
+  .epoch-ts-grid,
+  .epoch-date-grid {
+    grid-template-columns: 2fr 1fr;
+  }
+}
+
+.epoch-list {
+  display: grid;
+  gap: var(--space-2);
+  margin: var(--space-4) 0 0;
+}
+
+.epoch-row {
+  display: grid;
+  gap: var(--space-1);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md);
+  background-color: var(--surface-card);
+}
+
+.epoch-row dt {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+}
+
+.epoch-row dd {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  margin: 0;
+}
+
+.epoch-value {
+  min-width: 0;
+  font-family: var(--font-mono);
+  font-size: var(--font-size-sm);
+  color: var(--text-primary);
+  overflow-wrap: anywhere;
+}
+
+.epoch-row .btn {
+  flex-shrink: 0;
+}
+
+.epoch-date-result {
+  margin-top: var(--space-2);
+}
+
+.epoch-date-result .epoch-row {
+  background-color: var(--surface-muted);
+}
+
+/* An ISO string is long: keep it on one line on phones */
+.result-box .epoch-primary {
+  font-family: var(--font-mono);
+  font-size: var(--font-size-md);
+  overflow-wrap: anywhere;
+}
+
+@media (min-width: 640px) {
+  .result-box .epoch-primary {
+    font-size: var(--font-size-xl);
+  }
+}
