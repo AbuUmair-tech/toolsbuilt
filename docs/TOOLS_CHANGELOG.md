@@ -1,5 +1,33 @@
 # ToolsBuilt Tools Changelog
 
+## 3.1.0: Homepage redesign and country support
+
+**Branch:** `redesign-and-tools` · **Target:** `main` · **Date:** October 31, 2026
+
+### Design
+- New header (All Tools and Categories dropdowns, theme pill, Ctrl+K search), hero homepage with an original inline SVG illustration, category and tool card grids, trust strip and a footer with a "Suggest a tool" card.
+- Tool, category and directory pages use the same design: category tile beside the H1, section label pills, tinted Quick Answer and result cards, worked examples as cards, quiet table of contents.
+
+### New pages
+| Page | URL | Notes |
+| :--- | :--- | :--- |
+| Salary Tax Calculator by Country | `/tools/salary-tax-calculator/` | Hub with a country picker; UAE, Saudi Arabia and Qatar no-tax statements with sources |
+| UK Salary Tax Calculator 2026/27 | `/tools/uk-salary-tax-calculator/` | Personal Allowance taper and Scottish bands (GOV.UK, HMRC) |
+| US Salary Tax Calculator 2026 (Federal) | `/tools/us-salary-tax-calculator/` | Single and married filing jointly (IRS Rev. Proc. 2025-32); state tax excluded |
+| India Salary Tax Calculator 2025-26 | `/tools/india-salary-tax-calculator/` | New regime, ₹75,000 standard deduction, 87A rebate with marginal relief, surcharge, cess (Finance Bill 2025/2026 memoranda, Budget Speech 2025-26) |
+
+### Changes to existing tools
+- **Pakistan Salary Tax:** runs on the shared salary tax engine; slabs now live in `src/_data/tax/pk-*.json` with FBR sources. Results unchanged; URL unchanged.
+- **Sales Tax, VAT & GST Calculator** (renamed from GST & Sales Tax): country presets for the EU 27, UK, India, Pakistan, Saudi Arabia, UAE, Canadian provinces, New Zealand, Singapore and South Africa, each with its source; US uses a custom rate.
+- **Gold Calculator:** troy ounce (NIST), Hong Kong tael troy (Cap. 68) and kilogram, for both weight and rate.
+- **Marks Percentage Calculator:** grading presets (older BISE bands, IBCC 2026 revised grading, CBSE pass mark, typical US letter grades) and a custom scale editor.
+- **CGPA to Percentage:** cites CBSE Circular 24/2010 for the 9.5 rule.
+- **Discount, Loan EMI, Compound Interest, SIP, Gold, Sales Tax:** shared currency selector preselected from the visitor's time zone and language; amounts in the currency's own format (lakh grouping for INR and BDT). Old discount links with `cur=$` still work.
+- **Date tools:** dates shown in the visitor's regional English format.
+
+### Not added (not verified from an official source)
+Bangladesh salary tax and VAT, Australia GST, India tax year 2026-27 (standard deduction and rebate under the Income-tax Act, 2025), the South Indian pavan, the Thai baht gold weight.
+
 ## 3.0.0: Redesign, 7 new tools and 2 new categories
 
 **Branch:** `redesign-and-tools` · **Target:** `main` · **Date:** October 31, 2026

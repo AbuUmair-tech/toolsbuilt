@@ -31,6 +31,8 @@ const PAGES = [
   { name: 'marks-percentage-calculator', path: '/tools/marks-percentage-calculator/' },
   { name: 'gold-calculator', path: '/tools/gold-calculator/?rate=400000&per=tola&ratek=24&weight=2&unit=tola&karat=22&making=percent&mv=8&cur=PKR' },
   { name: 'sales-tax-calculator', path: '/tools/sales-tax-calculator/?mode=remove&price=5000&rate=18&qty=1&cur=PKR' },
+  { name: 'salary-tax-hub', path: '/tools/salary-tax-calculator/' },
+  { name: 'uk-salary-tax-calculator', path: '/tools/uk-salary-tax-calculator/' },
   { name: 'python-formatter', path: '/tools/python-formatter/', format: true },
   { name: 'java-formatter', path: '/tools/java-formatter/', format: true }
 ];

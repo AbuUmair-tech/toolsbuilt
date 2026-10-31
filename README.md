@@ -1,6 +1,6 @@
 # ToolsBuilt
 
-> Free, fast, privacy-first online calculators & tools. **30 tools in 7 categories**, all running entirely in the browser — no uploads, no server processing, and no third-party scripts, fonts or APIs (only the consent-gated Google Analytics loader).
+> Free, fast, privacy-first online calculators & tools. **34 tools in 7 categories**, all running entirely in the browser — no uploads, no server processing, and no third-party scripts, fonts or APIs (only the consent-gated Google Analytics loader).
 
 🌐 **Live Site:** [https://toolsbuilt.com](https://toolsbuilt.com)
 
@@ -52,7 +52,7 @@ SAVE_SEO_REPORT=1 node scripts/check-seo.js       # docs/SEO_PAGE_REPORT.md
 | :--- | :--- | :---: | :--- |
 | Date & Time Tools | `/category/date-time/` | 4 | Days Until Date, Age Calculator, Date Difference, Add or Subtract Days |
 | Student & Exam Tools | `/category/education/` | 4 | Grade Calculator, GPA Calculator, CGPA to Percentage, Marks Percentage |
-| Math & Finance Tools | `/category/math-finance/` | 10 | Percentage, Loan EMI, Discount, Percentage Change, Compound Interest, SIP, Unit Converter, Pakistan Salary Tax, Gold, GST & Sales Tax |
+| Math & Finance Tools | `/category/math-finance/` | 14 | Percentage, Loan EMI, Discount, Percentage Change, Compound Interest, SIP, Unit Converter, Pakistan Salary Tax, Salary Tax by Country (hub), India / UK / US Salary Tax, Gold, Sales Tax, VAT & GST |
 | Text & Writing Tools | `/category/text/` | 6 | Word Counter, Text Case Converter, JSON Formatter, Base64, URL Encoder, Lorem Ipsum |
 | Security & Privacy Tools | `/category/security/` | 3 | Password Generator, UUID Generator, Hash Generator |
 | Fun & Random Tools | `/category/fun/` | 1 | Random Name Picker |
@@ -71,6 +71,12 @@ src/
 │   ├── tools.json   # Tool registry (single source of truth)
 │   ├── categories.json  # Category definitions (order = display order)
 │   ├── vendor.js    # Self-hosted formatter engines (versions, files, import maps)
+│   ├── countries.json       # ISO code, name, slug, currency, locale, lakh grouping, time zones
+│   ├── tax/<cc>-<year>.json # Salary tax datasets (rates, sources, verifiedOn, page content)
+│   ├── salaryTaxPages.js    # One page per current non-Pakistan tax dataset
+│   ├── noSalaryTax.json     # Countries with no salary tax, with official statements
+│   ├── vat-rates.json       # Sales tax / VAT / GST presets with sources
+│   ├── grading-scales.json  # Marks grading presets with sources
 │   └── *.js         # Page data read from tool logic (slab tables, grade bands, gold units)
 ├── _includes/
 │   ├── layouts/     # Nunjucks layouts
@@ -82,10 +88,12 @@ src/
 │       ├── footer.njk
 │       ├── breadcrumbs.njk
 │       ├── code-formatter.njk  # Shared UI for code formatter pages
+│       ├── cards.njk           # Category and tool cards (homepage, categories, /tools/, related)
+│       ├── currency-select.njk # Shared currency selector + embedded country data
 │       └── related-tools.njk
 ├── assets/
 │   ├── css/             # tokens, base, layout, components, utilities (bundled by scripts/bundle-css.js)
-│   ├── js/              # Shared JavaScript (common.js has the shareable result-link helper)
+│   ├── js/              # Shared JavaScript (common.js: result links, guessCountry, formatMoney, dates)
 │   ├── og/              # Generated Open Graph cards
 │   └── img/             # Images & icons
 ├── tools/           # One folder per tool
@@ -160,6 +168,33 @@ TOOLS_ONLY=python-formatter,java-formatter node scripts/test-tool-ux.js
 ```
 
 If an upgrade adds or renames files (for example a new `.wasm`), update the file list in `src/_data/vendor.js`. Check the new version's licence and keep its `LICENSE` file in the published folder.
+
+---
+
+## Design System
+
+- **Tokens** (`src/assets/css/tokens.css`): colours, spacing (4px scale), radii (12px controls, 16px cards, pills), shadows and one category colour per category (`--cat-<colour>-*`). Dark mode is defined twice, under `prefers-color-scheme` and `[data-theme="dark"]`; keep them identical. `scripts/check-contrast.js` checks every token pair in both themes.
+- **Components** (`components.css`): section label pill + H2 (`.section-label`), icon tiles (`.icon-tile[data-color]`), category and tool cards (`partials/cards.njk`), the tool workspace card, tinted result card, FAQ accordion, and quiet sticky table of contents.
+- **Layout:** the tool comes first on every tool page; long text stays in a 760px column. Standalone links and controls are at least 44px tall.
+- **No external assets:** Inter and every icon are self-hosted (`/assets/icons.svg` sprite).
+
+---
+
+## Country Data (update every tax year)
+
+Every country-specific number lives in a data file with its official source and the date it was checked. Never add a number that you have not read on an official source; if you cannot open the source, leave the country out.
+
+| File | What | Update when |
+| :--- | :--- | :--- |
+| `src/_data/tax/<cc>-<year>.json` | Salary tax: slabs (or filing statuses), deductions, allowance taper, rebate, surcharge, cess, `sources`, `verifiedOn`, `officialExamples`, and the page text under `page` | Each budget: Pakistan (July), India (February, effective April), UK (April), US (IRS Rev. Proc. in October/November) |
+| `src/_data/vat-rates.json` | VAT/GST/sales tax presets per country with `source` and `verifiedOn` (EU rows come from the EU "Your Europe" VAT table) | When a country changes its rates; recheck all at least yearly |
+| `src/_data/grading-scales.json` | Marks grading presets (`bands` or pass-mark only) | When a board publishes a new scheme |
+| `src/_data/noSalaryTax.json` | Countries with no salary tax, with a quote from the official page | Yearly |
+| `src/_data/countries.json` | Currency, locale and time zones used by `guessCountry()` and `formatMoney()` | When adding a country |
+
+**New tax year:** copy the current file to `<cc>-<newyear>.json`, change the rates from the new finance law, update `sources`, `verifiedOn` and `officialExamples`, set `"current": true` on the new file and `false` on the old one, and update the page text (title, examples, FAQs). Pakistan keeps two years (current and previous) for its comparison; its `logic.js` reads both files. Then run `npm test`: `scripts/test-tool-logic.js` checks that every dataset has official sources, continuous slabs, published fixed amounts that match the slabs, the official examples, and a `tools.json` entry for its page. Update the tool's `updated` date in `tools.json`.
+
+**Country guess:** `ToolsBuilt.guessCountry()` uses only the browser time zone and `navigator.languages`; a visitor's choice is saved in `localStorage` (`toolsbuilt:country`). There is no IP lookup or network request.
 
 ---
 
