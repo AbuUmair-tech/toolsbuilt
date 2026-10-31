@@ -154,6 +154,7 @@
         daysUntil: daysUntilNextBday,
         weekday,
         formattedDate,
+        iso: nextBdayDateObj.toISOString().slice(0, 10),
         year: nextBdayYear
       }
     };

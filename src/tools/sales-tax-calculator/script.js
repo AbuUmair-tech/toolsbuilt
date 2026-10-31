@@ -1,5 +1,5 @@
 /**
- * GST & Sales Tax Calculator UI Controller
+ * Sales Tax, VAT & GST Calculator UI Controller
  * Powered by SalesTaxLogic pure module.
  * Add / remove tax, rate presets or custom rate, quantity, debounced live calculation,
  * shareable result links, localStorage, and clipboard copying.
@@ -15,13 +15,20 @@ document.addEventListener('DOMContentLoaded', () => {
   const customGroup = document.getElementById('custom-rate-group');
   const customInput = document.getElementById('tax-rate-custom');
   const currencySelect = document.getElementById('tax-currency');
+  const countrySelect = document.getElementById('tax-country');
+  const countryNote = document.getElementById('tax-country-note');
+  const VAT = (() => {
+    try { return JSON.parse(document.getElementById('vat-data').textContent); } catch (e) { return []; }
+  })();
+  // Generic rates kept in every list, so older result links (?rate=5|10|15|18) still open
+  const COMMON_RATES = [5, 10, 15, 18];
   const resetBtn = document.getElementById('reset-btn');
   const copyBtn = document.getElementById('copy-result-btn');
   const resultBox = document.getElementById('result-box');
   const errorBox = document.getElementById('error-box');
 
   const STORAGE_KEY = 'toolsbuilt:sales-tax-calculator';
-  const DEFAULTS = { mode: 'add', price: '1000', qty: '1', rate: '18', custom: '', cur: 'PKR' };
+  const DEFAULTS = { mode: 'add', price: '1000', qty: '1', country: 'PK', rate: '18', custom: '', cur: 'PKR' };
   let debounceTimer = null;
   let lastResultText = '';
 
@@ -29,7 +36,51 @@ document.addEventListener('DOMContentLoaded', () => {
   const setMode = (value) => modeInputs.forEach(i => { i.checked = i.value === value; });
   const trimRate = (n) => Number(n.toFixed(4)).toString();
 
+  const vatFor = (code) => VAT.find(c => c.code === code);
+
+  // Visitor's country among the presets: saved choice, time zone, then browser language region
+  function guessPreset() {
+    const known = ToolsBuilt.countries();
+    const list = VAT.map(c => ({ ...c, timeZones: c.timeZones || ((known.find(k => k.code === c.code) || {}).timeZones) }));
+    const guess = ToolsBuilt.guessCountry(list);
+    return guess ? guess.code : null;
+  }
+
+  function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+  }
+
+  // Rebuild the rate list for a country: its verified rates first, then the common rates, then custom
+  function applyCountry(code) {
+    const c = vatFor(code);
+    if (!c) return;
+    countrySelect.value = code;
+    const seen = new Set();
+    const options = [];
+    c.rates.forEach(r => {
+      seen.add(String(r.rate));
+      options.push(`<option value="${r.rate}">${r.rate}% – ${escapeHtml(c.name)} ${escapeHtml(r.label)}</option>`);
+    });
+    COMMON_RATES.filter(r => !seen.has(String(r))).forEach(r => options.push(`<option value="${r}">${r}%</option>`));
+    options.push('<option value="custom">Custom rate</option>');
+    rateSelect.innerHTML = options.join('');
+    rateSelect.value = c.rates.length ? String(c.rates[0].rate) : 'custom';
+
+    const source = c.source
+      ? ` Source: <a href="${c.source.url}" target="_blank" rel="noopener noreferrer">${escapeHtml(c.source.name)}</a>, checked ${new Intl.DateTimeFormat('en-GB', { dateStyle: 'long' }).format(new Date(c.verifiedOn + 'T00:00:00'))}.`
+      : '';
+    countryNote.innerHTML = escapeHtml(c.notes) + source;
+
+    // Match the currency when the page offers the country's own
+    const home = ToolsBuilt.countries().find(k => k.code === code.split('-')[0]);
+    if (home && Array.from(currencySelect.options).some(o => o.value === home.currency)) currencySelect.value = home.currency;
+    syncForm();
+  }
+
   function applyValues(v) {
+    applyCountry(v.country);
     setMode(v.mode);
     priceInput.value = v.price;
     qtyInput.value = v.qty;
@@ -46,7 +97,14 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function initInputs() {
-    // Result links (?mode=&price=&rate=&custom=&qty=&cur=) take priority over saved state
+    // Result links (?mode=&price=&country=&rate=&custom=&qty=&cur=) take priority over saved state.
+    // The rate list depends on the country, so build it before the link fills the rate.
+    const linked = new URLSearchParams(window.location.search).get('country');
+    DEFAULTS.country = guessPreset() || 'PK';
+    const home = vatFor(DEFAULTS.country);
+    DEFAULTS.rate = home && home.rates.length ? String(home.rates[0].rate) : 'custom';
+    DEFAULTS.cur = ToolsBuilt.defaultCurrency('PKR', currencySelect);
+    applyCountry(linked && vatFor(linked) ? linked : DEFAULTS.country);
     if (ToolsBuilt.resultLink.restore().length) {
       syncForm();
       return;
@@ -81,13 +139,15 @@ document.addEventListener('DOMContentLoaded', () => {
     if (field) field.setAttribute('aria-invalid', 'true');
   }
 
-  function calculate() {
+  // fromSubmit: only an explicit Calculate asks for a missing custom rate (e.g. the US has no preset)
+  function calculate(fromSubmit) {
     clearError();
     syncForm();
     const state = {
       mode: getMode(),
       price: priceInput.value.trim(),
       qty: qtyInput.value.trim(),
+      country: countrySelect.value,
       rate: rateSelect.value,
       custom: customInput.value.trim(),
       cur: currencySelect.value
@@ -98,6 +158,10 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
     if (state.rate === 'custom' && !state.custom) {
+      if (fromSubmit !== true) {
+        resultBox.classList.remove('is-visible');
+        return;
+      }
       showError('Please enter your custom tax rate.', customInput);
       return;
     }
@@ -117,7 +181,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function renderResult(res, cur) {
-    const money = (n) => logic.formatMoney(n, cur);
+    const money = (n) => ToolsBuilt.money(n, cur);
     const rateText = `${trimRate(res.rate)}%`;
     const add = res.mode === 'add';
     const factor = trimRate(1 + res.rate / 100);
@@ -166,12 +230,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
   [priceInput, qtyInput, customInput].forEach(el => el.addEventListener('input', debouncedCalculate));
   [rateSelect, currencySelect].forEach(el => el.addEventListener('change', calculate));
+  countrySelect.addEventListener('change', () => {
+    applyCountry(countrySelect.value);
+    calculate();
+  });
   modeInputs.forEach(el => el.addEventListener('change', calculate));
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();
     clearTimeout(debounceTimer);
-    calculate();
+    calculate(true);
   });
 
   resetBtn.addEventListener('click', () => {

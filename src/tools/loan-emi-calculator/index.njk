@@ -88,24 +88,15 @@ formula:
   expression: "EMI = P × r × (1 + r)^n ÷ ((1 + r)^n − 1)"
   explanation: "P is the principal loan amount, r is the monthly interest rate (annual interest rate ÷ 1200), and n is the loan tenure in total months."
 ---
+{% from "partials/currency-select.njk" import currencySelect, countryData with context %}
+{{ countryData(countries) }}
 
     <!-- Tool Form Container -->
     <section class="tool-container" aria-label="Loan EMI Calculator Form">
       <form id="calculator-form" novalidate>
         <div class="form-grid two-col">
           
-          <div class="form-group">
-            <label for="currency-select">Currency</label>
-            <select id="currency-select" data-param="cur" class="form-control">
-              <option value="USD" selected>USD ($) - US Dollar</option>
-              <option value="PKR">PKR (₨) - Pakistani Rupee</option>
-              <option value="INR">INR (₹) - Indian Rupee</option>
-              <option value="EUR">EUR (€) - Euro</option>
-              <option value="GBP">GBP (£) - British Pound</option>
-              <option value="AED">AED - UAE Dirham</option>
-              <option value="SAR">SAR - Saudi Riyal</option>
-            </select>
-          </div>
+          {{ currencySelect({ id: "currency-select", param: "cur", selected: "USD" }) }}
 
           <div class="form-group">
             <label for="loan-amount">Loan Amount <span class="text-accent">*</span></label>

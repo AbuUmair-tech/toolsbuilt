@@ -1,6 +1,8 @@
 ---
 layout: layouts/tool.njk
 toolSlug: pakistan-salary-tax-calculator
+taxEngine: true
+areaServed: Pakistan
 title: "Salary Tax Calculator Pakistan 2026-27 (New FBR Slabs)"
 description: "Calculate income tax on your salary in Pakistan for 2026-27 with the new FBR slabs. See monthly tax, take-home pay, your slab, and savings vs 2025-26."
 permalink: /tools/pakistan-salary-tax-calculator/
@@ -105,6 +107,7 @@ howto:
       text: "See your annual and monthly tax, take-home pay, effective rate, your slab highlighted in the table, and the difference from the other tax year."
 ---
 
+    <script type="application/json" id="tax-datasets">{{ [tax["pk-2026-27"], tax["pk-2025-26"]] | dump | safe }}</script>
     <!-- Tool Form Container -->
     <section class="tool-container" aria-label="Pakistan Salary Tax Calculator Form">
       <form id="calculator-form" novalidate>
@@ -257,4 +260,9 @@ howto:
     <section class="content-section" aria-labelledby="estimate-heading">
       <h2 id="estimate-heading">What this calculator does not include</h2>
       <p>This is an estimate for salaried individuals only. It applies the salaried slabs to the taxable salary you enter and does not account for allowances, exemptions, deductions, tax credits or rebates, or for income from business, property or investments, which is taxed under different rules. Rates for non-salaried individuals are also different. If your situation includes any of these, confirm your tax with FBR or a qualified tax adviser before relying on the figure.</p>
+    </section>
+
+    <section class="content-section" aria-labelledby="other-countries-heading">
+      <h2 id="other-countries-heading">Working outside Pakistan?</h2>
+      <p>If you are paid in another country, its own tax rules apply to that salary. Our <a href="/tools/salary-tax-calculator/">salary tax calculators by country</a> cover the UK, the US and India, and note which Gulf countries do not tax salaries at all.</p>
     </section>

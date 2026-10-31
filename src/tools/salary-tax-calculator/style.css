@@ -1,0 +1,101 @@
+/* Salary Tax Calculator: country pages and the country hub */
+
+.formula-box {
+  margin-top: var(--space-6);
+  font-size: var(--font-size-sm);
+  color: var(--text-primary);
+}
+
+/* Slab table with the visitor's row highlighted */
+.slab-table-block {
+  margin-top: var(--space-8);
+}
+
+.slab-table-title {
+  font-size: var(--font-size-md);
+}
+
+.slab-table td:first-child {
+  white-space: nowrap;
+}
+
+.slab-table tr.is-current td {
+  background-color: var(--accent-subtle);
+  color: var(--text-primary);
+  font-weight: var(--font-weight-medium);
+}
+
+.slab-you {
+  display: none;
+  color: var(--accent-primary);
+}
+
+.slab-table tr.is-current .slab-you {
+  display: inline;
+}
+
+.slab-table-note {
+  margin: var(--space-2) 0 0;
+  font-size: var(--font-size-sm);
+  color: var(--text-tertiary);
+}
+
+@media (max-width: 599px) {
+  .slab-table td:first-child {
+    white-space: normal;
+  }
+}
+
+
+/* Hub: country picker and list */
+.country-picker {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: var(--space-3);
+}
+
+.country-picker .form-group {
+  flex: 1 1 240px;
+  margin: 0;
+}
+
+.country-list {
+  list-style: none;
+  margin: var(--space-6) 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr));
+  gap: var(--space-3);
+}
+
+.country-list a {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  min-height: var(--touch-target-min);
+  padding: var(--space-4);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  background-color: var(--surface-card);
+  color: var(--text-primary);
+  text-decoration: none;
+}
+
+.country-list a:hover,
+.country-list a.is-suggested {
+  border-color: var(--accent-border);
+}
+
+.country-list a.is-suggested {
+  background-color: var(--accent-subtle);
+}
+
+.country-list-name {
+  font-weight: var(--font-weight-semibold);
+}
+
+.country-list-meta {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+}

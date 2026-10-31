@@ -143,7 +143,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function renderResult(res) {
     const numFormatter = new Intl.NumberFormat('en-US');
     const primaryStr = `${res.years} Years, ${res.months} Months, ${res.days} Days`;
-    lastResultText = `Exact Age: ${primaryStr}. Total Days: ${numFormatter.format(res.totalDays)}. Next Birthday: ${res.nextBirthday.daysUntil} days left (${res.nextBirthday.weekday}, ${res.nextBirthday.formattedDate}).`;
+    lastResultText = `Exact Age: ${primaryStr}. Total Days: ${numFormatter.format(res.totalDays)}. Next Birthday: ${res.nextBirthday.daysUntil} days left (${ToolsBuilt.formatIsoDate(res.nextBirthday.iso)}).`;
 
     document.getElementById('result-primary-text').textContent = primaryStr;
     document.getElementById('stat-years-months-days').textContent = `${res.years}y ${res.months}m ${res.days}d`;
@@ -156,7 +156,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (res.nextBirthday.isToday) {
       bdayEl.textContent = `Today is your Birthday! (${res.nextBirthday.weekday})`;
     } else {
-      bdayEl.textContent = `${res.nextBirthday.daysUntil} days left (${res.nextBirthday.weekday}, ${res.nextBirthday.formattedDate})`;
+      bdayEl.textContent = `${res.nextBirthday.daysUntil} days left (${ToolsBuilt.formatIsoDate(res.nextBirthday.iso)})`;
     }
 
     resultBox.classList.add('is-visible');

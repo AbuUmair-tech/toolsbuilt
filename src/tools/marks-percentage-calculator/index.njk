@@ -99,8 +99,11 @@ howto:
     - name: "Read your percentage and grade"
       text: "See the percentage to 2 decimals, your grand total, and the typical BISE grade highlighted in the grading table."
 ---
+{% from "partials/currency-select.njk" import countryData %}
+{{ countryData(countries) }}
 
     <!-- Tool Form Container -->
+    <script type="application/json" id="grading-data">{{ gradingScales.scales | dump | safe }}</script>
     <section class="tool-container" aria-label="Marks Percentage Calculator Form">
       <form id="calculator-form" novalidate>
         <fieldset class="form-group choice-toggle" id="mode-fieldset">
@@ -165,6 +168,45 @@ howto:
           <button type="button" class="btn btn-sm btn-secondary mt-4" id="add-subject-btn">Add subject</button>
         </div>
 
+        <div class="form-group mt-6">
+          <label for="grading-scale">Grading scale</label>
+          <select id="grading-scale" data-param="scale" class="form-control" data-country-remember>
+            {% for scale in gradingScales.scales %}
+            <option value="{{ scale.code }}" data-country="{{ scale.country }}"{% if loop.first %} selected{% endif %}>{{ scale.name }}</option>
+            {% endfor %}
+            <option value="custom">Custom scale (enter your own)</option>
+          </select>
+        </div>
+
+        <!-- Custom scale editor: one row per grade with its minimum percentage -->
+        <div id="custom-scale-panel" class="custom-scale-panel" hidden>
+          <div class="table-wrapper">
+            <table class="table custom-scale-table">
+              <caption class="visually-hidden">Your custom grading scale</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Grade</th>
+                  <th scope="col">From (%)</th>
+                  <th scope="col"><span class="visually-hidden">Remove</span></th>
+                </tr>
+              </thead>
+              <tbody id="custom-scale-tbody">
+                <tr class="custom-scale-row">
+                  <td><input type="text" class="form-control custom-grade" aria-label="Grade 1 name"></td>
+                  <td><input type="number" inputmode="decimal" step="any" min="0" max="100" class="form-control custom-min" aria-label="Grade 1 minimum percentage"></td>
+                  <td>
+                    <button type="button" class="btn btn-sm btn-ghost remove-grade-btn" aria-label="Remove grade 1">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <button type="button" class="btn btn-sm btn-secondary mt-4" id="add-grade-btn">Add grade</button>
+          <p class="form-hint">Each grade starts at its minimum percentage and runs up to the next grade's minimum.</p>
+        </div>
+
         <div class="button-group mt-6">
           <button type="submit" class="btn btn-primary">Calculate Percentage</button>
           <button type="button" class="btn btn-secondary" id="reset-btn">Reset</button>
@@ -193,7 +235,7 @@ howto:
             <div class="result-stat-value" id="stat-percentage">0%</div>
           </div>
           <div class="result-stat-card">
-            <div class="result-stat-label">Grade (typical BISE)</div>
+            <div class="result-stat-label" id="stat-grade-label">Grade (typical BISE)</div>
             <div class="result-stat-value" id="stat-grade">–</div>
           </div>
         </div>
@@ -215,7 +257,7 @@ howto:
                 <th scope="col">Percentage</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody id="grading-tbody">
               {% for row in marksGrading.rows %}
               <tr data-grade-index="{{ row.index }}">
                 <td>{{ row.grade }}<span class="grade-you"> · your grade</span></td>
@@ -225,7 +267,7 @@ howto:
             </tbody>
           </table>
         </div>
-        <p class="grading-note">{{ marksGrading.note }}</p>
+        <p class="grading-note" id="grading-note">{{ marksGrading.note }}</p>
       </div>
     </section>
 
@@ -253,6 +295,7 @@ howto:
       <h2 id="grading-heading">Typical BISE grading in Pakistan</h2>
       <p>The grade shown with your result follows the typical grading used by Pakistan's Boards of Intermediate and Secondary Education (BISE): A+ for 80% and above, A for 70–79%, B for 60–69%, C for 50–59%, D for 40–49%, E for 33–39% and F below 33%. The grade is picked from your exact percentage, so 79.6% is an A, not an A+.</p>
       <p>Boards can change their grading, and some use different labels or bands for particular schemes. The table on this page is a reference only: your board's result card is the final authority on your grade.</p>
+      <p>Choose a different grading scale under the calculator to see your grade another way. The revised IBCC grading notified by FBISE in October 2025 (A++ for 96% and above down to U below 40%) starts with the 2026 exams for Class 9 and 11 and with the 2027 exams for Class 10 and 12. India's CBSE does not grade on fixed percentages: it ranks candidates and gives each eighth a grade, so for CBSE the calculator only shows whether you reached the 33% pass mark. A typical US letter-grade scale is included too, and you can enter your own school's bands as a custom scale.</p>
     </section>
 
     <section class="content-section" aria-labelledby="next-steps-heading">

@@ -83,14 +83,18 @@ formula:
   expression: "M = P × [((1 + i)^n − 1) ÷ i] × (1 + i)"
   explanation: "A Systematic Investment Plan compounds monthly contributions P at monthly rate i over n months using the annuity formula."
 ---
+{% from "partials/currency-select.njk" import currencySelect, countryData with context %}
+{{ countryData(countries) }}
 
     <!-- Tool Form Container -->
     <section class="tool-container" aria-label="SIP Calculator Form">
       <form id="calculator-form" novalidate>
         <div class="form-grid two-col">
           
+          {{ currencySelect({ id: "currency", param: "cur", selected: "USD" }) }}
+
           <div class="form-group">
-            <label for="monthly-investment">Monthly Investment ($) <span class="text-accent">*</span></label>
+            <label for="monthly-investment">Monthly Investment <span class="text-accent">*</span></label>
             <input type="number" step="any" min="1" id="monthly-investment" data-param="inv" class="form-control" placeholder="e.g. 500" required aria-required="true">
           </div>
 

@@ -65,7 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
     tenureInput.value = '30';
     tenureUnitSelect.value = 'years';
     extraInput.value = '';
-    if (currencySelect) currencySelect.value = 'USD';
+    if (currencySelect) currencySelect.value = ToolsBuilt.defaultCurrency('USD', currencySelect);
   }
 
   function saveState(amount, rate, tenure, unit, extra, cur) {
@@ -143,18 +143,18 @@ document.addEventListener('DOMContentLoaded', () => {
         currencyCode: curCode
       });
 
-      currentCurrencySymbol = res.currencySymbol;
+      currentCurrencySymbol = ToolsBuilt.currencySymbol(curCode);
       currentSchedule = res.extra ? res.extra.schedule : res.schedule;
 
       // Update Currency symbols in table header
       tableCurrencyLabels.forEach(el => {
-        el.textContent = `(${res.currencySymbol})`;
+        el.textContent = `(${currentCurrencySymbol})`;
       });
 
       // Update primary and stat values
-      const formattedEmi = logic.formatCurrency(res.monthlyEmi, curCode);
-      const formattedTotalPay = logic.formatCurrency(res.totalPayment, curCode);
-      const formattedTotalInt = logic.formatCurrency(res.totalInterest, curCode);
+      const formattedEmi = ToolsBuilt.money(res.monthlyEmi, curCode);
+      const formattedTotalPay = ToolsBuilt.money(res.totalPayment, curCode);
+      const formattedTotalInt = ToolsBuilt.money(res.totalInterest, curCode);
 
       resultPrimary.textContent = `Monthly EMI: ${formattedEmi}`;
       statMonthlyEmi.textContent = formattedEmi;
@@ -165,7 +165,7 @@ document.addEventListener('DOMContentLoaded', () => {
       // Extra payment card
       if (res.extra && res.extra.extraMonthlyPayment > 0) {
         extraCard.classList.remove('hidden');
-        statExtraSaved.textContent = logic.formatCurrency(res.extra.interestSaved, curCode);
+        statExtraSaved.textContent = ToolsBuilt.money(res.extra.interestSaved, curCode);
         statMonthsSaved.textContent = `${res.extra.monthsSaved} Months (${logic.roundCents(res.extra.monthsSaved / 12)} yrs)`;
         statNewTenure.textContent = `${res.extra.payoffMonths} Months (down from ${res.tenureMonths})`;
       } else {
@@ -182,7 +182,7 @@ document.addEventListener('DOMContentLoaded', () => {
       // Update copy summary text
       lastResultSummary = [
         `Loan EMI Calculation Summary:`,
-        `Principal Amount: ${logic.formatCurrency(res.principal, curCode)}`,
+        `Principal Amount: ${ToolsBuilt.money(res.principal, curCode)}`,
         `Interest Rate: ${res.annualRate}%`,
         `Tenure: ${res.tenureMonths} months (${res.tenureYears} years)`,
         `Monthly EMI: ${formattedEmi}`,
@@ -191,9 +191,9 @@ document.addEventListener('DOMContentLoaded', () => {
       ];
       if (res.extra && res.extra.extraMonthlyPayment > 0) {
         lastResultSummary.push(
-          `Extra Monthly Payment: ${logic.formatCurrency(res.extra.extraMonthlyPayment, curCode)}`,
+          `Extra Monthly Payment: ${ToolsBuilt.money(res.extra.extraMonthlyPayment, curCode)}`,
           `Months Saved: ${res.extra.monthsSaved} months`,
-          `Interest Saved: ${logic.formatCurrency(res.extra.interestSaved, curCode)}`,
+          `Interest Saved: ${ToolsBuilt.money(res.extra.interestSaved, curCode)}`,
           `New Payoff Duration: ${res.extra.payoffMonths} months`
         );
       }
@@ -210,15 +210,16 @@ document.addEventListener('DOMContentLoaded', () => {
     scheduleTableBody.innerHTML = '';
     const fragment = document.createDocumentFragment();
 
+    const num = (n) => n.toLocaleString(ToolsBuilt.localeForCurrency(curCode), { minimumFractionDigits: 2, maximumFractionDigits: 2 });
     schedule.forEach(row => {
       const tr = document.createElement('tr');
       tr.innerHTML = `
         <td>${row.month}</td>
-        <td>${row.payment.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
-        <td>${row.principal.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
-        <td>${row.interest.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
-        <td>${row.totalInterest.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
-        <td>${row.balance.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+        <td>${num(row.payment)}</td>
+        <td>${num(row.principal)}</td>
+        <td>${num(row.interest)}</td>
+        <td>${num(row.totalInterest)}</td>
+        <td>${num(row.balance)}</td>
       `;
       fragment.appendChild(tr);
     });

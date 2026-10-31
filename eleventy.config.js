@@ -115,6 +115,43 @@ module.exports = function(eleventyConfig) {
   // which is invalid inside <script type="application/ld+json">.
   // Usage in template:  "name": {{ myVar | jsonStr }}
   const nunjucks = require('nunjucks');
+  // Whole-unit money in the currency's home format, as ToolsBuilt.formatMoney does in the browser:
+  // {{ 1200000 | money("INR") }} -> "₹12,00,000"
+  eleventyConfig.addFilter('money', function(amount, currency) {
+    const countries = JSON.parse(fs.readFileSync(path.join(__dirname, 'src', '_data', 'countries.json'), 'utf8'));
+    const home = countries.find(c => c.currency === currency);
+    const locale = home ? (home.lakhGrouping ? 'en-IN' : home.locale) : 'en-US';
+    return new Intl.NumberFormat(locale, { style: 'currency', currency, maximumFractionDigits: 0 }).format(Number(amount) || 0);
+  });
+
+  // Rate as a percentage without trailing zeros: 0.2 -> "20%", 0.035 -> "3.5%"
+  eleventyConfig.addFilter('pct', function(rate) {
+    return `${Number((Number(rate) * 100).toFixed(4))}%`;
+  });
+
+  // Salary tax hub: where each country choice leads (a calculator page, or the no-tax note)
+  eleventyConfig.addFilter('hubCountries', function(pages, noTax) {
+    return [{ code: 'PK', url: '/tools/pakistan-salary-tax-calculator/' }]
+      .concat((pages || []).map(p => ({ code: p.country, url: `/tools/${p.page.slug}/` })))
+      .concat((noTax || []).map(c => ({ code: c.code, url: `#no-tax-${c.code.toLowerCase()}`, noTax: true, name: c.name })));
+  });
+
+  // First item with a matching `code` (countries, VAT presets, grading scales)
+  eleventyConfig.addFilter('byCode', function(list, code) {
+    return (list || []).find(item => item.code === code);
+  });
+
+  // Currencies offered by the shared currency selector: one per currency, in countries.json order
+  eleventyConfig.addFilter('currencyOptions', function(countries) {
+    const names = new Intl.DisplayNames(['en'], { type: 'currency' });
+    const seen = new Set();
+    return (countries || []).filter(c => !seen.has(c.currency) && seen.add(c.currency)).map(c => {
+      const symbol = new Intl.NumberFormat('en', { style: 'currency', currency: c.currency, currencyDisplay: 'narrowSymbol' })
+        .formatToParts(1).find(part => part.type === 'currency').value;
+      return { code: c.currency, country: c.code, symbol, name: names.of(c.currency) };
+    });
+  });
+
   eleventyConfig.addFilter('jsonStr', function(value) {
     if (value === null || value === undefined) return 'null';
     // Nunjucks auto-escapes values before filters run, so unescape HTML entities first.
@@ -324,6 +361,10 @@ module.exports = function(eleventyConfig) {
 
   eleventyConfig.addGlobalData('buildDate', () => new Date().toISOString().split('T')[0]);
   eleventyConfig.addGlobalData('currentYear', () => new Date().getFullYear());
+  // Hyphenated data files are not valid Nunjucks names; expose them under camelCase too
+  const readData = (file) => JSON.parse(fs.readFileSync(path.join(__dirname, 'src', '_data', file), 'utf8'));
+  eleventyConfig.addGlobalData('vatRates', () => readData('vat-rates.json'));
+  eleventyConfig.addGlobalData('gradingScales', () => readData('grading-scales.json'));
 
   // Non-empty values of an object, e.g. site.social -> ["https://github.com/..."]
   eleventyConfig.addFilter('presentValues', function(obj) {

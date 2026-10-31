@@ -373,10 +373,74 @@ window.TOOLS_DATA = [
     "categoryId": "math-finance",
     "popular": false,
     "related": [
+      "salary-tax-calculator",
       "loan-emi-calculator",
       "percentage-calculator",
-      "sip-calculator",
-      "gold-calculator"
+      "sip-calculator"
+    ]
+  },
+  {
+    "id": "salary-tax-calculator",
+    "name": "Salary Tax Calculator by Country",
+    "url": "/tools/salary-tax-calculator/",
+    "icon": "receipt",
+    "description": "Pick your country to work out income tax on your salary: UK, US federal, India and Pakistan calculators built from official rates, plus Gulf countries.",
+    "category": "Math & Finance Tools",
+    "categoryId": "math-finance",
+    "popular": false,
+    "related": [
+      "pakistan-salary-tax-calculator",
+      "uk-salary-tax-calculator",
+      "us-salary-tax-calculator",
+      "india-salary-tax-calculator"
+    ]
+  },
+  {
+    "id": "india-salary-tax-calculator",
+    "name": "India Salary Tax Calculator 2025-26",
+    "url": "/tools/india-salary-tax-calculator/",
+    "icon": "receipt",
+    "description": "Work out income tax on an Indian salary for FY 2025-26 under the new regime: ₹75,000 standard deduction, 87A rebate up to ₹12 lakh, surcharge and 4% cess.",
+    "category": "Math & Finance Tools",
+    "categoryId": "math-finance",
+    "popular": false,
+    "related": [
+      "salary-tax-calculator",
+      "pakistan-salary-tax-calculator",
+      "sales-tax-calculator",
+      "sip-calculator"
+    ]
+  },
+  {
+    "id": "uk-salary-tax-calculator",
+    "name": "UK Salary Tax Calculator 2026/27",
+    "url": "/tools/uk-salary-tax-calculator/",
+    "icon": "receipt",
+    "description": "Work out UK Income Tax on your salary for 2026/27, including the £100,000 Personal Allowance taper and Scottish rates. Monthly tax and take-home after tax.",
+    "category": "Math & Finance Tools",
+    "categoryId": "math-finance",
+    "popular": false,
+    "related": [
+      "salary-tax-calculator",
+      "us-salary-tax-calculator",
+      "sales-tax-calculator",
+      "loan-emi-calculator"
+    ]
+  },
+  {
+    "id": "us-salary-tax-calculator",
+    "name": "US Salary Tax Calculator 2026 (Federal)",
+    "url": "/tools/us-salary-tax-calculator/",
+    "icon": "receipt",
+    "description": "Estimate 2026 US federal income tax on a salary for single filers and married couples filing jointly, with the 2026 standard deduction and IRS brackets.",
+    "category": "Math & Finance Tools",
+    "categoryId": "math-finance",
+    "popular": false,
+    "related": [
+      "salary-tax-calculator",
+      "uk-salary-tax-calculator",
+      "compound-interest-calculator",
+      "loan-emi-calculator"
     ]
   },
   {
@@ -429,10 +493,10 @@ window.TOOLS_DATA = [
   },
   {
     "id": "sales-tax-calculator",
-    "name": "GST & Sales Tax Calculator",
+    "name": "Sales Tax, VAT & GST Calculator",
     "url": "/tools/sales-tax-calculator/",
     "icon": "receipt-percent",
-    "description": "Add GST or sales tax to a price, or remove it from a tax-inclusive price, at 18%, 5%, 10%, 15% or any rate, with quantity and the formula shown.",
+    "description": "Add or remove sales tax, VAT or GST at your country's rate or any custom rate, with quantity and the formula shown.",
     "category": "Math & Finance Tools",
     "categoryId": "math-finance",
     "popular": false,

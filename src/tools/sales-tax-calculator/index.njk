@@ -1,10 +1,10 @@
 ---
 layout: layouts/tool.njk
 toolSlug: sales-tax-calculator
-title: "GST & Sales Tax Calculator: Add or Remove Tax"
-description: "Add GST or sales tax to a price, or remove it from a tax-inclusive price, at 18%, 5%, 10%, 15% or any rate, with quantity and the formula shown."
+title: "Sales Tax, VAT & GST Calculator: Add or Remove Tax"
+description: "Add or remove sales tax, VAT or GST from a price at your country's rate (UK, EU, India, Pakistan, Saudi Arabia, UAE, Canada and more) or any custom rate."
 permalink: /tools/sales-tax-calculator/
-h1: "GST & Sales Tax Calculator"
+h1: "Sales Tax, VAT & GST Calculator"
 extraCss: "/tools/sales-tax-calculator/style.css"
 quickAnswer: "To add tax, multiply the price by (1 + rate): 1,000 plus 18% is 1,000 × 1.18 = 1,180, with 180 tax. To remove tax from a price that already includes it, divide by (1 + rate): 1,180 ÷ 1.18 = 1,000. Never just subtract 18%: 5,000 including 18% tax is 4,237.29 before tax, not 4,100."
 formula:
@@ -99,9 +99,12 @@ howto:
     - name: "Read the result"
       text: "See the price before tax, the tax amount and the total, with the formula used."
 ---
+{% from "partials/currency-select.njk" import currencySelect, countryData with context %}
+{{ countryData(countries) }}
 
     <!-- Tool Form Container -->
-    <section class="tool-container" aria-label="GST and Sales Tax Calculator Form">
+    <script type="application/json" id="vat-data">{{ vatRates.countries | dump | safe }}</script>
+    <section class="tool-container" aria-label="Sales Tax, VAT and GST Calculator Form">
       <form id="calculator-form" novalidate>
         <fieldset class="form-group choice-toggle">
           <legend>I want to</legend>
@@ -126,10 +129,20 @@ howto:
             <label for="tax-qty">Quantity</label>
             <input type="number" inputmode="numeric" step="any" min="0" id="tax-qty" data-param="qty" class="form-control" value="1">
           </div>
+          <div class="form-group col-span-full">
+            <label for="tax-country">Country</label>
+            <select id="tax-country" data-param="country" class="form-control" data-country-remember aria-describedby="tax-country-note">
+              {% for c in vatRates.countries %}
+              <option value="{{ c.code }}"{% if c.code == "PK" %} selected{% endif %}>{{ c.name }}{% if c.rates.length %} ({{ c.taxName }} {{ c.rates[0].rate }}%){% else %} ({{ c.taxName | lower }} varies){% endif %}</option>
+              {% endfor %}
+            </select>
+            {% set pk = vatRates.countries | byCode("PK") %}
+            <p class="form-hint" id="tax-country-note">{{ pk.notes }} Source: <a href="{{ pk.source.url }}" target="_blank" rel="noopener noreferrer">{{ pk.source.name }}</a>, checked {{ pk.verifiedOn | humanDate }}.</p>
+          </div>
           <div class="form-group">
             <label for="tax-rate-preset">Tax rate</label>
             <select id="tax-rate-preset" data-param="rate" class="form-control">
-              <option value="18" selected>18% (Pakistan standard sales tax)</option>
+              <option value="18" selected>18% – Pakistan standard sales tax on goods</option>
               <option value="5">5%</option>
               <option value="10">10%</option>
               <option value="15">15%</option>
@@ -140,17 +153,7 @@ howto:
             <label for="tax-rate-custom">Custom rate (%)</label>
             <input type="number" inputmode="decimal" step="any" min="0" max="100" id="tax-rate-custom" data-param="custom" class="form-control" placeholder="e.g. 17">
           </div>
-          <div class="form-group">
-            <label for="tax-currency">Currency</label>
-            <select id="tax-currency" data-param="cur" class="form-control">
-              <option value="PKR" selected>PKR (Rs)</option>
-              <option value="INR">INR (₹)</option>
-              <option value="AED">AED</option>
-              <option value="USD">USD ($)</option>
-              <option value="GBP">GBP (£)</option>
-              <option value="EUR">EUR (€)</option>
-            </select>
-          </div>
+          {{ currencySelect({ id: "tax-currency", param: "cur", selected: "PKR" }) }}
         </div>
 
         <div class="button-group">
@@ -199,6 +202,36 @@ howto:
     </section>
 
     <!-- tool-end -->
+
+    <section class="content-section" aria-labelledby="vat-rates-heading">
+      <h2 id="vat-rates-heading">VAT and GST rates by country</h2>
+      <p>The country presets in the calculator use the rates below. Each was checked against the tax authority or official source linked in the table on the date shown. Reduced rates only apply to the goods and services the law lists, so use the standard rate unless you know your item qualifies. In the United States there is no national sales tax: states, counties and cities set their own rates, so type the combined rate for your area as a custom rate.</p>
+      <div class="table-wrapper" tabindex="0" role="region" aria-label="VAT and GST rates by country (scrollable)">
+        <table class="table">
+          <caption class="visually-hidden">Standard and reduced VAT, GST and sales tax rates used by the calculator</caption>
+          <thead>
+            <tr>
+              <th scope="col">Country</th>
+              <th scope="col">Tax</th>
+              <th scope="col">Standard</th>
+              <th scope="col">Other rates</th>
+              <th scope="col">Source (checked)</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for c in vatRates.countries %}
+            <tr>
+              <th scope="row">{{ c.name }}</th>
+              <td>{{ c.taxName }}</td>
+              <td>{% if c.rates.length %}{{ c.rates[0].rate }}%{% else %}Set by state and city{% endif %}</td>
+              <td>{% for r in c.rates %}{% if not loop.first %}{{ r.rate }}% ({{ r.label }}){% if not loop.last %}; {% endif %}{% endif %}{% endfor %}</td>
+              <td>{% if c.source %}<a href="{{ c.source.url }}" target="_blank" rel="noopener noreferrer">{{ c.source.name }}</a> ({{ c.verifiedOn | humanDate }}){% else %}–{% endif %}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </section>
 
     <section class="content-section" aria-labelledby="inclusive-heading">
       <h2 id="inclusive-heading">Tax-exclusive and tax-inclusive prices</h2>

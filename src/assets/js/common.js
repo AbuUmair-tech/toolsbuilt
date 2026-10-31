@@ -139,3 +139,123 @@ ToolsBuilt.resultLink = (function() {
 
   return { restore, update, clear, isEnabled: () => fields().length > 0 };
 })();
+
+/**
+ * Country and currency helpers (no network: only the browser's own language and time zone)
+ *
+ *   ToolsBuilt.guessCountry(list)        -> country object or null. A saved choice wins; then the
+ *                                           time zone; then the region in navigator.languages.
+ *   ToolsBuilt.rememberCountry(code)     -> saves the visitor's choice (localStorage, if allowed)
+ *   ToolsBuilt.formatMoney(n, cur, loc)  -> "Rs 1,234", "₹12,34,567.00", "£1,234.50" via Intl
+ *   ToolsBuilt.countries()               -> the list from the page's #tb-country-data JSON
+ *   ToolsBuilt.money(n, cur)             -> formatMoney with two decimals in that currency's home format
+ *   ToolsBuilt.defaultCurrency(fallback) -> the guessed country's currency if the page offers it
+ *   ToolsBuilt.formatIsoDate('2026-10-31') -> English date in the visitor's regional format
+ */
+(function() {
+  const STORE_KEY = 'toolsbuilt:country';
+  let cached = null;
+
+  function countries() {
+    if (cached) return cached;
+    const el = document.getElementById('tb-country-data');
+    try { cached = el ? JSON.parse(el.textContent) : []; } catch (e) { cached = []; }
+    return cached;
+  }
+
+  function storedCode() {
+    try { return localStorage.getItem(STORE_KEY); } catch (e) { return null; }
+  }
+
+  function rememberCountry(code) {
+    try { localStorage.setItem(STORE_KEY, code); } catch (e) {}
+  }
+
+  function guessCountry(list) {
+    list = list || countries();
+    const byCode = code => list.find(c => c.code === code) || null;
+    const saved = storedCode();
+    if (saved && byCode(saved)) return byCode(saved);
+    let zone = '';
+    try { zone = Intl.DateTimeFormat().resolvedOptions().timeZone || ''; } catch (e) {}
+    const fromZone = list.find(c => (c.timeZones || []).includes(zone));
+    if (fromZone) return fromZone;
+    const langs = navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || ''];
+    for (const lang of langs) {
+      const region = (lang.split('-')[1] || '').toUpperCase();
+      if (region && byCode(region)) return byCode(region);
+    }
+    return null;
+  }
+
+  function formatMoney(amount, currency, locale, options) {
+    const value = Number(amount) || 0;
+    try {
+      return new Intl.NumberFormat(locale || 'en-US', { style: 'currency', currency, ...(options || {}) }).format(value);
+    } catch (e) {
+      return `${currency} ${value.toLocaleString('en-US', { maximumFractionDigits: 2 })}`;
+    }
+  }
+
+  // Locale for number formatting: lakh/crore countries without a lakh-grouping locale borrow en-IN
+  function numberLocale(country) {
+    if (!country) return 'en-US';
+    return country.lakhGrouping ? 'en-IN' : country.locale;
+  }
+
+  function localeForCurrency(currency) {
+    const match = countries().find(c => c.currency === currency);
+    return numberLocale(match);
+  }
+
+  function defaultCurrency(fallback, select) {
+    const guess = guessCountry();
+    if (!guess) return fallback;
+    if (select && !Array.from(select.options).some(o => o.value === guess.currency)) return fallback;
+    return guess.currency;
+  }
+
+  // Money with two decimals in the currency's home number format, e.g. money(1580.17, 'INR') -> "₹1,580.17"
+  function money(amount, currency) {
+    return formatMoney(amount, currency, localeForCurrency(currency), { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+
+  // Bare currency symbol for labels and table headings, e.g. "Rs", "₹", "AED"
+  function currencySymbol(currency) {
+    try {
+      return new Intl.NumberFormat('en', { style: 'currency', currency, currencyDisplay: 'narrowSymbol' })
+        .formatToParts(0).find(part => part.type === 'currency').value;
+    } catch (e) {
+      return currency;
+    }
+  }
+
+  // English date in the visitor's regional order, e.g. en-GB "Saturday 31 October 2026",
+  // en-US "Saturday, October 31, 2026". Content stays English; only the format follows the region.
+  function dateLocale() {
+    const langs = navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || 'en-US'];
+    for (const lang of langs) {
+      const region = (lang.split('-')[1] || '').toUpperCase();
+      if (region && Intl.DateTimeFormat.supportedLocalesOf(`en-${region}`).length) return `en-${region}`;
+    }
+    return 'en-US';
+  }
+
+  function formatIsoDate(iso, options) {
+    const [y, m, d] = String(iso).split('-').map(Number);
+    if (!y || !m || !d) return String(iso);
+    return new Intl.DateTimeFormat(dateLocale(), { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC', ...(options || {}) })
+      .format(new Date(Date.UTC(y, m - 1, d)));
+  }
+
+  Object.assign(window.ToolsBuilt, { countries, guessCountry, rememberCountry, formatMoney, money, currencySymbol, numberLocale, localeForCurrency, defaultCurrency, formatIsoDate });
+
+  // Any select marked data-country-remember saves the chosen country (value or data-country of the option)
+  document.addEventListener('change', (e) => {
+    const el = e.target;
+    if (!el.matches || !el.matches('select[data-country-remember]')) return;
+    const opt = el.options[el.selectedIndex];
+    const code = (opt && opt.dataset.country) || el.value;
+    if (countries().some(c => c.code === code)) rememberCountry(code);
+  });
+})();

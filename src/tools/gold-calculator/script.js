@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
     weight: weightInput, unit: weightUnitSelect, karat: karatSelect, making: makingTypeSelect, mv: makingValueInput
   };
   // No default rate: the visitor must enter today's rate
-  const DEFAULTS = { rate: '', per: 'tola', ratek: '24', cur: 'PKR', weight: '1', unit: 'tola', karat: '22', making: 'none', mv: '' };
+  const DEFAULTS = { rate: '', per: 'tola', ratek: '24', cur: ToolsBuilt.defaultCurrency('PKR', currencySelect), weight: '1', unit: 'tola', karat: '22', making: 'none', mv: '' };
   let debounceTimer = null;
   let lastResultText = '';
 
@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function syncMaking() {
     const type = makingTypeSelect.value;
     makingValueGroup.hidden = type === 'none';
-    const symbol = logic.CURRENCIES[currencySelect.value].symbol;
+    const symbol = ToolsBuilt.currencySymbol(currencySelect.value);
     makingValueLabel.textContent = type === 'percent' ? 'Making charges (%)' : `Making charges (${symbol} per gram)`;
     makingValueInput.placeholder = type === 'percent' ? 'e.g. 8' : 'e.g. 500';
   }
@@ -117,7 +117,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function renderResult(res, v) {
-    const money = (n) => logic.formatMoney(n, v.cur);
+    const money = (n) => ToolsBuilt.money(n, v.cur);
     const unitLabel = logic.WEIGHT_UNITS[v.unit].label.toLowerCase();
     const weightText = `${trim(Number(v.weight), 4)} ${unitLabel}`;
 

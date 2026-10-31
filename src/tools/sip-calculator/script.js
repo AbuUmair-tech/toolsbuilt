@@ -28,11 +28,14 @@ document.addEventListener('DOMContentLoaded', () => {
   const tableBody = document.getElementById('sip-table-body');
 
   const STORAGE_KEY = 'toolsbuilt:sip-calculator';
+  const currencySelect = document.getElementById('currency');
+  const money = (n) => ToolsBuilt.money(n, currencySelect.value);
   let debounceTimer = null;
   let lastResultSummary = '';
 
   function initInputs() {
     // Result links (?inv=&ret=&yrs=&step=) take priority over saved state
+    currencySelect.value = ToolsBuilt.defaultCurrency('USD', currencySelect);
     if (ToolsBuilt.resultLink.restore().length) return;
 
     try {
@@ -43,6 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (data.ret) returnInput.value = data.ret;
         if (data.yrs) yearsInput.value = data.yrs;
         if (data.step) stepUpInput.value = data.step;
+        if (data.cur && Array.from(currencySelect.options).some(o => o.value === data.cur)) currencySelect.value = data.cur;
         return;
       }
     } catch (e) {}
@@ -56,7 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function saveState(inv, ret, yrs, step) {
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify({ inv, ret, yrs, step }));
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({ inv, ret, yrs, step, cur: currencySelect.value }));
     } catch (e) {}
 
     ToolsBuilt.resultLink.update();
@@ -124,12 +128,12 @@ document.addEventListener('DOMContentLoaded', () => {
     try {
       const res = logic.calculateSip(rawInv, rawRet, rawYrs, {
         stepUpPercent: rawStep ? parseFloat(rawStep) : 0,
-        currencySymbol: '$'
+        currencySymbol: ToolsBuilt.currencySymbol(currencySelect.value)
       });
 
-      const formattedMaturity = logic.formatCurrency(res.maturityValue);
-      const formattedInvested = logic.formatCurrency(res.totalInvested);
-      const formattedReturns = logic.formatCurrency(res.estimatedReturns);
+      const formattedMaturity = money(res.maturityValue);
+      const formattedInvested = money(res.totalInvested);
+      const formattedReturns = money(res.estimatedReturns);
       const multiplier = res.totalInvested > 0 ? (res.maturityValue / res.totalInvested).toFixed(2) : '1.00';
 
       resultPrimary.textContent = `Maturity Value: ${formattedMaturity}`;
@@ -145,7 +149,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       lastResultSummary = [
         `SIP Investment Projection Summary:`,
-        `Monthly Investment: ${logic.formatCurrency(res.monthlyInvestment)}`,
+        `Monthly Investment: ${money(res.monthlyInvestment)}`,
         `Expected Return: ${res.expectedReturnPercent}% per year`,
         `Duration: ${res.tenureYears} Years (${res.totalMonths} installments)`,
         res.stepUpPercent > 0 ? `Annual Step-Up: ${res.stepUpPercent}%` : null,
@@ -169,10 +173,10 @@ document.addEventListener('DOMContentLoaded', () => {
       const tr = document.createElement('tr');
       tr.innerHTML = `
         <td>Year ${row.year}</td>
-        <td>$${row.monthlyDeposit.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
-        <td>$${row.annualInvestment.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
-        <td>$${row.totalInvestedToDate.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
-        <td><strong>$${row.futureValue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</strong></td>
+        <td>${money(row.monthlyDeposit)}</td>
+        <td>${money(row.annualInvestment)}</td>
+        <td>${money(row.totalInvestedToDate)}</td>
+        <td><strong>${money(row.futureValue)}</strong></td>
       `;
       fragment.appendChild(tr);
     });
@@ -188,6 +192,8 @@ document.addEventListener('DOMContentLoaded', () => {
   [investmentInput, returnInput, yearsInput, stepUpInput].forEach(inp => {
     if (inp) inp.addEventListener('input', debounceCalculate);
   });
+
+  currencySelect.addEventListener('change', calculate);
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();

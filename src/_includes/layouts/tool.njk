@@ -72,7 +72,8 @@ layout: layouts/base.njk
       "priceCurrency": "USD"
     },
     "isAccessibleForFree": true,
-    "author": {
+    {% if areaServed %}"areaServed": { "@type": "Country", "name": {{ areaServed | jsonStr }} },
+    {% endif %}    "author": {
       "@type": "Person",
       "name": {{ authorName | jsonStr }},
       "url": {{ site.authorUrl | jsonStr }},

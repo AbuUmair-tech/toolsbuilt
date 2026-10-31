@@ -17,11 +17,23 @@ document.addEventListener('DOMContentLoaded', () => {
   const errorBox = document.getElementById('error-box');
 
   const STORAGE_KEY = 'toolsbuilt:discount-calculator';
+  // Older links and saved state stored a symbol; the selector now uses currency codes
+  const LEGACY_SYMBOLS = { '$': 'USD', '£': 'GBP', '€': 'EUR', '¥': 'JPY', '₹': 'INR' };
+  const toCode = (cur) => LEGACY_SYMBOLS[cur] || cur;
+  const defaultCurrency = () => ToolsBuilt.defaultCurrency('USD', currencySelect);
   let debounceTimer = null;
   let lastResultText = '';
 
   function initInputs() {
     // Result links (?price=&off=&off2=&tax=&cur=) take priority over saved state
+    try {
+      const params = new URLSearchParams(window.location.search);
+      if (LEGACY_SYMBOLS[params.get('cur')]) {
+        params.set('cur', toCode(params.get('cur')));
+        window.history.replaceState(window.history.state, '', `${window.location.pathname}?${params}${window.location.hash}`);
+      }
+    } catch (e) {}
+    currencySelect.value = defaultCurrency();
     if (ToolsBuilt.resultLink.restore().length) return;
 
     try {
@@ -32,7 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (data.disc) discountInput.value = data.disc;
         if (data.stacked) stackedDiscountInput.value = data.stacked;
         if (data.tax) taxInput.value = data.tax;
-        if (data.cur && currencySelect) currencySelect.value = data.cur;
+        if (data.cur && currencySelect) currencySelect.value = toCode(data.cur);
         return;
       }
     } catch (e) {}
@@ -73,7 +85,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const rawDisc = discountInput.value.trim();
     const rawStacked = stackedDiscountInput.value.trim();
     const rawTax = taxInput.value.trim();
-    const cur = currencySelect ? currencySelect.value : '$';
+    const cur = currencySelect.value;
 
     if (!rawPrice || isNaN(parseFloat(rawPrice))) {
       showError('Please enter a valid original price.', priceInput);
@@ -109,8 +121,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function renderResult(res) {
-    const cur = res.currencySymbol;
-    const fmt = (num) => cur + num.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    const fmt = (num) => ToolsBuilt.money(num, res.currencySymbol);
 
     const finalFormatted = fmt(res.finalPrice);
     const savedFormatted = fmt(res.totalSavings);
@@ -167,9 +178,9 @@ document.addEventListener('DOMContentLoaded', () => {
     discountInput.value = '20';
     stackedDiscountInput.value = '';
     taxInput.value = '';
-    if (currencySelect) currencySelect.value = '$';
+    currencySelect.value = defaultCurrency();
     clearError();
-    saveState('100', '20', '', '', '$');
+    saveState('100', '20', '', '', currencySelect.value);
     calculate();
   });
 

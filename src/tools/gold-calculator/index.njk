@@ -106,6 +106,8 @@ howto:
     - name: "Add making charges if any"
       text: "Choose a percentage of the gold value or a fixed amount per gram, then read the gold value, making charges and total."
 ---
+{% from "partials/currency-select.njk" import currencySelect, countryData with context %}
+{{ countryData(countries) }}
 
     <!-- Tool Form Container -->
     <section class="tool-container" aria-label="Gold Calculator Form">
@@ -123,6 +125,9 @@ howto:
                 <option value="tola" selected>per tola</option>
                 <option value="10g">per 10 grams</option>
                 <option value="gram">per gram</option>
+                <option value="troyOunce">per troy ounce (31.1035 g)</option>
+                <option value="taelTroy">per tael, Hong Kong (37.429 g)</option>
+                <option value="kilogram">per kilogram</option>
               </select>
             </div>
             <div class="form-group">
@@ -134,15 +139,7 @@ howto:
                 <option value="18">18K</option>
               </select>
             </div>
-            <div class="form-group">
-              <label for="currency">Currency</label>
-              <select id="currency" data-param="cur" class="form-control">
-                <option value="PKR" selected>PKR (Rs)</option>
-                <option value="INR">INR (₹)</option>
-                <option value="AED">AED</option>
-                <option value="USD">USD ($)</option>
-              </select>
-            </div>
+            {{ currencySelect({ id: "currency", param: "cur", selected: "PKR" }) }}
           </div>
           <p class="form-hint" id="rate-hint">Take today's rate from your local sarafa association or jeweller. This calculator does not fetch live prices.</p>
         </fieldset>
@@ -161,6 +158,9 @@ howto:
                 <option value="gram">Gram</option>
                 <option value="masha">Masha</option>
                 <option value="ratti">Ratti</option>
+                <option value="troyOunce">Troy ounce</option>
+                <option value="taelTroy">Tael (Hong Kong, troy)</option>
+                <option value="kilogram">Kilogram</option>
               </select>
             </div>
             <div class="form-group">
@@ -245,7 +245,7 @@ howto:
 
       <!-- Unit conversion table, rendered from logic.js unit data -->
       <div class="gold-units-block">
-        <h2 class="gold-units-title">Tola, gram, masha and ratti</h2>
+        <h2 class="gold-units-title">Gold weight units</h2>
         <div class="table-wrapper" tabindex="0" role="region" aria-label="Gold weight unit conversions (scrollable)">
           <table class="table gold-units-table">
             <caption class="visually-hidden">Gold weight unit conversions</caption>
@@ -271,6 +271,7 @@ howto:
             </tbody>
           </table>
         </div>
+        <p class="form-hint">Troy ounce: 31.1034768 g, from <a href="https://www.nist.gov/document/nist-hb-44-2024-appendix-c-general-tables-units-measurement" target="_blank" rel="noopener noreferrer">NIST Handbook 44, Appendix C</a>. Hong Kong tael: the statutory “tael troy” of 37.429 g used for precious metals, from the <a href="https://www.elegislation.gov.hk/hk/cap68" target="_blank" rel="noopener noreferrer">Weights and Measures Ordinance (Cap. 68)</a>, not the ordinary tael of 1/16 catty.</p>
       </div>
     </section>
 

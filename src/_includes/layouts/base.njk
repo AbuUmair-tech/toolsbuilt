@@ -6,10 +6,10 @@
   <title>{{ title }}</title>
   <meta name="description" content="{{ description }}">
   <link rel="canonical" href="{{ canonical or ('https://toolsbuilt.com' + page.url) }}">
-  {% if pagination and pagination.href.previous %}
+  {% if pagination and not noPageLinks and pagination.href.previous %}
   <link rel="prev" href="https://toolsbuilt.com{{ pagination.href.previous }}">
   {% endif %}
-  {% if pagination and pagination.href.next %}
+  {% if pagination and not noPageLinks and pagination.href.next %}
   <link rel="next" href="https://toolsbuilt.com{{ pagination.href.next }}">
   {% endif %}
   {% if alternates and alternates.length %}
@@ -186,7 +186,8 @@
   <script src="/assets/js/common.js"></script>
   <script src="/assets/js/layout.js" defer></script>
   {% if toolSlug == "password-generator" %}<script src="/tools/password-generator/eff-words.js"></script>{% endif %}
-  {% if toolSlug %}<script src="/tools/{{ toolSlug }}/logic.js"></script>{% endif %}
+  {% if taxEngine %}<script src="/tools/salary-tax-calculator/logic.js"></script>{% endif %}
+  {% if toolLogic %}<script src="{{ toolLogic }}"></script>{% elif toolSlug %}<script src="/tools/{{ toolSlug }}/logic.js"></script>{% endif %}
   {% if toolScript %}<script src="{{ toolScript }}"></script>{% elif toolSlug %}<script src="/tools/{{ toolSlug }}/script.js"></script>{% endif %}
 </body>
 </html>

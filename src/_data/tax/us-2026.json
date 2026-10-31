@@ -1,0 +1,129 @@
+{
+  "country": "US",
+  "taxYear": "2026",
+  "label": "Tax year 2026",
+  "period": "1 January to 31 December 2026",
+  "currency": "USD",
+  "current": true,
+  "statusLabel": "Filing status",
+  "defaultStatus": "single",
+  "standardDeductionLabel": "Standard deduction",
+  "statuses": {
+    "single": {
+      "label": "Single",
+      "standardDeduction": 16100,
+      "slabs": [
+        { "over": 0, "upTo": 12400, "fixed": 0, "rate": 0.10 },
+        { "over": 12400, "upTo": 50400, "fixed": 1240, "rate": 0.12 },
+        { "over": 50400, "upTo": 105700, "fixed": 5800, "rate": 0.22 },
+        { "over": 105700, "upTo": 201775, "fixed": 17966, "rate": 0.24 },
+        { "over": 201775, "upTo": 256225, "fixed": 41024, "rate": 0.32 },
+        { "over": 256225, "upTo": 640600, "fixed": 58448, "rate": 0.35 },
+        { "over": 640600, "upTo": null, "fixed": 192979.25, "rate": 0.37 }
+      ]
+    },
+    "married_joint": {
+      "label": "Married filing jointly",
+      "standardDeduction": 32200,
+      "slabs": [
+        { "over": 0, "upTo": 24800, "fixed": 0, "rate": 0.10 },
+        { "over": 24800, "upTo": 100800, "fixed": 2480, "rate": 0.12 },
+        { "over": 100800, "upTo": 211400, "fixed": 11600, "rate": 0.22 },
+        { "over": 211400, "upTo": 403550, "fixed": 35932, "rate": 0.24 },
+        { "over": 403550, "upTo": 512450, "fixed": 82048, "rate": 0.32 },
+        { "over": 512450, "upTo": 768700, "fixed": 116896, "rate": 0.35 },
+        { "over": 768700, "upTo": null, "fixed": 206583.50, "rate": 0.37 }
+      ]
+    }
+  },
+  "notes": [
+    "Federal income tax only, Rev. Proc. 2025-32 section 4.01 tax rate tables and section 4.14 standard deduction for taxable years beginning in 2026.",
+    "State and local income taxes, Social Security and Medicare (FICA) are not included."
+  ],
+  "sources": [
+    { "name": "IRS Revenue Procedure 2025-32 (2026 inflation adjustments): tax rate tables and standard deduction", "url": "https://www.irs.gov/pub/irs-drop/rp-25-32.pdf" },
+    { "name": "IRS newsroom: tax inflation adjustments for tax year 2026", "url": "https://www.irs.gov/newsroom/irs-releases-tax-inflation-adjustments-for-tax-year-2026-including-amendments-from-the-one-big-beautiful-bill" }
+  ],
+  "verifiedOn": "2026-10-31",
+  "officialExamples": [
+    { "note": "Rev. Proc. 2025-32 Table 3 (unmarried): taxable income $50,400 -> $5,800", "status": "single", "taxableIncome": 50400, "tax": 5800 },
+    { "note": "Rev. Proc. 2025-32 Table 3 (unmarried): taxable income $201,775 -> $41,024", "status": "single", "taxableIncome": 201775, "tax": 41024 },
+    { "note": "Rev. Proc. 2025-32 Table 1 (married filing jointly): taxable income $211,400 -> $35,932", "status": "married_joint", "taxableIncome": 211400, "tax": 35932 },
+    { "note": "Rev. Proc. 2025-32 Table 1 (married filing jointly): taxable income $768,700 -> $206,583.50", "status": "married_joint", "taxableIncome": 768700, "tax": 206583.50 }
+  ],
+  "page": {
+    "slug": "us-salary-tax-calculator",
+    "title": "US Federal Income Tax Calculator 2026 (Salary)",
+    "h1": "US Salary Tax Calculator 2026 (Federal)",
+    "description": "Estimate 2026 US federal income tax on a salary for single filers and married couples filing jointly, with the 2026 standard deduction and IRS brackets.",
+    "placeholder": "6000",
+    "defaultSalary": 6000,
+    "defaultPeriod": "monthly",
+    "salaryHint": "Your gross wages before tax. Pre-tax 401(k) or health insurance contributions reduce taxable wages, so leave them out if you know them.",
+    "tableTitle": "2026 federal tax brackets",
+    "tableIncomeHeading": "Taxable income (after standard deduction)",
+    "tableNotes": [
+      "Standard deduction for 2026: $16,100 single, $32,200 married filing jointly.",
+      "Federal income tax only. State and local income tax, Social Security and Medicare are not included."
+    ],
+    "disclaimer": "It estimates federal income tax on wages only, with the standard deduction and no credits. It leaves out state and local income tax, Social Security and Medicare (FICA), itemized deductions and tax credits such as the Child Tax Credit. Check your withholding with the IRS Tax Withholding Estimator or a tax professional.",
+    "quickAnswer": "For 2026, subtract the standard deduction ($16,100 if single, $32,200 if married filing jointly) from your yearly wages, then apply the federal brackets from 10% to 37% to what is left. Each rate only applies to the slice of income inside its bracket, so a single filer earning $72,000 pays about $7,000 in federal income tax, not 22% of everything.",
+    "howto": {
+      "name": "How to estimate 2026 US federal income tax on a salary",
+      "description": "Estimate yearly and monthly federal income tax on wages for 2026.",
+      "steps": [
+        { "name": "Enter your wages", "text": "Type your gross pay and choose whether it is monthly or yearly." },
+        { "name": "Choose a filing status", "text": "Pick single or married filing jointly; each has its own brackets and standard deduction." },
+        { "name": "Read your tax", "text": "See federal tax a year and a month, your effective rate and your top bracket." }
+      ]
+    },
+    "workedExamples": [
+      {
+        "title": "Single, $72,000 salary",
+        "inputs": ["Filing status: single", "Wages: $72,000 a year"],
+        "steps": ["Taxable income: $72,000 − $16,100 = $55,900", "Rev. Proc. 2025-32 Table 3: $5,800 plus 22% of the excess over $50,400", "22% × $5,500 = $1,210"],
+        "result": "$7,010 federal income tax (about $584 a month), effective rate 9.74%."
+      },
+      {
+        "title": "Married filing jointly, $150,000 combined wages",
+        "inputs": ["Filing status: married filing jointly", "Wages: $150,000 a year"],
+        "steps": ["Taxable income: $150,000 − $32,200 = $117,800", "Rev. Proc. 2025-32 Table 1: $11,600 plus 22% of the excess over $100,800", "22% × $17,000 = $3,740"],
+        "result": "$15,340 federal income tax (about $1,278 a month), effective rate 10.23%."
+      }
+    ],
+    "commonMistakes": [
+      { "title": "Applying your top rate to all income", "description": "Being in the 22% bracket does not mean 22% of your pay goes in federal tax: lower slices are taxed at 10% and 12%, and the standard deduction is not taxed at all." },
+      { "title": "Forgetting state tax and FICA", "description": "Your paycheck also loses Social Security and Medicare and, in most states, state income tax. This page shows only federal income tax." },
+      { "title": "Using last year's numbers", "description": "Brackets and the standard deduction change every year with inflation. These are the 2026 figures from IRS Rev. Proc. 2025-32." }
+    ],
+    "faqs": [
+      { "q": "What are the 2026 federal tax brackets?", "a": "For single filers: 10% up to $12,400 of taxable income, 12% to $50,400, 22% to $105,700, 24% to $201,775, 32% to $256,225, 35% to $640,600 and 37% above. Married couples filing jointly have brackets roughly twice as wide, starting with 10% up to $24,800." },
+      { "q": "What is the 2026 standard deduction?", "a": "$16,100 for single filers and $32,200 for married couples filing jointly, per IRS Rev. Proc. 2025-32." },
+      { "q": "Does this include state income tax?", "a": "No. States set their own income taxes, and some have none. This calculator covers federal income tax only." },
+      { "q": "Why is my paycheck withholding different?", "a": "Withholding is based on your Form W-4, pay frequency and pre-tax deductions, and it also covers Social Security and Medicare. Use the IRS Tax Withholding Estimator to fine-tune it." }
+    ],
+    "sections": [
+      {
+        "id": "us-how-heading",
+        "heading": "How federal income tax on wages works",
+        "paragraphs": [
+          "The US taxes income by calendar year. Your employer withholds federal income tax from each paycheck using your Form W-4, and you reconcile the total on your tax return the following spring.",
+          "Federal income tax is progressive: the tax rate tables split taxable income into brackets, and each rate applies only to the income inside its bracket. Taxable income is your wages minus pre-tax deductions and either the standard deduction or your itemized deductions."
+        ],
+        "list": [
+          "<strong>Filing status</strong> decides which brackets and standard deduction apply. This calculator covers single and married filing jointly; head of household and married filing separately have their own tables.",
+          "<strong>Standard deduction</strong> for 2026 is $16,100 (single) or $32,200 (married filing jointly).",
+          "<strong>Tax credits</strong> such as the Child Tax Credit reduce the tax itself and are not included here."
+        ]
+      },
+      {
+        "id": "us-not-included-heading",
+        "heading": "What this estimate leaves out",
+        "paragraphs": [
+          "Your take-home pay is also reduced by Social Security and Medicare (FICA) and by state and sometimes city income tax. Each state sets its own rules, so this page does not try to estimate them.",
+          "If you contribute to a traditional 401(k), an HSA or employer health insurance through payroll, those amounts usually come out before federal income tax. Enter your wages after those deductions for a closer estimate."
+        ]
+      }
+    ]
+  }
+}

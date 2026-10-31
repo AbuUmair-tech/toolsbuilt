@@ -1,0 +1,22 @@
+{#
+  Shared currency selector.
+    {% from "partials/currency-select.njk" import currencySelect, countryData with context %}
+    {{ countryData(countries) }}   once per page, before the tool's script runs
+    {{ currencySelect({ id: "currency", param: "cur", selected: "PKR", label: "Currency" }) }}
+  The server-rendered default is `selected`; the tool's script swaps in the visitor's
+  currency with ToolsBuilt.defaultCurrency() unless a result link or saved state says otherwise.
+#}
+{% macro countryData(countries) %}
+<script type="application/json" id="tb-country-data">{{ countries | dump | safe }}</script>
+{% endmacro %}
+
+{% macro currencySelect(cfg) %}
+<div class="form-group currency-select-group">
+  <label for="{{ cfg.id }}">{{ cfg.label or "Currency" }}</label>
+  <select id="{{ cfg.id }}"{% if cfg.param %} data-param="{{ cfg.param }}"{% endif %}{% if cfg.alias %} data-param-alias="{{ cfg.alias }}"{% endif %} class="form-control" data-currency-select>
+    {% for cur in countries | currencyOptions %}
+    <option value="{{ cur.code }}" data-country="{{ cur.country }}"{% if cur.code == cfg.selected %} selected{% endif %}>{{ cur.code }}{% if cur.symbol != cur.code %} ({{ cur.symbol }}){% endif %} – {{ cur.name }}</option>
+    {% endfor %}
+  </select>
+</div>
+{% endmacro %}

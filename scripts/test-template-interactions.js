@@ -60,7 +60,8 @@ async function runTemplateInteractionTests() {
   }
 
   try {
-    const page = await browser.newPage();
+    // A fixed locale and time zone: money tools preselect the visitor's currency from these
+    const page = await browser.newPage({ locale: 'en-US', timezoneId: 'America/New_York' });
 
     // -------------------------------------------------------------
     // Test 1: Age Calculator Calculation + Result Actions Bar + Toast

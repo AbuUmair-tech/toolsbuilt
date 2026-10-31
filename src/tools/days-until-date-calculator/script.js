@@ -87,6 +87,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function renderResult(res, eventName) {
     const numFormatter = new Intl.NumberFormat('en-US');
+    const tp = res.targetParts;
+    const targetDate = ToolsBuilt.formatIsoDate(`${tp.year}-${String(tp.month).padStart(2, '0')}-${String(tp.day).padStart(2, '0')}`);
     const titleSubject = eventName ? eventName : 'Target Date';
     let primaryStr = '';
 
@@ -104,7 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
       statTotalDays.textContent = '0 Days';
       statWeeksDays.textContent = '0 weeks, 0 days';
       statMonthsDays.textContent = '0 months, 0 days';
-      lastResultText = `${primaryStr} - ${res.weekdayName}, ${res.formattedDate}`;
+      lastResultText = `${primaryStr} - ${targetDate}`;
     } else if (res.isPast) {
       resultHeader.textContent = 'Elapsed Time Calculation';
       const absDays = Math.abs(res.totalDays);
@@ -113,7 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
       statTotalDays.textContent = `${numFormatter.format(absDays)} Days Ago`;
       statWeeksDays.textContent = `${res.weeks} week${res.weeks === 1 ? '' : 's'}, ${res.daysAfterWeeks} day${res.daysAfterWeeks === 1 ? '' : 's'} ago`;
       statMonthsDays.textContent = `${res.months} month${res.months === 1 ? '' : 's'}, ${res.daysAfterMonths} day${res.daysAfterMonths === 1 ? '' : 's'} ago`;
-      lastResultText = `${primaryStr} (${absDays} days elapsed on ${res.weekdayName}, ${res.formattedDate}).`;
+      lastResultText = `${primaryStr} (${absDays} days elapsed on ${targetDate}).`;
     } else {
       resultHeader.textContent = 'Countdown Calculation Result';
       primaryStr = `${numFormatter.format(res.totalDays)} Day${res.totalDays === 1 ? '' : 's'} Until ${titleSubject}`;
@@ -121,10 +123,10 @@ document.addEventListener('DOMContentLoaded', () => {
       statTotalDays.textContent = `${numFormatter.format(res.totalDays)} Days`;
       statWeeksDays.textContent = `${res.weeks} week${res.weeks === 1 ? '' : 's'}, ${res.daysAfterWeeks} day${res.daysAfterWeeks === 1 ? '' : 's'}`;
       statMonthsDays.textContent = `${res.months} month${res.months === 1 ? '' : 's'}, ${res.daysAfterMonths} day${res.daysAfterMonths === 1 ? '' : 's'}`;
-      lastResultText = `${primaryStr} (${numFormatter.format(res.totalDays)} days, ${res.weeks}w ${res.daysAfterWeeks}d until ${res.weekdayName}, ${res.formattedDate}).`;
+      lastResultText = `${primaryStr} (${numFormatter.format(res.totalDays)} days, ${res.weeks}w ${res.daysAfterWeeks}d until ${targetDate}).`;
     }
 
-    statWeekday.textContent = `${res.weekdayName} (${res.formattedDate})`;
+    statWeekday.textContent = targetDate;
     resultBox.classList.add('is-visible');
   }
 

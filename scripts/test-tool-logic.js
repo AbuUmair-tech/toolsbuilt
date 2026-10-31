@@ -1277,6 +1277,150 @@ const salesTaxLogic = require(path.join(ROOT, 'src/tools/sales-tax-calculator/lo
   assert(throws(() => salesTaxLogic.removeTax('', 18)), 'SalesTaxLogic: missing price is rejected');
 }
 
+// Country data: salary tax datasets, VAT presets, grading scales, gold units, countries
+{
+  const fs = require('fs');
+  const engine = require(path.join(ROOT, 'src/tools/salary-tax-calculator/logic.js'));
+  const near = (a, b) => Math.abs(a - b) < 0.005;
+  const isDate = (s) => /^\d{4}-\d{2}-\d{2}$/.test(s || '');
+  const isOfficialUrl = (u) => /^https:\/\/([^/]+\.)?(u\.ae|gov\.uk|gov|gov\.in|gov\.pk|gov\.ae|gov\.sa|gov\.qa|gov\.sg|govt\.nz|europa\.eu|canada\.ca|gov\.za|edu\.pk|nist\.gov|gov\.hk)\//.test(u || '');
+  const taxDir = path.join(ROOT, 'src/_data/tax');
+  const datasets = fs.readdirSync(taxDir).filter(f => f.endsWith('.json'))
+    .map(f => ({ file: f, d: JSON.parse(fs.readFileSync(path.join(taxDir, f), 'utf8')) }));
+  const tools = JSON.parse(fs.readFileSync(path.join(ROOT, 'src/_data/tools.json'), 'utf8'));
+
+  // Every dataset: official sources, a verification date, continuous slabs, fixed amounts that
+  // match the slabs below, and a tools.json entry for its page
+  datasets.forEach(({ file, d }) => {
+    assert(file === `${d.country.toLowerCase()}-${d.taxYear}.json`, `TaxData ${file}: file name matches country and tax year`);
+    assert(d.sources.length > 0 && d.sources.every(s => isOfficialUrl(s.url)), `TaxData ${file}: every source is an official https URL`);
+    assert(isDate(d.verifiedOn), `TaxData ${file}: verifiedOn is a date`);
+    const statusIds = d.statuses ? Object.keys(d.statuses) : [undefined];
+    statusIds.forEach(id => {
+      const raw = id ? d.statuses[id].slabs : d.slabs;
+      const { slabs } = engine.resolve(d, id);
+      slabs.forEach((slab, i) => {
+        if (i) assert(slabs[i - 1].upTo === slab.over, `TaxData ${file}${id ? ' ' + id : ''}: slab ${i + 1} starts where slab ${i} ends`);
+        if (typeof raw[i].fixed === 'number') assert(near(raw[i].fixed, slab.fixed) || i === 0, `TaxData ${file}${id ? ' ' + id : ''}: published fixed amount ${raw[i].fixed} equals tax on the slabs below`);
+      });
+      assert(slabs[slabs.length - 1].upTo === null, `TaxData ${file}${id ? ' ' + id : ''}: top slab is open-ended`);
+    });
+    if (d.page) {
+      assert(tools.some(t => t.slug === d.page.slug), `TaxData ${file}: tools.json lists /tools/${d.page.slug}/`);
+      assert(d.page.faqs.length >= 3 && d.page.sections.length >= 2 && d.page.workedExamples.length >= 2, `TaxData ${file}: page has its own FAQs, sections and worked examples`);
+    }
+  });
+
+  // Each country page has genuinely different text (no shared paragraphs)
+  const pageTexts = datasets.filter(x => x.d.page).map(x => x.d.page.sections.flatMap(s => s.paragraphs));
+  const allParas = pageTexts.flat();
+  assert(new Set(allParas).size === allParas.length, 'TaxData: no paragraph is repeated across country pages');
+
+  const ds = (name) => datasets.find(x => x.file === name).d;
+
+  // India FY 2025-26: Budget Speech 2025-26 annex table (tax after rebate, before cess)
+  const IN = ds('in-2025-26.json');
+  assert(IN.officialExamples.length >= 2, 'TaxIN: at least two official examples');
+  IN.officialExamples.forEach(x => {
+    const r = engine.calculate(IN, x.grossSalary);
+    assert(near(r.grossTax - r.rebate + r.surcharge, x.taxBeforeCess), `TaxIN official: ${x.note} (got ${r.grossTax - r.rebate + r.surcharge})`);
+  });
+  assert(near(engine.calculate(IN, 1675000).annualTax, 124800), 'TaxIN: ₹16.75 lakh salary -> ₹1,24,800 with 4% cess');
+  assert(near(engine.calculate(IN, 1285000).annualTax, 10400), 'TaxIN: marginal relief at ₹12.1 lakh total income -> ₹10,000 + cess');
+  assert(near(engine.calculate(IN, 5175000).surcharge, 70000), 'TaxIN: surcharge marginal relief at ₹51 lakh -> ₹70,000');
+  assert(engine.calculate(IN, 5075000).surcharge === 0, 'TaxIN: no surcharge at exactly ₹50 lakh total income');
+
+  // United States 2026: Rev. Proc. 2025-32 tax rate tables
+  const US = ds('us-2026.json');
+  assert(US.officialExamples.length >= 2, 'TaxUS: at least two official examples');
+  US.officialExamples.forEach(x => {
+    const tax = engine.slabTax(engine.resolve(US, x.status).slabs, x.taxableIncome);
+    assert(near(tax, x.tax), `TaxUS official: ${x.note} (got ${tax})`);
+  });
+  assert(near(engine.calculate(US, 72000, { status: 'single' }).annualTax, 7010), 'TaxUS: single $72,000 -> $7,010');
+  assert(near(engine.calculate(US, 150000, { status: 'married_joint' }).annualTax, 15340), 'TaxUS: MFJ $150,000 -> $15,340');
+  assert(engine.calculate(US, 16100, { status: 'single' }).annualTax === 0, 'TaxUS: wages at the standard deduction pay no federal income tax');
+
+  // United Kingdom 2026-27: GOV.UK Personal Allowance and bands
+  const GB = ds('gb-2026-27.json');
+  assert(GB.officialExamples.length >= 2, 'TaxGB: at least two official examples');
+  GB.officialExamples.forEach(x => {
+    const r = engine.calculate(GB, x.income, { status: x.status });
+    if (x.tax !== undefined) assert(near(r.annualTax, x.tax), `TaxGB official: ${x.note} (got ${r.annualTax})`);
+    if (x.allowance !== undefined) assert(near(r.deductions.find(dd => dd.id === 'allowance').amount, x.allowance), `TaxGB official: ${x.note}`);
+  });
+  assert(near(engine.calculate(GB, 36000, { status: 'rUK' }).annualTax, 4686), 'TaxGB: £36,000 in England -> £4,686');
+  assert(near(engine.calculate(GB, 110000, { status: 'rUK' }).annualTax, 33432), 'TaxGB: £110,000 -> £33,432 (allowance taper)');
+  assert(near(engine.calculate(GB, 36000, { status: 'scotland' }).annualTax, 4711.07), 'TaxGB: £36,000 in Scotland -> £4,711.07');
+  assert(near(engine.calculate(GB, 200000, { status: 'rUK' }).annualTax, 76203), 'TaxGB: £200,000 -> £76,203 (no allowance)');
+
+  // Engine errors
+  let threw = false;
+  try { engine.calculate(US, 50000, { status: 'head' }); } catch (e) { threw = true; }
+  assert(threw, 'TaxEngine: unknown filing status throws');
+
+  // Countries with no salary tax: each has an official statement
+  const noTax = JSON.parse(fs.readFileSync(path.join(ROOT, 'src/_data/noSalaryTax.json'), 'utf8')).countries;
+  noTax.forEach(c => assert(isOfficialUrl(c.source.url) && isDate(c.verifiedOn) && c.quote, `NoSalaryTax ${c.code}: official source, quote and date`));
+
+  // VAT presets
+  const vat = JSON.parse(fs.readFileSync(path.join(ROOT, 'src/_data/vat-rates.json'), 'utf8')).countries;
+  assert(new Set(vat.map(c => c.code)).size === vat.length, 'Vat: country codes are unique');
+  const EU = ['AT','BE','BG','CY','CZ','DE','DK','EE','GR','ES','FI','FR','HR','HU','IE','IT','LT','LU','LV','MT','NL','PL','PT','RO','SE','SI','SK'];
+  assert(EU.every(code => vat.some(c => c.code === code)), 'Vat: all 27 EU member states are present');
+  vat.forEach(c => {
+    if (c.code === 'US') {
+      assert(c.rates.length === 0 && /no federal sales tax/i.test(c.notes), 'Vat US: no preset rate; the note explains state and local sales tax');
+      return;
+    }
+    assert(c.rates.length > 0 && c.rates.every(r => r.rate > 0 && r.rate < 100 && r.label), `Vat ${c.code}: rates are between 0 and 100 with labels`);
+    assert(isOfficialUrl(c.source.url) && isDate(c.verifiedOn), `Vat ${c.code}: official source and verifiedOn`);
+  });
+  const rate = (code) => vat.find(c => c.code === code).rates[0].rate;
+  assert(rate('GB') === 20 && rate('DE') === 19 && rate('FI') === 25.5 && rate('IN') === 18 && rate('PK') === 18 && rate('SA') === 15 && rate('AE') === 5 && rate('CA-ON') === 13,
+    'Vat: standard rates GB 20, DE 19, FI 25.5, IN 18, PK 18, SA 15, AE 5, Ontario HST 13');
+
+  // Grading scales
+  const scales = JSON.parse(fs.readFileSync(path.join(ROOT, 'src/_data/grading-scales.json'), 'utf8')).scales;
+  scales.forEach(sc => {
+    assert(sc.note && (sc.source ? isOfficialUrl(sc.source.url) && isDate(sc.verifiedOn) : /typical|could not find|vary/i.test(sc.name + sc.note)),
+      `Grading ${sc.code}: has an official source, or says it is typical / unverified`);
+    if (sc.type === 'bands') {
+      assert(sc.bands.every((b, i) => !i || b.min < sc.bands[i - 1].min) && sc.bands[sc.bands.length - 1].min === 0, `Grading ${sc.code}: bands run from highest to 0%`);
+    }
+  });
+  const scale = (code) => scales.find(sc => sc.code === code);
+  assert(JSON.stringify(scale('PK-BISE').bands) === JSON.stringify(marksLogic.GRADING.bands), 'Grading PK-BISE: matches the logic module default');
+  [[96, 'A++'], [95.5, 'A+'], [91, 'A+'], [86, 'A'], [76, 'B+'], [61, 'C+'], [40, 'D'], [39.99, 'U']]
+    .forEach(([pct, g]) => assert(marksLogic.gradeFor(pct, scale('PK-IBCC-2026')).grade === g, `Grading IBCC 2026: ${pct}% -> ${g}`));
+  assert(marksLogic.gradeFor(33, scale('IN-CBSE')).passed === true && marksLogic.gradeFor(32.99, scale('IN-CBSE')).passed === false, 'Grading CBSE: 33% passes, 32.99% does not');
+  assert(marksLogic.calculatePercentage(870, 1100, scale('US-TYPICAL')).grade === 'C', 'Grading US typical: 79.09% -> C');
+  const custom = marksLogic.customScale([{ grade: 'Pass', min: '50' }, { grade: 'Distinction', min: '75' }, { grade: 'Fail', min: '0' }]);
+  assert(custom.bands.map(b => b.grade).join(',') === 'Distinction,Pass,Fail' && marksLogic.gradeFor(80, custom).grade === 'Distinction', 'Grading custom: rows sorted by minimum; 80% -> Distinction');
+  let customThrew = 0;
+  [[{ grade: '', min: 50 }], [{ grade: 'A', min: 120 }], [{ grade: 'A', min: 50 }, { grade: 'B', min: 50 }], []].forEach(rows => {
+    try { marksLogic.customScale(rows); } catch (e) { customThrew++; }
+  });
+  assert(customThrew === 4, 'Grading custom: blank name, minimum over 100, duplicate minimum and empty scale are rejected');
+
+  // Gold units from legal definitions
+  assert(goldLogic.WEIGHT_UNITS.troyOunce.grams === 31.1034768, 'GoldUnits: troy ounce = 31.1034768 g (NIST HB 44)');
+  assert(goldLogic.WEIGHT_UNITS.taelTroy.grams === 37.429, 'GoldUnits: Hong Kong tael troy = 37.429 g (Cap. 68)');
+  const oz = goldLogic.calculateGold({ rate: 2000, rateUnit: 'troyOunce', rateKarat: 24, weight: 1, weightUnit: 'troyOunce', karat: 24, makingType: 'none' });
+  assert(near(oz.goldValue, 2000), 'GoldUnits: 1 troy ounce of 24K at 2,000 per troy ounce = 2,000');
+  const kg = goldLogic.calculateGold({ rate: 100, rateUnit: 'gram', rateKarat: 24, weight: 1, weightUnit: 'kilogram', karat: 24, makingType: 'none' });
+  assert(near(kg.goldValue, 100000), 'GoldUnits: 1 kg at 100 per gram = 100,000');
+
+  // Countries list
+  const countries = JSON.parse(fs.readFileSync(path.join(ROOT, 'src/_data/countries.json'), 'utf8'));
+  assert(new Set(countries.map(c => c.code)).size === countries.length && new Set(countries.map(c => c.slug)).size === countries.length, 'Countries: codes and slugs are unique');
+  countries.forEach(c => {
+    let ok = true;
+    try { new Intl.NumberFormat(c.locale, { style: 'currency', currency: c.currency }).format(1); } catch (e) { ok = false; }
+    assert(ok && Intl.NumberFormat.supportedLocalesOf(c.locale).length === 1, `Countries ${c.code}: locale ${c.locale} and currency ${c.currency} are valid`);
+  });
+}
+
 // Code formatters (async: the engines load with dynamic import)
 async function testCodeFormatters() {
   const pyFormatter = require(path.join(ROOT, 'src/tools/python-formatter/logic.js'));

@@ -30,11 +30,14 @@ document.addEventListener('DOMContentLoaded', () => {
   const tableBody = document.getElementById('compound-table-body');
 
   const STORAGE_KEY = 'toolsbuilt:compound-interest-calculator';
+  const currencySelect = document.getElementById('currency');
+  const money = (n) => ToolsBuilt.money(n, currencySelect.value);
   let debounceTimer = null;
   let lastResultSummary = '';
 
   function initInputs() {
     // Result links (?p=&r=&y=&f=&pmt=) take priority over saved state
+    currencySelect.value = ToolsBuilt.defaultCurrency('USD', currencySelect);
     if (ToolsBuilt.resultLink.restore().length) return;
 
     try {
@@ -46,6 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (data.y) yearsInput.value = data.y;
         if (data.f) freqSelect.value = data.f;
         if (data.pmt) contributionInput.value = data.pmt;
+        if (data.cur && Array.from(currencySelect.options).some(o => o.value === data.cur)) currencySelect.value = data.cur;
         return;
       }
     } catch (e) {}
@@ -60,7 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function saveState(p, r, y, f, pmt) {
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify({ p, r, y, f, pmt }));
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({ p, r, y, f, pmt, cur: currencySelect.value }));
     } catch (e) {}
 
     ToolsBuilt.resultLink.update();
@@ -133,12 +137,12 @@ document.addEventListener('DOMContentLoaded', () => {
     try {
       const res = logic.calculateCompoundInterest(rawP, rawR, rawY, freq, {
         contributionAmount: rawPmt ? parseFloat(rawPmt) : 0,
-        currencySymbol: '$'
+        currencySymbol: ToolsBuilt.currencySymbol(currencySelect.value)
       });
 
-      const formattedBal = logic.formatCurrency(res.finalBalance);
-      const formattedPrin = logic.formatCurrency(res.totalPrincipal);
-      const formattedInt = logic.formatCurrency(res.totalInterest);
+      const formattedBal = money(res.finalBalance);
+      const formattedPrin = money(res.totalPrincipal);
+      const formattedInt = money(res.totalInterest);
 
       resultPrimary.textContent = `Future Value: ${formattedBal}`;
       statFinalBalance.textContent = formattedBal;
@@ -148,7 +152,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // Render SVG Growth Chart
       if (chartContainer) {
-        chartContainer.innerHTML = logic.generateSvgGrowthChart(res.yearlyData, '$');
+        chartContainer.innerHTML = logic.generateSvgGrowthChart(res.yearlyData, ToolsBuilt.currencySymbol(currencySelect.value));
       }
 
       // Populate Table
@@ -159,11 +163,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
       lastResultSummary = [
         `Compound Interest Growth Summary:`,
-        `Initial Principal: ${logic.formatCurrency(res.initialPrincipal)}`,
+        `Initial Principal: ${money(res.initialPrincipal)}`,
         `Interest Rate: ${res.annualRate}% (Compounded ${res.frequencyLabel})`,
         `Effective APY: ${res.apyPercent}%`,
         `Time Horizon: ${res.tenureYears} Years`,
-        res.contributionAmount > 0 ? `Monthly Contribution: ${logic.formatCurrency(res.contributionAmount)}` : null,
+        res.contributionAmount > 0 ? `Monthly Contribution: ${money(res.contributionAmount)}` : null,
         `Total Principal Invested: ${formattedPrin}`,
         `Total Compound Interest Earned: ${formattedInt}`,
         `Ending Future Value: ${formattedBal}`
@@ -184,10 +188,10 @@ document.addEventListener('DOMContentLoaded', () => {
       const tr = document.createElement('tr');
       tr.innerHTML = `
         <td>Year ${row.year}</td>
-        <td>$${row.annualDeposit.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
-        <td>$${row.totalPrincipal.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
-        <td>$${row.interestEarned.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
-        <td><strong>$${row.balance.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</strong></td>
+        <td>${money(row.annualDeposit)}</td>
+        <td>${money(row.totalPrincipal)}</td>
+        <td>${money(row.interestEarned)}</td>
+        <td><strong>${money(row.balance)}</strong></td>
       `;
       fragment.appendChild(tr);
     });
@@ -204,6 +208,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (inp) inp.addEventListener('input', debounceCalculate);
   });
   if (freqSelect) freqSelect.addEventListener('change', calculate);
+
+  currencySelect.addEventListener('change', calculate);
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();

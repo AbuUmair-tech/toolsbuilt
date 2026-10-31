@@ -2,9 +2,11 @@
  * Marks Percentage Calculator Core Logic
  * Pure, DOM-free functions for exam marks percentages, totals and grades.
  *
- * GRADING holds the typical Pakistani board (BISE) grade bands used as a reference.
- * Boards can differ; a student's own result card is the final authority. To change the
- * bands, edit GRADING only (highest band first, each with its minimum percentage).
+ * GRADING holds the typical Pakistani board (BISE) grade bands, the default scale.
+ * Other presets live in src/_data/grading-scales.json and are passed in as `scale`:
+ *   { type: 'bands', bands: [{ grade, min }] }      grade = first band whose min the percentage reaches
+ *   { type: 'pass', passMark, passLabel, failLabel } pass/fail only (e.g. CBSE, which grades by rank)
+ * A student's own result card is the final authority.
  */
 
 (function (root, factory) {
@@ -42,10 +44,36 @@
     return n;
   }
 
-  /** Grade band for a percentage (uses the exact percentage, not the rounded one) */
-  function gradeFor(percentage) {
-    const band = GRADING.bands.find(b => percentage >= b.min) || GRADING.bands[GRADING.bands.length - 1];
-    return { grade: band.grade, index: GRADING.bands.indexOf(band), band };
+  /**
+   * Checks a visitor's own scale: grade names filled in, minimums from 0 to 100, no repeats.
+   * Returns a copy with the bands sorted from the highest minimum down.
+   */
+  function customScale(bands) {
+    const rows = (bands || []).filter(b => b && (String(b.grade || '').trim() || String(b.min === undefined ? '' : b.min).trim()));
+    if (!rows.length) throw new Error('Add at least one grade to your custom scale.');
+    const out = rows.map((b, i) => {
+      const grade = String(b.grade || '').trim();
+      if (!grade) throw new Error(`Custom scale row ${i + 1}: enter a grade name.`);
+      const min = toNumber(b.min, `the minimum percentage for grade ${grade}`);
+      if (min < 0 || min > 100) throw new Error(`Custom scale: the minimum for grade ${grade} must be from 0 to 100.`);
+      return { grade, min };
+    }).sort((a, b) => b.min - a.min);
+    out.forEach((b, i) => {
+      if (i && b.min === out[i - 1].min) throw new Error(`Custom scale: grades ${out[i - 1].grade} and ${b.grade} have the same minimum.`);
+    });
+    return { type: 'bands', bands: out };
+  }
+
+  /** Grade for a percentage on a scale (uses the exact percentage, not the rounded one) */
+  function gradeFor(percentage, scale) {
+    const s = scale || GRADING;
+    if (s.type === 'pass') {
+      const passed = percentage >= s.passMark;
+      return { grade: passed ? (s.passLabel || 'Pass') : (s.failLabel || 'Below pass mark'), index: passed ? 0 : 1, band: null, passed };
+    }
+    const band = s.bands.find(b => percentage >= b.min);
+    if (!band) return { grade: 'Below the lowest grade', index: null, band: null };
+    return { grade: band.grade, index: s.bands.indexOf(band), band };
   }
 
   function checkMarks(obtained, total, label) {
@@ -56,19 +84,19 @@
   }
 
   /** Mode 1: obtained / total -> percentage (exact and rounded to 2 decimals) and grade */
-  function calculatePercentage(obtainedValue, totalValue) {
+  function calculatePercentage(obtainedValue, totalValue, scale) {
     const obtained = toNumber(obtainedValue, 'your obtained marks');
     const total = toNumber(totalValue, 'the total marks');
     checkMarks(obtained, total);
     const exact = (obtained / total) * 100;
-    return { obtained, total, exact, percentage: round2(exact), ...gradeFor(exact) };
+    return { obtained, total, exact, percentage: round2(exact), ...gradeFor(exact, scale) };
   }
 
   /**
    * Mode 2: subject rows [{ name, obtained, total }] -> per-subject percentages, grand total,
    * overall percentage (grand obtained ÷ grand total) and grade. Rows left completely empty are skipped.
    */
-  function calculateSubjects(rows) {
+  function calculateSubjects(rows, scale) {
     if (!Array.isArray(rows)) throw new Error('Please add at least one subject.');
     const subjects = [];
     rows.forEach((row, i) => {
@@ -79,19 +107,20 @@
       const total = toNumber(row.total, `the total marks for ${label}`);
       checkMarks(obtained, total, label);
       const exact = (obtained / total) * 100;
-      subjects.push({ row: i, name: label, obtained, total, percentage: round2(exact), ...gradeFor(exact) });
+      subjects.push({ row: i, name: label, obtained, total, percentage: round2(exact), ...gradeFor(exact, scale) });
     });
     if (!subjects.length) throw new Error('Please enter marks for at least one subject.');
 
     const obtained = subjects.reduce((sum, s) => sum + s.obtained, 0);
     const total = subjects.reduce((sum, s) => sum + s.total, 0);
     const exact = (obtained / total) * 100;
-    return { subjects, obtained, total, exact, percentage: round2(exact), ...gradeFor(exact) };
+    return { subjects, obtained, total, exact, percentage: round2(exact), ...gradeFor(exact, scale) };
   }
 
   return {
     GRADING,
     gradeFor,
+    customScale,
     calculatePercentage,
     calculateSubjects,
     round2

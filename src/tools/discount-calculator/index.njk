@@ -91,22 +91,15 @@ faqs:
   - q: "What is an effective discount percentage?"
     a: "The effective discount percentage is your total dollar savings divided by the original price, expressed as a single equivalent percentage."
 ---
+{% from "partials/currency-select.njk" import currencySelect, countryData with context %}
+{{ countryData(countries) }}
 
     <!-- Tool Form Container -->
     <section class="tool-container" aria-label="Discount Calculator Form">
       <form id="calculator-form" novalidate>
         <div class="form-grid two-col">
           
-          <div class="form-group">
-            <label for="currency-symbol">Currency</label>
-            <select id="currency-symbol" data-param="cur" class="form-control w-auto">
-              <option value="$" selected>$ (USD, CAD, AUD)</option>
-              <option value="£">£ (GBP)</option>
-              <option value="€">€ (EUR)</option>
-              <option value="¥">¥ (JPY, CNY)</option>
-              <option value="₹">₹ (INR)</option>
-            </select>
-          </div>
+          {{ currencySelect({ id: "currency-symbol", param: "cur", selected: "USD" }) }}
 
           <div class="form-group">
             <label for="original-price">Original Price <span class="text-accent">*</span></label>

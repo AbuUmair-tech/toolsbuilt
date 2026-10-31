@@ -1,0 +1,181 @@
+---js
+{
+  layout: "layouts/tool.njk",
+  pagination: { data: "salaryTaxPages", size: 1, alias: "tx" },
+  permalink: (data) => `/tools/${data.tx.page.slug}/`,
+  toolLogic: "/tools/salary-tax-calculator/logic.js",
+  toolScript: "/tools/salary-tax-calculator/country.js",
+  extraCss: "/tools/salary-tax-calculator/style.css",
+  noPageLinks: true,
+  eleventyComputed: {
+    toolSlug: (data) => data.tx.page.slug,
+    title: (data) => data.tx.page.title,
+    description: (data) => data.tx.page.description,
+    h1: (data) => data.tx.page.h1,
+    areaServed: (data) => data.tx.countryName,
+    quickAnswer: (data) => data.tx.page.quickAnswer,
+    howto: (data) => data.tx.page.howto,
+    workedExamples: (data) => data.tx.page.workedExamples,
+    commonMistakes: (data) => data.tx.page.commonMistakes,
+    faqs: (data) => data.tx.page.faqs,
+    sources: (data) => data.tx.sources,
+    lastReviewed: (data) => data.tx.verifiedOn
+  }
+}
+---
+{%- set cur = tx.currency -%}
+{% from "partials/currency-select.njk" import countryData %}
+{{ countryData(countries) }}
+<script type="application/json" id="tax-datasets">{{ [tx.engineData] | dump | safe }}</script>
+
+    <!-- Tool Form Container -->
+    <section class="tool-container" aria-label="{{ tx.countryName }} Salary Tax Calculator Form">
+      <form id="calculator-form" novalidate>
+        <div class="form-group">
+          <label for="salary-amount">Gross salary ({{ cur }}) <span class="text-accent">*</span></label>
+          <input type="number" inputmode="decimal" min="0" step="any" id="salary-amount" data-param="salary" class="form-control" placeholder="e.g. {{ tx.page.placeholder }}" required aria-required="true" aria-describedby="salary-hint">
+          <p class="form-hint" id="salary-hint">{{ tx.page.salaryHint }}</p>
+        </div>
+
+        <div class="form-grid two-col">
+          <fieldset class="form-group choice-toggle">
+            <legend>Salary is</legend>
+            <div class="segmented-control choice-toggle-options">
+              <label class="choice-toggle-option">
+                <input type="radio" name="salary-period" id="period-monthly" value="monthly" data-param="period"{% if tx.page.defaultPeriod != "annual" %} checked{% endif %}>
+                <span>Monthly</span>
+              </label>
+              <label class="choice-toggle-option">
+                <input type="radio" name="salary-period" id="period-annual" value="annual" data-param="period"{% if tx.page.defaultPeriod == "annual" %} checked{% endif %}>
+                <span>Annual</span>
+              </label>
+            </div>
+          </fieldset>
+
+          {% if tx.statuses %}
+          <div class="form-group">
+            <label for="filing-status">{{ tx.statusLabel or "Filing status" }}</label>
+            <select id="filing-status" data-param="status" class="form-control">
+              {% for id, st in tx.statuses %}
+              <option value="{{ id }}"{% if id == tx.defaultStatus %} selected{% endif %}>{{ st.label }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          {% else %}
+          <div class="form-group">
+            <label for="tax-year">Tax year</label>
+            <select id="tax-year" class="form-control" disabled>
+              <option selected>{{ tx.label }}</option>
+            </select>
+          </div>
+          {% endif %}
+        </div>
+
+        <div class="button-group mt-6">
+          <button type="submit" class="btn btn-primary">Calculate Tax</button>
+          <button type="button" class="btn btn-secondary" id="reset-btn">Reset</button>
+        </div>
+      </form>
+
+      <div id="error-box" class="hidden form-error" role="alert"></div>
+
+      <!-- Result Box -->
+      <div id="result-box" class="result-box" aria-live="polite">
+        <div class="result-header">
+          <span id="result-header-text">Your income tax</span>
+          <button type="button" class="btn btn-sm btn-ghost" id="copy-result-btn" title="Copy Result to clipboard" aria-label="Copy Result to clipboard">
+            <span data-icon="copy"></span> Copy Result
+          </button>
+        </div>
+        <div class="result-primary" id="result-primary-text">–</div>
+
+        <div class="result-grid">
+          <div class="result-stat-card">
+            <div class="result-stat-label">Monthly tax</div>
+            <div class="result-stat-value" id="stat-monthly-tax">–</div>
+          </div>
+          <div class="result-stat-card">
+            <div class="result-stat-label">Monthly take-home (after income tax)</div>
+            <div class="result-stat-value" id="stat-monthly-takehome">–</div>
+          </div>
+          <div class="result-stat-card">
+            <div class="result-stat-label">Taxable income</div>
+            <div class="result-stat-value" id="stat-taxable">–</div>
+          </div>
+          <div class="result-stat-card">
+            <div class="result-stat-label">Annual income tax</div>
+            <div class="result-stat-value" id="stat-annual-tax">–</div>
+          </div>
+          <div class="result-stat-card">
+            <div class="result-stat-label">Effective tax rate</div>
+            <div class="result-stat-value" id="stat-effective-rate">–</div>
+          </div>
+          <div class="result-stat-card">
+            <div class="result-stat-label">Your top rate</div>
+            <div class="result-stat-value" id="stat-slab">–</div>
+          </div>
+        </div>
+
+        <div class="formula-box content-panel" id="formula-breakdown-box"></div>
+      </div>
+
+      <!-- Rate tables, rendered from the dataset; the visitor's band is highlighted by country.js -->
+      {% for table in tx.tables %}
+      <div class="slab-table-block" data-status="{{ table.id }}"{% if tx.statuses and table.id != tx.defaultStatus %} hidden{% endif %}>
+        <h2 class="slab-table-title">{{ tx.page.tableTitle }}{% if table.title %}: {{ table.title }}{% endif %}</h2>
+        <div class="table-wrapper" tabindex="0" role="region" aria-label="{{ tx.page.tableTitle }}{% if table.title %} {{ table.title }}{% endif %} (scrollable)">
+          <table class="table slab-table">
+            <caption class="visually-hidden">{{ tx.page.tableTitle }}{% if table.title %}, {{ table.title }}{% endif %}</caption>
+            <thead>
+              <tr>
+                <th scope="col">{{ tx.page.tableIncomeHeading }}</th>
+                <th scope="col">Rate</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for slab in table.slabs %}
+              <tr data-slab="{{ loop.index0 }}">
+                <td>{% if slab.upTo === null %}Over {{ slab.over | money(cur) }}{% elif slab.over == 0 %}Up to {{ slab.upTo | money(cur) }}{% else %}{{ slab.over | money(cur) }} to {{ slab.upTo | money(cur) }}{% endif %}<span class="slab-you"> · your band</span></td>
+                <td>{{ slab.rate | pct }}{% if slab.name %} ({{ slab.name }}){% endif %}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      {% endfor %}
+      {% for note in tx.page.tableNotes %}
+      <p class="slab-table-note">{{ note }}</p>
+      {% endfor %}
+
+      <div class="tool-note">
+        <h3 class="tool-note-title">This is an estimate</h3>
+        <p>{{ tx.page.disclaimer }}</p>
+      </div>
+    </section>
+
+    <!-- tool-end -->
+
+    {% for section in tx.page.sections %}
+    <section class="content-section" aria-labelledby="{{ section.id }}">
+      <h2 id="{{ section.id }}">{{ section.heading }}</h2>
+      {% for p in section.paragraphs %}<p>{{ p }}</p>{% endfor %}
+      {% if section.list %}
+      <ul class="content-list">
+        {% for item in section.list %}<li>{{ item | safe }}</li>{% endfor %}
+      </ul>
+      {% endif %}
+    </section>
+    {% endfor %}
+
+    <section class="content-section" aria-labelledby="other-countries-heading">
+      <h2 id="other-countries-heading">Salary tax in other countries</h2>
+      <p>Tax rules differ a lot from country to country. Compare with our calculators for other countries, or see every country on one page.</p>
+      <ul class="content-list">
+        {% for other in salaryTaxPages %}{% if other.country != tx.country and loop.index0 < 4 %}
+        <li><a href="/tools/{{ other.page.slug }}/">{{ other.countryName }} Salary Tax Calculator</a></li>
+        {% endif %}{% endfor %}
+        <li><a href="/tools/pakistan-salary-tax-calculator/">Pakistan Salary Tax Calculator</a></li>
+        <li><a href="/tools/salary-tax-calculator/">Salary tax calculators for every country</a></li>
+      </ul>
+    </section>

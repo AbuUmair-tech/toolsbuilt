@@ -119,8 +119,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function renderResult(res, amount, unit, operation, businessOnly) {
     const numFormatter = new Intl.NumberFormat('en-US');
-    primaryResult.textContent = `${res.weekday}, ${res.formattedDate}`;
-    lastResultText = `Resulting Date: ${res.weekday}, ${res.formattedDate} (${res.resultDate}). Elapsed Calendar Days: ${numFormatter.format(res.elapsedCalendarDays)}. Business Days: ${numFormatter.format(res.businessDays)}.`;
+    primaryResult.textContent = ToolsBuilt.formatIsoDate(res.resultDate);
+    lastResultText = `Resulting Date: ${ToolsBuilt.formatIsoDate(res.resultDate)} (${res.resultDate}). Elapsed Calendar Days: ${numFormatter.format(res.elapsedCalendarDays)}. Business Days: ${numFormatter.format(res.businessDays)}.`;
 
     const opText = operation === 'add' ? 'Added' : 'Subtracted';
     const bizText = businessOnly ? ' (Business Days Only)' : '';
