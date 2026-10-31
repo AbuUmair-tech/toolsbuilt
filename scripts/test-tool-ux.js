@@ -8,7 +8,8 @@
  * 4. Result copy button triggers clipboard write and toast feedback.
  * 5. Sensitive data safeguards (no passwords or custom names in localStorage/URL).
  * 6. axe-core accessibility audit in light and dark mode with 0 critical or serious violations.
- * 7. Visual verification screenshots at 375px and 1280px in docs/screenshots/tools/.
+ * 7. Optional screenshots at 375px and 1280px in docs/screenshots/tools/ (SAVE_SCREENSHOTS=1),
+ *    so a normal test run does not rewrite tracked files.
  */
 
 const http = require('http');
@@ -19,8 +20,15 @@ const { chromium } = require('playwright');
 const ROOT = path.resolve(__dirname, '..');
 const SITE_DIR = path.join(ROOT, '_site');
 const SCREENSHOTS_DIR = path.join(ROOT, 'docs', 'screenshots', 'tools');
+const SAVE_SCREENSHOTS = process.env.SAVE_SCREENSHOTS === '1';
 
-fs.mkdirSync(SCREENSHOTS_DIR, { recursive: true });
+if (SAVE_SCREENSHOTS) fs.mkdirSync(SCREENSHOTS_DIR, { recursive: true });
+
+// Screenshots are only written when asked for: SAVE_SCREENSHOTS=1 node scripts/test-tool-ux.js
+async function saveScreenshot(page, name) {
+  if (!SAVE_SCREENSHOTS) return;
+  await page.screenshot({ path: path.join(SCREENSHOTS_DIR, name), fullPage: false });
+}
 
 function createServer() {
   const mimeTypes = {
@@ -124,7 +132,7 @@ async function runAllToolUxTests() {
         console.error(JSON.stringify(axeLight.violations.map(v => ({ id: v.id, impact: v.impact, description: v.description })), null, 2));
       }
 
-      await page.screenshot({ path: path.join(SCREENSHOTS_DIR, `${toolSlug}-1280-light.png`), fullPage: false });
+      await saveScreenshot(page, `${toolSlug}-1280-light.png`);
 
       // 2. Desktop Dark Mode & Screenshot
       await page.evaluate(() => {
@@ -143,18 +151,18 @@ async function runAllToolUxTests() {
         console.error(JSON.stringify(axeDark.violations.map(v => ({ id: v.id, impact: v.impact, description: v.description, nodes: v.nodes.map(n => ({ target: n.target, html: n.html, failure: n.failureSummary })) })), null, 2));
       }
 
-      await page.screenshot({ path: path.join(SCREENSHOTS_DIR, `${toolSlug}-1280-dark.png`), fullPage: false });
+      await saveScreenshot(page, `${toolSlug}-1280-dark.png`);
 
       // 3. Mobile Viewport (375px) Screenshots
       await page.setViewportSize({ width: 375, height: 812 });
-      await page.screenshot({ path: path.join(SCREENSHOTS_DIR, `${toolSlug}-375-dark.png`), fullPage: false });
+      await saveScreenshot(page, `${toolSlug}-375-dark.png`);
       await page.evaluate(() => {
         document.documentElement.setAttribute('data-theme', 'light');
         localStorage.setItem('tb-theme', 'light');
         localStorage.setItem('theme', 'light');
       });
       await page.waitForTimeout(300);
-      await page.screenshot({ path: path.join(SCREENSHOTS_DIR, `${toolSlug}-375-light.png`), fullPage: false });
+      await saveScreenshot(page, `${toolSlug}-375-light.png`);
 
       // Reset to Desktop for interaction tests
       await page.setViewportSize({ width: 1280, height: 800 });
