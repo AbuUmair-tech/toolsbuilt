@@ -31,6 +31,8 @@ window.TOOLS_DATA = [
     "popular": true,
     "related": [
       "percentage-change-calculator",
+      "fraction-calculator",
+      "mean-median-mode-calculator",
       "discount-calculator",
       "sip-calculator",
       "marks-percentage-calculator",
@@ -161,6 +163,8 @@ window.TOOLS_DATA = [
     "popular": false,
     "related": [
       "percentage-calculator",
+      "tip-calculator",
+      "profit-margin-calculator",
       "percentage-change-calculator",
       "loan-emi-calculator",
       "sales-tax-calculator"
@@ -177,6 +181,7 @@ window.TOOLS_DATA = [
     "popular": false,
     "related": [
       "percentage-calculator",
+      "profit-margin-calculator",
       "discount-calculator",
       "compound-interest-calculator",
       "sales-tax-calculator"
@@ -225,6 +230,7 @@ window.TOOLS_DATA = [
     "popular": false,
     "related": [
       "gpa-calculator",
+      "mean-median-mode-calculator",
       "percentage-calculator",
       "unit-converter",
       "marks-percentage-calculator"
@@ -258,6 +264,7 @@ window.TOOLS_DATA = [
     "related": [
       "grade-calculator",
       "gpa-calculator",
+      "fraction-calculator",
       "percentage-calculator",
       "gold-calculator"
     ]
@@ -431,6 +438,7 @@ window.TOOLS_DATA = [
     "related": [
       "salary-tax-calculator",
       "us-salary-tax-calculator",
+      "salary-to-hourly-calculator",
       "sales-tax-calculator",
       "loan-emi-calculator"
     ]
@@ -446,6 +454,7 @@ window.TOOLS_DATA = [
     "popular": false,
     "related": [
       "salary-tax-calculator",
+      "salary-to-hourly-calculator",
       "uk-salary-tax-calculator",
       "compound-interest-calculator",
       "loan-emi-calculator"
@@ -510,6 +519,8 @@ window.TOOLS_DATA = [
     "popular": false,
     "related": [
       "discount-calculator",
+      "tip-calculator",
+      "profit-margin-calculator",
       "percentage-calculator",
       "gold-calculator",
       "pakistan-salary-tax-calculator"
@@ -609,6 +620,86 @@ window.TOOLS_DATA = [
       "hours-calculator",
       "date-difference-calculator",
       "week-number-calculator"
+    ]
+  },
+  {
+    "id": "tip-calculator",
+    "name": "Tip Calculator & Bill Splitter",
+    "url": "/tools/tip-calculator/",
+    "icon": "percent",
+    "description": "Work out the tip and split the bill between any number of people, with tip on the pre-tax amount and rounding up per person.",
+    "category": "Math & Finance Tools",
+    "categoryId": "math-finance",
+    "popular": false,
+    "related": [
+      "discount-calculator",
+      "percentage-calculator",
+      "sales-tax-calculator",
+      "salary-to-hourly-calculator"
+    ]
+  },
+  {
+    "id": "salary-to-hourly-calculator",
+    "name": "Salary to Hourly Calculator",
+    "url": "/tools/salary-to-hourly-calculator/",
+    "icon": "calculator",
+    "description": "Convert pay between annual, monthly, bi-weekly, weekly, daily and hourly rates using your hours, paid weeks and unpaid time off.",
+    "category": "Math & Finance Tools",
+    "categoryId": "math-finance",
+    "popular": false,
+    "related": [
+      "salary-tax-calculator",
+      "hours-calculator",
+      "percentage-change-calculator",
+      "tip-calculator"
+    ]
+  },
+  {
+    "id": "profit-margin-calculator",
+    "name": "Profit Margin & Markup Calculator",
+    "url": "/tools/profit-margin-calculator/",
+    "icon": "percent",
+    "description": "Find profit, margin and markup from cost and price, or the selling price that gives a target margin or markup.",
+    "category": "Math & Finance Tools",
+    "categoryId": "math-finance",
+    "popular": false,
+    "related": [
+      "discount-calculator",
+      "percentage-change-calculator",
+      "sales-tax-calculator",
+      "percentage-calculator"
+    ]
+  },
+  {
+    "id": "fraction-calculator",
+    "name": "Fraction Calculator",
+    "url": "/tools/fraction-calculator/",
+    "icon": "calculator",
+    "description": "Add, subtract, multiply and divide fractions and mixed numbers with step-by-step working, simplify fractions and convert decimals.",
+    "category": "Math & Finance Tools",
+    "categoryId": "math-finance",
+    "popular": false,
+    "related": [
+      "percentage-calculator",
+      "mean-median-mode-calculator",
+      "unit-converter",
+      "percentage-change-calculator"
+    ]
+  },
+  {
+    "id": "mean-median-mode-calculator",
+    "name": "Mean, Median, Mode & Standard Deviation Calculator",
+    "url": "/tools/mean-median-mode-calculator/",
+    "icon": "calculator",
+    "description": "Get the mean, median, mode, range, quartiles, variance and standard deviation of a list of numbers, with the working shown.",
+    "category": "Math & Finance Tools",
+    "categoryId": "math-finance",
+    "popular": false,
+    "related": [
+      "percentage-calculator",
+      "fraction-calculator",
+      "grade-calculator",
+      "percentage-change-calculator"
     ]
   }
 ];

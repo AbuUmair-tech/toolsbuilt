@@ -517,6 +517,11 @@
       line-height: var(--line-height-tight);
       text-align: center;
     }
+
+    /* Exactly three modes: one row of three, not two plus a lone tab */
+    .segmented-control:has(> .mode-tab-btn:nth-child(3):last-child) {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
   }
 
   /* Four or more modes: one even row on wider screens instead of a ragged wrap */

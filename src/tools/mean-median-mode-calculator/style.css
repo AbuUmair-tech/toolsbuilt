@@ -1,0 +1,73 @@
+/* Mean, Median, Mode & Standard Deviation Calculator */
+
+.stats-input {
+  min-height: 7rem;
+  font-family: var(--font-mono);
+  resize: vertical;
+}
+
+.stats-dp {
+  max-width: 10rem;
+  margin-top: var(--space-4);
+}
+
+.result-box .stats-primary {
+  font-size: var(--font-size-lg);
+  line-height: var(--line-height-snug);
+}
+
+@media (min-width: 640px) {
+  .result-box .stats-primary {
+    font-size: var(--font-size-xl);
+  }
+}
+
+/* Fifteen figures: two per row even on phones */
+.result-box .stats-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+@media (min-width: 900px) {
+  .result-box .stats-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.stats-work {
+  margin-top: var(--space-6);
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  background-color: var(--surface-card);
+}
+
+.stats-work-title {
+  margin: var(--space-4) 0 var(--space-1);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+}
+
+.stats-work-title:first-child {
+  margin-top: 0;
+}
+
+.stats-sorted {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  overflow-wrap: anywhere;
+}
+
+.stats-steps {
+  margin: 0;
+  padding-left: var(--space-6);
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-normal);
+  color: var(--text-secondary);
+  overflow-wrap: anywhere;
+}
+
+.stats-steps li + li {
+  margin-top: var(--space-1);
+}

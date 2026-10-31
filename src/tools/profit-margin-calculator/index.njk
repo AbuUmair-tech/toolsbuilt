@@ -1,0 +1,185 @@
+---
+layout: layouts/tool.njk
+toolSlug: profit-margin-calculator
+title: "Profit Margin Calculator: Margin vs Markup"
+description: "Find profit, margin and markup from cost and price, or the selling price for a target margin or markup. Clear margin vs markup table included."
+permalink: /tools/profit-margin-calculator/
+h1: "Profit Margin & Markup Calculator"
+extraCss: "/tools/profit-margin-calculator/style.css"
+quickAnswer: "Margin is profit as a percentage of the selling price; markup is profit as a percentage of the cost. An item that costs 60 and sells for 100 makes 40 profit, a 40% margin and a 66.67% markup. To hit a target margin, price = cost ÷ (1 − margin), so a 25% margin on a cost of 75 needs a price of 100."
+formula:
+  title: "Margin and Markup Formulas"
+  expression: "Profit = Price − Cost   ·   Margin % = Profit ÷ Price × 100   ·   Markup % = Profit ÷ Cost × 100"
+  explanation: "Margin and markup use the same profit but divide it by different numbers, so markup is always the larger percentage. To find a price from a target margin, divide the cost by (1 − margin ÷ 100). To find a price from a markup, multiply the cost by (1 + markup ÷ 100). The two convert directly: markup = margin ÷ (1 − margin), and margin = markup ÷ (1 + markup), with both written as decimals."
+  variables:
+    - name: "Cost"
+      description: "What the item costs you: purchase price, or materials and labour for things you make."
+    - name: "Price"
+      description: "The selling price before sales tax or VAT."
+    - name: "Margin"
+      description: "The share of the selling price you keep as gross profit. Always below 100%."
+    - name: "Markup"
+      description: "How much you add on top of the cost, as a percentage of the cost. Can be above 100%."
+workedExamples:
+  - title: "Cost 60, price 100"
+    inputs:
+      - "Cost: 60"
+      - "Selling price: 100"
+    steps:
+      - "Profit: 100 − 60 = 40"
+      - "Margin: 40 ÷ 100 = 40%"
+      - "Markup: 40 ÷ 60 = 66.67%"
+    result: "Profit 40, margin 40%, markup 66.67%"
+    link: "/tools/profit-margin-calculator/?mode=price&cost=60&price=100&cur=USD#tool"
+  - title: "Price for a 25% margin on a cost of 75"
+    inputs:
+      - "Cost: 75"
+      - "Target margin: 25%"
+    steps:
+      - "Price = 75 ÷ (1 − 0.25) = 75 ÷ 0.75 = 100"
+      - "Check: profit 25 ÷ price 100 = 25% margin"
+    result: "Selling price 100 (a 33.33% markup)"
+    link: "/tools/profit-margin-calculator/?mode=margin&cost=75&margin=25&cur=USD#tool"
+  - title: "Price for a 25% markup on a cost of 80"
+    inputs:
+      - "Cost: 80"
+      - "Markup: 25%"
+    steps:
+      - "Price = 80 × (1 + 0.25) = 100"
+      - "Margin: profit 20 ÷ price 100 = 20%"
+    result: "Selling price 100 (a 20% margin)"
+    link: "/tools/profit-margin-calculator/?mode=markup&cost=80&markup=25&cur=USD#tool"
+commonMistakes:
+  - title: "Adding the margin percentage to the cost"
+    description: "Adding 25% to a cost of 75 gives 93.75, which is a 25% <em>markup</em> and only a 20% margin. For a 25% margin you must divide: 75 ÷ 0.75 = 100."
+  - title: "Using margin and markup as the same thing"
+    description: "A 50% markup is a 33.3% margin, and a 50% margin is a 100% markup. Say which one you mean in price lists, supplier negotiations and commission plans."
+  - title: "Expecting a margin above 100%"
+    description: "Margin is a share of the selling price, so it can never reach 100% unless the cost is zero. If a figure above 100% appears, it is a markup."
+  - title: "Leaving costs out"
+    description: "Gross margin uses the direct cost of the item. Shipping, payment fees, packaging and returns are real costs too; include them in cost if you want the margin you actually keep."
+  - title: "Including sales tax or VAT in the price"
+    description: "Tax collected for the government is not revenue. Use the selling price before tax, or the margin will look higher than it is."
+faqs:
+  - q: "What is the difference between margin and markup?"
+    a: "Both start from the same profit (price − cost). Margin divides it by the selling price; markup divides it by the cost. Cost 60 and price 100 give a 40% margin but a 66.67% markup."
+  - q: "How do I calculate profit margin?"
+    a: "Subtract the cost from the selling price to get profit, divide the profit by the selling price, and multiply by 100. Price 100 and cost 60: (100 − 60) ÷ 100 = 40%."
+  - q: "How do I calculate a selling price from a desired margin?"
+    a: "Divide the cost by (1 − margin as a decimal). For a 25% margin on a cost of 75: 75 ÷ 0.75 = 100."
+  - q: "How do I convert markup to margin?"
+    a: "Margin = markup ÷ (1 + markup), using decimals. A 25% markup is 0.25 ÷ 1.25 = 20% margin; a 100% markup is a 50% margin."
+  - q: "What is a 50% markup as a margin?"
+    a: "A 50% markup is a 33.33% margin. Cost 100 marked up 50% sells for 150, and 50 profit ÷ 150 price = 33.33%."
+  - q: "Can profit margin be negative?"
+    a: "Yes. If you sell below cost, profit is negative and so are the margin and markup. The calculator shows this as a loss."
+  - q: "What is a good profit margin?"
+    a: "It depends on the industry, the business model and whether you mean gross or net margin. Compare with businesses like yours and include all your costs before deciding on a target."
+sources:
+  - name: "IRS Publication 334: Tax Guide for Small Business (gross profit and cost of goods sold)"
+    url: "https://www.irs.gov/publications/p334"
+  - name: "U.S. SEC: Beginners' guide to financial statements (gross profit and margins)"
+    url: "https://www.sec.gov/about/reports-publications/beginners-guide-financial-statements"
+  - name: "GOV.UK: VAT rates (exclude tax from selling prices)"
+    url: "https://www.gov.uk/vat-rates"
+lastReviewed: "2026-10-31"
+howto:
+  name: "How to Calculate Profit Margin and Markup"
+  description: "Find margin and markup from a cost and price, or a price from a target margin or markup."
+  steps:
+    - name: "Choose what you know"
+      text: "Choose Price to get the margin and markup of a selling price, or Margin or Markup to get the price that gives a target margin or markup."
+    - name: "Enter the cost"
+      text: "Type what the item costs you, including any direct costs you want to cover."
+    - name: "Enter the price, margin or markup"
+      text: "Type the selling price before tax, or the margin or markup you want."
+    - name: "Read the results"
+      text: "See the profit, margin, markup and selling price side by side."
+---
+{% from "partials/currency-select.njk" import currencySelect, countryData with context %}
+{{ countryData(countries) }}
+
+    <!-- Tool Form Container -->
+    <section class="tool-container" aria-label="Profit Margin Calculator">
+      <div class="segmented-control mb-6" role="tablist" aria-label="Find margin from a price, or a price from a margin or markup">
+        <button type="button" class="btn btn-sm mode-tab-btn active" id="tab-price" data-mode="price" role="tab" aria-selected="true" aria-controls="calculator-form">Price</button>
+        <button type="button" class="btn btn-sm mode-tab-btn" id="tab-margin" data-mode="margin" role="tab" aria-selected="false" aria-controls="calculator-form" tabindex="-1">Margin</button>
+        <button type="button" class="btn btn-sm mode-tab-btn" id="tab-markup" data-mode="markup" role="tab" aria-selected="false" aria-controls="calculator-form" tabindex="-1">Markup</button>
+      </div>
+
+      <form id="calculator-form" role="tabpanel" aria-labelledby="tab-price" novalidate>
+        <input type="hidden" id="mode" data-param="mode" value="price">
+        <div class="form-grid two-col">
+          <div class="form-group">
+            <label for="cost">Cost <span class="text-accent">*</span></label>
+            <input type="number" inputmode="decimal" step="any" min="0" id="cost" data-param="cost" class="form-control" value="60" required aria-required="true">
+          </div>
+          <div class="form-group" data-mode-field="price">
+            <label for="price">Selling price <span class="text-accent">*</span></label>
+            <input type="number" inputmode="decimal" step="any" min="0" id="price" data-param="price" class="form-control" value="100">
+          </div>
+          <div class="form-group" data-mode-field="margin" hidden>
+            <label for="margin">Target margin (%) <span class="text-accent">*</span></label>
+            <input type="number" inputmode="decimal" step="any" max="99.99" id="margin" data-param="margin" class="form-control" value="25">
+          </div>
+          <div class="form-group" data-mode-field="markup" hidden>
+            <label for="markup">Markup (%) <span class="text-accent">*</span></label>
+            <input type="number" inputmode="decimal" step="any" id="markup" data-param="markup" class="form-control" value="25">
+          </div>
+          {{ currencySelect({ id: "currency", param: "cur", selected: "USD" }) }}
+        </div>
+
+        <div class="button-group">
+          <button type="submit" class="btn btn-primary">Calculate</button>
+          <button type="button" class="btn btn-secondary" id="reset-btn">Reset</button>
+        </div>
+      </form>
+
+      <div id="error-box" class="hidden form-error" role="alert"></div>
+
+      <div id="result-box" class="result-box is-visible" aria-live="polite">
+        <div class="result-header">
+          <span id="result-header-text">Profit margin</span>
+          <button type="button" class="btn btn-sm btn-ghost" id="copy-result-btn" title="Copy result to clipboard" aria-label="Copy result to clipboard">
+            <span data-icon="copy"></span> Copy Result
+          </button>
+        </div>
+        <div class="result-primary" id="result-primary-text">--</div>
+        <p class="form-hint" id="result-note"></p>
+        <div class="result-grid" id="result-stats"></div>
+        <ol class="margin-steps" id="result-steps"></ol>
+      </div>
+    </section>
+
+    <!-- tool-end -->
+
+    <section class="content-section">
+      <h2>Margin vs Markup at a Glance</h2>
+      <p>Margin and markup describe the same profit from two directions. Margin answers "how much of each sale do I keep?", while markup answers "how much did I add to my cost?". Because the selling price is always bigger than the cost when you make a profit, the margin percentage is always the smaller of the two.</p>
+      <div class="table-wrapper">
+        <table class="table">
+          <caption>Margin and markup for an item that costs 100</caption>
+          <thead><tr><th scope="col">Selling price</th><th scope="col">Profit</th><th scope="col">Margin (of price)</th><th scope="col">Markup (of cost)</th></tr></thead>
+          <tbody>
+            <tr><td>111.11</td><td>11.11</td><td>10%</td><td>11.11%</td></tr>
+            <tr><td>125.00</td><td>25.00</td><td>20%</td><td>25%</td></tr>
+            <tr><td>133.33</td><td>33.33</td><td>25%</td><td>33.33%</td></tr>
+            <tr><td>150.00</td><td>50.00</td><td>33.33%</td><td>50%</td></tr>
+            <tr><td>166.67</td><td>66.67</td><td>40%</td><td>66.67%</td></tr>
+            <tr><td>200.00</td><td>100.00</td><td>50%</td><td>100%</td></tr>
+            <tr><td>300.00</td><td>200.00</td><td>66.67%</td><td>200%</td></tr>
+            <tr><td>400.00</td><td>300.00</td><td>75%</td><td>300%</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Read across a row to convert: a 25% markup is a 20% margin, and a 50% margin needs a 100% markup. As the margin approaches 100%, the markup grows without limit, which is why margins above 100% are impossible while markups of 200% or 300% are common for low-cost items.</p>
+
+      <h2>Which One Should You Use?</h2>
+      <ul class="content-list">
+        <li><strong>Setting prices from costs:</strong> markup is quick for a price list ("cost plus 40%"), but always check the margin it gives you.</li>
+        <li><strong>Planning and reporting:</strong> margin matches how financial statements report gross profit, and lets you compare products with very different prices.</li>
+        <li><strong>Discounts:</strong> a discount comes off the selling price, so it eats into margin directly. A 20% discount on a product with a 20% margin wipes out the whole profit.</li>
+        <li><strong>Talking to suppliers and staff:</strong> say "margin" or "markup" explicitly; "40% profit" is ambiguous.</li>
+      </ul>
+      <p>This calculator works out gross margin on a single item: selling price minus the direct cost of that item. Net margin also subtracts overheads such as rent, wages, marketing and tax, so it is always lower than gross margin.</p>
+    </section>

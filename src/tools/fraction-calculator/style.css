@@ -1,0 +1,52 @@
+/* Fraction Calculator */
+
+.fraction-expr {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-4);
+}
+
+@media (min-width: 640px) {
+  .fraction-expr {
+    grid-template-columns: minmax(0, 1fr) 10rem minmax(0, 1fr);
+    align-items: end;
+  }
+}
+
+.fraction-input {
+  font-family: var(--font-mono);
+}
+
+.result-box .fraction-primary {
+  font-family: var(--font-mono);
+  overflow-wrap: anywhere;
+}
+
+.fraction-steps-title {
+  font-weight: var(--font-weight-semibold);
+  margin: var(--space-6) 0 var(--space-2);
+  font-size: var(--font-size-base);
+  color: var(--text-primary);
+}
+
+.fraction-steps {
+  margin: 0;
+  padding: var(--space-3) var(--space-4) var(--space-3) var(--space-8);
+  border-radius: var(--radius-md);
+  background-color: var(--surface-card);
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-normal);
+  color: var(--text-primary);
+}
+
+.fraction-steps li + li {
+  margin-top: var(--space-1);
+}
+
+/* Euclid's algorithm lines are indented under their step */
+.fraction-steps li.is-sub {
+  list-style: none;
+  margin-left: var(--space-4);
+  font-family: var(--font-mono);
+  color: var(--text-secondary);
+}

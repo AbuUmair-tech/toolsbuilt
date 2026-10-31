@@ -1643,6 +1643,201 @@ const tzLogic = require(path.join(ROOT, 'src/tools/time-zone-converter/logic.js'
   }
 }
 
+// Tip Calculator Logic
+const tipLogic = require(path.join(ROOT, 'src/tools/tip-calculator/logic.js'));
+{
+  const r = tipLogic.calculateTip({ bill: 85.50, tipPercent: 18, people: 3 });
+  assert(r.tip === 15.39 && r.total === 100.89 && r.perPerson === 33.63, `Tip: 85.50 at 18% for 3 -> tip 15.39, total 100.89, 33.63 each (got ${r.tip}, ${r.total}, ${r.perPerson})`);
+  assert(r.unevenSplit === false, 'Tip: 100.89 splits evenly between 3');
+
+  const uneven = tipLogic.calculateTip({ bill: 100, tipPercent: 0, people: 3 });
+  assert(uneven.unevenSplit && uneven.extraCentPayers === 1 && uneven.lowShare === 33.33 && uneven.highShare === 33.34, 'Tip: 100 between 3 -> two pay 33.33, one pays 33.34');
+
+  const up = tipLogic.calculateTip({ bill: 85.50, tipPercent: 18, people: 3, roundUp: true });
+  assert(up.perPerson === 34 && up.total === 102 && up.tip === 16.5 && up.roundingExtra === 1.11, `Tip: rounding up gives 34 each, 102 total, tip 16.50 (got ${up.perPerson}, ${up.total}, ${up.tip})`);
+  assert(up.effectiveTipPercent === 19.3, `Tip: rounded-up tip is 19.3% of the bill (got ${up.effectiveTipPercent})`);
+
+  const preTax = tipLogic.calculateTip({ bill: 108, tipPercent: 20, people: 2, tipOnPreTax: true, taxPercent: 8 });
+  assert(preTax.tipBase === 100 && preTax.tax === 8 && preTax.tip === 20 && preTax.total === 128 && preTax.perPerson === 64, 'Tip: 20% on the pre-tax 100 of a 108 bill with 8% tax = 20 tip');
+  assert(tipLogic.calculateTip({ bill: 108, tipPercent: 20, tipOnPreTax: false, taxPercent: 8 }).tip === 21.6, 'Tip: without the pre-tax option the tip is on the full 108');
+
+  assert(tipLogic.calculateTip({ bill: '', tipPercent: 18 }).field === 'bill', 'Tip: missing bill is an error on the bill field');
+  assert(tipLogic.calculateTip({ bill: 50, tipPercent: -5 }).field === 'tip', 'Tip: negative tip is an error');
+  assert(tipLogic.calculateTip({ bill: 50, tipPercent: 15, people: 2.5 }).field === 'people', 'Tip: fractional people is an error');
+  assert(tipLogic.calculateTip({ bill: 50, tipPercent: 15, people: 0 }).field === 'people', 'Tip: zero people is an error');
+  assert(JSON.stringify(tipLogic.PRESETS) === '[10,15,18,20,25]', 'Tip: presets are 10, 15, 18, 20, 25');
+
+  // Property: shares always add back up to the total
+  const rand = mulberry32(1818);
+  for (let i = 0; i < 300; i++) {
+    const bill = Math.round(rand() * 50000) / 100 + 0.01;
+    const people = 1 + Math.floor(rand() * 12);
+    const t = tipLogic.calculateTip({ bill, tipPercent: Math.floor(rand() * 30), people });
+    const collected = Math.round(t.lowShare * 100) * (people - t.extraCentPayers) + Math.round(t.highShare * 100) * t.extraCentPayers;
+    if (collected !== Math.round(t.total * 100)) {
+      assert(false, `Tip fuzz: ${bill} between ${people} -> shares ${t.lowShare}/${t.highShare} do not add up to ${t.total}`);
+      break;
+    }
+  }
+}
+
+// Salary to Hourly Logic
+const salaryLogic = require(path.join(ROOT, 'src/tools/salary-to-hourly-calculator/logic.js'));
+{
+  const a = salaryLogic.convertPay({ amount: 52000, period: 'annual', hoursPerWeek: 40, weeksPerYear: 52 });
+  assert(a.hourly === 25 && a.weekly === 1000 && a.biweekly === 2000 && a.daily === 200 && a.monthly === 4333.33, `Salary: 52,000/year at 40 h x 52 weeks -> 25.00/hour (got ${a.hourly})`);
+
+  const h = salaryLogic.convertPay({ amount: 30, period: 'hourly' });
+  assert(h.annual === 62400 && h.monthly === 5200, `Salary: 30/hour -> 62,400/year and 5,200/month (got ${h.annual}, ${h.monthly})`);
+
+  const off = salaryLogic.convertPay({ amount: 52000, period: 'annual', unpaidWeeks: 2 });
+  assert(off.paidWeeks === 50 && off.hourly === 26, `Salary: 52,000/year with 2 unpaid weeks (50 weeks) -> 26.00/hour (got ${off.hourly})`);
+
+  assert(salaryLogic.convertPay({ amount: 5000, period: 'monthly' }).annual === 60000, 'Salary: 5,000/month = 60,000/year');
+  assert(salaryLogic.convertPay({ amount: 2000, period: 'biweekly' }).annual === 52000, 'Salary: 2,000 every two weeks = 52,000/year');
+  assert(salaryLogic.convertPay({ amount: 1000, period: 'weekly' }).hourly === 25, 'Salary: 1,000/week at 40 h = 25/hour');
+  assert(salaryLogic.convertPay({ amount: 200, period: 'daily' }).annual === 52000, 'Salary: 200/day x 5 days x 52 weeks = 52,000/year');
+  assert(salaryLogic.convertPay({ amount: 52000, period: 'annual', hoursPerWeek: 37.5 }).hourly === 26.67, 'Salary: 52,000 at 37.5 h/week = 26.67/hour');
+
+  assert(salaryLogic.convertPay({ amount: 0, period: 'annual' }).field === 'amount', 'Salary: zero pay is an error');
+  assert(salaryLogic.convertPay({ amount: 100, period: 'annual', hoursPerWeek: 200 }).field === 'hours', 'Salary: more than 168 hours a week is an error');
+  assert(salaryLogic.convertPay({ amount: 100, period: 'annual', unpaidWeeks: 52 }).field === 'unpaid', 'Salary: unpaid weeks equal to the year is an error');
+  assert(salaryLogic.convertPay({ amount: 100, period: 'fortnightly' }).field === 'period', 'Salary: unknown pay period is an error');
+
+  // Property: converting any period to hourly and back returns the same pay
+  const rand = mulberry32(4052);
+  for (let i = 0; i < 300; i++) {
+    const period = salaryLogic.PERIODS[Math.floor(rand() * salaryLogic.PERIODS.length)];
+    const input = { amount: 1 + rand() * 100000, period, hoursPerWeek: 10 + Math.floor(rand() * 50), weeksPerYear: 52, unpaidWeeks: Math.floor(rand() * 6) };
+    const r = salaryLogic.convertPay(input);
+    const back = salaryLogic.convertPay(Object.assign({}, input, { amount: r.exact.hourly, period: 'hourly' }));
+    if (Math.abs(back.exact.annual - r.exact.annual) > 1e-6 * r.exact.annual) {
+      assert(false, `Salary fuzz: ${JSON.stringify(input)} did not round-trip through hourly`);
+      break;
+    }
+  }
+}
+
+// Profit Margin & Markup Logic
+const profitLogic = require(path.join(ROOT, 'src/tools/profit-margin-calculator/logic.js'));
+{
+  const r = profitLogic.fromCostAndPrice(60, 100);
+  assert(r.profit === 40 && r.marginPercent === 40 && r.markupPercent === 66.67, `Profit: cost 60, price 100 -> profit 40, margin 40%, markup 66.67% (got ${r.profit}, ${r.marginPercent}, ${r.markupPercent})`);
+  const m = profitLogic.priceFromMargin(75, 25);
+  assert(m.price === 100 && m.profit === 25 && m.equivalentMarkup === 33.3333, `Profit: cost 75 with 25% margin -> price 100 (got ${m.price})`);
+  const k = profitLogic.priceFromMarkup(80, 25);
+  assert(k.price === 100 && k.marginPercent === 20 && k.equivalentMargin === 20, `Profit: cost 80 with 25% markup -> price 100, margin 20% (got ${k.price})`);
+
+  const loss = profitLogic.fromCostAndPrice(120, 100);
+  assert(loss.isLoss && loss.profit === -20 && loss.marginPercent === -20 && loss.markupPercent === -16.67, 'Profit: selling below cost shows a loss with negative margin and markup');
+  assert(profitLogic.fromCostAndPrice(0, 50).markupPercent === null && profitLogic.fromCostAndPrice(0, 50).marginPercent === 100, 'Profit: zero cost gives 100% margin and no markup');
+  assert(profitLogic.marginToMarkup(50) === 100 && profitLogic.markupToMargin(100) === 50, 'Profit: 50% margin = 100% markup');
+  assert(profitLogic.priceFromMargin(50, 100).field === 'margin' && profitLogic.priceFromMargin(50, 150).error, 'Profit: margins of 100% or more are rejected');
+  assert(profitLogic.priceFromMarkup(50, -100).field === 'markup', 'Profit: markup of -100% is rejected');
+  assert(profitLogic.fromCostAndPrice(-5, 10).field === 'cost' && profitLogic.fromCostAndPrice(5, 0).field === 'price', 'Profit: negative cost and zero price are rejected');
+
+  // Property: price from a margin gives back that margin, and margin and markup describe the same price
+  const rand = mulberry32(6040);
+  for (let i = 0; i < 300; i++) {
+    const cost = 1 + Math.round(rand() * 100000) / 100;
+    const margin = Math.round(rand() * 9500) / 100;
+    const p = profitLogic.priceFromMargin(cost, margin);
+    const viaMarkup = profitLogic.priceFromMarkup(cost, profitLogic.marginToMarkup(margin));
+    if (Math.abs(p.marginPercent - margin) > 0.02 || Math.abs(viaMarkup.price - p.price) > 0.02) {
+      assert(false, `Profit fuzz: cost ${cost}, margin ${margin}% -> ${p.price} / ${viaMarkup.price}`);
+      break;
+    }
+  }
+}
+
+// Fraction Calculator Logic
+const fractionLogic = require(path.join(ROOT, 'src/tools/fraction-calculator/logic.js'));
+{
+  const add = fractionLogic.calculate('1/2', '+', '1/3');
+  assert(add.fraction === '5/6' && add.decimal === '0.8(3)', `Fraction: 1/2 + 1/3 = 5/6 (got ${add.fraction})`);
+  assert(add.steps.some(s => /LCM\(2, 3\) = 6/.test(s)), 'Fraction: addition steps show the common denominator');
+  const div = fractionLogic.calculate('3/4', '/', '1/2');
+  assert(div.fraction === '3/2' && div.mixed === '1 1/2' && div.decimal === '1.5', `Fraction: 3/4 ÷ 1/2 = 3/2 = 1 1/2 (got ${div.fraction}, ${div.mixed})`);
+  assert(div.steps.some(s => /reciprocal 2\/1/.test(s)) && div.steps.some(s => /GCD\(6, 4\) = 2/.test(s)), 'Fraction: division steps show the reciprocal and the GCD');
+  const mul = fractionLogic.calculate('2 1/3', '*', '3/7');
+  assert(mul.fraction === '1' && mul.mixed === '1', `Fraction: 2 1/3 × 3/7 = 1 (got ${mul.fraction})`);
+  assert(mul.steps[0].includes('7/3'), 'Fraction: mixed number is converted to 7/3 first');
+  const simp = fractionLogic.simplify('6/8');
+  assert(simp.fraction === '3/4' && simp.gcd === '2', `Fraction: 6/8 simplifies to 3/4 (got ${simp.fraction})`);
+  const dec = fractionLogic.decimalToFraction('0.375');
+  assert(dec.fraction === '3/8', `Fraction: 0.375 = 3/8 (got ${dec.fraction})`);
+  const zero = fractionLogic.calculate('1/2', '/', '0/5');
+  assert(zero.error && /divide by zero/i.test(zero.error) && zero.field === 'b', 'Fraction: dividing by a zero fraction is a clear error');
+
+  // More forms and edge cases
+  assert(fractionLogic.calculate('-1 1/2', '-', '2/3').mixed === '-2 1/6', 'Fraction: -1 1/2 − 2/3 = -2 1/6');
+  assert(fractionLogic.calculate('5', '*', '0.25').fraction === '5/4', 'Fraction: whole numbers and decimals are accepted (5 × 0.25 = 5/4)');
+  assert(fractionLogic.calculate('3/-4', '+', '1/4').fraction === '-1/2', 'Fraction: a negative denominator is normalised');
+  assert(fractionLogic.calculate('1/3', '+', '1/3').steps[0].includes('already the same'), 'Fraction: equal denominators skip the LCM step');
+  assert(fractionLogic.calculate('1/0', '+', '1/2').error, 'Fraction: a zero denominator is an error');
+  assert(fractionLogic.calculate('abc', '+', '1/2').field === 'a', 'Fraction: text input is an error on the first field');
+  assert(fractionLogic.simplify('7/13').alreadySimplest === true, 'Fraction: 7/13 is already in lowest terms');
+  assert(fractionLogic.decimalToFraction('1.25').mixed === '1 1/4' && fractionLogic.decimalToFraction('-0.5').fraction === '-1/2', 'Fraction: 1.25 = 1 1/4 and -0.5 = -1/2');
+  assert(fractionLogic.decimalToFraction('0.3.3').error && fractionLogic.decimalToFraction('').error, 'Fraction: malformed decimals are errors');
+  assert(fractionLogic.toDecimal({ n: 1n, d: 7n }).text === '0.(142857)', 'Fraction: 1/7 = 0.(142857)');
+  const big = fractionLogic.calculate('123456789012345678/987654321', '*', '987654321/2');
+  assert(big.fraction === '61728394506172839', 'Fraction: large numbers stay exact (BigInt)');
+
+  // Property: (a op b) matches floating-point arithmetic
+  const rand = mulberry32(3141);
+  const ops = { '+': (x, y) => x + y, '-': (x, y) => x - y, '*': (x, y) => x * y, '/': (x, y) => x / y };
+  for (let i = 0; i < 400; i++) {
+    const a = [1 + Math.floor(rand() * 40), 1 + Math.floor(rand() * 40)], b = [1 + Math.floor(rand() * 40), 1 + Math.floor(rand() * 40)];
+    const op = Object.keys(ops)[Math.floor(rand() * 4)];
+    const r = fractionLogic.calculate(`${a[0]}/${a[1]}`, op, `${b[0]}/${b[1]}`);
+    const expected = ops[op](a[0] / a[1], b[0] / b[1]);
+    const got = Number(r.numerator) / Number(r.denominator);
+    if (Math.abs(got - expected) > 1e-9 * Math.max(1, Math.abs(expected)) || fractionLogic.gcd(BigInt(r.numerator), BigInt(r.denominator)) !== 1n) {
+      assert(false, `Fraction fuzz: ${a[0]}/${a[1]} ${op} ${b[0]}/${b[1]} gave ${r.fraction}`);
+      break;
+    }
+  }
+}
+
+// Mean, Median, Mode & Standard Deviation Logic
+const statsLogic = require(path.join(ROOT, 'src/tools/mean-median-mode-calculator/logic.js'));
+{
+  const s = statsLogic.analyse('2,4,4,4,5,5,7,9');
+  assert(s.mean === 5 && s.median === 4.5, `Stats: [2,4,4,4,5,5,7,9] mean 5, median 4.5 (got ${s.mean}, ${s.median})`);
+  assert(JSON.stringify(s.modes) === '[4]' && s.modeFrequency === 3, 'Stats: mode 4 (appears 3 times)');
+  assert(s.populationSD === 2 && statsLogic.fmt(s.sampleSD, 4) === '2.1381', `Stats: population SD 2, sample SD 2.1381 (got ${s.populationSD}, ${statsLogic.fmt(s.sampleSD, 4)})`);
+  assert(s.count === 8 && s.sum === 40 && s.min === 2 && s.max === 9 && s.range === 7, 'Stats: count 8, sum 40, min 2, max 9, range 7');
+  assert(s.populationVariance === 4 && statsLogic.fmt(s.sampleVariance, 4) === '4.5714', 'Stats: variances 4 and 4.5714');
+  assert(s.q1 === 4 && s.q3 === 6 && s.iqr === 2, `Stats: Q1 4, Q3 6 by median of halves (got ${s.q1}, ${s.q3})`);
+  assert(s.steps.sd.some(t => t.includes('32 ÷ (8 − 1)')), 'Stats: steps show the n − 1 division');
+
+  assert(statsLogic.analyse('1 2 3').modes.length === 0, 'Stats: [1,2,3] has no mode');
+  assert(statsLogic.analyse('1,1,2,2').modes.length === 0, 'Stats: values that all appear equally often have no mode');
+  assert(JSON.stringify(statsLogic.analyse('1,1,2,2,3').modes) === '[1,2]', 'Stats: two values tied for most frequent are both modes');
+  const odd = statsLogic.analyse('1\n3\n5\n7\n9');
+  assert(odd.median === 5 && odd.q1 === 2 && odd.q3 === 8, 'Stats: odd count excludes the median from the halves (Q1 2, Q3 8)');
+  assert(statsLogic.analyse('-1.5; 2.5\t-3').sum === -2, 'Stats: negatives, decimals, semicolons and tabs are accepted');
+  const one = statsLogic.analyse('42');
+  assert(one.sampleSD === null && one.populationSD === 0 && one.q1 === null, 'Stats: a single value has no sample SD or quartiles');
+
+  assert(/at least one number/i.test(statsLogic.analyse('').error) && statsLogic.analyse('   ,, ').error, 'Stats: empty input is a clear error');
+  const bad = statsLogic.analyse('1, two, 3');
+  assert(bad.error && bad.error.includes('"two"'), 'Stats: non-numeric input names the bad value');
+  assert(statsLogic.analyse([0.1, 0.2, 0.3]).sum === 0.6, 'Stats: compensated summation keeps 0.1 + 0.2 + 0.3 = 0.6');
+
+  // Property: shifting all values shifts the mean and median but not the SD
+  const rand = mulberry32(1999);
+  for (let i = 0; i < 200; i++) {
+    const values = Array.from({ length: 2 + Math.floor(rand() * 30) }, () => Math.round(rand() * 1000) / 10);
+    const shift = Math.round(rand() * 100);
+    const a = statsLogic.analyse(values), b = statsLogic.analyse(values.map(v => v + shift));
+    if (Math.abs(b.mean - a.mean - shift) > 1e-9 || Math.abs(b.median - a.median - shift) > 1e-9 || Math.abs(b.sampleSD - a.sampleSD) > 1e-9) {
+      assert(false, `Stats fuzz: shifting ${values} by ${shift} broke an invariant`);
+      break;
+    }
+  }
+}
+
 // Code formatters (async: the engines load with dynamic import)
 async function testCodeFormatters() {
   const pyFormatter = require(path.join(ROOT, 'src/tools/python-formatter/logic.js'));
