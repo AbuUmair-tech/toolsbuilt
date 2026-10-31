@@ -307,6 +307,7 @@ window.TOOLS_DATA = [
     "popular": false,
     "related": [
       "python-formatter",
+      "html-formatter",
       "jwt-decoder",
       "text-diff-checker",
       "lorem-ipsum-generator",
@@ -556,6 +557,7 @@ window.TOOLS_DATA = [
     "categoryId": "code",
     "popular": false,
     "related": [
+      "html-formatter",
       "java-formatter",
       "json-formatter",
       "text-case-converter",
@@ -572,6 +574,7 @@ window.TOOLS_DATA = [
     "categoryId": "code",
     "popular": false,
     "related": [
+      "html-formatter",
       "python-formatter",
       "json-formatter",
       "url-encoder-decoder",
@@ -586,7 +589,7 @@ window.TOOLS_DATA = [
     "description": "Calculate hours between two times with breaks and overnight shifts, or total a weekly timesheet with pay and overtime.",
     "category": "Date & Time Tools",
     "categoryId": "date-time",
-    "popular": false,
+    "popular": true,
     "related": [
       "date-difference-calculator",
       "time-zone-converter",
@@ -698,7 +701,7 @@ window.TOOLS_DATA = [
     "description": "Add, subtract, multiply and divide fractions and mixed numbers with step-by-step working, simplify fractions and convert decimals.",
     "category": "Math & Finance Tools",
     "categoryId": "math-finance",
-    "popular": false,
+    "popular": true,
     "related": [
       "percentage-calculator",
       "mean-median-mode-calculator",
@@ -880,6 +883,22 @@ window.TOOLS_DATA = [
       "hash-generator",
       "uuid-generator",
       "random-number-generator"
+    ]
+  },
+  {
+    "id": "html-formatter",
+    "name": "HTML Formatter",
+    "url": "/tools/html-formatter/",
+    "icon": "code",
+    "description": "Format and beautify HTML with Prettier, including inline CSS and JavaScript, with parse errors by line and a careful minify mode.",
+    "category": "Code Formatters",
+    "categoryId": "code",
+    "popular": false,
+    "related": [
+      "java-formatter",
+      "python-formatter",
+      "json-formatter",
+      "text-diff-checker"
     ]
   }
 ];

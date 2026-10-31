@@ -7,7 +7,51 @@
 document.addEventListener('DOMContentLoaded', () => {
   initIcons();
   initAccordions();
+  initScrollableTables();
 });
+
+/**
+ * Tables that scroll sideways (usually on phones) must be reachable by keyboard:
+ * make an overflowing .table-wrapper focusable and name it after its table caption.
+ * Re-checked on resize, since a table may only overflow on narrow screens.
+ */
+function initScrollableTables() {
+  const update = () => {
+    document.querySelectorAll('.table-wrapper').forEach((wrapper) => {
+      if (wrapper.dataset.tbScroll === 'static') return;
+      if (wrapper.dataset.tbScroll === undefined && wrapper.hasAttribute('tabindex')) {
+        wrapper.dataset.tbScroll = 'static'; // already set up in the markup
+        return;
+      }
+      const overflows = wrapper.scrollWidth > wrapper.clientWidth + 1;
+      if (overflows && wrapper.dataset.tbScroll !== 'on') {
+        wrapper.dataset.tbScroll = 'on';
+        wrapper.setAttribute('tabindex', '0');
+        wrapper.setAttribute('role', 'region');
+        const caption = wrapper.querySelector('caption');
+        wrapper.setAttribute('aria-label', caption && caption.textContent.trim() ? caption.textContent.trim() : 'Scrollable table');
+      } else if (!overflows && wrapper.dataset.tbScroll === 'on') {
+        wrapper.dataset.tbScroll = 'off';
+        ['tabindex', 'role', 'aria-label'].forEach(a => wrapper.removeAttribute(a));
+      }
+    });
+  };
+  update();
+  let timer = null;
+  window.addEventListener('resize', () => {
+    clearTimeout(timer);
+    timer = setTimeout(update, 150);
+  });
+  // Result tables are often filled in after load
+  if (typeof MutationObserver === 'function') {
+    let pending = false;
+    new MutationObserver(() => {
+      if (pending) return;
+      pending = true;
+      requestAnimationFrame(() => { pending = false; update(); });
+    }).observe(document.body, { childList: true, subtree: true });
+  }
+}
 
 /**
  * Icon Injection from window.ICONS registry

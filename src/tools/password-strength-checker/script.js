@@ -166,6 +166,11 @@ document.addEventListener('DOMContentLoaded', () => {
   input.addEventListener('input', () => {
     clearTimeout(debounceTimer);
     if (!input.value) { requestId++; clearResult(); return; }
+    // Open the result area straight away (a check can take a second), so the page does not jump later
+    if (!resultBox.classList.contains('is-visible')) {
+      primaryText.textContent = 'Checking…';
+      resultBox.classList.add('is-visible');
+    }
     debounceTimer = setTimeout(check, 250);
   });
   form.addEventListener('submit', (e) => { e.preventDefault(); clearTimeout(debounceTimer); check(); });

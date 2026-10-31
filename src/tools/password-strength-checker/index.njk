@@ -117,9 +117,6 @@ howto:
         <div class="pw-meter" id="pw-meter" data-score="" role="meter" aria-label="Password strength" aria-valuemin="0" aria-valuemax="4" aria-valuenow="0">
           <span></span><span></span><span></span><span></span>
         </div>
-        <p class="pw-warning" id="pw-warning" hidden></p>
-        <ul class="pw-suggestions" id="pw-suggestions"></ul>
-
         <div class="result-grid pw-grid">
           <div class="result-stat-card">
             <div class="result-stat-label">Online attack (rate-limited, 100/hour)</div>
@@ -138,6 +135,9 @@ howto:
             <div class="result-stat-value" id="pw-guesses">--</div>
           </div>
         </div>
+        <!-- Variable-length feedback comes after the fixed-size figures, so a late result does not push them around -->
+        <p class="pw-warning" id="pw-warning" hidden></p>
+        <ul class="pw-suggestions" id="pw-suggestions"></ul>
         <p class="form-hint" id="pw-sets"></p>
         <p class="pw-generator-link">Need a stronger one? <a href="/tools/password-generator/">Generate a random password</a>.</p>
       </div>

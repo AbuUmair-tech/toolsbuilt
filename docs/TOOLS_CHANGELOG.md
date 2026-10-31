@@ -1,5 +1,45 @@
 # ToolsBuilt Tools Changelog
 
+## 3.2.0: 20 new tools
+
+**Branch:** `tools-batch-20` (built on `redesign-and-tools`) · **Date:** October 31, 2026
+
+All 20 tools follow the tool checklist: full front matter (Quick Answer, method, worked examples, common mistakes, FAQs, primary sources), a pure UMD `logic.js` with unit tests in `scripts/test-tool-logic.js`, `script.js` with validation, and at least 1,000 words of content. Screenshots at 375px are in `docs/screenshots/tools-batch-20/`.
+
+| Tool | URL | Category | Notes |
+| :--- | :--- | :--- | :--- |
+| Hours Calculator | `/tools/hours-calculator/` | Date & Time | Overnight shifts, unpaid breaks, decimal hours; Mon-Sun timesheet with pay and weekly overtime |
+| Unix Timestamp Converter | `/tools/unix-timestamp-converter/` | Date & Time | Live timestamp, s/ms/µs/ns detection, ISO 8601, RFC 2822, relative time, Year 2038 explainer |
+| Week Number Calculator | `/tools/week-number-calculator/` | Date & Time | ISO 8601 weeks and week-years, week date ranges, 52/53 weeks, labelled US-style numbering |
+| Time Zone Converter & Meeting Planner | `/tools/time-zone-converter/` | Date & Time | Intl.DateTimeFormat with the browser's IANA data, DST gaps and overlaps, working-hours strip |
+| Tip Calculator & Bill Splitter | `/tools/tip-calculator/` | Math & Finance | Presets and custom tip, pre-tax tipping, round up per person, exact cents |
+| Salary to Hourly Calculator | `/tools/salary-to-hourly-calculator/` | Math & Finance | Annual, monthly, bi-weekly, weekly, daily and hourly, with unpaid weeks off |
+| Profit Margin & Markup Calculator | `/tools/profit-margin-calculator/` | Math & Finance | Cost + price, cost + margin, cost + markup; margin vs markup table |
+| Fraction Calculator | `/tools/fraction-calculator/` | Math & Finance | Exact BigInt arithmetic, mixed numbers, steps (LCM, reciprocal, GCD), repeating decimals |
+| Mean, Median, Mode & Standard Deviation | `/tools/mean-median-mode-calculator/` | Math & Finance | Population and sample variance/SD, quartiles (median of halves), worked steps |
+| Attendance Calculator | `/tools/attendance-calculator/` | Student & Exam | Classes needed or classes you can miss, 1-10 class projection |
+| Weighted Average Calculator | `/tools/weighted-average-calculator/` | Student & Exam | % or plain weights, normalisation notice, contributions and steps |
+| Merit & Aggregate Calculator | `/tools/merit-calculator/` | Student & Exam | Custom weights plus verified presets in `src/_data/meritPresets.json` (NUST NET, PM&DC MDCAT) |
+| Random Number Generator | `/tools/random-number-generator/` | Fun & Random | crypto.getRandomValues with rejection sampling, unique/sort/decimals, download |
+| Coin Flip & Dice Roller | `/tools/coin-flip-dice-roller/` | Fun & Random | 1-100 coins, 1-10 dice d4-d20, history, reduced-motion aware animation |
+| Text Diff Checker | `/tools/text-diff-checker/` | Text & Writing | Myers line diff with word highlights in a Web Worker, side-by-side and inline |
+| Remove Duplicate Lines | `/tools/remove-duplicate-lines/` | Text & Writing | Ignore case/spaces, keep first or last, sort, copy and download |
+| URL Slug Generator | `/tools/slug-generator/` | Text & Writing | NFD accent removal, stop words, max length at a word boundary, bulk mode |
+| JWT Decoder | `/tools/jwt-decoder/` | Security & Privacy | Header/payload, iat/nbf/exp dates and expiry, HS256/384/512 verification with Web Crypto |
+| Password Strength Checker | `/tools/password-strength-checker/` | Security & Privacy | zxcvbn-ts (self-hosted, pinned) in a Web Worker, loaded on first use; NIST SP 800-63B-4 guidance |
+| HTML Formatter | `/tools/html-formatter/` | Code Formatters | Prettier HTML with inline CSS/JS, parse errors and unclosed-tag warnings by line, conservative minify |
+
+### Shared changes
+- `src/_data/vendor.js`: Prettier's html, postcss, babel and estree plugins, and zxcvbn-ts (`@zxcvbn-ts/core` 4.2.0, `language-common` 4.1.3, `language-en` 4.1.1), served from `/assets/vendor/` and loaded only on their own pages.
+- `assets/js/code-formatter.js` and `partials/code-formatter.njk`: HTML syntax errors and a warnings list for non-fatal problems.
+- `assets/js/common.js`: tables that scroll sideways become keyboard-focusable regions named after their caption.
+- `components.css`: segmented controls with exactly three tabs stay on one row on phones.
+- `categories.json`: intros, "how to choose" guides and FAQs for all 7 categories now cover the new tools; the security FAQ on password length follows NIST SP 800-63B-4.
+- Hours Calculator and Fraction Calculator join the homepage Popular tools (8 in total).
+
+### Merit presets not added
+- **UET Lahore (ECAT):** uet.edu.pk and admission.uet.edu.pk returned HTTP 522 (server unreachable) on 2026-10-31, so the current weights could not be checked against an official page.
+
 ## 3.1.0: Homepage redesign and country support
 
 **Branch:** `redesign-and-tools` · **Target:** `main` · **Date:** October 31, 2026

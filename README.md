@@ -1,6 +1,6 @@
 # ToolsBuilt
 
-> Free, fast, privacy-first online calculators & tools. **34 tools in 7 categories**, all running entirely in the browser — no uploads, no server processing, and no third-party scripts, fonts or APIs (only the consent-gated Google Analytics loader).
+> Free, fast, privacy-first online calculators & tools. **54 tools in 7 categories**, all running entirely in the browser — no uploads, no server processing, and no third-party scripts, fonts or APIs (only the consent-gated Google Analytics loader).
 
 🌐 **Live Site:** [https://toolsbuilt.com](https://toolsbuilt.com)
 
@@ -50,13 +50,13 @@ SAVE_SEO_REPORT=1 node scripts/check-seo.js       # docs/SEO_PAGE_REPORT.md
 
 | Category | URL | Tools | |
 | :--- | :--- | :---: | :--- |
-| Date & Time Tools | `/category/date-time/` | 4 | Days Until Date, Age Calculator, Date Difference, Add or Subtract Days |
-| Student & Exam Tools | `/category/education/` | 4 | Grade Calculator, GPA Calculator, CGPA to Percentage, Marks Percentage |
-| Math & Finance Tools | `/category/math-finance/` | 14 | Percentage, Loan EMI, Discount, Percentage Change, Compound Interest, SIP, Unit Converter, Pakistan Salary Tax, Salary Tax by Country (hub), India / UK / US Salary Tax, Gold, Sales Tax, VAT & GST |
-| Text & Writing Tools | `/category/text/` | 6 | Word Counter, Text Case Converter, JSON Formatter, Base64, URL Encoder, Lorem Ipsum |
-| Security & Privacy Tools | `/category/security/` | 3 | Password Generator, UUID Generator, Hash Generator |
-| Fun & Random Tools | `/category/fun/` | 1 | Random Name Picker |
-| Code Formatters | `/category/code/` | 2 | Python Formatter, Java Formatter |
+| Date & Time Tools | `/category/date-time/` | 8 | Days Until Date, Age Calculator, Date Difference, Add or Subtract Days, Hours Calculator, Unix Timestamp Converter, Week Number Calculator, Time Zone Converter & Meeting Planner |
+| Student & Exam Tools | `/category/education/` | 7 | Grade Calculator, GPA Calculator, CGPA to Percentage, Marks Percentage, Attendance Calculator, Weighted Average Calculator, Merit & Aggregate Calculator |
+| Math & Finance Tools | `/category/math-finance/` | 19 | Percentage, Loan EMI, Discount, Percentage Change, Compound Interest, SIP, Unit Converter, Pakistan Salary Tax, Salary Tax by Country (hub), India / UK / US Salary Tax, Gold, Sales Tax, VAT & GST, Tip Calculator & Bill Splitter, Salary to Hourly, Profit Margin & Markup, Fraction Calculator, Mean, Median, Mode & Standard Deviation |
+| Text & Writing Tools | `/category/text/` | 9 | Word Counter, Text Case Converter, JSON Formatter, Base64, URL Encoder, Lorem Ipsum, Text Diff Checker, Remove Duplicate Lines, URL Slug Generator |
+| Security & Privacy Tools | `/category/security/` | 5 | Password Generator, UUID Generator, Hash Generator, JWT Decoder, Password Strength Checker |
+| Fun & Random Tools | `/category/fun/` | 3 | Random Name Picker, Random Number Generator, Coin Flip & Dice Roller |
+| Code Formatters | `/category/code/` | 3 | Python Formatter, Java Formatter, HTML Formatter |
 
 Every tool lives at `/tools/<slug>/`. Tool and category counts shown on the site are computed from `src/_data/tools.json`; never hard-code them.
 
@@ -149,12 +149,14 @@ The code formatters run open-source engines in the browser, served from our own 
 | Engine | npm package (exact version in `package.json`) | Used by | Published to |
 | :--- | :--- | :--- | :--- |
 | Ruff formatter (WASM) | `@wasm-fmt/ruff_fmt` | Python Formatter | `/assets/vendor/ruff_fmt-<version>/` |
-| Prettier | `prettier` | Java Formatter | `/assets/vendor/prettier-<version>/` |
+| Prettier (standalone, plus the html, postcss, babel and estree plugins) | `prettier` | Java Formatter, HTML Formatter | `/assets/vendor/prettier-<version>/` |
 | Prettier Java plugin | `prettier-plugin-java` | Java Formatter | `/assets/vendor/prettier-plugin-java-<version>/` |
 | tree-sitter runtime (dependency of the plugin) | `web-tree-sitter` | Java Formatter | `/assets/vendor/web-tree-sitter-<version>/` |
+| zxcvbn-ts (browser builds of core, language-common and language-en) | `@zxcvbn-ts/core`, `@zxcvbn-ts/language-common`, `@zxcvbn-ts/language-en` | Password Strength Checker | `/assets/vendor/zxcvbn-ts-<package>-<version>/` |
 
 How it works:
 - `src/_data/vendor.js` lists the files to publish from each package. `eleventy.config.js` copies them from `node_modules` into `/assets/vendor/<package>-<version>/`, and the version comes from the installed package, so the URL changes when the version does.
+- The password strength checker is different: zxcvbn-ts ships self-contained browser builds, so the page loads them with `importScripts()` into a Web Worker the first time the password field is used (the page passes the URLs from `vendor.js`). A check takes up to about a second because Levenshtein matching is on, which is why it runs off the main thread.
 - Each formatter page includes an inline import map (built by `vendor.js`) that points the package names at those files. The tool's `logic.js` loads the engine with `import()` the first time it is used, so the engines never load on any other page and nothing is fetched from another domain.
 - The same `logic.js` runs in Node for the unit tests, where the package names resolve to `node_modules`.
 
