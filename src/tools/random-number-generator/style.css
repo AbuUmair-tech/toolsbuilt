@@ -1,0 +1,49 @@
+/* Random Number Generator */
+
+@media (min-width: 640px) {
+  .rng-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.rng-grid {
+  margin-bottom: var(--space-3);
+}
+
+.rng-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-6);
+}
+
+.result-box .rng-primary {
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
+
+.rng-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  max-height: 20rem;
+  margin: var(--space-3) 0 0;
+  padding: 0;
+  overflow-y: auto;
+  list-style: none;
+}
+
+.rng-list:empty {
+  display: none;
+}
+
+.rng-list li {
+  min-width: 3rem;
+  padding: var(--space-1) var(--space-3);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  background-color: var(--surface-card);
+  font-family: var(--font-mono);
+  font-size: var(--font-size-sm);
+  text-align: center;
+  color: var(--text-primary);
+}

@@ -1,0 +1,177 @@
+---
+layout: layouts/tool.njk
+toolSlug: coin-flip-dice-roller
+title: "Coin Flip & Dice Roller Online"
+description: "Flip up to 100 coins or roll up to 10 dice (d4, d6, d8, d10, d12, d20) with secure randomness, totals, heads and tails counts, and a history of results."
+permalink: /tools/coin-flip-dice-roller/
+h1: "Coin Flip & Dice Roller"
+extraCss: "/tools/coin-flip-dice-roller/style.css"
+quickAnswer: "Choose Coin or Dice, set how many, and press Flip or Roll. Each coin has exactly a 50% chance of heads, and each face of a die is equally likely, because results come from your browser's secure random generator with rejection sampling. Dice show every face and the total, and the last 20 results stay in the history."
+formula:
+  title: "Probabilities"
+  expression: "P(heads) = 1/2   ·   P(any face of a dN) = 1/N   ·   Sum of k dice ranges from k to k × N"
+  explanation: "Every flip and roll is independent: earlier results do not change the next one. For one die all faces are equally likely, but sums of several dice are not: with 2d6 there are 36 equally likely combinations, six of which add up to 7, so 7 is the most common total (1 in 6) and 2 or 12 the rarest (1 in 36). The average total of k dice with N sides is k × (N + 1) ÷ 2."
+  variables:
+    - name: "dN"
+      description: "A die with N faces numbered 1 to N: d4, d6, d8, d10, d12 or d20."
+    - name: "kdN"
+      description: "Dice notation for rolling k dice with N sides, e.g. 2d6 or 1d20."
+    - name: "Independence"
+      description: "Each result is drawn fresh; a streak of heads makes tails no more likely on the next flip."
+workedExamples:
+  - title: "Roll 2d6"
+    inputs:
+      - "Dice: 2, type d6"
+    steps:
+      - "Each die shows 1-6, for example 4 and 3"
+      - "Total = 4 + 3 = 7; possible totals run from 2 to 12"
+    result: "Total 7 (the most likely 2d6 total, probability 6/36)"
+    link: "/tools/coin-flip-dice-roller/?mode=dice&dice=2&sides=6#tool"
+  - title: "Roll a d20"
+    inputs:
+      - "Dice: 1, type d20"
+    steps:
+      - "One number from 1 to 20, each with probability 1/20 = 5%"
+    result: "For example 14; a natural 20 comes up 5% of the time"
+    link: "/tools/coin-flip-dice-roller/?mode=dice&dice=1&sides=20#tool"
+  - title: "Flip 100 coins"
+    inputs:
+      - "Coins: 100"
+    steps:
+      - "Each coin is heads or tails with probability 1/2"
+      - "Heads + tails always equals 100"
+    result: "Around 50 heads; anything from 40 to 60 is common (about 96% of the time)"
+    link: "/tools/coin-flip-dice-roller/?mode=coin&coins=100#tool"
+commonMistakes:
+  - title: "The gambler's fallacy"
+    description: "After five heads in a row, tails is still exactly 50%. Coins and dice have no memory, so past results never make a particular outcome \"due\"."
+  - title: "Assuming all dice totals are equally likely"
+    description: "With two dice, 7 comes up six times as often as 2 or 12. Only single-die results are evenly spread."
+  - title: "Expecting exactly 50 heads in 100 flips"
+    description: "Exactly 50 heads happens only about 8% of the time. Results between 40 and 60 are normal; it takes many thousands of flips for the proportion to settle close to 50%."
+  - title: "Using a predictable random source"
+    description: "Simple generators such as Math.random() are fine for animations but not for anything where fairness matters. This tool uses crypto.getRandomValues with rejection sampling so no face is favoured."
+faqs:
+  - q: "Is the online coin flip fair?"
+    a: "Yes. Each flip uses your browser's cryptographically secure random generator, so heads and tails each have exactly a 50% chance, and no flip depends on the previous one."
+  - q: "How do I roll 2d6 online?"
+    a: "Choose Dice, set the number of dice to 2 and the type to d6, then press Roll. You will see both dice and their total, which can be from 2 to 12."
+  - q: "What is the most common total with two dice?"
+    a: "7. Six of the 36 combinations add up to 7 (1+6, 2+5, 3+4, 4+3, 5+2, 6+1), so it comes up 1 time in 6 on average."
+  - q: "What dice can I roll?"
+    a: "d4, d6, d8, d10, d12 and d20, up to 10 dice at once, the standard set used in tabletop role-playing games."
+  - q: "How many coins can I flip at once?"
+    a: "Up to 100. The result shows every coin and counts the heads and tails."
+  - q: "Can I see my previous results?"
+    a: "Yes. The history keeps your last 20 flips and rolls on this page. It is cleared when you leave or press Clear history."
+  - q: "Can I turn off the animation?"
+    a: "The flip and roll animation is skipped automatically if your device is set to reduce motion."
+sources:
+  - name: "W3C Web Cryptography API: getRandomValues()"
+    url: "https://www.w3.org/TR/WebCryptoAPI/#Crypto-method-getRandomValues"
+  - name: "NIST/SEMATECH e-Handbook of Statistical Methods: Binomial distribution"
+    url: "https://www.itl.nist.gov/div898/handbook/eda/section3/eda366i.htm"
+  - name: "W3C Media Queries Level 5: prefers-reduced-motion"
+    url: "https://www.w3.org/TR/mediaqueries-5/#prefers-reduced-motion"
+lastReviewed: "2026-10-31"
+howto:
+  name: "How to Flip a Coin or Roll Dice Online"
+  description: "Flip coins or roll dice with secure randomness and keep a history of results."
+  steps:
+    - name: "Choose coin or dice"
+      text: "Pick Coin to flip coins, or Dice to roll dice."
+    - name: "Set how many"
+      text: "Choose 1 to 100 coins, or 1 to 10 dice and the type of die."
+    - name: "Flip or roll"
+      text: "Press the button to see each coin or die, the heads and tails count or the total."
+    - name: "Check the history"
+      text: "Your last 20 results are listed below the result."
+---
+
+    <!-- Tool Form Container -->
+    <section class="tool-container" aria-label="Coin Flip and Dice Roller">
+      <div class="segmented-control mb-6" role="tablist" aria-label="Coin or dice">
+        <button type="button" class="btn btn-sm mode-tab-btn active" id="tab-coin" data-mode="coin" role="tab" aria-selected="true" aria-controls="calculator-form">Coin flip</button>
+        <button type="button" class="btn btn-sm mode-tab-btn" id="tab-dice" data-mode="dice" role="tab" aria-selected="false" aria-controls="calculator-form" tabindex="-1">Dice roller</button>
+      </div>
+
+      <form id="calculator-form" role="tabpanel" aria-labelledby="tab-coin" novalidate>
+        <input type="hidden" id="mode" data-param="mode" value="coin">
+        <div class="form-grid two-col" data-mode-field="coin">
+          <div class="form-group">
+            <label for="coin-count">Number of coins</label>
+            <input type="number" inputmode="numeric" step="1" min="1" max="100" id="coin-count" data-param="coins" class="form-control" value="1">
+          </div>
+        </div>
+        <div class="form-grid two-col" data-mode-field="dice" hidden>
+          <div class="form-group">
+            <label for="dice-count">Number of dice</label>
+            <input type="number" inputmode="numeric" step="1" min="1" max="10" id="dice-count" data-param="dice" class="form-control" value="2">
+          </div>
+          <div class="form-group">
+            <label for="dice-sides">Type of die</label>
+            <select id="dice-sides" data-param="sides" class="form-control">
+              <option value="4">d4</option>
+              <option value="6" selected>d6</option>
+              <option value="8">d8</option>
+              <option value="10">d10</option>
+              <option value="12">d12</option>
+              <option value="20">d20</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="button-group">
+          <button type="submit" class="btn btn-primary btn-lg" id="go-btn">Flip</button>
+          <button type="button" class="btn btn-secondary" id="clear-history-btn">Clear history</button>
+        </div>
+      </form>
+
+      <div id="error-box" class="hidden form-error" role="alert"></div>
+
+      <div id="result-box" class="result-box is-visible" aria-live="polite">
+        <div class="result-header">
+          <span id="result-header-text">Result</span>
+        </div>
+        <div class="result-primary" id="result-primary-text">--</div>
+        <ul class="cd-pieces" id="cd-pieces" aria-label="Each coin or die"></ul>
+        <p class="form-hint" id="cd-note"></p>
+      </div>
+
+      <div class="cd-history">
+        <p class="cd-history-title" id="history-title">History (last 20)</p>
+        <ol class="cd-history-list" id="history-list" aria-labelledby="history-title"></ol>
+        <p class="form-hint" id="history-empty">No results yet.</p>
+      </div>
+    </section>
+
+    <!-- tool-end -->
+
+    <section class="content-section">
+      <h2>Dice Odds at a Glance</h2>
+      <p>One die gives every face the same chance. Add more dice and the totals bunch up in the middle, which is why 7 is the number to watch in board games played with two six-sided dice.</p>
+      <div class="table-wrapper">
+        <table class="table">
+          <caption class="visually-hidden">Ranges, averages and single-face chances for common dice</caption>
+          <thead><tr><th scope="col">Roll</th><th scope="col">Range</th><th scope="col">Average</th><th scope="col">Chance of one value</th></tr></thead>
+          <tbody>
+            <tr><td>1d4</td><td>1–4</td><td>2.5</td><td>25%</td></tr>
+            <tr><td>1d6</td><td>1–6</td><td>3.5</td><td>16.67%</td></tr>
+            <tr><td>2d6</td><td>2–12</td><td>7</td><td>7: 16.67%, 2 or 12: 2.78%</td></tr>
+            <tr><td>1d8</td><td>1–8</td><td>4.5</td><td>12.5%</td></tr>
+            <tr><td>1d10</td><td>1–10</td><td>5.5</td><td>10%</td></tr>
+            <tr><td>1d12</td><td>1–12</td><td>6.5</td><td>8.33%</td></tr>
+            <tr><td>1d20</td><td>1–20</td><td>10.5</td><td>5%</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>When to Flip a Coin or Roll a Die Online</h2>
+      <ul class="content-list">
+        <li><strong>Settling a decision:</strong> a coin flip is the classic fair tie-breaker between two options.</li>
+        <li><strong>Board games and role-playing games:</strong> replace missing dice, or roll handfuls of d6 or a d20 quickly with the total worked out.</li>
+        <li><strong>Teaching probability:</strong> flip 100 coins several times to show how the heads count varies, or compare 2d6 totals with the odds table above.</li>
+        <li><strong>Random choices:</strong> for a choice among more than six options, use the <a href="/tools/random-number-generator/">random number generator</a> or the <a href="/tools/random-name-picker/">random name picker</a>.</li>
+      </ul>
+      <p>Physical coins and dice can be slightly biased by their shape and how they are thrown. A secure software generator does not have that problem: every outcome is exactly equally likely. Results are generated in your browser and the history stays on this page only.</p>
+    </section>

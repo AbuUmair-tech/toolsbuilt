@@ -1,0 +1,195 @@
+---
+layout: layouts/tool.njk
+toolSlug: weighted-average-calculator
+title: "Weighted Average Calculator (Step by Step)"
+description: "Calculate a weighted average from values and weights given as percentages or plain numbers, with each row's contribution and the working shown."
+permalink: /tools/weighted-average-calculator/
+h1: "Weighted Average Calculator"
+extraCss: "/tools/weighted-average-calculator/style.css"
+quickAnswer: "A weighted average multiplies each value by its weight, adds the products, and divides by the total weight. Scores of 90 (30%), 80 (50%) and 70 (20%) give 27 + 40 + 14 = 81. With plain-number weights the method is the same: 90 with weight 2 and 80 with weight 3 give (180 + 240) ÷ 5 = 84."
+formula:
+  title: "Weighted Average Formula"
+  expression: "Weighted average = Σ(value × weight) ÷ Σ(weight)"
+  explanation: "Each value counts in proportion to its weight. When the weights are percentages that add up to 100, dividing by the total weight is the same as dividing by 100, so each row's contribution is simply value × weight%. If percentage weights add up to something other than 100, the calculator divides by their actual total instead (normalises them) and tells you, which is the same as scaling every weight so that they add up to 100."
+  variables:
+    - name: "Value"
+      description: "The score, grade, price or measurement for each item."
+    - name: "Weight"
+      description: "How much each value counts: a percentage, credit hours, a quantity or any other positive number."
+    - name: "Contribution"
+      description: "value × weight ÷ total weight: how many points of the final average come from that row."
+workedExamples:
+  - title: "Course grade from percentage weights"
+    inputs:
+      - "Assignments: 90, weight 30%"
+      - "Midterm: 80, weight 50%"
+      - "Quizzes: 70, weight 20%"
+    steps:
+      - "90 × 30 = 2,700; 80 × 50 = 4,000; 70 × 20 = 1,400"
+      - "Sum of products: 8,100; sum of weights: 100"
+      - "8,100 ÷ 100 = 81"
+    result: "Weighted average 81"
+    link: "/tools/weighted-average-calculator/?wt=percent&v1=90&w1=30&v2=80&w2=50&v3=70&w3=20#tool"
+  - title: "Plain-number weights"
+    inputs:
+      - "90 with weight 2"
+      - "80 with weight 3"
+    steps:
+      - "90 × 2 = 180; 80 × 3 = 240"
+      - "(180 + 240) ÷ (2 + 3) = 420 ÷ 5"
+    result: "Weighted average 84"
+    link: "/tools/weighted-average-calculator/?wt=number&v1=90&w1=2&v2=80&w2=3#tool"
+  - title: "Percentage weights that do not add up to 100"
+    inputs:
+      - "90 with weight 30%"
+      - "80 with weight 50%"
+    steps:
+      - "The weights total 80%, so they are normalised"
+      - "(90 × 30 + 80 × 50) ÷ 80 = 6,700 ÷ 80"
+    result: "Weighted average 83.75 (equivalent to weights of 37.5% and 62.5%)"
+    link: "/tools/weighted-average-calculator/?wt=percent&v1=90&w1=30&v2=80&w2=50#tool"
+commonMistakes:
+  - title: "Taking a simple average instead"
+    description: "The plain average of 90, 80 and 70 is 80, but if the 90 counts for 30% and the 70 for only 20%, the weighted average is 81. Use the plain average only when every item counts equally."
+  - title: "Dividing by the number of items"
+    description: "A weighted average divides by the total weight, not by how many values there are. Dividing 420 by 2 items instead of 5 weight units gives 210, which is meaningless."
+  - title: "Forgetting missing weight"
+    description: "If assessments worth 20% have not happened yet, your weights add up to 80%. The normalised result shows your average so far; it is not your final grade until the remaining 20% is added."
+  - title: "Mixing weight types"
+    description: "Use one kind of weight for every row: all percentages, or all credit hours, or all quantities. Mixing a 30% weight with a 3-credit weight gives a wrong answer."
+  - title: "Using weights on different scales of values"
+    description: "Make sure every value is on the same scale, for example all percentages. A score of 18/20 should be entered as 90, not 18, if the others are out of 100."
+faqs:
+  - q: "How do you calculate a weighted average?"
+    a: "Multiply each value by its weight, add all the products, then divide by the sum of the weights. For 90 (30%), 80 (50%) and 70 (20%): (2,700 + 4,000 + 1,400) ÷ 100 = 81."
+  - q: "What is the difference between a weighted average and a normal average?"
+    a: "A normal (arithmetic) average gives every value the same importance. A weighted average lets some values count more than others according to their weights."
+  - q: "Do weights have to add up to 100?"
+    a: "No. Any positive weights work because the formula divides by their total. If you choose percentage weights that do not add up to 100, the calculator normalises them and tells you."
+  - q: "How do I calculate my grade with weighted categories?"
+    a: "Enter each category's average as a value and its percentage of the course as the weight. The result is your overall grade; the contribution column shows how many points each category adds."
+  - q: "How do I calculate a weighted average in Excel?"
+    a: "Use =SUMPRODUCT(values, weights)/SUM(weights). For values in A2:A4 and weights in B2:B4: =SUMPRODUCT(A2:A4,B2:B4)/SUM(B2:B4)."
+  - q: "Can a weight be zero?"
+    a: "Yes. A row with weight 0 has no effect on the result. If every weight is zero there is nothing to average, so the calculator shows an error."
+  - q: "What is a weighted average used for?"
+    a: "Course grades, GPA by credit hours, average purchase price across orders of different sizes, portfolio returns, survey results and index numbers all use weighted averages."
+sources:
+  - name: "NIST/SEMATECH e-Handbook of Statistical Methods: Measures of location"
+    url: "https://www.itl.nist.gov/div898/handbook/eda/section3/eda351.htm"
+  - name: "Microsoft Support: SUMPRODUCT function"
+    url: "https://support.microsoft.com/en-us/office/sumproduct-function-16753e75-9f68-4874-94ac-4d2145a2fd2e"
+  - name: "U.S. Bureau of Labor Statistics: How the CPI uses weights (relative importance)"
+    url: "https://www.bls.gov/cpi/tables/relative-importance/"
+lastReviewed: "2026-10-31"
+howto:
+  name: "How to Calculate a Weighted Average"
+  description: "Enter values and weights to get a weighted average with the working shown."
+  steps:
+    - name: "Choose the weight type"
+      text: "Pick percentages if the weights are % of a total, or plain numbers for credit hours, quantities and so on."
+    - name: "Enter values and weights"
+      text: "Fill in a value and weight on each row, adding rows as needed. A name for each row is optional."
+    - name: "Read the result"
+      text: "See the weighted average, total weight, each row's contribution and every step of the calculation."
+---
+
+    <!-- Tool Form Container -->
+    <section class="tool-container" aria-label="Weighted Average Calculator">
+      <form id="calculator-form" novalidate>
+        <fieldset class="choice-toggle wavg-type">
+          <legend>Weights are</legend>
+          <div class="choice-toggle-options">
+            <label class="choice-toggle-option">
+              <input type="radio" name="wt" value="percent" data-param="wt" checked>
+              <span>Percentages (%)</span>
+            </label>
+            <label class="choice-toggle-option">
+              <input type="radio" name="wt" value="number" data-param="wt">
+              <span>Plain numbers</span>
+            </label>
+          </div>
+        </fieldset>
+
+        <div class="wavg-rows" id="wavg-rows" role="group" aria-label="Values and weights">
+          <div class="wavg-head" aria-hidden="true"><span>Name (optional)</span><span>Value</span><span id="weight-head">Weight (%)</span><span></span></div>
+        </div>
+        <template id="row-template">
+          <div class="wavg-row">
+            <div class="wavg-cell wavg-name">
+              <label class="wavg-label" data-for="name">Name</label>
+              <input type="text" class="form-control row-name" autocomplete="off" placeholder="e.g. Midterm">
+            </div>
+            <div class="wavg-cell">
+              <label class="wavg-label" data-for="value">Value</label>
+              <input type="number" inputmode="decimal" step="any" class="form-control row-value">
+            </div>
+            <div class="wavg-cell">
+              <label class="wavg-label wavg-weight-label" data-for="weight">Weight (%)</label>
+              <input type="number" inputmode="decimal" step="any" min="0" class="form-control row-weight">
+            </div>
+            <button type="button" class="btn btn-sm btn-ghost wavg-remove" aria-label="Remove row">✕</button>
+          </div>
+        </template>
+
+        <div class="button-group mt-4">
+          <button type="button" class="btn btn-sm btn-secondary" id="add-row-btn">+ Add row</button>
+        </div>
+
+        <div class="button-group mt-6">
+          <button type="submit" class="btn btn-primary">Calculate Weighted Average</button>
+          <button type="button" class="btn btn-secondary" id="reset-btn">Reset</button>
+        </div>
+      </form>
+
+      <div id="error-box" class="hidden form-error" role="alert"></div>
+
+      <div id="result-box" class="result-box is-visible" aria-live="polite">
+        <div class="result-header">
+          <span id="result-header-text">Weighted average</span>
+          <button type="button" class="btn btn-sm btn-ghost" id="copy-result-btn" title="Copy result to clipboard" aria-label="Copy result to clipboard">
+            <span data-icon="copy"></span> Copy Result
+          </button>
+        </div>
+        <div class="result-primary" id="result-primary-text">--</div>
+        <p class="form-hint" id="result-note" hidden></p>
+        <div class="table-wrapper wavg-table-wrapper">
+          <table class="table wavg-table">
+            <caption class="visually-hidden">Each row's share of the total weight and contribution to the average</caption>
+            <thead><tr><th scope="col">Row</th><th scope="col" class="wide-only">Value</th><th scope="col" class="wide-only">Weight</th><th scope="col">Share</th><th scope="col">Adds</th></tr></thead>
+            <tbody id="contrib-rows"></tbody>
+          </table>
+        </div>
+        <p class="wavg-steps-title">Step by step</p>
+        <ol class="wavg-steps" id="result-steps"></ol>
+      </div>
+    </section>
+
+    <!-- tool-end -->
+
+    <section class="content-section">
+      <h2>Simple vs Weighted Average</h2>
+      <p>A simple average treats every number the same. A weighted average lets each number count according to how important it is, which is how most course grades, GPAs and price averages are worked out.</p>
+      <div class="table-wrapper">
+        <table class="table">
+          <caption class="visually-hidden">Simple and weighted averages of the same scores</caption>
+          <thead><tr><th scope="col">Assessment</th><th scope="col">Score</th><th scope="col">Weight</th><th scope="col">Contribution</th></tr></thead>
+          <tbody>
+            <tr><td>Assignments</td><td>90</td><td>30%</td><td>27</td></tr>
+            <tr><td>Midterm</td><td>80</td><td>50%</td><td>40</td></tr>
+            <tr><td>Quizzes</td><td>70</td><td>20%</td><td>14</td></tr>
+            <tr><td><strong>Total</strong></td><td>Simple average 80</td><td>100%</td><td><strong>Weighted 81</strong></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>The weighted result is higher because the strongest score (90) carries more weight than the weakest (70).</p>
+
+      <h2>Where Weighted Averages Are Used</h2>
+      <ul class="content-list">
+        <li><strong>Grades:</strong> coursework, midterm and final exam weights from a syllabus. For grades by letter, the <a href="/tools/grade-calculator/">grade calculator</a> and <a href="/tools/gpa-calculator/">GPA calculator</a> do this with credit hours.</li>
+        <li><strong>Average cost:</strong> if you buy 10 units at 5 and 30 units at 6, the average price is (50 + 180) ÷ 40 = 5.75, not 5.50.</li>
+        <li><strong>Admissions:</strong> merit and aggregate formulas weight school results and entry tests; the <a href="/tools/merit-calculator/">merit calculator</a> handles marks out of different totals.</li>
+        <li><strong>Statistics:</strong> price indexes such as the Consumer Price Index weight each category by its share of household spending.</li>
+      </ul>
+      <p>All calculations run in your browser. You can share a link that reopens your exact rows.</p>
+    </section>

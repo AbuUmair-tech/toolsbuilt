@@ -67,6 +67,7 @@ window.TOOLS_DATA = [
     "related": [
       "uuid-generator",
       "hash-generator",
+      "random-number-generator",
       "random-name-picker"
     ]
   },
@@ -80,6 +81,8 @@ window.TOOLS_DATA = [
     "categoryId": "fun",
     "popular": true,
     "related": [
+      "random-number-generator",
+      "coin-flip-dice-roller",
       "password-generator",
       "uuid-generator",
       "gpa-calculator"
@@ -230,6 +233,8 @@ window.TOOLS_DATA = [
     "popular": false,
     "related": [
       "gpa-calculator",
+      "weighted-average-calculator",
+      "attendance-calculator",
       "mean-median-mode-calculator",
       "percentage-calculator",
       "unit-converter",
@@ -247,6 +252,7 @@ window.TOOLS_DATA = [
     "popular": false,
     "related": [
       "grade-calculator",
+      "weighted-average-calculator",
       "unit-converter",
       "random-name-picker",
       "cgpa-to-percentage-calculator"
@@ -471,6 +477,7 @@ window.TOOLS_DATA = [
     "popular": false,
     "related": [
       "gpa-calculator",
+      "merit-calculator",
       "marks-percentage-calculator",
       "grade-calculator",
       "percentage-calculator"
@@ -487,6 +494,8 @@ window.TOOLS_DATA = [
     "popular": false,
     "related": [
       "cgpa-to-percentage-calculator",
+      "attendance-calculator",
+      "merit-calculator",
       "percentage-calculator",
       "grade-calculator",
       "gpa-calculator"
@@ -699,7 +708,87 @@ window.TOOLS_DATA = [
       "percentage-calculator",
       "fraction-calculator",
       "grade-calculator",
+      "coin-flip-dice-roller",
       "percentage-change-calculator"
+    ]
+  },
+  {
+    "id": "attendance-calculator",
+    "name": "Attendance Calculator",
+    "url": "/tools/attendance-calculator/",
+    "icon": "calendar",
+    "description": "Find your attendance percentage, the classes you must attend to reach 75%, or how many you can miss and stay on target.",
+    "category": "Student & Exam Tools",
+    "categoryId": "education",
+    "popular": false,
+    "related": [
+      "marks-percentage-calculator",
+      "grade-calculator",
+      "weighted-average-calculator",
+      "gpa-calculator"
+    ]
+  },
+  {
+    "id": "weighted-average-calculator",
+    "name": "Weighted Average Calculator",
+    "url": "/tools/weighted-average-calculator/",
+    "icon": "calculator",
+    "description": "Calculate a weighted average from values and weights as percentages or plain numbers, with each row’s contribution and the steps.",
+    "category": "Student & Exam Tools",
+    "categoryId": "education",
+    "popular": false,
+    "related": [
+      "grade-calculator",
+      "gpa-calculator",
+      "merit-calculator",
+      "mean-median-mode-calculator"
+    ]
+  },
+  {
+    "id": "merit-calculator",
+    "name": "Merit & Aggregate Calculator",
+    "url": "/tools/merit-calculator/",
+    "icon": "graduation-cap",
+    "description": "Calculate an admission merit aggregate from Matric, Intermediate, entry test and interview marks with custom or verified NUST and MDCAT weights.",
+    "category": "Student & Exam Tools",
+    "categoryId": "education",
+    "popular": false,
+    "related": [
+      "marks-percentage-calculator",
+      "weighted-average-calculator",
+      "cgpa-to-percentage-calculator",
+      "percentage-calculator"
+    ]
+  },
+  {
+    "id": "random-number-generator",
+    "name": "Random Number Generator",
+    "url": "/tools/random-number-generator/",
+    "icon": "dice",
+    "description": "Generate secure random numbers in any range: whole numbers or decimals, up to 1,000 at once, with or without repeats, sorted or not.",
+    "category": "Fun & Random Tools",
+    "categoryId": "fun",
+    "popular": false,
+    "related": [
+      "coin-flip-dice-roller",
+      "random-name-picker",
+      "password-generator",
+      "uuid-generator"
+    ]
+  },
+  {
+    "id": "coin-flip-dice-roller",
+    "name": "Coin Flip & Dice Roller",
+    "url": "/tools/coin-flip-dice-roller/",
+    "icon": "dice",
+    "description": "Flip up to 100 coins or roll up to 10 dice (d4 to d20) with secure randomness, totals, heads and tails counts and a result history.",
+    "category": "Fun & Random Tools",
+    "categoryId": "fun",
+    "popular": false,
+    "related": [
+      "random-number-generator",
+      "random-name-picker",
+      "mean-median-mode-calculator"
     ]
   }
 ];

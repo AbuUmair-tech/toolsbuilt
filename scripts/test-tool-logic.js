@@ -1838,6 +1838,182 @@ const statsLogic = require(path.join(ROOT, 'src/tools/mean-median-mode-calculato
   }
 }
 
+// Attendance Calculator Logic
+const attendanceLogic = require(path.join(ROOT, 'src/tools/attendance-calculator/logic.js'));
+{
+  const a = attendanceLogic.calculateAttendance(30, 40, 75);
+  assert(a.percentage === 75 && a.meetsTarget && a.canMiss === 0, `Attendance: 30/40 = 75.00% and meets 75% with 0 to spare (got ${a.percentage}%, miss ${a.canMiss})`);
+  const b = attendanceLogic.calculateAttendance(30, 40, 80);
+  assert(!b.meetsTarget && b.classesNeeded === 10 && b.afterNeeded.attended === 40 && b.afterNeeded.total === 50 && b.afterNeeded.percentage === 80,
+    `Attendance: 30/40 at 80% -> attend 10 more (40/50 = 80%) (got ${b.classesNeeded})`);
+  const c = attendanceLogic.calculateAttendance(45, 50, 75);
+  assert(c.meetsTarget && c.canMiss === 10 && c.afterMissing.total === 60 && c.afterMissing.percentage === 75, `Attendance: 45/50 at 75% -> can miss 10 (45/60 = 75%) (got ${c.canMiss})`);
+  const d = attendanceLogic.calculateAttendance(70, 100, 75);
+  assert(d.classesNeeded === 20 && d.afterNeeded.percentage === 75, `Attendance: 70/100 at 75% -> attend 20 more (got ${d.classesNeeded})`);
+
+  assert(c.projection.length === 10 && c.projection[0].ifAttend === 90.2 && c.projection[9].ifMiss === 75, 'Attendance: projection covers the next 1-10 classes');
+  assert(attendanceLogic.calculateAttendance(29, 40, 75).classesNeeded === 4, 'Attendance: 29/40 needs 4 more for 75% (33/44)');
+  assert(attendanceLogic.calculateAttendance(33, 40, 82.5).meetsTarget, 'Attendance: decimal targets compare exactly (33/40 = 82.5%)');
+  assert(attendanceLogic.calculateAttendance(39, 40, 100).reachable === false, 'Attendance: 100% cannot be reached after missing a class');
+  assert(attendanceLogic.calculateAttendance(41, 40).field === 'attended', 'Attendance: attended above total is an error');
+  assert(attendanceLogic.calculateAttendance(10, 0).field === 'total' && attendanceLogic.calculateAttendance(2.5, 10).field === 'attended', 'Attendance: zero total and fractional classes are errors');
+  assert(attendanceLogic.calculateAttendance(10, 20, 0).field === 'target' && attendanceLogic.calculateAttendance(10, 20, 120).field === 'target', 'Attendance: targets outside (0, 100] are errors');
+
+  // Property: the advice is always the exact minimum / maximum
+  const rand = mulberry32(7575);
+  for (let i = 0; i < 400; i++) {
+    const total = 1 + Math.floor(rand() * 200);
+    const attended = Math.floor(rand() * (total + 1));
+    const target = 50 + Math.floor(rand() * 50);
+    const r = attendanceLogic.calculateAttendance(attended, total, target);
+    const ok = (x, y) => x * 100 >= target * y;
+    const fine = r.meetsTarget
+      ? ok(attended, total + r.canMiss) && !ok(attended, total + r.canMiss + 1)
+      : ok(attended + r.classesNeeded, total + r.classesNeeded) && !ok(attended + r.classesNeeded - 1, total + r.classesNeeded - 1);
+    if (!fine) {
+      assert(false, `Attendance fuzz: ${attended}/${total} at ${target}% gave ${JSON.stringify({ need: r.classesNeeded, miss: r.canMiss })}`);
+      break;
+    }
+  }
+}
+
+// Weighted Average Logic
+const weightedLogic = require(path.join(ROOT, 'src/tools/weighted-average-calculator/logic.js'));
+{
+  const pct = weightedLogic.weightedAverage([{ value: 90, weight: 30 }, { value: 80, weight: 50 }, { value: 70, weight: 20 }], { weightType: 'percent' });
+  assert(Math.abs(pct.average - 81) < 1e-12 && pct.totalWeight === 100 && !pct.normalised, `Weighted: 90 (30%), 80 (50%), 70 (20%) = 81 (got ${pct.average})`);
+  assert(pct.rows[0].contribution === 27 && pct.rows[1].contribution === 40 && Math.abs(pct.rows[2].contribution - 14) < 1e-12, 'Weighted: contributions 27 + 40 + 14');
+  const plain = weightedLogic.weightedAverage([{ value: 90, weight: 2 }, { value: 80, weight: 3 }], { weightType: 'number' });
+  assert(plain.average === 84 && plain.totalWeight === 5 && !plain.normalised, `Weighted: 90 (weight 2), 80 (weight 3) = 84 (got ${plain.average})`);
+  const zero = weightedLogic.weightedAverage([{ value: 90, weight: 0 }, { value: 80, weight: 0 }]);
+  assert(zero.error && /zero/i.test(zero.error), 'Weighted: all weights zero is a clear error');
+
+  const norm = weightedLogic.weightedAverage([{ value: 90, weight: 30 }, { value: 80, weight: 50 }], { weightType: 'percent' });
+  assert(norm.normalised && norm.average === 83.75 && norm.steps.some(s => s.includes('80%')), 'Weighted: % weights totalling 80 are normalised and flagged (83.75)');
+  assert(weightedLogic.weightedAverage([{ value: 90, weight: 2 }, {}, { value: '', weight: '' }], { weightType: 'number' }).average === 90, 'Weighted: empty rows are skipped');
+  assert(weightedLogic.weightedAverage([{ value: 90, weight: '' }]).field === 'weight', 'Weighted: a value without a weight is an error');
+  assert(weightedLogic.weightedAverage([{ value: 90, weight: -1 }]).field === 'weight', 'Weighted: negative weights are errors');
+  assert(weightedLogic.weightedAverage([]).error, 'Weighted: no rows is an error');
+
+  // Property: scaling every weight by the same factor leaves the average unchanged
+  const rand = mulberry32(8484);
+  for (let i = 0; i < 200; i++) {
+    const rows = Array.from({ length: 1 + Math.floor(rand() * 8) }, () => ({ value: Math.round(rand() * 1000) / 10, weight: 1 + Math.floor(rand() * 20) }));
+    const k = 1 + Math.floor(rand() * 9);
+    const a1 = weightedLogic.weightedAverage(rows, { weightType: 'number' }).average;
+    const a2 = weightedLogic.weightedAverage(rows.map(r => ({ value: r.value, weight: r.weight * k })), { weightType: 'number' }).average;
+    const lo = Math.min(...rows.map(r => r.value)), hi = Math.max(...rows.map(r => r.value));
+    if (Math.abs(a1 - a2) > 1e-9 || a1 < lo - 1e-9 || a1 > hi + 1e-9) {
+      assert(false, `Weighted fuzz: ${JSON.stringify(rows)} x${k} gave ${a1} / ${a2}`);
+      break;
+    }
+  }
+}
+
+// Merit & Aggregate Logic
+const meritLogic = require(path.join(ROOT, 'src/tools/merit-calculator/logic.js'));
+{
+  const m = meritLogic.calculateMerit([
+    { name: 'Matric', obtained: 900, total: 1100, weight: 10 },
+    { name: 'Intermediate', obtained: 950, total: 1100, weight: 40 },
+    { name: 'Entry test', obtained: 300, total: 400, weight: 50 }
+  ]);
+  assert(m.aggregateRounded === 80.23, `Merit: Matric 900/1100 at 10%, Inter 950/1100 at 40%, test 300/400 at 50% -> 80.23% (got ${m.aggregateRounded})`);
+  assert(m.rows[2].percentage === 75 && m.rows[2].contribution === 37.5 && m.steps.length === 4, 'Merit: each component reports its percentage and contribution');
+  const ninety = meritLogic.calculateMerit([
+    { obtained: 900, total: 1100, weight: 10 },
+    { obtained: 950, total: 1100, weight: 30 },
+    { obtained: 300, total: 400, weight: 50 }
+  ]);
+  assert(ninety.error && ninety.weightTotal === 90 && /100%/.test(ninety.error) && /Add 10% more/.test(ninety.error), 'Merit: weights totalling 90% are a clear error');
+  assert(meritLogic.calculateMerit([{ obtained: 1200, total: 1100, weight: 100 }]).field === 'obtained', 'Merit: obtained above total is an error');
+  assert(meritLogic.calculateMerit([{ obtained: 50, total: 0, weight: 100 }]).field === 'total', 'Merit: zero total marks is an error');
+  assert(meritLogic.calculateMerit([{ obtained: 50, total: 100, weight: '' }]).field === 'weight', 'Merit: a missing weight is an error');
+  assert(meritLogic.calculateMerit([{ obtained: 80, total: 100, weight: 100 }, {}, {}]).aggregateRounded === 80, 'Merit: empty components are skipped');
+  assert(meritLogic.calculateMerit(new Array(6).fill({})).error, 'Merit: more than 5 components is an error');
+
+  // Presets: only verified institution weights, each with a source and date
+  const presets = require(path.join(ROOT, 'src/_data/meritPresets.json'));
+  presets.forEach(p => assert(meritLogic.validatePreset(p), `Merit preset ${p.id}: weights total 100%, official source and verifiedOn recorded`));
+  const nust = presets.find(p => p.id === 'nust-net');
+  assert(nust && nust.components.map(c => c.weight).join('/') === '10/15/75', 'Merit preset NUST: SSC 10%, HSSC 15%, NET 75%');
+  const mdcat = presets.find(p => p.id === 'pmdc-mdcat');
+  assert(mdcat && mdcat.components.map(c => c.weight).join('/') === '10/40/50', 'Merit preset PM&DC: SSC 10%, HSSC 40%, MDCAT 50%');
+}
+
+// Random Number Generator Logic
+const rngLogic = require(path.join(ROOT, 'src/tools/random-number-generator/logic.js'));
+{
+  const tooMany = rngLogic.generate({ min: 1, max: 10, count: 11, unique: true });
+  assert(tooMany.error && tooMany.field === 'count' && /Only 10 different/.test(tooMany.error), 'RNG: unique count larger than the range is a clear error');
+  assert(rngLogic.generate({ min: 10, max: 1, count: 1 }).field === 'min', 'RNG: min > max is an error');
+  assert(rngLogic.generate({ min: 1, max: 6, count: 1001 }).field === 'count', 'RNG: more than 1,000 numbers is an error');
+  assert(rngLogic.generate({ min: 0.11, max: 0.12, count: 1, decimals: 1 }).field === 'max', 'RNG: a range with no 1-decimal value is an error');
+
+  // 60,000 rolls of 1-6: each face within 5% of 10,000
+  const counts = [0, 0, 0, 0, 0, 0, 0];
+  for (let i = 0; i < 60; i++) {
+    rngLogic.generate({ min: 1, max: 6, count: 1000 }).numbers.forEach(n => { counts[n]++; });
+  }
+  const faces = counts.slice(1);
+  assert(faces.every(c => c >= 9500 && c <= 10500) && counts[0] === 0, `RNG: 60,000 draws of 1-6 are each within 5% of 10,000 (${faces.join(', ')})`);
+
+  // Range, uniqueness, sorting and decimals
+  let inRange = true;
+  for (let i = 0; i < 200; i++) {
+    const min = Math.floor(Math.random() * 2000) - 1000;
+    const max = min + Math.floor(Math.random() * 500);
+    const decimals = i % 3;
+    const r = rngLogic.generate({ min, max, count: 50, decimals });
+    if (r.error || !r.numbers.every(n => n >= min && n <= max)) { inRange = false; break; }
+  }
+  assert(inRange, 'RNG: every result stays within [min, max], for integers and decimals');
+  const u = rngLogic.generate({ min: 1, max: 10, count: 10, unique: true, sort: true });
+  assert(u.numbers.join(',') === '1,2,3,4,5,6,7,8,9,10', 'RNG: 10 unique numbers from 1-10 sorted are exactly 1-10');
+  const sparse = rngLogic.generate({ min: 1, max: 1e9, count: 1000, unique: true });
+  assert(new Set(sparse.numbers).size === 1000, 'RNG: unique mode on a wide range gives no repeats');
+  const dec = rngLogic.generate({ min: 0, max: 1, count: 20, decimals: 2 });
+  assert(dec.text.every(t => /^[01]\.\d\d$/.test(t)) && dec.possible === 101, 'RNG: 2 decimal places from 0 to 1 gives 101 possible values');
+  assert(rngLogic.generate({ min: -5, max: -5, count: 3 }).numbers.join(',') === '-5,-5,-5', 'RNG: min = max always returns that value');
+
+  // Rejection sampling: a range of 3 over a 32-bit word never favours a value
+  const third = [0, 0, 0];
+  for (let i = 0; i < 30000; i++) third[rngLogic.randomBelow(3)]++;
+  assert(third.every(c => c > 9500 && c < 10500), `RNG: randomBelow(3) is uniform (${third.join(', ')})`);
+  const big = rngLogic.randomBelow(2 ** 40);
+  assert(Number.isInteger(big) && big >= 0 && big < 2 ** 40, 'RNG: ranges above 2^32 use 53-bit draws');
+}
+
+// Coin Flip & Dice Roller Logic
+const coinDiceLogic = require(path.join(ROOT, 'src/tools/coin-flip-dice-roller/logic.js'));
+{
+  let sumsOk = true, d20Ok = true;
+  const seen2d6 = new Set(), seen20 = new Set();
+  for (let i = 0; i < 5000; i++) {
+    const r = coinDiceLogic.rollDice(2, 6);
+    if (r.sum < 2 || r.sum > 12 || r.rolls.length !== 2) sumsOk = false;
+    seen2d6.add(r.sum);
+    const d = coinDiceLogic.rollDice(1, 20);
+    if (d.sum < 1 || d.sum > 20) d20Ok = false;
+    seen20.add(d.sum);
+  }
+  assert(sumsOk && seen2d6.size === 11, `CoinDice: 2d6 sums always between 2 and 12 (saw ${seen2d6.size} different sums)`);
+  assert(d20Ok && seen20.size === 20, 'CoinDice: 1d20 always 1-20 and every face appears');
+  const flips = coinDiceLogic.flipCoins(100);
+  assert(flips.heads + flips.tails === 100 && flips.results.length === 100, `CoinDice: 100 coin flips -> heads + tails = 100 (${flips.heads} + ${flips.tails})`);
+
+  assert(coinDiceLogic.flipCoins(0).error && coinDiceLogic.flipCoins(101).error, 'CoinDice: 0 or 101 coins are errors');
+  assert(coinDiceLogic.rollDice(11, 6).error && coinDiceLogic.rollDice(1, 7).error, 'CoinDice: 11 dice or a d7 are errors');
+  const fixed = coinDiceLogic.rollDice(3, 8, () => 7);
+  assert(fixed.sum === 24 && fixed.maxSum === 24 && fixed.notation === '3d8', 'CoinDice: injected randomness gives the maximum roll');
+  let history = [];
+  for (let i = 0; i < 25; i++) history = coinDiceLogic.pushHistory(history, i);
+  assert(history.length === 20 && history[0] === 24 && history[19] === 5, 'CoinDice: history keeps the newest 20 results');
+  let heads = 0;
+  for (let i = 0; i < 200; i++) heads += coinDiceLogic.flipCoins(100).heads;
+  assert(heads > 9500 && heads < 10500, `CoinDice: 20,000 flips are about half heads (${heads})`);
+}
+
 // Code formatters (async: the engines load with dynamic import)
 async function testCodeFormatters() {
   const pyFormatter = require(path.join(ROOT, 'src/tools/python-formatter/logic.js'));

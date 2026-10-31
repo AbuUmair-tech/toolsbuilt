@@ -1,0 +1,118 @@
+/* Coin Flip & Dice Roller */
+
+.cd-pieces {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: var(--space-4) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cd-pieces:empty {
+  display: none;
+}
+
+.cd-coin,
+.cd-die {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: var(--font-weight-bold);
+  font-variant-numeric: tabular-nums;
+  color: var(--text-primary);
+}
+
+.cd-coin {
+  width: 2.75rem;
+  height: 2.75rem;
+  border: 2px solid var(--border-strong);
+  border-radius: var(--radius-full);
+  background-color: var(--surface-card);
+}
+
+.cd-coin.is-heads {
+  border-color: var(--accent-primary);
+  color: var(--accent-primary);
+}
+
+/* Dice are drawn with a corner label for the die type */
+.cd-die {
+  position: relative;
+  width: 3rem;
+  height: 3rem;
+  border: 2px solid var(--border-strong);
+  border-radius: var(--radius-md);
+  background-color: var(--surface-card);
+  font-size: var(--font-size-lg);
+}
+
+.cd-die-type {
+  position: absolute;
+  top: 1px;
+  right: 3px;
+  font-size: 0.625rem;
+  font-weight: var(--font-weight-medium);
+  color: var(--text-tertiary);
+}
+
+/* Big pieces when there are only a few */
+.cd-pieces.is-few .cd-coin,
+.cd-pieces.is-few .cd-die {
+  width: 4.5rem;
+  height: 4.5rem;
+  font-size: var(--font-size-xl);
+}
+
+.cd-pieces.is-animating .cd-coin {
+  animation: cd-flip 0.45s var(--ease-out);
+}
+
+.cd-pieces.is-animating .cd-die {
+  animation: cd-roll 0.45s var(--ease-out);
+}
+
+@keyframes cd-flip {
+  0% { transform: rotateY(0deg) scale(0.9); }
+  50% { transform: rotateY(540deg) scale(1.1); }
+  100% { transform: rotateY(720deg) scale(1); }
+}
+
+@keyframes cd-roll {
+  0% { transform: rotate(-25deg) translateY(-6px); }
+  60% { transform: rotate(15deg) translateY(2px); }
+  100% { transform: rotate(0) translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cd-pieces.is-animating .cd-coin,
+  .cd-pieces.is-animating .cd-die {
+    animation: none;
+  }
+}
+
+.cd-history {
+  margin-top: var(--space-6);
+}
+
+.cd-history-title {
+  margin: 0 0 var(--space-2);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+}
+
+.cd-history-list {
+  margin: 0;
+  padding-left: var(--space-6);
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-normal);
+  color: var(--text-secondary);
+}
+
+.cd-history-list li + li {
+  margin-top: var(--space-1);
+}
+
+.cd-history-list:empty {
+  display: none;
+}
