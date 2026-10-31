@@ -1,0 +1,174 @@
+---
+layout: layouts/tool.njk
+toolSlug: password-strength-checker
+title: "Password Strength Checker (Private, Offline)"
+description: "Check how strong a password is with zxcvbn: score, estimated crack times, warnings and tips. Runs entirely in your browser; nothing is sent or stored."
+permalink: /tools/password-strength-checker/
+h1: "Password Strength Checker"
+extraCss: "/tools/password-strength-checker/style.css"
+quickAnswer: "Type a password to see a strength score from 0 (very weak) to 4 (very strong), how long an attacker would need to guess it, and what makes it weak. The check uses zxcvbn-ts, which looks for common passwords, words, names, keyboard patterns, dates and substitutions like 0 for o, and runs entirely on your device. Long, unique passphrases score best; 'password' scores 0."
+formula:
+  title: "How Strength Is Estimated"
+  expression: "Score = f(log10 guesses)   ·   guesses = the fewest guesses an attacker needs, using dictionaries, patterns and brute force"
+  explanation: "zxcvbn splits the password into pieces it recognises: dictionary words and common passwords (also when misspelled or written with substitutions like 4 for a), names, dates, repeats, sequences such as abc or 123, and keyboard walks such as qwerty. It finds the cheapest combination of those pieces and counts how many guesses a cracker following that strategy would need. Fewer than 1,000 guesses scores 0, fewer than a million 1, fewer than 100 million 2, fewer than 10 billion 3, and anything more 4. Crack times divide the guesses by attack speeds: 100 guesses per hour for an online login with rate limiting, and 10 billion per second for an offline attack on a fast, unsalted hash."
+  variables:
+    - name: "Score 0-4"
+      description: "0 too guessable, 1 very guessable, 2 somewhat guessable, 3 safely unguessable, 4 very unguessable."
+    - name: "Online, throttled"
+      description: "An attacker trying passwords on a login page that limits attempts."
+    - name: "Offline, fast hash"
+      description: "An attacker with a stolen database of weakly hashed passwords and fast hardware: the worst case."
+workedExamples:
+  - title: "password"
+    inputs:
+      - "Password: password"
+    steps:
+      - "Found as one of the most common passwords"
+      - "Only a handful of guesses are needed"
+    result: "Score 0 (very weak): guessed almost instantly"
+  - title: "Tr0ub4dor&3"
+    inputs:
+      - "Password: Tr0ub4dor&3"
+    steps:
+      - "Read as a misspelled dictionary word with substitutions (0 for o, 4 for a) plus a symbol and digit"
+      - "Substitutions add far fewer guesses than people expect"
+    result: "Score below 4: looks complex but is predictable"
+  - title: "A 20-character random password"
+    inputs:
+      - "Password: 20 random characters from the ToolsBuilt password generator"
+    steps:
+      - "No words or patterns are found, so it must be brute-forced"
+      - "That takes far more guesses than any attacker can try"
+    result: "Score 4 (very strong)"
+commonMistakes:
+  - title: "Relying on character substitutions"
+    description: "P@ssw0rd is still 'password' to a cracker: tools try common substitutions automatically. Length and unpredictability matter far more than swapping letters for symbols."
+  - title: "Reusing a strong password"
+    description: "If one site leaks your password, attackers try it everywhere else (credential stuffing). Even a very strong password is unsafe if it is used on more than one site. A password manager makes unique passwords easy."
+  - title: "Adding a year or number at the end"
+    description: "Summer2026 or Password1! follow patterns cracking rules try first. Predictable endings add very little strength."
+  - title: "Pasting your real password into websites"
+    description: "Only check passwords in tools that run locally, like this one, which does not send what you type anywhere. Better still, check a password that is similar in style rather than the exact one you use."
+  - title: "Changing passwords on a schedule"
+    description: "NIST no longer recommends forced periodic changes, because people respond with predictable tweaks. Change a password when there is a sign it has been exposed."
+faqs:
+  - q: "How strong is my password?"
+    a: "Type it into the box. You will see a score from 0 to 4, estimated crack times for online and offline attacks, and specific warnings, such as 'this is a common password' or 'dates are easy to guess'."
+  - q: "Is it safe to type my password here?"
+    a: "The check runs entirely in your browser, in a background worker on this page. The password is not sent, stored, logged or put in the page address, and the field is cleared when you leave. If you prefer, test a password that is similar in style instead of your real one."
+  - q: "What makes a password strong?"
+    a: "Length and unpredictability. A random password of 15 or more characters, or a passphrase of several unrelated words, is strong. Common words, names, dates, keyboard patterns and simple substitutions make it weak."
+  - q: "How long should a password be?"
+    a: "NIST SP 800-63B-4 requires at least 15 characters for passwords used on their own and at least 8 when combined with another factor, and recommends allowing at least 64 characters. Longer is better."
+  - q: "Are password complexity rules still recommended?"
+    a: "No. NIST says services should not require mixtures of character types, and should instead block common and compromised passwords and allow long passphrases."
+  - q: "What is zxcvbn?"
+    a: "An open-source password strength estimator first released by Dropbox. This tool uses zxcvbn-ts, a maintained TypeScript version, with its English and common-password dictionaries hosted on this site."
+  - q: "How is the crack time calculated?"
+    a: "The estimated number of guesses is divided by an attack speed: 100 guesses per hour for a rate-limited online login and 10 billion per second for an offline attack on a fast hash. Real attacks vary, so treat the times as a guide."
+  - q: "How do I make a strong password I can remember?"
+    a: "Use a passphrase of four or more random, unrelated words, or let a password manager or the ToolsBuilt password generator create and store a random password for you."
+sources:
+  - name: "NIST SP 800-63B-4: Digital Identity Guidelines, Authentication and Authenticator Management (passwords)"
+    url: "https://pages.nist.gov/800-63-4/sp800-63b.html"
+  - name: "OWASP: Authentication Cheat Sheet (password strength controls)"
+    url: "https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html"
+  - name: "Wheeler (2016): zxcvbn: Low-Budget Password Strength Estimation, USENIX Security"
+    url: "https://www.usenix.org/conference/usenixsecurity16/technical-sessions/presentation/wheeler"
+  - name: "zxcvbn-ts documentation"
+    url: "https://zxcvbn-ts.github.io/zxcvbn/"
+lastReviewed: "2026-10-31"
+howto:
+  name: "How to Check Password Strength"
+  description: "Score a password and see how to improve it, privately in your browser."
+  steps:
+    - name: "Type the password"
+      text: "Type or paste it into the box. Use Show to check what you typed."
+    - name: "Read the score"
+      text: "See the strength from 0 to 4 and the estimated time to crack it online and offline."
+    - name: "Follow the tips"
+      text: "Read the warning and suggestions, and the length and character set details."
+    - name: "Make a stronger one"
+      text: "If the score is low, use a longer passphrase or create a random password with the password generator."
+---
+<script type="application/json" id="zxcvbn-scripts">{{ [vendor.packages.zxcvbnCore.entry, vendor.packages.zxcvbnCommon.entry, vendor.packages.zxcvbnEn.entry] | dump | safe }}</script>
+
+    <!-- Tool Form Container -->
+    <section class="tool-container" aria-label="Password Strength Checker">
+      <form id="pw-form" autocomplete="off" novalidate>
+        <div class="form-group">
+          <label for="pw-input">Password to check</label>
+          <div class="input-with-button">
+            <input type="password" id="pw-input" class="form-control pw-input" autocomplete="off" autocapitalize="off" spellcheck="false" maxlength="256" aria-describedby="pw-privacy pw-status">
+            <button type="button" class="btn btn-secondary" id="toggle-pw" aria-pressed="false" aria-controls="pw-input">Show</button>
+          </div>
+          <p class="form-hint" id="pw-privacy">Checked on your device only: nothing you type is sent, saved or put in the page address.</p>
+          <p class="form-hint pw-status" id="pw-status" role="status"></p>
+        </div>
+      </form>
+
+      <div id="error-box" class="hidden form-error" role="alert"></div>
+
+      <div id="result-box" class="result-box" aria-live="polite">
+        <div class="result-header">
+          <span id="result-header-text">Strength</span>
+        </div>
+        <div class="result-primary" id="result-primary-text">--</div>
+        <div class="pw-meter" id="pw-meter" data-score="" role="meter" aria-label="Password strength" aria-valuemin="0" aria-valuemax="4" aria-valuenow="0">
+          <span></span><span></span><span></span><span></span>
+        </div>
+        <p class="pw-warning" id="pw-warning" hidden></p>
+        <ul class="pw-suggestions" id="pw-suggestions"></ul>
+
+        <div class="result-grid pw-grid">
+          <div class="result-stat-card">
+            <div class="result-stat-label">Online attack (rate-limited, 100/hour)</div>
+            <div class="result-stat-value" id="pw-online">--</div>
+          </div>
+          <div class="result-stat-card">
+            <div class="result-stat-label">Offline attack (fast hash, 10 billion/s)</div>
+            <div class="result-stat-value" id="pw-offline">--</div>
+          </div>
+          <div class="result-stat-card">
+            <div class="result-stat-label">Length</div>
+            <div class="result-stat-value" id="pw-length">--</div>
+          </div>
+          <div class="result-stat-card">
+            <div class="result-stat-label">Estimated guesses</div>
+            <div class="result-stat-value" id="pw-guesses">--</div>
+          </div>
+        </div>
+        <p class="form-hint" id="pw-sets"></p>
+        <p class="pw-generator-link">Need a stronger one? <a href="/tools/password-generator/">Generate a random password</a>.</p>
+      </div>
+    </section>
+
+    <!-- tool-end -->
+
+    <section class="content-section">
+      <h2>What NIST Says About Passwords, in Plain Words</h2>
+      <p>The US National Institute of Standards and Technology publishes the guidance many organisations follow, SP 800-63B. Its current revision (SP 800-63B-4) turned years of research into a few clear rules for services that set password policies:</p>
+      <ul class="content-list">
+        <li><strong>Length over complexity:</strong> a password used on its own must be at least 15 characters (at least 8 if it is one part of multi-factor login), and services should allow at least 64 characters.</li>
+        <li><strong>No composition rules:</strong> services should not force mixtures like "one upper case, one number, one symbol"; those rules produce predictable passwords such as Password1!.</li>
+        <li><strong>Block bad passwords:</strong> new passwords must be checked against a list of common, expected and previously breached passwords, and rejected if they appear.</li>
+        <li><strong>No forced periodic changes:</strong> services should not make people change passwords on a schedule, but must force a change when there is evidence a password has been compromised.</li>
+        <li><strong>Allow every character:</strong> spaces and all printable characters should be accepted, which makes passphrases practical, and pasting from password managers should be allowed.</li>
+      </ul>
+
+      <h2>Score Guide</h2>
+      <div class="table-wrapper" tabindex="0" role="region" aria-labelledby="score-guide-caption">
+        <table class="table">
+          <caption class="visually-hidden" id="score-guide-caption">What each zxcvbn score means</caption>
+          <thead><tr><th scope="col">Score</th><th scope="col">Guesses needed</th><th scope="col">What it means</th></tr></thead>
+          <tbody>
+            <tr><td>0 Very weak</td><td>fewer than 10³</td><td>Among the first passwords any attacker tries</td></tr>
+            <tr><td>1 Weak</td><td>10³ to 10⁶</td><td>Protects only against a heavily rate-limited online attack</td></tr>
+            <tr><td>2 Fair</td><td>10⁶ to 10⁸</td><td>Survives an online attack but falls quickly offline</td></tr>
+            <tr><td>3 Strong</td><td>10⁸ to 10¹⁰</td><td>Resists offline attacks on slow, salted hashes</td></tr>
+            <tr><td>4 Very strong</td><td>more than 10¹⁰</td><td>Resists offline attacks even on fast hashes</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>The estimate cannot know whether a password has leaked in a data breach or is used on other sites, so a high score is necessary but not sufficient. Use a unique password for every account, turn on multi-factor authentication where you can, and let a password manager remember them.</p>
+    </section>

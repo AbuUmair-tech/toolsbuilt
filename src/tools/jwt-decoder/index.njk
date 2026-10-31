@@ -1,0 +1,197 @@
+---
+layout: layouts/tool.njk
+toolSlug: jwt-decoder
+title: "JWT Decoder: Decode JSON Web Tokens Locally"
+description: "Decode a JSON Web Token's header and payload in your browser, see iat, nbf and exp as dates, check expiry, and verify HS256/384/512 signatures locally."
+permalink: /tools/jwt-decoder/
+h1: "JWT Decoder"
+extraCss: "/tools/jwt-decoder/style.css"
+quickAnswer: "A JWT is three Base64URL-encoded parts separated by dots: a header, a payload of claims, and a signature. Decoding the first two parts shows their JSON, but it does not prove the token is genuine; only checking the signature with the right key does. This decoder runs entirely in your browser and can verify HS256, HS384 and HS512 signatures with a secret you type."
+formula:
+  title: "How a JWT Is Decoded and Verified"
+  expression: "JWT = Base64URL(header) . Base64URL(payload) . Base64URL(signature)   ·   HS256 signature = HMAC-SHA256(secret, header + '.' + payload)"
+  explanation: "Each part uses Base64URL encoding (RFC 4648), which swaps + and / for - and _ and drops = padding. Decoding the header and payload gives UTF-8 JSON. The time claims iat (issued at), nbf (not before) and exp (expires) are NumericDate values: seconds since 1970-01-01T00:00:00Z, shown here as UTC and local dates. For HMAC algorithms, the signature is recomputed over the exact header and payload text with the secret, using the browser's Web Crypto API, and compared in constant time. Tokens signed with RS256, ES256 or other public-key algorithms need the issuer's public key and are not verified here."
+  variables:
+    - name: "Header"
+      description: "Metadata such as alg (the signing algorithm) and typ (usually JWT)."
+    - name: "Payload"
+      description: "The claims: who the token is about (sub), who issued it (iss), the audience (aud), times and any custom data."
+    - name: "Signature"
+      description: "Proof that the header and payload were created by someone holding the key and were not changed."
+workedExamples:
+  - title: "The jwt.io example token"
+    inputs:
+      - "Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+    steps:
+      - "Header: {\"alg\": \"HS256\", \"typ\": \"JWT\"}"
+      - "Payload: {\"sub\": \"1234567890\", \"name\": \"John Doe\", \"iat\": 1516239022}"
+      - "iat 1516239022 = 2018-01-18T01:30:22Z; there is no exp claim"
+    result: "Decoded; with the secret your-256-bit-secret the HS256 signature is valid"
+  - title: "A token with only two parts"
+    inputs:
+      - "Token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIn0"
+    steps:
+      - "Splitting on dots gives 2 parts instead of 3"
+    result: "Error: the signature part is missing"
+  - title: "An expired token"
+    inputs:
+      - "Payload contains exp: 1700000000"
+    steps:
+      - "1700000000 = 2023-11-14T22:13:20Z, which is in the past"
+    result: "Marked as expired; a server checking exp would reject it"
+commonMistakes:
+  - title: "Trusting a decoded token"
+    description: "Anyone can create a token with any payload. Decoding only reads it. Your server must verify the signature with the correct key and algorithm, and check exp, nbf, iss and aud, before trusting any claim."
+  - title: "Putting secrets in the payload"
+    description: "A signed JWT is encoded, not encrypted: anyone who has the token can read the payload. Never put passwords, card numbers or other secrets in it."
+  - title: "Accepting alg: none or switching algorithms"
+    description: "Libraries must only accept the algorithms you expect. Allowing 'none', or letting an attacker switch from RS256 to HS256, are classic JWT vulnerabilities listed by OWASP."
+  - title: "Pasting production tokens into websites"
+    description: "A valid token is a password for as long as it lasts. Only paste tokens into tools that run locally, like this one, and prefer expired or test tokens."
+  - title: "Using a weak HMAC secret"
+    description: "HS256 secrets such as 'secret' can be guessed offline from any token. Use a long random key, at least 256 bits for HS256, as RFC 7518 requires."
+faqs:
+  - q: "How do I decode a JWT?"
+    a: "Paste the token into the box. The header and payload are Base64URL-decoded and shown as formatted JSON, with time claims converted to dates."
+  - q: "Is it safe to paste my JWT here?"
+    a: "Decoding and signature checks run in your browser. The token and secret are not sent anywhere, stored, logged or added to the page address. Even so, avoid pasting live production tokens into any website you do not control."
+  - q: "Does decoding a JWT verify it?"
+    a: "No. Decoding only reads the contents. A token is trustworthy only after its signature has been verified with the right key, and its expiry and audience have been checked."
+  - q: "How do I check if a JWT is expired?"
+    a: "Look at the exp claim: it is a Unix timestamp in seconds. If it is earlier than the current time, the token has expired. The decoder shows exp as a date and marks expired tokens."
+  - q: "How do I verify an HS256 JWT signature?"
+    a: "Enter the shared secret in the signature section and press Verify. The HMAC is recomputed locally with Web Crypto. For the jwt.io example token the secret is your-256-bit-secret."
+  - q: "Can I verify RS256 or ES256 tokens here?"
+    a: "Not at the moment. Those use public-key signatures and need the issuer's public key (often from a JWKS URL). Verify them in your application with a maintained JWT library."
+  - q: "What is the difference between JWT, JWS and JWE?"
+    a: "A JWT is a set of claims. When signed it is a JWS (three parts) and its payload is readable; when encrypted it is a JWE (five parts) and the payload can only be read with the decryption key."
+  - q: "What do iat, nbf and exp mean?"
+    a: "iat is when the token was issued, nbf is the earliest time it may be used, and exp is when it expires. All three are seconds since 1 January 1970 UTC."
+sources:
+  - name: "RFC 7519: JSON Web Token (JWT)"
+    url: "https://www.rfc-editor.org/rfc/rfc7519"
+  - name: "RFC 7515: JSON Web Signature (JWS)"
+    url: "https://www.rfc-editor.org/rfc/rfc7515"
+  - name: "RFC 7518: JSON Web Algorithms (JWA)"
+    url: "https://www.rfc-editor.org/rfc/rfc7518"
+  - name: "RFC 8725: JSON Web Token Best Current Practices"
+    url: "https://www.rfc-editor.org/rfc/rfc8725"
+  - name: "OWASP Cheat Sheet Series: JSON Web Token"
+    url: "https://cheatsheetseries.owasp.org/cheatsheets/JSON_Web_Token_Cheat_Sheet.html"
+  - name: "OWASP Web Security Testing Guide: Testing JSON Web Tokens"
+    url: "https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/06-Session_Management_Testing/10-Testing_JSON_Web_Tokens"
+lastReviewed: "2026-10-31"
+howto:
+  name: "How to Decode a JSON Web Token"
+  description: "Read a JWT's header and claims and optionally check its HMAC signature, locally."
+  steps:
+    - name: "Paste the token"
+      text: "Paste the JWT, with or without a 'Bearer ' prefix."
+    - name: "Read the header and payload"
+      text: "See both parts as formatted JSON and the time claims as UTC and local dates."
+    - name: "Check expiry"
+      text: "The status shows whether the token has expired or is not valid yet."
+    - name: "Verify the signature (HS256/384/512)"
+      text: "Type the shared secret and press Verify to check the signature locally."
+---
+
+    <!-- Tool Form Container -->
+    <section class="tool-container" aria-label="JWT Decoder">
+      <p class="jwt-privacy" id="jwt-privacy">Your token and secret stay in this browser tab. They are not sent, stored or added to the URL.</p>
+      <form id="jwt-form" novalidate>
+        <div class="form-group">
+          <label for="jwt-input">JSON Web Token</label>
+          <textarea id="jwt-input" class="form-control jwt-textarea" rows="5" spellcheck="false" autocomplete="off" autocapitalize="off" placeholder="eyJhbGciOi…" aria-describedby="jwt-privacy"></textarea>
+        </div>
+        <div class="button-group">
+          <button type="button" class="btn btn-secondary" id="example-btn">Use the jwt.io example</button>
+          <button type="button" class="btn btn-ghost" id="clear-btn">Clear</button>
+        </div>
+      </form>
+
+      <div id="error-box" class="hidden form-error" role="alert"></div>
+
+      <div id="result-box" class="result-box" aria-live="polite">
+        <div class="result-header">
+          <span id="result-header-text">Decoded token</span>
+        </div>
+        <p class="jwt-warning" role="note"><strong>Decoded, NOT verified.</strong> Anyone can create a token with these contents. Trust it only after its signature has been checked with the right key.</p>
+        <div class="result-primary jwt-primary" id="result-primary-text">--</div>
+        <p class="jwt-status" id="jwt-status"></p>
+
+        <div class="jwt-parts">
+          <div class="jwt-part">
+            <div class="jwt-part-head"><span>Header</span><button type="button" class="btn btn-sm btn-ghost" data-copy-part="header">Copy</button></div>
+            <pre class="code-block jwt-json" id="jwt-header" tabindex="0" aria-label="Decoded header"></pre>
+          </div>
+          <div class="jwt-part">
+            <div class="jwt-part-head"><span>Payload</span><button type="button" class="btn btn-sm btn-ghost" data-copy-part="payload">Copy</button></div>
+            <pre class="code-block jwt-json" id="jwt-payload" tabindex="0" aria-label="Decoded payload"></pre>
+          </div>
+        </div>
+
+        <div class="table-wrapper jwt-times-wrapper" id="jwt-times-wrapper" hidden>
+          <table class="table jwt-times">
+            <caption class="visually-hidden">Time claims</caption>
+            <thead><tr><th scope="col">Claim</th><th scope="col">When (UTC, then local)</th></tr></thead>
+            <tbody id="jwt-times"></tbody>
+          </table>
+        </div>
+
+        <div class="jwt-verify" id="jwt-verify">
+          <p class="jwt-verify-title">Check the signature</p>
+          <p class="form-hint" id="verify-hint"></p>
+          <div class="jwt-verify-fields" id="verify-fields">
+            <div class="form-group">
+              <label for="jwt-secret">Secret</label>
+              <div class="input-with-button">
+                <input type="password" id="jwt-secret" class="form-control" autocomplete="off" spellcheck="false" autocapitalize="off">
+                <button type="button" class="btn btn-secondary" id="toggle-secret" aria-pressed="false" aria-controls="jwt-secret">Show</button>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="jwt-secret-enc">Secret format</label>
+              <select id="jwt-secret-enc" class="form-control">
+                <option value="utf8" selected>Plain text</option>
+                <option value="base64url">Base64 / Base64URL</option>
+              </select>
+            </div>
+          </div>
+          <div class="button-group" id="verify-actions">
+            <button type="button" class="btn btn-primary" id="verify-btn">Verify signature</button>
+          </div>
+          <p class="jwt-verify-result" id="verify-result" role="status"></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- tool-end -->
+
+    <section class="content-section">
+      <h2>Common JWT Claims</h2>
+      <div class="table-wrapper">
+        <table class="table">
+          <caption class="visually-hidden">Registered claim names from RFC 7519</caption>
+          <thead><tr><th scope="col">Claim</th><th scope="col">Name</th><th scope="col">Meaning</th></tr></thead>
+          <tbody>
+            <tr><td><code>iss</code></td><td>Issuer</td><td>Who created and signed the token</td></tr>
+            <tr><td><code>sub</code></td><td>Subject</td><td>Who the token is about, often a user ID</td></tr>
+            <tr><td><code>aud</code></td><td>Audience</td><td>Which service the token is meant for</td></tr>
+            <tr><td><code>exp</code></td><td>Expiration time</td><td>After this time the token must be rejected</td></tr>
+            <tr><td><code>nbf</code></td><td>Not before</td><td>Before this time the token must be rejected</td></tr>
+            <tr><td><code>iat</code></td><td>Issued at</td><td>When the token was created</td></tr>
+            <tr><td><code>jti</code></td><td>JWT ID</td><td>A unique ID, used to stop a token being replayed</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>Decoding Is Not Verifying</h2>
+      <p>The header and payload of a signed JWT are only encoded, so they can be read by anyone and changed by anyone. What stops tampering is the signature: if a single character of the header or payload changes, the signature no longer matches. A server must therefore:</p>
+      <ul class="content-list">
+        <li><strong>Verify the signature</strong> with the expected key and an allow-list of algorithms, never the algorithm named in the token alone.</li>
+        <li><strong>Check the times</strong>: reject tokens past <code>exp</code> or before <code>nbf</code>, allowing only a small clock skew.</li>
+        <li><strong>Check who it is for</strong>: <code>iss</code> and <code>aud</code> must match your issuer and service.</li>
+        <li><strong>Keep tokens short-lived</strong> and send them only over HTTPS, as RFC 8725 recommends.</li>
+      </ul>
+      <p>This page is for reading and debugging tokens. HMAC signatures are checked with the browser's Web Crypto API, and the token and secret are kept only in memory while the page is open. For generating random secrets, see the <a href="/tools/password-generator/">password generator</a>; for hashing text, the <a href="/tools/hash-generator/">hash generator</a>.</p>
+    </section>

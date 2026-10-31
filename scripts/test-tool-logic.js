@@ -2014,6 +2014,157 @@ const coinDiceLogic = require(path.join(ROOT, 'src/tools/coin-flip-dice-roller/l
   assert(heads > 9500 && heads < 10500, `CoinDice: 20,000 flips are about half heads (${heads})`);
 }
 
+// Text Diff Checker Logic
+const diffLogic = require(path.join(ROOT, 'src/tools/text-diff-checker/logic.js'));
+{
+  const d = diffLogic.diffTexts('a\nb\nc', 'a\nx\nc');
+  assert(d.stats.removed === 1 && d.stats.added === 1 && d.stats.unchanged === 2, `Diff: a/b/c vs a/x/c -> 1 removed, 1 added, 2 unchanged (got ${JSON.stringify(d.stats)})`);
+  assert(d.inline.find(l => l.type === 'removed').text === 'b' && d.inline.find(l => l.type === 'added').text === 'x', 'Diff: the removed line is b and the added line is x');
+  assert(d.rows[1].type === 'changed' && d.rows[1].left.no === 2 && d.rows[1].right.no === 2, 'Diff: side-by-side pairs b and x as a changed line');
+  const same = diffLogic.diffTexts('one\ntwo\nthree', 'one\ntwo\nthree');
+  assert(same.identical && same.stats.unchanged === 3 && same.stats.added === 0 && same.stats.removed === 0, 'Diff: identical texts have no differences');
+  assert(diffLogic.diffTexts('Hello', 'hello', { ignoreCase: true }).identical && !diffLogic.diffTexts('Hello', 'hello').identical, 'Diff: ignore case makes "Hello" and "hello" equal');
+  assert(diffLogic.diffTexts('a  b\t', 'a b', { ignoreWhitespace: true }).identical, 'Diff: ignore whitespace');
+  const blanks = diffLogic.diffTexts('a\n\nb', 'a\nb\n\n', { ignoreBlankLines: true });
+  assert(blanks.identical && blanks.inline[1].oldNo === 3, 'Diff: ignore blank lines keeps the original line numbers');
+  assert(diffLogic.diffTexts('a\r\nb\n', 'a\nb').identical, 'Diff: CRLF and a trailing newline do not count as changes');
+  assert(diffLogic.diffTexts('', 'new').stats.added === 1 && diffLogic.diffTexts('old', '').stats.removed === 1, 'Diff: empty side');
+  const w = diffLogic.wordDiff('The quick brown fox', 'The slow brown fox');
+  assert(w.old.map(s => s.type).join() === 'equal,removed,equal' && w.new[1].text === 'slow', 'Diff: word-level highlight marks only the changed word');
+
+  // Correctness: the edit script rebuilds both inputs and keeps a longest common subsequence
+  const lcsLength = (a, b) => {
+    const t = Array.from({ length: a.length + 1 }, () => new Array(b.length + 1).fill(0));
+    for (let i = 1; i <= a.length; i++) for (let j = 1; j <= b.length; j++) t[i][j] = a[i - 1] === b[j - 1] ? t[i - 1][j - 1] + 1 : Math.max(t[i - 1][j], t[i][j - 1]);
+    return t[a.length][b.length];
+  };
+  const rand = mulberry32(1986);
+  let diffOk = true;
+  for (let i = 0; i < 500 && diffOk; i++) {
+    const seq = () => Array.from({ length: Math.floor(rand() * 14) }, () => Math.floor(rand() * 4));
+    const a = seq(), b = seq();
+    const { ops } = diffLogic.myers(a, b);
+    const ra = ops.filter(o => o.t !== '+').map(o => a[o.a]).join();
+    const rb = ops.filter(o => o.t !== '-').map(o => b[o.b]).join();
+    if (ra !== a.join() || rb !== b.join() || ops.filter(o => o.t === '=').length !== lcsLength(a, b)) diffOk = false;
+  }
+  assert(diffOk, 'Diff fuzz: Myers edit scripts are valid and minimal');
+
+  // 6,000-line texts: scattered edits stay exact, fully different texts still finish quickly
+  const base = Array.from({ length: 6000 }, (_, i) => (i % 3 ? `keep ${i}` : `old ${i}`));
+  const edited = base.map((l, i) => (i % 3 ? l : `new ${i}`));
+  let t0 = Date.now();
+  const big = diffLogic.diffTexts(base.join('\n'), edited.join('\n'));
+  const tBig = Date.now() - t0;
+  assert(big.stats.removed === 2000 && big.stats.added === 2000 && big.stats.unchanged === 4000 && tBig < 3000, `Diff: 6,000 lines with 2,000 scattered edits are exact (${tBig} ms)`);
+  t0 = Date.now();
+  const other = diffLogic.diffTexts(base.join('\n'), base.map(l => `x${l}`).join('\n'));
+  assert(other.stats.removed === 6000 && other.stats.added === 6000 && Date.now() - t0 < 3000, `Diff: 6,000 completely different lines finish in ${Date.now() - t0} ms`);
+}
+
+// Duplicate Line Remover Logic
+const dupLogic = require(path.join(ROOT, 'src/tools/remove-duplicate-lines/logic.js'));
+{
+  const cs = dupLogic.removeDuplicates('a\nb\na\nB');
+  assert(cs.output === 'a\nb\nB' && cs.duplicatesRemoved === 1, `Dedupe: case-sensitive "a b a B" -> "a b B", 1 removed (got ${JSON.stringify(cs.output)})`);
+  const ci = dupLogic.removeDuplicates('a\nb\na\nB', { caseInsensitive: true });
+  assert(ci.output === 'a\nb' && ci.duplicatesRemoved === 2, `Dedupe: case-insensitive -> "a b", 2 removed (got ${JSON.stringify(ci.output)})`);
+  const trimCompare = dupLogic.removeDuplicates(' a\na', { trim: true });
+  assert(trimCompare.output === ' a' && trimCompare.duplicatesRemoved === 1, 'Dedupe: trim compares " a" and "a" as equal and keeps the first line as written');
+  const trimOut = dupLogic.removeDuplicates(' a\na', { trim: true, trimOutput: true });
+  assert(trimOut.output === 'a', 'Dedupe: with "trim output" the kept line is "a"');
+
+  assert(dupLogic.removeDuplicates('x\ny\nx', { keep: 'last' }).output === 'y\nx', 'Dedupe: keep last occurrence');
+  const empties = dupLogic.removeDuplicates('a\n\n \nb', { removeEmpty: true });
+  assert(empties.output === 'a\nb' && empties.emptyRemoved === 2, 'Dedupe: remove empty lines');
+  assert(dupLogic.removeDuplicates('b\na\nc\na', { sort: 'asc' }).output === 'a\nb\nc' && dupLogic.removeDuplicates('b\na\nc', { sort: 'desc' }).output === 'c\nb\na', 'Dedupe: sort A-Z and Z-A');
+  assert(dupLogic.removeDuplicates('item10\nitem2', { sort: 'asc' }).output === 'item2\nitem10', 'Dedupe: sorting is numeric-aware');
+  assert(dupLogic.removeDuplicates('a\r\nb\r\na').output === 'a\nb', 'Dedupe: Windows line endings');
+  const rep = dupLogic.removeDuplicates('x\ny\nx\nx');
+  assert(rep.repeated[0].line === 'x' && rep.repeated[0].count === 3 && rep.totalLines === 4 && rep.keptLines === 2, 'Dedupe: summary of repeated lines');
+  assert(dupLogic.removeDuplicates('').keptLines === 0, 'Dedupe: empty input');
+}
+
+// URL Slug Generator Logic
+const slugLogic = require(path.join(ROOT, 'src/tools/slug-generator/logic.js'));
+{
+  assert(slugLogic.slugify('Héllo, Wörld! 2026') === 'hello-world-2026', 'Slug: "Héllo, Wörld! 2026" -> hello-world-2026');
+  assert(slugLogic.slugify('  Multiple   Spaces  ') === 'multiple-spaces', 'Slug: repeated and surrounding spaces collapse');
+  assert(slugLogic.slugify('Hello World', { separator: '_' }) === 'hello_world', 'Slug: underscore separator');
+  assert(slugLogic.slugify('percentage change calculator', { maxLength: 10 }) === 'percentage', 'Slug: max length 10 cuts at a word boundary');
+  assert(slugLogic.slugify('Straße & Café don’t stop') === 'strasse-and-cafe-dont-stop', 'Slug: ß, &, accents and apostrophes');
+  assert(slugLogic.slugify('How to Write the Best Guide', { removeStopWords: true }) === 'write-best-guide', 'Slug: English stop words removed');
+  assert(slugLogic.slugify('The And Of', { removeStopWords: true }) === 'the-and-of', 'Slug: never removes every word');
+  assert(slugLogic.slugify('Supercalifragilistic', { maxLength: 5 }) === 'super', 'Slug: a first word longer than the limit is cut');
+  assert(slugLogic.slugify('--Hello---World--') === 'hello-world' && slugLogic.slugify('!!!') === '', 'Slug: separators are trimmed and collapsed');
+  assert(slugLogic.slugify('ÆON Łódź') === 'aeon-lodz', 'Slug: Æ and Ł are transliterated');
+  assert(slugLogic.slugify('KEEP Case', { lowercase: false }) === 'KEEP-Case', 'Slug: lowercase can be switched off');
+  const bulk = slugLogic.slugifyLines('First Post\n\nSecond Post\nFirst Post', { unique: true });
+  assert(bulk.length === 3 && bulk[2].slug === 'first-post-2' && bulk[2].duplicate, 'Slug: bulk mode with unique numbering');
+}
+
+// JWT Decoder Logic
+const jwtLogic = require(path.join(ROOT, 'src/tools/jwt-decoder/logic.js'));
+async function testJwt() {
+  const sample = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c';
+  const d = jwtLogic.decode(sample);
+  assert(d.header.alg === 'HS256' && d.header.typ === 'JWT' && Object.keys(d.header).length === 2, 'JWT: header is {alg: HS256, typ: JWT}');
+  assert(d.payload.sub === '1234567890' && d.payload.name === 'John Doe' && d.payload.iat === 1516239022, 'JWT: payload sub, name and iat');
+  assert(d.times.iat.iso === '2018-01-18T01:30:22Z' && d.status === 'no-exp', `JWT: iat = 2018-01-18T01:30:22Z (got ${d.times.iat.iso})`);
+  const ok = await jwtLogic.verifyHmac(sample, 'your-256-bit-secret');
+  assert(ok.valid === true, 'JWT: HS256 signature with "your-256-bit-secret" is valid');
+  assert((await jwtLogic.verifyHmac(sample, 'not-the-secret')).valid === false, 'JWT: a wrong secret is invalid');
+  const two = jwtLogic.decode('eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIn0');
+  assert(two.error && /three parts/.test(two.error) && /has 2/.test(two.error), 'JWT: a token with 2 parts is a clear error');
+
+  // Expiry, not-before, Bearer prefix and bad input
+  const enc = (o) => jwtLogic.bytesToBase64Url(new TextEncoder().encode(JSON.stringify(o)));
+  const now = Date.UTC(2026, 9, 31);
+  const t = (payload) => `${enc({ alg: 'HS256', typ: 'JWT' })}.${enc(payload)}.sig`;
+  assert(jwtLogic.decode(t({ exp: now / 1000 - 60 }), { now }).status === 'expired', 'JWT: exp in the past is expired');
+  assert(jwtLogic.decode(t({ exp: now / 1000 + 3600 }), { now }).status === 'valid-time', 'JWT: exp in the future is not expired');
+  assert(jwtLogic.decode(t({ nbf: now / 1000 + 60, exp: now / 1000 + 3600 }), { now }).status === 'not-yet-valid', 'JWT: nbf in the future is not yet valid');
+  assert(jwtLogic.decode(`Bearer ${sample}`).payload.name === 'John Doe', 'JWT: a "Bearer " prefix is ignored');
+  assert(jwtLogic.decode('a.b.c.d.e').error.includes('JWE'), 'JWT: five-part tokens are identified as JWE');
+  assert(jwtLogic.decode('###.e30.x').error && jwtLogic.decode(`${enc({ alg: 'HS256' })}.bm90IGpzb24.c2ln`).error.includes('JSON'), 'JWT: invalid Base64URL and non-JSON payloads are errors');
+  assert(jwtLogic.decode(`${enc({ alg: 'HS256' })}.${enc({ name: 'Zoë 😀' })}.c2ln`).payload.name === 'Zoë 😀', 'JWT: UTF-8 claims decode correctly');
+  const rs = await jwtLogic.verifyHmac(`${enc({ alg: 'RS256' })}.${enc({})}.c2ln`, 'x');
+  assert(rs.error && rs.error.includes('RS256'), 'JWT: non-HMAC algorithms are explained, not "verified"');
+  for (const [alg, hash] of [['HS384', 'SHA-384'], ['HS512', 'SHA-512']]) {
+    const unsigned = `${enc({ alg, typ: 'JWT' })}.${enc({ sub: 'x' })}`;
+    const key = await crypto.subtle.importKey('raw', new TextEncoder().encode('k3y'), { name: 'HMAC', hash }, false, ['sign']);
+    const sig = new Uint8Array(await crypto.subtle.sign('HMAC', key, new TextEncoder().encode(unsigned)));
+    const res = await jwtLogic.verifyHmac(`${unsigned}.${jwtLogic.bytesToBase64Url(sig)}`, 'k3y');
+    assert(res.valid === true, `JWT: ${alg} signatures verify`);
+  }
+}
+
+// Password Strength Checker Logic (zxcvbn-ts browser builds, loaded as the page loads them)
+const strengthLogic = require(path.join(ROOT, 'src/tools/password-strength-checker/logic.js'));
+{
+  const vm = require('vm');
+  const fs = require('fs');
+  const sandbox = {};
+  vm.createContext(sandbox);
+  ['core', 'language-common', 'language-en'].forEach(p => {
+    vm.runInContext(fs.readFileSync(path.join(ROOT, 'node_modules/@zxcvbn-ts', p, 'dist/zxcvbn-ts.js'), 'utf8'), sandbox);
+  });
+  const checker = strengthLogic.createChecker(sandbox.zxcvbnts);
+  const pw = checker.check('password');
+  assert(pw.score === 0 && pw.label === 'Very weak' && pw.warning, `Strength: "password" scores 0 (got ${pw.score})`);
+  const troub = checker.check('Tr0ub4dor&3');
+  assert(troub.score < 4, `Strength: "Tr0ub4dor&3" scores below 4 (got ${troub.score})`);
+  const pwGen = require(path.join(ROOT, 'src/tools/password-generator/logic.js'));
+  const generated = pwGen.generatePassword({ length: 20 }).password;
+  const gen = checker.check(generated);
+  assert(generated.length === 20 && gen.score === 4, `Strength: a 20-character generated password scores 4 (got ${gen.score})`);
+  assert(checker.check('') === null && checker.check(undefined) === null, 'Strength: empty input gives no result');
+  assert(pw.crackTimes.onlineThrottled.display && pw.crackTimes.offlineFast.display, 'Strength: crack times for online throttled and offline fast hashing');
+  const info = strengthLogic.characterInfo('Ab1! é');
+  assert(info.length === 6 && info.sets.lower === 1 && info.sets.upper === 1 && info.sets.digits === 1 && info.sets.symbols === 1 && info.sets.spaces === 1 && info.sets.other === 1, 'Strength: character sets are counted');
+  assert(strengthLogic.characterInfo('😀😀').length === 2, 'Strength: emoji count as one character each');
+}
+
 // Code formatters (async: the engines load with dynamic import)
 async function testCodeFormatters() {
   const pyFormatter = require(path.join(ROOT, 'src/tools/python-formatter/logic.js'));
@@ -2065,6 +2216,8 @@ async function testCodeFormatters() {
 
 testCodeFormatters().catch((err) => {
   assert(false, `Code formatter tests threw: ${err && err.stack}`);
+}).then(() => testJwt()).catch((err) => {
+  assert(false, `JWT tests threw: ${err && err.stack}`);
 }).then(() => {
   console.log(`\nLogic Tests Summary: ${passed} passed, ${failures} failed.`);
   if (failures > 0) {

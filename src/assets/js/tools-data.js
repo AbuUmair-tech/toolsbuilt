@@ -51,6 +51,8 @@ window.TOOLS_DATA = [
     "popular": true,
     "related": [
       "text-case-converter",
+      "text-diff-checker",
+      "remove-duplicate-lines",
       "lorem-ipsum-generator",
       "json-formatter"
     ]
@@ -65,6 +67,7 @@ window.TOOLS_DATA = [
     "categoryId": "security",
     "popular": true,
     "related": [
+      "password-strength-checker",
       "uuid-generator",
       "hash-generator",
       "random-number-generator",
@@ -286,6 +289,8 @@ window.TOOLS_DATA = [
     "popular": false,
     "related": [
       "word-counter",
+      "slug-generator",
+      "remove-duplicate-lines",
       "url-encoder-decoder",
       "lorem-ipsum-generator",
       "python-formatter"
@@ -302,6 +307,8 @@ window.TOOLS_DATA = [
     "popular": false,
     "related": [
       "python-formatter",
+      "jwt-decoder",
+      "text-diff-checker",
       "lorem-ipsum-generator",
       "base64-encoder-decoder",
       "url-encoder-decoder"
@@ -318,6 +325,7 @@ window.TOOLS_DATA = [
     "popular": false,
     "related": [
       "json-formatter",
+      "jwt-decoder",
       "url-encoder-decoder",
       "hash-generator",
       "python-formatter"
@@ -335,6 +343,7 @@ window.TOOLS_DATA = [
     "related": [
       "json-formatter",
       "base64-encoder-decoder",
+      "slug-generator",
       "text-case-converter",
       "java-formatter"
     ]
@@ -380,6 +389,8 @@ window.TOOLS_DATA = [
     "popular": false,
     "related": [
       "password-generator",
+      "password-strength-checker",
+      "jwt-decoder",
       "uuid-generator",
       "base64-encoder-decoder"
     ]
@@ -789,6 +800,86 @@ window.TOOLS_DATA = [
       "random-number-generator",
       "random-name-picker",
       "mean-median-mode-calculator"
+    ]
+  },
+  {
+    "id": "text-diff-checker",
+    "name": "Text Diff Checker",
+    "url": "/tools/text-diff-checker/",
+    "icon": "text-doc",
+    "description": "Compare two texts line by line with word-level highlights, side-by-side or inline, ignoring case, whitespace or blank lines.",
+    "category": "Text & Writing Tools",
+    "categoryId": "text",
+    "popular": false,
+    "related": [
+      "remove-duplicate-lines",
+      "word-counter",
+      "json-formatter",
+      "text-case-converter"
+    ]
+  },
+  {
+    "id": "remove-duplicate-lines",
+    "name": "Remove Duplicate Lines",
+    "url": "/tools/remove-duplicate-lines/",
+    "icon": "filter",
+    "description": "Remove duplicate lines from a list and keep the original order, ignoring case or spaces, with sorting, copy and download.",
+    "category": "Text & Writing Tools",
+    "categoryId": "text",
+    "popular": false,
+    "related": [
+      "text-diff-checker",
+      "word-counter",
+      "text-case-converter",
+      "slug-generator"
+    ]
+  },
+  {
+    "id": "slug-generator",
+    "name": "URL Slug Generator",
+    "url": "/tools/slug-generator/",
+    "icon": "link",
+    "description": "Turn titles into clean, lowercase URL slugs with accents removed, hyphens or underscores, optional stop-word removal and bulk mode.",
+    "category": "Text & Writing Tools",
+    "categoryId": "text",
+    "popular": false,
+    "related": [
+      "text-case-converter",
+      "url-encoder-decoder",
+      "remove-duplicate-lines",
+      "word-counter"
+    ]
+  },
+  {
+    "id": "jwt-decoder",
+    "name": "JWT Decoder",
+    "url": "/tools/jwt-decoder/",
+    "icon": "key",
+    "description": "Decode JSON Web Token headers and payloads locally, see iat, nbf and exp as dates, and verify HS256, HS384 and HS512 signatures.",
+    "category": "Security & Privacy Tools",
+    "categoryId": "security",
+    "popular": false,
+    "related": [
+      "base64-encoder-decoder",
+      "hash-generator",
+      "json-formatter",
+      "unix-timestamp-converter"
+    ]
+  },
+  {
+    "id": "password-strength-checker",
+    "name": "Password Strength Checker",
+    "url": "/tools/password-strength-checker/",
+    "icon": "shield",
+    "description": "Check password strength privately with zxcvbn: a 0-4 score, estimated crack times, warnings and tips, entirely in your browser.",
+    "category": "Security & Privacy Tools",
+    "categoryId": "security",
+    "popular": false,
+    "related": [
+      "password-generator",
+      "hash-generator",
+      "uuid-generator",
+      "random-number-generator"
     ]
   }
 ];

@@ -1,0 +1,69 @@
+/* Password Strength Checker */
+
+.pw-input {
+  font-family: var(--font-mono);
+}
+
+.pw-status:empty {
+  display: none;
+}
+
+/* Four-segment meter; segments fill up to the score */
+.pw-meter {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-1);
+  margin: var(--space-3) 0;
+}
+
+.pw-meter span {
+  height: 0.5rem;
+  border-radius: var(--radius-full);
+  background-color: var(--border-subtle);
+}
+
+.pw-meter[data-score="0"] span:nth-child(-n+1),
+.pw-meter[data-score="1"] span:nth-child(-n+1) {
+  background-color: var(--color-error-text);
+}
+
+.pw-meter[data-score="2"] span:nth-child(-n+2) {
+  background-color: var(--cat-orange);
+}
+
+.pw-meter[data-score="3"] span:nth-child(-n+3) {
+  background-color: var(--cat-teal);
+}
+
+.pw-meter[data-score="4"] span {
+  background-color: var(--color-success-text);
+}
+
+/* Score 0 shows a short red stub rather than a full segment */
+.pw-meter[data-score="0"] span:first-child {
+  background: linear-gradient(to right, var(--color-error-text) 40%, var(--border-subtle) 40%);
+}
+
+.pw-warning {
+  margin: 0 0 var(--space-2);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-error-text);
+}
+
+.pw-suggestions {
+  margin: 0 0 var(--space-2);
+  padding-left: var(--space-6);
+  color: var(--text-primary);
+}
+
+.pw-suggestions:empty {
+  display: none;
+}
+
+.pw-grid {
+  margin-top: var(--space-4);
+}
+
+.pw-generator-link {
+  margin: var(--space-3) 0 0;
+}

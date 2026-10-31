@@ -1,4 +1,4 @@
-// Self-hosted third-party engines for the code formatters.
+// Self-hosted third-party engines for the code formatters and the password strength checker.
 // Each package is copied from node_modules (exact versions pinned in package.json) to
 // /assets/vendor/<package>-<version>/ by eleventy.config.js, and pages load it with an
 // inline import map + dynamic import(), so nothing is fetched from another domain.
@@ -37,6 +37,26 @@ const PACKAGES = {
     name: 'web-tree-sitter',
     files: { 'web-tree-sitter.js': 'web-tree-sitter.js', 'web-tree-sitter.wasm': 'web-tree-sitter.wasm', 'LICENSE': 'LICENSE' },
     entry: 'web-tree-sitter.js'
+  },
+  // zxcvbn-ts ships self-contained browser builds (dist/zxcvbn-ts.js) that set window.zxcvbnts.*.
+  // The three share a final name segment, so each gets its own folder.
+  zxcvbnCore: {
+    name: '@zxcvbn-ts/core',
+    folder: 'zxcvbn-ts-core',
+    files: { 'zxcvbn-ts.js': 'dist/zxcvbn-ts.js', 'LICENSE.txt': 'LICENSE.txt' },
+    entry: 'zxcvbn-ts.js'
+  },
+  zxcvbnCommon: {
+    name: '@zxcvbn-ts/language-common',
+    folder: 'zxcvbn-ts-language-common',
+    files: { 'zxcvbn-ts.js': 'dist/zxcvbn-ts.js', 'LICENSE.txt': 'LICENSE.txt' },
+    entry: 'zxcvbn-ts.js'
+  },
+  zxcvbnEn: {
+    name: '@zxcvbn-ts/language-en',
+    folder: 'zxcvbn-ts-language-en',
+    files: { 'zxcvbn-ts.js': 'dist/zxcvbn-ts.js', 'LICENSE.txt': 'LICENSE.txt' },
+    entry: 'zxcvbn-ts.js'
   }
 };
 
@@ -50,7 +70,7 @@ const passthrough = {};
 for (const [key, pkg] of Object.entries(PACKAGES)) {
   const dir = packageDir(pkg.name);
   const { version } = JSON.parse(fs.readFileSync(path.join(dir, 'package.json'), 'utf8'));
-  const folder = `${pkg.name.split('/').pop()}-${version}`;
+  const folder = `${pkg.folder || pkg.name.split('/').pop()}-${version}`;
   const base = `/assets/vendor/${folder}/`;
   const sizes = {};
   for (const [published, inside] of Object.entries(pkg.files)) {
