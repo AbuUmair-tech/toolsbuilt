@@ -28,11 +28,14 @@
     }
   }
 
+  /* Reduced motion: switch transitions off outright. Setting only a tiny transition-duration
+     would make every element transition every property (transition-property defaults to all),
+     which turns a theme change into thousands of transitions. Nothing listens for transitionend. */
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
       animation-duration: 0.01ms !important;
       animation-iteration-count: 1 !important;
-      transition-duration: 0.01ms !important;
+      transition: none !important;
       scroll-behavior: auto !important;
     }
   }
@@ -49,6 +52,11 @@
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* The hidden attribute always wins over component display rules (e.g. .form-group's flex) */
+  [hidden] {
+    display: none !important;
   }
 
   /* -------------------------------------------------------------------------

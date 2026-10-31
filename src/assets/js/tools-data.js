@@ -154,7 +154,8 @@ window.TOOLS_DATA = [
     "related": [
       "percentage-calculator",
       "percentage-change-calculator",
-      "loan-emi-calculator"
+      "loan-emi-calculator",
+      "sales-tax-calculator"
     ]
   },
   {
@@ -169,7 +170,8 @@ window.TOOLS_DATA = [
     "related": [
       "percentage-calculator",
       "discount-calculator",
-      "compound-interest-calculator"
+      "compound-interest-calculator",
+      "sales-tax-calculator"
     ]
   },
   {
@@ -248,7 +250,8 @@ window.TOOLS_DATA = [
     "related": [
       "grade-calculator",
       "gpa-calculator",
-      "percentage-calculator"
+      "percentage-calculator",
+      "gold-calculator"
     ]
   },
   {
@@ -370,7 +373,7 @@ window.TOOLS_DATA = [
       "loan-emi-calculator",
       "percentage-calculator",
       "sip-calculator",
-      "compound-interest-calculator"
+      "gold-calculator"
     ]
   },
   {
@@ -403,6 +406,38 @@ window.TOOLS_DATA = [
       "percentage-calculator",
       "grade-calculator",
       "gpa-calculator"
+    ]
+  },
+  {
+    "id": "gold-calculator",
+    "name": "Gold Calculator",
+    "url": "/tools/gold-calculator/",
+    "icon": "gem",
+    "description": "Work out the price of gold by tola, gram, masha or ratti for 24K, 22K, 21K or 18K from today's rate, with making charges and per-tola and per-gram rates.",
+    "category": "Math & Finance Tools",
+    "categoryId": "math-finance",
+    "popular": false,
+    "related": [
+      "sales-tax-calculator",
+      "pakistan-salary-tax-calculator",
+      "percentage-calculator",
+      "unit-converter"
+    ]
+  },
+  {
+    "id": "sales-tax-calculator",
+    "name": "GST & Sales Tax Calculator",
+    "url": "/tools/sales-tax-calculator/",
+    "icon": "receipt-percent",
+    "description": "Add GST or sales tax to a price, or remove it from a tax-inclusive price, at 18%, 5%, 10%, 15% or any rate, with quantity and the formula shown.",
+    "category": "Math & Finance Tools",
+    "categoryId": "math-finance",
+    "popular": false,
+    "related": [
+      "discount-calculator",
+      "percentage-calculator",
+      "gold-calculator",
+      "pakistan-salary-tax-calculator"
     ]
   }
 ];

@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * Playwright Tool UX, Debounce, Enter-Key, Error State & Accessibility (axe-core) Test Suite
- * Tests all 10 tools on ToolsBuilt for:
+ * Tests every tool in tools.json for:
  * 1. Debounced live execution (~150ms) without pressing buttons.
  * 2. Explicit Calculate button + Enter key triggering calculation.
  * 3. Accessible error states (aria-invalid="true", role="alert") on invalid inputs and clear on fix.
@@ -53,24 +53,10 @@ function createServer() {
   });
 }
 
-const TOOLS = [
-  'age-calculator',
-  'days-until-date-calculator',
-  'date-difference-calculator',
-  'add-days-to-date-calculator',
-  'percentage-change-calculator',
-  'discount-calculator',
-  'word-counter',
-  'text-case-converter',
-  'password-generator',
-  'random-name-picker',
-  'json-formatter',
-  'base64-encoder-decoder',
-  'url-encoder-decoder',
-  'lorem-ipsum-generator',
-  'uuid-generator',
-  'hash-generator'
-];
+// Every tool in tools.json gets the axe audit and screenshots; tools with a block below also get interaction checks
+const TOOLS = require(path.join(ROOT, 'src', '_data', 'tools.json')).map(t => t.slug)
+  // TOOLS_ONLY=slug1,slug2 runs a subset while debugging
+  .filter(slug => !process.env.TOOLS_ONLY || process.env.TOOLS_ONLY.split(',').includes(slug));
 
 async function runAxe(page) {
   const axeSource = fs.readFileSync(require.resolve('axe-core/axe.min.js'), 'utf8');
@@ -325,6 +311,57 @@ async function runAllToolUxTests() {
           await page.waitForSelector('.tb-toast.is-visible', { timeout: 2000 });
           assert(true, '[discount] Copy button triggered toast');
         }
+      }
+
+      if (toolSlug === 'gold-calculator') {
+        await page.selectOption('#currency', 'PKR');
+        await page.selectOption('#rate-unit', 'tola');
+        await page.selectOption('#rate-karat', '24');
+        await page.selectOption('#weight-unit', 'tola');
+        await page.selectOption('#item-karat', '22');
+        await page.selectOption('#making-type', 'none');
+        await page.fill('#gold-weight', '2');
+        await page.fill('#gold-rate', '400000');
+        await page.waitForTimeout(250);
+        const goldRes = await page.textContent('#result-primary-text');
+        assert(goldRes && goldRes.includes('733,333.33'), `[gold] Debounced calculation: "${goldRes.trim()}"`);
+
+        // Enter key
+        await page.fill('#gold-weight', '1');
+        await page.keyboard.press('Enter');
+        await page.waitForTimeout(100);
+        const goldRes2 = await page.textContent('#result-primary-text');
+        assert(goldRes2 && goldRes2.includes('366,666.67'), `[gold] Enter key updated: "${goldRes2.trim()}"`);
+
+        // Zero weight error state
+        await page.fill('#gold-weight', '0');
+        await page.waitForTimeout(250);
+        const goldInvalid = await page.getAttribute('#gold-weight', 'aria-invalid');
+        assert(goldInvalid === 'true' && await page.isVisible('#error-box'), '[gold] Zero weight triggered accessible error state');
+      }
+
+      if (toolSlug === 'sales-tax-calculator') {
+        await page.check('#mode-remove');
+        await page.selectOption('#tax-rate-preset', '18');
+        await page.fill('#tax-qty', '1');
+        await page.fill('#tax-price', '5000');
+        await page.waitForTimeout(250);
+        const taxRes = await page.textContent('#result-primary-text');
+        assert(taxRes && taxRes.includes('4,237.29'), `[sales-tax] Debounced reverse calculation: "${taxRes.trim()}"`);
+
+        // Enter key
+        await page.check('#mode-add');
+        await page.fill('#tax-price', '1000');
+        await page.keyboard.press('Enter');
+        await page.waitForTimeout(100);
+        const taxRes2 = await page.textContent('#result-primary-text');
+        assert(taxRes2 && taxRes2.includes('1,180.00'), `[sales-tax] Enter key updated: "${taxRes2.trim()}"`);
+
+        // Negative price error state
+        await page.fill('#tax-price', '-5');
+        await page.waitForTimeout(250);
+        const taxInvalid = await page.getAttribute('#tax-price', 'aria-invalid');
+        assert(taxInvalid === 'true' && await page.isVisible('#error-box'), '[sales-tax] Negative price triggered accessible error state');
       }
 
       if (toolSlug === 'word-counter') {

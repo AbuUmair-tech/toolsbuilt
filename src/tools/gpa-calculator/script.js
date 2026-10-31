@@ -104,7 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
           <input type="text" class="form-control semester-title" value="${title}" aria-label="Semester Title" style="font-weight: 700; width: 180px; font-size: 1.05rem;">
           <span class="badge semester-gpa-badge" style="background: var(--surface-muted); padding: 0.25rem 0.6rem; border-radius: var(--radius-md); font-size: 0.85rem; font-weight: 600;">Term GPA: --</span>
         </div>
-        <button type="button" class="btn btn-sm btn-ghost remove-semester-btn" aria-label="Remove ${title}" title="Remove this semester">
+        <button type="button" class="btn btn-sm btn-ghost remove-semester-btn" aria-label="Remove Term (${title})" title="Remove this semester">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
           Remove Term
         </button>

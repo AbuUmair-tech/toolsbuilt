@@ -28,7 +28,9 @@ const PAGES = [
   { name: 'pakistan-salary-tax-calculator', path: '/tools/pakistan-salary-tax-calculator/?salary=250000&period=monthly' },
   { name: 'category-education', path: '/category/education/' },
   { name: 'cgpa-to-percentage-calculator', path: '/tools/cgpa-to-percentage-calculator/' },
-  { name: 'marks-percentage-calculator', path: '/tools/marks-percentage-calculator/' }
+  { name: 'marks-percentage-calculator', path: '/tools/marks-percentage-calculator/' },
+  { name: 'gold-calculator', path: '/tools/gold-calculator/?rate=400000&per=tola&ratek=24&weight=2&unit=tola&karat=22&making=percent&mv=8&cur=PKR' },
+  { name: 'sales-tax-calculator', path: '/tools/sales-tax-calculator/?mode=remove&price=5000&rate=18&qty=1&cur=PKR' }
 ];
 const ONLY = process.argv[4] ? process.argv[4].split(',') : null;
 const VIEWPORTS = [

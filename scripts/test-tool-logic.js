@@ -1205,6 +1205,78 @@ const marksLogic = require(path.join(ROOT, 'src/tools/marks-percentage-calculato
   assert(throws(() => marksLogic.calculateSubjects([{ obtained: '', total: '' }])), 'MarksLogic: no marks at all is rejected');
 }
 
+// Gold Calculator Logic (rate 400,000 per tola for 24K)
+const goldLogic = require(path.join(ROOT, 'src/tools/gold-calculator/logic.js'));
+{
+  const near = (a, b, eps = 1e-6) => Math.abs(a - b) < eps;
+  const throws = fn => { try { fn(); return false; } catch (e) { return true; } };
+  const gold = (weight, weightUnit, karat, extra) => goldLogic.calculateGold({
+    rate: 400000, rateUnit: 'tola', rateKarat: 24, weight, weightUnit, karat, ...(extra || {})
+  });
+  const r2 = goldLogic.round2;
+
+  assert(r2(gold(2, 'tola', 22).total) === 733333.33, `GoldLogic: 2 tola of 22K -> 733,333.33 (got ${r2(gold(2, 'tola', 22).total)})`);
+  assert(r2(gold(10, 'gram', 24).total) === 342941.30, `GoldLogic: 10 g of 24K -> 342,941.30 (got ${r2(gold(10, 'gram', 24).total)})`);
+  assert(r2(gold(10, 'gram', 21).total) === 300073.63, `GoldLogic: 10 g of 21K -> 300,073.63 (got ${r2(gold(10, 'gram', 21).total)})`);
+  assert(r2(gold(1, 'masha', 24).total) === 33333.33, `GoldLogic: 1 masha of 24K -> 33,333.33 (got ${r2(gold(1, 'masha', 24).total)})`);
+
+  // Unit conversion: 1 tola = 11.6638038 g = 12 masha = 96 ratti
+  const oneTola = goldLogic.convertWeight(goldLogic.toGrams(1, 'tola'));
+  assert(near(oneTola.gram, 11.6638038) && near(oneTola.masha, 12) && near(oneTola.ratti, 96),
+    'GoldLogic: 1 tola = 11.6638038 g = 12 masha = 96 ratti');
+  assert(near(goldLogic.toGrams(96, 'ratti'), 11.6638038) && near(goldLogic.toGrams(12, 'masha'), 11.6638038),
+    'GoldLogic: 96 ratti and 12 masha are each 11.6638038 g');
+
+  // Pure gold content and karat-adjusted rates
+  const g22 = gold(2, 'tola', 22);
+  assert(near(g22.pureGoldGrams, 2 * 11.6638038 * 22 / 24), 'GoldLogic: 2 tola of 22K holds 21.38364 g of pure gold');
+  assert(near(g22.rates.perTola, 400000 * 22 / 24, 1e-6), 'GoldLogic: 22K rate per tola = 24K rate × 22/24');
+
+  // The same rate quoted per 10 g or per gram gives the same result
+  const per10 = goldLogic.calculateGold({ rate: 400000 / 11.6638038 * 10, rateUnit: '10g', rateKarat: 24, weight: 2, weightUnit: 'tola', karat: 22 });
+  assert(near(per10.total, g22.total, 1e-6), 'GoldLogic: a per-10-gram rate gives the same price as the equivalent per-tola rate');
+
+  // A rate quoted for 22K is scaled to the item's karat
+  const from22 = goldLogic.calculateGold({ rate: 400000 * 22 / 24, rateUnit: 'tola', rateKarat: 22, weight: 10, weightUnit: 'gram', karat: 21 });
+  assert(r2(from22.total) === 300073.63, 'GoldLogic: a 22K rate converted to 21K matches the 24K-based result');
+
+  // Making charges
+  const pct = gold(1, 'tola', 22, { makingType: 'percent', makingValue: 10 });
+  assert(near(pct.makingCharges, pct.goldValue * 0.1) && near(pct.total, pct.goldValue * 1.1), 'GoldLogic: 10% making charges on gold value');
+  const fixed = gold(10, 'gram', 22, { makingType: 'perGram', makingValue: 500 });
+  assert(near(fixed.makingCharges, 5000) && near(fixed.total, fixed.goldValue + 5000), 'GoldLogic: Rs 500 per gram making on 10 g = Rs 5,000');
+
+  assert(goldLogic.formatMoney(733333.333, 'PKR') === 'Rs 733,333.33', 'GoldLogic: formatMoney PKR with separators');
+  assert(throws(() => gold(0, 'tola', 22)), 'GoldLogic: zero weight is rejected');
+  assert(throws(() => gold(1, 'tola', 23)), 'GoldLogic: unsupported karat is rejected');
+  assert(throws(() => goldLogic.calculateGold({ rate: '', weight: 1, weightUnit: 'tola', karat: 24 })), 'GoldLogic: missing rate is rejected');
+  assert(throws(() => gold(1, 'tola', 22, { makingType: 'percent', makingValue: -5 })), 'GoldLogic: negative making charges are rejected');
+}
+
+// GST & Sales Tax Calculator Logic
+const salesTaxLogic = require(path.join(ROOT, 'src/tools/sales-tax-calculator/logic.js'));
+{
+  const throws = fn => { try { fn(); return false; } catch (e) { return true; } };
+
+  const add = salesTaxLogic.addTax(1000, 18);
+  assert(add.tax === 180 && add.gross === 1180, `SalesTaxLogic: add 18% to 1,000 -> tax 180, total 1,180 (got ${add.tax}, ${add.gross})`);
+  const rem = salesTaxLogic.removeTax(1180, 18);
+  assert(rem.net === 1000 && rem.tax === 180, `SalesTaxLogic: remove 18% from 1,180 -> 1,000 and tax 180 (got ${rem.net}, ${rem.tax})`);
+  const rem5k = salesTaxLogic.removeTax(5000, 18);
+  assert(rem5k.net === 4237.29 && rem5k.tax === 762.71, `SalesTaxLogic: remove 18% from 5,000 -> 4,237.29 and tax 762.71 (got ${rem5k.net}, ${rem5k.tax})`);
+  assert(rem5k.net + rem5k.tax === 5000, 'SalesTaxLogic: net + tax add up exactly to the inclusive price');
+  const qty = salesTaxLogic.addTax(1000, 18, 3);
+  assert(qty.gross === 3540 && qty.net === 3000 && qty.tax === 540, `SalesTaxLogic: 3 x 1,000 at 18% -> 3,540 (got ${qty.gross})`);
+  // The common mistake: subtracting 18% from an inclusive price gives the wrong pre-tax price
+  assert(1180 * (1 - 0.18) !== rem.net, 'SalesTaxLogic: subtracting 18% from 1,180 (967.60) is not the pre-tax price');
+  assert(salesTaxLogic.addTax(100, 0).gross === 100, 'SalesTaxLogic: 0% tax leaves the price unchanged');
+
+  assert(throws(() => salesTaxLogic.addTax(-1, 18)), 'SalesTaxLogic: negative price is rejected');
+  assert(throws(() => salesTaxLogic.addTax(100, 120)), 'SalesTaxLogic: rate above 100% is rejected');
+  assert(throws(() => salesTaxLogic.addTax(100, 18, 0)), 'SalesTaxLogic: quantity 0 is rejected');
+  assert(throws(() => salesTaxLogic.removeTax('', 18)), 'SalesTaxLogic: missing price is rejected');
+}
+
 console.log(`\nLogic Tests Summary: ${passed} passed, ${failures} failed.`);
 if (failures > 0) {
   process.exit(1);
