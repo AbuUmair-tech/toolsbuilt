@@ -15,7 +15,8 @@
  *    - Description: 70..170 chars, unique
  *    - Canonical: absolute URL matching page URL
  *    - og:image: present, exists in _site/, <= 100 KB
- * 8. Generates docs/SEO_PAGE_REPORT.md
+ * 8. Writes docs/SEO_PAGE_REPORT.md when run with SAVE_SEO_REPORT=1, so a normal
+ *    check does not rewrite a tracked file
  */
 
 const fs = require('fs');
@@ -25,6 +26,7 @@ const yaml = require('js-yaml');
 const ROOT = path.resolve(__dirname, '..');
 const SITE_DIR = path.join(ROOT, '_site');
 const REPORT_FILE = path.join(ROOT, 'docs', 'SEO_PAGE_REPORT.md');
+const SAVE_SEO_REPORT = process.env.SAVE_SEO_REPORT === '1';
 
 const BASE_URL = 'https://toolsbuilt.com';
 
@@ -437,8 +439,8 @@ function checkSeo() {
   }
   console.log('========================================================================================\n');
 
-  // Generate docs/SEO_PAGE_REPORT.md
-  generateReport(sortedPages, errors, warnings);
+  // Write docs/SEO_PAGE_REPORT.md only when asked: SAVE_SEO_REPORT=1 node scripts/check-seo.js
+  if (SAVE_SEO_REPORT) generateReport(sortedPages, errors, warnings);
 
   if (errors.length > 0) {
     console.error(`❌ SEO & Accessibility audit failed with ${errors.length} errors:`);
@@ -447,7 +449,7 @@ function checkSeo() {
   }
 
   console.log(`✅ Technical SEO & Accessibility audit PASSED (${sortedPages.length} pages audited, 0 errors).`);
-  console.log(`📄 Generated comprehensive report at: ${REPORT_FILE}`);
+  if (SAVE_SEO_REPORT) console.log(`📄 Generated comprehensive report at: ${REPORT_FILE}`);
 }
 
 function generateReport(pages, errors, warnings) {
