@@ -58,6 +58,8 @@ jobs:
         run: SITE_ENV=production node scripts/check-schema.js
       - name: Check SEO (production)
         run: SITE_ENV=production node scripts/check-seo.js
+      - name: Check no external resources (production)
+        run: SITE_ENV=production node scripts/check-external.js
       - name: Assert no noindex in homepage & robots.txt allows all
         run: |
           if grep -qi 'noindex' _site/index.html; then

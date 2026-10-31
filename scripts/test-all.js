@@ -697,6 +697,24 @@ try {
   if (fs.existsSync(cleanupFile)) fs.unlinkSync(cleanupFile);
 }
 
+// -----------------------------------------------------------------
+// Test 23: External Resource Guard (everything self-hosted)
+// -----------------------------------------------------------------
+console.log('\n--- 23. External Resource Guard ---');
+try {
+  const externalOutput = execSync('node scripts/check-external.js', {
+    cwd: ROOT,
+    encoding: 'utf8',
+    stdio: 'pipe'
+  });
+  assert(
+    externalOutput.includes('External resource check PASSED'),
+    'External resources: no third-party scripts, styles, fonts, images or iframes (GA loader allowlisted)'
+  );
+} catch (e) {
+  assert(false, `External resource check failed: ${e.message}\n${e.stdout || ''}${e.stderr || ''}`);
+}
+
 console.log('\n========================================================');
 if (failures === 0) {
   console.log('🎉 ALL AUDIT & REGRESSION TESTS PASSED (0 FAILURES)');
