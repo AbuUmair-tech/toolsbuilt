@@ -440,6 +440,74 @@
     gap: var(--space-1);
   }
 
+  /* Choice toggle: a radio group styled as a segmented control (e.g. Monthly / Annual).
+     Markup: fieldset.choice-toggle > legend + .choice-toggle-options > label.choice-toggle-option > input[type=radio] + span */
+  .choice-toggle {
+    margin: 0 0 var(--space-4);
+    padding: 0;
+    border: 0;
+    min-width: 0;
+  }
+
+  .choice-toggle legend {
+    margin-bottom: var(--space-2);
+    padding: 0;
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    color: var(--text-primary);
+  }
+
+  .choice-toggle-options {
+    display: flex;
+    width: 100%;
+  }
+
+  .choice-toggle-option {
+    position: relative;
+    flex: 1 1 0;
+    display: flex;
+  }
+
+  .choice-toggle-option input {
+    position: absolute;
+    opacity: 0;
+    width: 1px;
+    height: 1px;
+  }
+
+  .choice-toggle-option span {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 36px;
+    padding: 0 var(--space-3);
+    border: 1px solid transparent;
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: var(--transition-colors);
+  }
+
+  .choice-toggle-option input:checked + span {
+    background-color: var(--surface-card);
+    border-color: var(--border-subtle);
+    color: var(--text-primary);
+  }
+
+  .choice-toggle-option input:focus-visible + span {
+    outline: 2px solid var(--accent-primary);
+    outline-offset: 1px;
+  }
+
+  .slab-range {
+    margin-top: var(--space-1);
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+  }
+
   /* -------------------------------------------------------------------------
      Cards — flat: 1px border, no shadow, no motion
      ------------------------------------------------------------------------- */

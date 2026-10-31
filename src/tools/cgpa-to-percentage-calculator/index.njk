@@ -1,0 +1,235 @@
+---
+layout: layouts/tool.njk
+toolSlug: cgpa-to-percentage-calculator
+title: "CGPA to Percentage Calculator (and Percentage to CGPA)"
+description: "Convert CGPA to percentage or percentage to CGPA on a 4.0, 5.0 or 10.0 scale using simple proportion, the CBSE 9.5 rule, or your transcript formula."
+permalink: /tools/cgpa-to-percentage-calculator/
+h1: "CGPA to Percentage Calculator"
+extraCss: "/tools/cgpa-to-percentage-calculator/style.css"
+quickAnswer: "With the simple proportion method, percentage = CGPA ÷ scale × 100, so a 3.2 CGPA on a 4.0 scale is 80% and 3.5 is 87.5%. CBSE's 10-point rule is CGPA × 9.5, so 8.0 becomes 76%. If your transcript prints its own conversion, that formula is the official one for your degree."
+formula:
+  title: "CGPA to Percentage Formulas"
+  expression: "Percentage = CGPA ÷ Scale × 100"
+  explanation: "This simple proportion treats your CGPA as a share of the maximum CGPA. For CBSE's 10-point scale the conversion is Percentage = CGPA × 9.5. If your university prints its own formula in the form Percentage = m × CGPA + c, use that instead. Going the other way, each formula is solved for CGPA: CGPA = Percentage ÷ 100 × Scale, CGPA = Percentage ÷ 9.5, or CGPA = (Percentage − c) ÷ m."
+  variables:
+    - name: "Scale"
+      description: "The maximum CGPA on your system: 4.0, 5.0 or 10.0."
+    - name: "m and c"
+      description: "The multiplier and offset in your university's printed conversion, if it has one."
+workedExamples:
+  - title: "3.2 CGPA on a 4.0 scale (simple proportion)"
+    inputs:
+      - "CGPA: 3.2"
+      - "Scale: 4.0"
+      - "Formula: simple proportion"
+    steps:
+      - "Divide by the scale: 3.2 ÷ 4.0 = 0.8"
+      - "Multiply by 100: 0.8 × 100 = 80"
+    result: "80%"
+    link: "/tools/cgpa-to-percentage-calculator/?mode=to-percentage&value=3.2&scale=4&formula=simple#tool"
+  - title: "8.0 CGPA on CBSE's 10-point scale"
+    inputs:
+      - "CGPA: 8.0"
+      - "Scale: 10.0"
+      - "Formula: CBSE (CGPA × 9.5)"
+    steps:
+      - "Multiply by 9.5: 8.0 × 9.5 = 76"
+      - "In reverse, 76% ÷ 9.5 = 8.0 CGPA"
+    result: "76%"
+    link: "/tools/cgpa-to-percentage-calculator/?mode=to-percentage&value=8&scale=10&formula=cbse#tool"
+  - title: "Using a formula printed on a transcript"
+    inputs:
+      - "Transcript formula (example): Percentage = 20 × CGPA + 10"
+      - "CGPA: 3.0 on a 4.0 scale"
+    steps:
+      - "Multiply by m: 20 × 3.0 = 60"
+      - "Add c: 60 + 10 = 70"
+      - "In reverse, 85% gives (85 − 10) ÷ 20 = 3.75 CGPA"
+    result: "70%"
+    link: "/tools/cgpa-to-percentage-calculator/?mode=to-percentage&value=3&scale=4&formula=custom&m=20&c=10#tool"
+  - title: "75% to CGPA on a 4.0 scale (simple proportion)"
+    inputs:
+      - "Percentage: 75%"
+      - "Scale: 4.0"
+    steps:
+      - "Divide by 100: 75 ÷ 100 = 0.75"
+      - "Multiply by the scale: 0.75 × 4.0 = 3.0"
+    result: "3.0 CGPA"
+    link: "/tools/cgpa-to-percentage-calculator/?mode=to-cgpa&value=75&scale=4&formula=simple#tool"
+commonMistakes:
+  - title: "Using CBSE's 9.5 rule on a 4.0 or 5.0 scale"
+    description: "The 9.5 multiplier was designed for CBSE's 10-point grading. Multiplying a 3.4 CGPA by 9.5 gives 32.3%, which is meaningless. On 4.0 and 5.0 scales, use the simple proportion or your university's own formula."
+  - title: "Assuming one national formula"
+    description: "There is no single CGPA to percentage formula that every university accepts. In Pakistan, HEC does not publish one conversion for every university, and Indian universities also set their own. The conversion printed on your transcript, or given by your examination department, is the official one."
+  - title: "Dividing by the wrong scale"
+    description: "A 3.5 CGPA is 87.5% of a 4.0 scale but only 70% of a 5.0 scale. Check the maximum CGPA on your transcript before converting."
+  - title: "Rounding the CGPA before converting"
+    description: "Round only the final percentage. Turning 3.46 into 3.5 first adds a full percentage point on a 4.0 scale (86.5% versus 87.5%)."
+  - title: "Reversing with a different formula"
+    description: "If you converted a CGPA to a percentage with one formula, convert back with the same one. Mixing the simple proportion with a university formula gives a CGPA that matches neither."
+faqs:
+  - q: "How do I convert CGPA to percentage?"
+    a: "Divide your CGPA by the maximum of your scale and multiply by 100. On a 4.0 scale, 3.2 ÷ 4.0 × 100 = 80%. If your transcript or university prints its own conversion formula, use that one instead, because it is the official conversion for your degree."
+  - q: "What is 3.5 CGPA in percentage?"
+    a: "On a 4.0 scale with the simple proportion method, 3.5 CGPA is 87.5%. On a 5.0 scale it is 70%. Your university may use a different formula, so check your transcript before quoting the figure on an application."
+  - q: "How do you convert CGPA to percentage in CBSE?"
+    a: "Multiply the CGPA by 9.5. A CGPA of 8.0 becomes 76%, and to go back, divide the percentage by 9.5. This rule only applies to CBSE's 10-point scale."
+  - q: "Does HEC have an official CGPA to percentage formula?"
+    a: "HEC does not publish one conversion formula for every university in Pakistan. Universities set their own grading and conversion, which is usually printed on the transcript or available from the university's examination department. Enter that formula in this calculator to get your official equivalent."
+  - q: "How do I convert percentage to CGPA?"
+    a: "Use the same formula in reverse. With the simple proportion, CGPA = percentage ÷ 100 × scale, so 75% on a 4.0 scale is 3.0. For CBSE, divide by 9.5. For a transcript formula of the form m × CGPA + c, CGPA = (percentage − c) ÷ m."
+  - q: "Why do different websites give different percentages for the same CGPA?"
+    a: "They use different formulas. Some use the simple proportion, some use CBSE's 9.5 rule, and some use one university's conversion. Only the formula your own institution uses gives the official answer."
+  - q: "Is CGPA the same as GPA?"
+    a: "Not quite. GPA usually describes one semester or term, while CGPA is the cumulative average across all semesters so far. Both are converted to a percentage the same way. To calculate a GPA from grades and credit hours, use the GPA Calculator."
+sources:
+  - name: "Higher Education Commission (HEC) Pakistan"
+    url: "https://www.hec.gov.pk/"
+  - name: "Central Board of Secondary Education (CBSE)"
+    url: "https://www.cbse.gov.in/"
+lastReviewed: "2026-10-31"
+howto:
+  name: "How to Convert CGPA to Percentage"
+  description: "Convert a CGPA to a percentage, or a percentage to CGPA, with the formula your institution uses."
+  steps:
+    - name: "Choose the direction"
+      text: "Pick CGPA to percentage or percentage to CGPA."
+    - name: "Enter your number"
+      text: "Type your CGPA or your percentage."
+    - name: "Set the scale and formula"
+      text: "Choose a 4.0, 5.0 or 10.0 scale, then the simple proportion, CBSE's rule, or your university's printed formula."
+    - name: "Read the result"
+      text: "See the converted value with each step of the formula shown."
+---
+
+    <!-- Tool Form Container -->
+    <section class="tool-container" aria-label="CGPA to Percentage Calculator Form">
+      <form id="calculator-form" novalidate>
+        <fieldset class="form-group choice-toggle">
+          <legend>Convert</legend>
+          <div class="segmented-control choice-toggle-options">
+            <label class="choice-toggle-option">
+              <input type="radio" name="cgpa-mode" id="mode-to-percentage" value="to-percentage" data-param="mode" checked>
+              <span>CGPA → Percentage</span>
+            </label>
+            <label class="choice-toggle-option">
+              <input type="radio" name="cgpa-mode" id="mode-to-cgpa" value="to-cgpa" data-param="mode">
+              <span>Percentage → CGPA</span>
+            </label>
+          </div>
+        </fieldset>
+
+        <div class="form-grid two-col">
+          <div class="form-group">
+            <label for="cgpa-value" id="value-label">Your CGPA <span class="text-accent">*</span></label>
+            <input type="number" inputmode="decimal" step="any" min="0" id="cgpa-value" data-param="value" class="form-control" placeholder="e.g. 3.2" required aria-required="true">
+          </div>
+
+          <div class="form-group">
+            <label for="cgpa-scale">CGPA scale</label>
+            <select id="cgpa-scale" data-param="scale" class="form-control">
+              <option value="4" selected>4.0</option>
+              <option value="5">5.0</option>
+              <option value="10">10.0</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="cgpa-formula">Conversion formula</label>
+          <select id="cgpa-formula" data-param="formula" class="form-control" aria-describedby="formula-hint">
+            <option value="simple" selected>Simple proportion (CGPA ÷ scale × 100)</option>
+            <option value="cbse">CBSE 10-point (CGPA × 9.5)</option>
+            <option value="custom">My university's formula</option>
+          </select>
+          <p class="form-hint" id="formula-hint">CBSE's rule is only available on the 10.0 scale.</p>
+        </div>
+
+        <fieldset class="custom-formula" id="custom-formula-fields" hidden>
+          <legend>Your university's formula: Percentage = m × CGPA + c</legend>
+          <p class="form-hint">Copy m and c from the conversion printed on your transcript. Leave c at 0 if there is no offset.</p>
+          <div class="form-grid two-col">
+            <div class="form-group">
+              <label for="custom-m">Multiplier (m)</label>
+              <input type="number" inputmode="decimal" step="any" id="custom-m" data-param="m" class="form-control" placeholder="e.g. 20">
+            </div>
+            <div class="form-group">
+              <label for="custom-c">Offset (c)</label>
+              <input type="number" inputmode="decimal" step="any" id="custom-c" data-param="c" class="form-control" placeholder="e.g. 10" value="0">
+            </div>
+          </div>
+        </fieldset>
+
+        <div class="button-group mt-6">
+          <button type="submit" class="btn btn-primary">Convert</button>
+          <button type="button" class="btn btn-secondary" id="reset-btn">Reset</button>
+        </div>
+      </form>
+
+      <div id="error-box" class="hidden form-error" role="alert"></div>
+
+      <!-- Result Box -->
+      <div id="result-box" class="result-box" aria-live="polite">
+        <div class="result-header">
+          <span id="result-header-text">Percentage</span>
+          <button type="button" class="btn btn-sm btn-ghost" id="copy-result-btn" title="Copy Result to clipboard" aria-label="Copy Result to clipboard">
+            <span data-icon="copy"></span> Copy Result
+          </button>
+        </div>
+        <div class="result-primary" id="result-primary-text">0%</div>
+
+        <div class="result-grid">
+          <div class="result-stat-card">
+            <div class="result-stat-label" id="stat-input-label">CGPA</div>
+            <div class="result-stat-value" id="stat-input">0</div>
+          </div>
+          <div class="result-stat-card">
+            <div class="result-stat-label">Scale</div>
+            <div class="result-stat-value" id="stat-scale">4.0</div>
+          </div>
+          <div class="result-stat-card">
+            <div class="result-stat-label">Formula</div>
+            <div class="result-stat-value result-stat-value-sm" id="stat-formula">Simple proportion</div>
+          </div>
+        </div>
+
+        <div class="formula-box content-panel" id="formula-breakdown-box">
+          <!-- Step-by-step breakdown inserted by script.js -->
+        </div>
+      </div>
+
+      <div class="tool-note">
+        <h3 class="tool-note-title">Use your institution's official conversion</h3>
+        <p>If your transcript or examination department gives a CGPA to percentage formula, that is the official one. Choose "My university's formula" and enter it.</p>
+      </div>
+    </section>
+
+    <!-- tool-end -->
+
+    <section class="content-section" aria-labelledby="which-formula-heading">
+      <h2 id="which-formula-heading">Which conversion formula should I use?</h2>
+      <p>A CGPA and a percentage measure the same performance on two different scales, and there is more than one accepted way to translate between them. The right one depends on who issued your grades and who is asking for the percentage.</p>
+      <ul class="content-list">
+        <li><strong>Your transcript's own formula:</strong> if your degree, mark sheet or transcript prints a conversion, use it. It is the figure your institution will confirm if an employer or admissions office checks.</li>
+        <li><strong>CBSE's 10-point rule:</strong> for CBSE school results on the 10-point scale, multiply the CGPA by 9.5.</li>
+        <li><strong>Simple proportion:</strong> when no official formula is given, dividing by the scale and multiplying by 100 is the most neutral estimate, because it treats your CGPA as a share of the maximum. Say that it is an estimate when you quote it.</li>
+      </ul>
+      <p>Whichever method you use, convert back with the same one, and round only the final answer.</p>
+    </section>
+
+    <section class="content-section" aria-labelledby="university-formula-heading">
+      <h2 id="university-formula-heading">Finding your university's formula</h2>
+      <p>Many universities in Pakistan and India print their own CGPA to percentage conversion on the transcript, often on the back of the page alongside the grading key, or publish it through the examination department or controller of examinations. It usually looks like <code>Percentage = m × CGPA + c</code>, where m is a multiplier and c an offset that can be zero or negative.</p>
+      <p>Copy those two numbers into the "My university's formula" option. The calculator applies them exactly as written and solves the same equation backwards for percentage to CGPA. If you cannot find a formula on your documents, ask your examination department in writing; a written answer from them carries more weight than any online calculator.</p>
+    </section>
+
+    <section class="content-section" aria-labelledby="hec-heading">
+      <h2 id="hec-heading">HEC and CGPA conversion in Pakistan</h2>
+      <p>The Higher Education Commission does not publish one CGPA to percentage formula for every university in Pakistan. Universities set their own grading schemes, and the official conversion for a student is the one on their transcript or provided by their university's examination department. That is why this calculator has no built-in university or HEC preset: any preset added later must point to an official source for that specific university.</p>
+      <p>When a job advert or scholarship form asks for a percentage and your university has not given a formula, enter the simple proportion and note that it is an estimate, or attach your transcript so the reader can see the original CGPA and scale.</p>
+    </section>
+
+    <section class="content-section" aria-labelledby="scales-heading">
+      <h2 id="scales-heading">4.0, 5.0 and 10.0 CGPA scales</h2>
+      <p>The scale is the highest CGPA your system awards. Most Pakistani universities and many international universities grade on 4.0, some institutions use 5.0, and CBSE and many Indian universities use a 10-point scale. The same CGPA means very different things on each: 3.5 is 87.5% of a 4.0 scale but 70% of a 5.0 scale, so always check the maximum shown on your transcript. To turn exam marks into a percentage first, use the <a href="/tools/marks-percentage-calculator/">Marks Percentage Calculator</a>, and to work out a GPA from course grades and credit hours, use the <a href="/tools/gpa-calculator/">GPA Calculator</a>.</p>
+    </section>

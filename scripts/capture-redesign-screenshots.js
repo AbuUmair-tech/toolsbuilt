@@ -25,7 +25,10 @@ const PAGES = [
   { name: 'tools-directory', path: '/tools/' },
   { name: 'loan-emi-calculator', path: '/tools/loan-emi-calculator/' },
   { name: 'grade-calculator', path: '/tools/grade-calculator/' },
-  { name: 'pakistan-salary-tax-calculator', path: '/tools/pakistan-salary-tax-calculator/?salary=250000&period=monthly' }
+  { name: 'pakistan-salary-tax-calculator', path: '/tools/pakistan-salary-tax-calculator/?salary=250000&period=monthly' },
+  { name: 'category-education', path: '/category/education/' },
+  { name: 'cgpa-to-percentage-calculator', path: '/tools/cgpa-to-percentage-calculator/' },
+  { name: 'marks-percentage-calculator', path: '/tools/marks-percentage-calculator/' }
 ];
 const ONLY = process.argv[4] ? process.argv[4].split(',') : null;
 const VIEWPORTS = [

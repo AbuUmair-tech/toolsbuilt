@@ -31,6 +31,7 @@ window.TOOLS_DATA = [
       "percentage-change-calculator",
       "discount-calculator",
       "sip-calculator",
+      "marks-percentage-calculator",
       "grade-calculator",
       "unit-converter"
     ]
@@ -209,13 +210,14 @@ window.TOOLS_DATA = [
     "url": "/tools/grade-calculator/",
     "icon": "book-check",
     "description": "Calculate current weighted class grades and find the exact score needed on your final exam to achieve your target grade.",
-    "category": "Math & Finance Tools",
-    "categoryId": "math-finance",
+    "category": "Student & Exam Tools",
+    "categoryId": "education",
     "popular": false,
     "related": [
       "gpa-calculator",
       "percentage-calculator",
-      "unit-converter"
+      "unit-converter",
+      "marks-percentage-calculator"
     ]
   },
   {
@@ -224,13 +226,14 @@ window.TOOLS_DATA = [
     "url": "/tools/gpa-calculator/",
     "icon": "graduation-cap",
     "description": "Calculate high school and college GPA on a 4.0 scale with plus/minus toggles, credit weights, and cumulative semester tracking.",
-    "category": "Math & Finance Tools",
-    "categoryId": "math-finance",
+    "category": "Student & Exam Tools",
+    "categoryId": "education",
     "popular": false,
     "related": [
       "grade-calculator",
       "unit-converter",
-      "random-name-picker"
+      "random-name-picker",
+      "cgpa-to-percentage-calculator"
     ]
   },
   {
@@ -368,6 +371,38 @@ window.TOOLS_DATA = [
       "percentage-calculator",
       "sip-calculator",
       "compound-interest-calculator"
+    ]
+  },
+  {
+    "id": "cgpa-to-percentage-calculator",
+    "name": "CGPA to Percentage Calculator",
+    "url": "/tools/cgpa-to-percentage-calculator/",
+    "icon": "arrow-left-right",
+    "description": "Convert CGPA to percentage or percentage to CGPA on 4.0, 5.0 or 10.0 scales with simple proportion, CBSE's 9.5 rule, or your transcript's own formula.",
+    "category": "Student & Exam Tools",
+    "categoryId": "education",
+    "popular": false,
+    "related": [
+      "gpa-calculator",
+      "marks-percentage-calculator",
+      "grade-calculator",
+      "percentage-calculator"
+    ]
+  },
+  {
+    "id": "marks-percentage-calculator",
+    "name": "Marks Percentage Calculator",
+    "url": "/tools/marks-percentage-calculator/",
+    "icon": "clipboard-check",
+    "description": "Calculate a percentage from obtained and total marks, or subject by subject with a grand total, for matric, inter or any exam, with a typical BISE grade.",
+    "category": "Student & Exam Tools",
+    "categoryId": "education",
+    "popular": false,
+    "related": [
+      "cgpa-to-percentage-calculator",
+      "percentage-calculator",
+      "grade-calculator",
+      "gpa-calculator"
     ]
   }
 ];

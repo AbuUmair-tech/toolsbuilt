@@ -1148,6 +1148,63 @@ const pkTaxLogic = require(path.join(ROOT, 'src/tools/pakistan-salary-tax-calcul
   assert(threw, 'PkTax: negative salary throws a clear error');
 }
 
+// CGPA to Percentage Calculator Logic
+const cgpaLogic = require(path.join(ROOT, 'src/tools/cgpa-to-percentage-calculator/logic.js'));
+{
+  const near = (a, b) => Math.abs(a - b) < 1e-9;
+  const throws = fn => { try { fn(); return false; } catch (e) { return true; } };
+
+  assert(near(cgpaLogic.cgpaToPercentage(3.2, { scale: 4 }).percentage, 80), 'CgpaLogic: 3.2 on 4.0 (simple) -> 80%');
+  assert(near(cgpaLogic.cgpaToPercentage(3.5, { scale: 4 }).percentage, 87.5), 'CgpaLogic: 3.5 on 4.0 (simple) -> 87.5%');
+  assert(near(cgpaLogic.cgpaToPercentage(8.0, { scale: 10, formula: 'cbse' }).percentage, 76), 'CgpaLogic: 8.0 on 10 (CBSE) -> 76%');
+  assert(near(cgpaLogic.percentageToCgpa(76, { scale: 10, formula: 'cbse' }).cgpa, 8.0), 'CgpaLogic: 76% on 10 (CBSE) -> 8.0');
+  assert(near(cgpaLogic.cgpaToPercentage(3.0, { scale: 4, formula: 'custom', multiplier: 20, offset: 10 }).percentage, 70),
+    'CgpaLogic: custom m=20, c=10, CGPA 3.0 -> 70%');
+  assert(near(cgpaLogic.percentageToCgpa(70, { scale: 4, formula: 'custom', multiplier: 20, offset: 10 }).cgpa, 3.0),
+    'CgpaLogic: custom m=20, c=10, 70% -> CGPA 3.0 (reverse solved algebraically)');
+  assert(near(cgpaLogic.percentageToCgpa(80, { scale: 4 }).cgpa, 3.2), 'CgpaLogic: 80% on 4.0 (simple) -> 3.2');
+  assert(near(cgpaLogic.cgpaToPercentage(4.0, { scale: 5 }).percentage, 80), 'CgpaLogic: 4.0 on 5.0 (simple) -> 80%');
+
+  assert(throws(() => cgpaLogic.cgpaToPercentage(4.1, { scale: 4 })), 'CgpaLogic: CGPA above the scale is rejected');
+  assert(throws(() => cgpaLogic.cgpaToPercentage(-1, { scale: 4 })), 'CgpaLogic: negative CGPA is rejected');
+  assert(throws(() => cgpaLogic.percentageToCgpa(101, { scale: 4 })), 'CgpaLogic: percentage above 100 is rejected');
+  assert(throws(() => cgpaLogic.cgpaToPercentage(3, { scale: 4, formula: 'cbse' })), 'CgpaLogic: CBSE formula only on the 10.0 scale');
+  assert(throws(() => cgpaLogic.percentageToCgpa(100, { scale: 10, formula: 'cbse' })), 'CgpaLogic: 100% under CBSE (10.53) is outside the scale');
+  assert(throws(() => cgpaLogic.cgpaToPercentage(3, { scale: 4, formula: 'custom', multiplier: 0, offset: 10 })), 'CgpaLogic: custom multiplier 0 is rejected');
+  assert(throws(() => cgpaLogic.cgpaToPercentage(4, { scale: 4, formula: 'custom', multiplier: 30, offset: 10 })), 'CgpaLogic: custom formula giving over 100% is rejected');
+}
+
+// Marks Percentage Calculator Logic
+const marksLogic = require(path.join(ROOT, 'src/tools/marks-percentage-calculator/logic.js'));
+{
+  const throws = fn => { try { fn(); return false; } catch (e) { return true; } };
+
+  const m1 = marksLogic.calculatePercentage(870, 1100);
+  assert(m1.percentage === 79.09 && m1.grade === 'A', `MarksLogic: 870/1100 -> 79.09% (A) (got ${m1.percentage}%, ${m1.grade})`);
+  const m2 = marksLogic.calculatePercentage(990, 1200);
+  assert(m2.percentage === 82.5 && m2.grade === 'A+', `MarksLogic: 990/1200 -> 82.5% (A+) (got ${m2.percentage}%, ${m2.grade})`);
+  const m3 = marksLogic.calculateSubjects([{ obtained: 75, total: 100 }, { obtained: 60, total: 75 }, { obtained: 40, total: 50 }]);
+  assert(m3.obtained === 175 && m3.total === 225 && m3.percentage === 77.78 && m3.grade === 'A',
+    `MarksLogic: subjects 75/100, 60/75, 40/50 -> 175/225 = 77.78% (A) (got ${m3.obtained}/${m3.total} = ${m3.percentage}%, ${m3.grade})`);
+  assert(m3.subjects.map(s => s.percentage).join(',') === '75,80,80', 'MarksLogic: per-subject percentages 75%, 80%, 80%');
+  const m4 = marksLogic.calculatePercentage(30, 100);
+  assert(m4.percentage === 30 && m4.grade === 'F', `MarksLogic: 30/100 -> 30% (F) (got ${m4.grade})`);
+
+  // Band edges use the exact percentage
+  [[80, 'A+'], [79.99, 'A'], [70, 'A'], [60, 'B'], [50, 'C'], [40, 'D'], [33, 'E'], [32.99, 'F'], [0, 'F']]
+    .forEach(([pct, grade]) => assert(marksLogic.gradeFor(pct).grade === grade, `MarksLogic: ${pct}% -> ${grade}`));
+
+  // Empty rows are skipped; partly filled rows must be complete
+  const m5 = marksLogic.calculateSubjects([{ obtained: 50, total: 100 }, { name: '', obtained: '', total: '' }]);
+  assert(m5.subjects.length === 1 && m5.percentage === 50, 'MarksLogic: completely empty subject rows are skipped');
+
+  assert(throws(() => marksLogic.calculatePercentage(110, 100)), 'MarksLogic: obtained above total is rejected');
+  assert(throws(() => marksLogic.calculatePercentage(-5, 100)), 'MarksLogic: negative obtained marks are rejected');
+  assert(throws(() => marksLogic.calculatePercentage(5, 0)), 'MarksLogic: total of 0 is rejected');
+  assert(throws(() => marksLogic.calculateSubjects([{ obtained: 40, total: '' }])), 'MarksLogic: a subject with obtained but no total is rejected');
+  assert(throws(() => marksLogic.calculateSubjects([{ obtained: '', total: '' }])), 'MarksLogic: no marks at all is rejected');
+}
+
 console.log(`\nLogic Tests Summary: ${passed} passed, ${failures} failed.`);
 if (failures > 0) {
   process.exit(1);
