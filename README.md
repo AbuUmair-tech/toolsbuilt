@@ -71,9 +71,7 @@ src/
 scripts/             # Build & test scripts
 ├── check-links.js   # Link & quality checker
 ├── check-external.js  # Fails if _site/ loads any third-party resource
-├── test-all.js      # Full test suite
-├── parity-check.js  # Migration parity checker
-└── generate-assets.js  # One-off asset generation
+└── test-all.js      # Full test suite
 docs/                # Documentation
 ├── AUDIT.md
 ├── ARCHITECTURE_PLAN.md
