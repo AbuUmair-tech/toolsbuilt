@@ -323,6 +323,17 @@ module.exports = function(eleventyConfig) {
   });
 
   eleventyConfig.addGlobalData('buildDate', () => new Date().toISOString().split('T')[0]);
+  eleventyConfig.addGlobalData('currentYear', () => new Date().getFullYear());
+
+  // Non-empty values of an object, e.g. site.social -> ["https://github.com/..."]
+  eleventyConfig.addFilter('presentValues', function(obj) {
+    return Object.values(obj || {}).filter(Boolean);
+  });
+
+  // "30+" style label: tool count rounded down to the nearest 5 (never hard-coded)
+  eleventyConfig.addFilter('roundDownTo', function(n, step = 5) {
+    return Math.floor(Number(n) / step) * step;
+  });
 
   eleventyConfig.addFilter('limit', function(arr, count) {
     if (!Array.isArray(arr)) return [];

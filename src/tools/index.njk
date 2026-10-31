@@ -5,6 +5,7 @@ description: "Browse our complete directory of free online calculators, date uti
 permalink: /tools/index.html
 canonical: https://toolsbuilt.com/tools/
 ---
+{% import "partials/cards.njk" as cards %}
 
 {% block jsonLd %}
   <!-- JSON-LD Schema 1: BreadcrumbList -->
@@ -99,15 +100,16 @@ canonical: https://toolsbuilt.com/tools/
     <div id="directory-category-view" class="directory-view-container">
       {% for cat in categories %}
       <section class="directory-category-block" id="cat-block-{{ cat.slug }}" data-category="{{ cat.slug }}" aria-labelledby="cat-dir-title-{{ cat.slug }}">
-        <h2 id="cat-dir-title-{{ cat.slug }}" class="directory-category-title"><a href="{{ cat.slug | categoryUrl }}">{{ cat.name }}</a></h2>
-        <ul class="tool-rows">
+        <div class="directory-category-head">
+          {{ cards.categoryTile(cat) }}
+          <div>
+            <h2 id="cat-dir-title-{{ cat.slug }}" class="directory-category-title"><a href="{{ cat.slug | categoryUrl }}">{{ cat.name }}</a></h2>
+            <p class="directory-category-tagline">{{ cat.tagline }}</p>
+          </div>
+        </div>
+        <ul class="tool-grid">
           {% for tool in tools | filterByCategory(cat.slug) %}
-          <li>
-            <a href="/tools/{{ tool.slug }}/" class="tool-row" data-slug="{{ tool.slug }}" data-category="{{ tool.category }}">
-              <span class="tool-row-name">{{ tool.name }}</span>
-              <span class="tool-row-desc">{{ tool.shortDescription or tool.description }}</span>
-            </a>
-          </li>
+          <li>{{ cards.toolCard(tool, cat) }}</li>
           {% endfor %}
         </ul>
       </section>

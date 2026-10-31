@@ -60,15 +60,16 @@ async function runHomepageTests() {
   try {
     const page = await browser.newPage({ viewport: { width: 1280, height: 800 } });
 
-    // 1. Hero search field opens the command palette
+    // 1. Typing in the hero search and pressing Search opens the palette with the query
     await page.goto('http://localhost:8087/', { waitUntil: 'domcontentloaded' });
-    await page.click('#hero-search-trigger');
+    await page.fill('#hero-search-input', 'age');
+    await page.click('#hero-search-form button[type=submit]');
     await page.waitForTimeout(250);
-    assert(await page.isVisible('#search-modal'), 'Clicking the hero search field opens the command palette');
+    assert(await page.isVisible('#search-modal'), 'Hero search opens the command palette');
+    assert(await page.inputValue('#palette-input') === 'age', 'Palette is pre-filled with the hero search query');
     assert(await page.evaluate(() => document.activeElement && document.activeElement.id === 'palette-input'), 'Palette input is focused after opening from hero');
 
-    // 2. Typing in the palette finds tools; Enter opens the top match
-    await page.fill('#palette-input', 'age');
+    // 2. The palette finds tools; Enter opens the top match
     await page.waitForSelector('#palette-results .palette-result-item');
     await page.keyboard.press('Enter');
     await page.waitForURL('**/tools/**');

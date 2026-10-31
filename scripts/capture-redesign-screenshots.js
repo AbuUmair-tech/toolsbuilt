@@ -35,10 +35,9 @@ const PAGES = [
   { name: 'java-formatter', path: '/tools/java-formatter/', format: true }
 ];
 const ONLY = process.argv[4] ? process.argv[4].split(',') : null;
-const VIEWPORTS = [
-  { width: 375, height: 812 },
-  { width: 1280, height: 800 }
-];
+// WIDTHS=375,768,1280 overrides the default phone + desktop pair
+const VIEWPORTS = (process.env.WIDTHS ? process.env.WIDTHS.split(',').map(Number) : [375, 1280])
+  .map(width => ({ width, height: width < 600 ? 812 : width < 1000 ? 1024 : 800 }));
 const THEMES = ['light', 'dark'];
 
 async function main() {

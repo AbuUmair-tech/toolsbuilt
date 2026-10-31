@@ -11,6 +11,7 @@ eleventyComputed:
   canonical: "https://toolsbuilt.com/category/{{ category.slug }}/"
   breadcrumbTitle: "{{ category.name | safe }}"
 ---
+{% import "partials/cards.njk" as cards %}
 
 {% set catTools = tools | filterByCategory(category.slug) %}
 
@@ -100,6 +101,7 @@ eleventyComputed:
 
     <!-- Category Header -->
     <div class="category-hero-header">
+      <p class="section-label">{{ cards.categoryTile(category, 14) }} {{ catTools | length }} {{ "tool" if (catTools | length) == 1 else "tools" }}</p>
       <h1 class="category-hero-title">Free {{ category.name }}</h1>
       <p class="category-hero-intro">{{ category.intro }}</p>
     </div>
@@ -107,14 +109,9 @@ eleventyComputed:
     <!-- Tool List -->
     <section class="category-tools-section" aria-labelledby="tools-list-heading">
       <h2 id="tools-list-heading" class="section-title">Available {{ category.name }}</h2>
-      <ul class="tool-rows">
+      <ul class="tool-grid">
         {% for tool in catTools %}
-        <li>
-          <a href="/tools/{{ tool.slug }}/" class="tool-row" data-slug="{{ tool.slug }}">
-            <span class="tool-row-name">{{ tool.name }}</span>
-            <span class="tool-row-desc">{{ tool.shortDescription or tool.description }}</span>
-          </a>
-        </li>
+        <li>{{ cards.toolCard(tool, category) }}</li>
         {% endfor %}
       </ul>
     </section>

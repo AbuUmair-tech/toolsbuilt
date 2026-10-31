@@ -73,13 +73,29 @@ async function runTests() {
     const desktopPage = await desktopContext.newPage();
     await desktopPage.goto('http://localhost:8086/', { waitUntil: 'networkidle' });
 
-    // Slim header: All tools + Blog links, theme toggle, no mega menu
-    assert(await desktopPage.locator('#main-nav a[href="/tools/"]').isVisible(), 'Desktop header shows "All tools" link');
-    assert(await desktopPage.locator('#main-nav a[href="/blog/"]').isVisible(), 'Desktop header shows "Blog" link');
+    // Header: Home, All Tools and Categories dropdowns, About, Contact; theme toggle and search
+    for (const href of ['/', '/about/', '/contact/']) {
+      assert(await desktopPage.locator(`#main-nav a.nav-link[href="${href}"]`).isVisible(), `Desktop header shows ${href} link`);
+    }
     assert(await desktopPage.locator('#theme-toggle').isVisible(), 'Desktop header shows theme toggle');
-    assert(await desktopPage.locator('#mega-menu-trigger, #tools-mega-menu').count() === 0, 'Header has no mega menu dropdown');
     const headerHeight = await desktopPage.$eval('#site-header', el => el.getBoundingClientRect().height);
-    assert(headerHeight <= 72, `Header is one slim row (${Math.round(headerHeight)}px tall)`);
+    assert(headerHeight <= 80, `Header is one row (${Math.round(headerHeight)}px tall)`);
+
+    // Dropdowns: open with the keyboard, list every category, close on Escape and outside click
+    const catMenu = desktopPage.locator('details.nav-menu').nth(1);
+    await catMenu.locator('summary').focus();
+    await desktopPage.keyboard.press('Enter');
+    assert(await catMenu.evaluate(d => d.open), 'Categories dropdown opens with Enter');
+    const catLinks = await catMenu.locator('.nav-menu-link').count();
+    assert(catLinks === CATEGORIES_DATA.length, `Categories dropdown lists every category (${catLinks})`);
+    await desktopPage.keyboard.press('Escape');
+    assert(!(await catMenu.evaluate(d => d.open)), 'Escape closes the dropdown');
+    assert(await catMenu.locator('summary').evaluate(el => el === document.activeElement), 'Focus returns to the dropdown trigger');
+    const toolsMenu = desktopPage.locator('details.nav-menu').first();
+    await toolsMenu.locator('summary').click();
+    assert(await toolsMenu.evaluate(d => d.open) && await toolsMenu.locator('a[href="/tools/"]').isVisible(), 'All Tools dropdown shows "View all tools"');
+    await desktopPage.mouse.click(5, 400);
+    assert(!(await toolsMenu.evaluate(d => d.open)), 'Clicking outside closes the dropdown');
 
     // Search Trigger button click
     const searchTrigger = desktopPage.locator('#header-search-trigger');
@@ -173,9 +189,9 @@ async function runTests() {
 
     // Menu is a plain list: every category plus All tools, Blog, About
     const menuHrefs = await drawer.locator('a.mobile-drawer-link').evaluateAll(els => els.map(a => a.getAttribute('href')));
-    const expectedHrefs = ['/tools/', '/blog/', '/about/', ...CATEGORIES_DATA.map(c => `/category/${c.slug}/`)];
+    const expectedHrefs = ['/', '/tools/', '/about/', '/contact/', ...CATEGORIES_DATA.map(c => `/category/${c.slug}/`)];
     const missingHrefs = expectedHrefs.filter(h => !menuHrefs.includes(h));
-    assert(missingHrefs.length === 0, `Mobile menu lists all categories plus All tools, Blog, About (missing: ${missingHrefs.join(', ') || 'none'})`);
+    assert(missingHrefs.length === 0, `Mobile menu lists Home, All Tools, every category, About and Contact (missing: ${missingHrefs.join(', ') || 'none'})`);
 
     // Close drawer with Escape and verify focus restoration
     await mobilePage.keyboard.press('Escape');

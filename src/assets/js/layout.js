@@ -3,7 +3,8 @@
  * - Sticky header with scroll-reactive border
  * - Accessible mobile menu (focus trap, body scroll lock, Esc close)
  * - Command Palette Search (Ctrl/⌘+K, '/', combobox ARIA, custom scorer, recent tools)
- * - Homepage search field that opens the palette (and ?q= from SearchAction)
+ * - Header dropdowns (enhanced <details>) and the homepage search form, which opens the palette
+ *   with the typed query (and ?q= from SearchAction)
  * - Multi-button Theme Toggle synchronization
  */
 
@@ -35,6 +36,7 @@
     initMacKbdHint();
     initHeaderScroll();
     initThemeSync();
+    initNavMenus();
     initMobileDrawer();
     initCommandPalette();
     initHomepageSearch();
@@ -108,6 +110,36 @@
         const active = document.documentElement.getAttribute('data-theme');
         const next = active === 'dark' ? 'light' : 'dark';
         applyTheme(next);
+      });
+    });
+  }
+
+  // --- Desktop dropdowns (<details> elements; they work without this script) ---
+  // Enhancements: one open at a time, close on Escape, outside click or when focus leaves.
+  function initNavMenus() {
+    const menus = Array.from(document.querySelectorAll('[data-nav-menu]'));
+    if (!menus.length) return;
+
+    menus.forEach(menu => {
+      menu.addEventListener('toggle', () => {
+        if (menu.open) menus.forEach(other => { if (other !== menu) other.open = false; });
+      });
+      menu.addEventListener('focusout', (e) => {
+        if (menu.open && e.relatedTarget && !menu.contains(e.relatedTarget)) menu.open = false;
+      });
+    });
+
+    document.addEventListener('click', (e) => {
+      menus.forEach(menu => { if (menu.open && !menu.contains(e.target)) menu.open = false; });
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key !== 'Escape') return;
+      menus.forEach(menu => {
+        if (menu.open) {
+          menu.open = false;
+          menu.querySelector('summary').focus();
+        }
       });
     });
   }
@@ -643,19 +675,25 @@
     });
   }
 
-  // --- Homepage Search Field: opens the command palette ---
+  // --- Homepage search form: opens the command palette with what was typed ---
   function initHomepageSearch() {
-    const heroTrigger = document.getElementById('hero-search-trigger');
-    if (!heroTrigger) return;
+    const form = document.getElementById('hero-search-form');
+    const field = document.getElementById('hero-search-input');
+    if (!form || !field) return;
 
-    heroTrigger.addEventListener('mouseenter', fetchSearchIndex, { once: true });
-    heroTrigger.addEventListener('focus', fetchSearchIndex, { once: true });
-    heroTrigger.addEventListener('click', () => openPalette());
+    field.addEventListener('focus', fetchSearchIndex, { once: true });
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      openPalette(field.value.trim());
+    });
 
     // ?q= from the WebSite SearchAction or external links opens the palette pre-filled
     try {
       const initialQuery = new URLSearchParams(window.location.search).get('q');
-      if (initialQuery) openPalette(initialQuery);
+      if (initialQuery) {
+        field.value = initialQuery;
+        openPalette(initialQuery);
+      }
     } catch (e) {}
   }
 
@@ -677,7 +715,7 @@
 
       categoryBlocks.forEach(block => {
         const cat = block.getAttribute('data-category');
-        const rows = block.querySelectorAll('.tool-row');
+        const rows = block.querySelectorAll('.tool-card');
         let visibleInBlock = 0;
 
         const categoryMatches = (activeCategory === 'all' || activeCategory === cat);
@@ -696,8 +734,8 @@
             return;
           }
 
-          const title = (row.querySelector('.tool-row-name')?.textContent || '').toLowerCase();
-          const desc = (row.querySelector('.tool-row-desc')?.textContent || '').toLowerCase();
+          const title = (row.querySelector('.tool-title')?.textContent || '').toLowerCase();
+          const desc = (row.querySelector('.tool-desc')?.textContent || '').toLowerCase();
           const slug = (row.getAttribute('data-slug') || '').toLowerCase();
 
           if (title.includes(q) || desc.includes(q) || slug.includes(q)) {

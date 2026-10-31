@@ -61,7 +61,7 @@ function runHomepageChecks() {
   // Popular tools: tools with popular: true, max 8
   const popularMatch = html.match(/<section[^>]*id="popular-tools"[\s\S]*?<\/section>/i);
   const expectedPopular = TOOLS_DATA.filter(t => t.popular).length;
-  const popularLinks = popularMatch ? (popularMatch[0].match(/href="\/tools\//g) || []).length : 0;
+  const popularLinks = popularMatch ? (popularMatch[0].match(/href="\/tools\/[a-z0-9-]+\/" class="tool-card"/g) || []).length : 0;
   assert(popularLinks === Math.min(8, expectedPopular), `Popular tools lists ${Math.min(8, expectedPopular)} popular tools (found ${popularLinks})`);
 
   // Removed blocks stay removed
