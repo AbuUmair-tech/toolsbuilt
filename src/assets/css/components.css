@@ -504,6 +504,38 @@
     gap: var(--space-1);
   }
 
+  @media (max-width: 639px) {
+    .segmented-control {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      width: 100%;
+    }
+
+    .segmented-control .mode-tab-btn {
+      justify-content: center;
+      white-space: normal;
+      line-height: var(--line-height-tight);
+      text-align: center;
+    }
+  }
+
+  /* Four or more modes: one even row on wider screens instead of a ragged wrap */
+  @media (min-width: 640px) {
+    .segmented-control:has(> .mode-tab-btn:nth-child(4)) {
+      display: grid;
+      grid-auto-columns: minmax(0, 1fr);
+      grid-auto-flow: column;
+      width: 100%;
+    }
+
+    .segmented-control:has(> .mode-tab-btn:nth-child(4)) .mode-tab-btn {
+      justify-content: center;
+      white-space: normal;
+      line-height: var(--line-height-tight);
+      text-align: center;
+    }
+  }
+
   /* Choice toggle: a radio group styled as a segmented control (e.g. Monthly / Annual).
      Markup: fieldset.choice-toggle > legend + .choice-toggle-options > label.choice-toggle-option > input[type=radio] + span */
   .choice-toggle {
@@ -793,7 +825,8 @@
     background-color: var(--surface-card);
     border: 1px solid var(--border-subtle);
     border-radius: var(--radius-lg);
-    padding: var(--space-6);
+    box-shadow: var(--shadow-sm);
+    padding: var(--space-4);
     margin-bottom: var(--space-8);
   }
 
@@ -806,7 +839,7 @@
   /* Result Box / Panel */
   .result-box {
     display: none;
-    background-color: var(--surface-muted);
+    background-color: var(--accent-subtle);
     border: 1px solid var(--accent-border);
     border-radius: var(--radius-lg);
     padding: var(--space-6);
@@ -847,7 +880,7 @@
   .result-primary,
   .result-value,
   .primary-result {
-    font-size: clamp(var(--font-size-xl), 5vw, var(--font-size-2xl));
+    font-size: clamp(var(--font-size-xl), 5vw, var(--font-size-3xl));
     font-weight: var(--font-weight-extrabold);
     letter-spacing: var(--letter-spacing-tight);
     color: var(--accent-primary);
@@ -862,9 +895,7 @@
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
     gap: var(--space-3);
-    margin-top: var(--space-6);
-    padding-top: var(--space-4);
-    border-top: 1px solid var(--border-subtle);
+    margin-top: var(--space-4);
   }
 
   .result-stat-card {
@@ -1008,7 +1039,8 @@
 
   .breadcrumb ol {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
+    min-width: 0;
     align-items: center;
     list-style: none;
     gap: var(--space-2);
@@ -1039,12 +1071,26 @@
     transition: color var(--duration-fast);
   }
 
+  .breadcrumb a {
+    text-decoration: none;
+  }
+
   .breadcrumb a:hover {
     color: var(--accent-primary);
     text-decoration: none;
   }
 
+  .breadcrumb li {
+    flex-shrink: 0;
+  }
+
   .breadcrumb li[aria-current="page"] {
+    display: block;
+    flex-shrink: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
     color: var(--text-primary);
     font-weight: var(--font-weight-medium);
   }
@@ -2327,6 +2373,12 @@
     margin: var(--space-6) auto var(--space-12) auto;
   }
 
+  @media (max-width: 639px) {
+    .page-container {
+      margin-top: 0;
+    }
+  }
+
   .page-header {
     margin-bottom: var(--space-8);
     border-bottom: 1px solid var(--border-subtle);
@@ -2751,10 +2803,9 @@
     }
   }
 
-  /* Narrow columns (tool page related tools, category pages) stay at 2 */
-  .tool-main-col .tool-grid,
-  .category-tools-section .tool-grid {
-    grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr));
+  /* The narrow tool column (related tools) stays at 2 */
+  .tool-main-col .tool-grid {
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
   }
 
   .category-grid > li,
@@ -3056,15 +3107,71 @@
     margin-bottom: var(--space-6);
   }
 
+  /* Category icon tile beside the H1 (tool and category pages) */
+  .page-title-row {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    margin-bottom: var(--space-3);
+  }
+
+  .page-title-row h1 {
+    margin: 0;
+    min-width: 0;
+  }
+
+  .page-title-row .icon-tile {
+    width: 52px;
+    height: 52px;
+  }
+
+  .page-title-row .icon-tile svg {
+    width: 26px;
+    height: 26px;
+  }
+
   .tool-hero-title {
     font-size: clamp(var(--font-size-xl), 4vw, var(--font-size-2xl));
     line-height: var(--line-height-tight);
-    margin-bottom: var(--space-2);
   }
 
   .tool-hero-description {
     margin: 0;
     color: var(--text-secondary);
+  }
+
+  /* Phones: a compact hero so the tool starts above the fold */
+  @media (max-width: 639px) {
+    .tool-page-layout .breadcrumb {
+      padding: 0;
+    }
+
+    .tool-hero-header {
+      margin-bottom: var(--space-4);
+    }
+
+    .page-title-row {
+      gap: var(--space-3);
+      margin-bottom: var(--space-2);
+    }
+
+    .page-title-row .icon-tile {
+      width: 40px;
+      height: 40px;
+    }
+
+    .page-title-row .icon-tile svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .tool-hero-title {
+      font-size: 1.5rem;
+    }
+
+    .tool-hero-description {
+      font-size: var(--font-size-sm);
+    }
   }
 
   /* -------------------------------------------------------------------------
@@ -3073,7 +3180,10 @@
   .toc-heading {
     display: block;
     margin-bottom: var(--space-3);
-    font-size: var(--font-size-sm);
+    font-size: 0.75rem;
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
     color: var(--text-tertiary);
   }
 
@@ -3083,20 +3193,29 @@
     padding: 0;
     display: flex;
     flex-direction: column;
-    gap: var(--space-2);
+    border-left: 1px solid var(--border-subtle);
   }
 
   .toc-list a {
     display: block;
+    margin-left: -1px;
+    padding: var(--space-2) var(--space-3);
+    border-left: 2px solid transparent;
     font-size: var(--font-size-sm);
+    line-height: var(--line-height-tight);
     color: var(--text-tertiary);
     text-decoration: none;
     transition: var(--transition-colors);
   }
 
-  .toc-list a:hover,
-  .toc-list a.is-active {
+  .toc-list a:hover {
     color: var(--text-primary);
+  }
+
+  .toc-list a.is-active {
+    border-left-color: var(--accent-primary);
+    color: var(--accent-primary);
+    font-weight: var(--font-weight-medium);
   }
 
   /* -------------------------------------------------------------------------
@@ -3133,7 +3252,10 @@
     color: var(--text-secondary);
   }
 
-  .category-tools-section,
+  .category-tools-section {
+    margin-bottom: var(--space-12);
+  }
+
   .category-guide-section,
   .category-faq-section {
     max-width: var(--container-narrow);
@@ -3257,10 +3379,6 @@
     opacity: 0.8;
   }
 
-  .directory-view-container {
-    max-width: var(--container-narrow);
-  }
-
   .directory-category-block {
     margin-bottom: var(--space-12);
   }
@@ -3301,19 +3419,52 @@
     margin-block: var(--space-12);
   }
 
+  .quick-answer-card {
+    padding: var(--space-6);
+    background-color: var(--accent-subtle);
+    border: 1px solid var(--accent-border);
+    border-radius: var(--radius-lg);
+  }
+
   .quick-answer-text {
     margin: 0;
     font-size: var(--font-size-md);
     color: var(--text-primary);
   }
 
+  /* How to use: numbered steps with blue counters */
   .howto-steps {
     margin: 0;
-    padding-left: var(--space-6);
+    padding: 0;
+    list-style: none;
+    counter-reset: howto;
     display: flex;
     flex-direction: column;
-    gap: var(--space-2);
+    gap: var(--space-4);
     color: var(--text-secondary);
+  }
+
+  .howto-steps > li {
+    position: relative;
+    padding-left: calc(32px + var(--space-3));
+    counter-increment: howto;
+  }
+
+  .howto-steps > li::before {
+    content: counter(howto);
+    position: absolute;
+    left: 0;
+    top: -2px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-full);
+    background-color: var(--accent-subtle);
+    color: var(--accent-primary);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
   }
 
   .howto-steps strong {
@@ -3324,11 +3475,11 @@
   .formula-expression {
     background: var(--surface-muted);
     border: 1px solid var(--border-subtle);
-    border-left: 4px solid var(--accent-primary);
-    border-radius: var(--radius-md);
-    padding: var(--space-4);
+    border-radius: var(--radius-lg);
+    padding: var(--space-4) var(--space-6);
     font-family: var(--font-mono);
-    font-size: var(--font-size-sm);
+    font-size: var(--font-size-base);
+    line-height: var(--line-height-normal);
     overflow-x: auto;
     color: var(--text-primary);
     margin-bottom: var(--space-4);
@@ -3345,13 +3496,28 @@
     color: var(--text-secondary);
   }
 
-  .worked-example {
-    padding-block: var(--space-6);
-    border-top: 1px solid var(--border-subtle);
+  /* Worked examples: cards, 2 per row from 640px */
+  .worked-example-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
   }
 
-  .worked-example:last-child {
-    border-bottom: 1px solid var(--border-subtle);
+  @media (min-width: 640px) {
+    .worked-example-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  .worked-example {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    padding: var(--space-6);
+    background-color: var(--surface-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
   }
 
   .worked-example-title {
@@ -3375,7 +3541,10 @@
   }
 
   .worked-example-result {
-    margin: 0;
+    margin: auto 0 0;
+    padding: var(--space-2) var(--space-3);
+    background-color: var(--accent-subtle);
+    border-radius: var(--radius-md);
     font-size: var(--font-size-sm);
     color: var(--text-primary);
   }
@@ -3456,6 +3625,10 @@
     flex-direction: column;
     gap: var(--space-2);
     margin-bottom: var(--space-4);
+    padding: var(--space-3);
+    background-color: var(--surface-muted);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
   }
 
   .code-output-pane {

@@ -1,6 +1,7 @@
 ---
 layout: layouts/base.njk
 ---
+{% import "partials/cards.njk" as cards %}
 {% set currentTool = tools | findTool(toolSlug or slug) %}
 {% set currentCategory = categories | findCategory(currentTool.category) %}
 
@@ -151,7 +152,10 @@ layout: layouts/base.njk
 
         <!-- Tool Page Header -->
         <div class="tool-hero-header">
-          <h1 class="tool-hero-title">{{ h1 or (currentTool.name if currentTool else title) }}</h1>
+          <div class="page-title-row">
+            {% if currentCategory %}{{ cards.categoryTile(currentCategory) }}{% endif %}
+            <h1 class="tool-hero-title">{{ h1 or (currentTool.name if currentTool else title) }}</h1>
+          </div>
           <p class="tool-hero-description">{{ currentTool.description if currentTool else description }}</p>
           <p class="tool-byline">
             By {{ authorName }}
@@ -193,13 +197,17 @@ layout: layouts/base.njk
 
         {% if quickAnswer %}
         <section class="tool-section tool-quick-answer-section" aria-labelledby="quick-answer-heading">
+          <p class="section-label">In short</p>
           <h2 id="quick-answer-heading">Quick Answer</h2>
-          <p class="quick-answer-text">{{ quickAnswer }}</p>
+          <div class="quick-answer-card">
+            <p class="quick-answer-text">{{ quickAnswer }}</p>
+          </div>
         </section>
         {% endif %}
 
         {% if howto and howto.steps and howto.steps.length > 0 %}
         <section class="tool-section tool-howto-section" aria-labelledby="how-to-steps-heading">
+          <p class="section-label">Step by step</p>
           <h2 id="how-to-steps-heading">How to Use</h2>
           <ol class="howto-steps">
             {% for step in howto.steps %}
@@ -213,6 +221,7 @@ layout: layouts/base.njk
 
         {% if formula %}
         <section class="tool-section tool-formula-section" aria-labelledby="formula-heading">
+          <p class="section-label">The math</p>
           <h2 id="formula-heading">{{ formula.title or "Formula & Method" }}</h2>
           {% if formula.expression %}
           <div class="formula-expression" role="region" aria-label="Mathematical formula">
@@ -266,21 +275,28 @@ layout: layouts/base.njk
 
         {% if workedExamples and workedExamples.length > 0 %}
         <section class="tool-section tool-worked-examples" aria-labelledby="worked-examples-heading">
+          <p class="section-label">Examples</p>
           <h2 id="worked-examples-heading">Worked Examples</h2>
-          {% for ex in workedExamples %}{{ workedExample(ex, loop.index) }}{% endfor %}
+          <div class="worked-example-grid">
+            {% for ex in workedExamples %}{{ workedExample(ex, loop.index) }}{% endfor %}
+          </div>
         </section>
         {% endif %}
 
         {% for group in exampleSections %}
         <section class="tool-section tool-worked-examples" aria-labelledby="{{ group.id }}">
+          <p class="section-label">Examples</p>
           <h2 id="{{ group.id }}">{{ group.title }}</h2>
           {% if group.intro %}<p>{{ group.intro }}</p>{% endif %}
-          {% for ex in group.examples %}{{ workedExample(ex, loop.index) }}{% endfor %}
+          <div class="worked-example-grid">
+            {% for ex in group.examples %}{{ workedExample(ex, loop.index) }}{% endfor %}
+          </div>
         </section>
         {% endfor %}
 
         {% if commonMistakes and commonMistakes.length > 0 %}
         <section class="tool-section tool-common-mistakes-section" aria-labelledby="common-mistakes-heading">
+          <p class="section-label">Watch out</p>
           <h2 id="common-mistakes-heading">Common Mistakes to Avoid</h2>
           <ul class="common-mistakes-list">
             {% for mistake in commonMistakes %}
@@ -298,6 +314,7 @@ layout: layouts/base.njk
 
         {% if faqs and faqs.length > 0 %}
         <section class="tool-section faq-section" aria-labelledby="faq-heading">
+          <p class="section-label">FAQ</p>
           <h2 id="faq-heading">Frequently Asked Questions</h2>
           <div class="faq-list">
             {% for faq in faqs %}
@@ -316,6 +333,7 @@ layout: layouts/base.njk
 
         {% if sources and sources.length > 0 %}
         <section class="tool-section tool-sources-section" aria-labelledby="sources-heading">
+          <p class="section-label">References</p>
           <h2 id="sources-heading">Sources &amp; References</h2>
           <ul class="sources-list">
             {% for src in sources %}
@@ -333,6 +351,7 @@ layout: layouts/base.njk
         {% set relatedGuides = collections.post | filterGuidesByTool(slug) %}
         {% if relatedGuides and relatedGuides.length > 0 %}
         <section class="tool-section related-guides-section" aria-labelledby="related-guides-heading">
+          <p class="section-label">Guides</p>
           <h2 id="related-guides-heading">Related Guides</h2>
           <ul class="related-guides-list">
             {% for guide in relatedGuides %}

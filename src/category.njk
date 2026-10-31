@@ -101,13 +101,17 @@ eleventyComputed:
 
     <!-- Category Header -->
     <div class="category-hero-header">
-      <p class="section-label">{{ cards.categoryTile(category, 14) }} {{ catTools | length }} {{ "tool" if (catTools | length) == 1 else "tools" }}</p>
-      <h1 class="category-hero-title">Free {{ category.name }}</h1>
+      <p class="section-label">{{ catTools | length }} {{ "tool" if (catTools | length) == 1 else "tools" }}</p>
+      <div class="page-title-row">
+        {{ cards.categoryTile(category) }}
+        <h1 class="category-hero-title">Free {{ category.name }}</h1>
+      </div>
       <p class="category-hero-intro">{{ category.intro }}</p>
     </div>
 
     <!-- Tool List -->
     <section class="category-tools-section" aria-labelledby="tools-list-heading">
+      <p class="section-label">All tools</p>
       <h2 id="tools-list-heading" class="section-title">Available {{ category.name }}</h2>
       <ul class="tool-grid">
         {% for tool in catTools %}
@@ -119,6 +123,7 @@ eleventyComputed:
     <!-- How to Choose the Right Tool -->
     {% if category.howToChoose and category.howToChoose.length > 0 %}
     <section class="category-guide-section" aria-labelledby="guide-title">
+      <p class="section-label">Which one?</p>
       <h2 id="guide-title" class="section-title">How to Choose the Right Tool</h2>
       <ul class="guide-list">
         {% for guide in category.howToChoose %}
@@ -131,6 +136,7 @@ eleventyComputed:
     <!-- Frequently Asked Questions -->
     {% if category.faqs and category.faqs.length > 0 %}
     <section class="category-faq-section" aria-labelledby="cat-faq-title">
+      <p class="section-label">FAQ</p>
       <h2 id="cat-faq-title" class="section-title">Frequently Asked Questions</h2>
       <div class="faq-list">
         {% for faq in category.faqs %}
