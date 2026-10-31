@@ -84,7 +84,7 @@ faqs:
     a: "Leave the Deduplicate option unchecked so entrants who purchased multiple tickets retain their multiple entries in the candidate pool."
 ---
 
-<div class="tool-card">
+<div class="tool-container">
   <div class="wheel-layout">
     <div class="wheel-controls-col">
       <div class="form-group">
@@ -93,7 +93,7 @@ faqs:
           <span id="nameCount" class="text-sm text-muted">8 entries</span>
         </div>
         <textarea id="namesInput" class="form-input code-input" rows="8" placeholder="Enter names here..."></textarea>
-        <p class="text-sm text-muted" style="margin-top: 0.4rem; margin-bottom: 0;">
+        <p class="text-sm text-muted mt-2 mb-0">
           Names are separated by <strong>new lines</strong>, <strong>commas</strong>, or <strong>semicolons</strong> — so <code>Smith, John</code> becomes two names: <em>Smith</em> and <em>John</em>.
         </p>
       </div>
@@ -105,8 +105,8 @@ faqs:
         </label>
       </div>
 
-      <div class="btn-group" style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 1rem;">
-        <button type="button" id="spinBtn" class="btn btn-primary" style="flex: 1 1 100%;">Spin Wheel!</button>
+      <div class="btn-group flex gap-2 flex-wrap mt-4">
+        <button type="button" id="spinBtn" class="btn btn-primary flex-full">Spin Wheel!</button>
         <button type="button" id="shuffleBtn" class="btn btn-secondary">Shuffle</button>
         <button type="button" id="dedupeBtn" class="btn btn-secondary">Deduplicate</button>
         <button type="button" id="clearBtn" class="btn btn-ghost">Clear</button>
@@ -114,7 +114,7 @@ faqs:
     </div>
 
     <div class="wheel-canvas-col">
-      <div class="canvas-wrapper" style="display: flex; justify-content: center; align-items: center;">
+      <div class="canvas-wrapper flex justify-center items-center">
         <canvas id="wheelCanvas" width="400" height="400" aria-label="Random Name Wheel"></canvas>
       </div>
     </div>
@@ -122,10 +122,10 @@ faqs:
 
   <!-- Winner Modal -->
   <div id="winnerModal" class="modal-overlay hidden" aria-hidden="true" role="dialog" aria-labelledby="winnerTitle">
-    <div class="modal-card text-center" style="max-width: 420px; margin: 2rem auto; background: var(--surface-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 2rem; box-shadow: var(--shadow);">
-      <h2 id="winnerTitle" class="modal-title" style="margin-top: 0; color: var(--accent-primary);">🎉 We Have a Winner!</h2>
-      <div id="winnerName" class="winner-display-name" style="font-size: 2rem; font-weight: 800; margin: 1.5rem 0; word-break: break-word;">---</div>
-      <div class="modal-actions" style="display: flex; gap: 0.75rem; flex-direction: column;">
+    <div class="modal-card text-center panel-card max-w-sm my-8 mx-auto">
+      <h2 id="winnerTitle" class="modal-title mt-0 text-accent">🎉 We Have a Winner!</h2>
+      <div id="winnerName" class="winner-display-name text-2xl font-extrabold my-6 mx-0 break-words">---</div>
+      <div class="modal-actions flex gap-3 flex-col">
         <button type="button" id="copyWinnerBtn" class="btn btn-outline"><span data-icon="copy"></span> Copy Winner</button>
         <button type="button" id="removeWinnerBtn" class="btn btn-primary">Remove Winner &amp; Close</button>
         <button type="button" id="closeModalBtn" class="btn btn-secondary">Keep in List &amp; Close</button>

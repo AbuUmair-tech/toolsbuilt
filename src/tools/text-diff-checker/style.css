@@ -1,4 +1,4 @@
-/* Text Diff Checker */
+/* text-diff-checker: layout only. Colours, borders and type live in assets/css/tools.css. */
 
 .diff-inputs {
   display: grid;
@@ -14,8 +14,6 @@
 
 .diff-textarea {
   min-height: 12rem;
-  font-family: var(--font-mono);
-  font-size: var(--font-size-sm);
   resize: vertical;
 }
 
@@ -33,12 +31,6 @@
 .diff-view .choice-toggle-options {
   gap: var(--space-1);
   padding: var(--space-1);
-  border-radius: var(--radius-lg);
-  background-color: var(--surface-muted);
-}
-
-.result-box .diff-primary {
-  font-size: var(--font-size-xl);
 }
 
 .diff-summary {
@@ -52,41 +44,16 @@
 
 .diff-summary li {
   padding: var(--space-1) var(--space-3);
-  border-radius: var(--radius-full);
-  background-color: var(--surface-card);
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-semibold);
-  color: var(--text-primary);
 }
 
-.diff-summary .is-added {
-  color: var(--color-success-text);
-}
-
-.diff-summary .is-removed {
-  color: var(--color-error-text);
-}
-
-/* Diff listing */
 .diff-output {
   margin-top: var(--space-4);
   max-height: 70vh;
   overflow: auto;
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-md);
-  background-color: var(--surface-card);
-  font-family: var(--font-mono);
-  font-size: var(--font-size-sm);
-  line-height: 1.5;
 }
 
 .diff-output:empty {
   display: none;
-}
-
-.diff-output:focus-visible {
-  outline: 2px solid var(--accent-primary);
-  outline-offset: 2px;
 }
 
 .diff-line,
@@ -113,7 +80,6 @@
 .diff-sign {
   padding: 0 var(--space-1);
   text-align: right;
-  color: var(--text-tertiary);
   user-select: none;
 }
 
@@ -121,39 +87,8 @@
   padding: 0 var(--space-2);
   white-space: pre-wrap;
   overflow-wrap: anywhere;
-  color: var(--text-primary);
-}
-
-.is-removed-line {
-  background-color: var(--color-error-bg);
-}
-
-.is-added-line {
-  background-color: var(--color-success-bg);
-}
-
-.diff-row .is-empty-cell {
-  background-color: var(--surface-muted);
-}
-
-.diff-word-removed {
-  border-radius: 2px;
-  background-color: var(--color-error-border);
-  color: var(--text-primary);
-  text-decoration: line-through;
-  text-decoration-thickness: 1px;
-}
-
-.diff-word-added {
-  border-radius: 2px;
-  background-color: var(--color-success-border);
-  color: var(--text-primary);
 }
 
 .diff-fold {
   padding: var(--space-1) var(--space-3);
-  background-color: var(--surface-muted);
-  color: var(--text-secondary);
-  font-family: var(--font-sans);
-  font-style: italic;
 }

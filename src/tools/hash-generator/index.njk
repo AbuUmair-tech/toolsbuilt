@@ -83,7 +83,7 @@ faqs:
 
   <!-- Prominent Security Advisory Warning -->
   <div class="hash-warning-banner" role="alert">
-    <span data-icon="warning" style="flex-shrink: 0; margin-top: 2px;"></span>
+    <span data-icon="warning" class="shrink-0"></span>
     <div>
       <strong>Security Notice:</strong> SHA-1 and MD5 are cryptographically broken and vulnerable to collision attacks. They must never be used for password hashing, digital signatures, or security-critical authentication. ToolsBuilt intentionally does not implement MD5. For passwords, always use salted algorithms like <strong>Argon2</strong> or <strong>bcrypt</strong>. For file integrity, use <strong>SHA-256</strong> or <strong>SHA-512</strong>.
     </div>
@@ -94,7 +94,7 @@ faqs:
     <div class="row-between mb-2">
       <label for="hash-input-text" class="font-semibold mb-0">Plain Text Input:</label>
       <div class="flex items-center gap-4">
-        <label class="checkbox-label" style="display: flex; align-items: center; gap: 0.4rem; cursor: pointer; font-size: 0.85rem;">
+        <label class="checkbox-label flex items-center gap-2 cursor-pointer text-sm">
           <input type="checkbox" id="opt-hash-uppercase">
           <span>Uppercase Hex</span>
         </label>
@@ -118,7 +118,7 @@ faqs:
       <div class="hash-card-header">
         <div class="hash-algo-title">
           <span>SHA-256</span>
-          <span style="font-size: 0.75rem; color: var(--color-success-text); font-weight: 600;">(Recommended for integrity)</span>
+          <span class="text-sm text-success font-semibold">(Recommended for integrity)</span>
         </div>
         <span class="text-sm text-secondary">256 bits (64 hex chars)</span>
       </div>
@@ -184,9 +184,9 @@ faqs:
   <!-- Compare Two Hashes Section -->
   <div class="hash-compare-section">
     <label for="hash-compare-input" class="font-semibold">Compare / Verify Hash:</label>
-    <input type="text" id="hash-compare-input" class="form-control" placeholder="Paste an external checksum or hash to compare..." style="font-family: var(--font-mono, monospace); font-size: 0.9rem;" aria-label="Target Hash for Comparison">
+    <input type="text" id="hash-compare-input" class="form-control font-mono text-sm" placeholder="Paste an external checksum or hash to compare..." aria-label="Target Hash for Comparison">
     <div id="hash-compare-status" class="hash-match-status" aria-live="polite">
-      <span style="color: var(--text-secondary);">Paste a hash above to verify match against calculated values.</span>
+      <span class="text-secondary">Paste a hash above to verify match against calculated values.</span>
     </div>
   </div>
 

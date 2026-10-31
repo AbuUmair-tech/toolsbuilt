@@ -168,9 +168,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function renderStrength(strength, entropyBits) {
     strengthText.textContent = `${strength.score} (~${entropyBits} bits entropy)`;
-    strengthText.style.color = strength.color;
+    // Colours come from the shared meter component (data-level 0-4); only the width is data
+    strengthText.dataset.level = String(strength.level);
+    strengthBar.dataset.level = String(strength.level);
     strengthBar.style.width = strength.width;
-    strengthBar.style.backgroundColor = strength.barColor || strength.color;
   }
 
   function renderMultiplePasswords(count, opts) {
@@ -205,9 +206,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function renderMultiList(items) {
     multiPasswordsList.innerHTML = items.map((pw, idx) => `
-      <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 0.75rem; background: var(--surface-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); margin-bottom: 0.5rem;">
-        <code style="font-size: 0.95rem; font-weight: 600; word-break: break-all;">${pw}</code>
-        <button type="button" class="btn btn-sm btn-ghost copy-multi-btn" data-password="${pw}" title="Copy this password" style="flex-shrink: 0; margin-left: 0.5rem;">
+      <div class="list-row">
+        <code class="list-row-value">${pw}</code>
+        <button type="button" class="btn btn-sm btn-ghost copy-multi-btn" data-password="${pw}" title="Copy this password">
           <span data-icon="copy"></span> Copy
         </button>
       </div>

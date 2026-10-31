@@ -30,6 +30,20 @@
     if (copyBtn && hasOwnCopy) copyBtn.remove();
     if (resetBtn && hasOwnReset) resetBtn.remove();
 
+    // Tool card header row: the tool's Reset sits beside the tool name. A tool with exactly one
+    // #reset-btn has it moved there (same element, so its listeners and id are kept); a tool
+    // without its own reset gets the generic one. Tools with several reset buttons keep them in place.
+    const headSlot = document.getElementById('tool-workspace-tools');
+    if (headSlot) {
+      const ownResets = ownButtons.filter(b => /reset|clear/i.test(b.id));
+      if (ownResets.length === 1 && ownResets[0].id === 'reset-btn') {
+        ownResets[0].classList.add('btn-sm');
+        headSlot.appendChild(ownResets[0]);
+      } else if (!ownResets.length && resetBtn && resetBtn.isConnected) {
+        headSlot.appendChild(resetBtn);
+      }
+    }
+
     // Shareable result links: "Copy link to this result" replaces the generic Share
     const resultLink = window.ToolsBuilt && window.ToolsBuilt.resultLink;
     if (copyLinkBtn && resultLink && resultLink.isEnabled()) {
@@ -299,9 +313,24 @@
     }
   }
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initToolActions);
-  } else {
+  // Sidebar "Copy link": the page address only, never the query string (inputs can be private)
+  function initPageLinkButtons() {
+    document.querySelectorAll('[data-copy-page-link]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const link = window.location.origin + window.location.pathname;
+        if (window.ToolsBuilt && ToolsBuilt.copy) ToolsBuilt.copy(link, 'Link to this tool copied');
+      });
+    });
+  }
+
+  function init() {
     initToolActions();
+    initPageLinkButtons();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
   }
 })();

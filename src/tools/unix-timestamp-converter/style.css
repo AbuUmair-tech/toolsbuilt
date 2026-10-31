@@ -1,4 +1,4 @@
-/* Unix Timestamp Converter */
+/* unix-timestamp-converter: layout only. Colours, borders and type live in assets/css/tools.css. */
 
 .epoch-now {
   display: grid;
@@ -6,9 +6,6 @@
   gap: var(--space-3) var(--space-4);
   padding: var(--space-4);
   margin-bottom: var(--space-6);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-lg);
-  background-color: var(--surface-muted);
 }
 
 .epoch-now-item {
@@ -18,16 +15,7 @@
   min-width: 0;
 }
 
-.epoch-now-label {
-  font-size: var(--font-size-sm);
-  color: var(--text-secondary);
-}
-
 .epoch-now-value {
-  font-family: var(--font-mono);
-  font-size: var(--font-size-xl);
-  font-weight: var(--font-weight-semibold);
-  color: var(--text-primary);
   overflow-wrap: anywhere;
 }
 
@@ -46,7 +34,6 @@
 
 .epoch-heading {
   margin: var(--space-8) 0 var(--space-4);
-  font-size: var(--font-size-lg);
 }
 
 .epoch-now + .epoch-heading {
@@ -60,7 +47,7 @@
 
 @media (min-width: 640px) {
   .epoch-ts-grid,
-  .epoch-date-grid {
+    .epoch-date-grid {
     grid-template-columns: 2fr 1fr;
   }
 }
@@ -75,13 +62,6 @@
   display: grid;
   gap: var(--space-1);
   padding: var(--space-2) var(--space-3);
-  border-radius: var(--radius-md);
-  background-color: var(--surface-card);
-}
-
-.epoch-row dt {
-  font-size: var(--font-size-sm);
-  color: var(--text-secondary);
 }
 
 .epoch-row dd {
@@ -94,9 +74,6 @@
 
 .epoch-value {
   min-width: 0;
-  font-family: var(--font-mono);
-  font-size: var(--font-size-sm);
-  color: var(--text-primary);
   overflow-wrap: anywhere;
 }
 
@@ -108,19 +85,6 @@
   margin-top: var(--space-2);
 }
 
-.epoch-date-result .epoch-row {
-  background-color: var(--surface-muted);
-}
-
-/* An ISO string is long: keep it on one line on phones */
 .result-box .epoch-primary {
-  font-family: var(--font-mono);
-  font-size: var(--font-size-md);
   overflow-wrap: anywhere;
-}
-
-@media (min-width: 640px) {
-  .result-box .epoch-primary {
-    font-size: var(--font-size-xl);
-  }
 }

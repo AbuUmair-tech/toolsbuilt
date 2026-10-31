@@ -89,25 +89,31 @@ eleventyComputed:
 {% endblock %}
 
   <!-- Main Content -->
-  <main class="container page-container" id="main-content">
+  <main id="main-content">
+    <section class="page-hero">
+      <div class="container">
+        
+        <!-- Breadcrumb Navigation -->
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <ol>
+            <li><a href="/">Home</a></li>
+            <li aria-current="page">{{ category.name }}</li>
+          </ol>
+        </nav>
     
-    <!-- Breadcrumb Navigation -->
-    <nav class="breadcrumb" aria-label="Breadcrumb">
-      <ol>
-        <li><a href="/">Home</a></li>
-        <li aria-current="page">{{ category.name }}</li>
-      </ol>
-    </nav>
-
-    <!-- Category Header -->
-    <div class="category-hero-header">
-      <p class="section-label">{{ catTools | length }} {{ "tool" if (catTools | length) == 1 else "tools" }}</p>
-      <div class="page-title-row">
-        {{ cards.categoryTile(category) }}
-        <h1 class="category-hero-title">Free {{ category.name }}</h1>
+        <!-- Category Header -->
+        <div class="category-hero-header">
+          <p class="section-label">{{ catTools | length }} {{ "tool" if (catTools | length) == 1 else "tools" }}</p>
+          <div class="page-title-row">
+            {{ cards.categoryTile(category, 28, "icon-tile-lg") }}
+            <h1 class="category-hero-title">Free {{ category.name }}</h1>
+          </div>
+          <p class="category-hero-intro">{{ category.intro }}</p>
+        </div>
       </div>
-      <p class="category-hero-intro">{{ category.intro }}</p>
-    </div>
+    </section>
+
+    <div class="container page-container">
 
     <!-- Tool List -->
     <section class="category-tools-section" aria-labelledby="tools-list-heading">
@@ -153,4 +159,5 @@ eleventyComputed:
     </section>
     {% endif %}
 
+    </div>
   </main>

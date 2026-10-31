@@ -64,11 +64,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const maxMb = (max / (1024 * 1024)).toFixed(0);
     sizeMeter.textContent = `${kb} KB / ${maxMb} MB`;
     if (len > max) {
-      sizeMeter.style.color = 'var(--color-error-text, #ef4444)';
-      sizeMeter.style.fontWeight = 'bold';
+      sizeMeter.classList.add('is-over-limit');
     } else {
-      sizeMeter.style.color = 'var(--text-secondary)';
-      sizeMeter.style.fontWeight = 'normal';
+      sizeMeter.classList.remove('is-over-limit');
     }
   }
 
@@ -111,9 +109,9 @@ document.addEventListener('DOMContentLoaded', () => {
     let html = '';
     params.forEach((p, idx) => {
       html += `<tr>
-        <td style="font-family: monospace; font-weight: 600; word-break: break-all;">${escapeHtml(p.key)}</td>
-        <td style="font-family: monospace; font-size: 0.85rem; word-break: break-all; color: var(--text-secondary);">${escapeHtml(p.encodedValue)}</td>
-        <td style="font-family: monospace; font-size: 0.85rem; word-break: break-all;">${escapeHtml(p.decodedValue)}</td>
+        <td class="font-mono font-semibold break-words">${escapeHtml(p.key)}</td>
+        <td class="font-mono text-sm break-words text-secondary">${escapeHtml(p.encodedValue)}</td>
+        <td class="font-mono text-sm break-words">${escapeHtml(p.decodedValue)}</td>
       </tr>`;
     });
     queryTableBody.innerHTML = html;

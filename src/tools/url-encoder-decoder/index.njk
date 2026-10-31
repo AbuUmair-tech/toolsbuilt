@@ -75,7 +75,7 @@ commonMistakes:
     <section class="tool-container" aria-label="URL Encoder &amp; Decoder Form">
       <div class="url-controls-bar">
         <div class="mode-radio-group">
-          <span style="font-size: 0.85rem; font-weight: 700; color: var(--text-secondary); text-transform: uppercase;">Direction:</span>
+          <span class="text-sm font-bold text-secondary uppercase">Direction:</span>
           <label class="mode-radio-label">
             <input type="radio" name="url-direction" value="encode" checked class="cursor-pointer">
             <span>Encode</span>
@@ -87,7 +87,7 @@ commonMistakes:
         </div>
 
         <div class="mode-radio-group">
-          <span style="font-size: 0.85rem; font-weight: 700; color: var(--text-secondary); text-transform: uppercase;">Mode:</span>
+          <span class="text-sm font-bold text-secondary uppercase">Mode:</span>
           <label class="mode-radio-label" title="Encodes all delimiters (;,/?:@&=+$#). Best for parameter keys & values.">
             <input type="radio" name="url-mode" value="component" checked class="cursor-pointer">
             <span>Component (encodeURIComponent)</span>
@@ -96,7 +96,7 @@ commonMistakes:
             <input type="radio" name="url-mode" value="full" class="cursor-pointer">
             <span>Full URL (encodeURI)</span>
           </label>
-          <button type="button" class="btn btn-ghost btn-sm" id="clear-btn" style="margin-left: 0.5rem;">Clear</button>
+          <button type="button" class="btn btn-ghost btn-sm ml-2" id="clear-btn">Clear</button>
         </div>
       </div>
 
@@ -136,16 +136,16 @@ commonMistakes:
       <!-- Live Query String Parser Table -->
       <div id="query-table-container" class="query-table-wrapper" hidden>
         <div class="row-between mb-2">
-          <h3 style="font-size: 1rem; margin: 0; color: var(--text-primary);">Parsed Query String Parameters</h3>
-          <span id="query-count-badge" style="font-size: 0.8rem; background: var(--surface-card); border: 1px solid var(--border-subtle); padding: 0.2rem 0.5rem; border-radius: var(--radius-md); color: var(--accent-primary);">0 parameters</span>
+          <h3 class="text-base m-0 text-primary">Parsed Query String Parameters</h3>
+          <span id="query-count-badge" class="panel-card text-sm text-accent">0 parameters</span>
         </div>
-        <div tabindex="0" style="overflow-x: auto;">
+        <div tabindex="0" class="overflow-x-auto">
           <table class="query-table" aria-label="Parsed query string parameters">
             <thead>
               <tr>
-                <th scope="col" style="width: 25%;">Parameter Key</th>
-                <th scope="col" style="width: 35%;">Raw / Encoded Value</th>
-                <th scope="col" style="width: 40%;">Decoded Value</th>
+                <th scope="col" class="w-25p">Parameter Key</th>
+                <th scope="col" class="w-35p">Raw / Encoded Value</th>
+                <th scope="col" class="w-40p">Decoded Value</th>
               </tr>
             </thead>
             <tbody id="query-table-body"></tbody>
@@ -172,8 +172,8 @@ commonMistakes:
       <h2 id="article-heading">URL Encoding Specification &amp; Mode Comparison</h2>
       <p class="text-secondary">RFC 3986 specifies percent-encoding to represent characters in URIs outside the allowed ASCII character set. Understanding the distinction between component and full URI modes prevents broken routes and corrupted parameters.</p>
 
-      <div tabindex="0" style="overflow-x: auto; margin-top: 1.25rem;">
-        <table class="query-table" style="background: var(--surface-muted); border-radius: var(--radius-md); padding: 0.5rem;" aria-label="Mode Comparison">
+      <div tabindex="0" class="overflow-x-auto mt-4">
+        <table class="query-table bg-muted rounded-md p-2" aria-label="Mode Comparison">
           <thead>
             <tr>
               <th scope="col">Character</th>

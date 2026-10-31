@@ -95,4 +95,102 @@
   .gap-3 { gap: var(--space-3); }
   .gap-4 { gap: var(--space-4); }
 
+  /* -------------------------------------------------------------------------
+     Extra spacing, layout and text utilities (design tokens only). These
+     replace the one-off inline styles that tool pages used to carry.
+     ------------------------------------------------------------------------- */
+  .m-0 { margin: 0; }
+  .mt-0 { margin-top: 0; }
+  .mt-3 { margin-top: var(--space-3); }
+  .mt-8 { margin-top: var(--space-8); }
+  .mt-12 { margin-top: var(--space-12); }
+  .mb-8 { margin-bottom: var(--space-8); }
+  .mb-12 { margin-bottom: var(--space-12); }
+  .ml-2 { margin-left: var(--space-2); }
+  .ml-4 { margin-left: var(--space-4); }
+  .mx-0 { margin-inline: 0; }
+  .mx-auto { margin-inline: auto; }
+  .my-6 { margin-block: var(--space-6); }
+  .p-0 { padding: 0; }
+  .p-2 { padding: var(--space-2); }
+  .p-3 { padding: var(--space-3); }
+  .px-2 { padding-inline: var(--space-2); }
+  .px-3 { padding-inline: var(--space-3); }
+  .px-4 { padding-inline: var(--space-4); }
+  .py-0 { padding-block: 0; }
+  .py-1 { padding-block: var(--space-1); }
+  .py-2 { padding-block: var(--space-2); }
+  .py-3 { padding-block: var(--space-3); }
+  .pt-4 { padding-top: var(--space-4); }
+  .pt-8 { padding-top: var(--space-8); }
+  .gap-1 { gap: var(--space-1); }
+  .gap-2 { gap: var(--space-2); }
+  .gap-6 { gap: var(--space-6); }
+  .inline-flex { display: inline-flex; }
+  .flex-col { flex-direction: column; }
+  .flex-wrap { flex-wrap: wrap; }
+  .justify-between { justify-content: space-between; }
+  .justify-center { justify-content: center; }
+  .text-right { text-align: right; }
+  .text-md { font-size: var(--font-size-md); }
+  .text-2xl { font-size: var(--font-size-2xl); }
+  .font-extrabold { font-weight: var(--font-weight-extrabold); }
+  .uppercase { text-transform: uppercase; letter-spacing: 0.04em; }
+  .leading-normal { line-height: var(--line-height-normal); }
+  .break-words { overflow-wrap: anywhere; }
+  .list-none { list-style: none; }
+  .overflow-x-auto { overflow-x: auto; }
+  .max-w-sm { max-width: 420px; }
+  .bg-card { background-color: var(--surface-card); }
+  .bg-muted { background-color: var(--surface-muted); }
+  .rounded-md { border-radius: var(--radius-md); }
+  .border { border: 1px solid var(--border-subtle); }
+  .border-t { border-top: 1px solid var(--border-subtle); }
+
+  .items-end { align-items: flex-end; }
+  .inline-block { display: inline-block; }
+  .underline { text-decoration: underline; }
+  .shrink-0 { flex-shrink: 0; }
+  .flex-full { flex: 1 1 100%; }
+  .text-left { text-align: left; }
+  .text-error { color: var(--color-error-text); }
+  .border-b { border-bottom: 1px solid var(--border-subtle); }
+
+  /* Fixed column widths for form tables */
+  .w-col-sm { width: 56px; }
+  .w-col-md { width: 100px; }
+  .w-col-lg { width: 130px; }
+  .w-col-xl { width: 180px; }
+  .w-25p { width: 25%; }
+  .w-35p { width: 35%; }
+  .w-40p { width: 40%; }
+
+  /* Responsive auto-fitting grids */
+  .auto-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--space-3);
+  }
+
+  .auto-grid.auto-grid-sm {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: var(--space-2);
+  }
+
+  /* Panels: muted (inside a tool card) and card (a raised surface) */
+  .panel-muted {
+    padding: var(--space-4);
+    background-color: var(--surface-muted);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+  }
+
+  .panel-card {
+    padding: var(--space-4);
+    background-color: var(--surface-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+  }
+
 }

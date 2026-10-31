@@ -126,7 +126,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const bizText = businessOnly ? ' (Business Days Only)' : '';
 
     resultDetails.innerHTML = `
-      <div class="result-grid" style="margin-top: 1rem;">
+      <div class="result-grid mt-4">
         <div class="result-stat-card">
           <div class="result-stat-label">Operation</div>
           <div class="result-stat-value">${opText} ${numFormatter.format(amount)} ${unit}${bizText}</div>

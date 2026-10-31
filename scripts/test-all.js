@@ -715,6 +715,24 @@ try {
   assert(false, `External resource check failed: ${e.message}\n${e.stdout || ''}${e.stderr || ''}`);
 }
 
+// -----------------------------------------------------------------
+// Test 24: Theme Consistency (header, footer and stylesheets match the homepage)
+// -----------------------------------------------------------------
+console.log('\n--- 24. Theme Consistency Guard ---');
+try {
+  const themeOutput = execSync('node scripts/check-theme-consistency.js', {
+    cwd: ROOT,
+    encoding: 'utf8',
+    stdio: 'pipe'
+  });
+  assert(
+    themeOutput.includes('Theme consistency check PASSED'),
+    'Theme: every page uses the homepage header/footer, only approved stylesheets, no inline styles'
+  );
+} catch (e) {
+  assert(false, `Theme consistency check failed: ${e.message}\n${e.stdout || ''}${e.stderr || ''}`);
+}
+
 console.log('\n========================================================');
 if (failures === 0) {
   console.log('🎉 ALL AUDIT & REGRESSION TESTS PASSED (0 FAILURES)');

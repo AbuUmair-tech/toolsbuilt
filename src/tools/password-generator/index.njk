@@ -92,7 +92,7 @@ faqs:
     <section class="tool-container" aria-label="Password Generator Interface">
       
       <!-- Mode Selection Tabs -->
-      <div class="segmented-control" role="tablist" aria-label="Generator Modes" style="display: flex; gap: 0.5rem; margin-bottom: 1.5rem;">
+      <div class="segmented-control flex gap-2 mb-6" role="tablist" aria-label="Generator Modes">
         <button type="button" class="btn btn-sm mode-tab-btn active" id="mode-random-btn" role="tab" aria-selected="true">Random Password</button>
         <button type="button" class="btn btn-sm mode-tab-btn" id="mode-passphrase-btn" role="tab" aria-selected="false">Memorable Passphrase</button>
       </div>
@@ -102,8 +102,8 @@ faqs:
           <span class="font-semibold">Generated Password:</span>
         </label>
         
-        <div style="display: flex; gap: 0.75rem;">
-          <input type="text" id="password-display" class="form-control" readonly style="font-family: monospace; font-size: 1.2rem; letter-spacing: 0.05em; font-weight: 700; background-color: var(--surface-muted);">
+        <div class="flex gap-3">
+          <input type="text" id="password-display" class="form-control font-mono text-md font-bold bg-muted" readonly>
           <button type="button" class="btn btn-primary" id="copy-btn"><span data-icon="copy"></span> Copy</button>
           <button type="button" class="btn btn-secondary" id="generate-btn" title="Generate New Password"><span data-icon="refresh"></span> Regenerate</button>
         </div>
@@ -111,18 +111,18 @@ faqs:
 
       <!-- Strength Meter -->
       <div class="strength-meter-container mt-6">
-        <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.9rem;">
-          <span style="font-weight: 600; color: var(--text-primary);">Entropy &amp; Strength:</span>
-          <span id="strength-text" style="font-weight: 700; color: var(--color-success-text, #065f46);">Very Strong (~96 bits entropy)</span>
+        <div class="flex justify-between items-center text-sm">
+          <span class="font-semibold text-primary">Entropy &amp; Strength:</span>
+          <span id="strength-text" class="font-bold strength-label" data-level="4">Very Strong (~96 bits entropy)</span>
         </div>
-        <div class="strength-bar-bg" style="width: 100%; height: 8px; background: var(--border-subtle); border-radius: var(--radius-full); margin-top: 0.5rem; overflow: hidden;">
-          <div id="strength-bar-fill" class="strength-bar-fill" style="width: 100%; height: 100%; background-color: var(--color-success-text, #16a34a); transition: width 0.3s ease, background-color 0.3s ease;"></div>
+        <div class="strength-bar-bg meter">
+          <div id="strength-bar-fill" class="strength-bar-fill meter-fill" data-level="4"></div>
         </div>
       </div>
 
       <!-- Multiple Passwords List Container -->
       <div id="multi-passwords-container" class="hidden mt-6">
-        <h4 style="font-size: 0.95rem; margin-bottom: 0.5rem;">Additional Passwords:</h4>
+        <h4 class="text-sm mb-2">Additional Passwords:</h4>
         <div id="multi-passwords-list"></div>
       </div>
 
@@ -130,8 +130,8 @@ faqs:
       <div class="section-divider">
         
         <!-- Batch Count Selector -->
-        <div class="form-group" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem;">
-          <label for="password-count" style="font-size: 0.95rem; font-weight: 600; margin-bottom: 0;">Quantity to Generate:</label>
+        <div class="form-group flex items-center justify-between mb-4">
+          <label for="password-count" class="text-sm font-semibold mb-0">Quantity to Generate:</label>
           <select id="password-count" class="form-control w-auto">
             <option value="1" selected>1 password</option>
             <option value="3">3 passwords</option>
@@ -143,14 +143,14 @@ faqs:
         <!-- Random Mode Options -->
         <div id="random-options-panel">
           <div class="form-group">
-            <label for="length-range" style="display: flex; justify-content: space-between;">
+            <label for="length-range" class="flex justify-between">
               <span>Password Length:</span>
-              <span style="font-weight: 700; color: var(--accent-primary);"><span id="length-val">16</span> characters</span>
+              <span class="font-bold text-accent"><span id="length-val">16</span> characters</span>
             </label>
-            <input type="range" id="length-range" min="8" max="64" value="16" style="width: 100%; accent-color: var(--accent-primary); margin-top: 0.5rem; cursor: pointer;">
+            <input type="range" id="length-range" min="8" max="64" value="16" class="w-full mt-2 cursor-pointer">
           </div>
 
-          <div class="checkbox-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem; margin-top: 1rem;">
+          <div class="checkbox-grid auto-grid mt-4">
             <label class="checkbox-label option-label">
               <input type="checkbox" id="opt-upper" checked>
               <span>Uppercase (A-Z)</span>
@@ -171,7 +171,7 @@ faqs:
               <span>Symbols (!@#$%^&amp;*)</span>
             </label>
 
-            <label class="checkbox-label" style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; grid-column: 1 / -1;">
+            <label class="checkbox-label col-span-full">
               <input type="checkbox" id="opt-exclude-similar">
               <span>Exclude Ambiguous Characters (O, 0, l, 1, I, |)</span>
             </label>
@@ -181,11 +181,11 @@ faqs:
         <!-- Passphrase Mode Options -->
         <div id="passphrase-options-panel" class="hidden">
           <div class="form-group">
-            <label for="words-range" style="display: flex; justify-content: space-between;">
+            <label for="words-range" class="flex justify-between">
               <span>Word Count:</span>
-              <span style="font-weight: 700; color: var(--accent-primary);"><span id="words-val">4</span> words</span>
+              <span class="font-bold text-accent"><span id="words-val">4</span> words</span>
             </label>
-            <input type="range" id="words-range" min="3" max="8" value="4" style="width: 100%; accent-color: var(--accent-primary); margin-top: 0.5rem; cursor: pointer;">
+            <input type="range" id="words-range" min="3" max="8" value="4" class="w-full mt-2 cursor-pointer">
           </div>
 
           <div class="form-grid two-col mt-4">
@@ -209,14 +209,14 @@ faqs:
             </div>
           </div>
 
-          <div style="margin-top: 0.75rem;">
+          <div class="mt-3">
             <label class="checkbox-label option-label">
               <input type="checkbox" id="opt-passphrase-number">
               <span>Append a random number (0-9)</span>
             </label>
           </div>
 
-          <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 0.75rem;">
+          <p class="text-sm text-secondary mt-3">
             Passphrases generated using the Electronic Frontier Foundation (EFF) Short Wordlist #1 under <a href="https://creativecommons.org/licenses/by/3.0/us/" target="_blank" rel="noopener">CC-BY 3.0 US</a>.
           </p>
         </div>

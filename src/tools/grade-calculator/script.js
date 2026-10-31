@@ -121,9 +121,9 @@ document.addEventListener('DOMContentLoaded', () => {
           <span class="stat-label">Target Overall Grade</span>
           <span class="stat-value">${finalRes.targetGrade}%</span>
         </div>
-        <div class="result-stat-card" style="border-left: 3px solid var(--accent-primary);">
+        <div class="result-stat-card is-highlight">
           <span class="stat-label">Score Needed on Final</span>
-          <span class="stat-value" style="color: var(--accent-primary);">${finalRes.neededScore}%</span>
+          <span class="stat-value text-accent">${finalRes.neededScore}%</span>
         </div>
       `;
     }
@@ -131,8 +131,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (formulaBox) {
       formulaBox.innerHTML = `
         <strong>Final Exam Guidance:</strong>
-        <p style="margin: 0.35rem 0 0.5rem 0;">${finalRes.message}</p>
-        <div style="font-size: 0.85rem; color: var(--text-secondary);">
+        <p class="mt-1 mb-2">${finalRes.message}</p>
+        <div class="text-sm text-secondary">
           Formula: Required Final = [Target × (Completed W + Final W) - Current Points] ÷ Final W<br>
           Calculation: [${finalRes.targetGrade} × ${curRes.totalWeight + finalRes.finalWeight}% - ${curRes.totalPoints}] ÷ ${finalRes.finalWeight}% = <strong>${finalRes.neededScore}%</strong>
         </div>
@@ -159,7 +159,7 @@ document.addEventListener('DOMContentLoaded', () => {
       <td>
         <input type="number" step="any" min="0" max="100" class="form-control assign-weight" placeholder="20" value="${weight}" required aria-label="Weight Percentage">
       </td>
-      <td style="text-align: center;">
+      <td class="text-center">
         <button type="button" class="btn btn-sm btn-ghost remove-row-btn" aria-label="Remove assignment row" title="Remove assignment row">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
         </button>

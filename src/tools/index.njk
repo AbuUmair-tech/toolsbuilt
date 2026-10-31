@@ -59,43 +59,49 @@ canonical: https://toolsbuilt.com/tools/
 {% endblock %}
 
   <!-- Main Content -->
-  <main class="container page-container" id="main-content">
+  <main id="main-content">
+    <section class="page-hero">
+      <div class="container">
+        
+        <!-- Breadcrumb Navigation -->
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <ol>
+            <li><a href="/">Home</a></li>
+            <li aria-current="page">All Tools</li>
+          </ol>
+        </nav>
     
-    <!-- Breadcrumb Navigation -->
-    <nav class="breadcrumb" aria-label="Breadcrumb">
-      <ol>
-        <li><a href="/">Home</a></li>
-        <li aria-current="page">All Tools</li>
-      </ol>
-    </nav>
-
-    <!-- Page Header -->
-    <div class="directory-hero-header">
-      <p class="section-label">Directory</p>
-      <h1 class="directory-hero-title">All Calculators &amp; Web Tools</h1>
-      <p class="directory-hero-subtitle">Browse our complete directory of {{ tools | length }} free, fast, and privacy-respecting online utilities across {{ categories | length }} categories.</p>
-
-      <!-- Live Directory Filter -->
-      <div class="directory-search-wrapper">
-        <svg class="search-input-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <circle cx="11" cy="11" r="8"></circle>
-          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-        </svg>
-        <input type="search" id="directory-search" class="directory-search-input" placeholder="Filter {{ tools | length }} tools by name or topic" aria-label="Filter all tools">
+        <!-- Page Header -->
+        <div class="directory-hero-header">
+          <p class="section-label">Directory</p>
+          <h1 class="directory-hero-title">All Calculators &amp; Web Tools</h1>
+          <p class="directory-hero-subtitle">Browse our complete directory of {{ tools | length }} free, fast, and privacy-respecting online utilities across {{ categories | length }} categories.</p>
+    
+          <!-- Live Directory Filter -->
+          <div class="directory-search-wrapper">
+            <svg class="search-input-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input type="search" id="directory-search" class="directory-search-input" placeholder="Filter {{ tools | length }} tools by name or topic" aria-label="Filter all tools">
+          </div>
+    
+          <!-- Category Filter Chips -->
+          <div class="directory-filter-bar" role="toolbar" aria-label="Filter tools by category">
+            <button type="button" class="tool-filter-chip is-active" data-category="all">
+              All <span class="chip-count">{{ tools | length }}</span>
+            </button>
+            {% for cat in categories %}
+            <button type="button" class="tool-filter-chip" data-category="{{ cat.slug }}">
+              {{ cat.name }} <span class="chip-count">{{ (tools | filterByCategory(cat.slug)) | length }}</span>
+            </button>
+            {% endfor %}
+          </div>
+        </div>
       </div>
+    </section>
 
-      <!-- Category Filter Chips -->
-      <div class="directory-filter-bar" role="toolbar" aria-label="Filter tools by category">
-        <button type="button" class="tool-filter-chip is-active" data-category="all">
-          All <span class="chip-count">{{ tools | length }}</span>
-        </button>
-        {% for cat in categories %}
-        <button type="button" class="tool-filter-chip" data-category="{{ cat.slug }}">
-          {{ cat.name }} <span class="chip-count">{{ (tools | filterByCategory(cat.slug)) | length }}</span>
-        </button>
-        {% endfor %}
-      </div>
-    </div>
+    <div class="container page-container">
 
     <!-- Grouped by Category -->
     <div id="directory-category-view" class="directory-view-container">
@@ -124,4 +130,5 @@ canonical: https://toolsbuilt.com/tools/
       <a href="/contact/" class="btn btn-secondary">Suggest a Tool</a>
     </div>
 
+    </div>
   </main>

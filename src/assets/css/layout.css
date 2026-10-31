@@ -164,9 +164,10 @@
     gap: 0;
   }
 
+  /* >= 1100px: main column (max 800px) and a sticky 300px sidebar */
   @media (min-width: 1100px) {
     .tool-page-grid {
-      grid-template-columns: minmax(0, var(--container-narrow)) 200px;
+      grid-template-columns: minmax(0, 800px) 300px;
       justify-content: space-between;
       gap: var(--space-12);
     }
@@ -175,6 +176,14 @@
   .tool-main-col {
     min-width: 0;
     width: 100%;
+    max-width: 800px;
+  }
+
+  /* Long text stays in the 760px reading column */
+  .tool-main-col .tool-section > p,
+  .tool-main-col .content-section > p,
+  .tool-main-col .content-section > ul,
+  .tool-main-col .tool-section > ul.sources-list {
     max-width: var(--container-narrow);
   }
 
@@ -210,7 +219,7 @@
 
   .tool-toc-aside {
     display: none;
-    width: 200px;
+    width: 300px;
     flex-shrink: 0;
   }
 

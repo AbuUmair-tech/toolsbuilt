@@ -92,7 +92,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (formulaSteps && formulaSteps.length > 0) {
         formulaBox.innerHTML = `
           <strong>Step-by-Step Calculation:</strong>
-          <ul style="margin: 0.5rem 0 0 1.25rem; padding: 0;">
+          <ul class="mt-2 mb-0 ml-4 p-0">
             ${formulaSteps.map(st => `<li>${st}</li>`).join('')}
           </ul>
         `;

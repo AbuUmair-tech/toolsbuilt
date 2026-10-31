@@ -1,4 +1,4 @@
-/* Merit & Aggregate Calculator */
+/* merit-calculator: layout only. Colours, borders and type live in assets/css/tools.css. */
 
 .merit-preset {
   margin-bottom: var(--space-3);
@@ -7,11 +7,6 @@
 .merit-preset-note {
   margin-bottom: var(--space-4);
   padding: var(--space-3) var(--space-4);
-  border: 1px solid var(--accent-border);
-  border-radius: var(--radius-md);
-  background-color: var(--accent-subtle);
-  font-size: var(--font-size-sm);
-  color: var(--text-secondary);
 }
 
 .merit-preset-note p {
@@ -31,15 +26,11 @@
   display: none;
 }
 
-/* Phones: component name on top, then obtained / total / weight in a row */
 .merit-row {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: var(--space-2);
   padding: var(--space-3);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-md);
-  background-color: var(--surface-card);
 }
 
 .merit-row[hidden] {
@@ -57,20 +48,10 @@
   min-width: 0;
 }
 
-.merit-label {
-  font-size: var(--font-size-sm);
-  color: var(--text-secondary);
-}
-
 .merit-cell .form-control {
   min-width: 0;
   padding-left: var(--space-2);
   padding-right: var(--space-2);
-}
-
-.merit-row input[readonly] {
-  background-color: var(--surface-muted);
-  color: var(--text-secondary);
 }
 
 @media (min-width: 640px) {
@@ -79,23 +60,15 @@
   }
 
   .merit-head,
-  .merit-row {
+    .merit-row {
     display: grid;
     grid-template-columns: minmax(0, 2fr) repeat(3, minmax(0, 1fr));
     gap: var(--space-3);
     align-items: center;
   }
 
-  .merit-head {
-    font-size: var(--font-size-sm);
-    font-weight: var(--font-weight-semibold);
-    color: var(--text-secondary);
-  }
-
   .merit-row {
     padding: 0;
-    border: 0;
-    background: none;
   }
 
   .merit-name {
@@ -118,16 +91,13 @@
 
 .merit-table-wrapper {
   margin-top: var(--space-4);
-  background-color: var(--surface-card);
 }
 
 .merit-table th,
 .merit-table td {
   padding: var(--space-2) var(--space-3);
-  font-variant-numeric: tabular-nums;
 }
 
-/* Marks and weight are already in the inputs above; phones show the percentage and contribution */
 @media (max-width: 479px) {
   .merit-table .wide-only {
     display: none;
@@ -136,15 +106,10 @@
 
 .merit-steps-title {
   margin: var(--space-6) 0 var(--space-2);
-  font-weight: var(--font-weight-semibold);
-  color: var(--text-primary);
 }
 
 .merit-steps {
   margin: 0;
   padding-left: var(--space-6);
-  font-size: var(--font-size-sm);
-  line-height: var(--line-height-normal);
-  color: var(--text-secondary);
   overflow-wrap: anywhere;
 }

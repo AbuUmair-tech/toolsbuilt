@@ -1,0 +1,29 @@
+{#
+  "Explore more tools": compact category cards at the bottom of tool and content pages.
+#}
+{% import "partials/cards.njk" as cards %}
+<section class="explore-band" aria-labelledby="explore-heading">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <p class="section-label">Browse Categories</p>
+        <h2 id="explore-heading" class="section-title">Explore more tools</h2>
+      </div>
+      <a href="/tools/" class="section-link">View all tools {{ cards.arrow("") }}</a>
+    </div>
+    <ul class="category-compact-grid">
+      {% for cat in categories %}
+      {% set count = (tools | filterByCategory(cat.slug)) | length %}
+      <li>
+        <a href="{{ cat.slug | categoryUrl }}" class="category-compact">
+          {{ cards.categoryTile(cat) }}
+          <span class="category-compact-body">
+            <span class="category-compact-name">{{ cat.name }}</span>
+            <span class="category-compact-count">{{ count }} {{ "tool" if count == 1 else "tools" }}</span>
+          </span>
+        </a>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>

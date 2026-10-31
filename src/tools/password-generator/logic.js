@@ -195,18 +195,18 @@
 
   function evaluateStrength(entropyBits) {
     if (entropyBits >= 80) {
-      return { score: 'Very Strong', level: 4, color: 'var(--color-success-text, #065f46)', barColor: 'var(--color-success-text, #10b981)', width: '100%', timeToCrack: 'Centuries' };
+      return { score: 'Very Strong', level: 4, color: 'var(--color-success-text)', barColor: 'var(--color-success-text)', width: '100%', timeToCrack: 'Centuries' };
     }
     if (entropyBits >= 60) {
-      return { score: 'Strong', level: 3, color: 'var(--color-success-text, #065f46)', barColor: 'var(--color-success-text, #10b981)', width: '80%', timeToCrack: 'Decades' };
+      return { score: 'Strong', level: 3, color: 'var(--color-success-text)', barColor: 'var(--color-success-text)', width: '80%', timeToCrack: 'Decades' };
     }
     if (entropyBits >= 45) {
-      return { score: 'Moderate', level: 2, color: 'var(--text-primary, #92400e)', barColor: 'var(--text-secondary, #f59e0b)', width: '60%', timeToCrack: 'Months to Years' };
+      return { score: 'Moderate', level: 2, color: 'var(--text-primary)', barColor: 'var(--text-secondary)', width: '60%', timeToCrack: 'Months to Years' };
     }
     if (entropyBits >= 28) {
-      return { score: 'Weak', level: 1, color: 'var(--text-primary, #92400e)', barColor: '#f97316', width: '40%', timeToCrack: 'Minutes to Hours' };
+      return { score: 'Weak', level: 1, color: 'var(--text-primary)', barColor: 'var(--cat-orange)', width: '40%', timeToCrack: 'Minutes to Hours' };
     }
-    return { score: 'Very Weak', level: 0, color: 'var(--color-error-text, #9f1239)', barColor: 'var(--color-error-border, #ef4444)', width: '20%', timeToCrack: 'Seconds' };
+    return { score: 'Very Weak', level: 0, color: 'var(--color-error-text)', barColor: 'var(--color-error-border)', width: '20%', timeToCrack: 'Seconds' };
   }
 
   function generateMultiple(count, options, customPrng) {

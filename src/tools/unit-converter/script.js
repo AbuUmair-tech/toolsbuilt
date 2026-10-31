@@ -291,10 +291,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const baseName = UNIT_FACTORS[activeCategory].units[baseUnitKey].name;
 
     tableBody.innerHTML = items.map(item => `
-      <tr style="border-bottom: 1px solid var(--border-subtle);">
-        <td style="padding: 0.6rem 0.75rem; font-weight: 500;">${baseVal || 1} ${baseName}</td>
-        <td style="padding: 0.6rem 0.75rem; text-align: right; font-weight: 700; color: var(--accent-primary);">${item.value}</td>
-        <td style="padding: 0.6rem 0.75rem;">${item.unitName}</td>
+      <tr>
+        <td class="py-2 px-3 font-medium">${baseVal || 1} ${baseName}</td>
+        <td class="py-2 px-3 text-right font-bold text-accent">${item.value}</td>
+        <td class="py-2 px-3">${item.unitName}</td>
       </tr>
     `).join('');
   }

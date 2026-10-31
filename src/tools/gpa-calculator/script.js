@@ -60,18 +60,18 @@ document.addEventListener('DOMContentLoaded', () => {
   function createCourseRow(name = '', grade = 'A', credits = 3) {
     const tr = document.createElement('tr');
     tr.innerHTML = `
-      <td style="padding: 0.5rem;">
+      <td class="p-2">
         <input type="text" class="form-control course-name" placeholder="e.g. Calculus I" value="${name}" aria-label="Course Name">
       </td>
-      <td style="padding: 0.5rem;">
+      <td class="p-2">
         <select class="form-control course-grade" aria-label="Course Grade">
           ${getGradeOptionsHtml(grade)}
         </select>
       </td>
-      <td style="padding: 0.5rem;">
+      <td class="p-2">
         <input type="number" step="any" min="0.5" max="30" class="form-control course-credits" placeholder="3" value="${credits}" required aria-label="Course Credits">
       </td>
-      <td style="padding: 0.5rem; text-align: center;">
+      <td class="p-2 text-center">
         <button type="button" class="btn btn-sm btn-ghost remove-course-btn" aria-label="Remove Course" title="Remove Course">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
         </button>
@@ -96,13 +96,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const card = document.createElement('div');
     card.className = 'semester-card';
     card.id = semId;
-    card.style.cssText = 'background: var(--surface-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem; margin-bottom: 1.5rem;';
+    card.classList.add('panel-card', 'mb-6');
 
     card.innerHTML = `
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem;">
-        <div style="display: flex; align-items: center; gap: 0.75rem;">
-          <input type="text" class="form-control semester-title" value="${title}" aria-label="Semester Title" style="font-weight: 700; width: 180px; font-size: 1.05rem;">
-          <span class="badge semester-gpa-badge" style="background: var(--surface-muted); padding: 0.25rem 0.6rem; border-radius: var(--radius-md); font-size: 0.85rem; font-weight: 600;">Term GPA: --</span>
+      <div class="flex justify-between items-center mb-4 flex-wrap gap-2">
+        <div class="flex items-center gap-3">
+          <input type="text" class="form-control semester-title w-col-xl font-bold text-md" value="${title}" aria-label="Semester Title">
+          <span class="badge semester-gpa-badge bg-muted py-1 px-2 rounded-md text-sm font-semibold">Term GPA: --</span>
         </div>
         <button type="button" class="btn btn-sm btn-ghost remove-semester-btn" aria-label="Remove Term (${title})" title="Remove this semester">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
@@ -110,21 +110,21 @@ document.addEventListener('DOMContentLoaded', () => {
         </button>
       </div>
 
-      <div style="overflow-x: auto;">
-        <table class="table" style="width: 100%; border-collapse: collapse; min-width: 440px;">
+      <div class="overflow-x-auto">
+        <table class="table table-min">
           <thead>
-            <tr style="border-bottom: 1px solid var(--border-subtle); text-align: left;">
-              <th scope="col" style="padding: 0.5rem; font-size: 0.85rem;">Course Title</th>
-              <th scope="col" style="padding: 0.5rem; font-size: 0.85rem; width: 140px;">Grade</th>
-              <th scope="col" style="padding: 0.5rem; font-size: 0.85rem; width: 100px;">Credits</th>
-              <th scope="col" style="padding: 0.5rem; font-size: 0.85rem; width: 50px; text-align: center;">Action</th>
+            <tr class="text-left">
+              <th scope="col" class="p-2 text-sm">Course Title</th>
+              <th scope="col" class="p-2 text-sm w-col-lg">Grade</th>
+              <th scope="col" class="p-2 text-sm w-col-md">Credits</th>
+              <th scope="col" class="p-2 text-sm w-col-sm text-center">Action</th>
             </tr>
           </thead>
           <tbody class="courses-tbody"></tbody>
         </table>
       </div>
 
-      <button type="button" class="btn btn-sm btn-secondary add-course-btn" style="margin-top: 1rem;">
+      <button type="button" class="btn btn-sm btn-secondary add-course-btn mt-4">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
         Add Course
       </button>
@@ -224,7 +224,7 @@ document.addEventListener('DOMContentLoaded', () => {
       statsGrid.innerHTML = `
         <div class="result-stat-card">
           <span class="stat-label">Cumulative GPA</span>
-          <span class="stat-value" style="color: var(--accent-primary); font-weight: 800;">${res.cumulativeGpa.toFixed(2)}</span>
+          <span class="stat-value text-accent font-extrabold">${res.cumulativeGpa.toFixed(2)}</span>
         </div>
         <div class="result-stat-card">
           <span class="stat-label">Total Credit Hours</span>
@@ -245,11 +245,11 @@ document.addEventListener('DOMContentLoaded', () => {
       const termsList = res.semesterResults.map(t => `<li><strong>${t.name}:</strong> GPA ${t.gpa.toFixed(2)} (${t.totalCredits} credits, ${t.totalPoints.toFixed(1)} points)</li>`).join('');
       formulaBox.innerHTML = `
         <strong>Semester Breakdown &amp; Academic Details:</strong>
-        <ul style="margin: 0.5rem 0 0.5rem 1.25rem; padding: 0;">
+        <ul class="mt-2 mb-2 ml-4 p-0">
           ${res.priorCredits > 0 ? `<li><strong>Prior Academic History:</strong> GPA ${res.priorGpa.toFixed(2)} (${res.priorCredits} credits, ${(res.priorGpa * res.priorCredits).toFixed(1)} points)</li>` : ''}
           ${termsList}
         </ul>
-        <div style="font-size: 0.85rem; color: var(--text-secondary);">
+        <div class="text-sm text-secondary">
           Formula: Cumulative GPA = Total Grade Points (${res.cumulativePoints.toFixed(2)}) ÷ Total Credit Hours (${res.cumulativeCredits}) = <strong>${res.cumulativeGpa.toFixed(2)}</strong>.
         </div>
       `;

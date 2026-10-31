@@ -1,4 +1,4 @@
-/* Weighted Average Calculator */
+/* weighted-average-calculator: layout only. Colours, borders and type live in assets/css/tools.css. */
 
 .wavg-type {
   margin-bottom: var(--space-4);
@@ -7,8 +7,6 @@
 .wavg-type .choice-toggle-options {
   gap: var(--space-1);
   padding: var(--space-1);
-  border-radius: var(--radius-lg);
-  background-color: var(--surface-muted);
 }
 
 .wavg-rows {
@@ -20,15 +18,11 @@
   display: none;
 }
 
-/* Phones: name across the top, value and weight side by side, remove button top right */
 .wavg-row {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr)) auto;
   gap: var(--space-2);
   padding: var(--space-3);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-md);
-  background-color: var(--surface-card);
 }
 
 .wavg-name {
@@ -48,38 +42,25 @@
   min-width: 0;
 }
 
-.wavg-label {
-  font-size: var(--font-size-sm);
-  color: var(--text-secondary);
-}
-
 @media (min-width: 640px) {
   .wavg-rows {
     gap: var(--space-2);
   }
 
   .wavg-head,
-  .wavg-row {
+    .wavg-row {
     display: grid;
     grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) minmax(0, 1fr) 2.75rem;
     gap: var(--space-3);
     align-items: center;
   }
 
-  .wavg-head {
-    font-size: var(--font-size-sm);
-    font-weight: var(--font-weight-semibold);
-    color: var(--text-secondary);
-  }
-
   .wavg-row {
     padding: 0;
-    border: 0;
-    background: none;
   }
 
   .wavg-name,
-  .wavg-remove {
+    .wavg-remove {
     grid-column: auto;
     grid-row: auto;
   }
@@ -100,16 +81,13 @@
 
 .wavg-table-wrapper {
   margin-top: var(--space-4);
-  background-color: var(--surface-card);
 }
 
 .wavg-table th,
 .wavg-table td {
   padding: var(--space-2) var(--space-3);
-  font-variant-numeric: tabular-nums;
 }
 
-/* Value and weight are already in the inputs above; phones show only share and contribution */
 @media (max-width: 479px) {
   .wavg-table .wide-only {
     display: none;
@@ -118,16 +96,11 @@
 
 .wavg-steps-title {
   margin: var(--space-6) 0 var(--space-2);
-  font-weight: var(--font-weight-semibold);
-  color: var(--text-primary);
 }
 
 .wavg-steps {
   margin: 0;
   padding-left: var(--space-6);
-  font-size: var(--font-size-sm);
-  line-height: var(--line-height-normal);
-  color: var(--text-secondary);
   overflow-wrap: anywhere;
 }
 

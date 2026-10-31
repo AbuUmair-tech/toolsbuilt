@@ -115,7 +115,7 @@
     });
 
     if (!target) {
-      compareStatus.innerHTML = '<span style="color: var(--text-secondary);">Paste a hash above to verify match against calculated values.</span>';
+      compareStatus.innerHTML = '<span class="text-secondary">Paste a hash above to verify match against calculated values.</span>';
       return;
     }
 
