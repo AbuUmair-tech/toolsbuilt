@@ -23,6 +23,7 @@ ToolsBuilt.codeFormatter = (function () {
     const sampleTemplate = document.getElementById('code-sample');
     const sample = sampleTemplate ? sampleTemplate.content.textContent : '';
     const optionFields = Array.from(form.querySelectorAll('[data-option]'));
+    const warningsBox = document.getElementById('code-warnings');
     const storageKey = cfg.storageKey;
     let busy = false;
 
@@ -53,6 +54,18 @@ ToolsBuilt.codeFormatter = (function () {
       errorBox.textContent = '';
       errorBox.classList.add('hidden');
       input.removeAttribute('aria-invalid');
+      showWarnings([]);
+    }
+
+    // Non-fatal problems reported by the logic module (e.g. an element that is never closed)
+    function showWarnings(list) {
+      if (!warningsBox) return;
+      warningsBox.replaceChildren(...(list || []).map(w => {
+        const li = document.createElement('li');
+        li.textContent = w.message || String(w);
+        return li;
+      }));
+      warningsBox.hidden = !(list && list.length);
     }
 
     // Put the caret on the reported line so the problem is easy to find
@@ -91,13 +104,14 @@ ToolsBuilt.codeFormatter = (function () {
         output.value = res.output;
         copyBtn.disabled = false;
         const lines = res.output.replace(/\n$/, '').split('\n').length;
-        setStatus(res.changed ? `Formatted, ${lines} ${lines === 1 ? 'line' : 'lines'}` : 'Already formatted');
+        setStatus(res.changed ? `${res.options && res.options.mode === 'minify' ? 'Minified' : 'Formatted'}, ${lines} ${lines === 1 ? 'line' : 'lines'}` : 'Already formatted');
+        showWarnings(res.warnings);
         saveOptions();
       } catch (err) {
         output.value = '';
         copyBtn.disabled = true;
         // Syntax and input errors come from the logic module; anything else means the engine failed to load
-        const expected = /^(Python|Java)SyntaxError$/.test(err && err.name) || /^(Paste|Unsupported)/.test(err && err.message);
+        const expected = /^(Python|Java|Html)SyntaxError$/.test(err && err.name) || /^(Paste|Unsupported)/.test(err && err.message);
         if (expected) {
           showError(err);
         } else {

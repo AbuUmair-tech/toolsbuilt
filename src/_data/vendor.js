@@ -21,7 +21,16 @@ const PACKAGES = {
   },
   prettier: {
     name: 'prettier',
-    files: { 'standalone.mjs': 'standalone.mjs', 'doc.mjs': 'doc.mjs', 'LICENSE': 'LICENSE' },
+    files: {
+      'standalone.mjs': 'standalone.mjs',
+      'doc.mjs': 'doc.mjs',
+      // HTML formatter: the html parser plus postcss and babel/estree for inline <style> and <script>
+      'plugins/html.mjs': 'plugins/html.mjs',
+      'plugins/postcss.mjs': 'plugins/postcss.mjs',
+      'plugins/babel.mjs': 'plugins/babel.mjs',
+      'plugins/estree.mjs': 'plugins/estree.mjs',
+      'LICENSE': 'LICENSE'
+    },
     entry: 'standalone.mjs'
   },
   prettierJava: {
@@ -87,6 +96,15 @@ module.exports = {
   // Import maps used by each formatter page (bare specifiers -> self-hosted files)
   importMaps: {
     python: { imports: { '@wasm-fmt/ruff_fmt': packages.ruff.entry } },
+    html: {
+      imports: {
+        prettier: packages.prettier.entry,
+        'prettier/plugins/html': packages.prettier.base + 'plugins/html.mjs',
+        'prettier/plugins/postcss': packages.prettier.base + 'plugins/postcss.mjs',
+        'prettier/plugins/babel': packages.prettier.base + 'plugins/babel.mjs',
+        'prettier/plugins/estree': packages.prettier.base + 'plugins/estree.mjs'
+      }
+    },
     java: {
       imports: {
         prettier: packages.prettier.entry,

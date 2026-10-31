@@ -2212,6 +2212,37 @@ async function testCodeFormatters() {
   assert(braceErr && braceErr.name === 'JavaSyntaxError' && /missing "}"/.test(braceErr.message), 'JavaFormatter: missing brace is reported');
   assert(await rejects(javaFormatter.format('class C { void h() { int y = ; } }')), 'JavaFormatter: invalid expression returns an error');
   assert(await rejects(javaFormatter.format('class D {}', { indentWidth: 3 })), 'JavaFormatter: unsupported indent is rejected');
+
+  // HTML (Prettier html parser + postcss/babel for inline style and script)
+  const htmlFormatter = require(path.join(ROOT, 'src/tools/html-formatter/logic.js'));
+  const messy = await htmlFormatter.format('<div><p>Hi<span>there</span></p></div>');
+  assert(messy.output === '<div>\n  <p>Hi<span>there</span></p>\n</div>\n' && messy.changed && messy.warnings.length === 0,
+    `HtmlFormatter: messy div/p/span formats to the expected multi-line output (got ${JSON.stringify(messy.output)})`);
+  const mismatch = await rejects(htmlFormatter.format('<div>\n  <section>\n    <p>Hello\n</div>'));
+  assert(mismatch && mismatch.name === 'HtmlSyntaxError' && mismatch.line === 4 && mismatch.column === 1 && /^Line 4, column 1: Unexpected closing tag "div"/.test(mismatch.message),
+    `HtmlFormatter: a closing tag that does not match reports line 4, column 1 (got ${mismatch && mismatch.message})`);
+  const divInP = await rejects(htmlFormatter.format('<p>Intro\n<div>Block</div>\n</p>'));
+  assert(divInP && divInP.line === 3 && /closing tag "p"/.test(divInP.message), 'HtmlFormatter: a div inside a p is reported on the stray </p> line');
+  const unclosed = await htmlFormatter.format('<main>\n  <div class="card">\n    <span>Hi</span>');
+  assert(unclosed.warnings.length === 2 && unclosed.warnings[0].line === 1 && unclosed.warnings[1].line === 2 && unclosed.warnings[1].tag === 'div',
+    'HtmlFormatter: elements never closed are warnings with their line numbers');
+  assert((await htmlFormatter.format('<ul><li>a<li>b</ul><p>x <img src="a.png"> <br/>')).warnings.length === 0, 'HtmlFormatter: optional end tags and void elements are not warnings');
+  assert(htmlFormatter.findUnclosed('<script>if (a<b) { x = "<div>" }</script><div title="a>b"></div>').length === 0, 'HtmlFormatter: tags inside script and attribute values are ignored by the scanner');
+  const embedded = await htmlFormatter.format("<style>body{margin:0;color:#222}</style><script>function hi(name){return 'Hi '+name}</script>");
+  assert(embedded.output.includes('  body {\n    margin: 0;') && embedded.output.includes('    return "Hi " + name;'), 'HtmlFormatter: inline CSS and JavaScript are formatted');
+  const tabs = await htmlFormatter.format('<div><section><p>Hi</p></section></div>', { indentWidth: 'tab' });
+  assert(tabs.output.includes('\n\t<section>'), 'HtmlFormatter: tab indentation');
+  const four = await htmlFormatter.format('<div><section><p>Hi</p></section></div>', { indentWidth: '4' });
+  assert(four.output.includes('\n    <section>'), 'HtmlFormatter: 4-space indentation');
+  const ignoreWs = await htmlFormatter.format('<div><b>bold</b> <i>it</i></div>', { whitespace: 'ignore' });
+  assert(ignoreWs.output === '<div>\n  <b>bold</b>\n  <i>it</i>\n</div>\n', 'HtmlFormatter: whitespace sensitivity "ignore" breaks between inline elements');
+  assert(await rejects(htmlFormatter.format('<div>', { indentWidth: '3' })) && await rejects(htmlFormatter.format('  ')), 'HtmlFormatter: unsupported options and empty input are rejected');
+
+  // Minify: comments and whitespace between tags only
+  const min = await htmlFormatter.format('<!-- note -->\n<div>\n  <p>Hello   <b>world</b> <i>!</i></p>\n  <pre>  keep   me </pre>\n<script>\n var a = 1;  \n</script>\n</div>\n', { mode: 'minify' });
+  assert(min.output === '<div><p>Hello <b>world</b> <i>!</i></p><pre>  keep   me </pre><script>\n var a = 1;  \n</script></div>' && min.saved > 0,
+    `HtmlFormatter: minify removes comments and whitespace between tags, keeping inline spaces, pre and script (got ${JSON.stringify(min.output)})`);
+  assert(htmlFormatter.minify('<!--[if IE]><p>old</p><![endif]-->').includes('[if IE]'), 'HtmlFormatter: minify keeps conditional comments');
 }
 
 testCodeFormatters().catch((err) => {
