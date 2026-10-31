@@ -1,0 +1,170 @@
+---
+layout: layouts/tool.njk
+toolSlug: python-formatter
+title: "Python Formatter: Format Python Code Online (Ruff)"
+description: "Format Python code online with the Ruff formatter, compatible with Black. Choose line length, indent and quotes. Runs in your browser; code stays private."
+permalink: /tools/python-formatter/
+h1: "Python Formatter"
+quickAnswer: "Paste your code and press Format. The Ruff formatter rewrites it in Black-compatible style: 4-space indents, spaces around operators, two blank lines between top-level functions and classes, double quotes, and lines wrapped at 88 characters (or 79 for strict PEP 8). It changes only layout, not behaviour, and reports syntax errors with a line number instead of guessing a fix."
+workedExamples:
+  - title: "A cramped function"
+    before: |-
+      def  calculate_total( items,tax_rate = 0.18 ) :
+        subtotal=sum( item['price']*item['qty'] for item in items )
+        return subtotal*( 1+tax_rate )
+    after: |-
+      def calculate_total(items, tax_rate=0.18):
+          subtotal = sum(item["price"] * item["qty"] for item in items)
+          return subtotal * (1 + tax_rate)
+    result: "Spaces around = and * are normalised, the default argument loses its spaces, the body is indented with 4 spaces, and single quotes become double quotes."
+  - title: "A long dictionary"
+    before: |-
+      config = {'host':'localhost','port':5432,'database':'inventory','user':'admin','options':{'sslmode':'require','connect_timeout':10}}
+    after: |-
+      config = {
+          "host": "localhost",
+          "port": 5432,
+          "database": "inventory",
+          "user": "admin",
+          "options": {"sslmode": "require", "connect_timeout": 10},
+      }
+    result: "The line is longer than 88 characters, so each key moves to its own line with a trailing comma. The nested dictionary still fits on one line, so it stays there."
+  - title: "A class with crowded methods"
+    before: |-
+      class   Account :
+          def __init__(self,owner,balance=0):
+              self.owner=owner;self.balance=balance
+          def deposit(self,amount):
+              if amount<=0: raise ValueError('Deposit must be positive')
+              self.balance+=amount
+              return self.balance
+    after: |-
+      class Account:
+          def __init__(self, owner, balance=0):
+              self.owner = owner
+              self.balance = balance
+
+          def deposit(self, amount):
+              if amount <= 0:
+                  raise ValueError("Deposit must be positive")
+              self.balance += amount
+              return self.balance
+    result: "The two statements joined by a semicolon are split onto separate lines, the one-line if body is expanded, and a blank line separates the methods."
+commonMistakes:
+  - title: "Mixing tabs and spaces"
+    description: "Python treats a tab and spaces as different indentation, so a block that mixes them raises IndentationError or TabError. The formatter cannot parse such code and reports \"Unexpected indentation\" with a line number. Re-indent that block with spaces only, then format again."
+  - title: "Expecting the formatter to fix syntax errors"
+    description: "A missing colon, bracket or quote makes the file unparseable. The formatter only rearranges valid code, so fix the error at the reported line first. The line it reports can be just after the real mistake, such as the line following an unclosed bracket."
+  - title: "Expecting imports to be sorted or split"
+    description: "Formatting keeps import os, sys as written. Splitting one import per line and sorting imports are linter jobs, done by Ruff's lint rules or isort, not by the formatter."
+  - title: "Not agreeing on a line length"
+    description: "If one person formats at 79 columns and another at 88, every file changes back and forth. Pick one value for the project and keep it in a shared configuration, such as line-length in pyproject.toml."
+  - title: "Leaving a trailing comma you do not want"
+    description: "A trailing comma after the last item tells the formatter to keep a call or collection expanded one item per line, even if it would fit on one line. Remove the comma if you want it collapsed."
+faqs:
+  - q: "How do I format Python code online?"
+    a: "Paste your code into the box, choose a line length, indentation and quote style, and press Format or Ctrl+Enter. The formatted code appears below, ready to copy. The formatter runs in your browser, so your code is not uploaded."
+  - q: "Is this the same as Black?"
+    a: "It uses the Ruff formatter, which is designed as a drop-in replacement for Black and produces near-identical output on Black-formatted code. Unlike Black, Ruff lets you choose the quote style."
+  - q: "What line length does PEP 8 recommend?"
+    a: "PEP 8 recommends a maximum of 79 characters for code and 72 for comments and docstrings, and allows teams to agree on up to 99. Black and Ruff default to 88, which is why 88 is the default here."
+  - q: "Why does the formatter say \"Unexpected indentation\"?"
+    a: "A line is indented more than the block it belongs to, often because tabs and spaces are mixed or a line was pasted with extra indentation. Fix the indentation at the reported line so each block uses the same number of spaces."
+  - q: "Does the formatter change single quotes to double quotes?"
+    a: "Yes, by default, to match Black. Choose Single to prefer single quotes, or Preserve to keep each string's existing quotes. Quotes are only swapped when that does not require extra escaping."
+  - q: "Will formatting change how my code runs?"
+    a: "No. The formatter only changes whitespace, line breaks, quotes and parentheses that do not affect meaning. If the code cannot be parsed, it stops with an error rather than changing anything."
+  - q: "What is the difference between a formatter and a linter?"
+    a: "A formatter rewrites layout automatically. A linter reports problems such as unused imports, undefined names or risky patterns, and only some of those can be fixed automatically. Most projects use both."
+  - q: "Is my code uploaded to a server?"
+    a: "No. The Ruff formatter is compiled to WebAssembly and served from this site; it downloads the first time you format and then runs inside your browser."
+sources:
+  - name: "PEP 8: Style Guide for Python Code"
+    url: "https://peps.python.org/pep-0008/"
+  - name: "The Ruff Formatter (Astral documentation)"
+    url: "https://docs.astral.sh/ruff/formatter/"
+lastReviewed: "2026-10-31"
+howto:
+  name: "How to Format Python Code Online"
+  description: "Format Python code in Black-compatible style with the Ruff formatter, in your browser."
+  steps:
+    - name: "Paste your code"
+      text: "Paste a Python snippet or whole file into the input box, or load the example."
+    - name: "Choose options"
+      text: "Pick a line length (88 by default), indent width and quote style."
+    - name: "Format"
+      text: "Press Format or Ctrl+Enter. Fix any syntax error at the reported line, then format again."
+    - name: "Copy the result"
+      text: "Copy the formatted code from the output box."
+---
+{% from "partials/code-formatter.njk" import codeFormatter %}
+
+    {% call codeFormatter({ language: "Python", importMap: vendor.importMaps.python, engine: "Ruff formatter (" + vendor.packages.ruff.name + " " + vendor.packages.ruff.version + ")", sample: "import os,sys\ndef  calculate_total( items,tax_rate = 0.18 ) :\n  subtotal=sum( item['price']*item['qty'] for item in items )\n  return subtotal*( 1+tax_rate )\nclass   Account :\n    def __init__(self,owner,balance=0):\n        self.owner=owner;self.balance=balance\n    def deposit(self,amount):\n        if amount<=0: raise ValueError('Deposit must be positive')\n        self.balance+=amount\n        return self.balance\nconfig = {'host':'localhost','port':5432,'database':'inventory','user':'admin','options':{'sslmode':'require','connect_timeout':10}}\n" }) %}
+      <div class="form-group">
+        <label for="opt-line-length">Line length</label>
+        <select id="opt-line-length" class="form-control" data-option="lineLength">
+          <option value="79">79 (PEP 8)</option>
+          <option value="88" selected>88 (Black / Ruff default)</option>
+          <option value="100">100</option>
+          <option value="120">120</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="opt-indent">Indent</label>
+        <select id="opt-indent" class="form-control" data-option="indentWidth">
+          <option value="4" selected>4 spaces</option>
+          <option value="2">2 spaces</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="opt-quotes">Quote style</label>
+        <select id="opt-quotes" class="form-control" data-option="quoteStyle">
+          <option value="double" selected>Double</option>
+          <option value="single">Single</option>
+          <option value="preserve">Preserve</option>
+        </select>
+      </div>
+    {% endcall %}
+
+    <!-- tool-end -->
+
+    <section class="content-section" aria-labelledby="pep8-heading">
+      <h2 id="pep8-heading">PEP 8 basics</h2>
+      <p>PEP 8 is Python's official style guide. A formatter applies the mechanical parts of it for you, so you can spend review time on what the code does rather than how it is laid out. The rules it enforces most often are:</p>
+      <ul class="content-list">
+        <li><strong>Four spaces per indentation level.</strong> Spaces, not tabs, and never a mix of the two in one block.</li>
+        <li><strong>A limited line length.</strong> PEP 8 recommends 79 characters for code and 72 for comments and docstrings, so that two files fit side by side and diffs stay readable.</li>
+        <li><strong>Blank lines with meaning.</strong> Two blank lines around top-level functions and classes, one blank line between methods inside a class.</li>
+        <li><strong>Spaces around operators.</strong> One space either side of assignment and comparison operators (<code>x = y + 1</code>, <code>if total &gt;= limit</code>), but no spaces around <code>=</code> in keyword arguments and defaults (<code>def f(rate=0.18)</code>).</li>
+        <li><strong>No extra spaces inside brackets</strong> and one statement per line, so <code>a = 1; b = 2</code> becomes two lines.</li>
+      </ul>
+      <p>Naming conventions, such as <code>snake_case</code> for functions and variables and <code>CapWords</code> for classes, are also part of PEP 8, but a formatter never renames anything. That is a job for a linter and for code review.</p>
+    </section>
+
+    <section class="content-section" aria-labelledby="ruff-style-heading">
+      <h2 id="ruff-style-heading">How Ruff and Black style differs from plain PEP 8</h2>
+      <p>PEP 8 leaves many choices open, and two people following it can still lay out the same code differently. Black, and the Ruff formatter that copies its style, remove those choices so every file in a project looks the same:</p>
+      <ul class="content-list">
+        <li><strong>88 columns instead of 79.</strong> Black chose 88 because it produces noticeably shorter files than 79 while still fitting comfortably on screen. Choose 79 here if your project follows PEP 8's limit strictly.</li>
+        <li><strong>Double quotes by default.</strong> PEP 8 allows either quote style as long as you are consistent; Black standardises on double quotes. Ruff adds the option to prefer single quotes or to keep existing ones.</li>
+        <li><strong>Predictable wrapping.</strong> When a call, list or dictionary is too long, it is split one item per line with a trailing comma, so adding an item later changes only one line in the diff.</li>
+        <li><strong>The magic trailing comma.</strong> If you leave a trailing comma after the last item, the formatter keeps the expression expanded even when it would fit on one line.</li>
+      </ul>
+      <p>Because the output is the same no matter who runs it, teams usually format on save or in a pre-commit hook and stop discussing layout in reviews.</p>
+    </section>
+
+    <section class="content-section" aria-labelledby="cannot-fix-heading">
+      <h2 id="cannot-fix-heading">Errors the formatter cannot fix</h2>
+      <p>The formatter first parses your code into a syntax tree, and only then prints it back out in a consistent style. If parsing fails, there is nothing to format, so it reports an error with the line and column instead of guessing what you meant:</p>
+      <ul class="content-list">
+        <li><strong>IndentationError and TabError.</strong> Mixing tabs and spaces, or indenting a line more than its block, makes the structure ambiguous. The formatter reports "Unexpected indentation" at the first such line.</li>
+        <li><strong>Syntax errors.</strong> A missing colon after <code>def</code> or <code>if</code>, an unclosed bracket or an unterminated string stops parsing. An unclosed bracket is often reported on the next line, because that is where Python realises the expression did not end.</li>
+        <li><strong>Problems a linter finds.</strong> Unused imports, undefined names or a shadowed variable are valid syntax, so the formatter leaves them alone.</li>
+      </ul>
+      <p>When the formatter reports an error, the cursor jumps to that position in the input so you can fix it and format again.</p>
+    </section>
+
+    <section class="content-section" aria-labelledby="privacy-heading">
+      <h2 id="privacy-heading">Private by design</h2>
+      <p>This page runs the Ruff formatter compiled to WebAssembly. The engine is served from this site and only downloaded when you first format code on this page; after that it runs entirely in your browser, so proprietary or unpublished code never leaves your device. For other languages, see the <a href="/tools/java-formatter/">Java Formatter</a>, or the <a href="/tools/json-formatter/">JSON Formatter</a> for data files.</p>
+    </section>

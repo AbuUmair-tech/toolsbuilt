@@ -35,6 +35,8 @@ function createServer() {
     '.html': 'text/html; charset=utf-8',
     '.css': 'text/css; charset=utf-8',
     '.js': 'application/javascript; charset=utf-8',
+    '.mjs': 'application/javascript; charset=utf-8',
+    '.wasm': 'application/wasm',
     '.json': 'application/json',
     '.svg': 'image/svg+xml',
     '.png': 'image/png',
@@ -370,6 +372,30 @@ async function runAllToolUxTests() {
         await page.waitForTimeout(250);
         const taxInvalid = await page.getAttribute('#tax-price', 'aria-invalid');
         assert(taxInvalid === 'true' && await page.isVisible('#error-box'), '[sales-tax] Negative price triggered accessible error state');
+      }
+
+      if (toolSlug === 'python-formatter' || toolSlug === 'java-formatter') {
+        const isPython = toolSlug === 'python-formatter';
+        const offsite = [];
+        const onRequest = (req) => { if (!req.url().startsWith('http://localhost:8092/')) offsite.push(req.url()); };
+        page.on('request', onRequest);
+
+        await page.fill('#code-input', isPython ? 'def  f( a,b ) :\n  return a+b\n' : 'class A{int f(int a,int b){return a+b;}}');
+        await page.keyboard.press(process.platform === 'darwin' ? 'Meta+Enter' : 'Control+Enter');
+        await page.waitForFunction(() => document.getElementById('code-output').value.length > 0, null, { timeout: 30000 });
+        const formatted = await page.inputValue('#code-output');
+        assert(isPython ? formatted === 'def f(a, b):\n    return a + b\n' : formatted.includes('int f(int a, int b) {'),
+          `[${toolSlug}] Ctrl+Enter formats with the self-hosted engine`);
+
+        await page.fill('#code-input', isPython ? 'def f(:\n    pass\n' : 'class A { void f() { int x = 1 } }');
+        await page.click('#format-btn');
+        await page.waitForSelector('#error-box:not(.hidden)', { timeout: 10000 });
+        const errText = await page.textContent('#error-box');
+        const invalid = await page.getAttribute('#code-input', 'aria-invalid');
+        assert(/^Line \d+, column \d+/.test(errText) && invalid === 'true', `[${toolSlug}] Syntax error reported with line and column: "${errText.trim()}"`);
+
+        page.off('request', onRequest);
+        assert(offsite.length === 0, `[${toolSlug}] No off-site requests while formatting (${offsite.join(', ') || 'none'})`);
       }
 
       if (toolSlug === 'word-counter') {

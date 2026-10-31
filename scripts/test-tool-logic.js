@@ -1277,9 +1277,62 @@ const salesTaxLogic = require(path.join(ROOT, 'src/tools/sales-tax-calculator/lo
   assert(throws(() => salesTaxLogic.removeTax('', 18)), 'SalesTaxLogic: missing price is rejected');
 }
 
-console.log(`\nLogic Tests Summary: ${passed} passed, ${failures} failed.`);
-if (failures > 0) {
-  process.exit(1);
-} else {
-  console.log('✅ ALL PURE LOGIC & PROPERTY FUZZ TESTS PASSED!');
+// Code formatters (async: the engines load with dynamic import)
+async function testCodeFormatters() {
+  const pyFormatter = require(path.join(ROOT, 'src/tools/python-formatter/logic.js'));
+  const javaFormatter = require(path.join(ROOT, 'src/tools/java-formatter/logic.js'));
+  const rejects = async (promise) => { try { await promise; return null; } catch (e) { return e; } };
+
+  // Python (Ruff): a messy function formats to the expected output
+  const messyPy = "def  calculate_total( items,tax_rate = 0.18 ) :\n  subtotal=sum( item['price']*item['qty'] for item in items )\n  return subtotal*( 1+tax_rate )\n";
+  const expectedPy = "def calculate_total(items, tax_rate=0.18):\n    subtotal = sum(item[\"price\"] * item[\"qty\"] for item in items)\n    return subtotal * (1 + tax_rate)\n";
+  const py = await pyFormatter.format(messyPy);
+  assert(py.output === expectedPy && py.changed, 'PythonFormatter: messy function formats to the expected Ruff output');
+  assert((await pyFormatter.format(expectedPy)).changed === false, 'PythonFormatter: formatted code is left unchanged');
+
+  const py79 = await pyFormatter.format("config = {'host':'localhost','port':5432,'database':'inventory','user':'admin','options':{'sslmode':'require','connect_timeout':10}}\n", { lineLength: 79, quoteStyle: 'single' });
+  assert(py79.output === "config = {\n    'host': 'localhost',\n    'port': 5432,\n    'database': 'inventory',\n    'user': 'admin',\n    'options': {'sslmode': 'require', 'connect_timeout': 10},\n}\n", 'PythonFormatter: 79 columns with single quotes');
+  const py2 = await pyFormatter.format('def f():\n    return 1\n', { indentWidth: 2 });
+  assert(py2.output === 'def f():\n  return 1\n', 'PythonFormatter: 2-space indent option');
+
+  // Python: a syntax error returns an error with a line number
+  const pyErr = await rejects(pyFormatter.format('def greet(name):\n    print("hi"\n\nx = 1\n'));
+  assert(pyErr && pyErr.name === 'PythonSyntaxError' && pyErr.line === 4 && /^Line 4, column 1:/.test(pyErr.message),
+    `PythonFormatter: unclosed parenthesis reports a syntax error on line 4 (got ${pyErr && pyErr.message})`);
+  const tabErr = await rejects(pyFormatter.format('if True:\n\tx = 1\n        y = 2\n'));
+  assert(tabErr && tabErr.line === 3 && /Unexpected indentation/.test(tabErr.message), 'PythonFormatter: mixed tabs and spaces report "Unexpected indentation" on line 3');
+  const colErr = await rejects(pyFormatter.format('x = 1\ndef f(:\n    pass\n'));
+  assert(colErr && colErr.line === 2 && colErr.column === 7, `PythonFormatter: error column is reported (got ${colErr && colErr.line}:${colErr && colErr.column})`);
+  assert(pyFormatter.positionFromByteOffset('é = 1\nx', 7).line === 2, 'PythonFormatter: byte offsets with multi-byte characters map to the right line');
+  assert(await rejects(pyFormatter.format('   ')), 'PythonFormatter: empty input is rejected');
+  assert(await rejects(pyFormatter.format('x = 1', { lineLength: 77 })), 'PythonFormatter: unsupported line length is rejected');
+
+  // Java (Prettier + prettier-plugin-java): a messy class formats to the expected output
+  const messyJava = "public class  OrderTotal{private final List<Integer> prices;public OrderTotal(List<Integer> prices){this.prices=prices;}public int total(){int sum=0;for(int p:prices){sum+=p;}return sum;}}\n";
+  const expectedJava = "public class OrderTotal {\n\n    private final List<Integer> prices;\n\n    public OrderTotal(List<Integer> prices) {\n        this.prices = prices;\n    }\n\n    public int total() {\n        int sum = 0;\n        for (int p : prices) {\n            sum += p;\n        }\n        return sum;\n    }\n}\n";
+  const java = await javaFormatter.format(messyJava);
+  assert(java.output === expectedJava && java.changed, 'JavaFormatter: messy class formats to the expected Prettier output');
+  assert((await javaFormatter.format(expectedJava)).changed === false, 'JavaFormatter: formatted code is left unchanged');
+  const java2 = await javaFormatter.format("class Adults{List<String> names(List<Person> people){return people.stream().filter(p->p.getAge()>=18).map(p->p.getName().toUpperCase()).sorted().collect(Collectors.toList());}}\n", { indentWidth: 2, printWidth: 100 });
+  assert(java2.output === "class Adults {\n\n  List<String> names(List<Person> people) {\n    return people\n      .stream()\n      .filter(p -> p.getAge() >= 18)\n      .map(p -> p.getName().toUpperCase())\n      .sorted()\n      .collect(Collectors.toList());\n  }\n}\n", 'JavaFormatter: 2-space indent and 100 print width (Google-style)');
+
+  // Java: invalid snippets return an error, with the position when it can be found
+  const javaErr = await rejects(javaFormatter.format('public class A {\n  void f() {\n    int x = 1\n  }\n}\n'));
+  assert(javaErr && javaErr.name === 'JavaSyntaxError' && javaErr.line === 3 && javaErr.column === 14 && /missing ";"/.test(javaErr.message),
+    `JavaFormatter: missing semicolon reports line 3, column 14 (got ${javaErr && javaErr.message})`);
+  const braceErr = await rejects(javaFormatter.format('class B {\n  void g() {\n    if (x) {\n    }\n'));
+  assert(braceErr && braceErr.name === 'JavaSyntaxError' && /missing "}"/.test(braceErr.message), 'JavaFormatter: missing brace is reported');
+  assert(await rejects(javaFormatter.format('class C { void h() { int y = ; } }')), 'JavaFormatter: invalid expression returns an error');
+  assert(await rejects(javaFormatter.format('class D {}', { indentWidth: 3 })), 'JavaFormatter: unsupported indent is rejected');
 }
+
+testCodeFormatters().catch((err) => {
+  assert(false, `Code formatter tests threw: ${err && err.stack}`);
+}).then(() => {
+  console.log(`\nLogic Tests Summary: ${passed} passed, ${failures} failed.`);
+  if (failures > 0) {
+    process.exit(1);
+  } else {
+    console.log('✅ ALL PURE LOGIC & PROPERTY FUZZ TESTS PASSED!');
+  }
+});

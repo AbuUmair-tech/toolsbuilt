@@ -266,7 +266,8 @@ window.TOOLS_DATA = [
     "related": [
       "word-counter",
       "url-encoder-decoder",
-      "lorem-ipsum-generator"
+      "lorem-ipsum-generator",
+      "python-formatter"
     ]
   },
   {
@@ -279,7 +280,7 @@ window.TOOLS_DATA = [
     "categoryId": "text",
     "popular": false,
     "related": [
-      "word-counter",
+      "python-formatter",
       "lorem-ipsum-generator",
       "base64-encoder-decoder",
       "url-encoder-decoder"
@@ -297,7 +298,8 @@ window.TOOLS_DATA = [
     "related": [
       "json-formatter",
       "url-encoder-decoder",
-      "hash-generator"
+      "hash-generator",
+      "python-formatter"
     ]
   },
   {
@@ -312,7 +314,8 @@ window.TOOLS_DATA = [
     "related": [
       "json-formatter",
       "base64-encoder-decoder",
-      "text-case-converter"
+      "text-case-converter",
+      "java-formatter"
     ]
   },
   {
@@ -438,6 +441,38 @@ window.TOOLS_DATA = [
       "percentage-calculator",
       "gold-calculator",
       "pakistan-salary-tax-calculator"
+    ]
+  },
+  {
+    "id": "python-formatter",
+    "name": "Python Formatter",
+    "url": "/tools/python-formatter/",
+    "icon": "code",
+    "description": "Format Python code online with the Ruff formatter in Black-compatible style. Choose line length, indent and quotes; runs privately in your browser.",
+    "category": "Code Formatters",
+    "categoryId": "code",
+    "popular": false,
+    "related": [
+      "java-formatter",
+      "json-formatter",
+      "text-case-converter",
+      "base64-encoder-decoder"
+    ]
+  },
+  {
+    "id": "java-formatter",
+    "name": "Java Formatter",
+    "url": "/tools/java-formatter/",
+    "icon": "braces",
+    "description": "Format Java code online with Prettier and prettier-plugin-java. Choose 2 or 4 space indents and line width; runs privately in your browser.",
+    "category": "Code Formatters",
+    "categoryId": "code",
+    "popular": false,
+    "related": [
+      "python-formatter",
+      "json-formatter",
+      "url-encoder-decoder",
+      "base64-encoder-decoder"
     ]
   }
 ];

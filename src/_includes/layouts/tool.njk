@@ -240,6 +240,14 @@ layout: layouts/base.njk
             {% if ex.inputs and ex.inputs.length > 0 %}
             <p class="worked-example-inputs">{{ ex.inputs | join(" · ") }}</p>
             {% endif %}
+            {% if ex.before %}
+            <p class="worked-example-label">Before</p>
+            <pre class="code-block" tabindex="0"><code>{{ ex.before }}</code></pre>
+            {% endif %}
+            {% if ex.after %}
+            <p class="worked-example-label">After</p>
+            <pre class="code-block" tabindex="0"><code>{{ ex.after }}</code></pre>
+            {% endif %}
             {% if ex.steps and ex.steps.length > 0 %}
             <ol class="worked-example-steps">
               {% for step in ex.steps %}

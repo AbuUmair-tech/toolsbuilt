@@ -80,6 +80,11 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPassthroughCopy({ 'src/manifest.webmanifest': 'manifest.webmanifest' });
   eleventyConfig.addPassthroughCopy({ 'src/assets': 'assets' });
 
+  // Self-hosted formatter engines: pinned npm files -> /assets/vendor/<package>-<version>/
+  for (const [src, dest] of Object.entries(require('./src/_data/vendor.js').passthrough)) {
+    eleventyConfig.addPassthroughCopy({ [src]: dest });
+  }
+
   // Passthrough tool-specific scripts and styles
   eleventyConfig.addPassthroughCopy('src/tools/**/*.js');
   eleventyConfig.addPassthroughCopy('src/tools/**/*.css');

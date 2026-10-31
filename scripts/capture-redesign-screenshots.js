@@ -30,7 +30,9 @@ const PAGES = [
   { name: 'cgpa-to-percentage-calculator', path: '/tools/cgpa-to-percentage-calculator/' },
   { name: 'marks-percentage-calculator', path: '/tools/marks-percentage-calculator/' },
   { name: 'gold-calculator', path: '/tools/gold-calculator/?rate=400000&per=tola&ratek=24&weight=2&unit=tola&karat=22&making=percent&mv=8&cur=PKR' },
-  { name: 'sales-tax-calculator', path: '/tools/sales-tax-calculator/?mode=remove&price=5000&rate=18&qty=1&cur=PKR' }
+  { name: 'sales-tax-calculator', path: '/tools/sales-tax-calculator/?mode=remove&price=5000&rate=18&qty=1&cur=PKR' },
+  { name: 'python-formatter', path: '/tools/python-formatter/', format: true },
+  { name: 'java-formatter', path: '/tools/java-formatter/', format: true }
 ];
 const ONLY = process.argv[4] ? process.argv[4].split(',') : null;
 const VIEWPORTS = [
@@ -58,6 +60,12 @@ async function main() {
         await page.goto(`${BASE_URL}${p.path}`, { waitUntil: 'load' });
         await page.evaluate(() => document.fonts && document.fonts.ready);
         await page.waitForTimeout(300);
+        // Code formatter pages: format the example so the shot shows real output
+        if (p.format) {
+          await page.click('#format-btn');
+          await page.waitForFunction(() => document.getElementById('code-output').value.length > 0, null, { timeout: 30000 });
+          await page.evaluate(() => window.scrollTo(0, 0));
+        }
         const file = path.join(OUT_DIR, `${PREFIX}${p.name}-${vp.width}-${theme}.png`);
         // fullPage mode resizes the view mid-capture, which can stall on resize-driven layout
         // scripts; grow the viewport to the page height instead and take a plain screenshot.
