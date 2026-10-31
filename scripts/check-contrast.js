@@ -113,7 +113,16 @@ const PAIRS = [
   ['--color-error-text', '--surface-canvas', 4.5, 'Error text on page'],
   ['--border-strong', '--surface-input', 3.0, 'Input border on input background'],
   ['--border-strong', '--surface-muted', 3.0, 'Input border on muted surface'],
-  ['--accent-primary', '--surface-canvas', 3.0, 'Focus ring on page']
+  ['--accent-primary', '--surface-canvas', 3.0, 'Focus ring on page'],
+  ['--accent-primary', '--surface-card', 4.5, 'Link / accent text on card'],
+  ['--text-primary', '--surface-card', 4.5, 'Primary text on card'],
+  ['--cat-blue-icon', '--cat-blue-tile', 3.0, 'Category icon on its tile (blue)'],
+  ['--cat-green-icon', '--cat-green-tile', 3.0, 'Category icon on its tile (green)'],
+  ['--cat-purple-icon', '--cat-purple-tile', 3.0, 'Category icon on its tile (purple)'],
+  ['--cat-orange-icon', '--cat-orange-tile', 3.0, 'Category icon on its tile (orange)'],
+  ['--cat-teal-icon', '--cat-teal-tile', 3.0, 'Category icon on its tile (teal)'],
+  ['--cat-violet-icon', '--cat-violet-tile', 3.0, 'Category icon on its tile (violet)'],
+  ['--cat-pink-icon', '--cat-pink-tile', 3.0, 'Category icon on its tile (pink)']
 ];
 
 // Kept for consumers that import the computed table

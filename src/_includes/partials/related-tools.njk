@@ -14,7 +14,7 @@
     {% for rel in relTools %}
     <a href="/tools/{{ rel.slug }}/" class="tool-card" data-slug="{{ rel.slug }}">
       <div class="tool-card-header">
-        <div class="tool-icon-tile" data-cat="{{ rel.category }}">
+        <div class="tool-icon-tile" data-cat="{{ rel.category }}" data-color="{{ (categories | findCategory(rel.category)).color }}">
           {{ rel.icon | safe }}
         </div>
         <span class="tool-category-chip" data-cat="{{ rel.category }}">{{ (categories | findCategory(rel.category)).name }}</span>

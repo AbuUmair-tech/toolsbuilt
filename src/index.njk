@@ -5,6 +5,7 @@ description: Free online calculators and web tools to solve everyday date, time,
 permalink: /index.html
 canonical: https://toolsbuilt.com/
 ---
+{% import "partials/icon.njk" as icons %}
 
 {% block jsonLd %}
   <!-- JSON-LD Schema 1: Organization -->
@@ -55,6 +56,7 @@ canonical: https://toolsbuilt.com/
         </svg>
         <span class="hero-search-placeholder">Search {{ tools | length }} calculators and tools</span>
         <kbd class="hero-search-kbd search-kbd">Ctrl K</kbd>
+        <span class="hero-search-submit" aria-hidden="true">Search</span>
       </button>
     </section>
 
@@ -66,9 +68,13 @@ canonical: https://toolsbuilt.com/
         {% set catCount = (tools | filterByCategory(cat.slug)) | length %}
         <li>
           <a href="{{ cat.slug | categoryUrl }}" class="category-card">
-            <span class="category-card-title">{{ cat.name }}</span>
-            <span class="category-card-desc">{{ cat.description }}</span>
-            <span class="category-card-count">{{ catCount }} {{ catCount | pluralize('tool') }}</span>
+            <span class="icon-tile" data-color="{{ cat.color }}" aria-hidden="true">{{ icons.icon(cat.icon, "", 22) }}</span>
+            <span class="category-card-body">
+              <span class="category-card-title">{{ cat.name }}</span>
+              <span class="category-card-desc">{{ cat.description }}</span>
+              <span class="category-card-count">{{ catCount }} {{ catCount | pluralize('tool') }}</span>
+            </span>
+            {{ icons.icon("arrow-right", "card-arrow", 20) }}
           </a>
         </li>
         {% endfor %}
@@ -109,15 +115,15 @@ canonical: https://toolsbuilt.com/
     <section class="home-section" aria-label="Why ToolsBuilt">
       <ul class="trust-row">
         <li>
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+          <span class="icon-tile" data-color="blue" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg></span>
           <span>Runs in your browser</span>
         </li>
         <li>
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+          <span class="icon-tile" data-color="green" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg></span>
           <span>Free with no sign-up</span>
         </li>
         <li>
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="5" x2="5" y2="19"></line><circle cx="6.5" cy="6.5" r="2.5"></circle><circle cx="17.5" cy="17.5" r="2.5"></circle></svg>
+          <span class="icon-tile" data-color="purple" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="5" x2="5" y2="19"></line><circle cx="6.5" cy="6.5" r="2.5"></circle><circle cx="17.5" cy="17.5" r="2.5"></circle></svg></span>
           <span>Formulas shown on every page</span>
         </li>
       </ul>
