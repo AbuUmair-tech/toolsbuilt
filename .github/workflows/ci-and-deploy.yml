@@ -4,7 +4,7 @@ on:
   push:
     branches: [main, staging]
   pull_request:
-    branches: [staging]
+    branches: [staging, main]
 
 permissions:
   contents: read
@@ -36,7 +36,8 @@ jobs:
 
   deploy:
     needs: build-and-test
-    if: github.ref == 'refs/heads/main'
+    # Deploy only on a push to main (merges), never for pull requests
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     environment:
       name: github-pages

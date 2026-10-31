@@ -1,4 +1,51 @@
-# ToolsBuilt Calculation Engine & UX Upgrade Changelog
+# ToolsBuilt Tools Changelog
+
+## 3.0.0: Redesign, 7 new tools and 2 new categories
+
+**Branch:** `redesign-and-tools` · **Target:** `main` · **Date:** October 31, 2026
+
+### New categories
+- **Student & Exam Tools** (`/category/education/`): Grade Calculator and GPA Calculator moved here (their URLs are unchanged), plus two new tools.
+- **Code Formatters** (`/category/code/`).
+
+### New tools
+| Tool | URL | Notes |
+| :--- | :--- | :--- |
+| Pakistan Salary Tax Calculator 2026-27 | `/tools/pakistan-salary-tax-calculator/` | Finance Act 2026 slabs, 2025-26 comparison (incl. 9% surcharge), slab table rendered from `logic.js` data |
+| CGPA to Percentage Calculator | `/tools/cgpa-to-percentage-calculator/` | 4.0/5.0/10.0 scales; simple proportion, CBSE ×9.5, or the formula on the transcript; no HEC/university presets |
+| Marks Percentage Calculator | `/tools/marks-percentage-calculator/` | Total or subject-wise; data-driven typical BISE grade table |
+| Gold Calculator | `/tools/gold-calculator/` | Tola, gram, masha, ratti; 24/22/21/18K; making charges; no live prices |
+| GST & Sales Tax Calculator | `/tools/sales-tax-calculator/` | Add or remove tax; net + tax always add up to the total |
+| Python Formatter | `/tools/python-formatter/` | Ruff formatter as self-hosted WebAssembly |
+| Java Formatter | `/tools/java-formatter/` | Prettier + prettier-plugin-java, self-hosted |
+
+Every new tool has a pure `logic.js` with unit tests (including every figure from its brief), shareable result links where relevant, and an axe-core audit in light and dark mode.
+
+### Changes to existing tools
+- **Tool page template:** new section order, the tool above the fold on phones, plain content sections, one privacy line, quiet desktop table of contents, Person/publisher schema, `isAccessibleForFree`, ISO `lastReviewed` dates.
+- **Duplicates removed:** 11 pages showed the Quick Answer twice and 7 repeated their worked examples; each now appears once. Body "pitfalls" lists became front-matter Common Mistakes, and 7 calculators gained a Formula section from their existing text.
+- **Shareable result links** on percentage change, percentage, discount, days until date, date difference, add days, compound interest, loan EMI and SIP (old parameter names still work).
+- **Percentage Change Calculator:** a 3-step method, "Percent change word problems" with pre-filled links, and three search-shaped FAQs.
+- **Fixes:**
+  - Six tools loaded their scripts twice.
+  - Phones scrolled to the default result on load.
+  - Reduced-motion users got thousands of transitions on theme change.
+  - Fields that should be hidden were shown, because `.form-group` overrode the `hidden` attribute.
+  - Several scrollable tables could not be reached by keyboard.
+  - The GPA "Remove Term" button's accessible name did not match its text.
+  - Undersized tap targets.
+
+### Tooling
+- `check-external.js` blocks any third-party resource.
+- `check-links.js` requires every tool to be linked from the homepage, its category and `/tools/`.
+- `check-schema.js` validates the new schema fields.
+- `test-tool-ux.js` audits every tool listed in `tools.json`. It used to cover only 16.
+- Screenshots and the SEO report are now opt-in, so `npm test` no longer modifies tracked files.
+
+---
+
+## 2.0.0: Calculation engine & UX upgrade
+
 
 **Version:** 2.0.0
 **Branch:** `feat/tools-upgrade`

@@ -2956,4 +2956,34 @@
     border: 1px solid var(--color-error-border);
     border-radius: var(--radius-md);
   }
+
+  /* -------------------------------------------------------------------------
+     Touch targets: standalone links and controls are at least 44px tall and wide.
+     Links inside running text are exempt (WCAG 2.5.8).
+     ------------------------------------------------------------------------- */
+  .skip-link,
+  .site-logo,
+  .breadcrumb a,
+  .footer-links a,
+  .footer-link-btn,
+  .sources-list a,
+  .worked-example-link a,
+  .view-all-cat-link {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--touch-target-min);
+    min-width: var(--touch-target-min);
+  }
+
+  .footer-links {
+    gap: 0;
+  }
+
+  @media (pointer: coarse), (max-width: 767px) {
+    .btn-sm,
+    .choice-toggle-option span {
+      min-height: var(--touch-target-min);
+    }
+  }
+
 }

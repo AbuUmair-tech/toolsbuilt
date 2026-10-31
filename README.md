@@ -1,6 +1,6 @@
 # ToolsBuilt
 
-> Free, fast, privacy-first online calculators & tools. All tools run entirely in the browser — no uploads, no server processing.
+> Free, fast, privacy-first online calculators & tools. **30 tools in 7 categories**, all running entirely in the browser — no uploads, no server processing, and no third-party scripts, fonts or APIs (only the consent-gated Google Analytics loader).
 
 🌐 **Live Site:** [https://toolsbuilt.com](https://toolsbuilt.com)
 
@@ -14,6 +14,7 @@
 | **Templating** | [Nunjucks](https://mozilla.github.io/nunjucks/) | Extensible layouts, filters, and partial inheritance |
 | **Styling** | Vanilla CSS | Custom responsive design system with CSS custom properties (no CSS framework) |
 | **Client-Side Scripting** | Vanilla JavaScript (ES6+) | Native browser Web APIs, zero client runtime frameworks |
+| **Formatter engines** | Ruff (WASM), Prettier + prettier-plugin-java | Self-hosted from `/assets/vendor/`, loaded only on their own pages (see below) |
 | **Hosting & CDN** | [GitHub Pages](https://pages.github.com/) | Static edge distribution with custom domain `toolsbuilt.com` |
 | **Build & Tooling** | Node.js + npm | Zero-dependency test and verification suites |
 
@@ -35,6 +36,30 @@ npm run build:prod  # Build for production
 npm test        # Run full test suite
 ```
 
+Optional outputs, off by default so a test run does not modify tracked files:
+
+```bash
+SAVE_SCREENSHOTS=1 node scripts/test-tool-ux.js   # docs/screenshots/tools/*.png
+TOOLS_ONLY=gold-calculator node scripts/test-tool-ux.js   # run the UX/axe audit for some tools
+SAVE_SEO_REPORT=1 node scripts/check-seo.js       # docs/SEO_PAGE_REPORT.md
+```
+
+---
+
+## Categories and Tools
+
+| Category | URL | Tools | |
+| :--- | :--- | :---: | :--- |
+| Date & Time Tools | `/category/date-time/` | 4 | Days Until Date, Age Calculator, Date Difference, Add or Subtract Days |
+| Student & Exam Tools | `/category/education/` | 4 | Grade Calculator, GPA Calculator, CGPA to Percentage, Marks Percentage |
+| Math & Finance Tools | `/category/math-finance/` | 10 | Percentage, Loan EMI, Discount, Percentage Change, Compound Interest, SIP, Unit Converter, Pakistan Salary Tax, Gold, GST & Sales Tax |
+| Text & Writing Tools | `/category/text/` | 6 | Word Counter, Text Case Converter, JSON Formatter, Base64, URL Encoder, Lorem Ipsum |
+| Security & Privacy Tools | `/category/security/` | 3 | Password Generator, UUID Generator, Hash Generator |
+| Fun & Random Tools | `/category/fun/` | 1 | Random Name Picker |
+| Code Formatters | `/category/code/` | 2 | Python Formatter, Java Formatter |
+
+Every tool lives at `/tools/<slug>/`. Tool and category counts shown on the site are computed from `src/_data/tools.json`; never hard-code them.
+
 ---
 
 ## Project Structure
@@ -44,7 +69,9 @@ src/
 ├── _data/           # Global data files
 │   ├── site.json    # Site configuration
 │   ├── tools.json   # Tool registry (single source of truth)
-│   └── categories.json  # Category definitions
+│   ├── categories.json  # Category definitions (order = display order)
+│   ├── vendor.js    # Self-hosted formatter engines (versions, files, import maps)
+│   └── *.js         # Page data read from tool logic (slab tables, grade bands, gold units)
 ├── _includes/
 │   ├── layouts/     # Nunjucks layouts
 │   │   ├── base.njk    # Base HTML shell
@@ -54,29 +81,37 @@ src/
 │       ├── header.njk
 │       ├── footer.njk
 │       ├── breadcrumbs.njk
+│       ├── code-formatter.njk  # Shared UI for code formatter pages
 │       └── related-tools.njk
 ├── assets/
-│   ├── css/style.css    # Global stylesheet
-│   ├── js/              # Shared JavaScript
+│   ├── css/             # tokens, base, layout, components, utilities (bundled by scripts/bundle-css.js)
+│   ├── js/              # Shared JavaScript (common.js has the shareable result-link helper)
+│   ├── og/              # Generated Open Graph cards
 │   └── img/             # Images & icons
 ├── tools/           # One folder per tool
 │   └── [slug]/
-│       ├── index.njk    # Tool template
-│       ├── script.js    # Tool logic (client-side)
+│       ├── index.njk    # Tool template (front matter holds the SEO content)
+│       ├── logic.js     # Pure, DOM-free logic (UMD), unit-tested in scripts/test-tool-logic.js
+│       ├── script.js    # UI wiring (client-side)
 │       └── style.css    # Tool-specific styles (optional)
 ├── index.njk        # Homepage
 ├── 404.njk          # 404 page
 ├── sitemap.xml.njk  # Auto-generated sitemap
 └── robots.txt.njk   # Environment-conditional robots.txt
 scripts/             # Build & test scripts
-├── check-links.js   # Link & quality checker
+├── check-links.js   # Link & quality checker (also: every tool linked from home, category and /tools/)
+├── check-schema.js  # JSON-LD validation (Person/publisher, ProfilePage, ISO dates, clean canonicals)
+├── check-seo.js     # Titles, descriptions, canonicals, OG images, crawl depth
 ├── check-external.js  # Fails if _site/ loads any third-party resource
+├── check-contrast.js  # WCAG AA contrast for every token pair, light and dark
 └── test-all.js      # Full test suite
 docs/                # Documentation
 ├── AUDIT.md
 ├── ARCHITECTURE_PLAN.md
 ├── TOOLS_BACKLOG.md
-└── MIGRATION_REPORT.md
+├── TOOLS_CHANGELOG.md
+├── MIGRATION_REPORT.md
+└── screenshots/redesign/  # Before/after screenshots of the redesign
 _site/               # Build output (git-ignored)
 ```
 
@@ -96,6 +131,41 @@ ToolsBuilt provides strict environment isolation to protect SEO equity and ensur
 | **Meta Robots** | `<meta name="robots" content="noindex, nofollow">` | *Omitted* (allows crawling and indexing) |
 | **`robots.txt` Policy** | `User-agent: *`<br>`Disallow: /` | `User-agent: *`<br>`Allow: /`<br>`Sitemap: https://toolsbuilt.com/sitemap.xml` |
 | **Sitemap Link** | Omitted from `robots.txt` | Included in `robots.txt` |
+
+---
+
+## Self-Hosted Formatter Engines
+
+The code formatters run open-source engines in the browser, served from our own domain:
+
+| Engine | npm package (exact version in `package.json`) | Used by | Published to |
+| :--- | :--- | :--- | :--- |
+| Ruff formatter (WASM) | `@wasm-fmt/ruff_fmt` | Python Formatter | `/assets/vendor/ruff_fmt-<version>/` |
+| Prettier | `prettier` | Java Formatter | `/assets/vendor/prettier-<version>/` |
+| Prettier Java plugin | `prettier-plugin-java` | Java Formatter | `/assets/vendor/prettier-plugin-java-<version>/` |
+| tree-sitter runtime (dependency of the plugin) | `web-tree-sitter` | Java Formatter | `/assets/vendor/web-tree-sitter-<version>/` |
+
+How it works:
+- `src/_data/vendor.js` lists the files to publish from each package. `eleventy.config.js` copies them from `node_modules` into `/assets/vendor/<package>-<version>/`, and the version comes from the installed package, so the URL changes when the version does.
+- Each formatter page includes an inline import map (built by `vendor.js`) that points the package names at those files. The tool's `logic.js` loads the engine with `import()` the first time it is used, so the engines never load on any other page and nothing is fetched from another domain.
+- The same `logic.js` runs in Node for the unit tests, where the package names resolve to `node_modules`.
+
+To upgrade an engine:
+
+```bash
+npm install --save-dev --save-exact @wasm-fmt/ruff_fmt@<version>          # or prettier / prettier-plugin-java
+npm run build && node scripts/check-external.js
+node scripts/test-tool-logic.js        # expected-output tests may need updating if the style changed
+TOOLS_ONLY=python-formatter,java-formatter node scripts/test-tool-ux.js
+```
+
+If an upgrade adds or renames files (for example a new `.wasm`), update the file list in `src/_data/vendor.js`. Check the new version's licence and keep its `LICENSE` file in the published folder.
+
+---
+
+## External Resource Guard
+
+`scripts/check-external.js` scans every HTML, CSS and JS file in `_site/` and fails if anything would load from another domain: scripts, stylesheets, fonts, images, iframes, CSS `@import`/`url()`, and JavaScript `fetch`/`import()`/`.src` assignments. The only allowed external request is the consent-gated Google Analytics loader in `base.njk`. It runs in `npm test` and before every production deploy.
 
 ---
 
@@ -148,43 +218,36 @@ Create `src/tools/[slug]/index.njk` with Nunjucks front matter:
 ---
 layout: layouts/tool.njk
 toolSlug: tip-calculator
-title: "Tip Calculator - Split Bills & Calculate Tips Fast"
-description: "Free online tip calculator. Calculate tip amounts and split bills between multiple people."
-ogTitle: "Tip & Bill Split Calculator"
-ogDescription: "Calculate tip amounts and split bills instantly in your browser."
-howto:
-  name: "How to Calculate a Tip and Split a Bill"
-  description: "Step-by-step guide to calculating tip amounts and per-person totals."
-  steps:
-    - name: "Enter Bill Amount"
-      text: "Input total pre-tax or post-tax bill."
-    - name: "Select Tip Percentage"
-      text: "Choose a preset percentage or enter a custom rate."
-    - name: "Split the Bill"
-      text: "Specify the number of people sharing the check."
-faqs:
-  - q: "How is the tip calculated?"
-    a: "Tip amount is calculated by multiplying the bill total by the tip percentage."
-  - q: "Is my payment information saved?"
-    a: "No. All calculations run client-side in your browser. No data is stored or transmitted."
+title: "Tip Calculator: Split Bills and Calculate Tips"   # <= 60 characters
+description: "Calculate tips and split a bill between any number of people, with custom percentages and rounding."   # <= 155
+permalink: /tools/tip-calculator/
+h1: "Tip Calculator"
+quickAnswer: "2-3 sentences that answer the main search directly, with a number."
+formula: { title: "...", expression: "...", explanation: "..." }
+workedExamples: [ { title, inputs: [...], steps: [...], result, link } ]   # 3+
+commonMistakes: [ { title, description } ]                               # 4+
+faqs: [ { q, a } ]                                                        # 6-8, worded like real searches
+sources: [ { name, url } ]                                                # official sources only
+lastReviewed: "YYYY-MM-DD"
+howto: { name, description, steps: [ { name, text } ] }
 ---
 
-<!-- Tool Form and Results UI -->
-<div class="info-callout" style="margin-top: 0; margin-bottom: 2rem;">
-  <h3 style="font-size: 1.05rem; margin-bottom: 0.35rem; color: var(--primary);">Quick Answer</h3>
-  <p style="margin-bottom: 0;">Calculate standard 15%, 18%, or 20% tips and split bills across any number of people.</p>
-</div>
-
 <section class="tool-container" aria-label="Tip Calculator">
-  <!-- Calculator controls & output markup -->
+  <!-- form, result box and any reference table; use design-system classes, no inline styles -->
 </section>
+
+<!-- tool-end -->
+
+<section class="content-section"> ... page-specific long-form content ... </section>
 ```
 
-### 3. Create the Client-Side Script (`src/tools/[slug]/script.js`)
-Implement the tool's interactive calculation logic in pure client-side JavaScript. Ensure calculation results update accessible ARIA regions (`aria-live="polite"`).
+The layout renders the page in this order: H1, description, byline, the tool (everything before `<!-- tool-end -->`), Quick Answer, How to Use, the content after the marker, Formula, Worked Examples, Common Mistakes, FAQ, Sources and Related tools. Inputs marked `data-param="name"` get shareable result links through `ToolsBuilt.resultLink` in `assets/js/common.js`.
+
+### 3. Create the Logic and Script (`logic.js`, `script.js`)
+Put the calculation in `src/tools/[slug]/logic.js` as a pure UMD module (no DOM access) and add unit tests for it in `scripts/test-tool-logic.js`. `script.js` wires the form to it, validates input with clear error messages, and updates the result region (`aria-live="polite"`).
 
 ### 4. Create Tool-Specific Styles (Optional: `src/tools/[slug]/style.css`)
-If the tool requires bespoke styling not covered by global styles in `assets/css/style.css`, add `style.css` in the tool directory. Eleventy automatically passes it through to the output build.
+If the tool needs styling beyond the shared components in `assets/css/`, add `style.css` in the tool directory (design tokens only) and reference it with `extraCss` in the front matter.
 
 ### 5. Update Related Tools in `src/_data/tools.json`
 Ensure relevant existing tools reference the new tool in their `related` arrays to establish bidirectional internal linking.
@@ -222,7 +285,7 @@ feature branch (feat/*)
 
 Continuous integration and automated deployment are powered by GitHub Actions:
 
-- **On PR to `staging` and push to `staging`:**
+- **On PRs to `staging` or `main`, and pushes to `staging`:**
   1. Runs `npm ci`
   2. Runs `npm run build` (staging configuration with `noindex, nofollow` and crawler disallow)
   3. Runs `npm test` (full link checker, schema validator, and boundary tests)
