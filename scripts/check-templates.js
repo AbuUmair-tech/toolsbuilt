@@ -69,11 +69,15 @@ categories.forEach(cat => {
   assert(html.includes('"@type": "CollectionPage"'), `/category/${cat.slug}/ contains CollectionPage schema`);
   assert(html.includes('"@type": "FAQPage"'), `/category/${cat.slug}/ contains FAQPage schema`);
 
-  // How to choose & other categories
+  // How to choose guidance
   assert(html.includes('How to Choose the Right Tool'), `/category/${cat.slug}/ has 'How to Choose' guidance`);
-  assert(html.includes('Other Categories'), `/category/${cat.slug}/ has 'Other Categories' section`);
 
-  // Ensure other categories links point to other 4 categories
+  // Every tool in the category is linked as a row
+  tools.filter(t => t.category === cat.slug).forEach(t => {
+    assert(html.includes(`href="/tools/${t.slug}/" class="tool-row"`), `/category/${cat.slug}/ lists /tools/${t.slug}/ as a row`);
+  });
+
+  // Ensure other categories are still linked (site header menu and footer)
   const otherCats = categories.filter(c => c.slug !== cat.slug);
   otherCats.forEach(oc => {
     assert(

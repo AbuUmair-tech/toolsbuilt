@@ -1,11 +1,9 @@
 /**
  * ToolsBuilt Layout & Global Interactions
- * - Translucent Sticky Header with scroll-reactive border
- * - Accessible Mega-Menu (hover delay, click toggle, keyboard support, Esc close)
- * - Accessible Mobile Drawer (focus trap, body scroll lock, Esc close)
+ * - Sticky header with scroll-reactive border
+ * - Accessible mobile menu (focus trap, body scroll lock, Esc close)
  * - Command Palette Search (Ctrl/⌘+K, '/', combobox ARIA, custom scorer, recent tools)
- * - Homepage Live Grid Search integration
- * - Back-to-Top smooth scrolling
+ * - Homepage search field that opens the palette (and ?q= from SearchAction)
  * - Multi-button Theme Toggle synchronization
  */
 
@@ -37,13 +35,10 @@
     initMacKbdHint();
     initHeaderScroll();
     initThemeSync();
-    initMegaMenu();
     initMobileDrawer();
     initCommandPalette();
     initHomepageSearch();
     initDirectoryPage();
-    initHomepageRecentTools();
-    initBackToTop();
     recordRecentToolVisit();
   }
 
@@ -89,8 +84,7 @@
   function initThemeSync() {
     const toggleButtons = [
       document.getElementById('theme-toggle'),
-      document.getElementById('mobile-theme-toggle'),
-      document.getElementById('footer-theme-toggle')
+      document.getElementById('mobile-theme-toggle')
     ].filter(Boolean);
 
     if (!toggleButtons.length) return;
@@ -118,75 +112,7 @@
     });
   }
 
-  // --- Mega-Menu (Desktop) ---
-  function initMegaMenu() {
-    const trigger = document.getElementById('mega-menu-trigger');
-    const panel = document.getElementById('tools-mega-menu');
-    const wrapper = document.getElementById('tools-mega-menu-wrapper');
-    if (!trigger || !panel || !wrapper) return;
-
-    let hoverTimeout = null;
-
-    const openMenu = () => {
-      trigger.setAttribute('aria-expanded', 'true');
-      panel.removeAttribute('hidden');
-      panel.classList.add('is-open');
-    };
-
-    const closeMenu = () => {
-      trigger.setAttribute('aria-expanded', 'false');
-      panel.setAttribute('hidden', '');
-      panel.classList.remove('is-open');
-    };
-
-    trigger.addEventListener('click', (e) => {
-      e.stopPropagation();
-      const isOpen = trigger.getAttribute('aria-expanded') === 'true';
-      if (isOpen) {
-        closeMenu();
-      } else {
-        openMenu();
-      }
-    });
-
-    // Hover delay on desktop
-    wrapper.addEventListener('mouseenter', () => {
-      if (window.innerWidth < 900) return;
-      clearTimeout(hoverTimeout);
-      hoverTimeout = setTimeout(openMenu, 150);
-    });
-
-    wrapper.addEventListener('mouseleave', () => {
-      if (window.innerWidth < 900) return;
-      clearTimeout(hoverTimeout);
-      hoverTimeout = setTimeout(closeMenu, 200);
-    });
-
-    // Close on outside click
-    document.addEventListener('click', (e) => {
-      if (!wrapper.contains(e.target)) {
-        closeMenu();
-      }
-    });
-
-    // Close on Escape or focus leaving
-    wrapper.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') {
-        closeMenu();
-        trigger.focus();
-      }
-    });
-
-    panel.addEventListener('focusout', (e) => {
-      setTimeout(() => {
-        if (!wrapper.contains(document.activeElement)) {
-          closeMenu();
-        }
-      }, 10);
-    });
-  }
-
-  // --- Mobile Drawer (under 900px) ---
+  // --- Mobile Menu (under 900px) ---
   function initMobileDrawer() {
     const trigger = document.getElementById('mobile-menu-trigger');
     const drawer = document.getElementById('mobile-drawer');
@@ -254,33 +180,6 @@
         }
       }
     });
-
-    // Mobile Drawer Accordions
-    const accordionTriggers = drawer.querySelectorAll('.mobile-accordion-trigger');
-    accordionTriggers.forEach(btn => {
-      btn.addEventListener('click', () => {
-        const isExpanded = btn.getAttribute('aria-expanded') === 'true';
-        const panelId = btn.getAttribute('aria-controls');
-        const panel = document.getElementById(panelId);
-        if (!panel) return;
-
-        btn.setAttribute('aria-expanded', !isExpanded);
-        if (isExpanded) {
-          panel.setAttribute('hidden', '');
-        } else {
-          panel.removeAttribute('hidden');
-        }
-      });
-    });
-
-    // Mobile Search Button trigger opens palette and closes drawer
-    const mobileSearchBtn = document.getElementById('mobile-search-trigger');
-    if (mobileSearchBtn) {
-      mobileSearchBtn.addEventListener('click', () => {
-        closeDrawer();
-        setTimeout(openPalette, 260);
-      });
-    }
   }
 
   // --- Search Index Loader (Lazy Fetch & Prefetch) ---
@@ -515,7 +414,7 @@
   }
 
   // --- Command Palette Dialog Modal ---
-  function openPalette() {
+  function openPalette(initialQuery) {
     modal = modal || document.getElementById('search-modal');
     backdrop = backdrop || document.getElementById('search-modal-backdrop');
     input = input || document.getElementById('palette-input');
@@ -534,13 +433,14 @@
 
     renderRecentTools();
 
-    input.value = '';
+    input.value = typeof initialQuery === 'string' ? initialQuery : '';
     input.setAttribute('aria-expanded', 'false');
     input.setAttribute('aria-activedescendant', '');
     activeIndex = -1;
     searchResults = [];
     showEmptyState();
     input.focus();
+    if (input.value) handleSearchInput(input.value);
 
     fetchSearchIndex(); // Ensure index is ready
   }
@@ -644,16 +544,19 @@
     emptyState = document.getElementById('palette-empty-state');
     noResults = document.getElementById('palette-no-results');
 
-    const headerTrigger = document.getElementById('header-search-trigger');
+    const triggers = [
+      document.getElementById('header-search-trigger'),
+      document.getElementById('mobile-search-trigger')
+    ].filter(Boolean);
     const closeBtn = document.getElementById('palette-close-btn');
     const clearRecentsBtn = document.getElementById('palette-clear-recents');
 
     // Prefetch on trigger hover or focus
-    if (headerTrigger) {
-      headerTrigger.addEventListener('mouseenter', fetchSearchIndex, { once: true });
-      headerTrigger.addEventListener('focus', fetchSearchIndex, { once: true });
-      headerTrigger.addEventListener('click', openPalette);
-    }
+    triggers.forEach(trigger => {
+      trigger.addEventListener('mouseenter', fetchSearchIndex, { once: true });
+      trigger.addEventListener('focus', fetchSearchIndex, { once: true });
+      trigger.addEventListener('click', () => openPalette());
+    });
 
     if (closeBtn) closeBtn.addEventListener('click', closePalette);
     if (backdrop) backdrop.addEventListener('click', closePalette);
@@ -740,115 +643,19 @@
     });
   }
 
-  // --- Homepage Live Search Filter with Shared Scorer ---
+  // --- Homepage Search Field: opens the command palette ---
   function initHomepageSearch() {
-    const heroInput = document.getElementById('tool-search');
-    if (!heroInput) return;
+    const heroTrigger = document.getElementById('hero-search-trigger');
+    if (!heroTrigger) return;
 
-    const noResultsMsg = document.getElementById('no-results-msg');
-    const noResultsQuery = document.getElementById('no-results-query');
-    const cards = document.querySelectorAll('.tool-card');
-    const sections = document.querySelectorAll('.category-section');
-    const popularSection = document.getElementById('popular-tools');
-    const recentSection = document.getElementById('recent-tools-section');
+    heroTrigger.addEventListener('mouseenter', fetchSearchIndex, { once: true });
+    heroTrigger.addEventListener('focus', fetchSearchIndex, { once: true });
+    heroTrigger.addEventListener('click', () => openPalette());
 
-    let topMatchSlug = null;
-
-    heroInput.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') {
-        if (topMatchSlug) {
-          e.preventDefault();
-          window.location.href = `/tools/${topMatchSlug}/`;
-        }
-      }
-    });
-
-    heroInput.addEventListener('input', (e) => {
-      const q = e.target.value.trim();
-
-      if (!q) {
-        cards.forEach(card => card.style.display = '');
-        sections.forEach(sec => sec.style.display = '');
-        if (popularSection) popularSection.style.display = '';
-        if (recentSection && getRecentTools().length > 0) {
-          recentSection.removeAttribute('hidden');
-        }
-        if (noResultsMsg) noResultsMsg.setAttribute('hidden', '');
-        topMatchSlug = null;
-        return;
-      }
-
-      // Hide recent section during search
-      if (recentSection) recentSection.setAttribute('hidden', '');
-
-      fetchSearchIndex().then(tools => {
-        const scored = [];
-        for (const t of tools) {
-          const s = calculateScore(t, q);
-          if (s > 0) scored.push({ tool: t, score: s });
-        }
-        scored.sort((a, b) => b.score - a.score);
-
-        if (scored.length > 0) {
-          topMatchSlug = scored[0].tool.slug;
-        } else {
-          topMatchSlug = null;
-        }
-
-        const matchedSlugs = new Set(scored.map(item => item.tool.slug));
-        let visibleCount = 0;
-
-        cards.forEach(card => {
-          const slug = card.getAttribute('data-slug') || '';
-          if (matchedSlugs.has(slug)) {
-            card.style.display = 'flex';
-            visibleCount++;
-          } else {
-            // Check text fallback
-            const title = card.querySelector('.tool-title, h3, h4')?.textContent.toLowerCase() || '';
-            const desc = card.querySelector('.tool-desc, p')?.textContent.toLowerCase() || '';
-            if (q.length > 1 && (title.includes(q.toLowerCase()) || desc.includes(q.toLowerCase()))) {
-              card.style.display = 'flex';
-              visibleCount++;
-            } else {
-              card.style.display = 'none';
-            }
-          }
-        });
-
-        // Hide empty category sections
-        sections.forEach(sec => {
-          const secCards = sec.querySelectorAll('.tool-card');
-          const hasVisible = Array.from(secCards).some(c => c.style.display !== 'none');
-          sec.style.display = hasVisible ? '' : 'none';
-        });
-
-        // Hide popular section if no visible cards in it
-        if (popularSection) {
-          const popCards = popularSection.querySelectorAll('.tool-card');
-          const hasPop = Array.from(popCards).some(c => c.style.display !== 'none');
-          popularSection.style.display = hasPop ? '' : 'none';
-        }
-
-        if (noResultsMsg) {
-          if (visibleCount === 0) {
-            if (noResultsQuery) noResultsQuery.textContent = q;
-            noResultsMsg.removeAttribute('hidden');
-          } else {
-            noResultsMsg.setAttribute('hidden', '');
-          }
-        }
-      });
-    });
-
-    // Check for ?q= query param from SearchAction or external links
+    // ?q= from the WebSite SearchAction or external links opens the palette pre-filled
     try {
-      const urlParams = new URLSearchParams(window.location.search);
-      const initialQuery = urlParams.get('q');
-      if (initialQuery) {
-        heroInput.value = initialQuery;
-        heroInput.dispatchEvent(new Event('input', { bubbles: true }));
-      }
+      const initialQuery = new URLSearchParams(window.location.search).get('q');
+      if (initialQuery) openPalette(initialQuery);
     } catch (e) {}
   }
 
@@ -870,34 +677,35 @@
 
       categoryBlocks.forEach(block => {
         const cat = block.getAttribute('data-category');
-        const cards = block.querySelectorAll('.tool-card');
+        const rows = block.querySelectorAll('.tool-row');
         let visibleInBlock = 0;
 
         const categoryMatches = (activeCategory === 'all' || activeCategory === cat);
 
-        cards.forEach(card => {
+        rows.forEach(row => {
+          const item = row.parentElement;
           if (!categoryMatches) {
-            card.style.display = 'none';
+            item.style.display = 'none';
             return;
           }
 
           if (!q) {
-            card.style.display = '';
+            item.style.display = '';
             visibleInBlock++;
             totalVisible++;
             return;
           }
 
-          const title = (card.querySelector('.tool-title')?.textContent || '').toLowerCase();
-          const desc = (card.querySelector('.tool-desc')?.textContent || '').toLowerCase();
-          const slug = (card.getAttribute('data-slug') || '').toLowerCase();
+          const title = (row.querySelector('.tool-row-name')?.textContent || '').toLowerCase();
+          const desc = (row.querySelector('.tool-row-desc')?.textContent || '').toLowerCase();
+          const slug = (row.getAttribute('data-slug') || '').toLowerCase();
 
           if (title.includes(q) || desc.includes(q) || slug.includes(q)) {
-            card.style.display = '';
+            item.style.display = '';
             visibleInBlock++;
             totalVisible++;
           } else {
-            card.style.display = 'none';
+            item.style.display = 'none';
           }
         });
 
@@ -946,102 +754,6 @@
         }
       });
     }
-  }
-
-  // --- Homepage Recent Tools Section (Progressive Enhancement) ---
-  function initHomepageRecentTools() {
-    const sec = document.getElementById('recent-tools-section');
-    const grid = document.getElementById('recent-tools-grid');
-    const clearBtn = document.getElementById('clear-recent-tools');
-    if (!sec || !grid) return;
-
-    const recents = getRecentTools();
-    if (!recents || !recents.length) {
-      sec.setAttribute('hidden', '');
-      return;
-    }
-
-    const renderCards = (items, tools = []) => {
-      return items.map(r => {
-        const fullTool = tools.find(t => t.slug === r.slug);
-        const name = fullTool ? fullTool.name : (r.name || r.slug);
-        const desc = fullTool ? fullTool.description : '';
-        const cat = fullTool ? fullTool.category : (r.category || 'tools');
-        return `
-          <a href="/tools/${escapeHtml(r.slug)}/" class="tool-card tool-card-compact" data-slug="${escapeHtml(r.slug)}">
-            <div class="tool-card-header">
-              <div class="tool-icon-tile" data-cat="${escapeHtml(cat)}">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-              </div>
-              <span class="tool-category-chip" data-cat="${escapeHtml(cat)}">${escapeHtml(cat)}</span>
-            </div>
-            <h3 class="tool-title">${escapeHtml(name)}</h3>
-            <p class="tool-desc">${escapeHtml(desc)}</p>
-            <div class="tool-card-action">
-              <span>Open</span>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-            </div>
-          </a>
-        `;
-      }).join('');
-    };
-
-    grid.innerHTML = renderCards(recents);
-    sec.removeAttribute('hidden');
-
-    fetchSearchIndex().then(tools => {
-      const currentRecents = getRecentTools();
-      if (!currentRecents.length) {
-        sec.setAttribute('hidden', '');
-        return;
-      }
-      grid.innerHTML = renderCards(currentRecents, tools);
-      sec.removeAttribute('hidden');
-    });
-
-    if (clearBtn) {
-      clearBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        clearRecentTools();
-        sec.setAttribute('hidden', '');
-        grid.innerHTML = '';
-      });
-    }
-  }
-
-  // --- Back-to-Top Button ---
-  function initBackToTop() {
-    const btn = document.getElementById('back-to-top');
-    if (!btn) return;
-
-    let ticking = false;
-    window.addEventListener('scroll', () => {
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          if (window.scrollY > 300) {
-            btn.classList.add('is-visible');
-          } else {
-            btn.classList.remove('is-visible');
-          }
-          ticking = false;
-        });
-        ticking = true;
-      }
-    }, { passive: true });
-
-    btn.addEventListener('click', (e) => {
-      e.preventDefault();
-      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      window.scrollTo({
-        top: 0,
-        behavior: prefersReduced ? 'auto' : 'smooth'
-      });
-      const main = document.getElementById('main-content');
-      if (main) {
-        main.tabIndex = -1;
-        main.focus();
-      }
-    });
   }
 
 })();

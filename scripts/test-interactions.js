@@ -2,6 +2,7 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 const { chromium } = require('playwright');
+const CATEGORIES_DATA = require(path.join(__dirname, '..', 'src', '_data', 'categories.json'));
 
 const ROOT = path.resolve(__dirname, '..');
 const SITE_DIR = path.join(ROOT, '_site');
@@ -72,17 +73,13 @@ async function runTests() {
     const desktopPage = await desktopContext.newPage();
     await desktopPage.goto('http://localhost:8086/', { waitUntil: 'networkidle' });
 
-    // Mega-Menu test
-    const megaTrigger = desktopPage.locator('#mega-menu-trigger');
-    const megaPanel = desktopPage.locator('#tools-mega-menu');
-    assert(await megaTrigger.isVisible(), 'Desktop Tools mega-menu trigger is visible');
-    await megaTrigger.click();
-    await desktopPage.waitForTimeout(150);
-    assert(await megaPanel.isVisible(), 'Clicking Tools trigger opens mega-menu panel');
-    assert(await megaTrigger.getAttribute('aria-expanded') === 'true', 'Mega-menu trigger has aria-expanded="true"');
-    await desktopPage.keyboard.press('Escape');
-    await desktopPage.waitForTimeout(150);
-    assert(!(await megaPanel.isVisible()), 'Pressing Escape closes mega-menu');
+    // Slim header: All tools + Blog links, theme toggle, no mega menu
+    assert(await desktopPage.locator('#main-nav a[href="/tools/"]').isVisible(), 'Desktop header shows "All tools" link');
+    assert(await desktopPage.locator('#main-nav a[href="/blog/"]').isVisible(), 'Desktop header shows "Blog" link');
+    assert(await desktopPage.locator('#theme-toggle').isVisible(), 'Desktop header shows theme toggle');
+    assert(await desktopPage.locator('#mega-menu-trigger, #tools-mega-menu').count() === 0, 'Header has no mega menu dropdown');
+    const headerHeight = await desktopPage.$eval('#site-header', el => el.getBoundingClientRect().height);
+    assert(headerHeight <= 72, `Header is one slim row (${Math.round(headerHeight)}px tall)`);
 
     // Search Trigger button click
     const searchTrigger = desktopPage.locator('#header-search-trigger');
@@ -174,20 +171,25 @@ async function runTests() {
       assert(true, 'Focus trap successfully keeps Tab navigation inside mobile drawer');
     }
 
-    // Accordion inside drawer
-    const catAccordion = mobilePage.locator('#mobile-cat-btn-date-time');
-    const catContent = mobilePage.locator('#mobile-cat-panel-date-time');
-    assert(await catAccordion.isVisible(), 'Date & Time category accordion is present in drawer');
-    await catAccordion.click();
-    await mobilePage.waitForTimeout(150);
-    assert(await catContent.isVisible(), 'Clicking category accordion expands tool list');
-    assert(await catAccordion.getAttribute('aria-expanded') === 'true', 'Accordion trigger has aria-expanded="true"');
+    // Menu is a plain list: every category plus All tools, Blog, About
+    const menuHrefs = await drawer.locator('a.mobile-drawer-link').evaluateAll(els => els.map(a => a.getAttribute('href')));
+    const expectedHrefs = ['/tools/', '/blog/', '/about/', ...CATEGORIES_DATA.map(c => `/category/${c.slug}/`)];
+    const missingHrefs = expectedHrefs.filter(h => !menuHrefs.includes(h));
+    assert(missingHrefs.length === 0, `Mobile menu lists all categories plus All tools, Blog, About (missing: ${missingHrefs.join(', ') || 'none'})`);
 
     // Close drawer with Escape and verify focus restoration
     await mobilePage.keyboard.press('Escape');
     await mobilePage.waitForTimeout(300);
     assert(!(await drawer.isVisible()), 'Pressing Escape closes mobile drawer');
     assert(await isFocused(hamburger), 'Focus returns to hamburger trigger button after drawer closes');
+
+    // Header search icon opens the palette on mobile
+    const mobileSearch = mobilePage.locator('#mobile-search-trigger');
+    assert(await mobileSearch.isVisible(), 'Mobile header shows search icon');
+    await mobileSearch.click();
+    await mobilePage.waitForTimeout(250);
+    assert(await mobilePage.locator('#search-modal').isVisible(), 'Mobile search icon opens Command Palette');
+    await mobilePage.keyboard.press('Escape');
 
     await mobileContext.close();
 

@@ -26,10 +26,6 @@ module.exports = function() {
       answer: "All calculators are rigorously verified against standard mathematical models, astronomical calendar rules (such as leap years and Gregorian calendar boundaries), and financial rounding standards. The underlying formulas and logic are transparently documented on every tool page."
     },
     {
-      question: "Can I suggest a new calculator or feature?",
-      answer: "Absolutely! We actively welcome feedback and utility suggestions. You can reach out directly via our Contact page to suggest a new tool or improvement."
-    },
-    {
       question: "Who builds and maintains ToolsBuilt?",
       answer: authorAnswer
     }

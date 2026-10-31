@@ -10,6 +10,7 @@
  * - Missing <link rel="canonical"> tags
  * - JSON-LD blocks that fail JSON.parse
  * - og:image pointing to a PNG/JPG (not SVG) and resolving on disk
+ * - Every tool linked from the homepage, its category page and /tools/
  * - Environment-aware robots / noindex verification:
  *     In production: NO page has noindex, robots.txt allows all
  *     In staging/dev: EVERY page has noindex, robots.txt disallows all
@@ -360,6 +361,29 @@ function checkRobotsTxt() {
   }
 }
 
+// Every tool must be one click from the homepage, its category hub and /tools/
+function checkToolHubLinks() {
+  const tools = JSON.parse(fs.readFileSync(path.join(ROOT, 'src', '_data', 'tools.json'), 'utf8'));
+  const read = rel => {
+    const file = path.join(SITE_DIR, rel);
+    return fs.existsSync(file) ? fs.readFileSync(file, 'utf8') : null;
+  };
+  const home = read('index.html');
+  const directory = read(path.join('tools', 'index.html'));
+  for (const t of tools) {
+    const href = `href="/tools/${t.slug}/"`;
+    const hub = read(path.join('category', t.category, 'index.html'));
+    const hubs = [['homepage', home], [`/category/${t.category}/`, hub], ['/tools/', directory]];
+    for (const [label, html] of hubs) {
+      if (html === null) {
+        errors.push(`[ERROR] Hub page missing for ${label}`);
+      } else if (!html.includes(href)) {
+        errors.push(`[ERROR] /tools/${t.slug}/ is not linked from ${label}`);
+      }
+    }
+  }
+}
+
 // Run analysis
 console.log('\n=== ToolsBuilt Link & Quality Checker ===');
 console.log(`Target directory: ${SITE_DIR}`);
@@ -386,6 +410,7 @@ for (const [title, files] of titles.entries()) {
 }
 
 checkSearchIndex();
+checkToolHubLinks();
 checkSitemap();
 checkRobotsTxt();
 

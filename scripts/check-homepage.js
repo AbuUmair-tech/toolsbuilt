@@ -30,8 +30,8 @@ function runHomepageChecks() {
   assert(h1Matches.length === 1, `Homepage has exactly one H1 (found ${h1Matches.length})`);
 
   // 2. Every tool in tools.json appears exactly once in the "All tools" section
-  const allToolsMatch = html.match(/<div class="all-tools-wrapper"[\s\S]*?id="all-tools"[\s\S]*?<\/div>\s*<!-- 5\. Why/i);
-  assert(!!allToolsMatch, 'All tools section wrapper found in HTML');
+  const allToolsMatch = html.match(/<section[^>]*id="all-tools"[\s\S]*?<\/section>/i);
+  assert(!!allToolsMatch, 'All tools section found in HTML');
   if (allToolsMatch) {
     const allToolsHtml = allToolsMatch[0];
     const missingTools = [];
@@ -46,20 +46,28 @@ function runHomepageChecks() {
     assert(duplicatedTools.length === 0, `Every tool appears exactly once in "All tools" section (duplicates: ${duplicatedTools.join(', ') || 'none'})`);
   }
 
-  // 3. Every category id exists and is linked from nav/jump-bar
+  // 3. One category card per category, and an "All tools" group per category
+  const cardCount = (html.match(/class="category-card"/g) || []).length;
+  assert(cardCount === CATEGORIES_DATA.length, `Category grid has one card per category (${cardCount}/${CATEGORIES_DATA.length})`);
   const missingCatSections = [];
   const unlinkedCats = [];
   CATEGORIES_DATA.forEach(cat => {
-    if (!html.includes(`id="cat-${cat.slug}"`)) {
-      missingCatSections.push(cat.slug);
-    }
-    const hasNav = html.includes(`href="/#cat-${cat.slug}"`) || html.includes(`href="#cat-${cat.slug}"`);
-    if (!hasNav) {
-      unlinkedCats.push(cat.slug);
-    }
+    if (!html.includes(`id="cat-${cat.slug}"`)) missingCatSections.push(cat.slug);
+    if (!html.includes(`href="/category/${cat.slug}/" class="category-card"`)) unlinkedCats.push(cat.slug);
   });
-  assert(missingCatSections.length === 0, `Every category id exists in DOM (missing: ${missingCatSections.join(', ') || 'none'})`);
-  assert(unlinkedCats.length === 0, `Every category is linked from navigation (unlinked: ${unlinkedCats.join(', ') || 'none'})`);
+  assert(missingCatSections.length === 0, `Every category has an "All tools" group (missing: ${missingCatSections.join(', ') || 'none'})`);
+  assert(unlinkedCats.length === 0, `Every category card links to its category page (unlinked: ${unlinkedCats.join(', ') || 'none'})`);
+
+  // Popular tools: tools with popular: true, max 8
+  const popularMatch = html.match(/<section[^>]*id="popular-tools"[\s\S]*?<\/section>/i);
+  const expectedPopular = TOOLS_DATA.filter(t => t.popular).length;
+  const popularLinks = popularMatch ? (popularMatch[0].match(/href="\/tools\//g) || []).length : 0;
+  assert(popularLinks === Math.min(8, expectedPopular), `Popular tools lists ${Math.min(8, expectedPopular)} popular tools (found ${popularLinks})`);
+
+  // Removed blocks stay removed
+  ['how-it-works', 'home-cta', 'trust-badge', 'quick-chip', 'jump-pill'].forEach(cls => {
+    assert(!html.includes(cls), `Homepage no longer contains "${cls}"`);
+  });
 
   // 4. FAQ JSON-LD questions match visible <summary> text
   const visibleSummaries = [...html.matchAll(/<summary class="faq-question">[\s\S]*?<span>([\s\S]*?)<\/span>[\s\S]*?<\/summary>/gi)].map(m => m[1].trim());
@@ -73,7 +81,7 @@ function runHomepageChecks() {
   if (faqSchema && Array.isArray(faqSchema.mainEntity)) {
     const jsonQuestions = faqSchema.mainEntity.map(e => (e.name || '').trim());
     const mismatch = visibleSummaries.some((vq, i) => vq !== jsonQuestions[i]);
-    assert(!mismatch && visibleSummaries.length === jsonQuestions.length && visibleSummaries.length >= 5,
+    assert(!mismatch && visibleSummaries.length === jsonQuestions.length && visibleSummaries.length >= 1 && visibleSummaries.length <= 5,
       `FAQ JSON-LD questions match visible <summary> text (${visibleSummaries.length} questions synchronized)`);
   }
 

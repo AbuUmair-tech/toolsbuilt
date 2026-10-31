@@ -135,14 +135,14 @@ async function runTemplateInteractionTests() {
     const catTitle = await page.textContent('.category-hero-title');
     assert(catTitle.includes('Free Date & Time Tools'), `Category title renders: "${catTitle}"`);
 
-    const toolCardsCount = await page.locator('.category-tools-section .tool-card').count();
-    assert(toolCardsCount >= 4, `Category hub renders all tools in category (${toolCardsCount} cards)`);
+    const toolRowsCount = await page.locator('.category-tools-section .tool-row').count();
+    assert(toolRowsCount >= 4, `Category hub renders all tools in category (${toolRowsCount} rows)`);
 
-    const guideGridCount = await page.locator('.guide-grid .guide-card').count();
-    assert(guideGridCount >= 2, `How to choose guide rendered with ${guideGridCount} cards`);
+    const guideCount = await page.locator('.guide-list li').count();
+    assert(guideCount >= 2, `How to choose guide rendered as a list of ${guideCount} items`);
 
-    const otherCatsCount = await page.locator('.other-categories-grid .other-cat-card').count();
-    assert(otherCatsCount === 4, `Other categories section links to the other 4 categories (${otherCatsCount} cards)`);
+    const faqCount = await page.locator('.category-faq-section .faq-item').count();
+    assert(faqCount >= 1, `Category FAQ rendered (${faqCount} questions)`);
 
     // -------------------------------------------------------------
     // Test 5: All Tools Directory (/tools/) Dynamic Filtering & Search

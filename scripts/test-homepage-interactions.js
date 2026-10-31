@@ -60,57 +60,30 @@ async function runHomepageTests() {
   try {
     const page = await browser.newPage({ viewport: { width: 1280, height: 800 } });
 
-    // 1. Initial State & No recent tools
+    // 1. Hero search field opens the command palette
     await page.goto('http://localhost:8087/', { waitUntil: 'domcontentloaded' });
-    const recentSecHidden = await page.$eval('#recent-tools-section', el => el.hasAttribute('hidden'));
-    assert(recentSecHidden, 'Recently Used section is hidden by default when localStorage is empty');
+    await page.click('#hero-search-trigger');
+    await page.waitForTimeout(250);
+    assert(await page.isVisible('#search-modal'), 'Clicking the hero search field opens the command palette');
+    assert(await page.evaluate(() => document.activeElement && document.activeElement.id === 'palette-input'), 'Palette input is focused after opening from hero');
 
-    // 2. Hero Search Filters Grid ("age" shows Age Calculator and hides unrelated tools)
-    const searchInput = page.locator('#tool-search');
-    await searchInput.fill('age');
-    await page.waitForTimeout(200);
+    // 2. Typing in the palette finds tools; Enter opens the top match
+    await page.fill('#palette-input', 'age');
+    await page.waitForSelector('#palette-results .palette-result-item');
+    await page.keyboard.press('Enter');
+    await page.waitForURL('**/tools/**');
+    assert(page.url().includes('/tools/age-calculator/'), `Enter in palette opens the top match (${page.url()})`);
 
-    const ageCardVisible = await page.$eval('.category-section .tool-card[data-slug="age-calculator"]', el => {
-      const style = window.getComputedStyle(el);
-      return style.display !== 'none';
-    });
-    const discountCardHidden = await page.$eval('.category-section .tool-card[data-slug="discount-calculator"]', el => {
-      const style = window.getComputedStyle(el);
-      return style.display === 'none';
-    });
-    assert(ageCardVisible, 'Hero search "age" keeps Age Calculator visible');
-    assert(discountCardHidden, 'Hero search "age" hides Discount Calculator');
+    // 3. ?q= (WebSite SearchAction target) opens the palette pre-filled
+    await page.goto('http://localhost:8087/?q=password', { waitUntil: 'domcontentloaded' });
+    await page.waitForSelector('#palette-results .palette-result-item');
+    const prefilled = await page.inputValue('#palette-input');
+    assert(prefilled === 'password', 'SearchAction ?q= opens the palette with the query filled in');
+    await page.keyboard.press('Escape');
 
-    // 3. Enter opens top match
-    await searchInput.press('Enter');
-    await page.waitForURL('**/tools/age-calculator/**');
-    const onAgePage = page.url().includes('/tools/age-calculator/');
-    assert(onAgePage, 'Pressing Enter on hero search navigates to the top matched tool (/tools/age-calculator/)');
-    await page.waitForTimeout(300);
-
-    // 4. Return to homepage, verify recent tools section appears
-    await page.goto('http://localhost:8087/', { waitUntil: 'domcontentloaded' });
-    await page.waitForTimeout(300);
-    const recentSecVisible = await page.$eval('#recent-tools-section', el => !el.hasAttribute('hidden'));
-    const recentCardsCount = await page.$$eval('#recent-tools-grid .tool-card', cards => cards.length);
-    assert(recentSecVisible && recentCardsCount >= 1, `Recent tools row appears after visiting a tool page (${recentCardsCount} items)`);
-
-    // 5. Clear recent tools button
-    const clearBtn = page.locator('#clear-recent-tools');
-    await clearBtn.click();
-    await page.waitForTimeout(100);
-    const recentCleared = await page.$eval('#recent-tools-section', el => el.hasAttribute('hidden'));
-    assert(recentCleared, 'Clicking "Clear recent" hides the recently used section');
-
-    // 6. Jump-bar links scroll to the right sections
-    const textJumpPill = page.locator('.jump-pill[data-cat="text"]');
-    await textJumpPill.click();
-    await page.waitForTimeout(600);
-    const catTextSection = await page.$eval('#cat-text', el => {
-      const rect = el.getBoundingClientRect();
-      return rect.top >= 0 && rect.top <= 250;
-    });
-    assert(catTextSection, 'Clicking category jump pill scrolls to the correct section (#cat-text)');
+    // 4. Every category card and every "All tools" link is a working internal link
+    const cardHrefs = await page.$$eval('.category-card', els => els.map(a => a.getAttribute('href')));
+    assert(cardHrefs.length > 0 && cardHrefs.every(h => /^\/category\/[a-z0-9-]+\/$/.test(h)), `Category cards link to category pages (${cardHrefs.length})`);
 
     // 7. No horizontal scroll at 375px mobile viewport
     await page.setViewportSize({ width: 375, height: 812 });

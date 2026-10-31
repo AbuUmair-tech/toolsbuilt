@@ -498,7 +498,7 @@ try {
   });
   assert(
     hpInteractionOutput.includes('All homepage Playwright interaction tests passed successfully!'),
-    'Homepage interactions: hero live search, Enter to open top match, recent-tools row + Clear, jump pills, no 375px overflow'
+    'Homepage interactions: hero search opens palette, Enter opens top match, ?q= prefill, category cards, no 375px overflow'
   );
 } catch (e) {
   assert(false, `Homepage interaction tests failed: ${e.message}\n${e.stdout || ''}${e.stderr || ''}`);
