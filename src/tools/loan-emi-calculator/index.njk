@@ -97,17 +97,17 @@ workedExamples:
           </div>
 
           <div class="form-group">
-            <label for="loan-amount">Loan Amount <span style="color: var(--accent-primary);">*</span></label>
+            <label for="loan-amount">Loan Amount <span class="text-accent">*</span></label>
             <input type="number" step="any" min="1" id="loan-amount" class="form-control" placeholder="e.g. 250000" required aria-required="true">
           </div>
 
           <div class="form-group">
-            <label for="interest-rate">Annual Interest Rate (%) <span style="color: var(--accent-primary);">*</span></label>
+            <label for="interest-rate">Annual Interest Rate (%) <span class="text-accent">*</span></label>
             <input type="number" step="0.01" min="0" max="100" id="interest-rate" class="form-control" placeholder="e.g. 6.5" required aria-required="true">
           </div>
 
           <div class="form-group">
-            <label for="tenure-value">Loan Tenure <span style="color: var(--accent-primary);">*</span></label>
+            <label for="tenure-value">Loan Tenure <span class="text-accent">*</span></label>
             <div class="loan-input-row">
               <input type="number" step="1" min="1" max="600" id="tenure-value" class="form-control" placeholder="e.g. 30" required aria-required="true">
               <select id="tenure-unit" class="form-control" aria-label="Tenure unit">
@@ -117,20 +117,20 @@ workedExamples:
             </div>
           </div>
 
-          <div class="form-group" style="grid-column: 1 / -1;">
-            <label for="extra-payment">Optional Extra Monthly Payment <span style="font-weight: normal; color: var(--text-muted);">(Accelerates Payoff)</span></label>
+          <div class="form-group col-span-full">
+            <label for="extra-payment">Optional Extra Monthly Payment <span class="label-hint">(Accelerates Payoff)</span></label>
             <input type="number" step="any" min="0" id="extra-payment" class="form-control" placeholder="e.g. 100">
           </div>
 
         </div>
 
-        <div class="button-group" style="margin-top: 1.25rem;">
+        <div class="button-group mt-6">
           <button type="submit" class="btn btn-primary">Calculate EMI</button>
           <button type="button" class="btn btn-secondary" id="reset-btn">Reset</button>
         </div>
       </form>
 
-      <div id="error-box" class="hidden" style="margin-top: 1rem; color: var(--color-error, #dc2626); background: rgba(220, 38, 38, 0.08); border: 1px solid rgba(220, 38, 38, 0.25); padding: 0.75rem 1rem; border-radius: var(--radius-sm);" role="alert"></div>
+      <div id="error-box" class="hidden form-error" role="alert"></div>
 
       <!-- Result Box -->
       <div id="result-box" class="result-box is-visible" aria-live="polite">
@@ -170,16 +170,16 @@ workedExamples:
               Faster Payoff
             </span>
           </div>
-          <div class="result-grid" style="margin-top: 1rem;">
+          <div class="result-grid mt-4">
             <div class="result-stat-card">
               <div class="result-stat-label">Total Interest Saved</div>
-              <div class="result-stat-value" id="stat-extra-saved" style="color: var(--color-success, #059669);">$0.00</div>
+              <div class="result-stat-value text-success" id="stat-extra-saved">$0.00</div>
             </div>
             <div class="result-stat-card">
               <div class="result-stat-label">Repayment Time Saved</div>
               <div class="result-stat-value" id="stat-months-saved">0 Months</div>
             </div>
-            <div class="result-stat-card" style="grid-column: 1 / -1;">
+            <div class="result-stat-card col-span-full">
               <div class="result-stat-label">New Payoff Horizon</div>
               <div class="result-stat-value" id="stat-new-tenure" style="font-size: 1.1rem;">0 Months</div>
             </div>
@@ -191,7 +191,7 @@ workedExamples:
           <div class="amortization-header">
             <div>
               <h3 class="amortization-title">Full Loan Amortization Schedule</h3>
-              <p style="margin: 0.25rem 0 0 0; font-size: var(--font-size-xs); color: var(--text-muted);">Month-by-month principal reduction and interest charges.</p>
+              <p style="margin: 0.25rem 0 0 0; font-size: var(--font-size-sm); color: var(--text-secondary);">Month-by-month principal reduction and interest charges.</p>
             </div>
             <div class="amortization-actions">
               <button type="button" class="btn btn-sm btn-secondary" id="download-csv-btn">
@@ -223,18 +223,18 @@ workedExamples:
     </section>
 
     <!-- Quick Answer Box -->
-    <div class="info-callout" style="margin-top: 2rem; margin-bottom: 2rem;">
-      <h3 style="font-size: 1.05rem; margin-bottom: 0.35rem; color: var(--accent-primary);">Quick Answer</h3>
-      <p style="margin-bottom: 0;">Loan EMI (Equated Monthly Installment) is computed using the annuity formula: <code>EMI = P × r × (1 + r)^n / ((1 + r)^n - 1)</code>, where <strong>P</strong> is the principal loan amount, <strong>r</strong> is the monthly interest rate (annual interest rate ÷ 1200), and <strong>n</strong> is the loan tenure in total months.</p>
+    <div class="info-callout my-8">
+      <h3 class="content-item-title">Quick Answer</h3>
+      <p class="mb-0">Loan EMI (Equated Monthly Installment) is computed using the annuity formula: <code>EMI = P × r × (1 + r)^n / ((1 + r)^n - 1)</code>, where <strong>P</strong> is the principal loan amount, <strong>r</strong> is the monthly interest rate (annual interest rate ÷ 1200), and <strong>n</strong> is the loan tenure in total months.</p>
     </div>
 
     <!-- Reusable Financial Disclaimer -->
     {% include "partials/financial-disclaimer.njk" %}
 
     <!-- When to Use Section -->
-    <section style="margin: 2.5rem 0;" aria-labelledby="how-to-use-heading">
+    <section class="content-section" aria-labelledby="how-to-use-heading">
       <h2 id="how-to-use-heading">How &amp; When to Use the Loan EMI Calculator</h2>
-      <ul style="color: var(--text-muted); line-height: 1.8; margin-left: 1.25rem;">
+      <ul class="content-list">
         <li><strong>Home Mortgages &amp; Real Estate:</strong> Compare 15-year versus 30-year fixed loans to evaluate monthly cash flow versus lifetime interest expenses.</li>
         <li><strong>Vehicle &amp; Auto Financing:</strong> Estimate car loan payments across different dealer rates and down payment scenarios before visiting showrooms.</li>
         <li><strong>Personal Loans &amp; Debt Consolidation:</strong> Determine the exact monthly installment required to consolidate higher-interest credit card balances.</li>
@@ -243,15 +243,15 @@ workedExamples:
     </section>
 
     <!-- Worked Examples Section -->
-    <section style="margin: 2.5rem 0;" aria-labelledby="article-heading">
+    <section class="content-section" aria-labelledby="article-heading">
       <h2 id="article-heading">Worked Loan EMI Examples &amp; Formula</h2>
-      <p style="color: var(--text-muted); line-height: 1.6;">Below are 3 realistic loan examples verified with banking-standard half-up rounding.</p>
+      <p class="text-secondary">Below are 3 realistic loan examples verified with banking-standard half-up rounding.</p>
       
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 1.25rem;">
-        <div style="background: var(--surface-muted); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem;">
-          <h3 style="font-size: 1.1rem; margin-top: 0; color: var(--accent-primary);">Example 1: 30-Year Home Mortgage</h3>
-          <p style="font-size: var(--font-size-sm); color: var(--text-muted); margin-bottom: 0.5rem;"><strong>Principal:</strong> $250,000 | <strong>Rate:</strong> 6.5% | <strong>Tenure:</strong> 30 Years (360 Months)</p>
-          <ul style="font-size: var(--font-size-sm); color: var(--text-muted); line-height: 1.6; margin-left: 1.25rem;">
+      <div class="content-grid">
+        <div class="content-box">
+          <h3 class="content-box-title">Example 1: 30-Year Home Mortgage</h3>
+          <p class="content-note"><strong>Principal:</strong> $250,000 | <strong>Rate:</strong> 6.5% | <strong>Tenure:</strong> 30 Years (360 Months)</p>
+          <ul class="content-list content-list-sm">
             <li>Monthly rate: 6.5 / 1200 ≈ 0.005417</li>
             <li>Monthly EMI: <strong>$1,580.17</strong></li>
             <li>Total Interest: <strong>$318,861.58</strong></li>
@@ -259,10 +259,10 @@ workedExamples:
           </ul>
         </div>
 
-        <div style="background: var(--surface-muted); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem;">
-          <h3 style="font-size: 1.1rem; margin-top: 0; color: var(--accent-primary);">Example 2: 5-Year Auto Loan</h3>
-          <p style="font-size: var(--font-size-sm); color: var(--text-muted); margin-bottom: 0.5rem;"><strong>Principal:</strong> $25,000 | <strong>Rate:</strong> 4.5% | <strong>Tenure:</strong> 5 Years (60 Months)</p>
-          <ul style="font-size: var(--font-size-sm); color: var(--text-muted); line-height: 1.6; margin-left: 1.25rem;">
+        <div class="content-box">
+          <h3 class="content-box-title">Example 2: 5-Year Auto Loan</h3>
+          <p class="content-note"><strong>Principal:</strong> $25,000 | <strong>Rate:</strong> 4.5% | <strong>Tenure:</strong> 5 Years (60 Months)</p>
+          <ul class="content-list content-list-sm">
             <li>Monthly rate: 4.5 / 1200 = 0.00375</li>
             <li>Monthly EMI: <strong>$466.08</strong></li>
             <li>Total Interest: <strong>$2,964.46</strong></li>
@@ -270,10 +270,10 @@ workedExamples:
           </ul>
         </div>
 
-        <div style="background: var(--surface-muted); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem;">
-          <h3 style="font-size: 1.1rem; margin-top: 0; color: var(--accent-primary);">Example 3: Extra Monthly Payments</h3>
-          <p style="font-size: var(--font-size-sm); color: var(--text-muted); margin-bottom: 0.5rem;"><strong>Principal:</strong> $10,000 | <strong>Rate:</strong> 10.0% | <strong>Tenure:</strong> 3 Years (36 Months) + <strong>$100 Extra/mo</strong></p>
-          <ul style="font-size: var(--font-size-sm); color: var(--text-muted); line-height: 1.6; margin-left: 1.25rem;">
+        <div class="content-box">
+          <h3 class="content-box-title">Example 3: Extra Monthly Payments</h3>
+          <p class="content-note"><strong>Principal:</strong> $10,000 | <strong>Rate:</strong> 10.0% | <strong>Tenure:</strong> 3 Years (36 Months) + <strong>$100 Extra/mo</strong></p>
+          <ul class="content-list content-list-sm">
             <li>Base Monthly EMI: $322.67</li>
             <li>New Monthly Payment: $422.67</li>
             <li>Payoff Horizon: <strong>27 Months</strong> (9 months saved!)</li>
@@ -284,9 +284,9 @@ workedExamples:
     </section>
 
     <!-- Common Mistakes Section -->
-    <section style="margin: 2.5rem 0;" aria-labelledby="mistakes-heading">
+    <section class="content-section" aria-labelledby="mistakes-heading">
       <h2 id="mistakes-heading">Common Loan &amp; Mortgage Calculation Pitfalls</h2>
-      <ul style="color: var(--text-muted); line-height: 1.8; margin-left: 1.25rem;">
+      <ul class="content-list">
         <li><strong>Focusing Only on Monthly Payment:</strong> Extending loan tenure lowers your monthly payment but drastically balloons total lifetime interest charges. Always evaluate total loan cost alongside monthly cash flow.</li>
         <li><strong>Confusing APR with Base Interest Rate:</strong> An annual percentage rate (APR) includes lender fees, points, and closing costs, whereas the nominal note rate dictates your exact monthly amortization calculation.</li>
         <li><strong>Assuming Equal Principal Reduction:</strong> During the early years of a loan, the vast majority of each payment goes toward interest. Principal reduction accelerates only in the latter half of the amortization schedule.</li>

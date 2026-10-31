@@ -1,8 +1,8 @@
 .json-editor-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 1.5rem;
-  margin-top: 1rem;
+  gap: var(--space-6);
+  margin-top: var(--space-4);
 }
 
 @media (min-width: 900px) {
@@ -14,32 +14,32 @@
 .json-textarea {
   width: 100%;
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-  font-size: 0.875rem;
-  line-height: 1.5;
-  padding: 0.875rem;
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-normal);
+  padding: var(--space-3);
   border-radius: var(--radius-md);
   border: 1px solid var(--border-subtle);
   background-color: var(--surface-card);
-  color: var(--text-main);
+  color: var(--text-primary);
   resize: vertical;
   min-height: 240px;
   tab-size: 2;
 }
 
 .json-textarea:focus {
-  outline: none;
+  outline: 2px solid var(--accent-primary);
+  outline-offset: -1px;
   border-color: var(--accent-primary);
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
 }
 
 .json-controls-bar {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.75rem;
+  gap: var(--space-3);
   align-items: center;
   justify-content: space-between;
-  margin: 1rem 0;
-  padding: 0.75rem 1rem;
+  margin: var(--space-4) 0;
+  padding: var(--space-3) var(--space-4);
   background-color: var(--surface-muted);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-md);
@@ -48,16 +48,16 @@
 .json-controls-group {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.75rem;
+  gap: var(--space-3);
   align-items: center;
 }
 
 .alert-box {
-  padding: 0.875rem 1.125rem;
+  padding: var(--space-3) var(--space-4);
   border-radius: var(--radius-md);
-  margin-top: 1rem;
-  font-size: 0.925rem;
-  line-height: 1.5;
+  margin-top: var(--space-4);
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-normal);
 }
 
 .alert-box[hidden] {
@@ -65,19 +65,19 @@
 }
 
 .alert-error {
-  background-color: rgba(239, 68, 68, 0.1);
-  border: 1px solid var(--text-danger, #ef4444);
-  color: var(--text-danger, #ef4444);
+  background-color: var(--color-error-bg);
+  border: 1px solid var(--color-error-border);
+  color: var(--color-error-text);
 }
 
 .alert-success {
-  background-color: rgba(16, 185, 129, 0.1);
-  border: 1px solid var(--text-success, #10b981);
-  color: var(--text-success, #10b981);
+  background-color: var(--color-success-bg);
+  border: 1px solid var(--color-success-border);
+  color: var(--color-success-text);
 }
 
 .alert-info {
   background-color: var(--surface-muted);
   border: 1px solid var(--border-subtle);
-  color: var(--text-muted);
+  color: var(--text-secondary);
 }

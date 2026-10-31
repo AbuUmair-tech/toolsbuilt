@@ -132,7 +132,7 @@ document.addEventListener('DOMContentLoaded', () => {
       formulaBox.innerHTML = `
         <strong>Final Exam Guidance:</strong>
         <p style="margin: 0.35rem 0 0.5rem 0;">${finalRes.message}</p>
-        <div style="font-size: 0.85rem; color: var(--text-muted);">
+        <div style="font-size: 0.85rem; color: var(--text-secondary);">
           Formula: Required Final = [Target × (Completed W + Final W) - Current Points] ÷ Final W<br>
           Calculation: [${finalRes.targetGrade} × ${curRes.totalWeight + finalRes.finalWeight}% - ${curRes.totalPoints}] ÷ ${finalRes.finalWeight}% = <strong>${finalRes.neededScore}%</strong>
         </div>

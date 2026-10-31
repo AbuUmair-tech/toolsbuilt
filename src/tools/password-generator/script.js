@@ -205,7 +205,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function renderMultiList(items) {
     multiPasswordsList.innerHTML = items.map((pw, idx) => `
-      <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 0.75rem; background: var(--surface-default); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); margin-bottom: 0.5rem;">
+      <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 0.75rem; background: var(--surface-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); margin-bottom: 0.5rem;">
         <code style="font-size: 0.95rem; font-weight: 600; word-break: break-all;">${pw}</code>
         <button type="button" class="btn btn-sm btn-ghost copy-multi-btn" data-password="${pw}" title="Copy this password" style="flex-shrink: 0; margin-left: 0.5rem;">
           <span data-icon="copy"></span> Copy

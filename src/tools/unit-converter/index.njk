@@ -76,7 +76,7 @@ workedExamples:
     <section class="tool-container" aria-label="Unit Converter Form">
       
       <!-- Category Tabs -->
-      <div class="segmented-control" role="tablist" aria-label="Measurement Categories" style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.5rem;">
+      <div class="segmented-control cluster cluster-sm mb-6" role="tablist" aria-label="Measurement Categories">
         <button type="button" class="btn btn-sm category-tab-btn active" data-cat="length" role="tab" aria-selected="true">Length</button>
         <button type="button" class="btn btn-sm category-tab-btn" data-cat="weight" role="tab" aria-selected="false">Weight / Mass</button>
         <button type="button" class="btn btn-sm category-tab-btn" data-cat="temperature" role="tab" aria-selected="false">Temperature</button>
@@ -90,36 +90,36 @@ workedExamples:
         <div class="form-grid two-col" style="align-items: flex-end; gap: 1rem;">
           
           <!-- Column A -->
-          <div style="background: var(--surface-muted); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem;">
-            <div class="form-group" style="margin-bottom: 0.75rem;">
-              <label for="unit-select-a" style="font-weight: 600;">From Unit</label>
+          <div class="content-box">
+            <div class="form-group mb-3">
+              <label for="unit-select-a" class="font-semibold">From Unit</label>
               <select id="unit-select-a" class="form-control" aria-label="Source Unit">
                 <!-- Populated by script.js -->
               </select>
             </div>
-            <div class="form-group" style="margin-bottom: 0;">
-              <label for="unit-val-a" style="font-weight: 600;">Amount</label>
+            <div class="form-group mb-0">
+              <label for="unit-val-a" class="font-semibold">Amount</label>
               <input type="number" step="any" id="unit-val-a" class="form-control" placeholder="1" value="1" aria-label="Source Amount">
             </div>
           </div>
 
           <!-- Column B -->
-          <div style="background: var(--surface-muted); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem;">
-            <div class="form-group" style="margin-bottom: 0.75rem;">
-              <label for="unit-select-b" style="font-weight: 600;">To Unit</label>
+          <div class="content-box">
+            <div class="form-group mb-3">
+              <label for="unit-select-b" class="font-semibold">To Unit</label>
               <select id="unit-select-b" class="form-control" aria-label="Target Unit">
                 <!-- Populated by script.js -->
               </select>
             </div>
-            <div class="form-group" style="margin-bottom: 0;">
-              <label for="unit-val-b" style="font-weight: 600;">Converted Amount</label>
+            <div class="form-group mb-0">
+              <label for="unit-val-b" class="font-semibold">Converted Amount</label>
               <input type="number" step="any" id="unit-val-b" class="form-control" placeholder="3.28084" aria-label="Target Amount">
             </div>
           </div>
 
         </div>
 
-        <div class="button-group" style="margin-top: 1.25rem;">
+        <div class="button-group mt-6">
           <button type="button" class="btn btn-secondary" id="swap-units-btn">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="17 1 21 5 17 9"></polyline><path d="M3 11V9a4 4 0 0 1 4-4h14"></path><polyline points="7 23 3 19 7 15"></polyline><path d="M21 13v2a4 4 0 0 1-4 4H3"></path></svg>
             Swap Units
@@ -128,7 +128,7 @@ workedExamples:
         </div>
       </form>
 
-      <div id="error-box" class="hidden" style="margin-top: 1rem; color: var(--color-error, #dc2626); background: rgba(220, 38, 38, 0.08); border: 1px solid rgba(220, 38, 38, 0.25); padding: 0.75rem 1rem; border-radius: var(--radius-sm);" role="alert"></div>
+      <div id="error-box" class="hidden form-error" role="alert"></div>
 
       <!-- Result Box -->
       <div id="result-box" class="result-box is-visible" aria-live="polite">
@@ -145,15 +145,15 @@ workedExamples:
           <!-- Populated by script.js -->
         </div>
 
-        <div class="formula-box" id="formula-explanation" style="margin-top: 1rem; background: var(--surface-default); border: 1px solid var(--border-subtle); padding: 1rem; border-radius: var(--radius-md); font-size: 0.9rem; line-height: 1.6;">
+        <div class="formula-box content-panel" id="formula-explanation">
           <!-- Formula details -->
         </div>
       </div>
 
       <!-- Conversion Reference Table -->
       <div style="margin-top: 2rem;">
-        <h3 style="font-size: 1.15rem; margin-bottom: 0.75rem; color: var(--text-default);">Equivalent Measurements Table</h3>
-        <div style="overflow-x: auto; background: var(--surface-default); border: 1px solid var(--border-subtle); border-radius: var(--radius-md);">
+        <h3 style="font-size: 1.15rem; margin-bottom: 0.75rem; color: var(--text-primary);">Equivalent Measurements Table</h3>
+        <div style="overflow-x: auto; background: var(--surface-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-md);">
           <table class="table" style="width: 100%; border-collapse: collapse; min-width: 480px;" aria-label="Equivalent Conversion Units">
             <thead>
               <tr style="border-bottom: 2px solid var(--border-subtle); background: var(--surface-muted); text-align: left;">
@@ -171,15 +171,15 @@ workedExamples:
     </section>
 
     <!-- AEO Quick Answer Box -->
-    <div class="info-callout" style="margin-top: 2rem; margin-bottom: 2rem;">
-      <h3 style="font-size: 1.05rem; margin-bottom: 0.35rem; color: var(--accent-primary);">Quick Answer</h3>
-      <p style="margin-bottom: 0;">To convert physical units between metric and imperial: multiply by the exact conversion factor relative to the base SI standard unit (e.g. 1 meter = 3.28084 feet, 1 kilogram = 2.20462 pounds). For temperature, apply the standard linear formula: <code>°F = (°C × 9/5) + 32</code> or <code>°C = (°F - 32) × 5/9</code>.</p>
+    <div class="info-callout my-8">
+      <h3 class="content-item-title">Quick Answer</h3>
+      <p class="mb-0">To convert physical units between metric and imperial: multiply by the exact conversion factor relative to the base SI standard unit (e.g. 1 meter = 3.28084 feet, 1 kilogram = 2.20462 pounds). For temperature, apply the standard linear formula: <code>°F = (°C × 9/5) + 32</code> or <code>°C = (°F - 32) × 5/9</code>.</p>
     </div>
 
     <!-- When to Use Section -->
-    <section style="margin: 2.5rem 0;" aria-labelledby="how-to-use-heading">
+    <section class="content-section" aria-labelledby="how-to-use-heading">
       <h2 id="how-to-use-heading">How &amp; When to Use the Unit Converter</h2>
-      <ul style="color: var(--text-muted); line-height: 1.8; margin-left: 1.25rem;">
+      <ul class="content-list">
         <li><strong>International Cooking &amp; Baking Recipes:</strong> Convert milliliters, grams, ounces, and US cups seamlessly when following European or American recipes.</li>
         <li><strong>Travel &amp; Speed Limits:</strong> Convert kilometers per hour (km/h) to miles per hour (mph) and outdoor temperatures between Celsius and Fahrenheit.</li>
         <li><strong>Real Estate &amp; Land Measurement:</strong> Convert acres, hectares, square meters, and square feet when reviewing property listings or architectural floor plans.</li>
@@ -188,34 +188,34 @@ workedExamples:
     </section>
 
     <!-- Worked Examples Section -->
-    <section style="margin: 2.5rem 0;" aria-labelledby="article-heading">
+    <section class="content-section" aria-labelledby="article-heading">
       <h2 id="article-heading">Worked Unit Conversion Examples &amp; Formulas</h2>
       
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 1.25rem;">
-        <div style="background: var(--surface-muted); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem;">
-          <h3 style="font-size: 1.1rem; margin-top: 0; color: var(--accent-primary);">Example 1: Miles to Kilometers</h3>
-          <p style="font-size: var(--font-size-sm); color: var(--text-muted); margin-bottom: 0.5rem;"><strong>Value:</strong> 5.0 miles | <strong>Factor:</strong> 1.609344 km/mi</p>
-          <ul style="font-size: var(--font-size-sm); color: var(--text-muted); line-height: 1.6; margin-left: 1.25rem;">
+      <div class="content-grid">
+        <div class="content-box">
+          <h3 class="content-box-title">Example 1: Miles to Kilometers</h3>
+          <p class="content-note"><strong>Value:</strong> 5.0 miles | <strong>Factor:</strong> 1.609344 km/mi</p>
+          <ul class="content-list content-list-sm">
             <li>Exact conversion: 5.0 × 1.609344</li>
             <li>Result: <strong>8.04672 km</strong></li>
             <li>Reverse: 8.04672 ÷ 1.609344 = 5.0 mi</li>
           </ul>
         </div>
 
-        <div style="background: var(--surface-muted); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem;">
-          <h3 style="font-size: 1.1rem; margin-top: 0; color: var(--accent-primary);">Example 2: Body Temperature (F to C)</h3>
-          <p style="font-size: var(--font-size-sm); color: var(--text-muted); margin-bottom: 0.5rem;"><strong>Value:</strong> 98.6°F | <strong>Formula:</strong> (F - 32) × 5/9</p>
-          <ul style="font-size: var(--font-size-sm); color: var(--text-muted); line-height: 1.6; margin-left: 1.25rem;">
+        <div class="content-box">
+          <h3 class="content-box-title">Example 2: Body Temperature (F to C)</h3>
+          <p class="content-note"><strong>Value:</strong> 98.6°F | <strong>Formula:</strong> (F - 32) × 5/9</p>
+          <ul class="content-list content-list-sm">
             <li>Subtract 32: 98.6 - 32 = 66.6</li>
             <li>Multiply by 5/9: 66.6 × 5/9 = <strong>37.00°C</strong></li>
             <li>Standard human body temperature</li>
           </ul>
         </div>
 
-        <div style="background: var(--surface-muted); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem;">
-          <h3 style="font-size: 1.1rem; margin-top: 0; color: var(--accent-primary);">Example 3: Area (Acres to Square Meters)</h3>
-          <p style="font-size: var(--font-size-sm); color: var(--text-muted); margin-bottom: 0.5rem;"><strong>Value:</strong> 2.5 acres | <strong>Factor:</strong> 4046.8564 m²/ac</p>
-          <ul style="font-size: var(--font-size-sm); color: var(--text-muted); line-height: 1.6; margin-left: 1.25rem;">
+        <div class="content-box">
+          <h3 class="content-box-title">Example 3: Area (Acres to Square Meters)</h3>
+          <p class="content-note"><strong>Value:</strong> 2.5 acres | <strong>Factor:</strong> 4046.8564 m²/ac</p>
+          <ul class="content-list content-list-sm">
             <li>Multiply by factor: 2.5 × 4046.8564</li>
             <li>Result: <strong>10,117.14 m²</strong></li>
             <li>Equivalent to ~1.0117 hectares</li>
@@ -225,9 +225,9 @@ workedExamples:
     </section>
 
     <!-- Common Mistakes Section -->
-    <section style="margin: 2.5rem 0;" aria-labelledby="mistakes-heading">
+    <section class="content-section" aria-labelledby="mistakes-heading">
       <h2 id="mistakes-heading">Common Unit Conversion Pitfalls</h2>
-      <ul style="color: var(--text-muted); line-height: 1.8; margin-left: 1.25rem;">
+      <ul class="content-list">
         <li><strong>Confusing US Liquid and Imperial Gallons:</strong> A British (Imperial) gallon is 4.546 liters, while a US gallon is only 3.785 liters. Using the wrong gallon definition leads to a 20% measurement discrepancy.</li>
         <li><strong>Applying Direct Factors to Temperatures:</strong> You cannot multiply Fahrenheit by a single ratio because Fahrenheit and Celsius have different zero points (freezing is 32°F and 0°C). Always subtract 32 before scaling.</li>
         <li><strong>Squaring Linear Conversion Factors for Area:</strong> Since 1 yard = 3 feet, 1 square yard is not 3 square feet, but <code>3 × 3 = 9</code> square feet. Area factors square the linear relationship.</li>

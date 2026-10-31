@@ -51,10 +51,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const maxMb = (max / (1024 * 1024)).toFixed(0);
     sizeMeter.textContent = `${kb} KB / ${maxMb} MB`;
     if (len > max) {
-      sizeMeter.style.color = 'var(--text-danger, #ef4444)';
+      sizeMeter.style.color = 'var(--color-error-text, #ef4444)';
       sizeMeter.style.fontWeight = 'bold';
     } else {
-      sizeMeter.style.color = 'var(--text-muted)';
+      sizeMeter.style.color = 'var(--text-secondary)';
       sizeMeter.style.fontWeight = 'normal';
     }
   }

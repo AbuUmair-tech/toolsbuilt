@@ -91,19 +91,19 @@ faqs:
         <div class="form-grid two-col">
           
           <div class="form-group">
-            <label for="dob-date">Date of Birth <span style="color: var(--accent-primary);">*</span></label>
+            <label for="dob-date">Date of Birth <span class="text-accent">*</span></label>
             <input type="date" id="dob-date" class="form-control" required aria-required="true">
           </div>
 
           <div class="form-group">
-            <label for="target-date">Age at Date <span style="font-weight: normal; color: var(--text-muted);">(Default: Today)</span></label>
+            <label for="target-date">Age at Date <span class="label-hint">(Default: Today)</span></label>
             <input type="date" id="target-date" class="form-control" required aria-required="true">
           </div>
 
         </div>
 
         <fieldset style="margin-top: 1rem; border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 0.75rem 1rem;">
-          <legend style="font-size: var(--font-size-sm); font-weight: var(--font-weight-medium); padding: 0 0.5rem; color: var(--text-muted);">For Leap Day (Feb 29) Birthdays in Common Years</legend>
+          <legend style="font-size: var(--font-size-sm); font-weight: var(--font-weight-medium); padding: 0 0.5rem; color: var(--text-secondary);">For Leap Day (Feb 29) Birthdays in Common Years</legend>
           <div style="display: flex; gap: 1.5rem; flex-wrap: wrap; margin-top: 0.25rem; font-size: var(--font-size-sm);">
             <label style="display: inline-flex; align-items: center; gap: 0.5rem; cursor: pointer;">
               <input type="radio" name="leap-convention" value="mar1" checked>
@@ -116,13 +116,13 @@ faqs:
           </div>
         </fieldset>
 
-        <div class="button-group" style="margin-top: 1.25rem;">
+        <div class="button-group mt-6">
           <button type="submit" class="btn btn-primary">Calculate Age</button>
           <button type="button" class="btn btn-secondary" id="reset-btn">Reset</button>
         </div>
       </form>
 
-      <div id="error-box" class="hidden" style="margin-top: 1rem; color: var(--color-error, #dc2626); background: rgba(220, 38, 38, 0.08); border: 1px solid rgba(220, 38, 38, 0.25); padding: 0.75rem 1rem; border-radius: var(--radius-sm);" role="alert"></div>
+      <div id="error-box" class="hidden form-error" role="alert"></div>
 
       <!-- Result Box -->
       <div id="result-box" class="result-box is-visible" aria-live="polite">
@@ -164,10 +164,10 @@ faqs:
     </section>
 
     <!-- When to Use Section -->
-    <section style="margin: 2.5rem 0;">
+    <section class="content-section">
       <h2>How &amp; When to Use the Exact Age Calculator</h2>
       <p>Determining your exact age in days, weeks, and months is essential for several practical, legal, and medical applications:</p>
-      <ul style="color: var(--text-muted); line-height: 1.8; margin-left: 1.25rem;">
+      <ul class="content-list">
         <li><strong>Official Documentation &amp; Visas:</strong> Government passport agencies, border control, and immigration forms often require age verification down to the exact day.</li>
         <li><strong>Pediatric &amp; Infant Milestones:</strong> Pediatric health tracking, vaccine schedules, and developmental stages are measured in weeks and months rather than calendar years.</li>
         <li><strong>School Enrollment Deadlines:</strong> School districts frequently use strict date cutoffs (e.g., must be 5 years old by September 1st) to determine kindergarten eligibility.</li>
@@ -176,13 +176,13 @@ faqs:
     </section>
 
     <!-- Key Facts & Milestones Reference Table -->
-    <section style="margin: 2.5rem 0;">
+    <section class="content-section">
       <h2>Key Facts &amp; Age Milestones Reference</h2>
       
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 1.25rem;">
+      <div class="content-grid">
         <div>
           <h3>Astronomical &amp; Calendar Units</h3>
-          <ul style="color: var(--text-muted); line-height: 1.8; margin-left: 1.25rem;">
+          <ul class="content-list">
             <li><strong>Mean Gregorian Year:</strong> 365.2425 days (97 leap years per 400-year cycle)</li>
             <li><strong>Standard Year:</strong> 365 days = 8,760 hours</li>
             <li><strong>Leap Year:</strong> 366 days = 8,784 hours</li>
@@ -195,23 +195,23 @@ faqs:
           <h3>Common Legal Age Milestones</h3>
           <table style="width: 100%; border-collapse: collapse; margin-top: 0.5rem; font-size: 0.9rem;">
             <thead>
-              <tr style="background-color: var(--surface-muted); text-align: left; border-bottom: 2px solid var(--border-color);">
-                <th style="padding: 0.5rem;">Age Milestone</th>
-                <th style="padding: 0.5rem;">Typical Legal Significance</th>
+              <tr style="background-color: var(--surface-muted); text-align: left; border-bottom: 2px solid var(--border-subtle);">
+                <th class="table-cell-sm">Age Milestone</th>
+                <th class="table-cell-sm">Typical Legal Significance</th>
               </tr>
             </thead>
             <tbody>
-              <tr style="border-bottom: 1px solid var(--border-color);">
-                <td style="padding: 0.5rem; font-weight: 600;">18 Years</td>
-                <td style="padding: 0.5rem;">General Age of Majority &amp; Voting Eligibility in &gt;90% of countries</td>
+              <tr class="row-divider">
+                <td class="table-cell-sm font-semibold">18 Years</td>
+                <td class="table-cell-sm">General Age of Majority &amp; Voting Eligibility in &gt;90% of countries</td>
               </tr>
-              <tr style="border-bottom: 1px solid var(--border-color);">
-                <td style="padding: 0.5rem; font-weight: 600;">21 Years</td>
-                <td style="padding: 0.5rem;">Minimum Purchase Age for Alcohol in US; Majority age in select jurisdictions (e.g. Mississippi)</td>
+              <tr class="row-divider">
+                <td class="table-cell-sm font-semibold">21 Years</td>
+                <td class="table-cell-sm">Minimum Purchase Age for Alcohol in US; Majority age in select jurisdictions (e.g. Mississippi)</td>
               </tr>
-              <tr style="border-bottom: 1px solid var(--border-color);">
-                <td style="padding: 0.5rem; font-weight: 600;">65–67 Years</td>
-                <td style="padding: 0.5rem;">Standard Benchmark for Full State Pension &amp; Retirement Benefits</td>
+              <tr class="row-divider">
+                <td class="table-cell-sm font-semibold">65–67 Years</td>
+                <td class="table-cell-sm">Standard Benchmark for Full State Pension &amp; Retirement Benefits</td>
               </tr>
             </tbody>
           </table>

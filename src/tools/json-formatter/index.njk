@@ -88,24 +88,24 @@ workedExamples:
       </div>
 
       <div class="json-editor-grid">
-        <div class="form-group" style="margin-bottom: 0;">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
-            <label for="json-input" style="font-weight: 600; font-size: 0.95rem;">Input JSON:</label>
-            <span id="size-meter" style="font-size: 0.8rem; color: var(--text-muted);">0.0 KB / 1 MB</span>
+        <div class="form-group mb-0">
+          <div class="row-between mb-2">
+            <label for="json-input" class="font-semibold">Input JSON:</label>
+            <span id="size-meter" class="text-sm text-secondary">0.0 KB / 1 MB</span>
           </div>
           <textarea id="json-input" class="json-textarea" rows="12" placeholder='Paste your raw or minified JSON here... e.g. {"name":"example","items":[1,2,3]}'></textarea>
         </div>
 
-        <div class="form-group" style="margin-bottom: 0;">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
-            <label for="json-output" style="font-weight: 600; font-size: 0.95rem;">Formatted / Minified Output:</label>
+        <div class="form-group mb-0">
+          <div class="row-between mb-2">
+            <label for="json-output" class="font-semibold">Formatted / Minified Output:</label>
           </div>
           <textarea id="json-output" class="json-textarea" rows="12" readonly placeholder="Formatted output will appear here live as you type..."></textarea>
         </div>
       </div>
 
       <!-- Action Buttons -->
-      <div class="button-group" style="margin-top: 1rem; display: flex; flex-wrap: wrap; gap: 0.75rem;">
+      <div class="button-group cluster mt-4">
         <button type="button" class="btn btn-primary" id="format-btn">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
           Format JSON
@@ -127,15 +127,15 @@ workedExamples:
     </section>
 
     <!-- AEO Quick Answer Box -->
-    <div class="info-callout" style="margin-top: 2rem; margin-bottom: 2rem;">
-      <h3 style="font-size: 1.05rem; margin-bottom: 0.35rem; color: var(--accent-primary);">Quick Answer</h3>
-      <p style="margin-bottom: 0;">The ToolsBuilt JSON Formatter parses, validates, and beautifies JSON payloads with 2-space, 4-space, or tab indentation. It accurately detects syntax errors with line and column markers, sorts object keys alphabetically, and minifies payloads for fast network transport. All data is processed client-side in your browser with complete privacy.</p>
+    <div class="info-callout my-8">
+      <h3 class="content-item-title">Quick Answer</h3>
+      <p class="mb-0">The ToolsBuilt JSON Formatter parses, validates, and beautifies JSON payloads with 2-space, 4-space, or tab indentation. It accurately detects syntax errors with line and column markers, sorts object keys alphabetically, and minifies payloads for fast network transport. All data is processed client-side in your browser with complete privacy.</p>
     </div>
 
     <!-- When to Use Section -->
-    <section style="margin: 2.5rem 0;" aria-labelledby="how-to-use-heading">
+    <section class="content-section" aria-labelledby="how-to-use-heading">
       <h2 id="how-to-use-heading">How &amp; When to Use the JSON Formatter</h2>
-      <ul style="color: var(--text-muted); line-height: 1.8; margin-left: 1.25rem;">
+      <ul class="content-list">
         <li><strong>Debugging REST &amp; GraphQL APIs:</strong> Format unformatted single-line API responses from cURL or Postman into readable, nested structures.</li>
         <li><strong>Validating Configuration Files:</strong> Quickly check <code>tsconfig.json</code>, <code>package.json</code>, or Kubernetes configurations for syntax mistakes before deploying.</li>
         <li><strong>Payload Size Optimization:</strong> Minify JSON files prior to bundling or web transmission to reduce HTTP transfer size and bandwidth consumption.</li>
@@ -144,21 +144,21 @@ workedExamples:
     </section>
 
     <!-- Worked Examples & Standards Section -->
-    <section style="margin: 2.5rem 0;" aria-labelledby="article-heading">
+    <section class="content-section" aria-labelledby="article-heading">
       <h2 id="article-heading">JSON Formatting Standards, Indentation &amp; Formulas</h2>
-      <p style="color: var(--text-muted); line-height: 1.7;">JavaScript Object Notation (JSON) is a strict, text-based data interchange format specified in ECMA-404 and RFC 8259. Unlike JavaScript object literals, JSON requires double quotes around all keys and strings and strictly forbids trailing commas, comments, and unquoted identifiers.</p>
+      <p class="text-secondary">JavaScript Object Notation (JSON) is a strict, text-based data interchange format specified in ECMA-404 and RFC 8259. Unlike JavaScript object literals, JSON requires double quotes around all keys and strings and strictly forbids trailing commas, comments, and unquoted identifiers.</p>
 
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 1.25rem;">
-        <div style="background: var(--surface-muted); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem;">
-          <h3 style="font-size: 1.1rem; margin-top: 0; color: var(--accent-primary);">Example 1: Unformatted Input</h3>
-          <p style="font-size: var(--font-size-sm); color: var(--text-muted); margin-bottom: 0.5rem;">Single-line compact payload:</p>
-          <pre tabindex="0" aria-label="Example unformatted JSON" style="background: var(--surface-card); padding: 0.75rem; border-radius: var(--radius-sm); font-size: 0.8rem; overflow-x: auto;"><code>{"id":101,"user":"alex","roles":["admin","editor"]}</code></pre>
+      <div class="content-grid">
+        <div class="content-box">
+          <h3 class="content-box-title">Example 1: Unformatted Input</h3>
+          <p class="content-note">Single-line compact payload:</p>
+          <pre tabindex="0" aria-label="Example unformatted JSON" style="background: var(--surface-card); padding: 0.75rem; border-radius: var(--radius-md); font-size: 0.8rem; overflow-x: auto;"><code>{"id":101,"user":"alex","roles":["admin","editor"]}</code></pre>
         </div>
 
-        <div style="background: var(--surface-muted); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem;">
-          <h3 style="font-size: 1.1rem; margin-top: 0; color: var(--accent-primary);">Example 2: Formatted (2 Spaces)</h3>
-          <p style="font-size: var(--font-size-sm); color: var(--text-muted); margin-bottom: 0.5rem;">Beautified with standard indentation:</p>
-          <pre tabindex="0" aria-label="Example formatted JSON with 2-space indentation" style="background: var(--surface-card); padding: 0.75rem; border-radius: var(--radius-sm); font-size: 0.8rem; overflow-x: auto;"><code>{
+        <div class="content-box">
+          <h3 class="content-box-title">Example 2: Formatted (2 Spaces)</h3>
+          <p class="content-note">Beautified with standard indentation:</p>
+          <pre tabindex="0" aria-label="Example formatted JSON with 2-space indentation" style="background: var(--surface-card); padding: 0.75rem; border-radius: var(--radius-md); font-size: 0.8rem; overflow-x: auto;"><code>{
   "id": 101,
   "roles": [
     "admin",
@@ -168,10 +168,10 @@ workedExamples:
 }</code></pre>
         </div>
 
-        <div style="background: var(--surface-muted); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem;">
-          <h3 style="font-size: 1.1rem; margin-top: 0; color: var(--accent-primary);">Example 3: Key Sorting Comparison</h3>
-          <p style="font-size: var(--font-size-sm); color: var(--text-muted); margin-bottom: 0.5rem;">Alphabetical sorting sorts keys uniformly:</p>
-          <ul style="font-size: var(--font-size-sm); color: var(--text-muted); line-height: 1.6; margin-left: 1.25rem;">
+        <div class="content-box">
+          <h3 class="content-box-title">Example 3: Key Sorting Comparison</h3>
+          <p class="content-note">Alphabetical sorting sorts keys uniformly:</p>
+          <ul class="content-list content-list-sm">
             <li>Before: <code>{"z": 1, "a": 2}</code></li>
             <li>After: <code>{"a": 2, "z": 1}</code></li>
             <li>Enables deterministic hashing and version control diffing.</li>
@@ -181,9 +181,9 @@ workedExamples:
     </section>
 
     <!-- Common Mistakes Section -->
-    <section style="margin: 2.5rem 0;" aria-labelledby="mistakes-heading">
+    <section class="content-section" aria-labelledby="mistakes-heading">
       <h2 id="mistakes-heading">Common JSON Syntax Errors &amp; Troubleshooting</h2>
-      <ul style="color: var(--text-muted); line-height: 1.8; margin-left: 1.25rem;">
+      <ul class="content-list">
         <li><strong>Trailing Commas:</strong> Adding a comma after the final item in an array (<code>[1, 2, 3,]</code>) or object (<code>{"a": 1,}</code>) is valid in modern JavaScript but throws an immediate syntax error in standard JSON.</li>
         <li><strong>Single Quotes for Strings:</strong> JSON strictly requires double quotation marks (<code>"key": "value"</code>). Using single quotes (<code>'key': 'value'</code>) is rejected by all compliant JSON parsers.</li>
         <li><strong>Unquoted Object Keys:</strong> In JavaScript, keys can omit quotes (<code>{name: "value"}</code>). In JSON, keys must always be enclosed in double quotes.</li>

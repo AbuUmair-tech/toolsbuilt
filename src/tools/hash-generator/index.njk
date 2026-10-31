@@ -91,8 +91,8 @@ faqs:
 
   <!-- Text Input Section -->
   <div class="form-group">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-      <label for="hash-input-text" style="font-weight: 600; margin-bottom: 0;">Plain Text Input:</label>
+    <div class="row-between mb-2">
+      <label for="hash-input-text" class="font-semibold mb-0">Plain Text Input:</label>
       <div style="display: flex; align-items: center; gap: 1rem;">
         <label class="checkbox-label" style="display: flex; align-items: center; gap: 0.4rem; cursor: pointer; font-size: 0.85rem;">
           <input type="checkbox" id="opt-hash-uppercase">
@@ -120,7 +120,7 @@ faqs:
           <span>SHA-256</span>
           <span style="font-size: 0.75rem; color: var(--color-success-text); font-weight: 600;">(Recommended for integrity)</span>
         </div>
-        <span style="font-size: 0.8rem; color: var(--text-muted);">256 bits (64 hex chars)</span>
+        <span class="text-sm text-secondary">256 bits (64 hex chars)</span>
       </div>
       <div class="hash-card-body">
         <div id="hash-sha256-val" class="hash-value-display" aria-label="SHA-256 Hash Output"></div>
@@ -136,7 +136,7 @@ faqs:
         <div class="hash-algo-title">
           <span>SHA-512</span>
         </div>
-        <span style="font-size: 0.8rem; color: var(--text-muted);">512 bits (128 hex chars)</span>
+        <span class="text-sm text-secondary">512 bits (128 hex chars)</span>
       </div>
       <div class="hash-card-body">
         <div id="hash-sha512-val" class="hash-value-display" aria-label="SHA-512 Hash Output"></div>
@@ -152,7 +152,7 @@ faqs:
         <div class="hash-algo-title">
           <span>SHA-384</span>
         </div>
-        <span style="font-size: 0.8rem; color: var(--text-muted);">384 bits (96 hex chars)</span>
+        <span class="text-sm text-secondary">384 bits (96 hex chars)</span>
       </div>
       <div class="hash-card-body">
         <div id="hash-sha384-val" class="hash-value-display" aria-label="SHA-384 Hash Output"></div>
@@ -169,7 +169,7 @@ faqs:
           <span>SHA-1</span>
           <span class="hash-badge-legacy">Legacy / Insecure for Passwords</span>
         </div>
-        <span style="font-size: 0.8rem; color: var(--text-muted);">160 bits (40 hex chars)</span>
+        <span class="text-sm text-secondary">160 bits (40 hex chars)</span>
       </div>
       <div class="hash-card-body">
         <div id="hash-sha1-val" class="hash-value-display" aria-label="SHA-1 Hash Output"></div>
@@ -183,10 +183,10 @@ faqs:
 
   <!-- Compare Two Hashes Section -->
   <div class="hash-compare-section">
-    <label for="hash-compare-input" style="font-weight: 600; font-size: 0.95rem;">Compare / Verify Hash:</label>
+    <label for="hash-compare-input" class="font-semibold">Compare / Verify Hash:</label>
     <input type="text" id="hash-compare-input" class="form-control" placeholder="Paste an external checksum or hash to compare..." style="font-family: var(--font-mono, monospace); font-size: 0.9rem;" aria-label="Target Hash for Comparison">
     <div id="hash-compare-status" class="hash-match-status" aria-live="polite">
-      <span style="color: var(--text-muted);">Paste a hash above to verify match against calculated values.</span>
+      <span style="color: var(--text-secondary);">Paste a hash above to verify match against calculated values.</span>
     </div>
   </div>
 

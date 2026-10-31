@@ -38,12 +38,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (topWordsList) {
       if (res.topWords.length === 0) {
-        topWordsList.innerHTML = '<li class="text-muted" style="color: var(--text-muted); font-size: 0.9rem;">No repeated keywords detected yet.</li>';
+        topWordsList.innerHTML = '<li class="text-muted" style="color: var(--text-secondary); font-size: 0.9rem;">No repeated keywords detected yet.</li>';
       } else {
         topWordsList.innerHTML = res.topWords.map(item => `
           <li style="display: flex; justify-content: space-between; padding: 0.35rem 0; border-bottom: 1px solid var(--border-subtle); font-size: 0.9rem;">
             <span style="font-weight: 500;">${item.word}</span>
-            <span style="color: var(--text-muted);">${numFmt.format(item.count)} (${item.percentage}%)</span>
+            <span style="color: var(--text-secondary);">${numFmt.format(item.count)} (${item.percentage}%)</span>
           </li>
         `).join('');
       }

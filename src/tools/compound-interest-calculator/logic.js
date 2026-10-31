@@ -214,7 +214,7 @@
 
       gridLines.push(`
         <line x1="${padLeft}" y1="${yPos.toFixed(1)}" x2="${width - padRight}" y2="${yPos.toFixed(1)}" stroke="var(--border-subtle, #e5e7eb)" stroke-dasharray="3,3" stroke-width="1" />
-        <text x="${padLeft - 10}" y="${(yPos + 4).toFixed(1)}" text-anchor="end" font-size="11" fill="var(--text-muted, #6b7280)">${label}</text>
+        <text x="${padLeft - 10}" y="${(yPos + 4).toFixed(1)}" text-anchor="end" font-size="11" fill="var(--text-secondary, #6b7280)">${label}</text>
       `);
     }
 
@@ -224,20 +224,20 @@
     for (let i = 0; i <= count; i += step) {
       const p = balancePoints[i];
       xLabels.push(`
-        <text x="${p.x.toFixed(1)}" y="${(padTop + plotHeight + 20).toFixed(1)}" text-anchor="middle" font-size="11" fill="var(--text-muted, #6b7280)">Yr ${yearlyData[i].year}</text>
+        <text x="${p.x.toFixed(1)}" y="${(padTop + plotHeight + 20).toFixed(1)}" text-anchor="middle" font-size="11" fill="var(--text-secondary, #6b7280)">Yr ${yearlyData[i].year}</text>
       `);
     }
     // Always include final year if not already included
     if ((count % step) !== 0) {
       const p = balancePoints[count];
       xLabels.push(`
-        <text x="${p.x.toFixed(1)}" y="${(padTop + plotHeight + 20).toFixed(1)}" text-anchor="middle" font-size="11" fill="var(--text-muted, #6b7280)">Yr ${yearlyData[count].year}</text>
+        <text x="${p.x.toFixed(1)}" y="${(padTop + plotHeight + 20).toFixed(1)}" text-anchor="middle" font-size="11" fill="var(--text-secondary, #6b7280)">Yr ${yearlyData[count].year}</text>
       `);
     }
 
     // Circles for hover/tooltip
     const dataCircles = balancePoints.map(p => `
-      <circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="4" fill="var(--accent-primary, #10b981)" stroke="#ffffff" stroke-width="2">
+      <circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="4" fill="var(--accent-primary)" stroke="var(--surface-card)" stroke-width="2">
         <title>Year ${p.d.year}: Balance ${currencySymbol}${p.d.balance.toLocaleString('en-US')}, Principal ${currencySymbol}${p.d.totalPrincipal.toLocaleString('en-US')}</title>
       </circle>
     `).join('');
@@ -246,12 +246,11 @@
       <svg viewBox="0 0 ${width} ${height}" class="compound-growth-svg" role="img" aria-label="Compound interest wealth projection growth chart" style="width: 100%; height: auto; display: block;">
         <desc>Growth progression comparing total invested principal versus compound interest balance over ${count} years.</desc>
         <g class="chart-grid">${gridLines.join('')}</g>
-        <!-- Principal Area (Base) -->
-        <path d="${principalAreaPath}" fill="rgba(99, 102, 241, 0.25)" />
-        <path d="${principalLinePath}" fill="none" stroke="#6366f1" stroke-width="2" />
-        <!-- Total Balance Area (Upper) -->
-        <path d="${balanceAreaPath}" fill="rgba(16, 185, 129, 0.18)" />
-        <path d="${balanceLinePath}" fill="none" stroke="var(--accent-primary, #10b981)" stroke-width="2.5" />
+        <!-- Total balance area (accent tint), principal area drawn over it in neutral -->
+        <path d="${balanceAreaPath}" fill="var(--accent-subtle)" />
+        <path d="${principalAreaPath}" fill="var(--surface-muted)" />
+        <path d="${principalLinePath}" fill="none" stroke="var(--border-strong)" stroke-width="2" />
+        <path d="${balanceLinePath}" fill="none" stroke="var(--accent-primary)" stroke-width="2.5" />
         <g class="chart-x-labels">${xLabels.join('')}</g>
         <g class="chart-data-points">${dataCircles}</g>
       </svg>

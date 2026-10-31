@@ -68,7 +68,7 @@ workedExamples:
     <section class="tool-container" aria-label="URL Encoder &amp; Decoder Form">
       <div class="url-controls-bar">
         <div class="mode-radio-group">
-          <span style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Direction:</span>
+          <span style="font-size: 0.85rem; font-weight: 700; color: var(--text-secondary); text-transform: uppercase;">Direction:</span>
           <label class="mode-radio-label">
             <input type="radio" name="url-direction" value="encode" checked style="cursor: pointer;">
             <span>Encode</span>
@@ -80,7 +80,7 @@ workedExamples:
         </div>
 
         <div class="mode-radio-group">
-          <span style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Mode:</span>
+          <span style="font-size: 0.85rem; font-weight: 700; color: var(--text-secondary); text-transform: uppercase;">Mode:</span>
           <label class="mode-radio-label" title="Encodes all delimiters (;,/?:@&=+$#). Best for parameter keys & values.">
             <input type="radio" name="url-mode" value="component" checked style="cursor: pointer;">
             <span>Component (encodeURIComponent)</span>
@@ -94,24 +94,24 @@ workedExamples:
       </div>
 
       <div class="url-editor-grid">
-        <div class="form-group" style="margin-bottom: 0;">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
-            <label for="url-input" id="input-label" style="font-weight: 600; font-size: 0.95rem;">Text or URL to Encode (Component):</label>
-            <span id="size-meter" style="font-size: 0.8rem; color: var(--text-muted);">0.0 KB / 1 MB</span>
+        <div class="form-group mb-0">
+          <div class="row-between mb-2">
+            <label for="url-input" id="input-label" class="font-semibold">Text or URL to Encode (Component):</label>
+            <span id="size-meter" class="text-sm text-secondary">0.0 KB / 1 MB</span>
           </div>
           <textarea id="url-input" class="url-textarea" rows="8" placeholder="Paste parameter or text here... e.g. hello world &amp; symbols=?"></textarea>
         </div>
 
-        <div class="form-group" style="margin-bottom: 0;">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
-            <label for="url-output" id="output-label" style="font-weight: 600; font-size: 0.95rem;">Encoded URL Output:</label>
+        <div class="form-group mb-0">
+          <div class="row-between mb-2">
+            <label for="url-output" id="output-label" class="font-semibold">Encoded URL Output:</label>
           </div>
           <textarea id="url-output" class="url-textarea" rows="8" readonly placeholder="Output will appear here live as you type..."></textarea>
         </div>
       </div>
 
       <!-- Action Buttons -->
-      <div class="button-group" style="margin-top: 1rem; display: flex; flex-wrap: wrap; gap: 0.75rem;">
+      <div class="button-group cluster mt-4">
         <button type="button" class="btn btn-primary" id="convert-btn">Encode URL</button>
         <button type="button" class="btn btn-secondary" id="swap-btn">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="17 1 21 5 17 9"></polyline><path d="M3 11V9a4 4 0 0 1 4-4h14"></path><polyline points="7 23 3 19 7 15"></polyline><path d="M21 13v2a4 4 0 0 1-4 4H3"></path></svg>
@@ -128,9 +128,9 @@ workedExamples:
 
       <!-- Live Query String Parser Table -->
       <div id="query-table-container" class="query-table-wrapper" hidden>
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-          <h3 style="font-size: 1rem; margin: 0; color: var(--text-main);">Parsed Query String Parameters</h3>
-          <span id="query-count-badge" style="font-size: 0.8rem; background: var(--surface-card); border: 1px solid var(--border-subtle); padding: 0.2rem 0.5rem; border-radius: var(--radius-sm); color: var(--accent-primary);">0 parameters</span>
+        <div class="row-between mb-2">
+          <h3 style="font-size: 1rem; margin: 0; color: var(--text-primary);">Parsed Query String Parameters</h3>
+          <span id="query-count-badge" style="font-size: 0.8rem; background: var(--surface-card); border: 1px solid var(--border-subtle); padding: 0.2rem 0.5rem; border-radius: var(--radius-md); color: var(--accent-primary);">0 parameters</span>
         </div>
         <div tabindex="0" style="overflow-x: auto;">
           <table class="query-table" aria-label="Parsed query string parameters">
@@ -148,15 +148,15 @@ workedExamples:
     </section>
 
     <!-- AEO Quick Answer Box -->
-    <div class="info-callout" style="margin-top: 2rem; margin-bottom: 2rem;">
-      <h3 style="font-size: 1.05rem; margin-bottom: 0.35rem; color: var(--accent-primary);">Quick Answer</h3>
-      <p style="margin-bottom: 0;">Use <code>encodeURIComponent</code> when encoding individual query string keys or values to safely escape reserved characters like <code>&amp;</code>, <code>=</code>, and <code>?</code>. Use <code>encodeURI</code> only when encoding a complete URL address where protocol and query delimiters must remain unencoded. All processing is debounced and performed entirely in your browser.</p>
+    <div class="info-callout my-8">
+      <h3 class="content-item-title">Quick Answer</h3>
+      <p class="mb-0">Use <code>encodeURIComponent</code> when encoding individual query string keys or values to safely escape reserved characters like <code>&amp;</code>, <code>=</code>, and <code>?</code>. Use <code>encodeURI</code> only when encoding a complete URL address where protocol and query delimiters must remain unencoded. All processing is debounced and performed entirely in your browser.</p>
     </div>
 
     <!-- When to Use Section -->
-    <section style="margin: 2.5rem 0;" aria-labelledby="how-to-use-heading">
+    <section class="content-section" aria-labelledby="how-to-use-heading">
       <h2 id="how-to-use-heading">How &amp; When to Use the URL Encoder / Decoder</h2>
-      <ul style="color: var(--text-muted); line-height: 1.8; margin-left: 1.25rem;">
+      <ul class="content-list">
         <li><strong>Passing Nested URLs in Redirects:</strong> When passing a return URL (e.g. <code>?returnTo=https://example.com/dashboard?tab=billing</code>), use <code>encodeURIComponent</code> so the nested query parameters aren't parsed by the outer server.</li>
         <li><strong>Fixing Broken Links with Spaces:</strong> Web browsers require valid ASCII URIs. Encode spaces as <code>%20</code> (or <code>+</code>) and non-ASCII Unicode characters before sharing links.</li>
         <li><strong>Debugging Webhook Payloads &amp; Query Strings:</strong> Paste complex query strings to view every parameter neatly parsed into a structured table.</li>
@@ -165,9 +165,9 @@ workedExamples:
     </section>
 
     <!-- Worked Examples & Comparison Section -->
-    <section style="margin: 2.5rem 0;" aria-labelledby="article-heading">
+    <section class="content-section" aria-labelledby="article-heading">
       <h2 id="article-heading">URL Encoding Specification &amp; Mode Comparison</h2>
-      <p style="color: var(--text-muted); line-height: 1.7;">RFC 3986 specifies percent-encoding to represent characters in URIs outside the allowed ASCII character set. Understanding the distinction between component and full URI modes prevents broken routes and corrupted parameters.</p>
+      <p class="text-secondary">RFC 3986 specifies percent-encoding to represent characters in URIs outside the allowed ASCII character set. Understanding the distinction between component and full URI modes prevents broken routes and corrupted parameters.</p>
 
       <div tabindex="0" style="overflow-x: auto; margin-top: 1.25rem;">
         <table class="query-table" style="background: var(--surface-muted); border-radius: var(--radius-md); padding: 0.5rem;" aria-label="Mode Comparison">
@@ -222,9 +222,9 @@ workedExamples:
     </section>
 
     <!-- Common Mistakes Section -->
-    <section style="margin: 2.5rem 0;" aria-labelledby="mistakes-heading">
+    <section class="content-section" aria-labelledby="mistakes-heading">
       <h2 id="mistakes-heading">Common URL Encoding Mistakes</h2>
-      <ul style="color: var(--text-muted); line-height: 1.8; margin-left: 1.25rem;">
+      <ul class="content-list">
         <li><strong>Double-Encoding:</strong> Encoding an already percent-encoded string converts existing <code>%</code> characters into <code>%25</code> (e.g. <code>%20</code> becomes <code>%2520</code>). Always verify whether incoming data is already encoded before applying transformation.</li>
         <li><strong>Using encodeURI for Query Values:</strong> Running <code>encodeURI</code> on a parameter value leaves characters like <code>&amp;</code> and <code>+</code> unencoded, causing server parsers to truncate or split values unexpectedly.</li>
         <li><strong>Malformed Percent Sequences:</strong> Decoding a string with a bare percent sign (such as <code>discount=50%</code> instead of <code>discount=50%25</code>) throws a fatal JavaScript <code>URIError: URI malformed</code>. Safe tools catch and surface this error clearly.</li>

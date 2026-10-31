@@ -86,17 +86,17 @@ workedExamples:
         <div class="form-grid two-col">
           
           <div class="form-group">
-            <label for="principal">Initial Principal ($) <span style="color: var(--accent-primary);">*</span></label>
+            <label for="principal">Initial Principal ($) <span class="text-accent">*</span></label>
             <input type="number" step="any" min="0" id="principal" class="form-control" placeholder="e.g. 10000" required aria-required="true">
           </div>
 
           <div class="form-group">
-            <label for="interest-rate">Annual Interest Rate (%) <span style="color: var(--accent-primary);">*</span></label>
+            <label for="interest-rate">Annual Interest Rate (%) <span class="text-accent">*</span></label>
             <input type="number" step="0.01" min="0" max="100" id="interest-rate" class="form-control" placeholder="e.g. 7.0" required aria-required="true">
           </div>
 
           <div class="form-group">
-            <label for="years">Investment Horizon (Years) <span style="color: var(--accent-primary);">*</span></label>
+            <label for="years">Investment Horizon (Years) <span class="text-accent">*</span></label>
             <input type="number" step="1" min="1" max="60" id="years" class="form-control" placeholder="e.g. 10" required aria-required="true">
           </div>
 
@@ -110,20 +110,20 @@ workedExamples:
             </select>
           </div>
 
-          <div class="form-group" style="grid-column: 1 / -1;">
-            <label for="regular-contribution">Optional Monthly Contribution ($) <span style="font-weight: normal; color: var(--text-muted);">(Deposited at Start of Month)</span></label>
+          <div class="form-group col-span-full">
+            <label for="regular-contribution">Optional Monthly Contribution ($) <span class="label-hint">(Deposited at Start of Month)</span></label>
             <input type="number" step="any" min="0" id="regular-contribution" class="form-control" placeholder="e.g. 200">
           </div>
 
         </div>
 
-        <div class="button-group" style="margin-top: 1.25rem;">
+        <div class="button-group mt-6">
           <button type="submit" class="btn btn-primary">Calculate Growth</button>
           <button type="button" class="btn btn-secondary" id="reset-btn">Reset</button>
         </div>
       </form>
 
-      <div id="error-box" class="hidden" style="margin-top: 1rem; color: var(--color-error, #dc2626); background: rgba(220, 38, 38, 0.08); border: 1px solid rgba(220, 38, 38, 0.25); padding: 0.75rem 1rem; border-radius: var(--radius-sm);" role="alert"></div>
+      <div id="error-box" class="hidden form-error" role="alert"></div>
 
       <!-- Result Box -->
       <div id="result-box" class="result-box is-visible" aria-live="polite">
@@ -146,7 +146,7 @@ workedExamples:
           </div>
           <div class="result-stat-card">
             <div class="result-stat-label">Total Compound Interest</div>
-            <div class="result-stat-value" id="stat-total-interest" style="color: var(--color-success, #059669);">$0.00</div>
+            <div class="result-stat-value text-success" id="stat-total-interest">$0.00</div>
           </div>
           <div class="result-stat-card">
             <div class="result-stat-label">Effective APY</div>
@@ -169,7 +169,7 @@ workedExamples:
         </div>
 
         <!-- Yearly Breakdown Table -->
-        <div class="chart-card" style="margin-top: 1.5rem;">
+        <div class="chart-card mt-6">
           <h3 class="chart-title">Annual Balance &amp; Interest Schedule</h3>
           <div class="compound-scroll-table">
             <table class="compound-table" aria-label="Year-by-year compound interest growth table">
@@ -193,18 +193,18 @@ workedExamples:
     </section>
 
     <!-- Quick Answer Box -->
-    <div class="info-callout" style="margin-top: 2rem; margin-bottom: 2rem;">
-      <h3 style="font-size: 1.05rem; margin-bottom: 0.35rem; color: var(--accent-primary);">Quick Answer</h3>
-      <p style="margin-bottom: 0;">Compound interest causes balances to accelerate over time by earning interest on accumulated interest. Without contributions, future value is computed as: <code>A = P × (1 + r/n)^(n×t)</code>. For instance, $10,000 deposited at 7% interest for 10 years compounded annually grows to <strong>$19,671.51</strong>, almost doubling your initial principal through $9,671.51 in pure compound earnings.</p>
+    <div class="info-callout my-8">
+      <h3 class="content-item-title">Quick Answer</h3>
+      <p class="mb-0">Compound interest causes balances to accelerate over time by earning interest on accumulated interest. Without contributions, future value is computed as: <code>A = P × (1 + r/n)^(n×t)</code>. For instance, $10,000 deposited at 7% interest for 10 years compounded annually grows to <strong>$19,671.51</strong>, almost doubling your initial principal through $9,671.51 in pure compound earnings.</p>
     </div>
 
     <!-- Reusable Financial Disclaimer -->
     {% include "partials/financial-disclaimer.njk" %}
 
     <!-- When to Use Section -->
-    <section style="margin: 2.5rem 0;" aria-labelledby="how-to-use-heading">
+    <section class="content-section" aria-labelledby="how-to-use-heading">
       <h2 id="how-to-use-heading">How &amp; When to Use the Compound Interest Calculator</h2>
-      <ul style="color: var(--text-muted); line-height: 1.8; margin-left: 1.25rem;">
+      <ul class="content-list">
         <li><strong>High-Yield Savings &amp; CDs:</strong> Compare daily vs monthly compounding rates offered by online banks to find the highest true APY.</li>
         <li><strong>Long-Term Retirement Compounding:</strong> Calculate how monthly contributions into index funds compound over 20, 30, or 40-year careers.</li>
         <li><strong>Children's College Funds &amp; 529 Plans:</strong> Estimate the compound future value of an initial gift supplemented by regular monthly deposits.</li>
@@ -213,15 +213,15 @@ workedExamples:
     </section>
 
     <!-- Worked Examples Section -->
-    <section style="margin: 2.5rem 0;" aria-labelledby="article-heading">
+    <section class="content-section" aria-labelledby="article-heading">
       <h2 id="article-heading">Worked Compound Interest Examples &amp; Formula</h2>
-      <p style="color: var(--text-muted); line-height: 1.6;">Below are 3 realistic worked examples illustrating lump-sum, regular deposit, and daily compounding scenarios.</p>
+      <p class="text-secondary">Below are 3 realistic worked examples illustrating lump-sum, regular deposit, and daily compounding scenarios.</p>
       
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 1.25rem;">
-        <div style="background: var(--surface-muted); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem;">
-          <h3 style="font-size: 1.1rem; margin-top: 0; color: var(--accent-primary);">Example 1: Lump Sum Annual Compounding</h3>
-          <p style="font-size: var(--font-size-sm); color: var(--text-muted); margin-bottom: 0.5rem;"><strong>Principal:</strong> $10,000 | <strong>Rate:</strong> 7.0% | <strong>Tenure:</strong> 10 Years | <strong>Frequency:</strong> Annual</p>
-          <ul style="font-size: var(--font-size-sm); color: var(--text-muted); line-height: 1.6; margin-left: 1.25rem;">
+      <div class="content-grid">
+        <div class="content-box">
+          <h3 class="content-box-title">Example 1: Lump Sum Annual Compounding</h3>
+          <p class="content-note"><strong>Principal:</strong> $10,000 | <strong>Rate:</strong> 7.0% | <strong>Tenure:</strong> 10 Years | <strong>Frequency:</strong> Annual</p>
+          <ul class="content-list content-list-sm">
             <li>Formula: $10,000 × (1 + 0.07)^10</li>
             <li>Ending Balance: <strong>$19,671.51</strong></li>
             <li>Compound Interest: <strong>$9,671.51</strong></li>
@@ -229,10 +229,10 @@ workedExamples:
           </ul>
         </div>
 
-        <div style="background: var(--surface-muted); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem;">
-          <h3 style="font-size: 1.1rem; margin-top: 0; color: var(--accent-primary);">Example 2: Monthly Deposits</h3>
-          <p style="font-size: var(--font-size-sm); color: var(--text-muted); margin-bottom: 0.5rem;"><strong>Principal:</strong> $5,000 | <strong>Rate:</strong> 8.0% | <strong>Tenure:</strong> 5 Years | <strong>Deposit:</strong> $200/mo</p>
-          <ul style="font-size: var(--font-size-sm); color: var(--text-muted); line-height: 1.6; margin-left: 1.25rem;">
+        <div class="content-box">
+          <h3 class="content-box-title">Example 2: Monthly Deposits</h3>
+          <p class="content-note"><strong>Principal:</strong> $5,000 | <strong>Rate:</strong> 8.0% | <strong>Tenure:</strong> 5 Years | <strong>Deposit:</strong> $200/mo</p>
+          <ul class="content-list content-list-sm">
             <li>Total Principal Invested: $17,000.00 ($5,000 + $12,000 deposits)</li>
             <li>Ending Future Value: <strong>$22,242.57</strong></li>
             <li>Compound Interest Earned: <strong>$5,242.57</strong></li>
@@ -240,10 +240,10 @@ workedExamples:
           </ul>
         </div>
 
-        <div style="background: var(--surface-muted); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem;">
-          <h3 style="font-size: 1.1rem; margin-top: 0; color: var(--accent-primary);">Example 3: Daily High-Yield Savings</h3>
-          <p style="font-size: var(--font-size-sm); color: var(--text-muted); margin-bottom: 0.5rem;"><strong>Principal:</strong> $20,000 | <strong>Rate:</strong> 5.0% | <strong>Tenure:</strong> 3 Years | <strong>Frequency:</strong> Daily (365/yr)</p>
-          <ul style="font-size: var(--font-size-sm); color: var(--text-muted); line-height: 1.6; margin-left: 1.25rem;">
+        <div class="content-box">
+          <h3 class="content-box-title">Example 3: Daily High-Yield Savings</h3>
+          <p class="content-note"><strong>Principal:</strong> $20,000 | <strong>Rate:</strong> 5.0% | <strong>Tenure:</strong> 3 Years | <strong>Frequency:</strong> Daily (365/yr)</p>
+          <ul class="content-list content-list-sm">
             <li>Daily Compounding Formula: $20,000 × (1 + 0.05/365)^(365 × 3)</li>
             <li>Ending Balance: <strong>$23,236.45</strong></li>
             <li>Interest Earned: <strong>$3,236.45</strong></li>
@@ -254,9 +254,9 @@ workedExamples:
     </section>
 
     <!-- Common Mistakes Section -->
-    <section style="margin: 2.5rem 0;" aria-labelledby="mistakes-heading">
+    <section class="content-section" aria-labelledby="mistakes-heading">
       <h2 id="mistakes-heading">Common Compounding Pitfalls</h2>
-      <ul style="color: var(--text-muted); line-height: 1.8; margin-left: 1.25rem;">
+      <ul class="content-list">
         <li><strong>Comparing APR to APY Directly:</strong> A bank advertising 5.00% APR with daily compounding actually pays 5.13% APY. Always compare APY against APY for true apples-to-apples evaluation.</li>
         <li><strong>Delaying Contributions:</strong> Thanks to geometric exponential growth, depositing early in your twenties compounds far more wealth than depositing twice as much later in your forties.</li>
         <li><strong>Ignoring Inflation &amp; Taxes:</strong> High nominal interest rates must be adjusted for inflation and annual tax obligations on interest income to gauge real purchasing power growth.</li>

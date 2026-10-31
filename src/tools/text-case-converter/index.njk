@@ -97,19 +97,19 @@ faqs:
     <!-- Tool Form Container -->
     <section class="tool-container" aria-label="Text Case Converter Form">
       <div class="form-group">
-        <label for="text-input" style="display: flex; justify-content: space-between; align-items: center;">
+        <label for="text-input" class="row-between">
           <span>Type or Paste Your Text Below:</span>
         </label>
         <textarea id="text-input" class="form-control" rows="8" placeholder="Type or paste text here, then click any case style button below..." style="font-family: inherit; line-height: 1.6; resize: vertical; min-height: 180px;"></textarea>
       </div>
 
       <!-- Live character / word count bar -->
-      <div id="char-stats" style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.5rem;" aria-live="polite">
+      <div id="char-stats" style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.5rem;" aria-live="polite">
         0 characters (0 no spaces) | 0 words | 0 lines
       </div>
 
-      <div style="margin-top: 1.5rem;">
-        <label style="font-weight: 600; font-size: 0.95rem; color: var(--text-main);">Choose Conversion Style (12 Available):</label>
+      <div class="mt-6">
+        <label style="font-weight: 600; font-size: 0.95rem; color: var(--text-primary);">Choose Conversion Style (12 Available):</label>
         <div class="case-btn-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 0.6rem; margin-top: 0.75rem;">
           <button type="button" class="btn btn-sm btn-secondary case-btn" data-case="upper">UPPERCASE</button>
           <button type="button" class="btn btn-sm btn-secondary case-btn" data-case="lower">lowercase</button>
@@ -134,9 +134,9 @@ faqs:
     </section>
 
     <!-- When to Use Section -->
-    <section style="margin: 2.5rem 0;">
+    <section class="content-section">
       <h2>How &amp; When to Use the Text Case Converter</h2>
-      <ul style="color: var(--text-muted); line-height: 1.8; margin-left: 1.25rem;">
+      <ul class="content-list">
         <li><strong>Software Development &amp; Coding:</strong> Convert user input or schema definitions into standardized code conventions (e.g. `camelCase` for JavaScript variables, `snake_case` for Python/database columns, or `CONSTANT_CASE` for global environment variables).</li>
         <li><strong>Blog &amp; Article Headline Publishing:</strong> Convert messy rough draft titles into elegant Chicago-style Title Case where minor prepositions remain lowercased.</li>
         <li><strong>Accidental CAPS LOCK Correction:</strong> Restore sentences typed with caps lock on without having to retype paragraphs from scratch.</li>
@@ -145,68 +145,68 @@ faqs:
     </section>
 
     <!-- Key Facts & Conversion Reference Table -->
-    <section style="margin: 2.5rem 0;">
+    <section class="content-section">
       <h2>Case Style Reference &amp; Developer Conventions</h2>
       
       <div tabindex="0" style="margin-top: 1.25rem; overflow-x: auto;">
         <table style="width: 100%; border-collapse: collapse; font-size: 0.925rem;">
           <thead>
-            <tr style="background-color: var(--surface-muted); text-align: left; border-bottom: 2px solid var(--border-color);">
-              <th style="padding: 0.75rem 1rem;">Case Style</th>
-              <th style="padding: 0.75rem 1rem;">Sample Output</th>
-              <th style="padding: 0.75rem 1rem;">Common Industry Usage</th>
+            <tr style="background-color: var(--surface-muted); text-align: left; border-bottom: 2px solid var(--border-subtle);">
+              <th class="table-cell">Case Style</th>
+              <th class="table-cell">Sample Output</th>
+              <th class="table-cell">Common Industry Usage</th>
             </tr>
           </thead>
           <tbody>
-            <tr style="border-bottom: 1px solid var(--border-color);">
-              <td style="padding: 0.75rem 1rem; font-weight: 600;">UPPERCASE</td>
-              <td style="padding: 0.75rem 1rem;"><code>HELLO WORLD</code></td>
-              <td style="padding: 0.75rem 1rem;">Headlines, warnings, acronyms</td>
+            <tr class="row-divider">
+              <td class="table-cell font-semibold">UPPERCASE</td>
+              <td class="table-cell"><code>HELLO WORLD</code></td>
+              <td class="table-cell">Headlines, warnings, acronyms</td>
             </tr>
-            <tr style="border-bottom: 1px solid var(--border-color);">
-              <td style="padding: 0.75rem 1rem; font-weight: 600;">lowercase</td>
-              <td style="padding: 0.75rem 1rem;"><code>hello world</code></td>
-              <td style="padding: 0.75rem 1rem;">Email addresses, search normalization</td>
+            <tr class="row-divider">
+              <td class="table-cell font-semibold">lowercase</td>
+              <td class="table-cell"><code>hello world</code></td>
+              <td class="table-cell">Email addresses, search normalization</td>
             </tr>
-            <tr style="border-bottom: 1px solid var(--border-color);">
-              <td style="padding: 0.75rem 1rem; font-weight: 600;">Title Case</td>
-              <td style="padding: 0.75rem 1rem;"><code>The Return of the King</code></td>
-              <td style="padding: 0.75rem 1rem;">Book titles, editorial articles</td>
+            <tr class="row-divider">
+              <td class="table-cell font-semibold">Title Case</td>
+              <td class="table-cell"><code>The Return of the King</code></td>
+              <td class="table-cell">Book titles, editorial articles</td>
             </tr>
-            <tr style="border-bottom: 1px solid var(--border-color);">
-              <td style="padding: 0.75rem 1rem; font-weight: 600;">Sentence case</td>
-              <td style="padding: 0.75rem 1rem;"><code>Hello world. Good morning.</code></td>
-              <td style="padding: 0.75rem 1rem;">Body prose, user documentation</td>
+            <tr class="row-divider">
+              <td class="table-cell font-semibold">Sentence case</td>
+              <td class="table-cell"><code>Hello world. Good morning.</code></td>
+              <td class="table-cell">Body prose, user documentation</td>
             </tr>
-            <tr style="border-bottom: 1px solid var(--border-color);">
-              <td style="padding: 0.75rem 1rem; font-weight: 600;">camelCase</td>
-              <td style="padding: 0.75rem 1rem;"><code>helloWorld</code></td>
-              <td style="padding: 0.75rem 1rem;">JavaScript, Java variable &amp; method names</td>
+            <tr class="row-divider">
+              <td class="table-cell font-semibold">camelCase</td>
+              <td class="table-cell"><code>helloWorld</code></td>
+              <td class="table-cell">JavaScript, Java variable &amp; method names</td>
             </tr>
-            <tr style="border-bottom: 1px solid var(--border-color);">
-              <td style="padding: 0.75rem 1rem; font-weight: 600;">PascalCase</td>
-              <td style="padding: 0.75rem 1rem;"><code>HelloWorld</code></td>
-              <td style="padding: 0.75rem 1rem;">Classes in C#, Java, Python, TypeScript</td>
+            <tr class="row-divider">
+              <td class="table-cell font-semibold">PascalCase</td>
+              <td class="table-cell"><code>HelloWorld</code></td>
+              <td class="table-cell">Classes in C#, Java, Python, TypeScript</td>
             </tr>
-            <tr style="border-bottom: 1px solid var(--border-color);">
-              <td style="padding: 0.75rem 1rem; font-weight: 600;">snake_case</td>
-              <td style="padding: 0.75rem 1rem;"><code>hello_world</code></td>
-              <td style="padding: 0.75rem 1rem;">Python variables, SQL database columns</td>
+            <tr class="row-divider">
+              <td class="table-cell font-semibold">snake_case</td>
+              <td class="table-cell"><code>hello_world</code></td>
+              <td class="table-cell">Python variables, SQL database columns</td>
             </tr>
-            <tr style="border-bottom: 1px solid var(--border-color);">
-              <td style="padding: 0.75rem 1rem; font-weight: 600;">kebab-case</td>
-              <td style="padding: 0.75rem 1rem;"><code>hello-world</code></td>
-              <td style="padding: 0.75rem 1rem;">URL slugs, CSS classes, HTML attributes</td>
+            <tr class="row-divider">
+              <td class="table-cell font-semibold">kebab-case</td>
+              <td class="table-cell"><code>hello-world</code></td>
+              <td class="table-cell">URL slugs, CSS classes, HTML attributes</td>
             </tr>
-            <tr style="border-bottom: 1px solid var(--border-color);">
-              <td style="padding: 0.75rem 1rem; font-weight: 600;">CONSTANT_CASE</td>
-              <td style="padding: 0.75rem 1rem;"><code>HELLO_WORLD</code></td>
-              <td style="padding: 0.75rem 1rem;">Environment variables, immutable constants</td>
+            <tr class="row-divider">
+              <td class="table-cell font-semibold">CONSTANT_CASE</td>
+              <td class="table-cell"><code>HELLO_WORLD</code></td>
+              <td class="table-cell">Environment variables, immutable constants</td>
             </tr>
-            <tr style="border-bottom: 1px solid var(--border-color);">
-              <td style="padding: 0.75rem 1rem; font-weight: 600;">dot.case</td>
-              <td style="padding: 0.75rem 1rem;"><code>hello.world</code></td>
-              <td style="padding: 0.75rem 1rem;">Property paths, configuration keys</td>
+            <tr class="row-divider">
+              <td class="table-cell font-semibold">dot.case</td>
+              <td class="table-cell"><code>hello.world</code></td>
+              <td class="table-cell">Property paths, configuration keys</td>
             </tr>
           </tbody>
         </table>

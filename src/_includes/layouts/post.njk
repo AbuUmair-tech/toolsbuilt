@@ -104,8 +104,8 @@ layout: layouts/base.njk
 
         {% if draft %}
         <!-- Visible DRAFT Banner for Dev / Staging -->
-        <div class="alert alert-warning draft-banner" role="alert" style="margin-bottom: var(--space-6); display: flex; align-items: center; gap: var(--space-3); padding: var(--space-4); border: 2px dashed var(--color-warning-border); border-radius: var(--radius-lg); background-color: var(--color-warning-bg); color: var(--color-warning-text);">
-          <span class="badge badge-warning" style="font-weight: 800; font-size: var(--font-size-xs); letter-spacing: 0.05em; text-transform: uppercase; padding: 2px 8px; border-radius: 4px; background: #d97706; color: #ffffff;">DRAFT</span>
+        <div class="alert alert-warning draft-banner" role="alert" style="margin-bottom: var(--space-6); display: flex; align-items: center; gap: var(--space-3); padding: var(--space-4); border: 2px dashed var(--border-subtle); border-radius: var(--radius-lg); background-color: var(--surface-muted); color: var(--text-primary);">
+          <span class="badge badge-warning" style="font-weight: 800; font-size: var(--font-size-sm); letter-spacing: 0.05em; text-transform: uppercase; padding: 2px 8px; border-radius: 4px; background: #d97706; color: #ffffff;">DRAFT</span>
           <span style="font-weight: 500;">This post is a <strong>draft</strong>. It is only visible in development/staging and is excluded from production builds.</span>
         </div>
         {% endif %}
@@ -116,7 +116,7 @@ layout: layouts/base.njk
             <span class="tool-category-chip" data-cat="tech">{{ category or "Guide" }}</span>
             <span class="category-count-badge">{{ renderedContent | readingTime }}</span>
           </div>
-          <h1 class="tool-hero-title" style="margin-bottom: var(--space-4);">{{ title }}</h1>
+          <h1 class="tool-hero-title mb-4">{{ title }}</h1>
           {% if description %}
           <p class="tool-hero-description" style="font-size: var(--font-size-md); color: var(--text-secondary); margin-bottom: var(--space-4); line-height: 1.6;">{{ description }}</p>
           {% endif %}
@@ -137,14 +137,14 @@ layout: layouts/base.njk
         {% if tool %}
           {% set matchedTool = tools | findTool(tool) %}
           {% if matchedTool %}
-          <div class="tool-cta-box" style="margin-bottom: var(--space-8); padding: var(--space-6); background: var(--surface-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-xl); box-shadow: var(--shadow-sm); display: flex; flex-direction: column; gap: var(--space-4);">
+          <div class="tool-cta-box" style="margin-bottom: var(--space-8); padding: var(--space-6); background: var(--surface-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); display: flex; flex-direction: column; gap: var(--space-4);">
             <div style="display: flex; align-items: center; gap: var(--space-4);">
               <div class="tool-icon-tile" data-cat="{{ matchedTool.category }}" style="width: 48px; height: 48px; border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
                 {{ matchedTool.icon | safe }}
               </div>
               <div>
-                <span class="tool-category-chip" data-cat="{{ matchedTool.category }}" style="font-size: var(--font-size-2xs); margin-bottom: var(--space-1); display: inline-block;">{{ matchedTool.category }}</span>
-                <h2 style="font-size: var(--font-size-lg); margin: 0; color: var(--text-primary);">Try the {{ matchedTool.name }}</h2>
+                <span class="tool-category-chip" data-cat="{{ matchedTool.category }}" style="font-size: var(--font-size-sm); margin-bottom: var(--space-1); display: inline-block;">{{ matchedTool.category }}</span>
+                <h2 style="font-size: var(--font-size-md); margin: 0; color: var(--text-primary);">Try the {{ matchedTool.name }}</h2>
               </div>
             </div>
             <p style="margin: 0; color: var(--text-secondary); font-size: var(--font-size-sm); line-height: 1.5;">{{ matchedTool.description }}</p>
@@ -165,7 +165,7 @@ layout: layouts/base.njk
 
         <!-- FAQs Section (if present) -->
         {% if faqs and faqs.length > 0 %}
-        <section class="faq-section" aria-labelledby="faq-heading" style="margin-top: var(--space-10);">
+        <section class="faq-section" aria-labelledby="faq-heading" style="margin-top: var(--space-12);">
           <h2 id="faq-heading" class="section-title">Frequently Asked Questions</h2>
           <div class="accordion-group">
             {% for faq in faqs %}
@@ -192,7 +192,7 @@ layout: layouts/base.njk
             <a href="{{ p.url }}" class="tool-card">
               <div class="tool-card-header">
                 <span class="tool-category-chip" data-cat="tech">{{ p.data.category or "Guide" }}</span>
-                <span style="font-size: var(--font-size-xs); color: var(--text-tertiary);">{{ p.templateContent | readingTime }}</span>
+                <span style="font-size: var(--font-size-sm); color: var(--text-tertiary);">{{ p.templateContent | readingTime }}</span>
               </div>
               <h3 class="tool-title">{{ p.data.title }}</h3>
               <p class="tool-desc">{{ p.data.description }}</p>
@@ -219,7 +219,7 @@ layout: layouts/base.njk
           <nav class="toc-nav" aria-label="Table of contents">
             <ul class="toc-list">
               {% for item in toc %}
-              <li class="toc-item toc-level-{{ item.level }}"{% if item.level == 3 %} style="padding-left: var(--space-3); font-size: var(--font-size-xs);"{% endif %}>
+              <li class="toc-item toc-level-{{ item.level }}"{% if item.level == 3 %} style="padding-left: var(--space-3); font-size: var(--font-size-sm);"{% endif %}>
                 <a href="#{{ item.id }}">{{ item.text }}</a>
               </li>
               {% endfor %}

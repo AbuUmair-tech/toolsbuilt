@@ -25,7 +25,10 @@ function syncToolsDataJs() {
       related: t.related || []
     }));
     const content = `/**\n * Shared Registry of ToolsBuilt Tools (Generated from tools.json & categories.json)\n */\n\nwindow.TOOLS_DATA = ${JSON.stringify(data, null, 2)};\n`;
-    fs.writeFileSync(outPath, content, 'utf8');
+    // Only write when changed: this file lives in src/, so an unconditional write
+    // retriggers the --serve watcher after every build and loops forever.
+    const current = fs.existsSync(outPath) ? fs.readFileSync(outPath, 'utf8') : null;
+    if (current !== content) fs.writeFileSync(outPath, content, 'utf8');
   }
 }
 
