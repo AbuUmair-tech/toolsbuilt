@@ -62,6 +62,15 @@ workedExamples:
       - "Strip all unnecessary spaces, tabs, and line breaks outside string literals"
       - "Reduce payload byte size for efficient HTTP transmission"
     result: "{\"name\":\"ToolsBuilt\",\"tools\":23,\"free\":true}"
+commonMistakes:
+  - title: "Trailing Commas"
+    description: "Adding a comma after the final item in an array (<code>[1, 2, 3,]</code>) or object (<code>{\"a\": 1,}</code>) is valid in modern JavaScript but throws an immediate syntax error in standard JSON."
+  - title: "Single Quotes for Strings"
+    description: "JSON strictly requires double quotation marks (<code>\"key\": \"value\"</code>). Using single quotes (<code>'key': 'value'</code>) is rejected by all compliant JSON parsers."
+  - title: "Unquoted Object Keys"
+    description: "In JavaScript, keys can omit quotes (<code>{name: \"value\"}</code>). In JSON, keys must always be enclosed in double quotes."
+  - title: "Unescaped Control Characters"
+    description: "Literal unescaped tab characters or raw unescaped newlines inside string values break JSON parsing and must be escaped as <code>\\t</code> or <code>\\n</code>."
 ---
 
     <!-- Main Tool Container -->
@@ -126,11 +135,7 @@ workedExamples:
       <div id="json-status" class="alert-box alert-info" hidden aria-live="polite"></div>
     </section>
 
-    <!-- AEO Quick Answer Box -->
-    <div class="info-callout my-8">
-      <h3 class="content-item-title">Quick Answer</h3>
-      <p class="mb-0">The ToolsBuilt JSON Formatter parses, validates, and beautifies JSON payloads with 2-space, 4-space, or tab indentation. It accurately detects syntax errors with line and column markers, sorts object keys alphabetically, and minifies payloads for fast network transport. All data is processed client-side in your browser with complete privacy.</p>
-    </div>
+    <!-- tool-end -->
 
     <!-- When to Use Section -->
     <section class="content-section" aria-labelledby="how-to-use-heading">
@@ -180,13 +185,3 @@ workedExamples:
       </div>
     </section>
 
-    <!-- Common Mistakes Section -->
-    <section class="content-section" aria-labelledby="mistakes-heading">
-      <h2 id="mistakes-heading">Common JSON Syntax Errors &amp; Troubleshooting</h2>
-      <ul class="content-list">
-        <li><strong>Trailing Commas:</strong> Adding a comma after the final item in an array (<code>[1, 2, 3,]</code>) or object (<code>{"a": 1,}</code>) is valid in modern JavaScript but throws an immediate syntax error in standard JSON.</li>
-        <li><strong>Single Quotes for Strings:</strong> JSON strictly requires double quotation marks (<code>"key": "value"</code>). Using single quotes (<code>'key': 'value'</code>) is rejected by all compliant JSON parsers.</li>
-        <li><strong>Unquoted Object Keys:</strong> In JavaScript, keys can omit quotes (<code>{name: "value"}</code>). In JSON, keys must always be enclosed in double quotes.</li>
-        <li><strong>Unescaped Control Characters:</strong> Literal unescaped tab characters or raw unescaped newlines inside string values break JSON parsing and must be escaped as <code>\t</code> or <code>\n</code>.</li>
-      </ul>
-    </section>

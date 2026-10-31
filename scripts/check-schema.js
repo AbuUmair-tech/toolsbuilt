@@ -4,15 +4,37 @@
  * Validates all JSON-LD structured data blocks across built HTML files in _site/
  * Ensures:
  * 1. Valid JSON syntax
- * 2. Proper Schema.org shapes (WebSite, Organization, WebApplication, BreadcrumbList, ItemList, FAQPage, CollectionPage, BlogPosting, Blog)
+ * 2. Proper Schema.org shapes (WebSite, Organization, WebApplication, BreadcrumbList, ItemList, FAQPage, CollectionPage, BlogPosting, Blog, ProfilePage)
  * 3. DOM-Schema parity (page title / H1 matches schema name; description matches)
  * 4. Zero fabricated data: fails on aggregateRating, reviewCount, ratingValue, review, award
+ * 5. E-E-A-T: WebApplication author is the site's Person (name, url, sameAs from site.json),
+ *    publisher is the ToolsBuilt Organization with a logo, isAccessibleForFree is true;
+ *    /about/ has a ProfilePage whose mainEntity is that Person
+ * 6. Every <time datetime> is an ISO date, and canonical URLs carry no query string
  */
 
 const fs = require('fs');
 const path = require('path');
 
 const SITE_DIR = path.resolve(__dirname, '..', '_site');
+const SITE = require(path.resolve(__dirname, '..', 'src', '_data', 'site.json'));
+const ISO_DATE = /^\d{4}-\d{2}-\d{2}(T[\d:.]+(Z|[+-]\d{2}:?\d{2})?)?$/;
+
+// Person must match site.json: name, absolute url, sameAs array of absolute URLs
+function personErrors(person, where) {
+  const errors = [];
+  if (!person || person['@type'] !== 'Person') return [`${where} must be a Person`];
+  if (person.name !== SITE.authorName) errors.push(`${where}.name should be "${SITE.authorName}", got "${person.name}"`);
+  if (person.url !== SITE.authorUrl) errors.push(`${where}.url should be "${SITE.authorUrl}", got "${person.url}"`);
+  const expectedSameAs = SITE.authorSameAs || [];
+  if (!Array.isArray(person.sameAs)) {
+    errors.push(`${where}.sameAs must be an array`);
+  } else {
+    if (person.sameAs.some(u => !/^https:\/\//.test(u))) errors.push(`${where}.sameAs must contain absolute https URLs`);
+    if (JSON.stringify(person.sameAs) !== JSON.stringify(expectedSameAs)) errors.push(`${where}.sameAs does not match site.json authorSameAs`);
+  }
+  return errors;
+}
 
 function getAllHtmlFiles(dir) {
   let results = [];
@@ -79,6 +101,26 @@ function checkSchema() {
     const metaDesc = extractMetaDescription(html);
 
     const blocks = extractJsonLdBlocks(html);
+
+    // <time datetime> values must be machine-readable dates
+    for (const m of html.matchAll(/<time\b[^>]*datetime="([^"]*)"/gi)) {
+      if (!ISO_DATE.test(m[1])) {
+        console.error(`❌ ${relPath}: <time datetime="${m[1]}"> is not an ISO date (YYYY-MM-DD)`);
+        totalErrors++;
+      }
+    }
+
+    // Canonical must be the clean URL (shareable result links add query params client-side)
+    const canonical = (html.match(/<link rel="canonical" href="([^"]*)"/i) || [])[1];
+    if (canonical && /[?#]/.test(canonical)) {
+      console.error(`❌ ${relPath}: canonical URL must not contain a query string or fragment: ${canonical}`);
+      totalErrors++;
+    }
+
+    if (relPath === path.join('about', 'index.html') && !blocks.some(b => /"@type":\s*"ProfilePage"/.test(b))) {
+      console.error(`❌ ${relPath}: About page is missing ProfilePage schema`);
+      totalErrors++;
+    }
 
     if (blocks.length === 0) {
       // 404 page might not have schema, which is acceptable
@@ -161,6 +203,19 @@ function checkSchema() {
           }
           if (!item.offers || item.offers.price !== '0') {
             console.error(`❌ ${relPath}: WebApplication missing offers with price: "0"`);
+            totalErrors++;
+          }
+          if (item.isAccessibleForFree !== true) {
+            console.error(`❌ ${relPath}: WebApplication isAccessibleForFree must be true`);
+            totalErrors++;
+          }
+          for (const err of personErrors(item.author, 'WebApplication author')) {
+            console.error(`❌ ${relPath}: ${err}`);
+            totalErrors++;
+          }
+          const pub = item.publisher;
+          if (!pub || pub['@type'] !== 'Organization' || pub.name !== 'ToolsBuilt' || !pub.url || !pub.logo) {
+            console.error(`❌ ${relPath}: WebApplication publisher must be the ToolsBuilt Organization with url and logo`);
             totalErrors++;
           }
 
@@ -252,6 +307,15 @@ function checkSchema() {
           }
           if (!item.publisher || !item.publisher.name) {
             console.error(`❌ ${relPath}: BlogPosting missing publisher.name`);
+            totalErrors++;
+          }
+        } else if (type === 'ProfilePage') {
+          for (const err of personErrors(item.mainEntity, 'ProfilePage mainEntity')) {
+            console.error(`❌ ${relPath}: ${err}`);
+            totalErrors++;
+          }
+          if (item.mainEntity && (!item.mainEntity.description || !Array.isArray(item.mainEntity.knowsAbout) || !item.mainEntity.knowsAbout.length)) {
+            console.error(`❌ ${relPath}: ProfilePage Person needs description and knowsAbout`);
             totalErrors++;
           }
         } else if (type === 'Blog') {

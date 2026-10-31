@@ -27,15 +27,8 @@ document.addEventListener('DOMContentLoaded', () => {
   ].join('-');
 
   function initInputs() {
-    const params = new URLSearchParams(window.location.search);
-    const urlDate = params.get('date');
-    const urlEvent = params.get('event');
-
-    if (urlDate) {
-      targetDateInput.value = urlDate;
-      if (urlEvent) eventNameInput.value = urlEvent;
-      return;
-    }
+    // Result links (?date=) take priority over saved state
+    if (ToolsBuilt.resultLink.restore().length) return;
 
     try {
       const saved = localStorage.getItem(STORAGE_KEY);
@@ -55,18 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
       localStorage.setItem(STORAGE_KEY, JSON.stringify({ date, event }));
     } catch (e) {}
 
-    const url = new URL(window.location.href);
-    if (date && date !== defaultTargetStr) {
-      url.searchParams.set('date', date);
-    } else {
-      url.searchParams.delete('date');
-    }
-    if (event) {
-      url.searchParams.set('event', event);
-    } else {
-      url.searchParams.delete('event');
-    }
-    window.history.replaceState({}, '', url.toString());
+    ToolsBuilt.resultLink.update();
   }
 
   function clearError() {

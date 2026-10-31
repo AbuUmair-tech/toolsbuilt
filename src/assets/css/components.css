@@ -1734,10 +1734,7 @@
   }
 
   .info-callout {
-    background-color: var(--surface-muted);
-    padding: var(--space-4) var(--space-6);
-    border-radius: var(--radius-md);
-    margin: var(--space-6) 0;
+    margin: var(--space-8) 0;
   }
 
   .info-callout p {
@@ -2373,59 +2370,37 @@
   }
 
   /* -------------------------------------------------------------------------
-     Tool Hero Header & Privacy Pill
+     Tool Page Header
      ------------------------------------------------------------------------- */
   .tool-hero-header {
     margin-bottom: var(--space-6);
   }
 
-  .tool-hero-meta {
-    display: flex;
-    align-items: center;
-    gap: var(--space-3);
-    margin-bottom: var(--space-3);
-    flex-wrap: wrap;
-  }
-
-  .tool-privacy-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-1);
-    font-size: var(--font-size-sm);
-    color: var(--text-tertiary);
-  }
-
   .tool-hero-title {
     font-size: clamp(var(--font-size-xl), 4vw, var(--font-size-2xl));
-    font-weight: var(--font-weight-semibold);
-    color: var(--text-primary);
     line-height: var(--line-height-tight);
     margin-bottom: var(--space-2);
   }
 
   .tool-hero-description {
-    font-size: var(--font-size-base);
+    margin: 0;
     color: var(--text-secondary);
-    max-width: 65ch;
-    line-height: var(--line-height-normal);
-    margin-bottom: 0;
   }
 
   /* -------------------------------------------------------------------------
-     Desktop Sticky Table of Contents
+     Desktop Table of Contents — quiet text links
      ------------------------------------------------------------------------- */
   .toc-heading {
     display: block;
-    font-size: var(--font-size-sm);
-    font-weight: var(--font-weight-semibold);
-    color: var(--text-tertiary);
     margin-bottom: var(--space-3);
+    font-size: var(--font-size-sm);
+    color: var(--text-tertiary);
   }
 
   .toc-list {
     list-style: none;
-    padding: 0;
     margin: 0;
+    padding: 0;
     display: flex;
     flex-direction: column;
     gap: var(--space-2);
@@ -2434,51 +2409,27 @@
   .toc-list a {
     display: block;
     font-size: var(--font-size-sm);
-    color: var(--text-secondary);
+    color: var(--text-tertiary);
     text-decoration: none;
-    padding-left: var(--space-2);
-    border-left: 2px solid transparent;
     transition: var(--transition-colors);
   }
 
-  .toc-list a:hover {
-    color: var(--text-primary);
-    border-left-color: var(--border-strong);
-  }
-
+  .toc-list a:hover,
   .toc-list a.is-active {
-    color: var(--accent-primary);
-    border-left-color: var(--accent-primary);
+    color: var(--text-primary);
   }
 
   /* -------------------------------------------------------------------------
      Trust Block & Sources
      ------------------------------------------------------------------------- */
 
-  .tool-sources-section {
-    margin-block: var(--space-8);
-  }
-
   .sources-list {
-    list-style: none;
-    padding: 0;
-    margin: var(--space-3) 0 0 0;
+    margin: 0;
+    padding-left: var(--space-6);
     display: flex;
     flex-direction: column;
     gap: var(--space-2);
-  }
-
-  .sources-list li a {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-1);
     font-size: var(--font-size-sm);
-    color: var(--accent-primary);
-    text-decoration: none;
-  }
-
-  .sources-list li a:hover {
-    text-decoration: underline;
   }
 
   /* -------------------------------------------------------------------------
@@ -2647,109 +2598,132 @@
     color: var(--accent-primary);
   }
 
-  /* Rich Tool Content Sections */
-  .tool-quick-answer {
-    background-color: var(--surface-muted);
-    padding: var(--space-4) var(--space-6);
-    border-radius: var(--radius-md);
-    margin: var(--space-4) 0 var(--space-6);
+  /* Tool page content: plain headings and text. Only the formula block and
+     the result are boxed. */
+  .tool-section {
+    margin-block: var(--space-12);
   }
 
-  .tool-formula-section,
-  .tool-worked-examples-section,
-  .tool-common-mistakes-section {
-    margin: var(--space-12) 0;
+  .quick-answer-text {
+    margin: 0;
+    font-size: var(--font-size-md);
+    color: var(--text-primary);
   }
 
-  .formula-card {
-    margin-top: var(--space-3);
+  .howto-steps {
+    margin: 0;
+    padding-left: var(--space-6);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    color: var(--text-secondary);
+  }
+
+  .howto-steps strong {
+    color: var(--text-primary);
+    font-weight: var(--font-weight-semibold);
   }
 
   .formula-expression {
     background: var(--surface-muted);
     border-radius: var(--radius-md);
-    padding: var(--space-3) var(--space-4);
+    padding: var(--space-4);
     font-family: var(--font-mono);
     font-size: var(--font-size-sm);
     overflow-x: auto;
     color: var(--text-primary);
-    margin-bottom: var(--space-3);
+    margin-bottom: var(--space-4);
   }
 
   .formula-explanation {
-    font-size: var(--font-size-base);
-    line-height: var(--line-height-normal);
-    color: var(--text-secondary);
     margin: 0;
+    color: var(--text-secondary);
   }
 
-  .worked-examples-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: var(--space-4);
-    margin-top: var(--space-4);
+  .formula-variables {
+    margin: var(--space-3) 0 0;
+    padding-left: var(--space-6);
+    color: var(--text-secondary);
   }
 
-  .worked-example-card {
-    border: 1px solid var(--border-subtle);
-    border-radius: var(--radius-lg);
-    padding: var(--space-6);
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-3);
+  .worked-example {
+    padding-block: var(--space-6);
+    border-top: 1px solid var(--border-subtle);
+  }
+
+  .worked-example:last-child {
+    border-bottom: 1px solid var(--border-subtle);
   }
 
   .worked-example-title {
+    margin: 0 0 var(--space-2);
     font-size: var(--font-size-base);
     font-weight: var(--font-weight-semibold);
     color: var(--text-primary);
-    margin: 0;
   }
 
-  .worked-example-inputs,
+  .worked-example-inputs {
+    margin: 0 0 var(--space-2);
+    font-size: var(--font-size-sm);
+    color: var(--text-tertiary);
+  }
+
   .worked-example-steps {
+    margin: 0 0 var(--space-2);
+    padding-left: var(--space-6);
     font-size: var(--font-size-sm);
     color: var(--text-secondary);
-  }
-
-  .example-subtitle {
-    font-weight: var(--font-weight-medium);
-    color: var(--text-primary);
-    display: block;
-    margin-bottom: var(--space-1);
-  }
-
-  .worked-example-inputs ul,
-  .worked-example-steps ol {
-    margin: 0 0 0 var(--space-4);
-    padding: 0;
-    line-height: var(--line-height-normal);
   }
 
   .worked-example-result {
+    margin: 0;
     font-size: var(--font-size-sm);
-    background: var(--surface-muted);
-    border-radius: var(--radius-md);
-    padding: var(--space-2) var(--space-3);
     color: var(--text-primary);
-    margin-top: auto;
+  }
+
+  .worked-example-link {
+    margin: var(--space-2) 0 0;
+    font-size: var(--font-size-sm);
   }
 
   .common-mistakes-list {
-    margin: var(--space-3) 0 0 var(--space-6);
-    padding: 0;
+    margin: 0;
+    padding-left: var(--space-6);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
     color: var(--text-secondary);
-    line-height: var(--line-height-normal);
   }
 
-  .common-mistakes-list li {
-    margin-bottom: var(--space-2);
+  .common-mistakes-list strong {
+    color: var(--text-primary);
   }
 
-  .tool-last-reviewed-banner {
-    margin: var(--space-6) 0;
+  .tool-last-reviewed {
+    margin: var(--space-4) 0 0;
     font-size: var(--font-size-sm);
     color: var(--text-tertiary);
+  }
+
+  /* Short notes placed under a tool (e.g. grading scale, Base64 is not encryption) */
+  .tool-note {
+    margin-top: var(--space-6);
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+  }
+
+  .tool-note-title {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin: 0 0 var(--space-1);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    color: var(--text-primary);
+  }
+
+  .tool-note p {
+    margin: 0;
   }
 
   /* -------------------------------------------------------------------------
@@ -2797,9 +2771,8 @@
   }
 
   .content-box {
-    padding: var(--space-6);
-    background: var(--surface-muted);
-    border-radius: var(--radius-md);
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--border-subtle);
   }
 
   .content-panel {

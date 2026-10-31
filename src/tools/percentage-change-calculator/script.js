@@ -1,7 +1,7 @@
 /**
  * Percentage Change Calculator UI Controller
  * Powered by PercentageChangeLogic pure module.
- * Supports 4 modes with debounced live calculation, URL query sync, and clipboard copying.
+ * Supports 4 modes with debounced live calculation, shareable result links, and clipboard copying.
  */
 document.addEventListener('DOMContentLoaded', () => {
   const logic = window.PercentageChangeLogic;
@@ -263,52 +263,15 @@ document.addEventListener('DOMContentLoaded', () => {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
     } catch (e) {}
 
-    const url = new URL(window.location.href);
-    url.searchParams.set('mode', state.mode.replace('mode-', ''));
-    if (state.mode === 'mode-1') {
-      url.searchParams.set('old', state.oldVal);
-      url.searchParams.set('new', state.newVal);
-      ['op', 'base', 'pct', 'x', 'y', 'a', 'b'].forEach(k => url.searchParams.delete(k));
-    } else if (state.mode === 'mode-2') {
-      url.searchParams.set('op', state.op);
-      url.searchParams.set('base', state.baseVal);
-      url.searchParams.set('pct', state.pctVal);
-      ['old', 'new', 'x', 'y', 'a', 'b'].forEach(k => url.searchParams.delete(k));
-    } else if (state.mode === 'mode-3') {
-      url.searchParams.set('x', state.xVal);
-      url.searchParams.set('y', state.yVal);
-      ['old', 'new', 'op', 'base', 'pct', 'a', 'b'].forEach(k => url.searchParams.delete(k));
-    } else if (state.mode === 'mode-4') {
-      url.searchParams.set('a', state.aVal);
-      url.searchParams.set('b', state.bVal);
-      ['old', 'new', 'op', 'base', 'pct', 'x', 'y'].forEach(k => url.searchParams.delete(k));
-    }
-    window.history.replaceState({}, '', url.toString());
+    ToolsBuilt.resultLink.update(document.getElementById(`${state.mode}-form`));
   }
 
   function initInputs() {
-    const params = new URLSearchParams(window.location.search);
-    const m = params.get('mode');
-
-    if (m && ['1', '2', '3', '4'].includes(m)) {
-      activeMode = `mode-${m}`;
-      if (m === '1' && params.has('old') && params.has('new')) {
-        document.getElementById('m1-old-val').value = params.get('old');
-        document.getElementById('m1-new-val').value = params.get('new');
-      } else if (m === '2' && params.has('base') && params.has('pct')) {
-        document.getElementById('m2-operation').value = params.get('op') || 'increase';
-        document.getElementById('m2-base-val').value = params.get('base');
-        document.getElementById('m2-percent-val').value = params.get('pct');
-      } else if (m === '3' && params.has('x') && params.has('y')) {
-        document.getElementById('m3-x-val').value = params.get('x');
-        document.getElementById('m3-y-val').value = params.get('y');
-      } else if (m === '4' && params.has('a') && params.has('b')) {
-        document.getElementById('m4-a-val').value = params.get('a');
-        document.getElementById('m4-b-val').value = params.get('b');
-      }
-      switchMode(activeMode);
-      return;
-    }
+    // Result links (?old=&new=, ?op=&base=&pct=, ?x=&y=, ?a=&b=) open the matching mode
+    const filled = ToolsBuilt.resultLink.restore(els => {
+      switchMode(els[0].closest('.calculator-mode-form').id.replace('-form', ''));
+    });
+    if (filled.length) return;
 
     try {
       const saved = localStorage.getItem(STORAGE_KEY);

@@ -67,6 +67,17 @@ workedExamples:
       - "Rate as decimal: 20 ÷ 100 = 0.20"
       - "Original = 80 ÷ (1 − 0.20) = 80 ÷ 0.80 = 100"
     result: "$100"
+commonMistakes:
+  - title: "Reversing Markup to Find Original"
+    description: "If a $100 item is discounted by 20% to $80, adding 20% of $80 does not recover $100 ($80 + $16 = $96). Always divide by the remaining decimal factor <code>(1 - Rate)</code>."
+  - title: "Confusing Proportions with Multipliers"
+    description: "Multiplying a number by 20% means finding one-fifth of that number. To increase a number by 20%, multiply by 1.20, not 0.20."
+  - title: "Dividing by Zero"
+    description: "When determining what percentage X is of Y, the denominator Y cannot be zero. Zero represents an empty whole, making the percentage ratio undefined."
+formula:
+  title: "Percentage Formulas"
+  expression: "X% of Y = (X ÷ 100) × Y"
+  explanation: "To find what percent X is of Y: (X ÷ Y) × 100. To recover an original baseline after a discount, divide the sale price by (1 − Discount Rate)."
 ---
 
     <!-- Tool Form Container -->
@@ -85,11 +96,11 @@ workedExamples:
         <div class="form-grid two-col">
           <div class="form-group">
             <label for="m1-percent-val">Percentage (%) <span class="text-accent">*</span></label>
-            <input type="number" step="any" id="m1-percent-val" class="form-control" placeholder="e.g. 15" value="15" required aria-required="true">
+            <input type="number" step="any" id="m1-percent-val" data-param="pct" class="form-control" placeholder="e.g. 15" value="15" required aria-required="true">
           </div>
           <div class="form-group">
             <label for="m1-total-val">Total Number (Y) <span class="text-accent">*</span></label>
-            <input type="number" step="any" id="m1-total-val" class="form-control" placeholder="e.g. 200" value="200" required aria-required="true">
+            <input type="number" step="any" id="m1-total-val" data-param="of" class="form-control" placeholder="e.g. 200" value="200" required aria-required="true">
           </div>
         </div>
 
@@ -104,11 +115,11 @@ workedExamples:
         <div class="form-grid two-col">
           <div class="form-group">
             <label for="m2-part-val">Part Value (X) <span class="text-accent">*</span></label>
-            <input type="number" step="any" id="m2-part-val" class="form-control" placeholder="e.g. 25" required aria-required="true">
+            <input type="number" step="any" id="m2-part-val" data-param="part" class="form-control" placeholder="e.g. 25" required aria-required="true">
           </div>
           <div class="form-group">
             <label for="m2-whole-val">Whole Value (Y) <span class="text-accent">*</span></label>
-            <input type="number" step="any" id="m2-whole-val" class="form-control" placeholder="e.g. 200" required aria-required="true">
+            <input type="number" step="any" id="m2-whole-val" data-param="whole" class="form-control" placeholder="e.g. 200" required aria-required="true">
           </div>
         </div>
 
@@ -123,7 +134,7 @@ workedExamples:
         <div class="form-grid">
           <div class="form-group">
             <label for="m3-operation">Operation Type <span class="text-accent">*</span></label>
-            <select id="m3-operation" class="form-control">
+            <select id="m3-operation" data-param="op" class="form-control">
               <option value="increase">Increase (+)</option>
               <option value="decrease">Decrease (-)</option>
             </select>
@@ -131,11 +142,11 @@ workedExamples:
           <div class="form-grid two-col">
             <div class="form-group">
               <label for="m3-base-val">Starting Number (Y) <span class="text-accent">*</span></label>
-              <input type="number" step="any" id="m3-base-val" class="form-control" placeholder="e.g. 100" required aria-required="true">
+              <input type="number" step="any" id="m3-base-val" data-param="base" class="form-control" placeholder="e.g. 100" required aria-required="true">
             </div>
             <div class="form-group">
               <label for="m3-percent-val">Percentage (%) <span class="text-accent">*</span></label>
-              <input type="number" step="any" id="m3-percent-val" class="form-control" placeholder="e.g. 20" required aria-required="true">
+              <input type="number" step="any" id="m3-percent-val" data-param="by" class="form-control" placeholder="e.g. 20" required aria-required="true">
             </div>
           </div>
         </div>
@@ -151,7 +162,7 @@ workedExamples:
         <div class="form-grid">
           <div class="form-group">
             <label for="m4-type">Known Scenario <span class="text-accent">*</span></label>
-            <select id="m4-type" class="form-control">
+            <select id="m4-type" data-param="type" class="form-control">
               <option value="of">Value represents X% of original</option>
               <option value="increase">Value is after X% markup / tax increase</option>
               <option value="decrease">Value is after X% discount decrease</option>
@@ -160,11 +171,11 @@ workedExamples:
           <div class="form-grid two-col">
             <div class="form-group">
               <label for="m4-val">Known Value <span class="text-accent">*</span></label>
-              <input type="number" step="any" id="m4-val" class="form-control" placeholder="e.g. 80" required aria-required="true">
+              <input type="number" step="any" id="m4-val" data-param="known" class="form-control" placeholder="e.g. 80" required aria-required="true">
             </div>
             <div class="form-group">
               <label for="m4-percent-val">Percentage (%) <span class="text-accent">*</span></label>
-              <input type="number" step="any" id="m4-percent-val" class="form-control" placeholder="e.g. 20" required aria-required="true">
+              <input type="number" step="any" id="m4-percent-val" data-param="rate" class="form-control" placeholder="e.g. 20" required aria-required="true">
             </div>
           </div>
         </div>
@@ -213,11 +224,7 @@ workedExamples:
       </div>
     </section>
 
-    <!-- AEO Quick Answer Box -->
-    <div class="info-callout my-8">
-      <h3 class="content-item-title">Quick Answer</h3>
-      <p class="mb-0">To calculate X% of a number Y: divide X by 100 to convert it into a decimal rate, then multiply by Y (<code>(X ÷ 100) × Y</code>). To find what percent X is of Y: divide X by Y and multiply by 100 (<code>(X ÷ Y) × 100</code>). To recover an original baseline after a discount, divide the sale price by <code>(1 - Discount Rate)</code>.</p>
-    </div>
+    <!-- tool-end -->
 
     <!-- When to Use Section -->
     <section class="content-section" aria-labelledby="how-to-use-heading">
@@ -230,52 +237,3 @@ workedExamples:
       </ul>
     </section>
 
-    <!-- Worked Examples Section -->
-    <section class="content-section" aria-labelledby="article-heading">
-      <h2 id="article-heading">Worked Percentage Examples &amp; Core Formulas</h2>
-      
-      <div class="content-grid">
-        <div class="content-box">
-          <h3 class="content-box-title">Example 1: Finding 18% Tip</h3>
-          <p class="content-note"><strong>Bill:</strong> $65.00 | <strong>Rate:</strong> 18%</p>
-          <ul class="content-list content-list-sm">
-            <li>Decimal rate: 18 ÷ 100 = 0.18</li>
-            <li>Tip amount: 0.18 × $65.00 = <strong>$11.70</strong></li>
-            <li>Total with tip: $65.00 + $11.70 = $76.70</li>
-          </ul>
-        </div>
-
-        <div class="content-box">
-          <h3 class="content-box-title">Example 2: Exam Score Proportion</h3>
-          <p class="content-note"><strong>Earned:</strong> 34 points | <strong>Total:</strong> 40 points</p>
-          <ul class="content-list content-list-sm">
-            <li>Divide part by whole: 34 ÷ 40 = 0.85</li>
-            <li>Convert to percent: 0.85 × 100 = <strong>85.00%</strong></li>
-            <li>Equivalent Letter Grade: Solid B</li>
-          </ul>
-        </div>
-
-        <div class="content-box">
-          <h3 class="content-box-title">Example 3: Reverse Price Recovery</h3>
-          <p class="content-note"><strong>Discounted Price:</strong> $48.00 | <strong>Discount:</strong> 20%</p>
-          <ul class="content-list content-list-sm">
-            <li>Remaining factor: 1 - 0.20 = 0.80</li>
-            <li>Original baseline: $48.00 ÷ 0.80 = <strong>$60.00</strong></li>
-            <li>Verified savings: $60.00 - $48.00 = $12.00</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <!-- Common Mistakes Section -->
-    <section class="content-section" aria-labelledby="mistakes-heading">
-      <h2 id="mistakes-heading">Common Percentage Calculation Mistakes</h2>
-      <ul class="content-list">
-        <li><strong>Reversing Markup to Find Original:</strong> If a $100 item is discounted by 20% to $80, adding 20% of $80 does not recover $100 ($80 + $16 = $96). Always divide by the remaining decimal factor <code>(1 - Rate)</code>.</li>
-        <li><strong>Confusing Proportions with Multipliers:</strong> Multiplying a number by 20% means finding one-fifth of that number. To increase a number by 20%, multiply by 1.20, not 0.20.</li>
-        <li><strong>Dividing by Zero:</strong> When determining what percentage X is of Y, the denominator Y cannot be zero. Zero represents an empty whole, making the percentage ratio undefined.</li>
-      </ul>
-    </section>
-
-    <script src="./logic.js"></script>
-    <script src="./script.js"></script>

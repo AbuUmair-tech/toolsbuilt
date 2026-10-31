@@ -35,19 +35,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function initInputs() {
     const todayStr = getTodayString();
-    const params = new URLSearchParams(window.location.search);
-    const urlStart = params.get('start');
-    const urlOp = params.get('op');
-    const urlAmount = params.get('amount');
-    const urlUnit = params.get('unit');
-    const urlBiz = params.get('biz');
-
-    if (urlStart) {
-      startDateInput.value = urlStart;
-      if (urlOp) operationSelect.value = urlOp;
-      if (urlAmount) amountInput.value = urlAmount;
-      if (urlUnit) unitSelect.value = urlUnit;
-      if (urlBiz) businessDaysOnlyCheckbox.checked = (urlBiz === '1' || urlBiz === 'true');
+    // Result links (?start=&op=&amount=&unit=&biz=) take priority over saved state
+    if (ToolsBuilt.resultLink.restore().length) {
       updateBusinessDaysAvailability();
       return;
     }
@@ -79,14 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
       localStorage.setItem(STORAGE_KEY, JSON.stringify({ start, op, amount, unit, biz }));
     } catch (e) {}
 
-    const todayStr = getTodayString();
-    const url = new URL(window.location.href);
-    if (start && start !== todayStr) url.searchParams.set('start', start); else url.searchParams.delete('start');
-    if (op && op !== 'add') url.searchParams.set('op', op); else url.searchParams.delete('op');
-    if (amount && amount !== '30') url.searchParams.set('amount', amount); else url.searchParams.delete('amount');
-    if (unit && unit !== 'days') url.searchParams.set('unit', unit); else url.searchParams.delete('unit');
-    if (biz) url.searchParams.set('biz', '1'); else url.searchParams.delete('biz');
-    window.history.replaceState({}, '', url.toString());
+    ToolsBuilt.resultLink.update();
   }
 
   function updateBusinessDaysAvailability() {

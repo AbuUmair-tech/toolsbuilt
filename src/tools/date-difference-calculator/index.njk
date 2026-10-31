@@ -57,7 +57,7 @@ sources:
     url: "https://aa.usno.navy.mil/"
   - name: "W3C Note on Date and Time Formats"
     url: "https://www.w3.org/TR/NOTE-datetime"
-lastReviewed: "October 24, 2026"
+lastReviewed: "2026-10-24"
 howto:
   name: "How to Calculate the Difference Between Two Dates"
   description: "Step-by-step instructions for calculating duration and business days between two dates."
@@ -92,19 +92,19 @@ faqs:
           
           <div class="form-group">
             <label for="start-date">Start Date <span class="text-accent">*</span></label>
-            <input type="date" id="start-date" class="form-control" required aria-required="true">
+            <input type="date" id="start-date" data-param="from" data-param-alias="start" class="form-control" required aria-required="true">
           </div>
 
           <div class="form-group">
             <label for="end-date">End Date <span class="text-accent">*</span></label>
-            <input type="date" id="end-date" class="form-control" required aria-required="true">
+            <input type="date" id="end-date" data-param="to" data-param-alias="end" class="form-control" required aria-required="true">
           </div>
 
         </div>
 
         <div class="mt-6">
           <label style="display: inline-flex; align-items: center; gap: 0.6rem; cursor: pointer; font-size: 0.975rem; color: var(--text-primary); font-weight: 500;">
-            <input type="checkbox" id="include-end-date" style="width: 1.1rem; height: 1.1rem; accent-color: var(--accent-primary);">
+            <input type="checkbox" id="include-end-date" data-param="inc" style="width: 1.1rem; height: 1.1rem; accent-color: var(--accent-primary);">
             <span>Include end date in the count (inclusive calculation)</span>
           </label>
         </div>
@@ -151,6 +151,8 @@ faqs:
         </div>
       </div>
     </section>
+
+    <!-- tool-end -->
 
     <!-- When to Use Section -->
     <section class="content-section">

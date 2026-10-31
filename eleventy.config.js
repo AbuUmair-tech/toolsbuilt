@@ -113,12 +113,14 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addFilter('jsonStr', function(value) {
     if (value === null || value === undefined) return 'null';
     // Nunjucks auto-escapes values before filters run, so unescape HTML entities first.
-    const unescaped = String(value)
+    const unescape = v => String(v)
       .replace(/&amp;/g, '&')
       .replace(/&quot;/g, '"')
       .replace(/&#39;/g, "'")
       .replace(/&lt;/g, '<')
       .replace(/&gt;/g, '>');
+    // Arrays (e.g. sameAs) become JSON arrays of strings.
+    const unescaped = Array.isArray(value) ? value.map(unescape) : unescape(value);
     // Return as SafeString so Nunjucks doesn't double-escape the JSON quotes.
     return new nunjucks.runtime.SafeString(JSON.stringify(unescaped));
   });
@@ -193,6 +195,13 @@ module.exports = function(eleventyConfig) {
 
   eleventyConfig.addFilter('pluralize', function(count, word) {
     return Number(count) === 1 ? word : word + 's';
+  });
+
+  // Tool pages: split rendered body at <!-- tool-end --> into [tool, long-form]
+  eleventyConfig.addFilter('splitToolContent', function(content) {
+    const marker = '<!-- tool-end -->';
+    const i = (content || '').indexOf(marker);
+    return i === -1 ? [content || '', ''] : [content.slice(0, i), content.slice(i + marker.length)];
   });
 
   eleventyConfig.addFilter('humanDate', function(str) {

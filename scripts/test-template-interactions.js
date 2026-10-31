@@ -87,8 +87,12 @@ async function runTemplateInteractionTests() {
     const toastText = await page.textContent('#tb-toast');
     assert(toastVisible && toastText.includes('copied'), `Toast appears upon copying: "${toastText}"`);
 
+    // Exactly one Reset: the tool's own button, so the bar's duplicate is removed
+    const resetCount = await page.locator('#reset-btn:visible, #action-reset-btn:visible').count();
+    assert(resetCount === 1 && await page.locator('#action-reset-btn').count() === 0, `One visible Reset control (found ${resetCount}); bar duplicate removed`);
+
     // Click Reset button and verify fields reset and result hidden
-    await page.click('#action-reset-btn');
+    await page.click('#reset-btn');
     await page.waitForTimeout(100);
     const isResultBoxHidden = await page.isHidden('#result-box');
     assert(isResultBoxHidden, 'Reset clears age calculation output and hides result box');

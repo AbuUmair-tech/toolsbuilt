@@ -62,7 +62,7 @@ sources:
     url: "https://www.nist.gov/"
   - name: "ISO 80000-2 Mathematical Signs and Symbols"
     url: "https://www.iso.org/standard/64973.html"
-lastReviewed: "October 24, 2026"
+lastReviewed: "2026-10-24"
 howto:
   name: "How to Calculate Sale Price and Discount Savings"
   description: "Step-by-step instructions for calculating retail discounts, stacked coupons, and sales tax."
@@ -99,7 +99,7 @@ faqs:
           
           <div class="form-group">
             <label for="currency-symbol">Currency</label>
-            <select id="currency-symbol" class="form-control" style="width: auto;">
+            <select id="currency-symbol" data-param="cur" class="form-control" style="width: auto;">
               <option value="$" selected>$ (USD, CAD, AUD)</option>
               <option value="£">£ (GBP)</option>
               <option value="€">€ (EUR)</option>
@@ -110,22 +110,22 @@ faqs:
 
           <div class="form-group">
             <label for="original-price">Original Price <span class="text-accent">*</span></label>
-            <input type="number" step="any" id="original-price" class="form-control" placeholder="e.g. 99.99" required aria-required="true">
+            <input type="number" step="any" id="original-price" data-param="price" class="form-control" placeholder="e.g. 99.99" required aria-required="true">
           </div>
 
           <div class="form-group">
             <label for="discount-percent">Primary Discount (%) <span class="text-accent">*</span></label>
-            <input type="number" step="any" id="discount-percent" class="form-control" placeholder="e.g. 20" required aria-required="true">
+            <input type="number" step="any" id="discount-percent" data-param="off" data-param-alias="disc" class="form-control" placeholder="e.g. 20" required aria-required="true">
           </div>
 
           <div class="form-group">
             <label for="stacked-discount-percent">Stacked 2nd Discount (%) <span class="label-hint">(Optional)</span></label>
-            <input type="number" step="any" id="stacked-discount-percent" class="form-control" placeholder="e.g. 10">
+            <input type="number" step="any" id="stacked-discount-percent" data-param="off2" data-param-alias="stacked" class="form-control" placeholder="e.g. 10">
           </div>
 
           <div class="form-group">
             <label for="tax-percent">Sales Tax (%) <span class="label-hint">(Optional)</span></label>
-            <input type="number" step="any" id="tax-percent" class="form-control" placeholder="e.g. 8">
+            <input type="number" step="any" id="tax-percent" data-param="tax" class="form-control" placeholder="e.g. 8">
           </div>
 
         </div>
@@ -172,6 +172,8 @@ faqs:
         </div>
       </div>
     </section>
+
+    <!-- tool-end -->
 
     <!-- When to Use Section -->
     <section class="content-section">

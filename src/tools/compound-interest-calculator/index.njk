@@ -78,6 +78,17 @@ workedExamples:
       - "Future value = 10,000 × (1 + 0.05/365)^365 = $10,512.67"
       - "Yields $12.67 more than simple annual compounding ($10,500.00)"
     result: "$10,512.67 (5.13% APY)"
+commonMistakes:
+  - title: "Comparing APR to APY Directly"
+    description: "A bank advertising 5.00% APR with daily compounding actually pays 5.13% APY. Always compare APY against APY for true apples-to-apples evaluation."
+  - title: "Delaying Contributions"
+    description: "Thanks to geometric exponential growth, depositing early in your twenties compounds far more wealth than depositing twice as much later in your forties."
+  - title: "Ignoring Inflation & Taxes"
+    description: "High nominal interest rates must be adjusted for inflation and annual tax obligations on interest income to gauge real purchasing power growth."
+formula:
+  title: "Compound Interest Formula"
+  expression: "A = P × (1 + r/n)^(n × t)"
+  explanation: "Without contributions, future value A grows from principal P at annual rate r, compounded n times per year for t years, earning interest on accumulated interest."
 ---
 
     <!-- Tool Form Container -->
@@ -87,22 +98,22 @@ workedExamples:
           
           <div class="form-group">
             <label for="principal">Initial Principal ($) <span class="text-accent">*</span></label>
-            <input type="number" step="any" min="0" id="principal" class="form-control" placeholder="e.g. 10000" required aria-required="true">
+            <input type="number" step="any" min="0" id="principal" data-param="p" class="form-control" placeholder="e.g. 10000" required aria-required="true">
           </div>
 
           <div class="form-group">
             <label for="interest-rate">Annual Interest Rate (%) <span class="text-accent">*</span></label>
-            <input type="number" step="0.01" min="0" max="100" id="interest-rate" class="form-control" placeholder="e.g. 7.0" required aria-required="true">
+            <input type="number" step="0.01" min="0" max="100" id="interest-rate" data-param="r" class="form-control" placeholder="e.g. 7.0" required aria-required="true">
           </div>
 
           <div class="form-group">
             <label for="years">Investment Horizon (Years) <span class="text-accent">*</span></label>
-            <input type="number" step="1" min="1" max="60" id="years" class="form-control" placeholder="e.g. 10" required aria-required="true">
+            <input type="number" step="1" min="1" max="60" id="years" data-param="y" class="form-control" placeholder="e.g. 10" required aria-required="true">
           </div>
 
           <div class="form-group">
             <label for="compounding-frequency">Compounding Frequency</label>
-            <select id="compounding-frequency" class="form-control">
+            <select id="compounding-frequency" data-param="f" class="form-control">
               <option value="daily">Daily (365 times/year)</option>
               <option value="monthly">Monthly (12 times/year)</option>
               <option value="quarterly">Quarterly (4 times/year)</option>
@@ -112,7 +123,7 @@ workedExamples:
 
           <div class="form-group col-span-full">
             <label for="regular-contribution">Optional Monthly Contribution ($) <span class="label-hint">(Deposited at Start of Month)</span></label>
-            <input type="number" step="any" min="0" id="regular-contribution" class="form-control" placeholder="e.g. 200">
+            <input type="number" step="any" min="0" id="regular-contribution" data-param="pmt" class="form-control" placeholder="e.g. 200">
           </div>
 
         </div>
@@ -192,11 +203,7 @@ workedExamples:
       </div>
     </section>
 
-    <!-- Quick Answer Box -->
-    <div class="info-callout my-8">
-      <h3 class="content-item-title">Quick Answer</h3>
-      <p class="mb-0">Compound interest causes balances to accelerate over time by earning interest on accumulated interest. Without contributions, future value is computed as: <code>A = P × (1 + r/n)^(n×t)</code>. For instance, $10,000 deposited at 7% interest for 10 years compounded annually grows to <strong>$19,671.51</strong>, almost doubling your initial principal through $9,671.51 in pure compound earnings.</p>
-    </div>
+    <!-- tool-end -->
 
     <!-- Reusable Financial Disclaimer -->
     {% include "partials/financial-disclaimer.njk" %}
@@ -212,53 +219,3 @@ workedExamples:
       </ul>
     </section>
 
-    <!-- Worked Examples Section -->
-    <section class="content-section" aria-labelledby="article-heading">
-      <h2 id="article-heading">Worked Compound Interest Examples &amp; Formula</h2>
-      <p class="text-secondary">Below are 3 realistic worked examples illustrating lump-sum, regular deposit, and daily compounding scenarios.</p>
-      
-      <div class="content-grid">
-        <div class="content-box">
-          <h3 class="content-box-title">Example 1: Lump Sum Annual Compounding</h3>
-          <p class="content-note"><strong>Principal:</strong> $10,000 | <strong>Rate:</strong> 7.0% | <strong>Tenure:</strong> 10 Years | <strong>Frequency:</strong> Annual</p>
-          <ul class="content-list content-list-sm">
-            <li>Formula: $10,000 × (1 + 0.07)^10</li>
-            <li>Ending Balance: <strong>$19,671.51</strong></li>
-            <li>Compound Interest: <strong>$9,671.51</strong></li>
-            <li>Effective APY: 7.00%</li>
-          </ul>
-        </div>
-
-        <div class="content-box">
-          <h3 class="content-box-title">Example 2: Monthly Deposits</h3>
-          <p class="content-note"><strong>Principal:</strong> $5,000 | <strong>Rate:</strong> 8.0% | <strong>Tenure:</strong> 5 Years | <strong>Deposit:</strong> $200/mo</p>
-          <ul class="content-list content-list-sm">
-            <li>Total Principal Invested: $17,000.00 ($5,000 + $12,000 deposits)</li>
-            <li>Ending Future Value: <strong>$22,242.57</strong></li>
-            <li>Compound Interest Earned: <strong>$5,242.57</strong></li>
-            <li>Effective APY: 8.30%</li>
-          </ul>
-        </div>
-
-        <div class="content-box">
-          <h3 class="content-box-title">Example 3: Daily High-Yield Savings</h3>
-          <p class="content-note"><strong>Principal:</strong> $20,000 | <strong>Rate:</strong> 5.0% | <strong>Tenure:</strong> 3 Years | <strong>Frequency:</strong> Daily (365/yr)</p>
-          <ul class="content-list content-list-sm">
-            <li>Daily Compounding Formula: $20,000 × (1 + 0.05/365)^(365 × 3)</li>
-            <li>Ending Balance: <strong>$23,236.45</strong></li>
-            <li>Interest Earned: <strong>$3,236.45</strong></li>
-            <li>Effective APY: 5.13%</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <!-- Common Mistakes Section -->
-    <section class="content-section" aria-labelledby="mistakes-heading">
-      <h2 id="mistakes-heading">Common Compounding Pitfalls</h2>
-      <ul class="content-list">
-        <li><strong>Comparing APR to APY Directly:</strong> A bank advertising 5.00% APR with daily compounding actually pays 5.13% APY. Always compare APY against APY for true apples-to-apples evaluation.</li>
-        <li><strong>Delaying Contributions:</strong> Thanks to geometric exponential growth, depositing early in your twenties compounds far more wealth than depositing twice as much later in your forties.</li>
-        <li><strong>Ignoring Inflation &amp; Taxes:</strong> High nominal interest rates must be adjusted for inflation and annual tax obligations on interest income to gauge real purchasing power growth.</li>
-      </ul>
-    </section>

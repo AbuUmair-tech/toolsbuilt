@@ -218,7 +218,8 @@ function checkSeo() {
         cleanHref = cleanHref.slice(BASE_URL.length);
       }
 
-      const [pathPart, hashPart] = cleanHref.split('#');
+      // Query strings (e.g. shareable result links) do not change the target page
+      const [pathPart, hashPart] = cleanHref.replace(/\?[^#]*/, '').split('#');
 
       // Trailing slash check on internal page paths
       if (pathPart && pathPart.startsWith('/') && !path.extname(pathPart)) {

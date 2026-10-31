@@ -21,21 +21,8 @@ document.addEventListener('DOMContentLoaded', () => {
   let lastResultText = '';
 
   function initInputs() {
-    const params = new URLSearchParams(window.location.search);
-    const urlPrice = params.get('price');
-    const urlDisc = params.get('disc');
-    const urlStacked = params.get('stacked');
-    const urlTax = params.get('tax');
-    const urlCur = params.get('cur');
-
-    if (urlPrice) {
-      priceInput.value = urlPrice;
-      if (urlDisc) discountInput.value = urlDisc;
-      if (urlStacked) stackedDiscountInput.value = urlStacked;
-      if (urlTax) taxInput.value = urlTax;
-      if (urlCur && currencySelect) currencySelect.value = urlCur;
-      return;
-    }
+    // Result links (?price=&off=&off2=&tax=&cur=) take priority over saved state
+    if (ToolsBuilt.resultLink.restore().length) return;
 
     try {
       const saved = localStorage.getItem(STORAGE_KEY);
@@ -59,13 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
       localStorage.setItem(STORAGE_KEY, JSON.stringify({ price, disc, stacked, tax, cur }));
     } catch (e) {}
 
-    const url = new URL(window.location.href);
-    if (price && price !== '100') url.searchParams.set('price', price); else url.searchParams.delete('price');
-    if (disc && disc !== '20') url.searchParams.set('disc', disc); else url.searchParams.delete('disc');
-    if (stacked) url.searchParams.set('stacked', stacked); else url.searchParams.delete('stacked');
-    if (tax) url.searchParams.set('tax', tax); else url.searchParams.delete('tax');
-    if (cur && cur !== '$') url.searchParams.set('cur', cur); else url.searchParams.delete('cur');
-    window.history.replaceState({}, '', url.toString());
+    ToolsBuilt.resultLink.update();
   }
 
   function clearError() {

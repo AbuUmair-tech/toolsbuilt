@@ -47,6 +47,31 @@ workedExamples:
       - "Convert percent to decimal: 25 ÷ 100 = 0.25"
       - "Multiply by total: 0.25 × 200 = 50"
     result: "50"
+exampleSections:
+  - id: "word-problems-heading"
+    title: "Percent change word problems"
+    examples:
+      - title: "Games won: 7 last month, 13 this month"
+        steps:
+          - "Difference: 13 − 7 = 6"
+          - "Divide by the old value: 6 ÷ 7 = 0.857"
+          - "Multiply by 100: (13 − 7) ÷ 7 × 100 = 85.7%"
+        result: "85.7%, about an 86% increase"
+        link: "/tools/percentage-change-calculator/?old=7&new=13#tool"
+      - title: "Practice time: 60 minutes down to 40 minutes"
+        steps:
+          - "Difference: 40 − 60 = −20"
+          - "Divide by the old value: −20 ÷ 60 = −0.333"
+          - "Multiply by 100: (40 − 60) ÷ 60 × 100 = −33.3%"
+        result: "−33.3%, a 33% decrease"
+        link: "/tools/percentage-change-calculator/?old=60&new=40#tool"
+      - title: "Card collection: 52 cards grew to 61"
+        steps:
+          - "Difference: 61 − 52 = 9"
+          - "Divide by the old value: 9 ÷ 52 = 0.173"
+          - "Multiply by 100: (61 − 52) ÷ 52 × 100 = 17.3%"
+        result: "17.3%, about a 17% increase"
+        link: "/tools/percentage-change-calculator/?old=52&new=61#tool"
 commonMistakes:
   - title: "Dividing by the New Value"
     description: "Always divide by the original starting baseline (Old Value). Dividing by the new value gives the fraction of the final number, producing an incorrect percentage."
@@ -63,7 +88,7 @@ sources:
     url: "https://www.khanacademy.org/math/algebra"
   - name: "ISO 80000-2 Quantities and Units - Mathematical Signs and Symbols"
     url: "https://www.iso.org/standard/64973.html"
-lastReviewed: "October 24, 2026"
+lastReviewed: "2026-10-24"
 howto:
   name: "How to Calculate Percentage Change Online"
   description: "Step-by-step instructions for calculating percent change, increase, decrease, and proportions."
@@ -75,6 +100,12 @@ howto:
     - name: "View Instant Results"
       text: "Instantly view the percentage rate, absolute difference, and step-by-step arithmetic substitution."
 faqs:
+  - q: "How do you find the percent change between two numbers?"
+    a: "Subtract the old number from the new number, divide the result by the old number, and multiply by 100. For example, going from 7 to 13 is (13 − 7) ÷ 7 × 100 = 85.7%."
+  - q: "Is it a percent increase or decrease?"
+    a: "Look at the sign of the result. If the new number is bigger than the old number, the percent change is positive and it is an increase. If the new number is smaller, the result is negative and it is a decrease. Going from 60 to 40 gives −33.3%, a 33% decrease."
+  - q: "How do you calculate percent change of percentages?"
+    a: "Decide whether you need percentage points or percent change. Percentage points are the simple difference between two percentages: a rate moving from 10% to 12% rose by 2 percentage points. Percent change compares that difference to the starting rate: (12 − 10) ÷ 10 × 100 = a 20% increase."
   - q: "What is the difference between percentage change and percentage points?"
     a: "Percentage change measures relative growth or drop compared to the starting baseline. Percentage points measure the simple arithmetic difference between two percentage values. For example, if an interest rate moves from 5% to 7%, the increase is 2 percentage points, but a 40% percentage change."
   - q: "Why can't percentage change be calculated when starting from zero?"
@@ -107,11 +138,11 @@ faqs:
         <div class="form-grid two-col">
           <div class="form-group">
             <label for="m1-old-val">Initial (Old) Value <span class="text-accent">*</span></label>
-            <input type="number" step="any" id="m1-old-val" class="form-control" placeholder="e.g. 50" required aria-required="true">
+            <input type="number" step="any" id="m1-old-val" data-param="old" class="form-control" placeholder="e.g. 50" required aria-required="true">
           </div>
           <div class="form-group">
             <label for="m1-new-val">Final (New) Value <span class="text-accent">*</span></label>
-            <input type="number" step="any" id="m1-new-val" class="form-control" placeholder="e.g. 75" required aria-required="true">
+            <input type="number" step="any" id="m1-new-val" data-param="new" class="form-control" placeholder="e.g. 75" required aria-required="true">
           </div>
         </div>
 
@@ -126,7 +157,7 @@ faqs:
         <div class="form-grid">
           <div class="form-group">
             <label for="m2-operation">Select Operation <span class="text-accent">*</span></label>
-            <select id="m2-operation" class="form-control">
+            <select id="m2-operation" data-param="op" class="form-control">
               <option value="increase">Increase (+)</option>
               <option value="decrease">Decrease (-)</option>
             </select>
@@ -134,11 +165,11 @@ faqs:
           <div class="form-grid two-col">
             <div class="form-group">
               <label for="m2-base-val">Starting Number <span class="text-accent">*</span></label>
-              <input type="number" step="any" id="m2-base-val" class="form-control" placeholder="e.g. 120" required aria-required="true">
+              <input type="number" step="any" id="m2-base-val" data-param="base" class="form-control" placeholder="e.g. 120" required aria-required="true">
             </div>
             <div class="form-group">
               <label for="m2-percent-val">Percentage (%) <span class="text-accent">*</span></label>
-              <input type="number" step="any" id="m2-percent-val" class="form-control" placeholder="e.g. 15" required aria-required="true">
+              <input type="number" step="any" id="m2-percent-val" data-param="pct" class="form-control" placeholder="e.g. 15" required aria-required="true">
             </div>
           </div>
         </div>
@@ -154,11 +185,11 @@ faqs:
         <div class="form-grid two-col">
           <div class="form-group">
             <label for="m3-x-val">Part Value (X) <span class="text-accent">*</span></label>
-            <input type="number" step="any" id="m3-x-val" class="form-control" placeholder="e.g. 25" required aria-required="true">
+            <input type="number" step="any" id="m3-x-val" data-param="x" class="form-control" placeholder="e.g. 25" required aria-required="true">
           </div>
           <div class="form-group">
             <label for="m3-y-val">Total Value (Y) <span class="text-accent">*</span></label>
-            <input type="number" step="any" id="m3-y-val" class="form-control" placeholder="e.g. 200" required aria-required="true">
+            <input type="number" step="any" id="m3-y-val" data-param="y" class="form-control" placeholder="e.g. 200" required aria-required="true">
           </div>
         </div>
 
@@ -173,11 +204,11 @@ faqs:
         <div class="form-grid two-col">
           <div class="form-group">
             <label for="m4-a-val">First Value (V1) <span class="text-accent">*</span></label>
-            <input type="number" step="any" id="m4-a-val" class="form-control" placeholder="e.g. 100" required aria-required="true">
+            <input type="number" step="any" id="m4-a-val" data-param="a" class="form-control" placeholder="e.g. 100" required aria-required="true">
           </div>
           <div class="form-group">
             <label for="m4-b-val">Second Value (V2) <span class="text-accent">*</span></label>
-            <input type="number" step="any" id="m4-b-val" class="form-control" placeholder="e.g. 120" required aria-required="true">
+            <input type="number" step="any" id="m4-b-val" data-param="b" class="form-control" placeholder="e.g. 120" required aria-required="true">
           </div>
         </div>
 
@@ -207,6 +238,18 @@ faqs:
           <!-- Step-by-step formula inserted by script.js -->
         </div>
       </div>
+    </section>
+
+    <!-- tool-end -->
+
+    <section class="content-section" aria-labelledby="method-heading">
+      <h2 id="method-heading">How to calculate percentage change between two numbers</h2>
+      <ol class="content-list">
+        <li><strong>Find the difference:</strong> subtract the old number from the new number (new − old).</li>
+        <li><strong>Divide by the old number:</strong> divide that difference by the starting value.</li>
+        <li><strong>Multiply by 100:</strong> the result is the percent change. A positive answer is an increase; a negative answer is a decrease.</li>
+      </ol>
+      <p>For example, from 7 to 13: (13 − 7) ÷ 7 × 100 = 85.7%, about an 86% increase.</p>
     </section>
 
     <!-- When to Use Section -->

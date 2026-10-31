@@ -65,6 +65,13 @@ workedExamples:
       - "Each paragraph wrapped in <p>…</p> tags"
       - "Output is valid inline HTML, ready to paste into a CMS template"
     result: "<p>Lorem ipsum…</p><p>Sed ut perspiciatis…</p>"
+commonMistakes:
+  - title: "Forgetting to Replace Placeholder Copy"
+    description: "Always audit production builds for lingering \"Lorem ipsum\" snippets. Automated grep checks in deployment pipelines prevent placeholder text from slipping into published marketing pages."
+  - title: "Unrealistic Text Lengths in Prototypes"
+    description: "Generating identical 3-line paragraphs can lead to design blind spots. Test edge cases with both short headings and verbose, multi-line paragraph blocks to ensure responsive container robustness."
+  - title: "Ignoring Screen Readers During User Testing"
+    description: "When conducting accessibility audits with assistive technology, be aware that screen readers will attempt to pronounce Latin words phonetically. Temporarily disable or label placeholder regions with appropriate aria attributes."
 ---
 
     <!-- Main Tool Container -->
@@ -125,11 +132,7 @@ workedExamples:
       </div>
     </section>
 
-    <!-- AEO Quick Answer Box -->
-    <div class="info-callout my-8">
-      <h3 class="content-item-title">Quick Answer</h3>
-      <p class="mb-0">The ToolsBuilt Lorem Ipsum Generator creates custom lengths of classic Latin filler text by paragraphs, sentences, or exact word counts. It includes toggles to ensure standard canonical openings or include clean HTML paragraph tags. All text is generated locally in your web browser with zero external calls.</p>
-    </div>
+    <!-- tool-end -->
 
     <!-- When to Use Section -->
     <section class="content-section" aria-labelledby="how-to-use-heading">
@@ -172,12 +175,3 @@ workedExamples:
       </div>
     </section>
 
-    <!-- Common Mistakes Section -->
-    <section class="content-section" aria-labelledby="mistakes-heading">
-      <h2 id="mistakes-heading">Common Mockup Mistakes &amp; Placeholder Best Practices</h2>
-      <ul class="content-list">
-        <li><strong>Forgetting to Replace Placeholder Copy:</strong> Always audit production builds for lingering "Lorem ipsum" snippets. Automated grep checks in deployment pipelines prevent placeholder text from slipping into published marketing pages.</li>
-        <li><strong>Unrealistic Text Lengths in Prototypes:</strong> Generating identical 3-line paragraphs can lead to design blind spots. Test edge cases with both short headings and verbose, multi-line paragraph blocks to ensure responsive container robustness.</li>
-        <li><strong>Ignoring Screen Readers During User Testing:</strong> When conducting accessibility audits with assistive technology, be aware that screen readers will attempt to pronounce Latin words phonetically. Temporarily disable or label placeholder regions with appropriate aria attributes.</li>
-      </ul>
-    </section>

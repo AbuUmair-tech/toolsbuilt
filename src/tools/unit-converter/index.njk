@@ -70,6 +70,17 @@ workedExamples:
       - "Conversion factor: 1 kg = 2.20462 lb"
       - "Result = 10 × 2.20462 = 22.046 lb"
     result: "22.046 lb"
+commonMistakes:
+  - title: "Confusing US Liquid and Imperial Gallons"
+    description: "A British (Imperial) gallon is 4.546 liters, while a US gallon is only 3.785 liters. Using the wrong gallon definition leads to a 20% measurement discrepancy."
+  - title: "Applying Direct Factors to Temperatures"
+    description: "You cannot multiply Fahrenheit by a single ratio because Fahrenheit and Celsius have different zero points (freezing is 32°F and 0°C). Always subtract 32 before scaling."
+  - title: "Squaring Linear Conversion Factors for Area"
+    description: "Since 1 yard = 3 feet, 1 square yard is not 3 square feet, but <code>3 × 3 = 9</code> square feet. Area factors square the linear relationship."
+formula:
+  title: "Unit Conversion Formulas"
+  expression: "Value in target unit = Value × Conversion factor"
+  explanation: "Multiply by the exact conversion factor relative to the base SI unit (e.g. 1 meter = 3.28084 feet, 1 kilogram = 2.20462 pounds). For temperature, apply the linear formula: °F = (°C × 9/5) + 32 or °C = (°F − 32) × 5/9."
 ---
 
     <!-- Tool Form Container -->
@@ -170,11 +181,7 @@ workedExamples:
       </div>
     </section>
 
-    <!-- AEO Quick Answer Box -->
-    <div class="info-callout my-8">
-      <h3 class="content-item-title">Quick Answer</h3>
-      <p class="mb-0">To convert physical units between metric and imperial: multiply by the exact conversion factor relative to the base SI standard unit (e.g. 1 meter = 3.28084 feet, 1 kilogram = 2.20462 pounds). For temperature, apply the standard linear formula: <code>°F = (°C × 9/5) + 32</code> or <code>°C = (°F - 32) × 5/9</code>.</p>
-    </div>
+    <!-- tool-end -->
 
     <!-- When to Use Section -->
     <section class="content-section" aria-labelledby="how-to-use-heading">
@@ -187,52 +194,3 @@ workedExamples:
       </ul>
     </section>
 
-    <!-- Worked Examples Section -->
-    <section class="content-section" aria-labelledby="article-heading">
-      <h2 id="article-heading">Worked Unit Conversion Examples &amp; Formulas</h2>
-      
-      <div class="content-grid">
-        <div class="content-box">
-          <h3 class="content-box-title">Example 1: Miles to Kilometers</h3>
-          <p class="content-note"><strong>Value:</strong> 5.0 miles | <strong>Factor:</strong> 1.609344 km/mi</p>
-          <ul class="content-list content-list-sm">
-            <li>Exact conversion: 5.0 × 1.609344</li>
-            <li>Result: <strong>8.04672 km</strong></li>
-            <li>Reverse: 8.04672 ÷ 1.609344 = 5.0 mi</li>
-          </ul>
-        </div>
-
-        <div class="content-box">
-          <h3 class="content-box-title">Example 2: Body Temperature (F to C)</h3>
-          <p class="content-note"><strong>Value:</strong> 98.6°F | <strong>Formula:</strong> (F - 32) × 5/9</p>
-          <ul class="content-list content-list-sm">
-            <li>Subtract 32: 98.6 - 32 = 66.6</li>
-            <li>Multiply by 5/9: 66.6 × 5/9 = <strong>37.00°C</strong></li>
-            <li>Standard human body temperature</li>
-          </ul>
-        </div>
-
-        <div class="content-box">
-          <h3 class="content-box-title">Example 3: Area (Acres to Square Meters)</h3>
-          <p class="content-note"><strong>Value:</strong> 2.5 acres | <strong>Factor:</strong> 4046.8564 m²/ac</p>
-          <ul class="content-list content-list-sm">
-            <li>Multiply by factor: 2.5 × 4046.8564</li>
-            <li>Result: <strong>10,117.14 m²</strong></li>
-            <li>Equivalent to ~1.0117 hectares</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <!-- Common Mistakes Section -->
-    <section class="content-section" aria-labelledby="mistakes-heading">
-      <h2 id="mistakes-heading">Common Unit Conversion Pitfalls</h2>
-      <ul class="content-list">
-        <li><strong>Confusing US Liquid and Imperial Gallons:</strong> A British (Imperial) gallon is 4.546 liters, while a US gallon is only 3.785 liters. Using the wrong gallon definition leads to a 20% measurement discrepancy.</li>
-        <li><strong>Applying Direct Factors to Temperatures:</strong> You cannot multiply Fahrenheit by a single ratio because Fahrenheit and Celsius have different zero points (freezing is 32°F and 0°C). Always subtract 32 before scaling.</li>
-        <li><strong>Squaring Linear Conversion Factors for Area:</strong> Since 1 yard = 3 feet, 1 square yard is not 3 square feet, but <code>3 × 3 = 9</code> square feet. Area factors square the linear relationship.</li>
-      </ul>
-    </section>
-
-    <script src="./logic.js"></script>
-    <script src="./script.js"></script>

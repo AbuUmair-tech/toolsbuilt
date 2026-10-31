@@ -62,6 +62,13 @@ workedExamples:
       - "%20 is a space character"
       - "Decoded: Café au lait"
     result: "Café au lait"
+commonMistakes:
+  - title: "Double-Encoding"
+    description: "Encoding an already percent-encoded string converts existing <code>%</code> characters into <code>%25</code> (e.g. <code>%20</code> becomes <code>%2520</code>). Always verify whether incoming data is already encoded before applying transformation."
+  - title: "Using encodeURI for Query Values"
+    description: "Running <code>encodeURI</code> on a parameter value leaves characters like <code>&amp;</code> and <code>+</code> unencoded, causing server parsers to truncate or split values unexpectedly."
+  - title: "Malformed Percent Sequences"
+    description: "Decoding a string with a bare percent sign (such as <code>discount=50%</code> instead of <code>discount=50%25</code>) throws a fatal JavaScript <code>URIError: URI malformed</code>. Safe tools catch and surface this error clearly."
 ---
 
     <!-- Main Tool Container -->
@@ -147,11 +154,7 @@ workedExamples:
       </div>
     </section>
 
-    <!-- AEO Quick Answer Box -->
-    <div class="info-callout my-8">
-      <h3 class="content-item-title">Quick Answer</h3>
-      <p class="mb-0">Use <code>encodeURIComponent</code> when encoding individual query string keys or values to safely escape reserved characters like <code>&amp;</code>, <code>=</code>, and <code>?</code>. Use <code>encodeURI</code> only when encoding a complete URL address where protocol and query delimiters must remain unencoded. All processing is debounced and performed entirely in your browser.</p>
-    </div>
+    <!-- tool-end -->
 
     <!-- When to Use Section -->
     <section class="content-section" aria-labelledby="how-to-use-heading">
@@ -221,12 +224,3 @@ workedExamples:
       </div>
     </section>
 
-    <!-- Common Mistakes Section -->
-    <section class="content-section" aria-labelledby="mistakes-heading">
-      <h2 id="mistakes-heading">Common URL Encoding Mistakes</h2>
-      <ul class="content-list">
-        <li><strong>Double-Encoding:</strong> Encoding an already percent-encoded string converts existing <code>%</code> characters into <code>%25</code> (e.g. <code>%20</code> becomes <code>%2520</code>). Always verify whether incoming data is already encoded before applying transformation.</li>
-        <li><strong>Using encodeURI for Query Values:</strong> Running <code>encodeURI</code> on a parameter value leaves characters like <code>&amp;</code> and <code>+</code> unencoded, causing server parsers to truncate or split values unexpectedly.</li>
-        <li><strong>Malformed Percent Sequences:</strong> Decoding a string with a bare percent sign (such as <code>discount=50%</code> instead of <code>discount=50%25</code>) throws a fatal JavaScript <code>URIError: URI malformed</code>. Safe tools catch and surface this error clearly.</li>
-      </ul>
-    </section>

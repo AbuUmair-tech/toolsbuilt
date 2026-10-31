@@ -62,7 +62,7 @@ sources:
     url: "https://aa.usno.navy.mil/"
   - name: "W3C Note on Date and Time Formats"
     url: "https://www.w3.org/TR/NOTE-datetime"
-lastReviewed: "October 24, 2026"
+lastReviewed: "2026-10-24"
 howto:
   name: "How to Add or Subtract Days from a Date"
   description: "Step-by-step instructions for computing target dates with calendar or business day filtering."
@@ -99,14 +99,14 @@ faqs:
     <div class="form-group">
       <label for="startDate">Start Date</label>
       <div class="input-with-button">
-        <input type="date" id="startDate" class="form-input" autocomplete="off">
+        <input type="date" id="startDate" data-param="start" class="form-input" autocomplete="off">
         <button type="button" id="todayBtn" class="btn btn-secondary btn-sm">Today</button>
       </div>
     </div>
 
     <div class="form-group">
       <label for="operation">Operation</label>
-      <select id="operation" class="form-input" autocomplete="off">
+      <select id="operation" data-param="op" class="form-input" autocomplete="off">
         <option value="add" selected>Add (+)</option>
         <option value="subtract">Subtract (-)</option>
       </select>
@@ -114,12 +114,12 @@ faqs:
 
     <div class="form-group">
       <label for="amount">Amount</label>
-      <input type="number" id="amount" class="form-input" min="0" value="30" step="1" autocomplete="off">
+      <input type="number" id="amount" data-param="amount" class="form-input" min="0" value="30" step="1" autocomplete="off">
     </div>
 
     <div class="form-group">
       <label for="unit">Unit</label>
-      <select id="unit" class="form-input" autocomplete="off">
+      <select id="unit" data-param="unit" class="form-input" autocomplete="off">
         <option value="days" selected>Days</option>
         <option value="weeks">Weeks</option>
         <option value="months">Months</option>
@@ -130,7 +130,7 @@ faqs:
 
   <div class="form-group mt-4">
     <label class="checkbox-label" id="businessDaysLabel">
-      <input type="checkbox" id="businessDaysOnly" autocomplete="off">
+      <input type="checkbox" id="businessDaysOnly" data-param="biz" autocomplete="off">
       <span>Count business days only (exclude Saturdays &amp; Sundays)</span>
     </label>
     <p id="businessDaysNote" class="text-sm text-muted mt-2" style="display: none;">Business days work with days and weeks. Months and years always use calendar dates.</p>
@@ -152,6 +152,8 @@ faqs:
     <div id="resultDetails" class="mt-4"></div>
   </div>
 </div>
+
+<!-- tool-end -->
 
 <div class="article-content">
   <h2>Why Is Accurate Date Arithmetic Essential?</h2>

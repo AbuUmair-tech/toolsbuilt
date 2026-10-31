@@ -76,6 +76,17 @@ workedExamples:
       - "Term shortened by 56 months (4.7 years)"
       - "Interest saved = $46,419.00"
     result: "Paid off 4.7 years earlier ($46,419.00 in interest saved)"
+commonMistakes:
+  - title: "Focusing Only on Monthly Payment"
+    description: "Extending loan tenure lowers your monthly payment but drastically balloons total lifetime interest charges. Always evaluate total loan cost alongside monthly cash flow."
+  - title: "Confusing APR with Base Interest Rate"
+    description: "An annual percentage rate (APR) includes lender fees, points, and closing costs, whereas the nominal note rate dictates your exact monthly amortization calculation."
+  - title: "Assuming Equal Principal Reduction"
+    description: "During the early years of a loan, the vast majority of each payment goes toward interest. Principal reduction accelerates only in the latter half of the amortization schedule."
+formula:
+  title: "Loan EMI Formula"
+  expression: "EMI = P × r × (1 + r)^n ÷ ((1 + r)^n − 1)"
+  explanation: "P is the principal loan amount, r is the monthly interest rate (annual interest rate ÷ 1200), and n is the loan tenure in total months."
 ---
 
     <!-- Tool Form Container -->
@@ -85,7 +96,7 @@ workedExamples:
           
           <div class="form-group">
             <label for="currency-select">Currency</label>
-            <select id="currency-select" class="form-control">
+            <select id="currency-select" data-param="cur" class="form-control">
               <option value="USD" selected>USD ($) - US Dollar</option>
               <option value="PKR">PKR (₨) - Pakistani Rupee</option>
               <option value="INR">INR (₹) - Indian Rupee</option>
@@ -98,19 +109,19 @@ workedExamples:
 
           <div class="form-group">
             <label for="loan-amount">Loan Amount <span class="text-accent">*</span></label>
-            <input type="number" step="any" min="1" id="loan-amount" class="form-control" placeholder="e.g. 250000" required aria-required="true">
+            <input type="number" step="any" min="1" id="loan-amount" data-param="amount" class="form-control" placeholder="e.g. 250000" required aria-required="true">
           </div>
 
           <div class="form-group">
             <label for="interest-rate">Annual Interest Rate (%) <span class="text-accent">*</span></label>
-            <input type="number" step="0.01" min="0" max="100" id="interest-rate" class="form-control" placeholder="e.g. 6.5" required aria-required="true">
+            <input type="number" step="0.01" min="0" max="100" id="interest-rate" data-param="rate" class="form-control" placeholder="e.g. 6.5" required aria-required="true">
           </div>
 
           <div class="form-group">
             <label for="tenure-value">Loan Tenure <span class="text-accent">*</span></label>
             <div class="loan-input-row">
-              <input type="number" step="1" min="1" max="600" id="tenure-value" class="form-control" placeholder="e.g. 30" required aria-required="true">
-              <select id="tenure-unit" class="form-control" aria-label="Tenure unit">
+              <input type="number" step="1" min="1" max="600" id="tenure-value" data-param="tenure" class="form-control" placeholder="e.g. 30" required aria-required="true">
+              <select id="tenure-unit" data-param="unit" class="form-control" aria-label="Tenure unit">
                 <option value="years" selected>Years</option>
                 <option value="months">Months</option>
               </select>
@@ -119,7 +130,7 @@ workedExamples:
 
           <div class="form-group col-span-full">
             <label for="extra-payment">Optional Extra Monthly Payment <span class="label-hint">(Accelerates Payoff)</span></label>
-            <input type="number" step="any" min="0" id="extra-payment" class="form-control" placeholder="e.g. 100">
+            <input type="number" step="any" min="0" id="extra-payment" data-param="extra" class="form-control" placeholder="e.g. 100">
           </div>
 
         </div>
@@ -222,11 +233,7 @@ workedExamples:
       </div>
     </section>
 
-    <!-- Quick Answer Box -->
-    <div class="info-callout my-8">
-      <h3 class="content-item-title">Quick Answer</h3>
-      <p class="mb-0">Loan EMI (Equated Monthly Installment) is computed using the annuity formula: <code>EMI = P × r × (1 + r)^n / ((1 + r)^n - 1)</code>, where <strong>P</strong> is the principal loan amount, <strong>r</strong> is the monthly interest rate (annual interest rate ÷ 1200), and <strong>n</strong> is the loan tenure in total months.</p>
-    </div>
+    <!-- tool-end -->
 
     <!-- Reusable Financial Disclaimer -->
     {% include "partials/financial-disclaimer.njk" %}
@@ -242,53 +249,3 @@ workedExamples:
       </ul>
     </section>
 
-    <!-- Worked Examples Section -->
-    <section class="content-section" aria-labelledby="article-heading">
-      <h2 id="article-heading">Worked Loan EMI Examples &amp; Formula</h2>
-      <p class="text-secondary">Below are 3 realistic loan examples verified with banking-standard half-up rounding.</p>
-      
-      <div class="content-grid">
-        <div class="content-box">
-          <h3 class="content-box-title">Example 1: 30-Year Home Mortgage</h3>
-          <p class="content-note"><strong>Principal:</strong> $250,000 | <strong>Rate:</strong> 6.5% | <strong>Tenure:</strong> 30 Years (360 Months)</p>
-          <ul class="content-list content-list-sm">
-            <li>Monthly rate: 6.5 / 1200 ≈ 0.005417</li>
-            <li>Monthly EMI: <strong>$1,580.17</strong></li>
-            <li>Total Interest: <strong>$318,861.58</strong></li>
-            <li>Total Repayment: $568,861.58</li>
-          </ul>
-        </div>
-
-        <div class="content-box">
-          <h3 class="content-box-title">Example 2: 5-Year Auto Loan</h3>
-          <p class="content-note"><strong>Principal:</strong> $25,000 | <strong>Rate:</strong> 4.5% | <strong>Tenure:</strong> 5 Years (60 Months)</p>
-          <ul class="content-list content-list-sm">
-            <li>Monthly rate: 4.5 / 1200 = 0.00375</li>
-            <li>Monthly EMI: <strong>$466.08</strong></li>
-            <li>Total Interest: <strong>$2,964.46</strong></li>
-            <li>Total Repayment: $27,964.46</li>
-          </ul>
-        </div>
-
-        <div class="content-box">
-          <h3 class="content-box-title">Example 3: Extra Monthly Payments</h3>
-          <p class="content-note"><strong>Principal:</strong> $10,000 | <strong>Rate:</strong> 10.0% | <strong>Tenure:</strong> 3 Years (36 Months) + <strong>$100 Extra/mo</strong></p>
-          <ul class="content-list content-list-sm">
-            <li>Base Monthly EMI: $322.67</li>
-            <li>New Monthly Payment: $422.67</li>
-            <li>Payoff Horizon: <strong>27 Months</strong> (9 months saved!)</li>
-            <li>Interest Saved: <strong>$431.24</strong> (Total interest reduced from $1,616.20 to $1,184.96)</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <!-- Common Mistakes Section -->
-    <section class="content-section" aria-labelledby="mistakes-heading">
-      <h2 id="mistakes-heading">Common Loan &amp; Mortgage Calculation Pitfalls</h2>
-      <ul class="content-list">
-        <li><strong>Focusing Only on Monthly Payment:</strong> Extending loan tenure lowers your monthly payment but drastically balloons total lifetime interest charges. Always evaluate total loan cost alongside monthly cash flow.</li>
-        <li><strong>Confusing APR with Base Interest Rate:</strong> An annual percentage rate (APR) includes lender fees, points, and closing costs, whereas the nominal note rate dictates your exact monthly amortization calculation.</li>
-        <li><strong>Assuming Equal Principal Reduction:</strong> During the early years of a loan, the vast majority of each payment goes toward interest. Principal reduction accelerates only in the latter half of the amortization schedule.</li>
-      </ul>
-    </section>

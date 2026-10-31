@@ -32,19 +32,8 @@ document.addEventListener('DOMContentLoaded', () => {
   let lastResultSummary = '';
 
   function initInputs() {
-    const params = new URLSearchParams(window.location.search);
-    const urlInv = params.get('inv');
-    const urlRet = params.get('ret');
-    const urlYrs = params.get('yrs');
-    const urlStep = params.get('step');
-
-    if (urlInv) {
-      investmentInput.value = urlInv;
-      if (urlRet) returnInput.value = urlRet;
-      if (urlYrs) yearsInput.value = urlYrs;
-      if (urlStep) stepUpInput.value = urlStep;
-      return;
-    }
+    // Result links (?inv=&ret=&yrs=&step=) take priority over saved state
+    if (ToolsBuilt.resultLink.restore().length) return;
 
     try {
       const saved = localStorage.getItem(STORAGE_KEY);
@@ -70,12 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
       localStorage.setItem(STORAGE_KEY, JSON.stringify({ inv, ret, yrs, step }));
     } catch (e) {}
 
-    const url = new URL(window.location.href);
-    if (inv && inv !== '500') url.searchParams.set('inv', inv); else url.searchParams.delete('inv');
-    if (ret && ret !== '12') url.searchParams.set('ret', ret); else url.searchParams.delete('ret');
-    if (yrs && yrs !== '10') url.searchParams.set('yrs', yrs); else url.searchParams.delete('yrs');
-    if (step) url.searchParams.set('step', step); else url.searchParams.delete('step');
-    window.history.replaceState({}, '', url.toString());
+    ToolsBuilt.resultLink.update();
   }
 
   function clearError() {

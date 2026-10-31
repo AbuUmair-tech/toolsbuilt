@@ -76,13 +76,18 @@ workedExamples:
       - "New total credits: 45 + 15 = 60 credits"
       - "Cumulative GPA: 201.0 ÷ 60 = 3.35"
     result: "3.35 Cumulative GPA (raised by +0.15)"
+commonMistakes:
+  - title: "Averaging Letter Grades Without Credit Weights"
+    description: "Giving equal weight to a 4-credit organic chemistry course and a 1-credit seminar will give an inaccurate GPA. Always multiply each course by its credit hours."
+  - title: "Averaging Semester GPAs Directly"
+    description: "You cannot take the simple average of two semester GPAs unless both terms had the exact same number of completed credit hours. Always sum total grade points and divide by total credits."
+  - title: "Assuming All Schools Use 4.0 Unweighted"
+    description: "Many secondary schools use 5.0 scales for Honors/AP classes, and some colleges don't distinguish plus and minus grades. Use the toggle above to match your institution's policy."
+formula:
+  title: "GPA Formula"
+  expression: "GPA = Total Points ÷ Total Credits"
+  explanation: "Multiply each class's grade point (A = 4.0, B = 3.0, C = 2.0, D = 1.0, F = 0.0) by its course credit hours to get grade points, sum the points for all courses, and divide by the total credit hours."
 ---
-
-    <!-- Important Notice Callout: Different School Scales -->
-    <div class="info-callout" style="margin-top: 0; margin-bottom: 1.5rem; border-left: 4px solid var(--accent-primary);">
-      <h3 class="content-item-title">Grading Scale Notice</h3>
-      <p class="mb-0">Academic institutions use different grading scales. This calculator uses the standard North American 4.0 scale with optional plus/minus toggles. Some schools assign 4.33 for an A+, while others use unweighted scales or 5.0 weighted scales for AP/Honors classes.</p>
-    </div>
 
     <!-- Tool Form Container -->
     <section class="tool-container" aria-label="GPA Calculator Form">
@@ -153,11 +158,13 @@ workedExamples:
       </div>
     </section>
 
-    <!-- AEO Quick Answer Box -->
-    <div class="info-callout my-8">
-      <h3 class="content-item-title">Quick Answer</h3>
-      <p class="mb-0">To calculate GPA on a 4.0 scale: multiply each class's grade point (A = 4.0, B = 3.0, C = 2.0, D = 1.0, F = 0.0) by its course credit hours to get grade points. Sum the points for all courses and divide by the total credit hours: <code>GPA = Total Points ÷ Total Credits</code>.</p>
+    <!-- Important Notice Callout: Different School Scales -->
+    <div class="tool-note">
+      <h3 class="tool-note-title">Grading Scale Notice</h3>
+      <p>Academic institutions use different grading scales. This calculator uses the standard North American 4.0 scale with optional plus/minus toggles. Some schools assign 4.33 for an A+, while others use unweighted scales or 5.0 weighted scales for AP/Honors classes.</p>
     </div>
+
+    <!-- tool-end -->
 
     <!-- When to Use Section -->
     <section class="content-section" aria-labelledby="how-to-use-heading">
@@ -170,57 +177,3 @@ workedExamples:
       </ul>
     </section>
 
-    <!-- Worked Examples Section -->
-    <section class="content-section" aria-labelledby="article-heading">
-      <h2 id="article-heading">Worked 4.0 Scale GPA Examples &amp; Formula</h2>
-      
-      <div class="content-grid">
-        <div class="content-box">
-          <h3 class="content-box-title">Example 1: Single Semester (14 Credits)</h3>
-          <p class="content-note"><strong>Classes:</strong> A (4 cr), B+ (3 cr), A- (4 cr), B (3 cr)</p>
-          <ul class="content-list content-list-sm">
-            <li>Class 1: 4.0 × 4 = 16.0 points</li>
-            <li>Class 2: 3.3 × 3 = 9.9 points</li>
-            <li>Class 3: 3.7 × 4 = 14.8 points</li>
-            <li>Class 4: 3.0 × 3 = 9.0 points</li>
-            <li>Total Points: 49.7 ÷ 14 = <strong>3.55 Term GPA</strong></li>
-          </ul>
-        </div>
-
-        <div class="content-box">
-          <h3 class="content-box-title">Example 2: Adding Prior Academic History</h3>
-          <p class="content-note"><strong>Prior:</strong> 3.20 GPA (30 cr) | <strong>New Term:</strong> 3.80 GPA (15 cr)</p>
-          <ul class="content-list content-list-sm">
-            <li>Prior Points: 3.20 × 30 = 96.0 points</li>
-            <li>New Points: 3.80 × 15 = 57.0 points</li>
-            <li>Total Points: 96.0 + 57.0 = 153.0</li>
-            <li>Total Credits: 30 + 15 = 45 credits</li>
-            <li>Cumulative: 153.0 ÷ 45 = <strong>3.40 Cumulative GPA</strong></li>
-          </ul>
-        </div>
-
-        <div class="content-box">
-          <h3 class="content-box-title">Example 3: Credit Weighting Impact</h3>
-          <p class="content-note"><strong>Chemistry Lab:</strong> A (1 cr) | <strong>Organic Chem:</strong> C (4 cr)</p>
-          <ul class="content-list content-list-sm">
-            <li>Lab Points: 4.0 × 1 = 4.0 points</li>
-            <li>Lecture Points: 2.0 × 4 = 8.0 points</li>
-            <li>Total Credits: 5 credits</li>
-            <li>Total Points: 12.0 ÷ 5 = <strong>2.40 GPA</strong></li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <!-- Common Mistakes Section -->
-    <section class="content-section" aria-labelledby="mistakes-heading">
-      <h2 id="mistakes-heading">Common GPA Calculation Pitfalls</h2>
-      <ul class="content-list">
-        <li><strong>Averaging Letter Grades Without Credit Weights:</strong> Giving equal weight to a 4-credit organic chemistry course and a 1-credit seminar will give an inaccurate GPA. Always multiply each course by its credit hours.</li>
-        <li><strong>Averaging Semester GPAs Directly:</strong> You cannot take the simple average of two semester GPAs unless both terms had the exact same number of completed credit hours. Always sum total grade points and divide by total credits.</li>
-        <li><strong>Assuming All Schools Use 4.0 Unweighted:</strong> Many secondary schools use 5.0 scales for Honors/AP classes, and some colleges don't distinguish plus and minus grades. Use the toggle above to match your institution's policy.</li>
-      </ul>
-    </section>
-
-    <script src="./logic.js"></script>
-    <script src="./script.js"></script>

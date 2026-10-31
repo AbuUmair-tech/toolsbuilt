@@ -19,6 +19,25 @@
     const shareBtn = document.getElementById('action-share-btn');
     const printBtn = document.getElementById('action-print-btn');
     const resetBtn = document.getElementById('action-reset-btn');
+    const copyLinkBtn = document.getElementById('action-copy-link-btn');
+
+    // Drop bar buttons the tool already provides itself (one Copy, one Reset per tool).
+    // Copy buttons inside the result header are hidden by CSS in favour of the bar's Copy.
+    const workspace = actionsBar.closest('.tool-workspace') || document;
+    const ownButtons = Array.from(workspace.querySelectorAll('button[id]')).filter(b => !actionsBar.contains(b));
+    const hasOwnCopy = ownButtons.some(b => /copy/i.test(b.id) && !b.matches('.result-box #copy-result-btn, .result-box #copyResultBtn'));
+    const hasOwnReset = ownButtons.some(b => /reset|clear/i.test(b.id));
+    if (copyBtn && hasOwnCopy) copyBtn.remove();
+    if (resetBtn && hasOwnReset) resetBtn.remove();
+
+    // Shareable result links: "Copy link to this result" replaces the generic Share
+    const resultLink = window.ToolsBuilt && window.ToolsBuilt.resultLink;
+    if (copyLinkBtn && resultLink && resultLink.isEnabled()) {
+      copyLinkBtn.removeAttribute('hidden');
+      if (shareBtn) shareBtn.remove();
+    } else if (copyLinkBtn) {
+      copyLinkBtn.remove();
+    }
 
     // Find the result container on this page
     const resultBox = document.querySelector('[data-result-source], #result-box, #resultBox, .result-box, #password-display, #winner-card, .counter-grid');
@@ -30,6 +49,13 @@
     }
 
     let wasResultVisible = false;
+    // Only auto-scroll to a result the visitor asked for, not the default one shown on load
+    let userInteracted = false;
+    ['input', 'change', 'submit'].forEach(type => {
+      document.addEventListener(type, (e) => {
+        if (e.target && e.target.closest && e.target.closest('.tool-workspace')) userInteracted = true;
+      }, true);
+    });
 
     // Toast notification utility
     function showToast(message) {
@@ -108,7 +134,7 @@
         actionsBar.classList.add('is-active');
 
         // On small screens, if newly visible and below the fold, scroll into view
-        if (!wasResultVisible && window.innerWidth <= 768) {
+        if (!wasResultVisible && userInteracted && window.innerWidth <= 768) {
           const rect = resultBox.getBoundingClientRect();
           if (rect.top > window.innerHeight - 100 || rect.bottom > window.innerHeight) {
             const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -145,8 +171,21 @@
       });
     }
 
+    // Wire Copy link to this result (the URL already carries the inputs)
+    if (copyLinkBtn && copyLinkBtn.isConnected) {
+      copyLinkBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const link = window.location.href;
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(link).then(() => showToast('Link to this result copied!')).catch(() => showToast(link));
+        } else {
+          showToast(link);
+        }
+      });
+    }
+
     // Wire Share
-    if (shareBtn) {
+    if (shareBtn && shareBtn.isConnected) {
       shareBtn.addEventListener('click', (e) => {
         e.preventDefault();
         const resultText = getResultText();

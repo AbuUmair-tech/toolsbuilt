@@ -42,23 +42,8 @@ document.addEventListener('DOMContentLoaded', () => {
   let lastResultSummary = '';
 
   function initInputs() {
-    const params = new URLSearchParams(window.location.search);
-    const urlAmt = params.get('amount');
-    const urlRate = params.get('rate');
-    const urlTenure = params.get('tenure');
-    const urlUnit = params.get('unit');
-    const urlExtra = params.get('extra');
-    const urlCur = params.get('cur');
-
-    if (urlAmt) {
-      amountInput.value = urlAmt;
-      if (urlRate) rateInput.value = urlRate;
-      if (urlTenure) tenureInput.value = urlTenure;
-      if (urlUnit) tenureUnitSelect.value = urlUnit;
-      if (urlExtra) extraInput.value = urlExtra;
-      if (urlCur && currencySelect) currencySelect.value = urlCur;
-      return;
-    }
+    // Result links (?amount=&rate=&tenure=&unit=&extra=&cur=) take priority over saved state
+    if (ToolsBuilt.resultLink.restore().length) return;
 
     try {
       const saved = localStorage.getItem(STORAGE_KEY);
@@ -88,14 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
       localStorage.setItem(STORAGE_KEY, JSON.stringify({ amount, rate, tenure, unit, extra, cur }));
     } catch (e) {}
 
-    const url = new URL(window.location.href);
-    if (amount && amount !== '250000') url.searchParams.set('amount', amount); else url.searchParams.delete('amount');
-    if (rate && rate !== '6.5') url.searchParams.set('rate', rate); else url.searchParams.delete('rate');
-    if (tenure && tenure !== '30') url.searchParams.set('tenure', tenure); else url.searchParams.delete('tenure');
-    if (unit && unit !== 'years') url.searchParams.set('unit', unit); else url.searchParams.delete('unit');
-    if (extra) url.searchParams.set('extra', extra); else url.searchParams.delete('extra');
-    if (cur && cur !== 'USD') url.searchParams.set('cur', cur); else url.searchParams.delete('cur');
-    window.history.replaceState({}, '', url.toString());
+    ToolsBuilt.resultLink.update();
   }
 
   function clearError() {

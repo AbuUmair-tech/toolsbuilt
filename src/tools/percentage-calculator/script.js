@@ -106,6 +106,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (actionCopyBtn) {
       actionCopyBtn.setAttribute('data-copy-text', lastResultText);
     }
+
+    ToolsBuilt.resultLink.update(document.getElementById(`${activeMode}-form`));
   }
 
   // Mode 1: What is X% of Y?
@@ -321,6 +323,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Initial calculation
-  calculateActiveMode();
+  // Result links open the matching mode; otherwise show the default calculation
+  const filled = ToolsBuilt.resultLink.restore(els => {
+    switchMode(els[0].closest('.calculator-mode-form').id.replace('-form', ''));
+  });
+  if (!filled.length) calculateActiveMode();
 });

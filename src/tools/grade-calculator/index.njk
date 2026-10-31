@@ -71,6 +71,17 @@ workedExamples:
       - "Points needed: 70.0 − 72.5 = −2.5 points"
       - "Because current points exceed target, required final score is ≤ 0%"
     result: "0.0% needed (Passing grade already locked in)"
+commonMistakes:
+  - title: "Simple Averaging Instead of Weighting"
+    description: "Taking a simple mathematical average of test scores ignores that a 20-minute quiz and a comprehensive midterm exam carry vastly different weight percentages in your syllabus."
+  - title: "Failing to Normalize Incomplete Semesters"
+    description: "If only 50% of coursework is completed, having 42 total accumulated points does not mean you have a 42% (F). You must divide by 0.50, revealing an 84% (B)."
+  - title: "Assuming 100% Weight Sum Before Finals"
+    description: "Your completed assignments will rarely sum to 100% until the final exam is graded. Always account for remaining final exam weight when calculating current standing."
+formula:
+  title: "Weighted Grade Formula"
+  expression: "Weighted Grade = Σ(Score × Weight) ÷ Σ(Weight)"
+  explanation: "Multiply each score by its syllabus percentage weight, sum the points, and divide by the total completed weight. To find the grade needed on the final exam: Required Final = [Target Grade × 100 − Current Weighted Points] ÷ Final Weight."
 ---
 
     <!-- Tool Form Container -->
@@ -206,11 +217,7 @@ workedExamples:
       </div>
     </section>
 
-    <!-- AEO Quick Answer Box -->
-    <div class="info-callout my-8">
-      <h3 class="content-item-title">Quick Answer</h3>
-      <p class="mb-0">To calculate a weighted class grade: multiply each score by its syllabus percentage weight, sum the points, and divide by total completed weight (<code>Weighted Grade = Σ(Score × Weight) ÷ Σ(Weight)</code>). To find the grade needed on the final exam: <code>Required Final = [Target Grade × 100 - Current Weighted Points] ÷ Final Weight</code>.</p>
-    </div>
+    <!-- tool-end -->
 
     <!-- When to Use Section -->
     <section class="content-section" aria-labelledby="how-to-use-heading">
@@ -223,56 +230,3 @@ workedExamples:
       </ul>
     </section>
 
-    <!-- Worked Examples Section -->
-    <section class="content-section" aria-labelledby="article-heading">
-      <h2 id="article-heading">Worked Grade Calculation Examples &amp; Formula</h2>
-      
-      <div class="content-grid">
-        <div class="content-box">
-          <h3 class="content-box-title">Example 1: Weighted Course Average</h3>
-          <p class="content-note"><strong>Homework:</strong> 95% (20% wt) | <strong>Midterm:</strong> 80% (30% wt)</p>
-          <ul class="content-list content-list-sm">
-            <li>Homework points: 95 × 0.20 = 19.0</li>
-            <li>Midterm points: 80 × 0.30 = 24.0</li>
-            <li>Total points: 19.0 + 24.0 = 43.0</li>
-            <li>Completed weight: 20% + 30% = 50%</li>
-            <li>Current Grade: 43.0 ÷ 0.50 = <strong>86.00% (B)</strong></li>
-          </ul>
-        </div>
-
-        <div class="content-box">
-          <h3 class="content-box-title">Example 2: Final Exam Target for 90%</h3>
-          <p class="content-note"><strong>Current Points:</strong> 60 out of 70% | <strong>Final Weight:</strong> 30%</p>
-          <ul class="content-list content-list-sm">
-            <li>Desired target: 90.0 points total</li>
-            <li>Points needed: 90.0 - 60.0 = 30.0 points</li>
-            <li>Final exam weight: 30% (0.30)</li>
-            <li>Required score: 30.0 ÷ 0.30 = <strong>100.00% on Final</strong></li>
-          </ul>
-        </div>
-
-        <div class="content-box">
-          <h3 class="content-box-title">Example 3: Target Already Clinched</h3>
-          <p class="content-note"><strong>Current Points:</strong> 72 out of 80% | <strong>Target:</strong> 70% (C)</p>
-          <ul class="content-list content-list-sm">
-            <li>Accumulated points: 72 points</li>
-            <li>Passing target: 70 points</li>
-            <li>Points needed from final: 70 - 72 = -2.0</li>
-            <li>Status: <strong>Target already guaranteed (0% needed)</strong></li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <!-- Common Mistakes Section -->
-    <section class="content-section" aria-labelledby="mistakes-heading">
-      <h2 id="mistakes-heading">Common Grade Calculation Pitfalls</h2>
-      <ul class="content-list">
-        <li><strong>Simple Averaging Instead of Weighting:</strong> Taking a simple mathematical average of test scores ignores that a 20-minute quiz and a comprehensive midterm exam carry vastly different weight percentages in your syllabus.</li>
-        <li><strong>Failing to Normalize Incomplete Semesters:</strong> If only 50% of coursework is completed, having 42 total accumulated points does not mean you have a 42% (F). You must divide by 0.50, revealing an 84% (B).</li>
-        <li><strong>Assuming 100% Weight Sum Before Finals:</strong> Your completed assignments will rarely sum to 100% until the final exam is graded. Always account for remaining final exam weight when calculating current standing.</li>
-      </ul>
-    </section>
-
-    <script src="./logic.js"></script>
-    <script src="./script.js"></script>

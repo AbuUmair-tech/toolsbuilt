@@ -34,21 +34,8 @@ document.addEventListener('DOMContentLoaded', () => {
   let lastResultSummary = '';
 
   function initInputs() {
-    const params = new URLSearchParams(window.location.search);
-    const urlP = params.get('p');
-    const urlR = params.get('r');
-    const urlY = params.get('y');
-    const urlF = params.get('f');
-    const urlPmt = params.get('pmt');
-
-    if (urlP) {
-      principalInput.value = urlP;
-      if (urlR) rateInput.value = urlR;
-      if (urlY) yearsInput.value = urlY;
-      if (urlF) freqSelect.value = urlF;
-      if (urlPmt) contributionInput.value = urlPmt;
-      return;
-    }
+    // Result links (?p=&r=&y=&f=&pmt=) take priority over saved state
+    if (ToolsBuilt.resultLink.restore().length) return;
 
     try {
       const saved = localStorage.getItem(STORAGE_KEY);
@@ -76,13 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
       localStorage.setItem(STORAGE_KEY, JSON.stringify({ p, r, y, f, pmt }));
     } catch (e) {}
 
-    const url = new URL(window.location.href);
-    if (p && p !== '10000') url.searchParams.set('p', p); else url.searchParams.delete('p');
-    if (r && r !== '7') url.searchParams.set('r', r); else url.searchParams.delete('r');
-    if (y && y !== '10') url.searchParams.set('y', y); else url.searchParams.delete('y');
-    if (f && f !== 'annual') url.searchParams.set('f', f); else url.searchParams.delete('f');
-    if (pmt) url.searchParams.set('pmt', pmt); else url.searchParams.delete('pmt');
-    window.history.replaceState({}, '', url.toString());
+    ToolsBuilt.resultLink.update();
   }
 
   function clearError() {

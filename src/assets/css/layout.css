@@ -166,7 +166,8 @@
 
   @media (min-width: 1100px) {
     .tool-page-grid {
-      grid-template-columns: 1fr 260px;
+      grid-template-columns: minmax(0, var(--container-narrow)) 200px;
+      justify-content: space-between;
       gap: var(--space-12);
     }
   }
@@ -177,8 +178,9 @@
     max-width: var(--container-narrow);
   }
 
+  /* Sections carry the vertical rhythm; headings only space themselves from their text */
   .tool-main-col h2 {
-    margin-top: var(--space-12);
+    margin-top: 0;
     margin-bottom: var(--space-4);
   }
 
@@ -197,9 +199,8 @@
   .tool-privacy-note {
     font-size: var(--font-size-sm);
     color: var(--text-tertiary);
-    text-align: center;
-    margin-top: var(--space-3);
-    margin-bottom: var(--space-6);
+    margin-top: var(--space-4);
+    margin-bottom: 0;
   }
 
   .tool-workspace {
@@ -209,7 +210,7 @@
 
   .tool-toc-aside {
     display: none;
-    width: 260px;
+    width: 200px;
     flex-shrink: 0;
   }
 
@@ -220,7 +221,7 @@
 
     .tool-toc-sticky {
       position: sticky;
-      top: calc(var(--header-height, 60px) + 16px);
+      top: calc(var(--header-height, 64px) + var(--space-6));
       align-self: start;
       max-height: calc(100vh - var(--header-height, 60px) - 32px);
       overflow-y: auto;

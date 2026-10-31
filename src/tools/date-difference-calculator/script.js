@@ -34,17 +34,8 @@ document.addEventListener('DOMContentLoaded', () => {
   ].join('-');
 
   function initInputs() {
-    const params = new URLSearchParams(window.location.search);
-    const urlStart = params.get('start');
-    const urlEnd = params.get('end');
-    const urlInc = params.get('inc');
-
-    if (urlStart && urlEnd) {
-      startDateInput.value = urlStart;
-      endDateInput.value = urlEnd;
-      includeEndCheckbox.checked = (urlInc === '1' || urlInc === 'true');
-      return;
-    }
+    // Result links (?from=&to=&inc=) take priority over saved state
+    if (ToolsBuilt.resultLink.restore().length) return;
 
     try {
       const saved = localStorage.getItem(STORAGE_KEY);
@@ -66,23 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
       localStorage.setItem(STORAGE_KEY, JSON.stringify({ start, end, inc }));
     } catch (e) {}
 
-    const url = new URL(window.location.href);
-    if (start && start !== defaultStart) {
-      url.searchParams.set('start', start);
-    } else {
-      url.searchParams.delete('start');
-    }
-    if (end && end !== defaultEnd) {
-      url.searchParams.set('end', end);
-    } else {
-      url.searchParams.delete('end');
-    }
-    if (inc) {
-      url.searchParams.set('inc', '1');
-    } else {
-      url.searchParams.delete('inc');
-    }
-    window.history.replaceState({}, '', url.toString());
+    ToolsBuilt.resultLink.update();
   }
 
   function clearError() {
