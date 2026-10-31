@@ -24,7 +24,8 @@ const PAGES = [
   { name: 'percentage-change-calculator', path: '/tools/percentage-change-calculator/' },
   { name: 'tools-directory', path: '/tools/' },
   { name: 'loan-emi-calculator', path: '/tools/loan-emi-calculator/' },
-  { name: 'grade-calculator', path: '/tools/grade-calculator/' }
+  { name: 'grade-calculator', path: '/tools/grade-calculator/' },
+  { name: 'pakistan-salary-tax-calculator', path: '/tools/pakistan-salary-tax-calculator/?salary=250000&period=monthly' }
 ];
 const ONLY = process.argv[4] ? process.argv[4].split(',') : null;
 const VIEWPORTS = [

@@ -92,7 +92,8 @@ window.TOOLS_DATA = [
     "related": [
       "compound-interest-calculator",
       "sip-calculator",
-      "discount-calculator"
+      "discount-calculator",
+      "pakistan-salary-tax-calculator"
     ]
   },
   {
@@ -182,7 +183,8 @@ window.TOOLS_DATA = [
     "related": [
       "loan-emi-calculator",
       "sip-calculator",
-      "percentage-change-calculator"
+      "percentage-change-calculator",
+      "pakistan-salary-tax-calculator"
     ]
   },
   {
@@ -197,7 +199,8 @@ window.TOOLS_DATA = [
     "related": [
       "compound-interest-calculator",
       "loan-emi-calculator",
-      "percentage-calculator"
+      "percentage-calculator",
+      "pakistan-salary-tax-calculator"
     ]
   },
   {
@@ -349,6 +352,22 @@ window.TOOLS_DATA = [
       "password-generator",
       "uuid-generator",
       "base64-encoder-decoder"
+    ]
+  },
+  {
+    "id": "pakistan-salary-tax-calculator",
+    "name": "Pakistan Salary Tax Calculator 2026-27",
+    "url": "/tools/pakistan-salary-tax-calculator/",
+    "icon": "receipt",
+    "description": "Calculate income tax on a salary in Pakistan for 2026-27 with the new FBR slabs: monthly tax, take-home pay, your slab, and savings vs 2025-26.",
+    "category": "Math & Finance Tools",
+    "categoryId": "math-finance",
+    "popular": false,
+    "related": [
+      "loan-emi-calculator",
+      "percentage-calculator",
+      "sip-calculator",
+      "compound-interest-calculator"
     ]
   }
 ];

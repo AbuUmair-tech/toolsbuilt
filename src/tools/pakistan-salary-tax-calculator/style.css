@@ -1,0 +1,124 @@
+/* Pakistan Salary Tax Calculator */
+
+/* Monthly / Annual toggle: radio inputs styled as a segmented control */
+.period-toggle {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+
+.period-toggle legend {
+  margin-bottom: var(--space-2);
+  padding: 0;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--text-primary);
+}
+
+.period-options {
+  display: flex;
+  width: 100%;
+}
+
+.period-option {
+  position: relative;
+  flex: 1 1 0;
+  display: flex;
+}
+
+.period-option input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+}
+
+.period-option span {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 36px;
+  padding: 0 var(--space-3);
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: var(--transition-colors);
+}
+
+.period-option input:checked + span {
+  background-color: var(--surface-card);
+  border-color: var(--border-subtle);
+  color: var(--text-primary);
+}
+
+.period-option input:focus-visible + span {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 1px;
+}
+
+.slab-range {
+  margin-top: var(--space-1);
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+}
+
+.salary-comparison {
+  margin: 0 0 var(--space-4);
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+}
+
+.salary-comparison:empty {
+  display: none;
+}
+
+.formula-box {
+  margin-top: var(--space-6);
+  font-size: var(--font-size-sm);
+  color: var(--text-primary);
+}
+
+/* Slab table with the visitor's row highlighted */
+.slab-table-block {
+  margin-top: var(--space-8);
+}
+
+.slab-table-title {
+  font-size: var(--font-size-md);
+}
+
+.slab-table td:first-child {
+  white-space: nowrap;
+}
+
+.slab-table tr.is-current td {
+  background-color: var(--accent-subtle);
+  color: var(--text-primary);
+  font-weight: var(--font-weight-medium);
+}
+
+.slab-you {
+  display: none;
+  color: var(--accent-primary);
+}
+
+.slab-table tr.is-current .slab-you {
+  display: inline;
+}
+
+.slab-table-note {
+  margin: var(--space-2) 0 0;
+  font-size: var(--font-size-sm);
+  color: var(--text-tertiary);
+}
+
+@media (max-width: 599px) {
+  .slab-table td:first-child {
+    white-space: normal;
+  }
+}

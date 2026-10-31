@@ -77,6 +77,9 @@
 
     // Extract human-readable text from the result
     function getResultText() {
+      // 0. A full summary the tool script provides (data-copy-text on the bar's Copy button)
+      if (copyBtn && copyBtn.dataset.copyText) return copyBtn.dataset.copyText;
+
       // 1. Check custom data-result-source element
       const customSource = document.querySelector('[data-result-source]');
       if (customSource) {

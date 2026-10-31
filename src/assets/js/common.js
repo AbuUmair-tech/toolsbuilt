@@ -83,12 +83,17 @@ ToolsBuilt.resultLink = (function() {
 
   function readValue(el) {
     if (el.type === 'checkbox') return el.checked ? '1' : '';
+    if (el.type === 'radio') return el.checked ? el.value : '';
     return (el.value || '').trim();
   }
 
   function writeValue(el, value) {
     if (el.type === 'checkbox') {
       el.checked = value === '1' || value === 'true';
+    } else if (el.type === 'radio') {
+      // Radios in a group share one data-param; only the matching option counts as filled
+      el.checked = el.value === value;
+      return el.checked;
     } else if (el.tagName === 'SELECT' && !Array.from(el.options).some(o => o.value === value)) {
       return false;
     } else {

@@ -1090,6 +1090,64 @@ console.log('\n--- Seeded Property-Based Fuzz Testing (500 iterations) ---');
   assert(true, 'Compound Interest Fuzz: 100 random compound scenarios satisfied bounds and APY');
 }
 
+// Pakistan Salary Tax Calculator Logic (Finance Act 2026 slabs)
+const pkTaxLogic = require(path.join(ROOT, 'src/tools/pakistan-salary-tax-calculator/logic.js'));
+{
+  const near = (a, b) => Math.abs(a - b) < 0.005;
+  const annual = (income, year) => pkTaxLogic.calculateAnnualTax(income, year);
+
+  assert(pkTaxLogic.TAX_YEAR === '2026-27', 'PkTax: default TAX_YEAR is 2026-27');
+
+  // Required 2026-27 cases (annual income -> annual tax)
+  [[600000, 0], [1200000, 6000], [2400000, 156000], [4100000, 541000], [8000000, 1774000], [12000000, 3174000]]
+    .forEach(([income, tax]) => {
+      const r = annual(income, '2026-27');
+      assert(near(r.annualTax, tax), `PkTax 2026-27: Rs ${income} -> Rs ${tax} (got ${r.annualTax})`);
+    });
+  assert(annual(12000000, '2026-27').surcharge === 0, 'PkTax 2026-27: no surcharge above Rs 10M for salaried individuals');
+
+  const m100k = pkTaxLogic.calculateSalaryTax(100000, 'monthly', '2026-27');
+  assert(near(m100k.annualTax, 6000) && near(m100k.monthlyTax, 500), `PkTax 2026-27: monthly Rs 100,000 -> monthly tax Rs 500 (got ${m100k.monthlyTax})`);
+
+  // Required 2025-26 comparison cases
+  assert(near(annual(2400000, '2025-26').annualTax, 162000), 'PkTax 2025-26: Rs 2,400,000 -> Rs 162,000');
+  const r12m = annual(12000000, '2025-26');
+  assert(near(r12m.baseTax, 3381000) && near(r12m.surcharge, 304290) && near(r12m.annualTax, 3685290),
+    `PkTax 2025-26: Rs 12,000,000 -> Rs 3,381,000 + 9% surcharge = Rs 3,685,290 (got ${r12m.annualTax})`);
+  assert(annual(10000000, '2025-26').surcharge === 0, 'PkTax 2025-26: no surcharge at exactly Rs 10,000,000');
+
+  // Page worked examples (monthly salaries)
+  const m250k = pkTaxLogic.calculateSalaryTax(250000, 'monthly', '2026-27');
+  assert(near(m250k.monthlyTax, 23000) && near(m250k.monthlyTakeHome, 227000) && near(m250k.comparison.monthlySaving, 2000),
+    'PkTax: monthly Rs 250,000 -> tax Rs 23,000, take-home Rs 227,000, saves Rs 2,000 vs 2025-26');
+  const m500k = pkTaxLogic.calculateSalaryTax(500000, 'monthly', '2026-27');
+  assert(near(m500k.monthlyTax, 92000) && near(m500k.monthlyTakeHome, 408000) && near(m500k.comparison.monthlySaving, 14750),
+    'PkTax: monthly Rs 500,000 -> tax Rs 92,000, take-home Rs 408,000, saves Rs 14,750 vs 2025-26');
+  assert(near(m100k.comparison.monthlySaving, 0), 'PkTax: monthly Rs 100,000 -> same tax in both years');
+  assert(m500k.slabIndex === 6 && near(m500k.effectiveRate, 18.4), 'PkTax: Rs 6,000,000 a year is in the 32% slab, effective rate 18.4%');
+
+  // Monthly and annual input give the same result
+  const a1 = pkTaxLogic.calculateSalaryTax(3000000, 'annual', '2026-27');
+  assert(near(a1.annualTax, m250k.annualTax), 'PkTax: Rs 3,000,000 annual equals Rs 250,000 monthly');
+
+  // Each table is continuous: a slab's fixed amount equals the full tax of the slab below
+  Object.entries(pkTaxLogic.TAX_TABLES).forEach(([year, table]) => {
+    table.slabs.forEach((slab, i) => {
+      if (i === 0) return;
+      const prev = table.slabs[i - 1];
+      assert(prev.upTo === slab.over && near(prev.fixed + prev.rate * (prev.upTo - prev.over), slab.fixed),
+        `PkTax ${year}: slab ${i + 1} fixed Rs ${slab.fixed} continues from slab ${i}`);
+    });
+  });
+
+  assert(pkTaxLogic.formatPkr(1234567) === 'Rs 1,234,567', 'PkTax: formatPkr(1234567) = "Rs 1,234,567"');
+  assert(pkTaxLogic.formatPkr(0) === 'Rs 0', 'PkTax: formatPkr(0) = "Rs 0"');
+
+  let threw = false;
+  try { pkTaxLogic.calculateSalaryTax(-1, 'monthly'); } catch (e) { threw = true; }
+  assert(threw, 'PkTax: negative salary throws a clear error');
+}
+
 console.log(`\nLogic Tests Summary: ${passed} passed, ${failures} failed.`);
 if (failures > 0) {
   process.exit(1);
