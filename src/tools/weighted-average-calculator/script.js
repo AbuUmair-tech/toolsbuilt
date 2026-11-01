@@ -5,6 +5,7 @@
  */
 document.addEventListener('DOMContentLoaded', () => {
   const logic = window.WeightedAverageLogic;
+  const T = ToolsBuilt.scope('weighted-average-calculator');
   const form = document.getElementById('calculator-form');
   const rowsBox = document.getElementById('wavg-rows');
   const template = document.getElementById('row-template');
@@ -21,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const stepsList = document.getElementById('result-steps');
 
   const MAX_UI_ROWS = 20;
-  const DEFAULT_ROWS = [['Assignments', '90', '30'], ['Midterm', '80', '50'], ['Quizzes', '70', '20']];
+  const DEFAULT_ROWS = [[T('defaults.assignments'), '90', '30'], [T('defaults.midterm'), '80', '50'], [T('defaults.quizzes'), '70', '20']];
   let debounceTimer = null;
   let rowSeq = 0;
 
@@ -35,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
       row.querySelector('.row-name').dataset.param = `n${n}`;
       row.querySelector('.row-value').dataset.param = `v${n}`;
       row.querySelector('.row-weight').dataset.param = `w${n}`;
-      row.querySelector('.wavg-remove').setAttribute('aria-label', `Remove row ${n}`);
+      row.querySelector('.wavg-remove').setAttribute('aria-label', T('rows.remove', { n }));
       row.querySelector('.wavg-remove').disabled = rows().length === 1;
     });
     addBtn.disabled = rows().length >= MAX_UI_ROWS;
@@ -69,7 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function syncWeightLabels() {
-    const label = weightType() === 'percent' ? 'Weight (%)' : 'Weight';
+    const label = weightType() === 'percent' ? T('rows.weightPercent') : T('rows.weight');
     weightHead.textContent = label;
     rowsBox.querySelectorAll('.wavg-weight-label').forEach(l => { l.textContent = label; });
   }
@@ -106,11 +107,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const f = (n) => logic.fmt(n, 4);
     const unit = res.weightType === 'percent' ? '%' : '';
-    headerText.textContent = `Weighted average of ${res.rows.length} value${res.rows.length === 1 ? '' : 's'}`;
+    headerText.textContent = T(res.rows.length === 1 ? 'result.header.one' : 'result.header.other', { count: res.rows.length });
     primaryText.textContent = f(res.average);
     noteText.textContent = res.normalised
-      ? `Your percentage weights add up to ${f(res.totalWeight)}%, not 100%, so they were normalised: each weight counts as its share of ${f(res.totalWeight)}.`
-      : `Total weight: ${f(res.totalWeight)}${unit}.`;
+      ? T('result.normalised', { total: f(res.totalWeight) })
+      : T('result.totalWeight', { total: `${f(res.totalWeight)}${unit}` });
     noteText.hidden = false;
 
     contribBody.replaceChildren(...res.rows.map(r => {
@@ -131,7 +132,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const barCopy = document.getElementById('action-copy-btn');
     if (barCopy) {
-      barCopy.dataset.copyText = res.rows.map(r => `${r.label}: ${f(r.value)} × ${f(r.weight)}${unit}`).join('\n') + `\nWeighted average: ${f(res.average)}`;
+      barCopy.dataset.copyText = res.rows.map(r => T('copy.row', { label: r.label, value: f(r.value), weight: `${f(r.weight)}${unit}` })).join('\n') + '\n' + T('copy.average', { average: f(res.average) });
     }
     resultBox.classList.add('is-visible');
     ToolsBuilt.resultLink.update();

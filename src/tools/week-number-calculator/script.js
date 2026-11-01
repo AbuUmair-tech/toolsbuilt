@@ -5,6 +5,7 @@
  */
 document.addEventListener('DOMContentLoaded', () => {
   const logic = window.WeekNumberLogic;
+  const T = ToolsBuilt.scope('week-number-calculator');
   const dateForm = document.getElementById('date-form');
   const dateInput = document.getElementById('week-date');
   const todayBtn = document.getElementById('today-btn');
@@ -31,11 +32,11 @@ document.addEventListener('DOMContentLoaded', () => {
     return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
   }
 
-  // English date in the visitor's regional order, without shifting the day
+  // Date in the page language (English pages: the visitor's regional order), without shifting the day
   function niceDate(iso, withWeekday) {
     const [y, m, d] = iso.split('-').map(Number);
     try {
-      const locale = /^en\b/i.test(navigator.language || '') ? navigator.language : 'en-US';
+      const locale = ToolsBuilt.pageLocale(/^en\b/i.test(navigator.language || '') ? navigator.language : 'en-US');
       return new Intl.DateTimeFormat(locale, {
         weekday: withWeekday ? 'short' : undefined, day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC'
       }).format(new Date(Date.UTC(y, m - 1, d)));
@@ -83,9 +84,10 @@ document.addEventListener('DOMContentLoaded', () => {
   function renderToday() {
     const info = logic.weekInfo(todayIso());
     if (info.error) return;
-    document.getElementById('today-week').textContent = `Week ${info.isoWeek}`;
-    document.getElementById('today-range').textContent =
-      `${info.isoLabel} · ${niceDate(info.weekStart, true)} – ${niceDate(info.weekEnd, true)} · today is ${info.weekday} (day ${info.isoWeekday})`;
+    document.getElementById('today-week').textContent = T('today.week', { week: info.isoWeek });
+    document.getElementById('today-range').textContent = T('today.range', {
+      label: info.isoLabel, start: niceDate(info.weekStart, true), end: niceDate(info.weekEnd, true), weekday: info.weekday, day: info.isoWeekday
+    });
   }
 
   // ---- Date -> week -----------------------------------------------------
@@ -93,7 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
     clearError(errorBox, [dateInput]);
     if (!dateInput.value) {
       resultBox.classList.remove('is-visible');
-      showError(errorBox, 'Pick a date to find its week number.', dateInput);
+      showError(errorBox, T('errors.pickDate'), dateInput);
       return false;
     }
     const info = logic.weekInfo(dateInput.value);
@@ -103,22 +105,22 @@ document.addEventListener('DOMContentLoaded', () => {
       return false;
     }
 
-    headerText.textContent = `${niceDate(info.date, true)} is in ISO week ${info.isoWeek}`;
+    headerText.textContent = T('result.header', { date: niceDate(info.date, true), week: info.isoWeek });
     primaryText.textContent = info.isoLabel;
     noteText.textContent = info.weekYearDiffers
-      ? `This date is in ${info.date.slice(0, 4)}, but its week belongs to ISO year ${info.isoWeekYear} because that week's Thursday falls in ${info.isoWeekYear}.`
+      ? T('result.weekYearDiffers', { year: info.date.slice(0, 4), weekYear: info.isoWeekYear })
       : '';
     noteText.hidden = !info.weekYearDiffers;
 
     renderStats([
-      ['Week (Mon – Sun)', `${niceDate(info.weekStart)} – ${niceDate(info.weekEnd)}`],
-      ['ISO week date', info.isoFullLabel],
-      ['ISO week-year', `${info.isoWeekYear} (${info.weeksInIsoYear} weeks)`],
-      ['Weekday', `${info.weekday} (ISO day ${info.isoWeekday})`],
-      ['US-style week (Sun start, week 1 has 1 Jan)', `Week ${info.usWeek} of ${info.date.slice(0, 4)}`],
-      ['Day of year', `${info.dayOfYear} of ${info.daysInYear}`]
+      [T('stats.week'), T('stats.weekValue', { start: niceDate(info.weekStart), end: niceDate(info.weekEnd) })],
+      [T('stats.isoWeekDate'), info.isoFullLabel],
+      [T('stats.isoWeekYear'), T('stats.isoWeekYearValue', { year: info.isoWeekYear, weeks: info.weeksInIsoYear })],
+      [T('stats.weekday'), T('stats.weekdayValue', { weekday: info.weekday, day: info.isoWeekday })],
+      [T('stats.usWeek'), T('stats.usWeekValue', { week: info.usWeek, year: info.date.slice(0, 4) })],
+      [T('stats.dayOfYear'), T('stats.dayOfYearValue', { day: info.dayOfYear, total: info.daysInYear })]
     ]);
-    setCopyText(`${info.date} is in ISO week ${info.isoLabel} (${info.weekStart} to ${info.weekEnd}). US-style week: ${info.usWeek}.`);
+    setCopyText(T('copy.result', { date: info.date, label: info.isoLabel, start: info.weekStart, end: info.weekEnd, usWeek: info.usWeek }));
     resultBox.classList.add('is-visible');
     ToolsBuilt.resultLink.update();
     return true;
@@ -131,26 +133,28 @@ document.addEventListener('DOMContentLoaded', () => {
     const week = weekInput.value.trim();
     if (!year || !/^\d{1,4}$/.test(year)) {
       rangeResult.hidden = true;
-      showError(rangeError, 'Enter a four-digit year, for example 2026.', yearInput);
+      showError(rangeError, T('errors.year'), yearInput);
       return;
     }
     if (!week || !/^\d{1,2}$/.test(week)) {
       rangeResult.hidden = true;
-      showError(rangeError, 'Enter a week number from 1 to 53.', weekInput);
+      showError(rangeError, T('errors.week'), weekInput);
       return;
     }
     const res = logic.isoWeekRange(Number(year), Number(week));
     if (res.error) {
       rangeResult.hidden = true;
-      showError(rangeError, res.error, /weeks/.test(res.error) ? weekInput : yearInput);
+      showError(rangeError, res.error, res.field === 'week' ? weekInput : yearInput);
       return;
     }
-    rangeSummary.textContent = `${res.label}: ${niceDate(res.start, true)} to ${niceDate(res.end, true)} · ${res.year} has ${res.weeksInYear} ISO weeks`;
-    const names = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-    rangeDays.replaceChildren(...res.days.map((iso, i) => {
+    rangeSummary.textContent = T('range.summary', {
+      label: res.label, start: niceDate(res.start, true), end: niceDate(res.end, true), year: res.year, weeks: res.weeksInYear
+    });
+    rangeDays.replaceChildren(...res.days.map((iso) => {
       const li = document.createElement('li');
       const strong = document.createElement('strong');
-      strong.textContent = names[i];
+      // Monday ... Sunday in the page language
+      strong.textContent = logic.WEEKDAYS[new Date(`${iso}T00:00:00Z`).getUTCDay()];
       const span = document.createElement('span');
       span.textContent = niceDate(iso);
       li.append(strong, span);

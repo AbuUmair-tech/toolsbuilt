@@ -1,4 +1,4 @@
-{% import "partials/cards.njk" as cards %}
+{% import "partials/cards.njk" as cards with context %}
 {% set currentTool = tools | findTool(toolSlug or slug) %}
 {% set currentCategory = categories | findCategory(currentTool.category) %}
 {% set relTools = currentTool | getCuratedRelatedTools(tools, 4) %}
@@ -6,11 +6,11 @@
 <section class="related-tools-section" aria-labelledby="related-tools-heading">
   <div class="section-head">
     <div>
-      <p class="section-label">More tools</p>
-      <h2 id="related-tools-heading" class="section-title">Tools people also use</h2>
+      <p class="section-label">{{ 'relatedTools.content.tool.p1' | t }}</p>
+      <h2 id="related-tools-heading" class="section-title">{{ 'relatedTools.text.related-tools-heading' | t }}</h2>
     </div>
     {% if currentCategory %}
-    <a href="{{ currentCategory.slug | categoryUrl }}" class="section-link view-all-cat-link">View all {{ currentCategory.name }} {{ cards.arrow("") }}</a>
+    <a href="{{ currentCategory.slug | categoryUrl }}" class="section-link view-all-cat-link">{{ 'relatedTools.viewAll' | t({ name: currentCategory.name }) }} {{ cards.arrow("") }}</a>
     {% endif %}
   </div>
 

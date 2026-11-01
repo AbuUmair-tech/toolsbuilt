@@ -27,14 +27,14 @@
   <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#090a0f">
 
   <link rel="manifest" href="/manifest.webmanifest">
-  <link rel="alternate" type="application/atom+xml" title="ToolsBuilt - New &amp; Updated Tools" href="/feed.xml">
+  <link rel="alternate" type="application/atom+xml" title="{{ 'base.title.tool-link1' | t }}" href="/feed.xml">
   <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png">
   
   <!-- Open Graph & Social Cards -->
-  {% set computedOgImage = ogImage %}
+  {% set computedOgImage = ogImage %}{% set ogDir = '' if lang == 'en' else (currentLanguage.prefix + '/') %}
   {% if not computedOgImage %}
     {% if toolSlug %}
-      {% set computedOgImage = "https://toolsbuilt.com/assets/og/" + toolSlug + ".png" %}
+      {% set computedOgImage = "https://toolsbuilt.com/assets/og/" + ogDir + toolSlug + ".png" %}
     {% elif category and category.slug %}
       {% set computedOgImage = "https://toolsbuilt.com/assets/og/category-" + category.slug + ".png" %}
     {% elif page.url == "/tools/" %}
@@ -82,7 +82,8 @@
     })();
   </script>
 
-  {% block jsonLd %}{% endblock %}
+  {% if lang != 'en' %}<script>window.I18N = {{ [toolSlug, toolScript | toolDir, toolLogic | toolDir, 'salary-tax-calculator' if taxEngine] | clientStrings }};</script>
+  {% endif %}{% block jsonLd %}{% endblock %}
 
   <!-- Google Analytics & Cookie Consent initialization -->
   <script>
@@ -112,7 +113,7 @@
   </script>
 </head>
 <body{% if toolSlug or slug %} data-tool-id="{{ toolSlug or slug }}"{% endif %}>
-  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <a href="#main-content" class="skip-link">{{ 'base.content.tool.a1' | t }}</a>
 
   {% include "partials/header.njk" %}
   {%- include "partials/language-banner.njk" %}
@@ -122,14 +123,14 @@
   {% include "partials/footer.njk" %}
 
   <!-- Lightweight Privacy Cookie Consent Banner -->
-  <aside id="cookie-consent-banner" class="cookie-banner" role="region" aria-label="Cookie Consent" hidden>
+  <aside id="cookie-consent-banner" class="cookie-banner" role="region" aria-label="{{ 'base.ariaLabel.cookie-consent-banner' | t }}" hidden>
     <div class="cookie-banner-content">
       <div class="cookie-banner-text">
-        We respect your privacy. Our tools run completely client-side in your browser. We only use cookies for aggregated traffic analytics with your explicit consent. Read our <a href="/privacy-policy/">Privacy Policy</a>.
+        {{ 'base.content.tool.div1' | t }}
       </div>
       <div class="cookie-banner-actions">
-        <button type="button" class="btn btn-sm btn-secondary" id="cookie-reject-btn">Decline</button>
-        <button type="button" class="btn btn-sm btn-primary" id="cookie-accept-btn">Accept</button>
+        <button type="button" class="btn btn-sm btn-secondary" id="cookie-reject-btn">{{ 'base.text.cookie-reject-btn' | t }}</button>
+        <button type="button" class="btn btn-sm btn-primary" id="cookie-accept-btn">{{ 'base.text.cookie-accept-btn' | t }}</button>
       </div>
     </div>
   </aside>

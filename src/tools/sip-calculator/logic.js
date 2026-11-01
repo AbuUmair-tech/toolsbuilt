@@ -13,6 +13,12 @@
 })(typeof globalThis !== 'undefined' ? globalThis : this, function () {
   'use strict';
 
+  // Error messages come from the tool's translation data
+  const T = (typeof ToolsBuilt !== 'undefined' && ToolsBuilt.scope)
+    ? ToolsBuilt.scope('sip-calculator')
+    : require('../../../scripts/i18n-client.js').scope('sip-calculator');
+  const locale = (english) => (typeof ToolsBuilt !== 'undefined' && ToolsBuilt.pageLocale) ? ToolsBuilt.pageLocale(english) : english;
+
   /**
    * Half-up rounding to 2 decimal places
    */
@@ -26,7 +32,7 @@
    */
   function formatCurrency(amount, symbol = '$') {
     const rounded = roundCents(amount);
-    const formatted = rounded.toLocaleString('en-US', {
+    const formatted = rounded.toLocaleString(locale('en-US'), {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2
     });
@@ -52,19 +58,19 @@
     const symbol = options.currencySymbol || '$';
 
     if (isNaN(P) || P <= 0) {
-      throw new Error('Please enter a valid monthly investment greater than zero.');
+      throw new Error(T('errors.investmentMin'));
     }
     if (isNaN(R) || R < 0) {
-      throw new Error('Please enter a valid expected annual return (0% or greater).');
+      throw new Error(T('errors.returnMin'));
     }
     if (isNaN(years) || years <= 0) {
-      throw new Error('Please enter a valid investment time horizon greater than zero.');
+      throw new Error(T('errors.yearsMin'));
     }
     if (years > 50) {
-      throw new Error('Investment tenure cannot exceed 50 years.');
+      throw new Error(T('errors.yearsMax'));
     }
     if (isNaN(stepUp) || stepUp < 0 || stepUp > 100) {
-      throw new Error('Annual step-up percentage must be between 0% and 100%.');
+      throw new Error(T('errors.stepUpRange'));
     }
 
     const totalMonths = Math.round(years * 12);

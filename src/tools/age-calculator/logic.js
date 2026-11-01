@@ -12,12 +12,17 @@
 })(typeof globalThis !== 'undefined' ? globalThis : this, function () {
   'use strict';
 
-  const MONTH_NAMES = [
-    'January', 'February', 'March', 'April', 'May', 'June',
-    'July', 'August', 'September', 'October', 'November', 'December'
-  ];
-
-  const WEEKDAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  // Messages and the long date pattern come from the tool's translation data
+  const T = (typeof ToolsBuilt !== 'undefined' && ToolsBuilt.scope)
+    ? ToolsBuilt.scope('age-calculator')
+    : require('../../../scripts/i18n-client.js').scope('age-calculator');
+  // Month and weekday names come from Intl in the page language (en-US on English pages and in Node)
+  const LOCALE = (typeof ToolsBuilt !== 'undefined' && ToolsBuilt.pageLocale) ? ToolsBuilt.pageLocale('en-US') : 'en-US';
+  const MONTH_NAMES = Array.from({ length: 12 }, (_, i) =>
+    new Intl.DateTimeFormat(LOCALE, { month: 'long', timeZone: 'UTC' }).format(new Date(Date.UTC(2026, i, 1))));
+  // Sunday ... Saturday (4 to 10 January 2026)
+  const WEEKDAYS = Array.from({ length: 7 }, (_, i) =>
+    new Intl.DateTimeFormat(LOCALE, { weekday: 'long', timeZone: 'UTC' }).format(new Date(Date.UTC(2026, 0, 4 + i))));
 
   function isLeapYear(year) {
     return (year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0);
@@ -58,19 +63,19 @@
 
     const dobParts = parseDateParts(dobStr);
     if (!dobParts) {
-      throw new Error('Please enter a valid date of birth (YYYY-MM-DD).');
+      throw new Error(T('errors.invalidDob'));
     }
 
     const targetParts = parseDateParts(targetDateStr);
     if (!targetParts) {
-      throw new Error('Please enter a valid calculation date (YYYY-MM-DD).');
+      throw new Error(T('errors.invalidTarget'));
     }
 
     const dobUtc = Date.UTC(dobParts.year, dobParts.month - 1, dobParts.day);
     const targetUtc = Date.UTC(targetParts.year, targetParts.month - 1, targetParts.day);
 
     if (dobUtc > targetUtc) {
-      throw new Error('Date of birth cannot be in the future relative to the calculation date.');
+      throw new Error(T('errors.dobInFuture'));
     }
 
     // Determine effective birth month and day in target year if born Feb 29
@@ -138,7 +143,7 @@
     const daysUntilNextBday = Math.round((nextBdayUtc - targetUtc) / (1000 * 60 * 60 * 24));
     const nextBdayDateObj = new Date(nextBdayUtc);
     const weekday = WEEKDAYS[nextBdayDateObj.getUTCDay()];
-    const formattedDate = `${MONTH_NAMES[effective.m - 1]} ${effective.d}, ${nextBdayYear}`;
+    const formattedDate = T('dateLong', { month: MONTH_NAMES[effective.m - 1], day: effective.d, year: nextBdayYear });
 
     return {
       years,

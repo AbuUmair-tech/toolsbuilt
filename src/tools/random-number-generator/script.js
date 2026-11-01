@@ -5,6 +5,8 @@
  */
 document.addEventListener('DOMContentLoaded', () => {
   const logic = window.RandomNumberLogic;
+  const T = ToolsBuilt.scope('random-number-generator');
+  const locale = ToolsBuilt.pageLocale('en-US');
   const form = document.getElementById('calculator-form');
   const minInput = document.getElementById('rng-min');
   const maxInput = document.getElementById('rng-max');
@@ -56,22 +58,25 @@ document.addEventListener('DOMContentLoaded', () => {
         sort: sortBox.checked
       });
     } catch (err) {
-      return showError(err.message || 'Secure random numbers are not available in this browser.');
+      return showError(err.message || T('errors.noCrypto'));
     }
     if (res.error) return showError(res.error, FIELDS[res.field]);
 
     const single = res.count === 1;
     headerText.textContent = single
-      ? `Random ${res.decimals ? 'number' : 'whole number'} from ${res.min} to ${res.max}`
-      : `${res.count.toLocaleString('en-US')} random numbers from ${res.min} to ${res.max}`;
-    primaryText.textContent = single ? res.text[0] : `${res.count.toLocaleString('en-US')} numbers${res.unique ? ', no repeats' : ''}${res.sorted ? ', sorted' : ''}`;
+      ? T(res.decimals ? 'result.singleDecimal' : 'result.singleWhole', { min: res.min, max: res.max })
+      : T('result.multiple', { count: res.count.toLocaleString(locale), min: res.min, max: res.max });
+    const summaryKey = res.unique ? (res.sorted ? 'uniqueSorted' : 'unique') : (res.sorted ? 'sorted' : 'plain');
+    primaryText.textContent = single ? res.text[0] : T(`result.summary.${summaryKey}`, { count: res.count.toLocaleString(locale) });
     list.replaceChildren(...(single ? [] : res.text.map(t => {
       const li = document.createElement('li');
       li.textContent = t;
       return li;
     })));
-    const chance = res.possible <= 1e6 ? `1 in ${res.possible.toLocaleString('en-US')}` : `about 1 in ${res.possible.toExponential(2)}`;
-    noteText.textContent = `${res.possible.toLocaleString('en-US')} possible value${res.possible === 1 ? '' : 's'}; each draw gives every value a ${chance} chance.`;
+    const chance = res.possible <= 1e6
+      ? T('result.chanceExact', { n: res.possible.toLocaleString(locale) })
+      : T('result.chanceApprox', { n: res.possible.toExponential(2) });
+    noteText.textContent = T(res.possible === 1 ? 'result.note.one' : 'result.note.other', { possible: res.possible.toLocaleString(locale), chance });
 
     lastText = res.text.join('\n');
     const barCopy = document.getElementById('action-copy-btn');
@@ -88,7 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   copyBtn.addEventListener('click', () => {
-    if (lastText) ToolsBuilt.copy(lastText, 'Numbers copied');
+    if (lastText) ToolsBuilt.copy(lastText, T('result.copied'));
   });
 
   downloadBtn.addEventListener('click', () => {

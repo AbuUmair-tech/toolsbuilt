@@ -19,6 +19,14 @@
 })(typeof globalThis !== 'undefined' ? globalThis : this, function () {
   'use strict';
 
+  // Unit names and messages come from the tool's translation data
+  const T = (typeof ToolsBuilt !== 'undefined' && ToolsBuilt.scope)
+    ? ToolsBuilt.scope('gold-calculator')
+    : require('../../../scripts/i18n-client.js').scope('gold-calculator');
+  const locale = (english) => (typeof ToolsBuilt !== 'undefined' && ToolsBuilt.pageLocale) ? ToolsBuilt.pageLocale(english) : english;
+  // An Error that names the input it is about, so the page can mark that field
+  const fieldError = (key, field, vars) => Object.assign(new Error(T(key, vars)), { field });
+
   const GRAMS_PER_TOLA = 11.6638038;
   const MASHA_PER_TOLA = 12;
   const RATTI_PER_MASHA = 8;
@@ -27,23 +35,23 @@
 
   // Grams in one of each unit
   const WEIGHT_UNITS = {
-    tola: { label: 'Tola', grams: GRAMS_PER_TOLA },
-    gram: { label: 'Gram', grams: 1 },
-    masha: { label: 'Masha', grams: GRAMS_PER_TOLA / MASHA_PER_TOLA },
-    ratti: { label: 'Ratti', grams: GRAMS_PER_TOLA / (MASHA_PER_TOLA * RATTI_PER_MASHA) },
-    troyOunce: { label: 'Troy ounce', grams: GRAMS_PER_TROY_OUNCE },
-    taelTroy: { label: 'Tael (Hong Kong, troy)', grams: GRAMS_PER_TAEL_TROY },
-    kilogram: { label: 'Kilogram', grams: 1000 }
+    tola: { label: T('units.tola'), grams: GRAMS_PER_TOLA },
+    gram: { label: T('units.gram'), grams: 1 },
+    masha: { label: T('units.masha'), grams: GRAMS_PER_TOLA / MASHA_PER_TOLA },
+    ratti: { label: T('units.ratti'), grams: GRAMS_PER_TOLA / (MASHA_PER_TOLA * RATTI_PER_MASHA) },
+    troyOunce: { label: T('units.troyOunce'), grams: GRAMS_PER_TROY_OUNCE },
+    taelTroy: { label: T('units.taelTroy'), grams: GRAMS_PER_TAEL_TROY },
+    kilogram: { label: T('units.kilogram'), grams: 1000 }
   };
 
   // Units a rate can be quoted in
   const RATE_UNITS = {
-    tola: { label: 'per tola', grams: GRAMS_PER_TOLA },
-    '10g': { label: 'per 10 grams', grams: 10 },
-    gram: { label: 'per gram', grams: 1 },
-    troyOunce: { label: 'per troy ounce', grams: GRAMS_PER_TROY_OUNCE },
-    taelTroy: { label: 'per tael (Hong Kong, troy)', grams: GRAMS_PER_TAEL_TROY },
-    kilogram: { label: 'per kilogram', grams: 1000 }
+    tola: { label: T('rateUnits.tola'), grams: GRAMS_PER_TOLA },
+    '10g': { label: T('rateUnits.10g'), grams: 10 },
+    gram: { label: T('rateUnits.gram'), grams: 1 },
+    troyOunce: { label: T('rateUnits.troyOunce'), grams: GRAMS_PER_TROY_OUNCE },
+    taelTroy: { label: T('rateUnits.taelTroy'), grams: GRAMS_PER_TAEL_TROY },
+    kilogram: { label: T('rateUnits.kilogram'), grams: 1000 }
   };
 
   const KARATS = [24, 22, 21, 18];
@@ -55,10 +63,11 @@
     USD: { symbol: '$', label: 'USD ($)' }
   };
 
-  function toNumber(value, name) {
+  // field: rate | weight | making (error key errors.<field>Required)
+  function toNumber(value, field) {
     const n = typeof value === 'string' ? parseFloat(value.replace(/,/g, '').trim()) : Number(value);
     if (value === '' || value === null || value === undefined || !isFinite(n)) {
-      throw new Error(`Please enter ${name}.`);
+      throw fieldError(`errors.${field}Required`, field);
     }
     return n;
   }
@@ -73,7 +82,7 @@
 
   /** Convert a weight to grams */
   function toGrams(weight, unit) {
-    if (!WEIGHT_UNITS[unit]) throw new Error('Choose a weight unit from the list.');
+    if (!WEIGHT_UNITS[unit]) throw fieldError('errors.weightUnit', 'weight');
     return weight * WEIGHT_UNITS[unit].grams;
   }
 
@@ -93,18 +102,18 @@
    */
   function calculateGold(options) {
     const o = options || {};
-    const rate = toNumber(o.rate, "today's gold rate");
-    const weight = toNumber(o.weight, 'the weight');
+    const rate = toNumber(o.rate, 'rate');
+    const weight = toNumber(o.weight, 'weight');
     const rateUnit = o.rateUnit || 'tola';
     const weightUnit = o.weightUnit || 'tola';
     const rateKarat = Number(o.rateKarat || 24);
     const karat = Number(o.karat || 24);
     const makingType = o.makingType || 'none';
 
-    if (rate <= 0) throw new Error('The gold rate must be more than 0.');
-    if (weight <= 0) throw new Error('The weight must be more than 0.');
-    if (!RATE_UNITS[rateUnit]) throw new Error('Choose the weight unit the rate is quoted for.');
-    if (!KARATS.includes(rateKarat) || !KARATS.includes(karat)) throw new Error(`Choose a karat: ${KARATS.join('K, ')}K.`);
+    if (rate <= 0) throw fieldError('errors.ratePositive', 'rate');
+    if (weight <= 0) throw fieldError('errors.weightPositive', 'weight');
+    if (!RATE_UNITS[rateUnit]) throw fieldError('errors.rateUnit', 'rate');
+    if (!KARATS.includes(rateKarat) || !KARATS.includes(karat)) throw fieldError('errors.karat', null, { karats: `${KARATS.join('K, ')}K` });
 
     // Price of one gram of pure (24K) gold implied by the entered rate
     const pureRatePerGram = (rate / RATE_UNITS[rateUnit].grams) / purity(rateKarat);
@@ -115,11 +124,11 @@
     let makingCharges = 0;
     let makingValue = 0;
     if (makingType === 'percent' || makingType === 'perGram') {
-      makingValue = o.makingValue === '' || o.makingValue === undefined || o.makingValue === null ? 0 : toNumber(o.makingValue, 'the making charges');
-      if (makingValue < 0) throw new Error('Making charges cannot be negative.');
+      makingValue = o.makingValue === '' || o.makingValue === undefined || o.makingValue === null ? 0 : toNumber(o.makingValue, 'making');
+      if (makingValue < 0) throw fieldError('errors.makingNegative', 'making');
       makingCharges = makingType === 'percent' ? goldValue * (makingValue / 100) : itemGrams * makingValue;
     } else if (makingType !== 'none') {
-      throw new Error('Choose how making charges are quoted.');
+      throw fieldError('errors.makingType', 'making');
     }
 
     const karatRatePerGram = pureRatePerGram * purity(karat);
@@ -146,7 +155,7 @@
   function formatMoney(amount, currency) {
     const c = CURRENCIES[currency] || CURRENCIES.PKR;
     const value = round2(Number(amount) || 0);
-    const text = Math.abs(value).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    const text = Math.abs(value).toLocaleString(locale('en-US'), { minimumFractionDigits: 2, maximumFractionDigits: 2 });
     return `${value < 0 ? '-' : ''}${c.symbol} ${text}`;
   }
 

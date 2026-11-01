@@ -5,8 +5,8 @@
   "private": true,
   "scripts": {
     "dev": "eleventy --serve",
-    "build": "eleventy",
-    "build:prod": "SITE_ENV=production eleventy",
+    "build": "eleventy && node scripts/check-translations.js --quiet",
+    "build:prod": "SITE_ENV=production eleventy && node scripts/check-translations.js --quiet",
     "new-post": "node scripts/new-post.js",
     "indexnow": "node scripts/indexnow.js",
     "test": "node scripts/test-all.js"

@@ -1,121 +1,25 @@
 ---
 layout: layouts/tool.njk
 toolSlug: marks-percentage-calculator
-title: "Marks Percentage Calculator (Matric, Inter, Any Exam)"
-description: "Find your percentage from obtained and total marks, or subject by subject with a grand total, for matric, inter or any exam, with a typical BISE grade."
 permalink: /tools/marks-percentage-calculator/
-h1: "Marks Percentage Calculator"
 extraCss: "/tools/marks-percentage-calculator/style.css"
-quickAnswer: "Percentage of marks = obtained marks ÷ total marks × 100. For example, 870 out of 1100 is 79.09%, which is an A in typical BISE grading, and 990 out of 1200 is 82.5%, an A+. For several subjects, add up all obtained marks and all total marks first, then divide."
-formula:
-  title: "Marks Percentage Formula"
-  expression: "Percentage = (Obtained marks ÷ Total marks) × 100"
-  explanation: "Divide the marks you obtained by the maximum marks, then multiply by 100. For a full result with several subjects, use the grand totals: add every subject's obtained marks, add every subject's total marks, and divide the first sum by the second. The calculator rounds the percentage to 2 decimal places and picks the grade from the exact value."
-  variables:
-    - name: "Obtained marks"
-      description: "The marks you scored, from your result card or mark sheet."
-    - name: "Total marks"
-      description: "The maximum marks for the paper, subject or whole exam."
-workedExamples:
-  - title: "870 out of 1100"
-    inputs:
-      - "Obtained marks: 870"
-      - "Total marks: 1100"
-    steps:
-      - "Divide: 870 ÷ 1100 = 0.790909…"
-      - "Multiply by 100: 79.0909…"
-      - "Round to 2 decimals: 79.09%"
-      - "79.09% is between 70% and 79.99%, so the grade is A"
-    result: "79.09%, grade A (typical BISE grading)"
-    link: "/tools/marks-percentage-calculator/?mode=total&obtained=870&total=1100#tool"
-  - title: "990 out of 1200"
-    inputs:
-      - "Obtained marks: 990"
-      - "Total marks: 1200"
-    steps:
-      - "Divide: 990 ÷ 1200 = 0.825"
-      - "Multiply by 100: 82.5%"
-      - "82.5% is 80% or above, so the grade is A+"
-    result: "82.5%, grade A+ (typical BISE grading)"
-    link: "/tools/marks-percentage-calculator/?mode=total&obtained=990&total=1200#tool"
-  - title: "Three subjects with different totals"
-    inputs:
-      - "Subject 1: 75 out of 100 (75%)"
-      - "Subject 2: 60 out of 75 (80%)"
-      - "Subject 3: 40 out of 50 (80%)"
-    steps:
-      - "Grand total obtained: 75 + 60 + 40 = 175"
-      - "Grand total marks: 100 + 75 + 50 = 225"
-      - "Overall percentage: 175 ÷ 225 × 100 = 77.78%"
-      - "Averaging the three subject percentages would give 78.33%, which is wrong because the subjects carry different marks"
-    result: "175 / 225 = 77.78%, grade A (typical BISE grading)"
-  - title: "30 out of 100"
-    inputs:
-      - "Obtained marks: 30"
-      - "Total marks: 100"
-    steps:
-      - "Divide and multiply by 100: 30 ÷ 100 × 100 = 30%"
-      - "30% is below 33%, so the grade is F"
-    result: "30%, grade F (typical BISE grading)"
-    link: "/tools/marks-percentage-calculator/?mode=total&obtained=30&total=100#tool"
-commonMistakes:
-  - title: "Averaging subject percentages"
-    description: "When subjects have different total marks, the average of the subject percentages is not your overall percentage. Add up the obtained and total marks first: 175 out of 225 is 77.78%, while averaging 75%, 80% and 80% gives 78.33%."
-  - title: "Leaving out a subject or practical"
-    description: "Your overall percentage must include every subject and practical counted on the result card. Leaving out a weaker paper inflates the figure and will not match your official result."
-  - title: "Dividing by the wrong total"
-    description: "Use the maximum marks printed on your result card for that exam. Total marks differ between boards, years and schemes, so do not assume a number from someone else's result."
-  - title: "Rounding up into the next grade"
-    description: "The grade comes from your exact percentage: 79.6% is still an A in the typical BISE bands, not an A+. Only your board decides how results are rounded and graded."
-  - title: "Confusing percentage with percentile"
-    description: "Percentage measures your marks against the maximum. A percentile ranks you against other candidates, so 80% and the 80th percentile are different things."
-faqs:
-  - q: "How do I calculate the percentage of my marks?"
-    a: "Divide your obtained marks by the total marks and multiply by 100. For example, 870 ÷ 1100 × 100 = 79.09%."
-  - q: "How do I calculate my matric percentage?"
-    a: "Add the obtained marks of all subjects on your matric result card, divide by the total marks shown on the card, and multiply by 100. Use the total printed on your own result card, because it can differ between boards and years."
-  - q: "How do I calculate my inter (FSc, ICS, FA) percentage?"
-    a: "The same way: divide your total obtained marks by the total marks on your intermediate result card and multiply by 100. If you only have subject-wise marks, enter them in the subject-wise mode and the calculator adds them up for you."
-  - q: "What grade is 75% in matric?"
-    a: "In typical BISE grading, 75% is an A, because A covers 70% to 79%. Your board's result card is the final authority on your grade."
-  - q: "Is my overall percentage the average of my subject percentages?"
-    a: "Only if every subject has the same total marks. Otherwise, add up all obtained marks and all total marks, then divide. That gives the overall percentage your board uses."
-  - q: "What percentage is an F in BISE grading?"
-    a: "In the typical BISE grading shown on this page, below 33% is F, and 33% to 39% is E. Check your board's result card for the rules that apply to you."
-  - q: "How do I convert my marks percentage to CGPA?"
-    a: "Use the CGPA to Percentage Calculator in the Percentage → CGPA direction. If your university prints its own conversion formula, enter that formula there to get the official value."
-sources:
-  - name: "Inter Boards Coordination Commission (IBCC), Pakistan"
-    url: "https://www.ibcc.edu.pk/"
 lastReviewed: "2026-10-31"
-howto:
-  name: "How to Calculate Your Marks Percentage"
-  description: "Turn obtained and total marks into a percentage and a reference grade."
-  steps:
-    - name: "Choose total or subject-wise"
-      text: "Use Total if you know your grand total, or Subject-wise to enter each subject's marks."
-    - name: "Enter your marks"
-      text: "Type obtained and total marks. In subject-wise mode, add or remove rows as needed."
-    - name: "Read your percentage and grade"
-      text: "See the percentage to 2 decimals, your grand total, and the typical BISE grade highlighted in the grading table."
 ---
-{% from "partials/currency-select.njk" import countryData %}
-{{ countryData(countries) }}
+{% from "partials/currency-select.njk" import countryData with context %}
+{{ countryData(countries) }}{% set gradingScales = gradingScales | localizeData('grading-scales') %}
 
     <!-- Tool Form Container -->
     <script type="application/json" id="grading-data">{{ gradingScales.scales | dump | safe }}</script>
-    <section class="tool-container" aria-label="Marks Percentage Calculator Form">
+    <section class="tool-container" aria-label="{{ 'ariaLabel.tool-section1' | pt }}">
       <form id="calculator-form" novalidate>
         <fieldset class="form-group choice-toggle" id="mode-fieldset">
-          <legend>Calculate from</legend>
+          <legend>{{ 'content.tool.legend1' | pt }}</legend>
           <div class="segmented-control choice-toggle-options">
             <label class="choice-toggle-option">
-              <input type="radio" name="marks-mode" id="mode-total" value="total" data-param="mode" checked>
-              <span>Total marks</span>
+              {{ 'content.tool.label1' | pt }}
             </label>
             <label class="choice-toggle-option">
-              <input type="radio" name="marks-mode" id="mode-subjects" value="subjects" data-param="mode">
-              <span>Subject-wise</span>
+              {{ 'content.tool.label2' | pt }}
             </label>
           </div>
         </fieldset>
@@ -124,12 +28,12 @@ howto:
         <div id="panel-total" class="marks-panel">
           <div class="form-grid two-col">
             <div class="form-group">
-              <label for="obtained-marks">Obtained marks <span class="text-accent">*</span></label>
-              <input type="number" inputmode="decimal" step="any" min="0" id="obtained-marks" data-param="obtained" class="form-control" placeholder="e.g. 870" required aria-required="true">
+              <label for="obtained-marks">{{ 'label.obtained-marks' | pt }}</label>
+              <input type="number" inputmode="decimal" step="any" min="0" id="obtained-marks" data-param="obtained" class="form-control" placeholder="{{ 'placeholder.obtained-marks' | pt }}" required aria-required="true">
             </div>
             <div class="form-group">
-              <label for="total-marks">Total marks <span class="text-accent">*</span></label>
-              <input type="number" inputmode="decimal" step="any" min="0" id="total-marks" data-param="total" class="form-control" placeholder="e.g. 1100" required aria-required="true">
+              <label for="total-marks">{{ 'label.total-marks' | pt }}</label>
+              <input type="number" inputmode="decimal" step="any" min="0" id="total-marks" data-param="total" class="form-control" placeholder="{{ 'placeholder.total-marks' | pt }}" required aria-required="true">
             </div>
           </div>
         </div>
@@ -138,25 +42,25 @@ howto:
         <div id="panel-subjects" class="marks-panel" hidden>
           <div class="table-wrapper">
             <table class="table subjects-table">
-              <caption class="visually-hidden">Marks by subject</caption>
+              <caption class="visually-hidden">{{ 'content.tool.caption1' | pt }}</caption>
               <thead>
                 <tr>
-                  <th scope="col">Subject <span class="label-hint">(optional)</span></th>
-                  <th scope="col">Obtained</th>
-                  <th scope="col">Total</th>
+                  <th scope="col">{{ 'content.tool.th1' | pt }}</th>
+                  <th scope="col">{{ 'content.tool.th2' | pt }}</th>
+                  <th scope="col">{{ 'content.tool.th3' | pt }}</th>
                   <th scope="col">%</th>
-                  <th scope="col"><span class="visually-hidden">Remove</span></th>
+                  <th scope="col">{{ 'content.tool.th4' | pt }}</th>
                 </tr>
               </thead>
               <tbody id="subjects-tbody">
                 {% for i in range(1, 6) %}
                 <tr class="subject-row">
-                  <td><input type="text" class="form-control subject-name" placeholder="Subject {{ i }}" aria-label="Subject {{ i }} name"></td>
-                  <td><input type="number" inputmode="decimal" step="any" min="0" class="form-control subject-obtained" aria-label="Subject {{ i }} obtained marks"></td>
-                  <td><input type="number" inputmode="decimal" step="any" min="0" class="form-control subject-total" placeholder="100" aria-label="Subject {{ i }} total marks"></td>
+                  <td><input type="text" class="form-control subject-name" placeholder="{{ 'subjects.placeholder' | pt({ n: i }) }}" aria-label="{{ 'subjects.nameLabel' | pt({ n: i }) }}"></td>
+                  <td><input type="number" inputmode="decimal" step="any" min="0" class="form-control subject-obtained" aria-label="{{ 'subjects.obtainedLabel' | pt({ n: i }) }}"></td>
+                  <td><input type="number" inputmode="decimal" step="any" min="0" class="form-control subject-total" placeholder="100" aria-label="{{ 'subjects.totalLabel' | pt({ n: i }) }}"></td>
                   <td class="subject-percent" aria-live="off">–</td>
                   <td>
-                    <button type="button" class="btn btn-sm btn-ghost remove-subject-btn" aria-label="Remove subject {{ i }}">
+                    <button type="button" class="btn btn-sm btn-ghost remove-subject-btn" aria-label="{{ 'subjects.removeLabel' | pt({ n: i }) }}">
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
                     </button>
                   </td>
@@ -165,16 +69,16 @@ howto:
               </tbody>
             </table>
           </div>
-          <button type="button" class="btn btn-sm btn-secondary mt-4" id="add-subject-btn">Add subject</button>
+          <button type="button" class="btn btn-sm btn-secondary mt-4" id="add-subject-btn">{{ 'text.add-subject-btn' | pt }}</button>
         </div>
 
         <div class="form-group mt-6">
-          <label for="grading-scale">Grading scale</label>
+          <label for="grading-scale">{{ 'label.grading-scale' | pt }}</label>
           <select id="grading-scale" data-param="scale" class="form-control" data-country-remember>
             {% for scale in gradingScales.scales %}
             <option value="{{ scale.code }}" data-country="{{ scale.country }}"{% if loop.first %} selected{% endif %}>{{ scale.name }}</option>
             {% endfor %}
-            <option value="custom">Custom scale (enter your own)</option>
+            <option value="custom">{{ 'option.grading-scale.custom' | pt }}</option>
           </select>
         </div>
 
@@ -182,20 +86,20 @@ howto:
         <div id="custom-scale-panel" class="custom-scale-panel" hidden>
           <div class="table-wrapper">
             <table class="table custom-scale-table">
-              <caption class="visually-hidden">Your custom grading scale</caption>
+              <caption class="visually-hidden">{{ 'content.tool.caption2' | pt }}</caption>
               <thead>
                 <tr>
-                  <th scope="col">Grade</th>
-                  <th scope="col">From (%)</th>
-                  <th scope="col"><span class="visually-hidden">Remove</span></th>
+                  <th scope="col">{{ 'content.tool.th5' | pt }}</th>
+                  <th scope="col">{{ 'content.tool.th6' | pt }}</th>
+                  <th scope="col">{{ 'content.tool.th7' | pt }}</th>
                 </tr>
               </thead>
               <tbody id="custom-scale-tbody">
                 <tr class="custom-scale-row">
-                  <td><input type="text" class="form-control custom-grade" aria-label="Grade 1 name"></td>
-                  <td><input type="number" inputmode="decimal" step="any" min="0" max="100" class="form-control custom-min" aria-label="Grade 1 minimum percentage"></td>
+                  <td><input type="text" class="form-control custom-grade" aria-label="{{ 'ariaLabel.custom-grade1' | pt }}"></td>
+                  <td><input type="number" inputmode="decimal" step="any" min="0" max="100" class="form-control custom-min" aria-label="{{ 'ariaLabel.custom-min1' | pt }}"></td>
                   <td>
-                    <button type="button" class="btn btn-sm btn-ghost remove-grade-btn" aria-label="Remove grade 1">
+                    <button type="button" class="btn btn-sm btn-ghost remove-grade-btn" aria-label="{{ 'ariaLabel.tool-button1' | pt }}">
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
                     </button>
                   </td>
@@ -203,13 +107,13 @@ howto:
               </tbody>
             </table>
           </div>
-          <button type="button" class="btn btn-sm btn-secondary mt-4" id="add-grade-btn">Add grade</button>
-          <p class="form-hint">Each grade starts at its minimum percentage and runs up to the next grade's minimum.</p>
+          <button type="button" class="btn btn-sm btn-secondary mt-4" id="add-grade-btn">{{ 'text.add-grade-btn' | pt }}</button>
+          <p class="form-hint">{{ 'content.tool.p1' | pt }}</p>
         </div>
 
         <div class="button-group mt-6">
-          <button type="submit" class="btn btn-primary">Calculate Percentage</button>
-          <button type="button" class="btn btn-secondary" id="reset-btn">Reset</button>
+          <button type="submit" class="btn btn-primary">{{ 'content.tool.button1' | pt }}</button>
+          <button type="button" class="btn btn-secondary" id="reset-btn">{{ 'text.reset-btn' | pt }}</button>
         </div>
       </form>
 
@@ -218,24 +122,24 @@ howto:
       <!-- Result Box -->
       <div id="result-box" class="result-box" aria-live="polite">
         <div class="result-header">
-          <span id="result-header-text">Your percentage</span>
-          <button type="button" class="btn btn-sm btn-ghost" id="copy-result-btn" title="Copy Result to clipboard" aria-label="Copy Result to clipboard">
-            <span data-icon="copy"></span> Copy Result
+          <span id="result-header-text">{{ 'text.result-header-text' | pt }}</span>
+          <button type="button" class="btn btn-sm btn-ghost" id="copy-result-btn" title="{{ 'title.copy-result-btn' | pt }}" aria-label="{{ 'ariaLabel.copy-result-btn' | pt }}">
+            {{ 'text.copy-result-btn' | pt }}
           </button>
         </div>
         <div class="result-primary" id="result-primary-text">0%</div>
 
         <div class="result-grid">
           <div class="result-stat-card">
-            <div class="result-stat-label">Marks</div>
+            <div class="result-stat-label">{{ 'content.tool.div1' | pt }}</div>
             <div class="result-stat-value" id="stat-marks">0 / 0</div>
           </div>
           <div class="result-stat-card">
-            <div class="result-stat-label">Percentage</div>
+            <div class="result-stat-label">{{ 'content.tool.div2' | pt }}</div>
             <div class="result-stat-value" id="stat-percentage">0%</div>
           </div>
           <div class="result-stat-card">
-            <div class="result-stat-label" id="stat-grade-label">Grade (typical BISE)</div>
+            <div class="result-stat-label" id="stat-grade-label">{{ 'text.stat-grade-label' | pt }}</div>
             <div class="result-stat-value" id="stat-grade">–</div>
           </div>
         </div>
@@ -247,58 +151,58 @@ howto:
 
       <!-- Grading reference, rendered from logic.js GRADING; the visitor's grade is highlighted -->
       <div class="grading-block">
-        <h2 class="grading-title">Grading reference</h2>
-        <div class="table-wrapper" tabindex="0" role="region" aria-label="Grading reference (scrollable)">
+        <h2 class="grading-title">{{ 'content.grading-reference.heading' | pt }}</h2>
+        <div class="table-wrapper" tabindex="0" role="region" aria-label="{{ 'ariaLabel.grading-reference-div1' | pt }}">
           <table class="table grading-table">
-            <caption class="visually-hidden">{{ marksGrading.note }}</caption>
+            <caption class="visually-hidden">{{ text.client.grading.note }}</caption>
             <thead>
               <tr>
-                <th scope="col">Grade</th>
-                <th scope="col">Percentage</th>
+                <th scope="col">{{ 'content.grading-reference.th1' | pt }}</th>
+                <th scope="col">{{ 'content.grading-reference.th2' | pt }}</th>
               </tr>
             </thead>
             <tbody id="grading-tbody">
               {% for row in marksGrading.rows %}
               <tr data-grade-index="{{ row.index }}">
-                <td>{{ row.grade }}<span class="grade-you"> · your grade</span></td>
-                <td>{{ row.range }}</td>
+                <td>{{ row.grade }}<span class="grade-you"> {{ 'content.grading-reference.span1' | pt }}</span></td>
+                <td>{% if row.labelled %}{{ text.client.grading.lowestBandLabel }}{% elif row.open %}{{ 'grading.andAbove' | pt({ min: row.min }) }}{% else %}{{ 'grading.between' | pt({ min: row.min, max: row.max }) }}{% endif %}</td>
               </tr>
               {% endfor %}
             </tbody>
           </table>
         </div>
-        <p class="grading-note" id="grading-note">{{ marksGrading.note }}</p>
+        <p class="grading-note" id="grading-note">{{ text.client.grading.note }}</p>
       </div>
     </section>
 
     <!-- tool-end -->
 
     <section class="content-section" aria-labelledby="how-to-calc-heading">
-      <h2 id="how-to-calc-heading">How to calculate the percentage of your marks</h2>
-      <p>A marks percentage tells you what share of the available marks you scored. The method is the same for a single class test, a board paper, a full matric or intermediate result, or a university entry test:</p>
+      <h2 id="how-to-calc-heading">{{ 'text.how-to-calc-heading' | pt }}</h2>
+      <p>{{ 'content.how-to-calculate-the-percentage-of.p1' | pt }}</p>
       <ol class="content-list">
-        <li><strong>Find your obtained marks</strong> and the <strong>total marks</strong> for the same exam, from the result card or mark sheet.</li>
-        <li><strong>Divide</strong> obtained marks by total marks.</li>
-        <li><strong>Multiply by 100</strong> and round to two decimal places.</li>
+        <li>{{ 'content.how-to-calculate-the-percentage-of.li1' | pt }}</li>
+        <li>{{ 'content.how-to-calculate-the-percentage-of.li2' | pt }}</li>
+        <li>{{ 'content.how-to-calculate-the-percentage-of.li3' | pt }}</li>
       </ol>
-      <p>So 870 out of 1100 is 870 ÷ 1100 × 100 = 79.09%. If you only want to know what share one number is of another outside an exam, the general <a href="/tools/percentage-calculator/">Percentage Calculator</a> does the same arithmetic for any values.</p>
+      <p>{{ 'content.how-to-calculate-the-percentage-of.p2' | pt }}</p>
     </section>
 
     <section class="content-section" aria-labelledby="matric-inter-heading">
-      <h2 id="matric-inter-heading">Matric and inter percentage with subject-wise marks</h2>
-      <p>Matric (SSC) and intermediate (HSSC, including FSc, ICS and FA) results list each subject with its own maximum marks, and the subjects rarely all carry the same total. Your overall percentage comes from the grand totals, not from averaging each subject's percentage. In subject-wise mode, enter every subject on your result card, including practicals that are counted separately, and the calculator adds the obtained and total columns for you.</p>
-      <p>The difference matters. A student with 75 out of 100, 60 out of 75 and 40 out of 50 has 175 out of 225, which is 77.78%. Averaging the three subject percentages (75%, 80% and 80%) would give 78.33%, a figure that will never match the result card. The calculator shows each subject's own percentage in the table so you can see where your marks came from, but the overall figure always uses the grand total.</p>
-      <p>Always use the totals printed on your own result card. Maximum marks differ between boards, years and schemes of study, so a total copied from someone else's result can make your percentage wrong.</p>
+      <h2 id="matric-inter-heading">{{ 'text.matric-inter-heading' | pt }}</h2>
+      <p>{{ 'content.matric-and-inter-percentage-with-subject-wise.p1' | pt }}</p>
+      <p>{{ 'content.matric-and-inter-percentage-with-subject-wise.p2' | pt }}</p>
+      <p>{{ 'content.matric-and-inter-percentage-with-subject-wise.p3' | pt }}</p>
     </section>
 
     <section class="content-section" aria-labelledby="grading-heading">
-      <h2 id="grading-heading">Typical BISE grading in Pakistan</h2>
-      <p>The grade shown with your result follows the typical grading used by Pakistan's Boards of Intermediate and Secondary Education (BISE): A+ for 80% and above, A for 70–79%, B for 60–69%, C for 50–59%, D for 40–49%, E for 33–39% and F below 33%. The grade is picked from your exact percentage, so 79.6% is an A, not an A+.</p>
-      <p>Boards can change their grading, and some use different labels or bands for particular schemes. The table on this page is a reference only: your board's result card is the final authority on your grade.</p>
-      <p>Choose a different grading scale under the calculator to see your grade another way. The revised IBCC grading notified by FBISE in October 2025 (A++ for 96% and above down to U below 40%) starts with the 2026 exams for Class 9 and 11 and with the 2027 exams for Class 10 and 12. India's CBSE does not grade on fixed percentages: it ranks candidates and gives each eighth a grade, so for CBSE the calculator only shows whether you reached the 33% pass mark. A typical US letter-grade scale is included too, and you can enter your own school's bands as a custom scale.</p>
+      <h2 id="grading-heading">{{ 'text.grading-heading' | pt }}</h2>
+      <p>{{ 'content.typical-bise-grading-in-pakistan.p1' | pt }}</p>
+      <p>{{ 'content.typical-bise-grading-in-pakistan.p2' | pt }}</p>
+      <p>{{ 'content.typical-bise-grading-in-pakistan.p3' | pt }}</p>
     </section>
 
     <section class="content-section" aria-labelledby="next-steps-heading">
-      <h2 id="next-steps-heading">Percentages, CGPA and admissions</h2>
-      <p>Admission forms and merit calculators often ask for your matric and intermediate percentages separately, so work each one out from its own result card. At university level, results are usually given as a CGPA instead. To move between the two, use the <a href="/tools/cgpa-to-percentage-calculator/">CGPA to Percentage Calculator</a>, and if your university prints its own conversion formula, enter that formula there for the official figure.</p>
+      <h2 id="next-steps-heading">{{ 'text.next-steps-heading' | pt }}</h2>
+      <p>{{ 'content.percentages-cgpa-and-admissions.p1' | pt }}</p>
     </section>

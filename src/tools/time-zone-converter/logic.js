@@ -13,6 +13,13 @@
   }
 })(typeof globalThis !== 'undefined' ? globalThis : this, function () {
 
+  // Messages, day labels and city names come from the tool's translation data
+  const T = (typeof ToolsBuilt !== 'undefined' && ToolsBuilt.scope)
+    ? ToolsBuilt.scope('time-zone-converter')
+    : require('../../../scripts/i18n-client.js').scope('time-zone-converter');
+  // Locale for text shown to visitors (zone abbreviations): en-US on English pages and in Node
+  const displayLocale = () => ((typeof ToolsBuilt !== 'undefined' && ToolsBuilt.pageLocale) ? ToolsBuilt.pageLocale('en-US') : 'en-US');
+
   const HOUR_MS = 3600000;
   const WORK_START = 9 * 60;
   const WORK_END = 17 * 60;
@@ -200,10 +207,10 @@
    */
   function zonedToUtc(dateStr, timeStr, zone) {
     const d = parseDate(dateStr);
-    if (!d) return { error: 'Enter a valid date (YYYY-MM-DD).' };
+    if (!d) return { error: T('errors.invalidDate') };
     const t = parseClock(timeStr);
-    if (!t) return { error: 'Enter a valid time (HH:MM, 24-hour).' };
-    if (!isValidZone(zone)) return { error: `"${zone}" is not a time zone this browser recognises. Pick one from the list.` };
+    if (!t) return { error: T('errors.invalidTime') };
+    if (!isValidZone(zone)) return { error: T('errors.unknownZone', { zone }) };
 
     const wallAsUtc = Date.UTC(d.year, d.month - 1, d.day, t.hour, t.minute);
     // Two candidate offsets: the ones in force a day either side of the wall time
@@ -229,6 +236,22 @@
     return Math.round((Date.UTC(b.year, b.month - 1, b.day) - Date.UTC(a.year, a.month - 1, a.day)) / 86400000);
   }
 
+  /** "Same day", "Next day", "Previous day", "+2 days", "-2 days" */
+  function dayLabel(diff) {
+    if (diff === 0) return T('dayLabel.same');
+    if (diff === 1) return T('dayLabel.next');
+    if (diff === -1) return T('dayLabel.previous');
+    return diff > 0 ? T('dayLabel.later', { n: diff }) : T('dayLabel.earlier', { n: diff });
+  }
+
+  /** The same label inside a sentence: "next day", "previous day", "+2 days" */
+  function dayLabelInline(diff) {
+    if (diff === 0) return T('dayLabelInline.same');
+    if (diff === 1) return T('dayLabelInline.next');
+    if (diff === -1) return T('dayLabelInline.previous');
+    return diff > 0 ? T('dayLabelInline.later', { n: diff }) : T('dayLabelInline.earlier', { n: diff });
+  }
+
   /**
    * Describes an instant in a zone, relative to a reference calendar date.
    */
@@ -239,7 +262,7 @@
     const diff = reference ? dayDiff(reference, w) : 0;
     let abbreviation = '';
     try {
-      const tzPart = new Intl.DateTimeFormat('en-US', { timeZone: zone, timeZoneName: 'short' })
+      const tzPart = new Intl.DateTimeFormat(displayLocale(), { timeZone: zone, timeZoneName: 'short' })
         .formatToParts(new Date(utcMs)).find(p => p.type === 'timeZoneName');
       abbreviation = tzPart ? tzPart.value : '';
     } catch (e) {}
@@ -255,7 +278,7 @@
       offsetLabel: formatOffset(offset),
       abbreviation,
       dayDiff: diff,
-      dayLabel: diff === 0 ? 'Same day' : diff === 1 ? 'Next day' : diff === -1 ? 'Previous day' : (diff > 0 ? `+${diff} days` : `${diff} days`),
+      dayLabel: dayLabel(diff),
       isWorkingHours: minutesOfDay >= WORK_START && minutesOfDay < WORK_END
     };
   }
@@ -272,7 +295,7 @@
     const targets = [];
     for (const zone of toZones || []) {
       if (!zone) continue;
-      if (!isValidZone(zone)) return { error: `"${zone}" is not a time zone this browser recognises. Pick one from the list.` };
+      if (!isValidZone(zone)) return { error: T('errors.unknownZone', { zone }) };
       targets.push(describeInZone(z.utcMs, zone, reference));
     }
     return {
@@ -315,16 +338,26 @@
     return { startUtcMs: start.utcMs, rows, overlap };
   }
 
-  /** "America/Argentina/Buenos_Aires" -> "Buenos Aires" */
-  function cityName(zone) {
+  /** City part of the IANA id: "America/Argentina/Buenos_Aires" -> "Buenos Aires" */
+  function cityFromId(zone) {
     if (zone === 'UTC') return 'UTC';
     const last = zone.split('/').pop();
     return last.replace(/_/g, ' ');
   }
 
-  /** Text used to match a zone against a search query. */
+  /** Display name of a zone from the translation data (cities.<IANA id>), else from its id. */
+  function cityName(zone) {
+    const key = `cities.${zone}`;
+    const name = T(key);
+    // A missing key comes back as the key itself (Node) or its last segment (browser)
+    return name && name !== key && name !== zone ? name : cityFromId(zone);
+  }
+
+  /** Text used to match a zone against a search query (the id, aliases and translated city name). */
   function searchText(zone) {
-    return `${zone.replace(/[/_]/g, ' ')} ${ALIASES[zone] || ''}`.toLowerCase();
+    const city = cityName(zone);
+    const extra = city !== cityFromId(zone) ? ` ${city}` : '';
+    return `${zone.replace(/[/_]/g, ' ')} ${ALIASES[zone] || ''}${extra}`.toLowerCase();
   }
 
   /**
@@ -390,6 +423,8 @@
     convert,
     overlapStrip,
     cityName,
+    dayLabel,
+    dayLabelInline,
     searchZones,
     resolveZone
   };

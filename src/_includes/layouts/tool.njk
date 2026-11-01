@@ -1,7 +1,7 @@
 ---
 layout: layouts/base.njk
 ---
-{% import "partials/cards.njk" as cards %}
+{% import "partials/cards.njk" as cards with context %}
 {% set currentTool = tools | findTool(toolSlug or slug) %}
 {% set currentCategory = categories | findCategory(currentTool.category) %}
 
@@ -25,7 +25,7 @@ layout: layouts/base.njk
       {
         "@type": "ListItem",
         "position": 1,
-        "name": "Home",
+        "name": {{ 'common.home' | t | jsonStr }},
         "item": "https://toolsbuilt.com/"
       },
       {% if currentCategory %}
@@ -147,31 +147,26 @@ layout: layouts/base.njk
             {{ toolParts[0] | safe }}
 
             <!-- Result Actions Bar (Progressive Enhancement) -->
-            <div class="result-actions-bar" id="result-actions-bar" hidden aria-label="Result actions">
-              <button type="button" class="btn btn-sm btn-secondary action-copy-btn" id="action-copy-btn" title="Copy result to clipboard">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-                <span>Copy Result</span>
+            <div class="result-actions-bar" id="result-actions-bar" hidden aria-label="{{ 'toolPage.ariaLabel.result-actions-bar' | t }}">
+              <button type="button" class="btn btn-sm btn-secondary action-copy-btn" id="action-copy-btn" title="{{ 'toolPage.title.action-copy-btn' | t }}">
+                {{ 'toolPage.text.action-copy-btn' | t }}
               </button>
-              <button type="button" class="btn btn-sm btn-secondary" id="action-copy-link-btn" title="Copy a link that reopens this result" hidden>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
-                <span>Copy link to this result</span>
+              <button type="button" class="btn btn-sm btn-secondary" id="action-copy-link-btn" title="{{ 'toolPage.title.action-copy-link-btn' | t }}" hidden>
+                {{ 'toolPage.text.action-copy-link-btn' | t }}
               </button>
-              <button type="button" class="btn btn-sm btn-secondary" id="action-share-btn" title="Share this tool">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
-                <span>Share</span>
+              <button type="button" class="btn btn-sm btn-secondary" id="action-share-btn" title="{{ 'toolPage.title.action-share-btn' | t }}">
+                {{ 'toolPage.text.action-share-btn' | t }}
               </button>
-              <button type="button" class="btn btn-sm btn-secondary" id="action-print-btn" title="Print this page">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
-                <span>Print</span>
+              <button type="button" class="btn btn-sm btn-secondary" id="action-print-btn" title="{{ 'toolPage.title.action-print-btn' | t }}">
+                {{ 'toolPage.text.action-print-btn' | t }}
               </button>
-              <button type="button" class="btn btn-sm btn-secondary action-reset-btn" id="action-reset-btn" title="Reset all input fields">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="1 4 1 10 7 10"></polyline><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path></svg>
-                <span>Reset</span>
+              <button type="button" class="btn btn-sm btn-secondary action-reset-btn" id="action-reset-btn" title="{{ 'toolPage.title.action-reset-btn' | t }}">
+                {{ 'toolPage.text.action-reset-btn' | t }}
               </button>
-              <div class="action-toast" id="action-toast" role="status" aria-live="polite" hidden>Copied to clipboard!</div>
+              <div class="action-toast" id="action-toast" role="status" aria-live="polite" hidden>{{ 'toolPage.text.action-toast' | t }}</div>
             </div>
 
-            <p class="tool-privacy-note">Runs in your browser. Your inputs never leave your device.</p>
+            <p class="tool-privacy-note">{{ 'toolPage.content.tool.p1' | t }}</p>
           </div>
 
   {% endset %}
@@ -180,9 +175,9 @@ layout: layouts/base.njk
     <!-- Hero band: the homepage hero, shortened -->
     <section class="page-hero tool-hero" aria-label="{{ currentTool.name if currentTool else title }}">
       <div class="container">
-        <nav class="breadcrumb" aria-label="Breadcrumb">
+        <nav class="breadcrumb" aria-label="{{ 'toolPage.ariaLabel.tool-nav1' | t }}">
           <ol>
-            <li><a href="/">Home</a></li>
+            <li>{{ 'toolPage.content.tool.li1' | t }}</li>
             {% if currentCategory %}
             <li><a href="{{ currentCategory.slug | categoryUrl }}">{{ currentCategory.name }}</a></li>
             {% endif %}
@@ -200,13 +195,12 @@ layout: layouts/base.njk
           </div>
           <p class="tool-hero-description">{{ currentTool.description if currentTool else description }}</p>
           <p class="tool-byline">
-            By {{ authorName }}
-            · Updated <time datetime="{{ currentTool.updated or '2026-10-15' }}">{{ (currentTool.updated or '2026-10-15') | humanDate }}</time>
+            {% set updatedTime %}<time datetime="{{ currentTool.updated or '2026-10-15' }}">{{ (currentTool.updated or '2026-10-15') | humanDate }}</time>{% endset %}{{ 'toolPage.byline' | t({ author: authorName, date: updatedTime | safe }) }}
           </p>
-          <ul class="hero-chips" aria-label="About this tool">
-            <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="/assets/icons.svg#icon-check"></use></svg>Free</li>
-            <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="/assets/icons.svg#icon-check"></use></svg>No sign-up</li>
-            <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="/assets/icons.svg#icon-check"></use></svg>Runs in your browser</li>
+          <ul class="hero-chips" aria-label="{{ 'toolPage.ariaLabel.tool-ul1' | t }}">
+            <li>{{ 'toolPage.content.tool.li2' | t }}</li>
+            <li>{{ 'toolPage.content.tool.li3' | t }}</li>
+            <li>{{ 'toolPage.content.tool.li4' | t }}</li>
           </ul>
         </div>
       </div>
@@ -221,8 +215,8 @@ layout: layouts/base.njk
 
           {% if quickAnswer %}
           <section class="tool-section tool-quick-answer-section" aria-labelledby="quick-answer-heading">
-            <p class="section-label">In short</p>
-            <h2 id="quick-answer-heading">Quick Answer</h2>
+            <p class="section-label">{{ 'toolPage.content.tool.p2' | t }}</p>
+            <h2 id="quick-answer-heading">{{ 'toolPage.text.quick-answer-heading' | t }}</h2>
             <div class="quick-answer-card">
               <span class="icon-tile" data-color="blue" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="/assets/icons.svg#icon-sparkles"></use></svg></span>
               <p class="quick-answer-text">{{ quickAnswer }}</p>
@@ -232,8 +226,8 @@ layout: layouts/base.njk
 
           {% if howto and howto.steps and howto.steps.length > 0 %}
           <section class="tool-section tool-howto-section" aria-labelledby="how-to-steps-heading">
-            <p class="section-label">Step by step</p>
-            <h2 id="how-to-steps-heading">How to Use</h2>
+            <p class="section-label">{{ 'toolPage.content.quick-answer.p1' | t }}</p>
+            <h2 id="how-to-steps-heading">{{ 'toolPage.text.how-to-steps-heading' | t }}</h2>
             <ol class="howto-steps">
               {% for step in howto.steps %}
               <li><strong>{{ step.name }}.</strong> {{ step.text }}</li>
@@ -246,11 +240,11 @@ layout: layouts/base.njk
 
           {% if formula %}
           <section class="tool-section tool-formula-section" aria-labelledby="formula-heading">
-            <p class="section-label">The math</p>
+            <p class="section-label">{{ 'toolPage.content.how-to-use.p1' | t }}</p>
             <h2 id="formula-heading">{{ formula.title or "Formula & Method" }}</h2>
             <div class="formula-card">
               {% if formula.expression %}
-              <div class="formula-expression" role="region" aria-label="Mathematical formula" tabindex="0">
+              <div class="formula-expression" role="region" aria-label="{{ 'toolPage.ariaLabel.how-to-use-div1' | t }}" tabindex="0">
                 <code>{{ formula.expression }}</code>
               </div>
               {% endif %}
@@ -272,16 +266,16 @@ layout: layouts/base.njk
 
           {% macro workedExample(ex, index) %}
             <div class="worked-example">
-              <h3 class="worked-example-title">{{ ex.title or ex.label or ("Example " + index) }}</h3>
+              <h3 class="worked-example-title">{{ ex.title or ex.label or ('toolPage.exampleN' | t({ n: index })) }}</h3>
               {% if ex.inputs and ex.inputs.length > 0 %}
               <p class="worked-example-inputs">{{ ex.inputs | join(" · ") }}</p>
               {% endif %}
               {% if ex.before %}
-              <p class="worked-example-label">Before</p>
+              <p class="worked-example-label">{{ 'toolPage.content.how-to-use.p2' | t }}</p>
               <pre class="code-block" tabindex="0"><code>{{ ex.before }}</code></pre>
               {% endif %}
               {% if ex.after %}
-              <p class="worked-example-label">After</p>
+              <p class="worked-example-label">{{ 'toolPage.content.how-to-use.p3' | t }}</p>
               <pre class="code-block" tabindex="0"><code>{{ ex.after }}</code></pre>
               {% endif %}
               {% if ex.steps and ex.steps.length > 0 %}
@@ -292,18 +286,18 @@ layout: layouts/base.njk
               </ol>
               {% endif %}
               {% if ex.result %}
-              <p class="worked-example-result"><strong>Result:</strong> {{ ex.result }}</p>
+              <p class="worked-example-result"><strong>{{ 'toolPage.content.how-to-use.strong1' | t }}</strong> {{ ex.result }}</p>
               {% endif %}
               {% if ex.link %}
-              <p class="worked-example-link"><a href="{{ ex.link }}">{{ ex.linkText or "Open this example in the calculator" }}</a></p>
+              <p class="worked-example-link"><a href="{{ ex.link }}">{{ ex.linkText or ('toolPage.openExample' | t) }}</a></p>
               {% endif %}
             </div>
           {% endmacro %}
 
           {% if workedExamples and workedExamples.length > 0 %}
           <section class="tool-section tool-worked-examples" aria-labelledby="worked-examples-heading">
-            <p class="section-label">Examples</p>
-            <h2 id="worked-examples-heading">Worked Examples</h2>
+            <p class="section-label">{{ 'toolPage.content.how-to-use.p4' | t }}</p>
+            <h2 id="worked-examples-heading">{{ 'toolPage.text.worked-examples-heading' | t }}</h2>
             <div class="worked-example-grid">
               {% for ex in workedExamples %}{{ workedExample(ex, loop.index) }}{% endfor %}
             </div>
@@ -312,7 +306,7 @@ layout: layouts/base.njk
 
           {% for group in exampleSections %}
           <section class="tool-section tool-worked-examples" aria-labelledby="{{ group.id }}">
-            <p class="section-label">Examples</p>
+            <p class="section-label">{{ 'toolPage.content.worked-examples.p1' | t }}</p>
             <h2 id="{{ group.id }}">{{ group.title }}</h2>
             {% if group.intro %}<p>{{ group.intro }}</p>{% endif %}
             <div class="worked-example-grid">
@@ -323,8 +317,8 @@ layout: layouts/base.njk
 
           {% if commonMistakes and commonMistakes.length > 0 %}
           <section class="tool-section tool-common-mistakes-section" aria-labelledby="common-mistakes-heading">
-            <p class="section-label">Watch out</p>
-            <h2 id="common-mistakes-heading">Common Mistakes to Avoid</h2>
+            <p class="section-label">{{ 'toolPage.content.worked-examples.p2' | t }}</p>
+            <h2 id="common-mistakes-heading">{{ 'toolPage.text.common-mistakes-heading' | t }}</h2>
             <ul class="common-mistakes-list">
               {% for mistake in commonMistakes %}
               <li>
@@ -344,8 +338,8 @@ layout: layouts/base.njk
 
           {% if faqs and faqs.length > 0 %}
           <section class="tool-section faq-section" aria-labelledby="faq-heading">
-            <p class="section-label">FAQ</p>
-            <h2 id="faq-heading">Frequently Asked Questions</h2>
+            <p class="section-label">{{ 'toolPage.content.common-mistakes-to-avoid.p1' | t }}</p>
+            <h2 id="faq-heading">{{ 'toolPage.text.faq-heading' | t }}</h2>
             <div class="faq-list">
               {% for faq in faqs %}
               <details class="faq-item">
@@ -363,26 +357,26 @@ layout: layouts/base.njk
 
           {% if sources and sources.length > 0 %}
           <section class="tool-section tool-sources-section" aria-labelledby="sources-heading">
-            <p class="section-label">References</p>
-            <h2 id="sources-heading">Sources &amp; References</h2>
+            <p class="section-label">{{ 'toolPage.content.frequently-asked-questions.p1' | t }}</p>
+            <h2 id="sources-heading">{{ 'toolPage.text.sources-heading' | t }}</h2>
             <ul class="sources-list">
               {% for src in sources %}
               <li><a href="{{ src.url }}" target="_blank" rel="noopener noreferrer">{{ src.name or src.label }}</a></li>
               {% endfor %}
             </ul>
             {% if lastReviewed %}
-            <p class="tool-last-reviewed">Last reviewed <time datetime="{{ lastReviewed }}">{{ lastReviewed | humanDate }}</time> by {{ authorName }}.</p>
+            {% set reviewedTime %}<time datetime="{{ lastReviewed }}">{{ lastReviewed | humanDate }}</time>{% endset %}<p class="tool-last-reviewed">{{ 'toolPage.lastReviewed' | t({ date: reviewedTime | safe, author: authorName }) }}</p>
             {% endif %}
           </section>
           {% elif lastReviewed %}
-          <p class="tool-last-reviewed">Last reviewed <time datetime="{{ lastReviewed }}">{{ lastReviewed | humanDate }}</time> by {{ authorName }}.</p>
+          {% set reviewedTime %}<time datetime="{{ lastReviewed }}">{{ lastReviewed | humanDate }}</time>{% endset %}<p class="tool-last-reviewed">{{ 'toolPage.lastReviewed' | t({ date: reviewedTime | safe, author: authorName }) }}</p>
           {% endif %}
 
           {% set relatedGuides = collections.post | filterGuidesByTool(slug) %}
           {% if relatedGuides and relatedGuides.length > 0 %}
           <section class="tool-section related-guides-section" aria-labelledby="related-guides-heading">
-            <p class="section-label">Guides</p>
-            <h2 id="related-guides-heading">Related Guides</h2>
+            <p class="section-label">{{ 'toolPage.content.sources-references.p1' | t }}</p>
+            <h2 id="related-guides-heading">{{ 'toolPage.text.related-guides-heading' | t }}</h2>
             <ul class="related-guides-list">
               {% for guide in relatedGuides %}
               <li class="related-guide-item">
@@ -403,30 +397,30 @@ layout: layouts/base.njk
         </div>
 
         <!-- Sidebar (>= 1100px): table of contents, related tools, share -->
-        <aside class="tool-toc-aside" aria-label="On this page">
+        <aside class="tool-toc-aside" aria-label="{{ 'toolPage.ariaLabel.related-guides-aside1' | t }}">
           <div class="tool-toc-sticky">
             <div class="sidebar-card">
-              <span class="toc-heading">On this page</span>
-              <nav class="toc-nav" aria-label="Table of contents">
+              <span class="toc-heading">{{ 'toolPage.content.related-guides.span1' | t }}</span>
+              <nav class="toc-nav" aria-label="{{ 'toolPage.ariaLabel.related-guides-nav1' | t }}">
                 <ul class="toc-list">
-                  <li><a href="#tool">{{ currentTool.shortName or "Calculator" }}</a></li>
-                  {% if quickAnswer %}<li><a href="#quick-answer-heading">Quick Answer</a></li>{% endif %}
-                  {% if howto and howto.steps and howto.steps.length > 0 %}<li><a href="#how-to-steps-heading">How to Use</a></li>{% endif %}
-                  {% if formula %}<li><a href="#formula-heading">Formula</a></li>{% endif %}
-                  {% if workedExamples and workedExamples.length > 0 %}<li><a href="#worked-examples-heading">Worked Examples</a></li>{% endif %}
+                  <li><a href="#tool">{{ currentTool.shortName or ('toolPage.calculator' | t) }}</a></li>
+                  {% if quickAnswer %}<li>{{ 'toolPage.content.related-guides.li1' | t }}</li>{% endif %}
+                  {% if howto and howto.steps and howto.steps.length > 0 %}<li>{{ 'toolPage.content.related-guides.li2' | t }}</li>{% endif %}
+                  {% if formula %}<li>{{ 'toolPage.content.related-guides.li3' | t }}</li>{% endif %}
+                  {% if workedExamples and workedExamples.length > 0 %}<li>{{ 'toolPage.content.related-guides.li4' | t }}</li>{% endif %}
                   {% for group in exampleSections %}<li><a href="#{{ group.id }}">{{ group.title }}</a></li>{% endfor %}
-                  {% if commonMistakes and commonMistakes.length > 0 %}<li><a href="#common-mistakes-heading">Common Mistakes</a></li>{% endif %}
-                  {% if faqs and faqs.length > 0 %}<li><a href="#faq-heading">FAQ</a></li>{% endif %}
-                  {% if sources and sources.length > 0 %}<li><a href="#sources-heading">Sources</a></li>{% endif %}
-                  {% if relatedGuides and relatedGuides.length > 0 %}<li><a href="#related-guides-heading">Related Guides</a></li>{% endif %}
-                  <li><a href="#related-tools-heading">Related Tools</a></li>
+                  {% if commonMistakes and commonMistakes.length > 0 %}<li>{{ 'toolPage.content.related-guides.li5' | t }}</li>{% endif %}
+                  {% if faqs and faqs.length > 0 %}<li>{{ 'toolPage.content.related-guides.li6' | t }}</li>{% endif %}
+                  {% if sources and sources.length > 0 %}<li>{{ 'toolPage.content.related-guides.li7' | t }}</li>{% endif %}
+                  {% if relatedGuides and relatedGuides.length > 0 %}<li>{{ 'toolPage.content.related-guides.li8' | t }}</li>{% endif %}
+                  <li>{{ 'toolPage.content.related-guides.li9' | t }}</li>
                 </ul>
               </nav>
             </div>
 
             {% if relatedMini and relatedMini.length > 0 %}
             <div class="sidebar-card">
-              <span class="toc-heading">Related tools</span>
+              <span class="toc-heading">{{ 'toolPage.content.related-guides.span2' | t }}</span>
               <ul class="mini-tool-list">
                 {% for rel in relatedMini %}
                 {% set relCat = categories | findCategory(rel.category) %}
@@ -442,10 +436,9 @@ layout: layouts/base.njk
             {% endif %}
 
             <div class="sidebar-card">
-              <span class="toc-heading">Share this tool</span>
+              <span class="toc-heading">{{ 'toolPage.content.related-guides.span3' | t }}</span>
               <button type="button" class="btn btn-sm btn-secondary sidebar-share-btn" data-copy-page-link>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
-                <span>Copy link</span>
+                {{ 'toolPage.content.related-guides.button1' | t }}
               </button>
             </div>
           </div>

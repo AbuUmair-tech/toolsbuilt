@@ -3,10 +3,16 @@ const path = require('path');
 const crypto = require('crypto');
 
 const ROOT = path.resolve(__dirname, '..');
+const i18nData = require('./i18n-data.js');
 const TOOLS_DATA_PATH = path.join(ROOT, 'src', '_data', 'tools.json');
 
-function buildSearchIndex({ outputDir = path.join(ROOT, '_site', 'assets') } = {}) {
-  const rawTools = JSON.parse(fs.readFileSync(TOOLS_DATA_PATH, 'utf-8'));
+// One index per language: search-index.<hash>.json for English, search-index.<lang>.<hash>.json
+// otherwise. Text (name, description, keywords) comes from src/_data/i18n.
+function buildSearchIndex({ outputDir = path.join(ROOT, '_site', 'assets'), lang = 'en' } = {}) {
+  const rawTools = JSON.parse(fs.readFileSync(TOOLS_DATA_PATH, 'utf-8')).map(t => {
+    const listing = (i18nData.tool(lang, t.slug) || {}).listing || {};
+    return { ...t, ...listing };
+  });
 
   const searchEntries = rawTools.map(t => ({
     name: t.name,
@@ -22,7 +28,8 @@ function buildSearchIndex({ outputDir = path.join(ROOT, '_site', 'assets') } = {
 
   const jsonContent = JSON.stringify(searchEntries);
   const hash = crypto.createHash('md5').update(jsonContent).digest('hex').slice(0, 8);
-  const filename = `search-index.${hash}.json`;
+  const stem = lang === 'en' ? 'search-index' : `search-index.${lang.toLowerCase()}`;
+  const filename = `${stem}.${hash}.json`;
   const searchIndexPath = `/assets/${filename}`;
 
   if (!fs.existsSync(outputDir)) {
@@ -33,14 +40,14 @@ function buildSearchIndex({ outputDir = path.join(ROOT, '_site', 'assets') } = {
   try {
     const files = fs.readdirSync(outputDir);
     for (const f of files) {
-      if (/^search-index\.[a-f0-9]+\.json$/.test(f) && f !== filename) {
+      if (new RegExp(`^${stem.replace(/\./g, '\\.')}\\.[a-f0-9]+\\.json$`).test(f) && f !== filename) {
         fs.unlinkSync(path.join(outputDir, f));
       }
     }
   } catch (e) {}
 
   fs.writeFileSync(path.join(outputDir, filename), jsonContent, 'utf-8');
-  fs.writeFileSync(path.join(outputDir, 'search-index.json'), jsonContent, 'utf-8');
+  if (lang === 'en') fs.writeFileSync(path.join(outputDir, 'search-index.json'), jsonContent, 'utf-8');
 
   return {
     filename,

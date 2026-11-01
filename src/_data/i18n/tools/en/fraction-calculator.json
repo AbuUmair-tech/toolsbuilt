@@ -1,0 +1,326 @@
+{
+  "listing": {
+    "name": "Fraction Calculator",
+    "shortName": "Fraction Calculator",
+    "description": "Add, subtract, multiply and divide fractions and mixed numbers with step-by-step working, simplify fractions and convert decimals.",
+    "shortDescription": "Fractions and mixed numbers with steps, simplifying and decimal to fraction.",
+    "keywords": [
+      "fraction calculator",
+      "adding fractions",
+      "mixed number calculator",
+      "simplify fractions",
+      "decimal to fraction",
+      "dividing fractions",
+      "multiplying fractions"
+    ]
+  },
+  "title": "Fraction Calculator: Add, Subtract, Multiply, Divide",
+  "description": "Add, subtract, multiply and divide fractions and mixed numbers with step-by-step working. Simplify fractions and turn decimals into fractions.",
+  "h1": "Fraction Calculator",
+  "quickAnswer": "To add or subtract fractions, rewrite them over a common denominator and combine the numerators: 1/2 + 1/3 = 3/6 + 2/6 = 5/6. To multiply, multiply tops and bottoms; to divide, multiply by the reciprocal: 3/4 ÷ 1/2 = 3/4 × 2/1 = 6/4 = 3/2 = 1 1/2. Always finish by dividing top and bottom by their greatest common divisor.",
+  "formula": {
+    "title": "Fraction Rules",
+    "expression": "a/b ± c/d = (a·d ± c·b) / (b·d)   ·   a/b × c/d = (a·c) / (b·d)   ·   a/b ÷ c/d = (a·d) / (b·c)",
+    "explanation": "For addition and subtraction the calculator uses the least common multiple of the denominators, which keeps the numbers small, then adds or subtracts the rewritten numerators. Multiplication multiplies straight across. Division multiplies by the reciprocal of the second fraction, which is impossible if that fraction is zero. The result is reduced by its greatest common divisor (found with Euclid's algorithm) and also shown as a mixed number and a decimal, with any repeating digits in brackets.",
+    "variables": [
+      {
+        "name": "Mixed number",
+        "description": "A whole number and a fraction, such as 2 1/3. It is converted to an improper fraction first: (2 × 3 + 1)/3 = 7/3."
+      },
+      {
+        "name": "LCM",
+        "description": "Least common multiple: the smallest number both denominators divide into, used as the common denominator."
+      },
+      {
+        "name": "GCD",
+        "description": "Greatest common divisor: the largest number that divides both numerator and denominator, used to simplify."
+      }
+    ]
+  },
+  "workedExamples": [
+    {
+      "title": "1/2 + 1/3",
+      "inputs": [
+        "1/2 + 1/3"
+      ],
+      "steps": [
+        "LCM(2, 3) = 6",
+        "1/2 = 3/6 and 1/3 = 2/6",
+        "3/6 + 2/6 = 5/6, already in lowest terms"
+      ],
+      "result": "5/6 = 0.8(3)",
+      "link": "/tools/fraction-calculator/?mode=calc&a=1%2F2&op=add&b=1%2F3#tool"
+    },
+    {
+      "title": "3/4 ÷ 1/2",
+      "inputs": [
+        "3/4 ÷ 1/2"
+      ],
+      "steps": [
+        "Multiply by the reciprocal: 3/4 × 2/1",
+        "(3 × 2)/(4 × 1) = 6/4",
+        "GCD(6, 4) = 2, so 6/4 = 3/2"
+      ],
+      "result": "3/2 = 1 1/2 = 1.5",
+      "link": "/tools/fraction-calculator/?mode=calc&a=3%2F4&op=divide&b=1%2F2#tool"
+    },
+    {
+      "title": "2 1/3 × 3/7",
+      "inputs": [
+        "2 1/3 × 3/7"
+      ],
+      "steps": [
+        "2 1/3 = (2 × 3 + 1)/3 = 7/3",
+        "7/3 × 3/7 = 21/21",
+        "GCD(21, 21) = 21, so the answer is 1"
+      ],
+      "result": "1",
+      "link": "/tools/fraction-calculator/?mode=calc&a=2+1%2F3&op=multiply&b=3%2F7#tool"
+    },
+    {
+      "title": "Simplify 6/8 and convert 0.375",
+      "inputs": [
+        "Simplify: 6/8",
+        "Decimal to fraction: 0.375"
+      ],
+      "steps": [
+        "GCD(6, 8) = 2, so 6/8 = 3/4",
+        "0.375 = 375/1000; GCD(375, 1000) = 125, so 375/1000 = 3/8"
+      ],
+      "result": "6/8 = 3/4 and 0.375 = 3/8",
+      "link": "/tools/fraction-calculator/?mode=dec&dec=0.375#tool"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Adding denominators",
+      "description": "1/2 + 1/3 is not 2/5. Denominators say what size the pieces are, so they must match before you add: 3/6 + 2/6 = 5/6."
+    },
+    {
+      "title": "Dividing without flipping the second fraction",
+      "description": "To divide by a fraction, multiply by its reciprocal (flip the second fraction only). 3/4 ÷ 1/2 = 3/4 × 2/1 = 3/2, not 3/8."
+    },
+    {
+      "title": "Multiplying the whole number of a mixed number separately",
+      "description": "2 1/3 × 3/7 is not (2 × 3/7) plus (1/3) or 2 × 1/3 × 3/7. Convert 2 1/3 to 7/3 first, then multiply."
+    },
+    {
+      "title": "Stopping before the fraction is simplified",
+      "description": "6/4 is correct but not finished. Divide top and bottom by their greatest common divisor (2) to get 3/2, or 1 1/2 as a mixed number."
+    },
+    {
+      "title": "Losing the minus sign of a mixed number",
+      "description": "−1 1/2 means −(1 + 1/2) = −3/2, not −1 + 1/2 = −1/2. Keep the sign outside the whole mixed number."
+    }
+  ],
+  "sources": [
+    {
+      "name": "Common Core State Standards for Mathematics: Number and Operations—Fractions",
+      "url": "https://www.thecorestandards.org/Math/Content/NF/"
+    },
+    {
+      "name": "Euclid's Elements, Book VII, Proposition 2 (greatest common measure)",
+      "url": "https://mathcs.clarku.edu/~djoyce/java/elements/bookVII/propVII2.html"
+    },
+    {
+      "name": "NIST Digital Library of Mathematical Functions: §27.1 Number theory, GCD",
+      "url": "https://dlmf.nist.gov/27.1"
+    }
+  ],
+  "howto": {
+    "name": "How to Use the Fraction Calculator",
+    "description": "Calculate with fractions and mixed numbers, simplify fractions, and convert decimals to fractions.",
+    "steps": [
+      {
+        "name": "Choose a mode",
+        "text": "Calculate with two fractions, simplify one fraction, or convert a decimal to a fraction."
+      },
+      {
+        "name": "Type the numbers",
+        "text": "Enter fractions like 3/4, mixed numbers like 2 1/3, whole numbers or decimals."
+      },
+      {
+        "name": "Pick the operation",
+        "text": "Choose add, subtract, multiply or divide."
+      },
+      {
+        "name": "Read the answer and steps",
+        "text": "See the simplified fraction, mixed number, decimal and every step of the working."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "How do you add fractions with different denominators?",
+      "a": "Find a common denominator (the least common multiple of the denominators), rewrite each fraction over it, then add the numerators. 1/2 + 1/3 = 3/6 + 2/6 = 5/6."
+    },
+    {
+      "q": "How do you divide fractions?",
+      "a": "Keep the first fraction, change ÷ to ×, and flip the second fraction. 3/4 ÷ 1/2 = 3/4 × 2/1 = 6/4 = 3/2."
+    },
+    {
+      "q": "How do you multiply mixed numbers?",
+      "a": "Convert each mixed number to an improper fraction, multiply the numerators and the denominators, then simplify. 2 1/3 × 3/7 = 7/3 × 3/7 = 21/21 = 1."
+    },
+    {
+      "q": "How do I simplify a fraction?",
+      "a": "Divide the numerator and denominator by their greatest common divisor. For 6/8 the GCD is 2, so 6/8 = 3/4."
+    },
+    {
+      "q": "How do you turn a decimal into a fraction?",
+      "a": "Write the digits after the point over 10, 100, 1000 and so on, then simplify. 0.375 = 375/1000, and dividing both by 125 gives 3/8."
+    },
+    {
+      "q": "How do I type a mixed number?",
+      "a": "Type the whole number, a space, then the fraction: 2 1/3. Negative mixed numbers are written -2 1/3. Whole numbers (5) and decimals (0.75) work too."
+    },
+    {
+      "q": "What does a number in brackets in the decimal mean?",
+      "a": "The digits in brackets repeat forever. 5/6 = 0.8(3) means 0.8333…, and 1/7 = 0.(142857) means 0.142857142857…."
+    },
+    {
+      "q": "Why can't I divide by zero?",
+      "a": "Dividing by a fraction means multiplying by its reciprocal, and 0 has no reciprocal. No number times 0 gives a non-zero answer, so division by zero is undefined."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Fraction Calculator",
+      "tool-div1": "Calculator mode",
+      "copy-result-btn": "Copy result to clipboard"
+    },
+    "text": {
+      "tab-calc": "Calculate",
+      "tab-simplify": "Simplify",
+      "tab-dec": "Decimal",
+      "frac-hint": "Type fractions (3/4), mixed numbers with a space (2 1/3), whole numbers (5) or decimals (0.75).",
+      "reset-btn": "Reset",
+      "result-header-text": "Answer",
+      "copy-result-btn": "<span data-icon=\"copy\"></span> Copy Result"
+    },
+    "label": {
+      "frac-a": "First number",
+      "frac-op": "Operation",
+      "frac-b": "Second number",
+      "frac-s": "Fraction to simplify",
+      "frac-dec": "Decimal"
+    },
+    "option": {
+      "frac-op": {
+        "add": "+ add",
+        "subtract": "− subtract",
+        "multiply": "× multiply",
+        "divide": "÷ divide"
+      }
+    },
+    "content": {
+      "tool": {
+        "p1": "Terminating decimals only, such as 0.375 or 2.5.",
+        "button1": "Calculate",
+        "summary1": "Step by step"
+      },
+      "fraction-rules-in-one-table": {
+        "heading": "Fraction Rules in One Table",
+        "caption1": "How to add, subtract, multiply and divide fractions",
+        "th1": "Operation",
+        "th2": "What to do",
+        "th3": "Example",
+        "td1": "Add",
+        "td2": "Common denominator, add numerators",
+        "td3": "Subtract",
+        "td4": "Common denominator, subtract numerators",
+        "td5": "Multiply",
+        "td6": "Numerator × numerator, denominator × denominator",
+        "td7": "Divide",
+        "td8": "Multiply by the reciprocal of the second fraction",
+        "td9": "Simplify",
+        "td10": "Divide top and bottom by their GCD",
+        "td11": "18/24: GCD(18, 24) = 6, so 18/24 = 3/4"
+      },
+      "mixed-numbers-improper-fractions-and-decimals": {
+        "heading": "Mixed Numbers, Improper Fractions and Decimals",
+        "p1": "An improper fraction has a numerator at least as large as its denominator, such as 7/3. A mixed number writes the same value as a whole number plus a proper fraction: 7 ÷ 3 = 2 remainder 1, so 7/3 = 2 1/3. Calculations are easiest with improper fractions, which is why the calculator converts mixed numbers first and converts back at the end.",
+        "p2": "Every fraction is also a decimal. If the simplified denominator has no prime factors other than 2 and 5, the decimal ends (3/8 = 0.375). Otherwise it repeats forever, and the calculator puts the repeating block in brackets: 1/3 = 0.(3), 5/6 = 0.8(3), 1/7 = 0.(142857). Going the other way, only terminating decimals can be typed exactly, so 0.333 becomes 333/1000, not 1/3."
+      },
+      "how-euclid-s-algorithm-finds-the": {
+        "heading": "How Euclid's Algorithm Finds the GCD",
+        "p1": "To simplify 84/126, divide the larger number by the smaller and keep the remainder: 126 = 1 × 84 + 42, then 84 = 2 × 42 + 0. When the remainder reaches 0, the last divisor (42) is the greatest common divisor, so 84/126 = 2/3. The Simplify mode shows each of these lines, which is handy for checking homework by hand.",
+        "p2": "All arithmetic uses exact whole-number maths in your browser, so even very large numerators and denominators are never rounded."
+      }
+    },
+    "title": {
+      "copy-result-btn": "Copy result to clipboard"
+    }
+  },
+  "client": {
+    "errors": {
+      "empty": "Enter a number or fraction, for example 3/4 or 2 1/3.",
+      "tooLong": "That number is too long to work with here.",
+      "zeroDenominator": "\"{{raw}}\" has a denominator of 0, which is undefined.",
+      "notUnderstood": "\"{{raw}}\" is not a number this calculator understands. Use forms like 3/4, 2 1/3, 5 or 0.75.",
+      "chooseOperation": "Choose an operation: +, −, × or ÷.",
+      "firstNumber": "First number: {{error}}",
+      "secondNumber": "Second number: {{error}}",
+      "divideByZero": "You cannot divide by zero: the second number is 0, and division by 0 is undefined.",
+      "decimalEmpty": "Enter a decimal such as 0.375.",
+      "notTerminating": "\"{{raw}}\" is not a terminating decimal. Enter digits with an optional decimal point, such as 0.375 or 2.5. Repeating decimals like 0.333… cannot be entered exactly.",
+      "decimalTooLong": "That decimal is too long to work with here."
+    },
+    "steps": {
+      "convert": {
+        "mixed": {
+          "first": "Write the first number {{text}} as an improper fraction: {{sign}}({{whole}} × {{d}} + {{partN}}) / {{d}} = {{n}}/{{d}}",
+          "second": "Write the second number {{text}} as an improper fraction: {{sign}}({{whole}} × {{d}} + {{partN}}) / {{d}} = {{n}}/{{d}}",
+          "single": "Write the number {{text}} as an improper fraction: {{sign}}({{whole}} × {{d}} + {{partN}}) / {{d}} = {{n}}/{{d}}"
+        },
+        "whole": {
+          "first": "Write the first number {{text}} as a fraction: {{n}}/1",
+          "second": "Write the second number {{text}} as a fraction: {{n}}/1",
+          "single": "Write the number {{text}} as a fraction: {{n}}/1"
+        },
+        "decimal": {
+          "first": "Write the first number {{text}} as a fraction: {{n}}/{{d}}",
+          "second": "Write the second number {{text}} as a fraction: {{n}}/{{d}}",
+          "single": "Write the number {{text}} as a fraction: {{n}}/{{d}}"
+        }
+      },
+      "simplify": "Simplify: GCD({{absN}}, {{d}}) = {{g}}, so {{n}}/{{d}} = {{simplified}}",
+      "lowestTerms": "{{n}}/{{d}} is already in lowest terms (GCD = 1)",
+      "sameDenominator": {
+        "add": "The denominators are already the same ({{d}}), so add the numerators: {{a}} {{sym}} {{b}} = {{result}}",
+        "subtract": "The denominators are already the same ({{d}}), so subtract the numerators: {{a}} {{sym}} {{b}} = {{result}}"
+      },
+      "commonDenominator": "Find a common denominator: LCM({{da}}, {{db}}) = {{lcd}}",
+      "rewrite": "Rewrite both fractions: {{fx}} = {{na}}/{{lcd}} and {{fy}} = {{nb}}/{{lcd}}",
+      "numerators": {
+        "add": "Add the numerators: {{a}} {{sym}} {{b}} = {{n}}, giving {{n}}/{{d}}",
+        "subtract": "Subtract the numerators: {{a}} {{sym}} {{b}} = {{n}}, giving {{n}}/{{d}}"
+      },
+      "multiplyBoth": "Multiply the numerators and the denominators: ({{xn}} × {{yn}}) / ({{xd}} × {{yd}}) = {{n}}/{{d}}",
+      "reciprocal": "Dividing by {{fy}} is the same as multiplying by its reciprocal {{yd}}/{{yn}}",
+      "multiply": "Multiply: ({{xn}} × {{yd}}) / ({{xd}} × {{yn}}) = {{n}}/{{d}}",
+      "asMixed": "As a mixed number: {{mixed}}",
+      "zero": "0 divided by any non-zero number is 0",
+      "findGcd": "Find the greatest common divisor of {{a}} and {{b}} with Euclid's algorithm:",
+      "gcd": "GCD = {{gcd}}",
+      "divideBoth": "Divide both by {{g}}: {{n}} ÷ {{g}} = {{nq}}, {{d}} ÷ {{g}} = {{dq}}",
+      "gcdOne": "The GCD is 1, so the fraction is already in lowest terms",
+      "decimalPlaces": {
+        "one": "{{raw}} has {{places}} decimal place, so write it over 10^{{places}} = {{d}}: {{n}}/{{d}}",
+        "other": "{{raw}} has {{places}} decimal places, so write it over 10^{{places}} = {{d}}: {{n}}/{{d}}"
+      },
+      "wholeNumber": "{{raw}} is a whole number: {{n}}/1",
+      "gcdOf": "GCD({{a}}, {{d}}) = {{g}}",
+      "divideBothShort": "Divide both by {{g}}: {{n}}/{{d}}"
+    },
+    "result": {
+      "lowestTerms": "{{input}} in lowest terms",
+      "asFraction": "{{input}} as a fraction"
+    },
+    "stats": {
+      "simplified": "Simplified fraction",
+      "mixed": "Mixed number",
+      "decimal": "Decimal"
+    }
+  }
+}

@@ -5,6 +5,8 @@
  */
 document.addEventListener('DOMContentLoaded', () => {
   const logic = window.HoursCalculatorLogic;
+  const T = ToolsBuilt.scope('hours-calculator');
+  const locale = ToolsBuilt.pageLocale('en-US');
   const tabBtns = Array.from(document.querySelectorAll('.mode-tab-btn'));
   const modeInput = document.getElementById('mode');
   const forms = {
@@ -26,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const noteText = document.getElementById('result-note');
   const statsBox = document.getElementById('result-stats');
 
-  const num = new Intl.NumberFormat('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  const num = new Intl.NumberFormat(locale, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   let activeMode = 'single';
   let debounceTimer = null;
 
@@ -103,33 +105,35 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function hoursLabel(minutes) {
-    return `${logic.formatHoursMinutes(minutes)} (${num.format(minutes / 60)} h)`;
+    return T('stats.hoursValue', { hhmm: logic.formatHoursMinutes(minutes), decimal: num.format(minutes / 60) });
   }
 
   function calculateSingle() {
-    if (!startInput.value) return showError('Enter a start time, for example 09:00.', startInput);
-    if (!endInput.value) return showError('Enter an end time, for example 17:30.', endInput);
+    if (!startInput.value) return showError(T('errors.missingStart'), startInput);
+    if (!endInput.value) return showError(T('errors.missingEnd'), endInput);
     const res = logic.calculateDuration(startInput.value, endInput.value, breakInput.value);
     if (res.error) {
-      const field = /break/i.test(res.error) ? breakInput : (/end/i.test(res.error) ? endInput : startInput);
+      const field = res.field === 'break' ? breakInput : (res.field === 'end' ? endInput : startInput);
       return showError(res.error, field);
     }
 
-    headerText.textContent = 'Hours worked';
-    primaryText.textContent = `${res.hhmm} hours`;
+    headerText.textContent = T('result.headerSingle');
+    primaryText.textContent = T('result.hours', { hhmm: res.hhmm });
     const notes = [];
-    if (res.crossesMidnight) notes.push('The end time is earlier than the start, so the shift is counted as finishing the next day.');
-    if (res.sameTime) notes.push('Start and end are the same time, so the duration is 0. For a full 24-hour shift, enter 00:00 to 23:59 and add one minute.');
+    if (res.crossesMidnight) notes.push(T('notes.crossesMidnight'));
+    if (res.sameTime) notes.push(T('notes.sameTime'));
     noteText.textContent = notes.join(' ');
     noteText.hidden = notes.length === 0;
     renderStats([
-      ['Hours and minutes', res.hhmm],
-      ['Decimal hours', num.format(res.workedMinutes / 60)],
-      ['Total minutes', res.workedMinutes.toLocaleString('en-US')],
-      ['Time on site', logic.formatHoursMinutes(res.spanMinutes)],
-      ['Unpaid break', `${res.breakMinutes} min`]
+      [T('stats.hoursAndMinutes'), res.hhmm],
+      [T('stats.decimalHours'), num.format(res.workedMinutes / 60)],
+      [T('stats.totalMinutes'), res.workedMinutes.toLocaleString(locale)],
+      [T('stats.timeOnSite'), logic.formatHoursMinutes(res.spanMinutes)],
+      [T('stats.unpaidBreak'), T('stats.minutesValue', { n: res.breakMinutes })]
     ]);
-    setCopyText(`${startInput.value} to ${endInput.value}${res.crossesMidnight ? ' (next day)' : ''}, ${res.breakMinutes} min break: ${res.hhmm} hours (${num.format(res.workedMinutes / 60)} decimal hours)`);
+    setCopyText(T(res.crossesMidnight ? 'copy.singleNextDay' : 'copy.single', {
+      start: startInput.value, end: endInput.value, breakMin: res.breakMinutes, hhmm: res.hhmm, decimal: num.format(res.workedMinutes / 60)
+    }));
     resultBox.classList.add('is-visible');
     ToolsBuilt.resultLink.update(forms.single);
   }
@@ -167,45 +171,47 @@ document.addEventListener('DOMContentLoaded', () => {
         const row = rows[res.rowIndex];
         const r = data[res.rowIndex];
         field = !r.start ? row.querySelector('.ts-start') : !r.end ? row.querySelector('.ts-end') : row.querySelector('.ts-break');
-        if (/start time/i.test(res.error)) field = row.querySelector('.ts-start');
-        else if (/end time/i.test(res.error)) field = row.querySelector('.ts-end');
-      } else if (/multiplier/i.test(res.error)) {
+        if (res.field === 'start') field = row.querySelector('.ts-start');
+        else if (res.field === 'end') field = row.querySelector('.ts-end');
+      } else if (res.field === 'multiplier') {
         field = otMultInput;
-      } else if (/overtime/i.test(res.error)) {
+      } else if (res.field === 'overtimeAfter') {
         field = otAfterInput;
       }
       return showError(res.error, field);
     }
     if (rateInput.value !== '' && !res.hasRate) {
-      return showError('The hourly rate must be zero or a positive number.', rateInput);
+      return showError(T('errors.rate'), rateInput);
     }
 
-    headerText.textContent = `Weekly total (${res.daysWorked} day${res.daysWorked === 1 ? '' : 's'} worked)`;
-    primaryText.textContent = res.hasRate ? `${res.hhmm} hours · ${num.format(res.totalPay)} pay` : `${res.hhmm} hours`;
+    headerText.textContent = T(res.daysWorked === 1 ? 'result.headerWeek.one' : 'result.headerWeek.other', { count: res.daysWorked });
+    primaryText.textContent = res.hasRate
+      ? T('result.hoursAndPay', { hhmm: res.hhmm, pay: num.format(res.totalPay) })
+      : T('result.hours', { hhmm: res.hhmm });
     const stats = [
-      ['Total hours', hoursLabel(res.totalMinutes)],
-      ['Regular hours', hoursLabel(res.regularMinutes)]
+      [T('stats.totalHours'), hoursLabel(res.totalMinutes)],
+      [T('stats.regularHours'), hoursLabel(res.regularMinutes)]
     ];
-    if (otEnabled.checked) stats.push(['Overtime hours', hoursLabel(res.overtimeMinutes)]);
+    if (otEnabled.checked) stats.push([T('stats.overtimeHours'), hoursLabel(res.overtimeMinutes)]);
     if (res.hasRate) {
-      stats.push(['Regular pay', `${num.format(res.regularPay)} (${num.format(res.rate)}/h)`]);
-      if (otEnabled.checked) stats.push(['Overtime pay', `${num.format(res.overtimePay)} (${num.format(res.overtimeRate)}/h)`]);
-      stats.push(['Total pay', num.format(res.totalPay)]);
+      stats.push([T('stats.regularPay'), T('stats.payAtRate', { pay: num.format(res.regularPay), rate: num.format(res.rate) })]);
+      if (otEnabled.checked) stats.push([T('stats.overtimePay'), T('stats.payAtRate', { pay: num.format(res.overtimePay), rate: num.format(res.overtimeRate) })]);
+      stats.push([T('stats.totalPay'), num.format(res.totalPay)]);
     }
     renderStats(stats);
     const overnight = res.days.filter(d => d.crossesMidnight).map(d => d.day);
     const notes = [];
-    if (overnight.length) notes.push(`${overnight.join(', ')}: shift runs past midnight and is counted on the day it started.`);
-    if (!res.hasRate) notes.push('Add an hourly rate to see regular, overtime and total pay.');
+    if (overnight.length) notes.push(T('notes.overnight', { days: overnight.join(', ') }));
+    if (!res.hasRate) notes.push(T('notes.addRate'));
     noteText.textContent = notes.join(' ');
     noteText.hidden = notes.length === 0;
 
-    const lines = res.days.filter(d => !d.empty).map(d => `${d.day}: ${d.hhmm}`);
-    lines.push(`Total: ${res.hhmm} (${num.format(res.totalMinutes / 60)} h)`);
+    const lines = res.days.filter(d => !d.empty).map(d => T('copy.dayLine', { day: d.day, hhmm: d.hhmm }));
+    lines.push(T('copy.total', { hhmm: res.hhmm, decimal: num.format(res.totalMinutes / 60) }));
     if (res.hasRate) {
-      lines.push(`Regular pay: ${num.format(res.regularPay)}`);
-      if (otEnabled.checked) lines.push(`Overtime pay: ${num.format(res.overtimePay)}`);
-      lines.push(`Total pay: ${num.format(res.totalPay)}`);
+      lines.push(T('copy.regularPay', { pay: num.format(res.regularPay) }));
+      if (otEnabled.checked) lines.push(T('copy.overtimePay', { pay: num.format(res.overtimePay) }));
+      lines.push(T('copy.totalPay', { pay: num.format(res.totalPay) }));
     }
     setCopyText(lines.join('\n'));
     resultBox.classList.add('is-visible');

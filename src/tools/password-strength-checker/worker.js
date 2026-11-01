@@ -13,6 +13,8 @@ self.onmessage = (e) => {
     try {
       const scripts = (msg.scripts || []).filter(src => typeof src === 'string' && /^\/assets\/vendor\/zxcvbn-ts-[\w.-]+\/zxcvbn-ts\.js$/.test(src));
       if (scripts.length !== 3) throw new Error('The password checker files are missing.');
+      // The built logic.js starts with the English strings, assigned to window.I18N_DEFAULTS
+      if (typeof self.window === 'undefined') self.window = self;
       importScripts(...scripts, '/tools/password-strength-checker/logic.js');
       checker = PasswordStrengthLogic.createChecker(self.zxcvbnts);
       self.postMessage({ type: 'ready' });

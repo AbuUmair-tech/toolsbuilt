@@ -1,0 +1,635 @@
+{
+  "listing": {
+    "name": "Salary Tax Calculator by Country",
+    "shortName": "Salary Tax by Country",
+    "description": "Pick your country to work out income tax on your salary: UK, US federal, India and Pakistan calculators built from official rates, plus Gulf countries.",
+    "shortDescription": "Choose your country and open a salary tax calculator built on its official rates.",
+    "keywords": [
+      "salary tax calculator",
+      "income tax calculator by country",
+      "take home pay calculator",
+      "tax on salary"
+    ]
+  },
+  "title": "Salary Tax Calculator by Country: UK, US, India, Pakistan",
+  "description": "Pick your country to work out income tax on your salary: UK, US federal, India and Pakistan calculators built from official rates, plus Gulf countries.",
+  "h1": "Salary Tax Calculator by Country",
+  "quickAnswer": "Choose your country to open a calculator built on that country's official tax rates. Each country taxes salaries differently: the UK and India give a tax-free allowance or deduction first, the US uses filing-status brackets, and Pakistan uses fixed-plus-rate slabs. The UAE, Saudi Arabia and Qatar do not tax individuals' salaries at all.",
+  "faqs": [
+    {
+      "q": "Which countries does the salary tax calculator cover?",
+      "a": "The United Kingdom (including Scottish rates), the United States (federal income tax), India (new tax regime) and Pakistan. Each page uses the rates published by that country's tax authority and shows the source and the date we checked it."
+    },
+    {
+      "q": "Do I pay tax on my salary in the UAE, Saudi Arabia or Qatar?",
+      "a": "No personal income tax is charged on salaries in these countries, according to their official government sources linked on this page."
+    },
+    {
+      "q": "Why is my country missing?",
+      "a": "We only add a country after checking its rates against an official source, such as the tax authority's own website or the finance law. Countries are added as they are verified."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Choose your country"
+    },
+    "label": {
+      "hub-country": "Your country"
+    },
+    "option": {
+      "hub-country": {
+        "PK": "Pakistan"
+      }
+    },
+    "text": {
+      "hub-open-btn": "Open calculator",
+      "no-tax-heading": "Countries with no income tax on salaries",
+      "compare-heading": "How countries tax salaries differently"
+    },
+    "content": {
+      "tool": {
+        "span1": "Pakistan"
+      },
+      "countries-with-no-income-tax-on": {
+        "p1": "Some countries do not tax individuals' employment income, so there is nothing to calculate. Each statement below comes from an official government source."
+      },
+      "how-countries-tax-salaries-differently": {
+        "p1": "Most countries tax salaries progressively: income is split into bands and each band has its own rate, so a higher rate only applies to the part of your pay inside that band. What changes from country to country is what is taken off before the bands start, and what is added on top.",
+        "li1": "<strong>Tax-free allowance:</strong> the UK gives everyone a £12,570 Personal Allowance, which shrinks above £100,000.",
+        "li2": "<strong>Standard deduction:</strong> the US subtracts a standard deduction that depends on filing status, and India gives salaried employees ₹75,000 under the new regime.",
+        "li3": "<strong>Rebates and surcharges:</strong> India cancels the tax entirely up to ₹12 lakh of total income through a rebate and adds a 4% cess; Pakistan applied a surcharge to high earners until 2025-26.",
+        "li4": "<strong>Who decides:</strong> Scotland sets its own bands on wages, and in the US each state adds its own income tax on top of the federal tax shown here.",
+        "p2": "Every calculator states the tax year it uses, the official source of its rates and the date we last checked them."
+      }
+    },
+    "hub": {
+      "pkMeta": "Tax year {{year}} · FBR salaried slabs",
+      "noTaxItem": "<strong>{{name}}:</strong> {{statement}} Source: <a href=\"{{url}}\" target=\"_blank\" rel=\"noopener noreferrer\">{{source}}</a> (checked {{date}})."
+    },
+    "country": {
+      "formLabel": "{{country}} Salary Tax Calculator Form",
+      "salaryLabel": "Gross salary ({{currency}}) <span class=\"text-accent\">*</span>",
+      "salaryPlaceholder": "e.g. {{value}}",
+      "periodLegend": "Salary is",
+      "monthly": "Monthly",
+      "annual": "Annual",
+      "statusLabel": "Filing status",
+      "taxYear": "Tax year",
+      "calculate": "Calculate Tax",
+      "reset": "Reset",
+      "resultHeader": "Your income tax",
+      "copyTitle": "Copy Result to clipboard",
+      "copy": "<span data-icon=\"copy\"></span> Copy Result",
+      "stats": {
+        "monthlyTax": "Monthly tax",
+        "monthlyTakeHome": "Monthly take-home (after income tax)",
+        "taxable": "Taxable income",
+        "annualTax": "Annual income tax",
+        "effectiveRate": "Effective tax rate",
+        "topRate": "Your top rate"
+      },
+      "table": {
+        "titleWithStatus": "{{title}}: {{status}}",
+        "ariaLabel": "{{title}} (scrollable)",
+        "ariaLabelWithStatus": "{{title}} {{status}} (scrollable)",
+        "captionWithStatus": "{{title}}, {{status}}",
+        "rate": "Rate",
+        "over": "Over {{from}}",
+        "upTo": "Up to {{to}}",
+        "range": "{{from}} to {{to}}",
+        "yourBand": " · your band",
+        "rateWithName": "{{rate}} ({{name}})"
+      },
+      "estimateTitle": "This is an estimate",
+      "others": {
+        "heading": "Salary tax in other countries",
+        "intro": "Tax rules differ a lot from country to country. Compare with our calculators for other countries, or see every country on one page.",
+        "link": "{{country}} Salary Tax Calculator",
+        "pakistan": "Pakistan Salary Tax Calculator",
+        "hub": "Salary tax calculators for every country"
+      }
+    }
+  },
+  "client": {
+    "countries": {
+      "GB": {
+        "label": "Tax year 2026 to 2027",
+        "deductions": {
+          "allowance": "personal allowance"
+        }
+      },
+      "IN": {
+        "label": "FY 2025-26 (AY 2026-27), new tax regime",
+        "deductions": {
+          "standard": "standard deduction for salaried employees"
+        },
+        "rebate": "Section 87A rebate",
+        "cess": "Health and education cess"
+      },
+      "US": {
+        "label": "Tax year 2026",
+        "deductions": {
+          "standard": "standard deduction"
+        }
+      }
+    },
+    "engine": {
+      "standardDeduction": "Standard deduction",
+      "personalAllowance": "Personal allowance",
+      "errors": {
+        "noData": "No tax data loaded.",
+        "unknownStatus": "Unknown filing status \"{{status}}\".",
+        "salaryMin": "Please enter a salary of 0 or more.",
+        "period": "Choose whether the salary is monthly or annual."
+      }
+    },
+    "hub": {
+      "noTaxNote": "{{name}} does not tax individuals' salaries. See the note below."
+    },
+    "errors": {
+      "salaryRequired": "Please enter your salary."
+    },
+    "result": {
+      "primary": "{{tax}} a year",
+      "copy": "{{country}} income tax ({{label}}) on {{income}} a year: {{tax}} a year ({{monthlyTax}} a month), take-home {{takeHome}} a month, effective rate {{effective}}%."
+    },
+    "steps": {
+      "gross": "Annual gross salary: <code>{{amount}}</code>",
+      "less": "Less {{label}}: <code>{{amount}}</code>",
+      "taxable": "Taxable income: <strong>{{amount}}</strong>",
+      "band": "{{rate}} on {{amount}} ({{from}} to {{to}}): <code>{{tax}}</code>",
+      "bandsTotal": "Tax from the bands: <code>{{amount}}</code>",
+      "surcharge": "Plus surcharge: <code>{{amount}}</code>",
+      "cess": "Plus {{label}} ({{rate}}): <code>{{amount}}</code>",
+      "total": "Annual income tax: <strong>{{annual}}</strong>, or {{monthly}} a month",
+      "defaultRebate": "rebate",
+      "defaultCess": "cess"
+    },
+    "toast": {
+      "copied": "Tax calculation copied to clipboard"
+    }
+  },
+  "countryPages": {
+    "GB": {
+      "label": "Tax year 2026 to 2027",
+      "title": "UK Salary Tax Calculator 2026/27 (Income Tax)",
+      "h1": "UK Salary Tax Calculator 2026/27",
+      "description": "Work out UK Income Tax on your salary for 2026/27, including the £100,000 Personal Allowance taper and Scottish rates. Monthly tax and take-home after tax.",
+      "salaryHint": "Your gross pay before tax. Pension contributions taken before tax (salary sacrifice) should be left out.",
+      "tableTitle": "Income Tax bands 2026/27 (income after the Personal Allowance)",
+      "tableIncomeHeading": "Income after allowances",
+      "tableNotes": [
+        "With the standard £12,570 Personal Allowance, the basic rate band runs from £12,571 to £50,270 of salary in England, Wales and Northern Ireland.",
+        "The Personal Allowance falls by £1 for every £2 of income above £100,000 and is zero from £125,140."
+      ],
+      "disclaimer": "It estimates Income Tax on employment income with the standard Personal Allowance and tax code. It does not include National Insurance, student loan repayments, pension contributions, Marriage Allowance or Blind Person's Allowance. Check your tax code and payslips in your HMRC online account.",
+      "quickAnswer": "For 2026/27 the first £12,570 of income is tax-free. In England, Wales and Northern Ireland you then pay 20% on the next £37,700, 40% up to £125,140 and 45% above that. Scotland has six bands from 19% to 48%. Above £100,000 your tax-free allowance shrinks by £1 for every £2 you earn, which creates an effective 60% rate between £100,000 and £125,140.",
+      "howto": {
+        "name": "How to work out UK Income Tax on a salary",
+        "description": "Estimate yearly and monthly Income Tax on a UK salary for 2026/27.",
+        "steps": [
+          {
+            "name": "Enter your salary",
+            "text": "Type your gross pay and choose monthly or annual."
+          },
+          {
+            "name": "Choose where you live",
+            "text": "Scottish taxpayers use Scotland's bands; everyone else uses the rest of the UK bands."
+          },
+          {
+            "name": "Read your tax",
+            "text": "See your Personal Allowance, tax by band, and your monthly take-home after Income Tax."
+          }
+        ]
+      },
+      "workedExamples": [
+        {
+          "title": "£36,000 salary in England",
+          "inputs": [
+            "Salary: £36,000 a year",
+            "Lives in England"
+          ],
+          "steps": [
+            "Personal Allowance: £12,570",
+            "Income after allowances: £36,000 − £12,570 = £23,430",
+            "20% basic rate on £23,430 = £4,686"
+          ],
+          "result": "£4,686 Income Tax a year (£390.50 a month)."
+        },
+        {
+          "title": "£110,000 salary: the allowance taper",
+          "inputs": [
+            "Salary: £110,000 a year",
+            "Lives in England"
+          ],
+          "steps": [
+            "Income is £10,000 above £100,000, so the allowance falls by £5,000 to £7,570",
+            "Income after allowances: £110,000 − £7,570 = £102,430",
+            "20% on £37,700 = £7,540; 40% on £64,730 = £25,892"
+          ],
+          "result": "£33,432 Income Tax a year (£2,786 a month)."
+        },
+        {
+          "title": "£36,000 salary in Scotland",
+          "inputs": [
+            "Salary: £36,000 a year",
+            "Lives in Scotland"
+          ],
+          "steps": [
+            "Income after allowances: £23,430",
+            "19% on £3,967 = £753.73; 20% on £12,989 = £2,597.80; 21% on £6,474 = £1,359.54"
+          ],
+          "result": "£4,711.07 Income Tax a year, about £25 more than in England."
+        }
+      ],
+      "commonMistakes": [
+        {
+          "title": "Reading the bands as salary bands",
+          "description": "HMRC's bands apply to income after your Personal Allowance. The basic rate covers the first £37,700 above the allowance, which is £12,571 to £50,270 of salary for most people."
+        },
+        {
+          "title": "Ignoring the £100,000 taper",
+          "description": "Between £100,000 and £125,140 each extra £2 of income removes £1 of allowance, so that slice is effectively taxed at 60% in England, Wales and Northern Ireland."
+        },
+        {
+          "title": "Mixing up Income Tax and National Insurance",
+          "description": "National Insurance is a separate deduction on your payslip with its own thresholds, and it is not included here."
+        }
+      ],
+      "faqs": [
+        {
+          "q": "How much can I earn before paying Income Tax in 2026/27?",
+          "a": "£12,570, the standard Personal Allowance, if your income is £100,000 or less. Above £100,000 the allowance falls by £1 for every £2 of income and disappears at £125,140."
+        },
+        {
+          "q": "What is the 60% tax trap?",
+          "a": "Between £100,000 and £125,140, each £1 of extra income is taxed at 40% and also removes 50p of tax-free allowance, which is then taxed at 40% too. Together that is an effective 60% marginal rate, plus National Insurance."
+        },
+        {
+          "q": "Are Scottish tax rates different?",
+          "a": "Yes. If you live in Scotland your salary is taxed at Scottish rates: 19%, 20%, 21%, 42%, 45% and 48% across six bands. Savings and dividend income use UK rates."
+        },
+        {
+          "q": "Why is my payslip tax different?",
+          "a": "PAYE uses your tax code, which can include benefits in kind, underpaid tax from earlier years or a different allowance. Check your tax code in your HMRC online account."
+        }
+      ],
+      "sections": [
+        {
+          "id": "uk-how-heading",
+          "heading": "How Income Tax on a UK salary works",
+          "paragraphs": [
+            "The UK tax year runs from 6 April to 5 April. Employers deduct Income Tax through PAYE each payday using your tax code, which for most people is 1257L (S1257L in Scotland), the code for the £12,570 Personal Allowance.",
+            "Income Tax is charged on income above your Personal Allowance in bands. HMRC publishes the bands as income after allowances: in England, Wales and Northern Ireland the first £37,700 is taxed at 20%, income up to £125,140 at 40%, and anything above at 45%."
+          ],
+          "list": [
+            "<strong>Personal Allowance taper:</strong> above £100,000 the allowance falls by £1 for every £2 of adjusted net income.",
+            "<strong>Scotland:</strong> six bands set by the Scottish Parliament apply to wages and pensions of Scottish taxpayers.",
+            "<strong>Not included:</strong> National Insurance, student loans and pension contributions, which also come off your payslip."
+          ]
+        },
+        {
+          "id": "uk-takehome-heading",
+          "heading": "From Income Tax to take-home pay",
+          "paragraphs": [
+            "The take-home figure here is your salary minus Income Tax only. Your real payslip will also show employee National Insurance and, if they apply to you, student loan repayments and workplace pension contributions.",
+            "Paying into a pension through salary sacrifice, or making gross pension contributions, lowers your adjusted net income. Near £100,000 that can restore part of your Personal Allowance, which is why many people in the taper zone increase pension contributions."
+          ]
+        }
+      ],
+      "statusLabel": "Where you live",
+      "statuses": {
+        "rUK": {
+          "label": "England, Wales or Northern Ireland",
+          "slabNames": [
+            "basic rate",
+            "higher rate",
+            "additional rate"
+          ]
+        },
+        "scotland": {
+          "label": "Scotland",
+          "slabNames": [
+            "starter rate",
+            "basic rate",
+            "intermediate rate",
+            "higher rate",
+            "advanced rate",
+            "top rate"
+          ]
+        }
+      },
+      "sources": [
+        "GOV.UK: Income Tax rates and Personal Allowances (2026 to 2027)",
+        "HMRC: Income Tax rates and allowances for current and previous tax years (income after allowances, England, Wales, Northern Ireland and Scotland)",
+        "GOV.UK: Scottish Income Tax rates 2026 to 2027"
+      ]
+    },
+    "IN": {
+      "label": "FY 2025-26 (AY 2026-27), new tax regime",
+      "title": "India Salary Tax Calculator 2025-26 (New Regime)",
+      "h1": "India Salary Tax Calculator 2025-26",
+      "description": "Work out income tax on an Indian salary for FY 2025-26 under the new regime: ₹75,000 standard deduction, 87A rebate up to ₹12 lakh, surcharge and 4% cess.",
+      "salaryHint": "Your gross salary before tax. Allowances that are exempt from tax should be left out.",
+      "tableTitle": "New regime slabs, FY 2025-26",
+      "tableIncomeHeading": "Total income (after standard deduction)",
+      "tableNotes": [
+        "Section 87A rebate: no tax if total income is ₹12,00,000 or less (rebate up to ₹60,000), with marginal relief just above ₹12 lakh.",
+        "Surcharge on tax: 10% above ₹50 lakh, 15% above ₹1 crore, 25% above ₹2 crore, with marginal relief. Then 4% health and education cess on tax plus surcharge."
+      ],
+      "disclaimer": "It covers a resident individual's salary under the default new tax regime only. It does not include the old regime, special-rate income such as capital gains, or professional tax charged by some states. Check your TDS with your employer or a tax adviser.",
+      "quickAnswer": "Under the new tax regime for FY 2025-26, take ₹75,000 off your annual salary as the standard deduction, then apply the slabs: nil up to ₹4 lakh, 5%, 10%, 15%, 20% and 25% in ₹4 lakh steps, and 30% above ₹24 lakh. If what is left is ₹12 lakh or less, the section 87A rebate cancels the tax, so a salary of up to ₹12.75 lakh pays no income tax. Add 4% cess on any tax due.",
+      "howto": {
+        "name": "How to calculate income tax on a salary in India (new regime)",
+        "description": "Estimate yearly and monthly income tax on a salary for FY 2025-26 under the new tax regime.",
+        "steps": [
+          {
+            "name": "Enter your salary",
+            "text": "Type your gross salary and choose whether it is a monthly or annual figure."
+          },
+          {
+            "name": "Read your tax",
+            "text": "See the annual and monthly tax, the rebate, any surcharge and the 4% cess, and your monthly take-home after income tax."
+          },
+          {
+            "name": "Check your slab",
+            "text": "The slab table highlights the band your last rupee of income falls in."
+          }
+        ]
+      },
+      "workedExamples": [
+        {
+          "title": "₹12.75 lakh salary: no tax",
+          "inputs": [
+            "Annual salary: ₹12,75,000"
+          ],
+          "steps": [
+            "Standard deduction: ₹12,75,000 − ₹75,000 = ₹12,00,000 total income",
+            "Tax on slabs: 5% of ₹4 lakh + 10% of ₹4 lakh = ₹60,000",
+            "Section 87A rebate of ₹60,000 (total income is not above ₹12 lakh)"
+          ],
+          "result": "Nil income tax. The Budget Speech 2025-26 table shows the same: ₹12 lakh total income, tax after rebate nil."
+        },
+        {
+          "title": "₹16.75 lakh salary",
+          "inputs": [
+            "Annual salary: ₹16,75,000"
+          ],
+          "steps": [
+            "Total income after standard deduction: ₹16,00,000",
+            "Tax on slabs: ₹20,000 + ₹40,000 + 15% of ₹4 lakh (₹60,000) = ₹1,20,000",
+            "No rebate above ₹12 lakh; 4% cess: ₹4,800"
+          ],
+          "result": "₹1,24,800 a year (₹10,400 a month). The Budget Speech table shows ₹1,20,000 before cess for ₹16 lakh total income."
+        },
+        {
+          "title": "₹50.75 lakh salary",
+          "inputs": [
+            "Annual salary: ₹50,75,000"
+          ],
+          "steps": [
+            "Total income: ₹50,00,000, not above ₹50 lakh, so no surcharge",
+            "Tax on slabs: ₹3,00,000 up to ₹24 lakh + 30% of ₹26 lakh (₹7,80,000) = ₹10,80,000",
+            "4% cess: ₹43,200"
+          ],
+          "result": "₹11,23,200 a year. The Budget Speech table shows ₹10,80,000 before cess for ₹50 lakh total income."
+        }
+      ],
+      "commonMistakes": [
+        {
+          "title": "Forgetting the standard deduction",
+          "description": "Salaried employees get ₹75,000 off before the slabs apply under the new regime, so the zero-tax point is ₹12.75 lakh of salary, not ₹12 lakh."
+        },
+        {
+          "title": "Thinking ₹12 lakh is a slab",
+          "description": "The ₹12 lakh limit is for the rebate, not a nil slab. Just above it the slab tax applies in full, softened only by marginal relief."
+        },
+        {
+          "title": "Leaving out the cess",
+          "description": "The 4% health and education cess is charged on income tax plus surcharge, so it adds to every non-zero bill."
+        }
+      ],
+      "faqs": [
+        {
+          "q": "How much salary is tax-free in India under the new regime?",
+          "a": "For FY 2025-26, a resident salaried individual with no other income pays no income tax on a salary of up to ₹12,75,000: the ₹75,000 standard deduction brings total income to ₹12 lakh, and the section 87A rebate of up to ₹60,000 cancels the slab tax."
+        },
+        {
+          "q": "What is marginal relief on the ₹12 lakh rebate?",
+          "a": "If your total income is a little over ₹12 lakh, marginal relief makes sure the tax you pay is no more than the amount by which your income exceeds ₹12 lakh. Without it, earning ₹1 more than ₹12 lakh would cost over ₹60,000 in tax."
+        },
+        {
+          "q": "Does this calculator use the old regime?",
+          "a": "No. It uses the new tax regime, which is the default. The old regime has different slabs and allows deductions such as section 80C and HRA; compare both with your employer or a tax adviser before choosing."
+        },
+        {
+          "q": "When is surcharge charged?",
+          "a": "Surcharge applies when total income exceeds ₹50 lakh: 10% of the tax above ₹50 lakh, 15% above ₹1 crore and 25% above ₹2 crore under the new regime, with marginal relief at each threshold."
+        },
+        {
+          "q": "What about tax year 2026-27?",
+          "a": "From 1 April 2026 the Income-tax Act, 2025 applies. The Finance Bill 2026 memorandum keeps the same slabs, surcharge and 4% cess for tax year 2026-27. We will add that year once we have checked the standard deduction and rebate in the new Act itself."
+        }
+      ],
+      "sections": [
+        {
+          "id": "india-how-heading",
+          "heading": "How salary is taxed in India",
+          "paragraphs": [
+            "India taxes salary on a financial-year basis, from 1 April to 31 March. Your employer deducts tax at source (TDS) from each month's pay based on your estimated yearly income, and you settle any difference when you file your return in the following assessment year.",
+            "Since FY 2023-24 the new tax regime has been the default. It has lower slab rates but removes most deductions and exemptions, such as section 80C investments and house rent allowance. Salaried people keep a standard deduction, which is ₹75,000 under the new regime."
+          ],
+          "list": [
+            "<strong>Total income:</strong> gross salary minus the ₹75,000 standard deduction (and any other income you have).",
+            "<strong>Slabs:</strong> nil up to ₹4 lakh, then 5%, 10%, 15%, 20% and 25% in ₹4 lakh steps, and 30% above ₹24 lakh.",
+            "<strong>Rebate:</strong> up to ₹60,000 when total income is ₹12 lakh or less, with marginal relief just above.",
+            "<strong>Surcharge and cess:</strong> surcharge only above ₹50 lakh; 4% cess on every tax bill."
+          ]
+        },
+        {
+          "id": "india-takehome-heading",
+          "heading": "What this means for your monthly take-home pay",
+          "paragraphs": [
+            "The monthly tax the calculator shows is one-twelfth of the yearly tax, which is roughly what TDS takes from each payslip when your salary is steady. Your actual take-home will also be reduced by your provident fund contribution and, in some states, professional tax, which this calculator does not include.",
+            "If your salary changes during the year, or you receive a bonus, your employer recalculates TDS for the remaining months, so individual payslips can differ from the average shown here."
+          ]
+        }
+      ],
+      "slabNames": [
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "sources": [
+        "Memorandum explaining the Finance Bill, 2025: slabs under section 115BAC(1A) and the section 87A rebate (₹60,000 up to ₹12,00,000) from AY 2026-27",
+        "Budget Speech 2025-26, para 156 (₹75,000 standard deduction) and Part B annex table of tax examples",
+        "Memorandum explaining the Finance Bill, 2026: surcharge and 4% health and education cess for AY 2026-27"
+      ]
+    },
+    "US": {
+      "label": "Tax year 2026",
+      "title": "US Federal Income Tax Calculator 2026 (Salary)",
+      "h1": "US Salary Tax Calculator 2026 (Federal)",
+      "description": "Estimate 2026 US federal income tax on a salary for single filers and married couples filing jointly, with the 2026 standard deduction and IRS brackets.",
+      "salaryHint": "Your gross wages before tax. Pre-tax 401(k) or health insurance contributions reduce taxable wages, so leave them out if you know them.",
+      "tableTitle": "2026 federal tax brackets",
+      "tableIncomeHeading": "Taxable income (after standard deduction)",
+      "tableNotes": [
+        "Standard deduction for 2026: $16,100 single, $32,200 married filing jointly.",
+        "Federal income tax only. State and local income tax, Social Security and Medicare are not included."
+      ],
+      "disclaimer": "It estimates federal income tax on wages only, with the standard deduction and no credits. It leaves out state and local income tax, Social Security and Medicare (FICA), itemized deductions and tax credits such as the Child Tax Credit. Check your withholding with the IRS Tax Withholding Estimator or a tax professional.",
+      "quickAnswer": "For 2026, subtract the standard deduction ($16,100 if single, $32,200 if married filing jointly) from your yearly wages, then apply the federal brackets from 10% to 37% to what is left. Each rate only applies to the slice of income inside its bracket, so a single filer earning $72,000 pays about $7,000 in federal income tax, not 22% of everything.",
+      "howto": {
+        "name": "How to estimate 2026 US federal income tax on a salary",
+        "description": "Estimate yearly and monthly federal income tax on wages for 2026.",
+        "steps": [
+          {
+            "name": "Enter your wages",
+            "text": "Type your gross pay and choose whether it is monthly or yearly."
+          },
+          {
+            "name": "Choose a filing status",
+            "text": "Pick single or married filing jointly; each has its own brackets and standard deduction."
+          },
+          {
+            "name": "Read your tax",
+            "text": "See federal tax a year and a month, your effective rate and your top bracket."
+          }
+        ]
+      },
+      "workedExamples": [
+        {
+          "title": "Single, $72,000 salary",
+          "inputs": [
+            "Filing status: single",
+            "Wages: $72,000 a year"
+          ],
+          "steps": [
+            "Taxable income: $72,000 − $16,100 = $55,900",
+            "Rev. Proc. 2025-32 Table 3: $5,800 plus 22% of the excess over $50,400",
+            "22% × $5,500 = $1,210"
+          ],
+          "result": "$7,010 federal income tax (about $584 a month), effective rate 9.74%."
+        },
+        {
+          "title": "Married filing jointly, $150,000 combined wages",
+          "inputs": [
+            "Filing status: married filing jointly",
+            "Wages: $150,000 a year"
+          ],
+          "steps": [
+            "Taxable income: $150,000 − $32,200 = $117,800",
+            "Rev. Proc. 2025-32 Table 1: $11,600 plus 22% of the excess over $100,800",
+            "22% × $17,000 = $3,740"
+          ],
+          "result": "$15,340 federal income tax (about $1,278 a month), effective rate 10.23%."
+        }
+      ],
+      "commonMistakes": [
+        {
+          "title": "Applying your top rate to all income",
+          "description": "Being in the 22% bracket does not mean 22% of your pay goes in federal tax: lower slices are taxed at 10% and 12%, and the standard deduction is not taxed at all."
+        },
+        {
+          "title": "Forgetting state tax and FICA",
+          "description": "Your paycheck also loses Social Security and Medicare and, in most states, state income tax. This page shows only federal income tax."
+        },
+        {
+          "title": "Using last year's numbers",
+          "description": "Brackets and the standard deduction change every year with inflation. These are the 2026 figures from IRS Rev. Proc. 2025-32."
+        }
+      ],
+      "faqs": [
+        {
+          "q": "What are the 2026 federal tax brackets?",
+          "a": "For single filers: 10% up to $12,400 of taxable income, 12% to $50,400, 22% to $105,700, 24% to $201,775, 32% to $256,225, 35% to $640,600 and 37% above. Married couples filing jointly have brackets roughly twice as wide, starting with 10% up to $24,800."
+        },
+        {
+          "q": "What is the 2026 standard deduction?",
+          "a": "$16,100 for single filers and $32,200 for married couples filing jointly, per IRS Rev. Proc. 2025-32."
+        },
+        {
+          "q": "Does this include state income tax?",
+          "a": "No. States set their own income taxes, and some have none. This calculator covers federal income tax only."
+        },
+        {
+          "q": "Why is my paycheck withholding different?",
+          "a": "Withholding is based on your Form W-4, pay frequency and pre-tax deductions, and it also covers Social Security and Medicare. Use the IRS Tax Withholding Estimator to fine-tune it."
+        }
+      ],
+      "sections": [
+        {
+          "id": "us-how-heading",
+          "heading": "How federal income tax on wages works",
+          "paragraphs": [
+            "The US taxes income by calendar year. Your employer withholds federal income tax from each paycheck using your Form W-4, and you reconcile the total on your tax return the following spring.",
+            "Federal income tax is progressive: the tax rate tables split taxable income into brackets, and each rate applies only to the income inside its bracket. Taxable income is your wages minus pre-tax deductions and either the standard deduction or your itemized deductions."
+          ],
+          "list": [
+            "<strong>Filing status</strong> decides which brackets and standard deduction apply. This calculator covers single and married filing jointly; head of household and married filing separately have their own tables.",
+            "<strong>Standard deduction</strong> for 2026 is $16,100 (single) or $32,200 (married filing jointly).",
+            "<strong>Tax credits</strong> such as the Child Tax Credit reduce the tax itself and are not included here."
+          ]
+        },
+        {
+          "id": "us-not-included-heading",
+          "heading": "What this estimate leaves out",
+          "paragraphs": [
+            "Your take-home pay is also reduced by Social Security and Medicare (FICA) and by state and sometimes city income tax. Each state sets its own rules, so this page does not try to estimate them.",
+            "If you contribute to a traditional 401(k), an HSA or employer health insurance through payroll, those amounts usually come out before federal income tax. Enter your wages after those deductions for a closer estimate."
+          ]
+        }
+      ],
+      "statusLabel": "Filing status",
+      "statuses": {
+        "single": {
+          "label": "Single",
+          "slabNames": [
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ]
+        },
+        "married_joint": {
+          "label": "Married filing jointly",
+          "slabNames": [
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ]
+        }
+      },
+      "sources": [
+        "IRS Revenue Procedure 2025-32 (2026 inflation adjustments): tax rate tables and standard deduction",
+        "IRS newsroom: tax inflation adjustments for tax year 2026"
+      ]
+    }
+  },
+  "noTax": {
+    "AE": {
+      "statement": "The UAE does not levy income tax on individuals, so salaries are not taxed.",
+      "source": "UAE Government portal (u.ae): Taxation"
+    },
+    "SA": {
+      "statement": "Residents of Saudi Arabia are not subject to personal income tax, so salaries are not taxed. Saudi income tax applies to non-Saudi residents who carry on a business activity in the Kingdom, not to employment.",
+      "source": "Ministry of Investment of Saudi Arabia (MISA): Regional Headquarters programme"
+    },
+    "QA": {
+      "statement": "Individuals in Qatar do not pay personal income tax on salaries or wages.",
+      "source": "Qatar General Tax Authority: Investors"
+    }
+  }
+}

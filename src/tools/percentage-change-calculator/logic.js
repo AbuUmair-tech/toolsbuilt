@@ -16,6 +16,11 @@
 })(typeof globalThis !== 'undefined' ? globalThis : this, function () {
   'use strict';
 
+  // Messages and steps come from the tool's translation data
+  const T = (typeof ToolsBuilt !== 'undefined' && ToolsBuilt.scope)
+    ? ToolsBuilt.scope('percentage-change-calculator')
+    : require('../../../scripts/i18n-client.js').scope('percentage-change-calculator');
+
   function roundSensible(num, maxDecimals = 6) {
     if (!isFinite(num)) return num;
     const factor = Math.pow(10, maxDecimals);
@@ -36,14 +41,14 @@
     const y = parseFloat(total);
 
     if (isNaN(p) || isNaN(y)) {
-      throw new Error('Please enter valid numbers for percentage and total.');
+      throw new Error(T('errors.percentAndTotal'));
     }
 
     const result = cleanFloat((p / 100) * y);
     const formula = `(${p} ÷ 100) × ${y}`;
     const steps = [
-      `Convert percentage to decimal: ${p} ÷ 100 = ${roundSensible(p / 100, 6)}`,
-      `Multiply decimal by ${y}: ${roundSensible(p / 100, 6)} × ${y} = ${roundSensible(result, 4)}`
+      T('steps.percentToDecimal', { p, decimal: roundSensible(p / 100, 6) }),
+      T('steps.multiplyDecimal', { y, decimal: roundSensible(p / 100, 6), result: roundSensible(result, 4) })
     ];
 
     return {
@@ -64,11 +69,11 @@
     const y = parseFloat(whole);
 
     if (isNaN(x) || isNaN(y)) {
-      throw new Error('Please enter valid numbers for part and whole.');
+      throw new Error(T('errors.partAndWhole'));
     }
 
     if (y === 0) {
-      throw new Error('Cannot divide by zero. Whole (Y) cannot be 0.');
+      throw new Error(T('errors.divideByZeroWhole'));
     }
 
     const ratio = x / y;
@@ -76,8 +81,8 @@
     const rounded = roundSensible(result, 4);
     const formula = `(${x} ÷ ${y}) × 100`;
     const steps = [
-      `Divide part by whole: ${x} ÷ ${y} = ${roundSensible(ratio, 6)}`,
-      `Convert ratio to percentage: ${roundSensible(ratio, 6)} × 100 = ${rounded}%`
+      T('steps.dividePartWhole', { x, y, ratio: roundSensible(ratio, 6) }),
+      T('steps.ratioToPercent', { ratio: roundSensible(ratio, 6), percent: rounded })
     ];
 
     return {
@@ -100,7 +105,7 @@
     const b = parseFloat(newValue);
 
     if (isNaN(a) || isNaN(b)) {
-      throw new Error('Please enter valid initial and final numbers.');
+      throw new Error(T('errors.initialAndFinal'));
     }
 
     if (a === 0) {
@@ -116,10 +121,10 @@
           isZero: true,
           direction: 'none',
           formula: `(0 - 0) / |0|`,
-          steps: ['Both starting and ending values are 0: 0% change.']
+          steps: [T('steps.bothZero')]
         };
       }
-      throw new Error('Percentage change from 0 is mathematically undefined because division by zero is undefined.');
+      throw new Error(T('errors.changeFromZero'));
     }
 
     const diff = cleanFloat(b - a);
@@ -135,9 +140,9 @@
 
     const formula = `((${b} - ${a}) ÷ |${a}|) × 100`;
     const steps = [
-      `Calculate difference (New - Old): ${b} - ${a} = ${roundSensible(diff, 6)}`,
-      `Divide by absolute old value: ${roundSensible(diff, 6)} ÷ ${absA} = ${roundSensible(ratio, 6)}`,
-      `Multiply by 100: ${roundSensible(ratio, 6)} × 100 = ${roundedChange}%`
+      T('steps.difference', { b, a, diff: roundSensible(diff, 6) }),
+      T('steps.divideAbsOld', { diff: roundSensible(diff, 6), absA, ratio: roundSensible(ratio, 6) }),
+      T('steps.multiply100', { ratio: roundSensible(ratio, 6), percent: roundedChange })
     ];
 
     return {
@@ -166,12 +171,12 @@
     const b = parseFloat(val2);
 
     if (isNaN(a) || isNaN(b)) {
-      throw new Error('Please enter valid numbers for both values.');
+      throw new Error(T('errors.bothValues'));
     }
 
     const sum = cleanFloat(a + b);
     if (sum === 0 && a === 0 && b === 0) {
-      throw new Error('Sum of both values is zero; percentage difference is undefined.');
+      throw new Error(T('errors.sumZero'));
     }
 
     const absDiff = Math.abs(cleanFloat(a - b));
@@ -179,7 +184,7 @@
     // Percentage difference is always positive; divide by |average| to handle
     // cases where both values are negative (average would be negative, flipping sign).
     if (average === 0) {
-      throw new Error('Average of both values is zero; percentage difference is undefined.');
+      throw new Error(T('errors.averageZero'));
     }
     const ratio = absDiff / Math.abs(average);
     const diffPercent = cleanFloat(ratio * 100);
@@ -187,10 +192,10 @@
 
     const formula = `(|${a} - ${b}| ÷ ((${a} + ${b}) ÷ 2)) × 100`;
     const steps = [
-      `Calculate absolute difference: |${a} - ${b}| = ${roundSensible(absDiff, 6)}`,
-      `Calculate average: (${a} + ${b}) ÷ 2 = ${roundSensible(average, 6)}`,
-      `Divide difference by average: ${roundSensible(absDiff, 6)} ÷ ${roundSensible(average, 6)} = ${roundSensible(ratio, 6)}`,
-      `Multiply by 100: ${roundSensible(ratio, 6)} × 100 = ${roundedDiff}%`
+      T('steps.absDifference', { a, b, diff: roundSensible(absDiff, 6) }),
+      T('steps.average', { a, b, average: roundSensible(average, 6) }),
+      T('steps.divideByAverage', { diff: roundSensible(absDiff, 6), average: roundSensible(average, 6), ratio: roundSensible(ratio, 6) }),
+      T('steps.multiply100', { ratio: roundSensible(ratio, 6), percent: roundedDiff })
     ];
 
     return {

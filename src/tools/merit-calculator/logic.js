@@ -13,6 +13,11 @@
   }
 })(typeof globalThis !== 'undefined' ? globalThis : this, function () {
 
+  // Messages and steps come from the tool's translation data
+  const T = (typeof ToolsBuilt !== 'undefined' && ToolsBuilt.scope)
+    ? ToolsBuilt.scope('merit-calculator')
+    : require('../../../scripts/i18n-client.js').scope('merit-calculator');
+
   const MAX_COMPONENTS = 5;
 
   function isBlank(value) {
@@ -28,38 +33,38 @@
    * @param {Array<{name?:string, obtained, total, weight}>} components - up to 5; fully empty rows are skipped
    */
   function calculateMerit(components) {
-    if (!Array.isArray(components)) return { error: 'Add at least one component.' };
-    if (components.length > MAX_COMPONENTS) return { error: `Use at most ${MAX_COMPONENTS} components.` };
+    if (!Array.isArray(components)) return { error: T('errors.addComponent') };
+    if (components.length > MAX_COMPONENTS) return { error: T('errors.tooMany', { max: MAX_COMPONENTS }) };
 
     const used = [];
     for (let i = 0; i < components.length; i++) {
       const c = components[i] || {};
       const filled = ['obtained', 'total', 'weight'].filter(k => !isBlank(c[k]));
       if (!filled.length) continue;
-      const name = c.name && String(c.name).trim() ? String(c.name).trim() : `Component ${i + 1}`;
+      const name = c.name && String(c.name).trim() ? String(c.name).trim() : T('componentName', { n: i + 1 });
       for (const key of ['obtained', 'total', 'weight']) {
         if (isBlank(c[key])) {
-          const label = { obtained: 'marks obtained', total: 'total marks', weight: 'weight' }[key];
-          return { error: `${name}: enter the ${label}.`, rowIndex: i, field: key };
+          const message = { obtained: 'errors.enterObtained', total: 'errors.enterTotal', weight: 'errors.enterWeight' }[key];
+          return { error: T(message, { name }), rowIndex: i, field: key };
         }
       }
       const obtained = Number(c.obtained);
       const total = Number(c.total);
       const weight = Number(c.weight);
-      if (!Number.isFinite(total) || total <= 0) return { error: `${name}: total marks must be more than 0.`, rowIndex: i, field: 'total' };
-      if (!Number.isFinite(obtained) || obtained < 0) return { error: `${name}: marks obtained must be 0 or more.`, rowIndex: i, field: 'obtained' };
-      if (obtained > total) return { error: `${name}: marks obtained (${obtained}) cannot be more than the total (${total}).`, rowIndex: i, field: 'obtained' };
-      if (!Number.isFinite(weight) || weight <= 0 || weight > 100) return { error: `${name}: the weight must be more than 0% and at most 100%.`, rowIndex: i, field: 'weight' };
+      if (!Number.isFinite(total) || total <= 0) return { error: T('errors.totalPositive', { name }), rowIndex: i, field: 'total' };
+      if (!Number.isFinite(obtained) || obtained < 0) return { error: T('errors.obtainedNonNegative', { name }), rowIndex: i, field: 'obtained' };
+      if (obtained > total) return { error: T('errors.obtainedOverTotal', { name, obtained, total }), rowIndex: i, field: 'obtained' };
+      if (!Number.isFinite(weight) || weight <= 0 || weight > 100) return { error: T('errors.weightRange', { name }), rowIndex: i, field: 'weight' };
       used.push({ index: i, name, obtained, total, weight });
     }
 
-    if (!used.length) return { error: 'Enter marks and a weight for at least one component.' };
+    if (!used.length) return { error: T('errors.noComponents') };
 
     const weightTotal = round(used.reduce((s, c) => s + c.weight, 0), 6);
     if (Math.abs(weightTotal - 100) > 1e-6) {
       const diff = round(100 - weightTotal, 4);
       return {
-        error: `The weights add up to ${weightTotal}%, but they must total 100%. ${diff > 0 ? `Add ${diff}% more` : `Remove ${-diff}%`} to one or more components.`,
+        error: diff > 0 ? T('errors.weightsAddMore', { total: weightTotal, diff }) : T('errors.weightsRemove', { total: weightTotal, diff: -diff }),
         field: 'weight',
         rowIndex: used[used.length - 1].index,
         weightTotal
@@ -83,8 +88,8 @@
       weightTotal,
       aggregate,
       aggregateRounded: round(aggregate, 2),
-      steps: rows.map(r => `${r.name}: ${r.obtained} ÷ ${r.total} × 100 = ${round(r.percentage, 4)}%, × ${r.weight}% weight = ${round(r.contribution, 4)}`)
-        .concat([`Aggregate = ${rows.map(r => round(r.contribution, 4)).join(' + ')} = ${round(aggregate, 4)} ≈ ${round(aggregate, 2).toFixed(2)}%`])
+      steps: rows.map(r => T('steps.component', { name: r.name, obtained: r.obtained, total: r.total, pct: round(r.percentage, 4), weight: r.weight, contribution: round(r.contribution, 4) }))
+        .concat([T('steps.aggregate', { sum: rows.map(r => round(r.contribution, 4)).join(' + '), exact: round(aggregate, 4), rounded: round(aggregate, 2).toFixed(2) })])
     };
   }
 

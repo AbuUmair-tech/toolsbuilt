@@ -11,6 +11,7 @@
     console.error('UuidLogic module not loaded.');
     return;
   }
+  const T = ToolsBuilt.scope('uuid-generator');
 
   // DOM Elements
   const quickDisplay = document.getElementById('quick-uuid-display');
@@ -60,10 +61,10 @@
     }
   }
 
-  function showToast(btn, originalText = 'Copy') {
+  function showToast(btn) {
     if (!btn) return;
     const prevHtml = btn.innerHTML;
-    btn.innerHTML = '✓ Copied!';
+    btn.innerHTML = T('copy.copied');
     btn.classList.add('btn-success');
     setTimeout(() => {
       btn.innerHTML = prevHtml;
@@ -95,7 +96,7 @@
       document.execCommand('copy');
       showToast(triggerBtn);
     } catch (e) {
-      alert('Copying failed. Please copy manually.');
+      alert(T('copy.failed'));
     }
     document.body.removeChild(ta);
   }
@@ -127,7 +128,7 @@
         bulkOutput.value = currentUuids.join('\n');
       }
       if (statusMeta) {
-        statusMeta.textContent = `${currentUuids.length} UUID${currentUuids.length === 1 ? '' : 's'} generated`;
+        statusMeta.textContent = T(currentUuids.length === 1 ? 'meta.generated.one' : 'meta.generated.other', { count: currentUuids.length });
       }
       // Also update single quick display with the first one
       if (quickDisplay && currentUuids.length > 0) {

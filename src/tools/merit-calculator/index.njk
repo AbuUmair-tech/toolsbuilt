@@ -1,143 +1,50 @@
 ---
 layout: layouts/tool.njk
 toolSlug: merit-calculator
-title: "Merit & Aggregate Calculator (Custom Weights)"
-description: "Calculate your admission merit aggregate from Matric, Intermediate, entry test and interview marks, with custom weights or verified NUST and MDCAT presets."
 permalink: /tools/merit-calculator/
-h1: "Merit & Aggregate Calculator"
 extraCss: "/tools/merit-calculator/style.css"
-quickAnswer: "Aggregate = Σ (marks obtained ÷ total marks × weight %). With Matric 900/1100 at 10%, Intermediate 950/1100 at 40% and an entry test 300/400 at 50%, the aggregate is 8.18 + 34.55 + 37.50 = 80.23%. The weights must add up to 100%, and every university sets its own, so confirm them in the official prospectus for your admission year."
-formula:
-  title: "Merit Aggregate Formula"
-  expression: "Aggregate % = Σ (Obtained ÷ Total × 100 × Weight ÷ 100)"
-  explanation: "Each component (Matric/SSC, Intermediate/HSSC, entry test, interview and so on) is first turned into a percentage of its own total, so a test out of 200 and a board exam out of 1100 can be compared. That percentage is multiplied by the component's weight, and the weighted parts are added. Because the weights total 100%, the result is itself a percentage from 0 to 100. The calculator keeps full precision until the end and rounds the aggregate to 2 decimal places."
-  variables:
-    - name: "Obtained / Total"
-      description: "Your marks in that component and the maximum possible, exactly as on your result card."
-    - name: "Weight"
-      description: "The share of the aggregate the institution gives that component, in %. All weights together must equal 100%."
-    - name: "Contribution"
-      description: "Your percentage in the component × its weight ÷ 100: the points it adds to your aggregate."
-workedExamples:
-  - title: "Matric, Intermediate and entry test (10 / 40 / 50)"
-    inputs:
-      - "Matric: 900 / 1100, weight 10%"
-      - "Intermediate: 950 / 1100, weight 40%"
-      - "Entry test: 300 / 400, weight 50%"
-    steps:
-      - "Matric: 900 ÷ 1100 = 81.818%, × 10% = 8.1818"
-      - "Intermediate: 950 ÷ 1100 = 86.364%, × 40% = 34.5455"
-      - "Entry test: 300 ÷ 400 = 75%, × 50% = 37.5"
-      - "Total: 8.1818 + 34.5455 + 37.5 = 80.2273"
-    result: "Aggregate 80.23%"
-    link: "/tools/merit-calculator/?preset=custom&c1n=Matric&c1o=900&c1t=1100&c1w=10&c2n=Intermediate&c2o=950&c2t=1100&c2w=40&c3n=Entry+test&c3o=300&c3t=400&c3w=50#tool"
-  - title: "NUST NET weights (10 / 15 / 75)"
-    inputs:
-      - "SSC: 1000 / 1100, weight 10%"
-      - "HSSC Part-1: 480 / 550, weight 15%"
-      - "NET: 140 / 200, weight 75%"
-    steps:
-      - "SSC: 90.909% × 10% = 9.0909"
-      - "HSSC: 87.273% × 15% = 13.0909"
-      - "NET: 70% × 75% = 52.5"
-    result: "Aggregate 74.68%"
-    link: "/tools/merit-calculator/?preset=nust-net&c1o=1000&c1t=1100&c2o=480&c2t=550&c3o=140&c3t=200#tool"
-  - title: "With an interview (four components)"
-    inputs:
-      - "SSC 850/1100 at 10%, HSSC 900/1100 at 30%"
-      - "Test 150/200 at 50%, interview 40/50 at 10%"
-    steps:
-      - "SSC 77.273% × 10% = 7.7273; HSSC 81.818% × 30% = 24.5455"
-      - "Test 75% × 50% = 37.5; interview 80% × 10% = 8"
-    result: "Aggregate 77.77%"
-    link: "/tools/merit-calculator/?preset=custom&c1n=SSC&c1o=850&c1t=1100&c1w=10&c2n=HSSC&c2o=900&c2t=1100&c2w=30&c3n=Test&c3o=150&c3t=200&c3w=50&c4n=Interview&c4o=40&c4t=50&c4w=10#tool"
-commonMistakes:
-  - title: "Using last year's weights"
-    description: "Universities and regulators change their merit formulas, sometimes every year. Always check the weights in the official prospectus or admission notice for the session you are applying to."
-  - title: "Adding raw marks instead of percentages"
-    description: "Adding 900 board marks to 150 test marks gives a number that means nothing, because the totals differ. Each component must be turned into a percentage of its own total before it is weighted."
-  - title: "Entering the wrong total"
-    description: "Board totals differ between Matric schemes and boards, and some formulas use HSSC Part-1 marks only. Copy the total exactly from your result card and from the institution's rules."
-  - title: "Forgetting hafiz-e-Quran or other additions"
-    description: "Some institutions add extra marks or deduct marks for repeated attempts. These rules vary, so add them yourself according to the official prospectus."
-  - title: "Rounding each component"
-    description: "Rounding every contribution before adding can move the final aggregate by a few hundredths, which matters on close merit lists. The calculator keeps full precision and rounds only the final result."
-faqs:
-  - q: "How do I calculate my merit aggregate?"
-    a: "Divide your marks by the total marks for each component, multiply by that component's weight, and add the results. For 900/1100 at 10%, 950/1100 at 40% and 300/400 at 50% the aggregate is 80.23%."
-  - q: "What is the NUST aggregate formula?"
-    a: "For admission on NET basis, NUST's published criteria are NET 75%, HSSC (Part-1 or full) 15% and SSC/O Level 10%. Choose the NUST preset, enter your marks, and check NUST's merit criteria page for the current session."
-  - q: "What is the MDCAT aggregate formula?"
-    a: "Under the PM&DC Admissions, Curriculum and Conduct Regulations 2026, open merit admission to public and private medical and dental colleges uses MDCAT 50%, FSc/HSSC 40% and SSC/Matric 10%. Your admitting university publishes the final criteria."
-  - q: "Why does the calculator say my weights must total 100%?"
-    a: "An aggregate is a weighted percentage, so the weights must cover the whole 100%. If they add up to 90%, a component or part of a weight is missing; check the institution's formula."
-  - q: "Can I add an interview or a second test?"
-    a: "Yes. Custom mode accepts up to five components. Give each a name, marks obtained, total marks and weight."
-  - q: "Where are the weights for UET ECAT or other universities?"
-    a: "This calculator only includes presets that were checked against an official source. For any other university, use Custom mode and copy the weights from its current prospectus."
-  - q: "Is my calculated aggregate the official one?"
-    a: "No. It is an estimate from the marks and weights you enter. The admitting institution's own calculation and merit list are final."
-sources:
-  - name: "NUST: Merit generation criteria for UG admission on NET basis"
-    url: "https://nust.edu.pk/admissions/undergraduates/merit-criteria-for-admission-on-net-basis/"
-  - name: "PM&DC: Laws and regulations (Admissions, Curriculum and Conduct Regulations 2026)"
-    url: "https://pmdc.pk/Publication/LawsAndRegulations"
-  - name: "IBCC: Equivalence of O/A Level and foreign qualifications"
-    url: "https://ibcc.edu.pk/"
 lastReviewed: "2026-10-31"
-howto:
-  name: "How to Calculate a Merit Aggregate"
-  description: "Combine board results, entry tests and interviews into an admission aggregate."
-  steps:
-    - name: "Choose custom or a preset"
-      text: "Use Custom to type any weights, or pick a verified preset to fill in its components and weights."
-    - name: "Enter your marks"
-      text: "For each component, type marks obtained and total marks exactly as on your result card."
-    - name: "Check the weights"
-      text: "Make sure the weights add up to 100% and match the official prospectus for your admission year."
-    - name: "Read your aggregate"
-      text: "See each component's percentage and contribution, and your aggregate to two decimal places."
 ---
-<script type="application/json" id="merit-presets">{{ meritPresets | dump | safe }}</script>
+{# Presets: numbers and sources from meritPresets.json, names and notes from the translation data #}{% set presetText = text.client.presets %}{% set presets = [] %}{% for p in meritPresets %}{% set comps = [] %}{% for c in p.components %}{% set _ = comps.push({ name: presetText[p.id].components[c.id], weight: c.weight }) %}{% endfor %}{% set _ = presets.push({ id: p.id, name: presetText[p.id].name, institution: presetText[p.id].institution, components: comps, note: presetText[p.id].note, source: p.source, sourceName: presetText[p.id].sourceName, verifiedOn: p.verifiedOn }) %}{% endfor %}<script type="application/json" id="merit-presets">{{ presets | dump | safe }}</script>
 
     <!-- Tool Form Container -->
-    <section class="tool-container" aria-label="Merit and Aggregate Calculator">
+    <section class="tool-container" aria-label="{{ 'ariaLabel.tool-section1' | pt }}">
       <form id="calculator-form" novalidate>
         <div class="form-group merit-preset">
-          <label for="preset">Weights</label>
+          <label for="preset">{{ 'label.preset' | pt }}</label>
           <select id="preset" data-param="preset" class="form-control" aria-describedby="preset-note">
-            <option value="custom" selected>Custom (enter your own weights)</option>
-            {% for p in meritPresets %}
+            <option value="custom" selected>{{ 'option.preset.custom' | pt }}</option>
+            {% for p in presets %}
             <option value="{{ p.id }}">{{ p.name }}</option>
             {% endfor %}
           </select>
         </div>
-        <p class="form-hint" id="preset-note">Weights differ between universities and can change each year. Confirm them in the official prospectus for your admission session.</p>
-        {% for p in meritPresets %}
+        <p class="form-hint" id="preset-note">{{ 'text.preset-note' | pt }}</p>
+        {% for p in presets %}
         <div class="merit-preset-note" data-preset-note="{{ p.id }}" hidden>
           <p>{{ p.institution }}. {{ p.note }}</p>
-          <p>Source: <a href="{{ p.source }}" target="_blank" rel="noopener noreferrer">{{ p.sourceName }}</a> · verified <time datetime="{{ p.verifiedOn }}">{{ p.verifiedOn | humanDate }}</time>. Weights can change each year; confirm them in the official prospectus.</p>
+          <p>{{ 'content.tool.text1' | pt }} <a href="{{ p.source }}" target="_blank" rel="noopener noreferrer">{{ p.sourceName }}</a> {{ 'content.tool.text2' | pt }} <time datetime="{{ p.verifiedOn }}">{{ p.verifiedOn | humanDate }}</time>{{ 'content.tool.text3' | pt }}</p>
         </div>
         {% endfor %}
 
-        <div class="merit-rows" role="group" aria-label="Components">
-          <div class="merit-head" aria-hidden="true"><span>Component</span><span>Obtained</span><span>Total</span><span>Weight %</span></div>
+        <div class="merit-rows" role="group" aria-label="{{ 'ariaLabel.tool-div1' | pt }}">
+          <div class="merit-head" aria-hidden="true">{{ 'content.tool.div1' | pt }}</div>
           {% for i in [1, 2, 3, 4, 5] %}
           <div class="merit-row" data-row="{{ i }}">
             <div class="merit-cell merit-name">
-              <label class="merit-label" for="c{{ i }}-name">Component {{ i }}</label>
-              <input type="text" id="c{{ i }}-name" data-param="c{{ i }}n" class="form-control comp-name" autocomplete="off" placeholder="{{ ['e.g. Matric', 'e.g. Intermediate', 'e.g. Entry test', 'e.g. Interview', 'Optional'][loop.index0] }}">
+              <label class="merit-label" for="c{{ i }}-name">{{ 'components.label' | pt({ n: i }) }}</label>
+              <input type="text" id="c{{ i }}-name" data-param="c{{ i }}n" class="form-control comp-name" autocomplete="off" placeholder="{{ ('components.placeholder' + i) | pt }}">
             </div>
             <div class="merit-cell">
-              <label class="merit-label" for="c{{ i }}-obtained">Obtained</label>
+              <label class="merit-label" for="c{{ i }}-obtained">{{ 'label.componentObtained' | pt }}</label>
               <input type="number" inputmode="decimal" step="any" min="0" id="c{{ i }}-obtained" data-param="c{{ i }}o" class="form-control comp-obtained">
             </div>
             <div class="merit-cell">
-              <label class="merit-label" for="c{{ i }}-total">Total</label>
+              <label class="merit-label" for="c{{ i }}-total">{{ 'label.componentTotal' | pt }}</label>
               <input type="number" inputmode="decimal" step="any" min="0" id="c{{ i }}-total" data-param="c{{ i }}t" class="form-control comp-total">
             </div>
             <div class="merit-cell">
-              <label class="merit-label" for="c{{ i }}-weight">Weight %</label>
+              <label class="merit-label" for="c{{ i }}-weight">{{ 'label.componentWeight' | pt }}</label>
               <input type="number" inputmode="decimal" step="any" min="0" max="100" id="c{{ i }}-weight" data-param="c{{ i }}w" class="form-control comp-weight">
             </div>
           </div>
@@ -146,8 +53,8 @@ howto:
         <p class="form-hint merit-weight-total" id="weight-total" aria-live="polite"></p>
 
         <div class="button-group mt-6">
-          <button type="submit" class="btn btn-primary">Calculate Aggregate</button>
-          <button type="button" class="btn btn-secondary" id="reset-btn">Reset</button>
+          <button type="submit" class="btn btn-primary">{{ 'content.tool.button1' | pt }}</button>
+          <button type="button" class="btn btn-secondary" id="reset-btn">{{ 'text.reset-btn' | pt }}</button>
         </div>
       </form>
 
@@ -155,21 +62,21 @@ howto:
 
       <div id="result-box" class="result-box is-visible" aria-live="polite">
         <div class="result-header">
-          <span id="result-header-text">Aggregate</span>
-          <button type="button" class="btn btn-sm btn-ghost" id="copy-result-btn" title="Copy result to clipboard" aria-label="Copy result to clipboard">
-            <span data-icon="copy"></span> Copy Result
+          <span id="result-header-text">{{ 'text.result-header-text' | pt }}</span>
+          <button type="button" class="btn btn-sm btn-ghost" id="copy-result-btn" title="{{ 'title.copy-result-btn' | pt }}" aria-label="{{ 'ariaLabel.copy-result-btn' | pt }}">
+            {{ 'text.copy-result-btn' | pt }}
           </button>
         </div>
         <div class="result-primary" id="result-primary-text">--</div>
         <div class="table-wrapper merit-table-wrapper">
           <table class="table merit-table">
-            <caption class="visually-hidden">Each component's percentage and contribution to the aggregate</caption>
-            <thead><tr><th scope="col">Component</th><th scope="col" class="wide-only">Marks</th><th scope="col">%</th><th scope="col" class="wide-only">Weight</th><th scope="col">Adds</th></tr></thead>
+            <caption class="visually-hidden">{{ 'content.tool.caption1' | pt }}</caption>
+            <thead><tr><th scope="col">{{ 'content.tool.th1' | pt }}</th><th scope="col" class="wide-only">{{ 'content.tool.th2' | pt }}</th><th scope="col">%</th><th scope="col" class="wide-only">{{ 'content.tool.th3' | pt }}</th><th scope="col">{{ 'content.tool.th4' | pt }}</th></tr></thead>
             <tbody id="merit-table-rows"></tbody>
           </table>
         </div>
         <details class="result-steps">
-          <summary>Working</summary>
+          <summary>{{ 'content.tool.summary1' | pt }}</summary>
           <ol class="merit-steps" id="result-steps"></ol>
         </details>
       </div>
@@ -178,15 +85,15 @@ howto:
     <!-- tool-end -->
 
     <section class="content-section">
-      <h2>Always Check the Official Prospectus</h2>
-      <p>Merit formulas are set by each university, medical regulator or admitting authority, and they change. Weights shift between Matric, Intermediate and entry tests; some institutions use HSSC Part-1 marks only, add an interview, or treat O/A Level equivalence differently. Before you rely on any aggregate, open the official prospectus or admission notice for your session and compare its formula with the weights you entered.</p>
-      <p>This calculator includes presets only where the weights were checked against an official source, and each preset shows that source and the date it was checked:</p>
+      <h2>{{ 'content.always-check-the-official-prospectus.heading' | pt }}</h2>
+      <p>{{ 'content.always-check-the-official-prospectus.p1' | pt }}</p>
+      <p>{{ 'content.always-check-the-official-prospectus.p2' | pt }}</p>
       <div class="table-wrapper">
         <table class="table">
-          <caption class="visually-hidden">Verified merit presets</caption>
-          <thead><tr><th scope="col">Preset</th><th scope="col">Weights</th><th scope="col">Verified</th></tr></thead>
+          <caption class="visually-hidden">{{ 'content.always-check-the-official-prospectus.caption1' | pt }}</caption>
+          <thead><tr><th scope="col">{{ 'content.always-check-the-official-prospectus.th1' | pt }}</th><th scope="col">{{ 'content.always-check-the-official-prospectus.th2' | pt }}</th><th scope="col">{{ 'content.always-check-the-official-prospectus.th3' | pt }}</th></tr></thead>
           <tbody>
-            {% for p in meritPresets %}
+            {% for p in presets %}
             <tr>
               <td><a href="{{ p.source }}" target="_blank" rel="noopener noreferrer">{{ p.name }}</a></td>
               <td>{% for c in p.components %}{{ c.name }} {{ c.weight }}%{% if not loop.last %} · {% endif %}{% endfor %}</td>
@@ -196,12 +103,12 @@ howto:
           </tbody>
         </table>
       </div>
-      <p>For any other university, choose Custom and copy the weights from its prospectus. If the formula includes something this calculator does not, such as extra marks for hafiz-e-Quran or a deduction for an improvement attempt, apply that adjustment to your marks first.</p>
+      <p>{{ 'content.always-check-the-official-prospectus.p3' | pt }}</p>
 
-      <h2>Improving Your Aggregate</h2>
+      <h2>{{ 'content.improving-your-aggregate.heading' | pt }}</h2>
       <ul class="content-list">
-        <li><strong>Look at the weights:</strong> a component with a 50% or 75% weight moves your aggregate far more than one at 10%. Under NUST's formula, each extra NET percentage point adds 0.75 to your aggregate.</li>
-        <li><strong>Know what is fixed:</strong> your Matric marks are usually final by the time you apply; your entry test and sometimes your Intermediate marks are not.</li>
-        <li><strong>Compare with past merit:</strong> institutions often publish closing merit from previous years. Treat them as a rough guide only; they change with the number of applicants and seats.</li>
+        <li>{{ 'content.improving-your-aggregate.li1' | pt }}</li>
+        <li>{{ 'content.improving-your-aggregate.li2' | pt }}</li>
+        <li>{{ 'content.improving-your-aggregate.li3' | pt }}</li>
       </ul>
     </section>

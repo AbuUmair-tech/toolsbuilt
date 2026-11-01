@@ -1,134 +1,50 @@
 ---
 layout: layouts/tool.njk
 toolSlug: loan-emi-calculator
-title: "Loan EMI Calculator - Monthly Payments & Amortization"
-description: "Calculate monthly loan EMI, total interest, full amortization schedule, and payoff savings with extra monthly payments. Free online loan calculator."
 permalink: /tools/loan-emi-calculator/
-h1: "Loan EMI Calculator"
 extraCss: "/tools/loan-emi-calculator/style.css"
-howto:
-  name: "How to Calculate Loan EMI and Amortization"
-  description: "Step-by-step instructions for calculating monthly loan payments, interest charges, and accelerated payoff schedules."
-  steps:
-    - name: "Select Currency & Loan Amount"
-      text: "Choose your currency symbol and enter the total principal borrowed."
-    - name: "Enter Annual Interest Rate"
-      text: "Input the annual interest rate (APR) charged by your lender."
-    - name: "Specify Loan Tenure"
-      text: "Enter your repayment duration and toggle between years or months."
-    - name: "Add Optional Extra Payment"
-      text: "Optionally enter an additional monthly principal payment to see how many months and interest dollars you save."
-    - name: "Review Monthly EMI & Download Schedule"
-      text: "View your monthly payment, total interest, interactive amortization schedule, and export the table to CSV."
-faqs:
-  - q: "What is an EMI (Equated Monthly Installment)?"
-    a: "An Equated Monthly Installment (EMI) is a fixed monthly payment made by a borrower to a lender on a specified calendar date. Each installment covers both interest accrued for the month and a portion of the principal balance."
-  - q: "What is the standard formula for calculating loan EMI?"
-    a: "The standard EMI formula is: EMI = P × r × (1 + r)^n / ((1 + r)^n - 1), where P is the loan principal, r is the periodic monthly interest rate (annual rate divided by 1200), and n is the total number of monthly payments."
-  - q: "How does paying extra each month shorten loan duration?"
-    a: "Any payment above the required EMI is credited entirely against the loan's outstanding principal balance. With a smaller principal, future monthly interest charges decrease, accelerating repayment and saving substantial interest charges."
-  - q: "Does this loan calculator support multiple international currencies?"
-    a: "Yes. You can switch between PKR, INR, USD, EUR, GBP, AED, and SAR without changing the mathematical annuity formula."
-  - q: "Can I export my full amortization schedule?"
-    a: "Yes. Click the 'Download Schedule (CSV)' button to export your complete month-by-month payment, interest, principal, and balance schedule as a CSV spreadsheet."
-  - q: "Is my personal loan data uploaded to any server?"
-    a: "No. All loan computations execute 100% locally in your web browser. No financial numbers or loan amounts are transmitted or saved."
-sources:
-  - label: "Consumer Financial Protection Bureau (CFPB) - Loan Basics"
-    url: "https://www.consumerfinance.gov/"
-  - label: "Federal Reserve Board - Consumer Guide to Mortgages"
-    url: "https://www.federalreserve.gov/"
-  - label: "Bank for International Settlements - Credit Standards"
-    url: "https://www.bis.org/"
-quickAnswer: "Loan EMI (Equated Monthly Installment) is computed using the annuity formula: EMI = P × r × (1 + r)^n ÷ ((1 + r)^n − 1), where P is principal, r is monthly interest rate (annual rate ÷ 1200), and n is total months. Total interest equals (EMI × n) − P. Making extra monthly payments reduces principal directly, cutting total interest and loan tenure."
-workedExamples:
-  - title: "$200,000 Mortgage at 6.5% for 30 Years (360 Months)"
-    inputs:
-      - "Loan Principal (P): $200,000"
-      - "Annual Interest Rate: 6.5%"
-      - "Loan Tenure: 30 years (360 months)"
-      - "Extra Monthly Payment: $0"
-    steps:
-      - "Monthly rate r = 6.5 ÷ 1200 ≈ 0.0054167"
-      - "Monthly EMI = 200,000 × 0.0054167 × (1.0054167)^360 ÷ ((1.0054167)^360 − 1)"
-      - "Monthly EMI = $1,264.14"
-      - "Total repayment = $1,264.14 × 360 = $455,088.94"
-      - "Total interest = $455,088.94 − $200,000 = $255,088.94"
-    result: "$1,264.14 monthly payment ($255,088.94 total interest)"
-  - title: "$25,000 Car Loan at 5.0% for 5 Years (60 Months)"
-    inputs:
-      - "Loan Principal: $25,000"
-      - "Annual Interest Rate: 5.0%"
-      - "Loan Tenure: 5 years (60 months)"
-    steps:
-      - "Monthly rate r = 5.0 ÷ 1200 ≈ 0.0041667"
-      - "Monthly EMI = $471.78"
-      - "Total payment = $471.78 × 60 = $28,306.86"
-      - "Total interest = $3,306.86"
-    result: "$471.78 monthly payment ($3,306.86 total interest)"
-  - title: "Accelerated Payoff with $100 Extra Monthly Payment"
-    inputs:
-      - "Base Loan: $200,000 at 6.5% for 30 years ($1,264.14 base EMI)"
-      - "Extra Monthly Prepayment: $100 ($1,364.14 total monthly)"
-    steps:
-      - "Extra $100 applies directly to outstanding principal reduction each month"
-      - "Loan paid off in 304 months (25.3 years) instead of 360 months (30 years)"
-      - "Term shortened by 56 months (4.7 years)"
-      - "Interest saved = $46,419.00"
-    result: "Paid off 4.7 years earlier ($46,419.00 in interest saved)"
-commonMistakes:
-  - title: "Focusing Only on Monthly Payment"
-    description: "Extending loan tenure lowers your monthly payment but drastically balloons total lifetime interest charges. Always evaluate total loan cost alongside monthly cash flow."
-  - title: "Confusing APR with Base Interest Rate"
-    description: "An annual percentage rate (APR) includes lender fees, points, and closing costs, whereas the nominal note rate dictates your exact monthly amortization calculation."
-  - title: "Assuming Equal Principal Reduction"
-    description: "During the early years of a loan, the vast majority of each payment goes toward interest. Principal reduction accelerates only in the latter half of the amortization schedule."
-formula:
-  title: "Loan EMI Formula"
-  expression: "EMI = P × r × (1 + r)^n ÷ ((1 + r)^n − 1)"
-  explanation: "P is the principal loan amount, r is the monthly interest rate (annual interest rate ÷ 1200), and n is the loan tenure in total months."
 ---
 {% from "partials/currency-select.njk" import currencySelect, countryData with context %}
 {{ countryData(countries) }}
 
     <!-- Tool Form Container -->
-    <section class="tool-container" aria-label="Loan EMI Calculator Form">
+    <section class="tool-container" aria-label="{{ 'ariaLabel.tool-section1' | pt }}">
       <form id="calculator-form" novalidate>
         <div class="form-grid two-col">
           
           {{ currencySelect({ id: "currency-select", param: "cur", selected: "USD" }) }}
 
           <div class="form-group">
-            <label for="loan-amount">Loan Amount <span class="text-accent">*</span></label>
-            <input type="number" step="any" min="1" id="loan-amount" data-param="amount" class="form-control" placeholder="e.g. 250000" required aria-required="true">
+            <label for="loan-amount">{{ 'label.loan-amount' | pt }}</label>
+            <input type="number" step="any" min="1" id="loan-amount" data-param="amount" class="form-control" placeholder="{{ 'placeholder.loan-amount' | pt }}" required aria-required="true">
           </div>
 
           <div class="form-group">
-            <label for="interest-rate">Annual Interest Rate (%) <span class="text-accent">*</span></label>
-            <input type="number" step="0.01" min="0" max="100" id="interest-rate" data-param="rate" class="form-control" placeholder="e.g. 6.5" required aria-required="true">
+            <label for="interest-rate">{{ 'label.interest-rate' | pt }}</label>
+            <input type="number" step="0.01" min="0" max="100" id="interest-rate" data-param="rate" class="form-control" placeholder="{{ 'placeholder.interest-rate' | pt }}" required aria-required="true">
           </div>
 
           <div class="form-group">
-            <label for="tenure-value">Loan Tenure <span class="text-accent">*</span></label>
+            <label for="tenure-value">{{ 'label.tenure-value' | pt }}</label>
             <div class="loan-input-row">
-              <input type="number" step="1" min="1" max="600" id="tenure-value" data-param="tenure" class="form-control" placeholder="e.g. 30" required aria-required="true">
-              <select id="tenure-unit" data-param="unit" class="form-control" aria-label="Tenure unit">
-                <option value="years" selected>Years</option>
-                <option value="months">Months</option>
+              <input type="number" step="1" min="1" max="600" id="tenure-value" data-param="tenure" class="form-control" placeholder="{{ 'placeholder.tenure-value' | pt }}" required aria-required="true">
+              <select id="tenure-unit" data-param="unit" class="form-control" aria-label="{{ 'ariaLabel.tenure-unit' | pt }}">
+                <option value="years" selected>{{ 'option.tenure-unit.years' | pt }}</option>
+                <option value="months">{{ 'option.tenure-unit.months' | pt }}</option>
               </select>
             </div>
           </div>
 
           <div class="form-group col-span-full">
-            <label for="extra-payment">Optional Extra Monthly Payment <span class="label-hint">(Accelerates Payoff)</span></label>
-            <input type="number" step="any" min="0" id="extra-payment" data-param="extra" class="form-control" placeholder="e.g. 100">
+            <label for="extra-payment">{{ 'label.extra-payment' | pt }}</label>
+            <input type="number" step="any" min="0" id="extra-payment" data-param="extra" class="form-control" placeholder="{{ 'placeholder.extra-payment' | pt }}">
           </div>
 
         </div>
 
         <div class="button-group mt-6">
-          <button type="submit" class="btn btn-primary">Calculate EMI</button>
-          <button type="button" class="btn btn-secondary" id="reset-btn">Reset</button>
+          <button type="submit" class="btn btn-primary">{{ 'content.tool.button1' | pt }}</button>
+          <button type="button" class="btn btn-secondary" id="reset-btn">{{ 'text.reset-btn' | pt }}</button>
         </div>
       </form>
 
@@ -137,53 +53,52 @@ formula:
       <!-- Result Box -->
       <div id="result-box" class="result-box is-visible" aria-live="polite">
         <div class="result-header">
-          <span id="result-header-text">Loan Repayment Summary</span>
-          <button type="button" class="btn btn-sm btn-ghost" id="copy-result-btn" title="Copy Calculation Summary" aria-label="Copy Calculation Summary">
-            <span data-icon="copy"></span> Copy Summary
+          <span id="result-header-text">{{ 'text.result-header-text' | pt }}</span>
+          <button type="button" class="btn btn-sm btn-ghost" id="copy-result-btn" title="{{ 'title.copy-result-btn' | pt }}" aria-label="{{ 'ariaLabel.copy-result-btn' | pt }}">
+            {{ 'text.copy-result-btn' | pt }}
           </button>
         </div>
-        <div class="result-primary" id="result-primary-text">Monthly EMI: $0.00</div>
+        <div class="result-primary" id="result-primary-text">{{ 'text.result-primary-text' | pt }}</div>
         
         <div class="result-grid">
           <div class="result-stat-card">
-            <div class="result-stat-label">Monthly EMI Payment</div>
+            <div class="result-stat-label">{{ 'content.tool.div1' | pt }}</div>
             <div class="result-stat-value" id="stat-monthly-emi">$0.00</div>
           </div>
           <div class="result-stat-card">
-            <div class="result-stat-label">Total Interest Charged</div>
+            <div class="result-stat-label">{{ 'content.tool.div2' | pt }}</div>
             <div class="result-stat-value" id="stat-total-interest">$0.00</div>
           </div>
           <div class="result-stat-card">
-            <div class="result-stat-label">Total Repayment Amount</div>
+            <div class="result-stat-label">{{ 'content.tool.div3' | pt }}</div>
             <div class="result-stat-value" id="stat-total-payment">$0.00</div>
           </div>
           <div class="result-stat-card">
-            <div class="result-stat-label">Repayment Tenure</div>
-            <div class="result-stat-value" id="stat-tenure">0 Months</div>
+            <div class="result-stat-label">{{ 'content.tool.div4' | pt }}</div>
+            <div class="result-stat-value" id="stat-tenure">{{ 'text.stat-tenure' | pt }}</div>
           </div>
         </div>
 
         <!-- Extra Monthly Payment Accelerated Card -->
         <div id="extra-savings-card" class="hidden panel-muted mt-6">
           <div class="flex items-center justify-between flex-wrap gap-2">
-            <h3 class="m-0 text-base text-accent">Extra Payment Payoff Accelerator</h3>
+            <h3 class="m-0 text-base text-accent">{{ 'content.extra-payment-payoff-accelerator.heading' | pt }}</h3>
             <span class="extra-savings-badge">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>
-              Faster Payoff
+              {{ 'content.extra-payment-payoff-accelerator.span1' | pt }}
             </span>
           </div>
           <div class="result-grid mt-4">
             <div class="result-stat-card">
-              <div class="result-stat-label">Total Interest Saved</div>
+              <div class="result-stat-label">{{ 'content.extra-payment-payoff-accelerator.div1' | pt }}</div>
               <div class="result-stat-value text-success" id="stat-extra-saved">$0.00</div>
             </div>
             <div class="result-stat-card">
-              <div class="result-stat-label">Repayment Time Saved</div>
-              <div class="result-stat-value" id="stat-months-saved">0 Months</div>
+              <div class="result-stat-label">{{ 'content.extra-payment-payoff-accelerator.div2' | pt }}</div>
+              <div class="result-stat-value" id="stat-months-saved">{{ 'text.stat-months-saved' | pt }}</div>
             </div>
             <div class="result-stat-card col-span-full">
-              <div class="result-stat-label">New Payoff Horizon</div>
-              <div class="result-stat-value text-md" id="stat-new-tenure">0 Months</div>
+              <div class="result-stat-label">{{ 'content.extra-payment-payoff-accelerator.div3' | pt }}</div>
+              <div class="result-stat-value text-md" id="stat-new-tenure">{{ 'text.stat-new-tenure' | pt }}</div>
             </div>
           </div>
         </div>
@@ -192,26 +107,25 @@ formula:
         <div class="amortization-container">
           <div class="amortization-header">
             <div>
-              <h3 class="amortization-title">Full Loan Amortization Schedule</h3>
-              <p class="mt-1 mb-0 text-sm text-secondary">Month-by-month principal reduction and interest charges.</p>
+              <h3 class="amortization-title">{{ 'content.full-loan-amortization-schedule.heading' | pt }}</h3>
+              <p class="mt-1 mb-0 text-sm text-secondary">{{ 'content.full-loan-amortization-schedule.p1' | pt }}</p>
             </div>
             <div class="amortization-actions">
               <button type="button" class="btn btn-sm btn-secondary" id="download-csv-btn">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                Download Schedule (CSV)
+                {{ 'text.download-csv-btn' | pt }}
               </button>
             </div>
           </div>
-          <div class="amortization-scroll" tabindex="0" role="region" aria-label="Loan amortization schedule (scrollable)">
-            <table class="amortization-table" aria-label="Amortization Schedule Table">
+          <div class="amortization-scroll" tabindex="0" role="region" aria-label="{{ 'ariaLabel.full-loan-amortization-schedule-div1' | pt }}">
+            <table class="amortization-table" aria-label="{{ 'ariaLabel.full-loan-amortization-schedule-table1' | pt }}">
               <thead>
                 <tr>
-                  <th>Month</th>
-                  <th>Payment <span class="table-currency-symbol">($)</span></th>
-                  <th>Principal <span class="table-currency-symbol">($)</span></th>
-                  <th>Interest <span class="table-currency-symbol">($)</span></th>
-                  <th>Total Interest <span class="table-currency-symbol">($)</span></th>
-                  <th>Balance <span class="table-currency-symbol">($)</span></th>
+                  <th>{{ 'content.full-loan-amortization-schedule.th1' | pt }}</th>
+                  <th>{{ 'content.full-loan-amortization-schedule.th2' | pt }}</th>
+                  <th>{{ 'content.full-loan-amortization-schedule.th3' | pt }}</th>
+                  <th>{{ 'content.full-loan-amortization-schedule.th4' | pt }}</th>
+                  <th>{{ 'content.full-loan-amortization-schedule.th5' | pt }}</th>
+                  <th>{{ 'content.full-loan-amortization-schedule.th6' | pt }}</th>
                 </tr>
               </thead>
               <tbody id="amortization-table-body">
@@ -231,12 +145,12 @@ formula:
 
     <!-- When to Use Section -->
     <section class="content-section" aria-labelledby="how-to-use-heading">
-      <h2 id="how-to-use-heading">How &amp; When to Use the Loan EMI Calculator</h2>
+      <h2 id="how-to-use-heading">{{ 'text.how-to-use-heading' | pt }}</h2>
       <ul class="content-list">
-        <li><strong>Home Mortgages &amp; Real Estate:</strong> Compare 15-year versus 30-year fixed loans to evaluate monthly cash flow versus lifetime interest expenses.</li>
-        <li><strong>Vehicle &amp; Auto Financing:</strong> Estimate car loan payments across different dealer rates and down payment scenarios before visiting showrooms.</li>
-        <li><strong>Personal Loans &amp; Debt Consolidation:</strong> Determine the exact monthly installment required to consolidate higher-interest credit card balances.</li>
-        <li><strong>Early Payoff Acceleration:</strong> Model extra principal contributions (such as $50, $100, or $200 per month) to discover how many years of debt you eliminate.</li>
+        <li>{{ 'content.how-when-to-use-the-loan.li1' | pt }}</li>
+        <li>{{ 'content.how-when-to-use-the-loan.li2' | pt }}</li>
+        <li>{{ 'content.how-when-to-use-the-loan.li3' | pt }}</li>
+        <li>{{ 'content.how-when-to-use-the-loan.li4' | pt }}</li>
       </ul>
     </section>
 

@@ -5,6 +5,7 @@
  */
 document.addEventListener('DOMContentLoaded', () => {
   const logic = window.AttendanceLogic;
+  const T = ToolsBuilt.scope('attendance-calculator');
   const form = document.getElementById('calculator-form');
   const attendedInput = document.getElementById('attended');
   const totalInput = document.getElementById('total');
@@ -23,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let debounceTimer = null;
 
   const pct = (n) => `${n.toFixed(2)}%`;
-  const classes = (n) => `${n.toLocaleString('en-US')} class${n === 1 ? '' : 'es'}`;
+  const classes = (n) => T(n === 1 ? 'classes.one' : 'classes.other', { count: n.toLocaleString(ToolsBuilt.pageLocale('en-US')) });
 
   function syncPresets() {
     presets.forEach(r => { r.checked = targetInput.value !== '' && Number(r.value) === Number(targetInput.value); });
@@ -49,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const td = document.createElement('td');
     td.textContent = `${text} ${ok ? '✓' : '✗'}`;
     td.className = ok ? 'is-ok' : 'is-below';
-    td.setAttribute('aria-label', `${text}, ${ok ? 'meets' : 'below'} target`);
+    td.setAttribute('aria-label', T(ok ? 'projection.meets' : 'projection.below', { value: text }));
     return td;
   }
 
@@ -58,22 +59,22 @@ document.addEventListener('DOMContentLoaded', () => {
     const res = logic.calculateAttendance(attendedInput.value, totalInput.value, targetInput.value);
     if (res.error) return showError(res.error, FIELDS[res.field]);
 
-    headerText.textContent = `Attendance: ${res.attended} of ${res.total} classes`;
+    headerText.textContent = T('result.header', { attended: res.attended, total: res.total });
     primaryText.textContent = pct(res.percentage);
 
     let advice;
     if (res.meetsTarget) {
       advice = res.canMiss > 0
-        ? `You are at or above ${res.target}%. You can miss ${classes(res.canMiss)} and still have ${pct(res.afterMissing.percentage)} (${res.attended}/${res.afterMissing.total}).`
-        : `You are exactly on ${res.target}% with no classes to spare: missing the next class would take you to ${pct(res.projection[0].ifMiss)}.`;
+        ? T('advice.canMiss', { target: res.target, classes: classes(res.canMiss), pct: pct(res.afterMissing.percentage), attended: res.attended, total: res.afterMissing.total })
+        : T('advice.exact', { target: res.target, pct: pct(res.projection[0].ifMiss) });
     } else if (!res.reachable) {
-      advice = `You have missed ${classes(res.missed)}, so ${res.target}% can no longer be reached: attendance stays below 100% however many classes you attend.`;
+      advice = T('advice.unreachable', { classes: classes(res.missed), target: res.target });
     } else {
-      advice = `You are below ${res.target}%. Attend the next ${classes(res.classesNeeded)} in a row to reach ${pct(res.afterNeeded.percentage)} (${res.afterNeeded.attended}/${res.afterNeeded.total}).`;
+      advice = T('advice.needed', { target: res.target, classes: classes(res.classesNeeded), pct: pct(res.afterNeeded.percentage), attended: res.afterNeeded.attended, total: res.afterNeeded.total });
     }
     adviceText.textContent = advice;
 
-    caption.textContent = `After the next 1-10 classes (target ${res.target}%)`;
+    caption.textContent = T('projection.caption', { target: res.target });
     rowsBody.replaceChildren(...res.projection.map(p => {
       const tr = document.createElement('tr');
       const k = document.createElement('td');
@@ -83,7 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }));
 
     const barCopy = document.getElementById('action-copy-btn');
-    if (barCopy) barCopy.dataset.copyText = `Attendance ${res.attended}/${res.total} = ${pct(res.percentage)}. ${advice}`;
+    if (barCopy) barCopy.dataset.copyText = T('copy.text', { attended: res.attended, total: res.total, pct: pct(res.percentage), advice });
 
     resultBox.classList.add('is-visible');
     ToolsBuilt.resultLink.update();

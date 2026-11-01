@@ -13,15 +13,15 @@
   }
 })(typeof globalThis !== 'undefined' ? globalThis : this, function () {
 
+  // Messages and period labels come from the tool's translation data
+  const T = (typeof ToolsBuilt !== 'undefined' && ToolsBuilt.scope)
+    ? ToolsBuilt.scope('salary-to-hourly-calculator')
+    : require('../../../scripts/i18n-client.js').scope('salary-to-hourly-calculator');
+
   const PERIODS = ['hourly', 'daily', 'weekly', 'biweekly', 'monthly', 'annual'];
-  const PERIOD_LABELS = {
-    hourly: 'per hour',
-    daily: 'per day',
-    weekly: 'per week',
-    biweekly: 'every two weeks',
-    monthly: 'per month',
-    annual: 'per year'
-  };
+  // e.g. hourly -> 'per hour'
+  const PERIOD_LABELS = {};
+  PERIODS.forEach(p => { PERIOD_LABELS[p] = T(`periods.${p}`); });
 
   function isBlank(value) {
     return value === undefined || value === null || String(value).trim() === '';
@@ -39,28 +39,28 @@
    * @param {number|string} input.unpaidWeeks   weeks off without pay (default 0)
    */
   function convertPay(input = {}) {
-    if (isBlank(input.amount)) return { error: 'Enter your pay.', field: 'amount' };
+    if (isBlank(input.amount)) return { error: T('errors.amountEmpty'), field: 'amount' };
     const amount = Number(input.amount);
-    if (!Number.isFinite(amount) || amount <= 0) return { error: 'Pay must be a number greater than 0.', field: 'amount' };
+    if (!Number.isFinite(amount) || amount <= 0) return { error: T('errors.amountInvalid'), field: 'amount' };
 
     const period = input.period || 'annual';
-    if (!PERIODS.includes(period)) return { error: 'Choose how often this pay is earned.', field: 'period' };
+    if (!PERIODS.includes(period)) return { error: T('errors.period'), field: 'period' };
 
     const hoursPerWeek = isBlank(input.hoursPerWeek) ? 40 : Number(input.hoursPerWeek);
     if (!Number.isFinite(hoursPerWeek) || hoursPerWeek <= 0 || hoursPerWeek > 168) {
-      return { error: 'Hours per week must be more than 0 and at most 168.', field: 'hours' };
+      return { error: T('errors.hours'), field: 'hours' };
     }
     const daysPerWeek = isBlank(input.daysPerWeek) ? 5 : Number(input.daysPerWeek);
     if (!Number.isFinite(daysPerWeek) || daysPerWeek <= 0 || daysPerWeek > 7) {
-      return { error: 'Days per week must be more than 0 and at most 7.', field: 'days' };
+      return { error: T('errors.days'), field: 'days' };
     }
     const weeksPerYear = isBlank(input.weeksPerYear) ? 52 : Number(input.weeksPerYear);
     if (!Number.isFinite(weeksPerYear) || weeksPerYear <= 0 || weeksPerYear > 53) {
-      return { error: 'Weeks per year must be more than 0 and at most 53.', field: 'weeks' };
+      return { error: T('errors.weeks'), field: 'weeks' };
     }
     const unpaidWeeks = isBlank(input.unpaidWeeks) ? 0 : Number(input.unpaidWeeks);
-    if (!Number.isFinite(unpaidWeeks) || unpaidWeeks < 0) return { error: 'Unpaid weeks off must be 0 or more.', field: 'unpaid' };
-    if (unpaidWeeks >= weeksPerYear) return { error: 'Unpaid weeks off must be fewer than the weeks in the year.', field: 'unpaid' };
+    if (!Number.isFinite(unpaidWeeks) || unpaidWeeks < 0) return { error: T('errors.unpaidNegative'), field: 'unpaid' };
+    if (unpaidWeeks >= weeksPerYear) return { error: T('errors.unpaidTooMany'), field: 'unpaid' };
 
     const paidWeeks = weeksPerYear - unpaidWeeks;
     const hoursPerYear = hoursPerWeek * paidWeeks;

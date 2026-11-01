@@ -1,52 +1,41 @@
 ---
 layout: layouts/tool.njk
 toolSlug: salary-tax-calculator
-title: "Salary Tax Calculator by Country: UK, US, India, Pakistan"
-description: "Pick your country to work out income tax on your salary: UK, US federal, India and Pakistan calculators built from official rates, plus Gulf countries."
 permalink: /tools/salary-tax-calculator/
-h1: "Salary Tax Calculator by Country"
 extraCss: "/tools/salary-tax-calculator/style.css"
-quickAnswer: "Choose your country to open a calculator built on that country's official tax rates. Each country taxes salaries differently: the UK and India give a tax-free allowance or deduction first, the US uses filing-status brackets, and Pakistan uses fixed-plus-rate slabs. The UAE, Saudi Arabia and Qatar do not tax individuals' salaries at all."
-faqs:
-  - q: "Which countries does the salary tax calculator cover?"
-    a: "The United Kingdom (including Scottish rates), the United States (federal income tax), India (new tax regime) and Pakistan. Each page uses the rates published by that country's tax authority and shows the source and the date we checked it."
-  - q: "Do I pay tax on my salary in the UAE, Saudi Arabia or Qatar?"
-    a: "No personal income tax is charged on salaries in these countries, according to their official government sources linked on this page."
-  - q: "Why is my country missing?"
-    a: "We only add a country after checking its rates against an official source, such as the tax authority's own website or the finance law. Countries are added as they are verified."
 lastReviewed: "2026-10-31"
 ---
 {%- set pk = tax["pk-2026-27"] -%}
 <script type="application/json" id="hub-countries">{{ salaryTaxPages | hubCountries(noSalaryTax.countries) | dump | safe }}</script>
-{% from "partials/currency-select.njk" import countryData %}
+{% from "partials/currency-select.njk" import countryData with context %}
 {{ countryData(countries) }}
 
-    <section class="tool-container" aria-label="Choose your country">
+    <section class="tool-container" aria-label="{{ 'ariaLabel.tool-section1' | pt }}">
       <form id="country-picker-form" class="country-picker" hidden>
         <div class="form-group">
-          <label for="hub-country">Your country</label>
+          <label for="hub-country">{{ 'label.hub-country' | pt }}</label>
           <select id="hub-country" class="form-control" data-country-remember>
-            <option value="PK">Pakistan</option>
+            <option value="PK">{{ 'option.hub-country.PK' | pt }}</option>
             {% for c in salaryTaxPages %}<option value="{{ c.country }}">{{ c.countryName }}</option>{% endfor %}
             {% for c in noSalaryTax.countries %}<option value="{{ c.code }}">{{ c.name }}</option>{% endfor %}
           </select>
         </div>
-        <button type="submit" class="btn btn-primary" id="hub-open-btn">Open calculator</button>
+        <button type="submit" class="btn btn-primary" id="hub-open-btn">{{ 'text.hub-open-btn' | pt }}</button>
       </form>
       <p class="form-hint" id="hub-country-note" aria-live="polite"></p>
 
       <ul class="country-list" id="country-list">
         <li>
           <a href="/tools/pakistan-salary-tax-calculator/" data-country="PK">
-            <span class="country-list-name">Pakistan</span>
-            <span class="country-list-meta">Tax year {{ pk.taxYear }} · FBR salaried slabs</span>
+            <span class="country-list-name">{{ 'content.tool.span1' | pt }}</span>
+            <span class="country-list-meta">{{ 'hub.pkMeta' | pt({ year: pk.taxYear }) }}</span>
           </a>
         </li>
         {% for c in salaryTaxPages %}
         <li>
           <a href="/tools/{{ c.page.slug }}/" data-country="{{ c.country }}">
             <span class="country-list-name">{{ c.countryName }}</span>
-            <span class="country-list-meta">{{ c.label }}</span>
+            <span class="country-list-meta">{{ text.countryPages[c.country].label }}</span>
           </a>
         </li>
         {% endfor %}
@@ -56,23 +45,23 @@ lastReviewed: "2026-10-31"
     <!-- tool-end -->
 
     <section class="content-section" aria-labelledby="no-tax-heading">
-      <h2 id="no-tax-heading">Countries with no income tax on salaries</h2>
-      <p>Some countries do not tax individuals' employment income, so there is nothing to calculate. Each statement below comes from an official government source.</p>
+      <h2 id="no-tax-heading">{{ 'text.no-tax-heading' | pt }}</h2>
+      <p>{{ 'content.countries-with-no-income-tax-on.p1' | pt }}</p>
       <ul class="content-list">
         {% for c in noSalaryTax.countries %}
-        <li id="no-tax-{{ c.code | lower }}"><strong>{{ c.name }}:</strong> {{ c.statement }} Source: <a href="{{ c.source.url }}" target="_blank" rel="noopener noreferrer">{{ c.source.name }}</a> (checked {{ c.verifiedOn | humanDate }}).</li>
+        <li id="no-tax-{{ c.code | lower }}">{{ 'hub.noTaxItem' | pt({ name: c.name, statement: text.noTax[c.code].statement, url: c.source.url, source: text.noTax[c.code].source, date: c.verifiedOn | humanDate }) }}</li>
         {% endfor %}
       </ul>
     </section>
 
     <section class="content-section" aria-labelledby="compare-heading">
-      <h2 id="compare-heading">How countries tax salaries differently</h2>
-      <p>Most countries tax salaries progressively: income is split into bands and each band has its own rate, so a higher rate only applies to the part of your pay inside that band. What changes from country to country is what is taken off before the bands start, and what is added on top.</p>
+      <h2 id="compare-heading">{{ 'text.compare-heading' | pt }}</h2>
+      <p>{{ 'content.how-countries-tax-salaries-differently.p1' | pt }}</p>
       <ul class="content-list">
-        <li><strong>Tax-free allowance:</strong> the UK gives everyone a £12,570 Personal Allowance, which shrinks above £100,000.</li>
-        <li><strong>Standard deduction:</strong> the US subtracts a standard deduction that depends on filing status, and India gives salaried employees ₹75,000 under the new regime.</li>
-        <li><strong>Rebates and surcharges:</strong> India cancels the tax entirely up to ₹12 lakh of total income through a rebate and adds a 4% cess; Pakistan applied a surcharge to high earners until 2025-26.</li>
-        <li><strong>Who decides:</strong> Scotland sets its own bands on wages, and in the US each state adds its own income tax on top of the federal tax shown here.</li>
+        <li>{{ 'content.how-countries-tax-salaries-differently.li1' | pt }}</li>
+        <li>{{ 'content.how-countries-tax-salaries-differently.li2' | pt }}</li>
+        <li>{{ 'content.how-countries-tax-salaries-differently.li3' | pt }}</li>
+        <li>{{ 'content.how-countries-tax-salaries-differently.li4' | pt }}</li>
       </ul>
-      <p>Every calculator states the tax year it uses, the official source of its rates and the date we last checked them.</p>
+      <p>{{ 'content.how-countries-tax-salaries-differently.p2' | pt }}</p>
     </section>

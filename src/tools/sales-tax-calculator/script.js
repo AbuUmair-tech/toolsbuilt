@@ -6,6 +6,7 @@
  */
 document.addEventListener('DOMContentLoaded', () => {
   const logic = window.SalesTaxLogic;
+  const T = ToolsBuilt.scope('sales-tax-calculator');
   const form = document.getElementById('calculator-form');
   const modeInputs = document.querySelectorAll('input[name="tax-mode"]');
   const priceInput = document.getElementById('tax-price');
@@ -37,6 +38,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const trimRate = (n) => Number(n.toFixed(4)).toString();
 
   const vatFor = (code) => VAT.find(c => c.code === code);
+  // A preset's display text (name, rate labels, notes, source name) from the translation data
+  const vatText = (code, key) => T(`vat.${code}.${key}`);
 
   // Visitor's country among the presets: saved choice, time zone, then browser language region
   function guessPreset() {
@@ -59,19 +62,24 @@ document.addEventListener('DOMContentLoaded', () => {
     countrySelect.value = code;
     const seen = new Set();
     const options = [];
-    c.rates.forEach(r => {
+    c.rates.forEach((r, i) => {
       seen.add(String(r.rate));
-      options.push(`<option value="${r.rate}">${r.rate}% – ${escapeHtml(c.name)} ${escapeHtml(r.label)}</option>`);
+      options.push(`<option value="${r.rate}">${T('rateOption', { rate: r.rate, country: escapeHtml(vatText(code, 'name')), label: escapeHtml(vatText(code, `rates.${i}`)) })}</option>`);
     });
     COMMON_RATES.filter(r => !seen.has(String(r))).forEach(r => options.push(`<option value="${r}">${r}%</option>`));
-    options.push('<option value="custom">Custom rate</option>');
+    options.push(`<option value="custom">${T('customRate')}</option>`);
     rateSelect.innerHTML = options.join('');
     rateSelect.value = c.rates.length ? String(c.rates[0].rate) : 'custom';
 
-    const source = c.source
-      ? ` Source: <a href="${c.source.url}" target="_blank" rel="noopener noreferrer">${escapeHtml(c.source.name)}</a>, checked ${new Intl.DateTimeFormat('en-GB', { dateStyle: 'long' }).format(new Date(c.verifiedOn + 'T00:00:00'))}.`
-      : '';
-    countryNote.innerHTML = escapeHtml(c.notes) + source;
+    const notes = escapeHtml(vatText(code, 'notes'));
+    countryNote.innerHTML = c.source
+      ? T('countryNote', {
+        notes,
+        url: c.source.url,
+        source: escapeHtml(vatText(code, 'source')),
+        date: new Intl.DateTimeFormat(ToolsBuilt.pageLocale('en-GB'), { dateStyle: 'long' }).format(new Date(c.verifiedOn + 'T00:00:00'))
+      })
+      : notes;
 
     // Match the currency when the page offers the country's own
     const home = ToolsBuilt.countries().find(k => k.code === code.split('-')[0]);
@@ -92,7 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function syncForm() {
     const add = getMode() === 'add';
-    priceLabel.firstChild.textContent = add ? 'Price excluding tax ' : 'Price including tax ';
+    priceLabel.firstChild.textContent = add ? T('priceLabel.add') : T('priceLabel.remove');
     customGroup.hidden = rateSelect.value !== 'custom';
   }
 
@@ -154,7 +162,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     if (!state.price) {
-      showError('Please enter a price.', priceInput);
+      showError(T('errors.priceRequired'), priceInput);
       return;
     }
     if (state.rate === 'custom' && !state.custom) {
@@ -162,7 +170,7 @@ document.addEventListener('DOMContentLoaded', () => {
         resultBox.classList.remove('is-visible');
         return;
       }
-      showError('Please enter your custom tax rate.', customInput);
+      showError(T('errors.customRequired'), customInput);
       return;
     }
 
@@ -174,8 +182,8 @@ document.addEventListener('DOMContentLoaded', () => {
       renderResult(res, state.cur);
       saveState(state);
     } catch (err) {
-      const field = /rate/i.test(err.message) ? (state.rate === 'custom' ? customInput : rateSelect)
-        : /quantity/i.test(err.message) ? qtyInput : priceInput;
+      const field = err.field === 'rate' ? (state.rate === 'custom' ? customInput : rateSelect)
+        : err.field === 'quantity' ? qtyInput : priceInput;
       showError(err.message, field);
     }
   }
@@ -185,38 +193,38 @@ document.addEventListener('DOMContentLoaded', () => {
     const rateText = `${trimRate(res.rate)}%`;
     const add = res.mode === 'add';
     const factor = trimRate(1 + res.rate / 100);
-    const qtyText = res.quantity !== 1 ? `${trimRate(res.quantity)} × ${money(res.unitPrice)} = ` : '';
+    const qtyText = res.quantity !== 1 ? T('steps.quantity', { qty: trimRate(res.quantity), price: money(res.unitPrice) }) : '';
 
-    document.getElementById('result-header-text').textContent = add ? 'Total including tax' : 'Price before tax';
+    document.getElementById('result-header-text').textContent = add ? T('result.headerAdd') : T('result.headerRemove');
     document.getElementById('result-primary-text').textContent = money(add ? res.gross : res.net);
     document.getElementById('stat-net').textContent = money(res.net);
-    document.getElementById('stat-tax-label').textContent = `Tax (${rateText})`;
+    document.getElementById('stat-tax-label').textContent = T('result.taxLabel', { rate: rateText });
     document.getElementById('stat-tax').textContent = money(res.tax);
     document.getElementById('stat-gross').textContent = money(res.gross);
 
     const perItem = document.getElementById('per-item-line');
     perItem.hidden = res.quantity === 1;
     if (res.quantity !== 1) {
-      perItem.textContent = `Per item: ${money(res.net / res.quantity)} before tax, ${money(res.tax / res.quantity)} tax, ${money(res.gross / res.quantity)} total.`;
+      perItem.textContent = T('result.perItem', { net: money(res.net / res.quantity), tax: money(res.tax / res.quantity), gross: money(res.gross / res.quantity) });
     }
 
     let steps;
     if (add) {
-      steps = '<strong>Add tax:</strong> <code>Total = Price × (1 + Rate)</code><br>';
-      steps += `Price before tax: ${qtyText}<code>${money(res.net)}</code><br>`;
-      steps += `Tax: ${money(res.net)} × ${trimRate(res.rate / 100)} = <code>${money(res.tax)}</code><br>`;
-      steps += `Total: ${money(res.net)} + ${money(res.tax)} = <strong>${money(res.gross)}</strong>`;
+      steps = T('steps.addFormula');
+      steps += T('steps.addNet', { qty: qtyText, net: money(res.net) });
+      steps += T('steps.addTax', { net: money(res.net), rate: trimRate(res.rate / 100), tax: money(res.tax) });
+      steps += T('steps.addTotal', { net: money(res.net), tax: money(res.tax), gross: money(res.gross) });
     } else {
-      steps = '<strong>Remove tax:</strong> <code>Price before tax = Total ÷ (1 + Rate)</code><br>';
-      steps += `Total including tax: ${qtyText}<code>${money(res.gross)}</code><br>`;
-      steps += `Price before tax: ${money(res.gross)} ÷ ${factor} = <strong>${money(res.net)}</strong><br>`;
-      steps += `Tax inside the price: ${money(res.gross)} − ${money(res.net)} = <code>${money(res.tax)}</code>`;
+      steps = T('steps.removeFormula');
+      steps += T('steps.removeGross', { qty: qtyText, gross: money(res.gross) });
+      steps += T('steps.removeNet', { gross: money(res.gross), factor, net: money(res.net) });
+      steps += T('steps.removeTax', { gross: money(res.gross), net: money(res.net), tax: money(res.tax) });
     }
     document.getElementById('formula-breakdown-box').innerHTML = steps;
 
     lastResultText = add
-      ? `${money(res.net)} + ${rateText} tax (${money(res.tax)}) = ${money(res.gross)}.`
-      : `${money(res.gross)} including ${rateText} tax = ${money(res.net)} before tax + ${money(res.tax)} tax.`;
+      ? T('result.copyAdd', { net: money(res.net), rate: rateText, tax: money(res.tax), gross: money(res.gross) })
+      : T('result.copyRemove', { gross: money(res.gross), rate: rateText, net: money(res.net), tax: money(res.tax) });
     const actionCopyBtn = document.getElementById('action-copy-btn');
     if (actionCopyBtn) actionCopyBtn.dataset.copyText = lastResultText;
 
@@ -252,7 +260,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (copyBtn) {
     copyBtn.addEventListener('click', () => {
       if (lastResultText && window.ToolsBuilt && window.ToolsBuilt.copy) {
-        window.ToolsBuilt.copy(lastResultText, 'Tax calculation copied to clipboard');
+        window.ToolsBuilt.copy(lastResultText, T('toast.copied'));
       }
     });
   }

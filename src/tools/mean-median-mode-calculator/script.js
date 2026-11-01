@@ -5,6 +5,7 @@
  */
 document.addEventListener('DOMContentLoaded', () => {
   const logic = window.StatsLogic;
+  const T = ToolsBuilt.scope('mean-median-mode-calculator');
   const form = document.getElementById('calculator-form');
   const dataInput = document.getElementById('data');
   const dpSelect = document.getElementById('dp');
@@ -72,40 +73,44 @@ document.addEventListener('DOMContentLoaded', () => {
     const dp = Number(dpSelect.value) || 4;
     const f = (v) => logic.fmt(v, dp);
     const modeText = s.modes.length
-      ? `${s.modes.map(f).join(', ')} (appears ${s.modeFrequency} times)`
-      : 'No mode';
+      ? T('stats.modeValue', { modes: s.modes.map(f).join(', '), count: s.modeFrequency })
+      : T('stats.noMode');
+    const needsTwo = T('stats.needsTwo');
 
-    headerText.textContent = `Summary of ${s.count} value${s.count === 1 ? '' : 's'}`;
-    primaryText.textContent = `Mean ${f(s.mean)} · Median ${f(s.median)} · ${s.modes.length ? `Mode ${s.modes.map(f).join(', ')}` : 'No mode'}`;
+    headerText.textContent = T(s.count === 1 ? 'result.header.one' : 'result.header.other', { count: s.count });
+    primaryText.textContent = T('result.primary', {
+      mean: f(s.mean), median: f(s.median),
+      mode: s.modes.length ? T('result.mode', { modes: s.modes.map(f).join(', ') }) : T('stats.noMode')
+    });
 
     const stats = [
-      ['Count (n)', String(s.count)],
-      ['Sum', f(s.sum)],
-      ['Mean', f(s.mean)],
-      ['Median', f(s.median)],
-      [s.modes.length > 1 ? 'Modes' : 'Mode', modeText],
-      ['Minimum', f(s.min)],
-      ['Maximum', f(s.max)],
-      ['Range', f(s.range)],
-      ['Population SD (σ)', f(s.populationSD)],
-      ['Sample SD (s)', s.sampleSD === null ? 'Needs 2+ values' : f(s.sampleSD)],
-      ['Population variance (σ²)', f(s.populationVariance)],
-      ['Sample variance (s²)', s.sampleVariance === null ? 'Needs 2+ values' : f(s.sampleVariance)],
-      ['Q1 (lower quartile)', s.q1 === null ? 'Needs 2+ values' : f(s.q1)],
-      ['Q3 (upper quartile)', s.q3 === null ? 'Needs 2+ values' : f(s.q3)],
-      ['Interquartile range', s.iqr === null ? 'Needs 2+ values' : f(s.iqr)]
+      [T('stats.count'), String(s.count)],
+      [T('stats.sum'), f(s.sum)],
+      [T('stats.mean'), f(s.mean)],
+      [T('stats.median'), f(s.median)],
+      [s.modes.length > 1 ? T('stats.modes') : T('stats.mode'), modeText],
+      [T('stats.min'), f(s.min)],
+      [T('stats.max'), f(s.max)],
+      [T('stats.range'), f(s.range)],
+      [T('stats.populationSD'), f(s.populationSD)],
+      [T('stats.sampleSD'), s.sampleSD === null ? needsTwo : f(s.sampleSD)],
+      [T('stats.populationVariance'), f(s.populationVariance)],
+      [T('stats.sampleVariance'), s.sampleVariance === null ? needsTwo : f(s.sampleVariance)],
+      [T('stats.q1'), s.q1 === null ? needsTwo : f(s.q1)],
+      [T('stats.q3'), s.q3 === null ? needsTwo : f(s.q3)],
+      [T('stats.iqr'), s.iqr === null ? needsTwo : f(s.iqr)]
     ];
     renderStats(stats);
-    quartileNote.textContent = `Quartile method: ${s.quartileMethod}`;
+    quartileNote.textContent = T('quartileNote', { method: s.quartileMethod });
 
     const shown = s.sorted.slice(0, MAX_SORTED_SHOWN).map(f).join(', ');
-    sortedText.textContent = s.sorted.length > MAX_SORTED_SHOWN ? `${shown}, … (${s.sorted.length - MAX_SORTED_SHOWN} more)` : shown;
+    sortedText.textContent = s.sorted.length > MAX_SORTED_SHOWN ? `${shown}, ${T('more', { count: s.sorted.length - MAX_SORTED_SHOWN })}` : shown;
     renderSteps(stepLists.mean, s.steps.mean);
     renderSteps(stepLists.median, s.steps.median);
     renderSteps(stepLists.sd, s.steps.sd);
 
     const barCopy = document.getElementById('action-copy-btn');
-    if (barCopy) barCopy.dataset.copyText = stats.map(([label, value]) => `${label}: ${value}`).join('\n');
+    if (barCopy) barCopy.dataset.copyText = stats.map(([label, value]) => T('copy.line', { label, value })).join('\n');
 
     resultBox.classList.add('is-visible');
     ToolsBuilt.resultLink.update();

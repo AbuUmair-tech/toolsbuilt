@@ -12,6 +12,11 @@
 })(typeof globalThis !== 'undefined' ? globalThis : this, function (defaultWordlist) {
   'use strict';
 
+  // Messages and strength labels come from the tool's translation data
+  const T = (typeof ToolsBuilt !== 'undefined' && ToolsBuilt.scope)
+    ? ToolsBuilt.scope('password-generator')
+    : require('../../../scripts/i18n-client.js').scope('password-generator');
+
   const CHARS_UPPER = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
   const CHARS_LOWER = 'abcdefghijklmnopqrstuvwxyz';
   const CHARS_NUMBERS = '0123456789';
@@ -97,7 +102,7 @@
     }
 
     if (activeSets.length === 0) {
-      throw new Error('Please select at least one character set.');
+      throw new Error(T('errors.noCharacterSet'));
     }
 
     const charPool = activeSets.join('');
@@ -145,7 +150,7 @@
 
     const wordlist = (wordlistOverride && wordlistOverride.length > 0) ? wordlistOverride : defaultWordlist;
     if (!wordlist || wordlist.length === 0) {
-      throw new Error('Passphrase wordlist is empty.');
+      throw new Error(T('errors.emptyWordlist'));
     }
 
     const wordCount = Math.max(3, Math.min(10, parseInt(opts.wordCount, 10) || 4));
@@ -195,18 +200,18 @@
 
   function evaluateStrength(entropyBits) {
     if (entropyBits >= 80) {
-      return { score: 'Very Strong', level: 4, color: 'var(--color-success-text)', barColor: 'var(--color-success-text)', width: '100%', timeToCrack: 'Centuries' };
+      return { score: T('strength.veryStrong'), level: 4, color: 'var(--color-success-text)', barColor: 'var(--color-success-text)', width: '100%', timeToCrack: T('crackTime.centuries') };
     }
     if (entropyBits >= 60) {
-      return { score: 'Strong', level: 3, color: 'var(--color-success-text)', barColor: 'var(--color-success-text)', width: '80%', timeToCrack: 'Decades' };
+      return { score: T('strength.strong'), level: 3, color: 'var(--color-success-text)', barColor: 'var(--color-success-text)', width: '80%', timeToCrack: T('crackTime.decades') };
     }
     if (entropyBits >= 45) {
-      return { score: 'Moderate', level: 2, color: 'var(--text-primary)', barColor: 'var(--text-secondary)', width: '60%', timeToCrack: 'Months to Years' };
+      return { score: T('strength.moderate'), level: 2, color: 'var(--text-primary)', barColor: 'var(--text-secondary)', width: '60%', timeToCrack: T('crackTime.monthsToYears') };
     }
     if (entropyBits >= 28) {
-      return { score: 'Weak', level: 1, color: 'var(--text-primary)', barColor: 'var(--cat-orange)', width: '40%', timeToCrack: 'Minutes to Hours' };
+      return { score: T('strength.weak'), level: 1, color: 'var(--text-primary)', barColor: 'var(--cat-orange)', width: '40%', timeToCrack: T('crackTime.minutesToHours') };
     }
-    return { score: 'Very Weak', level: 0, color: 'var(--color-error-text)', barColor: 'var(--color-error-border)', width: '20%', timeToCrack: 'Seconds' };
+    return { score: T('strength.veryWeak'), level: 0, color: 'var(--color-error-text)', barColor: 'var(--color-error-border)', width: '20%', timeToCrack: T('crackTime.seconds') };
   }
 
   function generateMultiple(count, options, customPrng) {

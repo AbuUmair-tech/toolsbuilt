@@ -98,13 +98,15 @@ ToolsBuilt.codeFormatter = (function () {
       clearError();
       busy = true;
       formatBtn.disabled = true;
-      setStatus('Formatting…');
+      setStatus(ToolsBuilt.t('codeFormatter.formatting'));
       try {
         const res = await logic.format(input.value, readOptions());
         output.value = res.output;
         copyBtn.disabled = false;
         const lines = res.output.replace(/\n$/, '').split('\n').length;
-        setStatus(res.changed ? `${res.options && res.options.mode === 'minify' ? 'Minified' : 'Formatted'}, ${lines} ${lines === 1 ? 'line' : 'lines'}` : 'Already formatted');
+        setStatus(res.changed
+          ? ToolsBuilt.tp(res.options && res.options.mode === 'minify' ? 'codeFormatter.minifiedLines' : 'codeFormatter.formattedLines', lines)
+          : ToolsBuilt.t('codeFormatter.alreadyFormatted'));
         showWarnings(res.warnings);
         saveOptions();
       } catch (err) {
@@ -116,7 +118,7 @@ ToolsBuilt.codeFormatter = (function () {
           showError(err);
         } else {
           console.error(err);
-          showError(new Error('The formatter could not be loaded. Check your connection and reload the page.'));
+          showError(new Error(ToolsBuilt.t('codeFormatter.loadFailed')));
         }
       } finally {
         busy = false;
@@ -161,7 +163,7 @@ ToolsBuilt.codeFormatter = (function () {
     });
 
     copyBtn.addEventListener('click', () => {
-      if (output.value && ToolsBuilt.copy) ToolsBuilt.copy(output.value, 'Formatted code copied to clipboard');
+      if (output.value && ToolsBuilt.copy) ToolsBuilt.copy(output.value, ToolsBuilt.t('codeFormatter.copied'));
     });
   }
 

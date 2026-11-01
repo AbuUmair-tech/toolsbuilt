@@ -5,6 +5,7 @@
  */
 document.addEventListener('DOMContentLoaded', () => {
   const logic = window.FractionLogic;
+  const T = ToolsBuilt.scope('fraction-calculator');
   const form = document.getElementById('calculator-form');
   const tabBtns = Array.from(document.querySelectorAll('.mode-tab-btn'));
   const modeInput = document.getElementById('mode');
@@ -89,11 +90,11 @@ document.addEventListener('DOMContentLoaded', () => {
     if (mode === 'simplify') {
       res = logic.simplify(sInput.value);
       field = sInput;
-      title = res.error ? '' : `${sInput.value.trim()} in lowest terms`;
+      title = res.error ? '' : T('result.lowestTerms', { input: sInput.value.trim() });
     } else if (mode === 'dec') {
       res = logic.decimalToFraction(decInput.value);
       field = decInput;
-      title = res.error ? '' : `${decInput.value.trim()} as a fraction`;
+      title = res.error ? '' : T('result.asFraction', { input: decInput.value.trim() });
     } else {
       res = logic.calculate(aInput.value, opSelect.value, bInput.value);
       field = res.field === 'b' ? bInput : aInput;
@@ -104,9 +105,9 @@ document.addEventListener('DOMContentLoaded', () => {
     headerText.textContent = title;
     primaryText.textContent = res.fraction === res.mixed ? `= ${res.fraction}` : `= ${res.fraction} = ${res.mixed}`;
     renderStats([
-      ['Simplified fraction', res.fraction],
-      ['Mixed number', res.mixed],
-      ['Decimal', res.decimalExact ? res.decimal : `${res.decimal} (≈ ${res.decimalRounded})`]
+      [T('stats.simplified'), res.fraction],
+      [T('stats.mixed'), res.mixed],
+      [T('stats.decimal'), res.decimalExact ? res.decimal : `${res.decimal} (≈ ${res.decimalRounded})`]
     ]);
     stepsList.replaceChildren(...res.steps.map(text => {
       const li = document.createElement('li');

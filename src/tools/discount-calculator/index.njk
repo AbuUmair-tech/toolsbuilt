@@ -1,131 +1,45 @@
 ---
 layout: layouts/tool.njk
 toolSlug: discount-calculator
-title: "Discount Calculator - Calculate Sale Price & Savings"
-description: "Calculate final sale prices, total dollars saved, stacked double discounts, and sales tax instantly. Free online discount calculator."
 permalink: /tools/discount-calculator/
-h1: "Discount Calculator"
 extraCss: "/tools/discount-calculator/style.css"
-quickAnswer: "To find the final sale price and total savings, enter the original item price and discount percentage. You can add a secondary stacked coupon and local sales tax to see exact out-of-pocket costs. Calculations use half-up cent rounding to match retail point-of-sale registers and consumer protection guidelines."
-formula:
-  title: "Discount & Tax Calculation Formula"
-  expression: "Final Price = [(Original Price - (Original Price × Discount1%)) - Stacked Discount] × (1 + Tax%)"
-  explanation: "First, apply the primary discount to the original retail price to find the initial savings. Next, apply any secondary stacked coupon to the reduced subtotal (multiplicative, not additive). Finally, compute sales tax on the discounted subtotal using banker-safe half-up cent rounding."
-workedExamples:
-  - title: "Single 25% Off Retail Sale"
-    inputs:
-      - "Original Price: $100.00"
-      - "Primary Discount: 25%"
-      - "Stacked Coupon: 0%"
-      - "Sales Tax: 0%"
-    steps:
-      - "Calculate discount savings: $100.00 × 0.25 = $25.00"
-      - "Subtract discount from original price: $100.00 - $25.00 = $75.00"
-    result: "Final Price: $75.00 (Total Savings: $25.00 / 25.00%)"
-  - title: "Stacked 20% Sale + 10% Store Coupon"
-    inputs:
-      - "Original Price: $80.00"
-      - "Primary Discount: 20%"
-      - "Stacked Coupon: 10%"
-      - "Sales Tax: 0%"
-    steps:
-      - "Apply primary 20% discount: $80.00 - $16.00 = $64.00 subtotal"
-      - "Apply secondary 10% coupon to reduced subtotal: $64.00 × 0.10 = $6.40 savings"
-      - "Subtract second coupon: $64.00 - $6.40 = $57.60 final price"
-      - "Calculate total savings: $16.00 + $6.40 = $22.40 (effective discount: 28.00%, not 30%)"
-    result: "Final Price: $57.60 (Total Savings: $22.40 / 28.00% effective discount)"
-  - title: "15% Discount with 8% Sales Tax"
-    inputs:
-      - "Original Price: $50.00"
-      - "Primary Discount: 15%"
-      - "Stacked Coupon: 0%"
-      - "Sales Tax: 8%"
-    steps:
-      - "Apply 15% discount: $50.00 × 0.15 = $7.50 savings"
-      - "Net discounted subtotal: $50.00 - $7.50 = $42.50"
-      - "Compute 8% sales tax on discounted subtotal: $42.50 × 0.08 = $3.40"
-      - "Add sales tax to subtotal: $42.50 + $3.40 = $45.90"
-    result: "Final Price: $45.90 (Net Savings: $7.50, Tax Added: $3.40)"
-commonMistakes:
-  - title: "Directly Adding Stacked Discounts"
-    description: "A common retail misconception is adding discount rates together (e.g., 20% off + 10% coupon = 30% off). The secondary coupon applies to the already discounted subtotal, yielding 28% total savings."
-  - title: "Applying Sales Tax Before Discounts"
-    description: "In almost all state and provincial tax jurisdictions, sales tax applies strictly to the net price paid after coupons, not the original sticker price."
-  - title: "Cent Rounding Inconsistencies"
-    description: "Retail systems round to the nearest cent at each sequential step. Rounding only at the final total can produce small 1-cent discrepancies with store receipts."
-  - title: "Confusing Percentage Off with Percent of Original Price"
-    description: "A 25% discount means you pay 75% of the original price, not 25% of the original price."
-sources:
-  - name: "Federal Trade Commission - Guides Against Deceptive Pricing"
-    url: "https://www.ftc.gov/"
-  - name: "NIST Consumer Pricing Mathematics Standards"
-    url: "https://www.nist.gov/"
-  - name: "ISO 80000-2 Mathematical Signs and Symbols"
-    url: "https://www.iso.org/standard/64973.html"
 lastReviewed: "2026-10-24"
-howto:
-  name: "How to Calculate Sale Price and Discount Savings"
-  description: "Step-by-step instructions for calculating retail discounts, stacked coupons, and sales tax."
-  steps:
-    - name: "Select Currency & Original Price"
-      text: "Choose your currency symbol and enter the item's original sticker price."
-    - name: "Enter Primary Discount Rate"
-      text: "Input the advertised sale discount percentage (e.g. 20%)."
-    - name: "Add Stacked Coupons or Tax (Optional)"
-      text: "Optionally add an extra promo code discount and local sales tax rate."
-    - name: "Review Final Cost & Total Savings"
-      text: "View your final out-of-pocket price, total money saved, and the step-by-step math breakdown."
-faqs:
-  - q: "How do you calculate the final discounted price of an item?"
-    a: "Multiply the original sticker price by the discount percentage divided by 100 to find total savings, then subtract the savings from the original price to determine the final sale price."
-  - q: "Why does a 20% sale plus a 10% coupon not equal 30% total discount?"
-    a: "Because stacked store coupons apply to the already reduced sale subtotal rather than the original sticker price. A $100 item reduced by 20% becomes $80; applying 10% off $80 saves $8, bringing the final price to $72 (28% overall savings, not 30%)."
-  - q: "Is sales tax calculated before or after applying discounts?"
-    a: "In retail store purchases, sales tax is calculated on the net discounted subtotal after all promotional store discounts and coupons have been applied."
-  - q: "Can I calculate stacked double discounts with this tool?"
-    a: "Yes. Enter your primary sale discount percentage in the first field and your secondary store coupon percentage in the optional stacked discount field."
-  - q: "Is any financial data transmitted to a server?"
-    a: "No. All discount calculations execute locally inside your web browser using JavaScript. No price numbers or financial inputs leave your device."
-  - q: "Can this calculator support international currencies like Pounds and Euros?"
-    a: "Yes. Use the currency dropdown selector to switch between Dollars ($), Pounds (£), Euros (€), Yen (¥), and Rupees (₹)."
-  - q: "What is an effective discount percentage?"
-    a: "The effective discount percentage is your total dollar savings divided by the original price, expressed as a single equivalent percentage."
 ---
 {% from "partials/currency-select.njk" import currencySelect, countryData with context %}
 {{ countryData(countries) }}
 
     <!-- Tool Form Container -->
-    <section class="tool-container" aria-label="Discount Calculator Form">
+    <section class="tool-container" aria-label="{{ 'ariaLabel.tool-section1' | pt }}">
       <form id="calculator-form" novalidate>
         <div class="form-grid two-col">
           
           {{ currencySelect({ id: "currency-symbol", param: "cur", selected: "USD" }) }}
 
           <div class="form-group">
-            <label for="original-price">Original Price <span class="text-accent">*</span></label>
-            <input type="number" step="any" id="original-price" data-param="price" class="form-control" placeholder="e.g. 99.99" required aria-required="true">
+            <label for="original-price">{{ 'label.original-price' | pt }}</label>
+            <input type="number" step="any" id="original-price" data-param="price" class="form-control" placeholder="{{ 'placeholder.original-price' | pt }}" required aria-required="true">
           </div>
 
           <div class="form-group">
-            <label for="discount-percent">Primary Discount (%) <span class="text-accent">*</span></label>
-            <input type="number" step="any" id="discount-percent" data-param="off" data-param-alias="disc" class="form-control" placeholder="e.g. 20" required aria-required="true">
+            <label for="discount-percent">{{ 'label.discount-percent' | pt }}</label>
+            <input type="number" step="any" id="discount-percent" data-param="off" data-param-alias="disc" class="form-control" placeholder="{{ 'placeholder.discount-percent' | pt }}" required aria-required="true">
           </div>
 
           <div class="form-group">
-            <label for="stacked-discount-percent">Stacked 2nd Discount (%) <span class="label-hint">(Optional)</span></label>
-            <input type="number" step="any" id="stacked-discount-percent" data-param="off2" data-param-alias="stacked" class="form-control" placeholder="e.g. 10">
+            <label for="stacked-discount-percent">{{ 'label.stacked-discount-percent' | pt }}</label>
+            <input type="number" step="any" id="stacked-discount-percent" data-param="off2" data-param-alias="stacked" class="form-control" placeholder="{{ 'placeholder.stacked-discount-percent' | pt }}">
           </div>
 
           <div class="form-group">
-            <label for="tax-percent">Sales Tax (%) <span class="label-hint">(Optional)</span></label>
-            <input type="number" step="any" id="tax-percent" data-param="tax" class="form-control" placeholder="e.g. 8">
+            <label for="tax-percent">{{ 'label.tax-percent' | pt }}</label>
+            <input type="number" step="any" id="tax-percent" data-param="tax" class="form-control" placeholder="{{ 'placeholder.tax-percent' | pt }}">
           </div>
 
         </div>
 
         <div class="button-group mt-6">
-          <button type="submit" class="btn btn-primary">Calculate Savings</button>
-          <button type="button" class="btn btn-secondary" id="reset-btn">Reset</button>
+          <button type="submit" class="btn btn-primary">{{ 'content.tool.button1' | pt }}</button>
+          <button type="button" class="btn btn-secondary" id="reset-btn">{{ 'text.reset-btn' | pt }}</button>
         </div>
       </form>
 
@@ -134,28 +48,28 @@ faqs:
       <!-- Result Box -->
       <div id="result-box" class="result-box is-visible" aria-live="polite">
         <div class="result-header">
-          <span id="result-header-text">Discount Calculation Result</span>
-          <button type="button" class="btn btn-sm btn-ghost" id="copy-result-btn" title="Copy Result to clipboard" aria-label="Copy Result to clipboard">
-            <span data-icon="copy"></span> Copy Result
+          <span id="result-header-text">{{ 'text.result-header-text' | pt }}</span>
+          <button type="button" class="btn btn-sm btn-ghost" id="copy-result-btn" title="{{ 'title.copy-result-btn' | pt }}" aria-label="{{ 'ariaLabel.copy-result-btn' | pt }}">
+            {{ 'text.copy-result-btn' | pt }}
           </button>
         </div>
-        <div class="result-primary" id="result-primary-text">Final Price: $0.00</div>
+        <div class="result-primary" id="result-primary-text">{{ 'text.result-primary-text' | pt }}</div>
         
         <div class="result-grid">
           <div class="result-stat-card">
-            <div class="result-stat-label">Final Out-of-Pocket Cost</div>
+            <div class="result-stat-label">{{ 'content.tool.div1' | pt }}</div>
             <div class="result-stat-value" id="stat-final-price">$0.00</div>
           </div>
           <div class="result-stat-card">
-            <div class="result-stat-label">Total Amount Saved</div>
+            <div class="result-stat-label">{{ 'content.tool.div2' | pt }}</div>
             <div class="result-stat-value" id="stat-total-saved">$0.00</div>
           </div>
           <div class="result-stat-card">
-            <div class="result-stat-label">Subtotal (Before Tax)</div>
+            <div class="result-stat-label">{{ 'content.tool.div3' | pt }}</div>
             <div class="result-stat-value" id="stat-price-before-tax">$0.00</div>
           </div>
           <div class="result-stat-card">
-            <div class="result-stat-label">Sales Tax Added</div>
+            <div class="result-stat-label">{{ 'content.tool.div4' | pt }}</div>
             <div class="result-stat-value" id="stat-tax-amount">$0.00</div>
           </div>
         </div>
@@ -170,11 +84,11 @@ faqs:
 
     <!-- When to Use Section -->
     <section class="content-section">
-      <h2>How &amp; When to Use the Discount Calculator</h2>
+      <h2>{{ 'content.how-when-to-use-the-discount.heading' | pt }}</h2>
       <ul class="content-list">
-        <li><strong>In-Store Shopping &amp; Clearance Racks:</strong> Quickly determine what that "30% off sticker price" tag actually comes out to at the register.</li>
-        <li><strong>Online Checkout Coupon Stacking:</strong> Test what happens when you combine a site-wide 20% sale with an extra 15% influencer promo code.</li>
-        <li><strong>Retail Wholesaling &amp; Margins:</strong> Compute distributor volume discounts and net pricing before invoice submission.</li>
-        <li><strong>Budgeting with Local Sales Tax:</strong> See the true out-of-pocket total including state or regional sales tax before swiping your card.</li>
+        <li>{{ 'content.how-when-to-use-the-discount.li1' | pt }}</li>
+        <li>{{ 'content.how-when-to-use-the-discount.li2' | pt }}</li>
+        <li>{{ 'content.how-when-to-use-the-discount.li3' | pt }}</li>
+        <li>{{ 'content.how-when-to-use-the-discount.li4' | pt }}</li>
       </ul>
     </section>

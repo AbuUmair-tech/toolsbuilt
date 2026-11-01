@@ -19,19 +19,31 @@
 })(typeof globalThis !== 'undefined' ? globalThis : this, function () {
   'use strict';
 
+  // Labels, formulas and messages come from the tool's translation data
+  const T = (typeof ToolsBuilt !== 'undefined' && ToolsBuilt.scope)
+    ? ToolsBuilt.scope('cgpa-to-percentage-calculator')
+    : require('../../../scripts/i18n-client.js').scope('cgpa-to-percentage-calculator');
+
   const SCALES = [4, 5, 10];
   const CBSE_MULTIPLIER = 9.5;
 
   const FORMULAS = {
-    simple: { label: 'Simple proportion', scales: SCALES },
-    cbse: { label: 'CBSE (10-point)', scales: [10] },
-    custom: { label: "My university's formula", scales: SCALES }
+    simple: { label: T('formulas.simple'), scales: SCALES },
+    cbse: { label: T('formulas.cbse'), scales: [10] },
+    custom: { label: T('formulas.custom'), scales: SCALES }
   };
 
-  function toNumber(value, name) {
+  // Errors about the custom formula carry `field` ('multiplier' or 'offset') for the page
+  function fail(message, field) {
+    const err = new Error(message);
+    if (field) err.field = field;
+    return err;
+  }
+
+  function toNumber(value, message, field) {
     const n = typeof value === 'string' ? parseFloat(value.trim()) : Number(value);
     if (value === '' || value === null || value === undefined || !isFinite(n)) {
-      throw new Error(`Please enter a valid ${name}.`);
+      throw fail(message, field);
     }
     return n;
   }
@@ -41,30 +53,30 @@
     const scale = Number(opts.scale || 4);
     const formula = opts.formula || 'simple';
     if (!SCALES.includes(scale)) {
-      throw new Error(`Choose a CGPA scale of ${SCALES.join(', ')}.`);
+      throw new Error(T('errors.scale', { scales: SCALES.join(', ') }));
     }
     if (!FORMULAS[formula]) {
-      throw new Error('Choose a conversion formula.');
+      throw new Error(T('errors.formula'));
     }
     if (!FORMULAS[formula].scales.includes(scale)) {
-      throw new Error('The CBSE formula is only for the 10-point scale. Choose the 10.0 scale or another formula.');
+      throw new Error(T('errors.cbseScale'));
     }
     let multiplier = null;
     let offset = null;
     if (formula === 'custom') {
-      multiplier = toNumber(opts.multiplier, 'multiplier (m) from your transcript');
-      offset = opts.offset === '' || opts.offset === undefined || opts.offset === null ? 0 : toNumber(opts.offset, 'offset (c)');
+      multiplier = toNumber(opts.multiplier, T('errors.multiplier'), 'multiplier');
+      offset = opts.offset === '' || opts.offset === undefined || opts.offset === null ? 0 : toNumber(opts.offset, T('errors.offset'), 'offset');
       if (multiplier === 0) {
-        throw new Error('The multiplier (m) cannot be 0.');
+        throw fail(T('errors.multiplierZero'), 'multiplier');
       }
     }
     return { scale, formula, multiplier, offset };
   }
 
   function describe(o) {
-    if (o.formula === 'cbse') return `Percentage = CGPA × ${CBSE_MULTIPLIER}`;
-    if (o.formula === 'custom') return `Percentage = ${o.multiplier} × CGPA ${o.offset < 0 ? '−' : '+'} ${Math.abs(o.offset)}`;
-    return `Percentage = CGPA ÷ ${o.scale} × 100`;
+    if (o.formula === 'cbse') return T('formulaText.cbse', { multiplier: CBSE_MULTIPLIER });
+    if (o.formula === 'custom') return T('formulaText.custom', { m: o.multiplier, sign: o.offset < 0 ? '−' : '+', c: Math.abs(o.offset) });
+    return T('formulaText.simple', { scale: o.scale });
   }
 
   /**
@@ -73,9 +85,9 @@
    */
   function cgpaToPercentage(cgpaValue, options) {
     const o = checkOptions(options);
-    const cgpa = toNumber(cgpaValue, 'CGPA');
+    const cgpa = toNumber(cgpaValue, T('errors.cgpa'));
     if (cgpa < 0 || cgpa > o.scale) {
-      throw new Error(`CGPA must be between 0 and ${o.scale} on a ${o.scale}.0 scale.`);
+      throw new Error(T('errors.cgpaRange', { scale: o.scale }));
     }
     let percentage;
     if (o.formula === 'cbse') percentage = cgpa * CBSE_MULTIPLIER;
@@ -83,7 +95,7 @@
     else percentage = (cgpa / o.scale) * 100;
 
     if (percentage < 0 || percentage > 100) {
-      throw new Error(`This formula gives ${percentage.toFixed(2)}%, which is outside 0–100%. Check the numbers from your transcript.`);
+      throw new Error(T('errors.percentageOutside', { percentage: percentage.toFixed(2) }));
     }
     return { direction: 'cgpa-to-percentage', cgpa, percentage, ...o, formulaText: describe(o) };
   }
@@ -93,9 +105,9 @@
    */
   function percentageToCgpa(percentageValue, options) {
     const o = checkOptions(options);
-    const percentage = toNumber(percentageValue, 'percentage');
+    const percentage = toNumber(percentageValue, T('errors.percentage'));
     if (percentage < 0 || percentage > 100) {
-      throw new Error('Percentage must be between 0 and 100.');
+      throw new Error(T('errors.percentageRange'));
     }
     let cgpa;
     if (o.formula === 'cbse') cgpa = percentage / CBSE_MULTIPLIER;
@@ -103,7 +115,7 @@
     else cgpa = (percentage / 100) * o.scale;
 
     if (cgpa < 0 || cgpa > o.scale) {
-      throw new Error(`This formula gives a CGPA of ${cgpa.toFixed(2)}, which is outside 0–${o.scale}. Check the formula or the percentage.`);
+      throw new Error(T('errors.cgpaOutside', { cgpa: cgpa.toFixed(2), scale: o.scale }));
     }
     return { direction: 'percentage-to-cgpa', cgpa, percentage, ...o, formulaText: describe(o) };
   }

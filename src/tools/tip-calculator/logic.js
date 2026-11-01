@@ -12,6 +12,11 @@
   }
 })(typeof globalThis !== 'undefined' ? globalThis : this, function () {
 
+  // Messages come from the tool's translation data
+  const T = (typeof ToolsBuilt !== 'undefined' && ToolsBuilt.scope)
+    ? ToolsBuilt.scope('tip-calculator')
+    : require('../../../scripts/i18n-client.js').scope('tip-calculator');
+
   const PRESETS = [10, 15, 18, 20, 25];
 
   const toCents = (value) => Math.round((Number(value) + Number.EPSILON) * 100);
@@ -31,24 +36,24 @@
    * @param {boolean} input.roundUp           - round each person's share up to a whole currency unit
    */
   function calculateTip(input = {}) {
-    if (isBlank(input.bill)) return { error: 'Enter the bill amount.', field: 'bill' };
+    if (isBlank(input.bill)) return { error: T('errors.billEmpty'), field: 'bill' };
     const bill = Number(input.bill);
-    if (!Number.isFinite(bill) || bill <= 0) return { error: 'The bill must be a number greater than 0.', field: 'bill' };
+    if (!Number.isFinite(bill) || bill <= 0) return { error: T('errors.billInvalid'), field: 'bill' };
 
-    if (isBlank(input.tipPercent)) return { error: 'Enter a tip percentage or choose a preset.', field: 'tip' };
+    if (isBlank(input.tipPercent)) return { error: T('errors.tipEmpty'), field: 'tip' };
     const tipPercent = Number(input.tipPercent);
-    if (!Number.isFinite(tipPercent) || tipPercent < 0) return { error: 'The tip must be 0% or more.', field: 'tip' };
-    if (tipPercent > 100) return { error: 'The tip cannot be more than 100% of the bill.', field: 'tip' };
+    if (!Number.isFinite(tipPercent) || tipPercent < 0) return { error: T('errors.tipNegative'), field: 'tip' };
+    if (tipPercent > 100) return { error: T('errors.tipOver100'), field: 'tip' };
 
     const people = isBlank(input.people) ? 1 : Number(input.people);
-    if (!Number.isInteger(people) || people < 1) return { error: 'The number of people must be a whole number of 1 or more.', field: 'people' };
-    if (people > 1000) return { error: 'Split between 1,000 people or fewer.', field: 'people' };
+    if (!Number.isInteger(people) || people < 1) return { error: T('errors.people'), field: 'people' };
+    if (people > 1000) return { error: T('errors.peopleMax'), field: 'people' };
 
     let taxPercent = 0;
     if (input.tipOnPreTax) {
       taxPercent = isBlank(input.taxPercent) ? 0 : Number(input.taxPercent);
       if (!Number.isFinite(taxPercent) || taxPercent < 0 || taxPercent > 100) {
-        return { error: 'The tax rate must be between 0% and 100%.', field: 'tax' };
+        return { error: T('errors.tax'), field: 'tax' };
       }
     }
 

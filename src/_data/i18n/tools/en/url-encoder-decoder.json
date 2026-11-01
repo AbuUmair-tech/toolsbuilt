@@ -1,0 +1,247 @@
+{
+  "listing": {
+    "name": "URL Encoder & Decoder",
+    "shortName": "URL Encoder",
+    "description": "Encode and decode URLs with encodeURIComponent and encodeURI modes plus query string table parsing.",
+    "shortDescription": "Encode and decode URLs with encodeURIComponent and encodeURI modes plus query string table parsing.",
+    "keywords": [
+      "url encoder",
+      "url decoder",
+      "encodeuricomponent",
+      "url query parser",
+      "percent encoding"
+    ]
+  },
+  "title": "URL Encoder & Decoder - encodeURIComponent & encodeURI Tool",
+  "description": "Free online URL encoder and decoder. Switch between encodeURIComponent and encodeURI modes, inspect query strings in a parameter table, and copy results.",
+  "h1": "URL Encoder & Decoder",
+  "quickAnswer": "encodeURIComponent() encodes every character except A–Z, a–z, 0–9, -, _, ., !, ~, *, ', (, ). Use it for individual query-string values. encodeURI() preserves structural characters (:, /, ?, #, &, =) and is used for complete URLs. To decode, paste percent-encoded text and the tool reverses each %XX sequence to the original UTF-8 character.",
+  "workedExamples": [
+    {
+      "title": "Encode a Query Parameter Value",
+      "inputs": [
+        "Mode: encodeURIComponent",
+        "Input: hello world & goodbye!"
+      ],
+      "steps": [
+        "Spaces → %20, & → %26, ! → %21",
+        "Output: hello%20world%20%26%20goodbye%21"
+      ],
+      "result": "hello%20world%20%26%20goodbye%21"
+    },
+    {
+      "title": "Encode a Full URL",
+      "inputs": [
+        "Mode: encodeURI",
+        "Input: https://example.com/search?q=hello world&lang=en"
+      ],
+      "steps": [
+        "Structural characters preserved: ://?&=",
+        "Space → %20, other special chars encoded",
+        "Output: https://example.com/search?q=hello%20world&lang=en"
+      ],
+      "result": "https://example.com/search?q=hello%20world&lang=en"
+    },
+    {
+      "title": "Decode a Percent-Encoded String",
+      "inputs": [
+        "Mode: Decode",
+        "Input: Caf%C3%A9%20au%20lait"
+      ],
+      "steps": [
+        "%C3%A9 is the UTF-8 encoding for é (e with acute)",
+        "%20 is a space character",
+        "Decoded: Café au lait"
+      ],
+      "result": "Café au lait"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Double-Encoding",
+      "description": "Encoding an already percent-encoded string converts existing <code>%</code> characters into <code>%25</code> (e.g. <code>%20</code> becomes <code>%2520</code>). Always verify whether incoming data is already encoded before applying transformation."
+    },
+    {
+      "title": "Using encodeURI for Query Values",
+      "description": "Running <code>encodeURI</code> on a parameter value leaves characters like <code>&amp;</code> and <code>+</code> unencoded, causing server parsers to truncate or split values unexpectedly."
+    },
+    {
+      "title": "Malformed Percent Sequences",
+      "description": "Decoding a string with a bare percent sign (such as <code>discount=50%</code> instead of <code>discount=50%25</code>) throws a fatal JavaScript <code>URIError: URI malformed</code>. Safe tools catch and surface this error clearly."
+    }
+  ],
+  "sources": [
+    {
+      "label": "RFC 3986: Uniform Resource Identifier (URI): Generic Syntax",
+      "url": "https://datatracker.ietf.org/doc/html/rfc3986"
+    },
+    {
+      "label": "MDN Web Docs: encodeURIComponent()",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent"
+    },
+    {
+      "label": "MDN Web Docs: encodeURI()",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURI"
+    }
+  ],
+  "howto": {
+    "name": "How to Encode and Decode URLs Online",
+    "description": "Step-by-step guide to encoding URL components, full URIs, and parsing query string parameters.",
+    "steps": [
+      {
+        "name": "Select Operation & Mode",
+        "text": "Choose 'Encode' or 'Decode' and pick either Component mode (encodeURIComponent) or Full URI mode (encodeURI)."
+      },
+      {
+        "name": "Enter String or URL",
+        "text": "Type or paste your query parameter, text snippet, or complete web address into the input box."
+      },
+      {
+        "name": "Inspect & Copy Output",
+        "text": "View converted output live, inspect parsed query parameter key-value pairs in the table, and copy the result."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "What is the difference between encodeURIComponent and encodeURI?",
+      "a": "encodeURIComponent encodes all reserved punctuation characters (including &, =, ?, /, :, and #) into percent-encoded hex sequences. It is intended for encoding individual query parameter keys and values. In contrast, encodeURI preserves valid URL structure characters (;,/?:@&=+$#) and only encodes characters forbidden in standard URIs like spaces and Unicode glyphs."
+    },
+    {
+      "q": "When should I use encodeURIComponent instead of encodeURI?",
+      "a": "Always use encodeURIComponent when preparing values to append to a query string (e.g., ?q=search+term or ?redirect_url=https://example.com). If you used encodeURI, symbols like & and = inside your value would be mistaken for additional query delimiters."
+    },
+    {
+      "q": "How does this tool handle '+' plus signs in query strings?",
+      "a": "In application/x-www-form-urlencoded query strings, plus signs (+) commonly represent spaces. When decoding in Component mode, this tool translates both '+' and '%20' into standard space characters."
+    },
+    {
+      "q": "Is my URL or private query parameter data sent to a server?",
+      "a": "No. All URL encoding, decoding, and query string table parsing run 100% locally in your web browser. Sensitive API tokens and query strings never leave your device."
+    },
+    {
+      "q": "What is the maximum URL size supported?",
+      "a": "The tool supports inputs up to a 1 MB safety cap (1,048,576 characters). Live debounced processing ensures instant UI updates without lag."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "URL Encoder &amp; Decoder Form",
+      "parsed-query-string-parameters-table1": "Parsed query string parameters",
+      "url-encoding-specification-mode-comparison-table1": "Mode Comparison"
+    },
+    "content": {
+      "tool": {
+        "span1": "Direction:",
+        "label1": "<input type=\"radio\" name=\"url-direction\" value=\"encode\" checked class=\"cursor-pointer\">\n            <span>Encode</span>",
+        "label2": "<input type=\"radio\" name=\"url-direction\" value=\"decode\" class=\"cursor-pointer\">\n            <span>Decode</span>",
+        "span2": "Mode:",
+        "label3": "<input type=\"radio\" name=\"url-mode\" value=\"component\" checked class=\"cursor-pointer\">\n            <span>Component (encodeURIComponent)</span>",
+        "label4": "<input type=\"radio\" name=\"url-mode\" value=\"full\" class=\"cursor-pointer\">\n            <span>Full URL (encodeURI)</span>"
+      },
+      "parsed-query-string-parameters": {
+        "heading": "Parsed Query String Parameters",
+        "th1": "Parameter Key",
+        "th2": "Raw / Encoded Value",
+        "th3": "Decoded Value"
+      },
+      "how-when-to-use-the-url": {
+        "li1": "<strong>Passing Nested URLs in Redirects:</strong> When passing a return URL (e.g. <code>?returnTo=https://example.com/dashboard?tab=billing</code>), use <code>encodeURIComponent</code> so the nested query parameters aren't parsed by the outer server.",
+        "li2": "<strong>Fixing Broken Links with Spaces:</strong> Web browsers require valid ASCII URIs. Encode spaces as <code>%20</code> (or <code>+</code>) and non-ASCII Unicode characters before sharing links.",
+        "li3": "<strong>Debugging Webhook Payloads &amp; Query Strings:</strong> Paste complex query strings to view every parameter neatly parsed into a structured table.",
+        "li4": "<strong>Safe Form Data Encoding:</strong> Verify how input field data will be transmitted in <code>application/x-www-form-urlencoded</code> POST requests."
+      },
+      "url-encoding-specification-mode-comparison": {
+        "p1": "RFC 3986 specifies percent-encoding to represent characters in URIs outside the allowed ASCII character set. Understanding the distinction between component and full URI modes prevents broken routes and corrupted parameters.",
+        "th1": "Character",
+        "th2": "encodeURI Mode",
+        "th3": "encodeURIComponent Mode",
+        "th4": "Reason",
+        "td1": "<code>Space ( )</code>",
+        "td2": "Spaces are never permitted in valid URIs.",
+        "td3": "<code>Ampersand (&amp;)</code>",
+        "td4": "<code>&amp;</code> (Preserved)",
+        "td5": "<code>%26</code> (Encoded)",
+        "td6": "Delimits query parameters; must be encoded inside values.",
+        "td7": "<code>Equals (=)</code>",
+        "td8": "<code>=</code> (Preserved)",
+        "td9": "<code>%3D</code> (Encoded)",
+        "td10": "Separates key and value; must be encoded inside values.",
+        "td11": "<code>Question Mark (?)</code>",
+        "td12": "<code>?</code> (Preserved)",
+        "td13": "<code>%3F</code> (Encoded)",
+        "td14": "Begins query string; must be encoded inside values.",
+        "td15": "<code>Slash (/)</code>",
+        "td16": "<code>/</code> (Preserved)",
+        "td17": "<code>%2F</code> (Encoded)",
+        "td18": "Separates path segments; must be encoded inside values.",
+        "td19": "<code>Hash (#)</code>",
+        "td20": "<code>#</code> (Preserved)",
+        "td21": "<code>%23</code> (Encoded)",
+        "td22": "Begins fragment anchor; must be encoded inside values."
+      }
+    },
+    "title": {
+      "tool-label1": "Encodes all delimiters (;,/?:@&=+$#). Best for parameter keys & values.",
+      "tool-label2": "Preserves URL structure delimiters. Best for full web addresses."
+    },
+    "text": {
+      "clear-btn": "Clear",
+      "size-meter": "0.0 KB / 1 MB",
+      "convert-btn": "Encode URL",
+      "swap-btn": "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><polyline points=\"17 1 21 5 17 9\"></polyline><path d=\"M3 11V9a4 4 0 0 1 4-4h14\"></path><polyline points=\"7 23 3 19 7 15\"></polyline><path d=\"M21 13v2a4 4 0 0 1-4 4H3\"></path></svg>\n          Swap Input &amp; Output",
+      "copy-btn": "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"9\" y=\"9\" width=\"13\" height=\"13\" rx=\"2\" ry=\"2\"></rect><path d=\"M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1\"></path></svg>\n          Copy Result",
+      "query-count-badge": "0 parameters",
+      "how-to-use-heading": "How &amp; When to Use the URL Encoder / Decoder",
+      "article-heading": "URL Encoding Specification &amp; Mode Comparison"
+    },
+    "label": {
+      "url-input": "Text or URL to Encode (Component):",
+      "url-output": "Encoded URL Output:"
+    },
+    "placeholder": {
+      "url-input": "Paste parameter or text here... e.g. hello world &amp; symbols=?",
+      "url-output": "Output will appear here live as you type..."
+    }
+  },
+  "client": {
+    "modeName": {
+      "full": "Full URL (encodeURI)",
+      "component": "Component (encodeURIComponent)"
+    },
+    "labels": {
+      "encode": {
+        "input": "Text or URL to Encode ({{mode}}):",
+        "output": "Encoded URL Output:",
+        "button": "Encode URL",
+        "placeholderFull": "Paste full URL here... e.g. https://example.com/search?q=toolsbuilt & more=yes",
+        "placeholderComponent": "Paste parameter or text here... e.g. hello world & symbols=?"
+      },
+      "decode": {
+        "input": "Encoded URL to Decode:",
+        "output": "Decoded Plain Text:",
+        "button": "Decode URL",
+        "placeholder": "Paste encoded URL or string here... e.g. https%3A%2F%2Fexample.com%3Fq%3Dtoolsbuilt"
+      }
+    },
+    "sizeMeter": "{{kb}} KB / {{max}} MB",
+    "params": {
+      "one": "{{n}} parameter",
+      "other": "{{n}} parameters"
+    },
+    "status": {
+      "encoded": "✓ Encoded using {{mode}}: {{input}} &rarr; {{output}} characters",
+      "decoded": "✓ Decoded using {{mode}}: {{input}} &rarr; {{output}} characters"
+    },
+    "errors": {
+      "notText": "Input must be a valid text string.",
+      "tooLarge": "Input exceeds the 1 MB safety limit (max 1,048,576 characters). Current size: {{size}} characters.",
+      "encoding": "Encoding error: {{message}}",
+      "decoding": "Decoding error: Invalid percent-encoded sequence ({{message}}). Check for incomplete % hex pairs."
+    },
+    "toast": {
+      "nothingToCopy": "Nothing to copy. Enter text first.",
+      "copied": "Result copied to clipboard"
+    }
+  }
+}

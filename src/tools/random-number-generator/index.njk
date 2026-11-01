@@ -1,142 +1,53 @@
 ---
 layout: layouts/tool.njk
 toolSlug: random-number-generator
-title: "Random Number Generator (True Random Range)"
-description: "Generate random numbers in any range with your browser's secure random source: integers or decimals, up to 1,000 at once, with or without repeats."
 permalink: /tools/random-number-generator/
-h1: "Random Number Generator"
 extraCss: "/tools/random-number-generator/style.css"
-quickAnswer: "Enter a minimum, a maximum and how many numbers you need, then press Generate. Each number is drawn with crypto.getRandomValues, the browser's cryptographically secure generator, and rejection sampling so every value in the range is exactly equally likely. Turn off duplicates for a draw where no number repeats, such as a raffle."
-formula:
-  title: "How the Numbers Are Drawn"
-  expression: "n = max − min + 1   ·   draw x uniformly from [0, 2³²)   ·   reject x ≥ 2³² − (2³² mod n)   ·   result = min + (x mod n)"
-  explanation: "The browser's secure random source gives 32-bit numbers. Taking x mod n directly would make small results slightly more likely whenever n does not divide 2³² evenly (modulo bias), so draws in the uneven top slice are thrown away and redrawn. Every value then has probability exactly 1 ÷ n. Decimals with N places are drawn the same way as whole numbers of 10^−N steps between the minimum and maximum. Without duplicates, each value is drawn at most once (sampling without replacement)."
-  variables:
-    - name: "n"
-      description: "How many different values are possible: max − min + 1 for whole numbers."
-    - name: "Rejection sampling"
-      description: "Discarding the few raw draws that would bias the result; on average less than one extra draw is needed."
-    - name: "Without duplicates"
-      description: "You can draw at most n numbers, because after that every value has been used."
-workedExamples:
-  - title: "Roll a six-sided die"
-    inputs:
-      - "Min 1, max 6, how many 1"
-    steps:
-      - "n = 6 possible values"
-      - "2³² mod 6 = 4, so the top 4 raw values out of 4,294,967,296 are rejected"
-    result: "One number from 1 to 6, each with probability 1/6"
-    link: "/tools/random-number-generator/?min=1&max=6&count=1#tool"
-  - title: "Lottery-style draw: 6 numbers from 1 to 49"
-    inputs:
-      - "Min 1, max 49, how many 6"
-      - "Allow duplicates: off, sort: on"
-    steps:
-      - "Each number is drawn from those not yet picked"
-      - "There are 13,983,816 possible sets of 6"
-    result: "Six different numbers in ascending order"
-    link: "/tools/random-number-generator/?min=1&max=49&count=6&uniq=1&sort=1#tool"
-  - title: "Random decimals between 0 and 1"
-    inputs:
-      - "Min 0, max 1, how many 5"
-      - "Decimal places: 3"
-    steps:
-      - "Values are steps of 0.001, so n = 1,001 possible values"
-      - "Each draw is a whole number of steps, divided by 1,000"
-    result: "Five numbers such as 0.417, each from 0.000 to 1.000"
-    link: "/tools/random-number-generator/?min=0&max=1&count=5&dp=3#tool"
-commonMistakes:
-  - title: "Using Math.random() for anything that matters"
-    description: "Math.random() is fast but not designed to be unpredictable, and its output can sometimes be reconstructed. For prize draws, passwords or anything security-related, use a cryptographic source such as crypto.getRandomValues, as this tool does."
-  - title: "Using x mod n on a raw random number"
-    description: "Reducing a random number with % n without rejection sampling gives a small bias towards lower values when n does not divide the generator's range evenly. The effect is tiny for small n but real, and easy to avoid."
-  - title: "Asking for more unique numbers than the range holds"
-    description: "There are only 10 different whole numbers from 1 to 10, so you cannot draw 11 without a repeat. The tool tells you when the count is larger than the range."
-  - title: "Expecting random numbers to look evenly spread"
-    description: "Real randomness produces streaks and clusters. Rolling three 6s in a row on a fair die happens about once in 216 tries; it is not evidence that the generator is broken."
-  - title: "Treating decimals as continuous"
-    description: "With 2 decimal places between 0 and 1 there are exactly 101 possible values. If you need finer values, increase the decimal places."
-faqs:
-  - q: "Is this random number generator truly random?"
-    a: "It uses crypto.getRandomValues, a cryptographically secure generator built into your browser and seeded by your operating system's entropy sources. It is suitable for games, draws and sampling, and the numbers cannot be predicted from earlier ones."
-  - q: "How do I generate a random number between 1 and 100?"
-    a: "Set the minimum to 1, the maximum to 100 and how many to 1, then press Generate. Each number from 1 to 100 has exactly a 1% chance."
-  - q: "How do I pick random numbers without repeats?"
-    a: "Untick Allow duplicates. Every number in the result will be different, as long as you do not ask for more numbers than the range contains."
-  - q: "Can I generate random decimal numbers?"
-    a: "Yes. Choose 1 to 6 decimal places. The numbers are spread evenly across the range in steps of that size."
-  - q: "How many random numbers can I generate at once?"
-    a: "Up to 1,000 per click. Copy them or download them as a text file, one number per line."
-  - q: "Can I use this for a raffle or giveaway?"
-    a: "Yes. Number the entries, set the range to match, untick duplicates and draw as many winners as you need. For names instead of numbers, use the random name picker."
-  - q: "Are my numbers sent anywhere?"
-    a: "No. The numbers are generated in your browser and are not sent to or stored on a server."
-sources:
-  - name: "W3C Web Cryptography API: getRandomValues()"
-    url: "https://www.w3.org/TR/WebCryptoAPI/#Crypto-method-getRandomValues"
-  - name: "MDN Web Docs: Crypto.getRandomValues()"
-    url: "https://developer.mozilla.org/en-US/docs/Web/API/Crypto/getRandomValues"
-  - name: "NIST SP 800-90A Rev. 1: Recommendation for Random Number Generation Using Deterministic Random Bit Generators"
-    url: "https://csrc.nist.gov/pubs/sp/800/90/a/r1/final"
 lastReviewed: "2026-10-31"
-howto:
-  name: "How to Generate Random Numbers"
-  description: "Generate secure random numbers in any range."
-  steps:
-    - name: "Set the range"
-      text: "Enter the smallest and largest number allowed."
-    - name: "Choose how many"
-      text: "Enter how many numbers you need, up to 1,000."
-    - name: "Pick the options"
-      text: "Allow or forbid duplicates, sort the results, and choose whole numbers or up to 6 decimal places."
-    - name: "Generate and save"
-      text: "Press Generate, then copy the numbers or download them as a text file."
 ---
 
     <!-- Tool Form Container -->
-    <section class="tool-container" aria-label="Random Number Generator">
+    <section class="tool-container" aria-label="{{ 'ariaLabel.tool-section1' | pt }}">
       <form id="calculator-form" novalidate>
         <div class="form-grid rng-grid">
           <div class="form-group">
-            <label for="rng-min">Minimum <span class="text-accent">*</span></label>
+            <label for="rng-min">{{ 'label.rng-min' | pt }}</label>
             <input type="number" inputmode="decimal" step="any" id="rng-min" data-param="min" class="form-control" value="1" required aria-required="true">
           </div>
           <div class="form-group">
-            <label for="rng-max">Maximum <span class="text-accent">*</span></label>
+            <label for="rng-max">{{ 'label.rng-max' | pt }}</label>
             <input type="number" inputmode="decimal" step="any" id="rng-max" data-param="max" class="form-control" value="100" required aria-required="true">
           </div>
           <div class="form-group">
-            <label for="rng-count">How many</label>
+            <label for="rng-count">{{ 'label.rng-count' | pt }}</label>
             <input type="number" inputmode="numeric" step="1" min="1" max="1000" id="rng-count" data-param="count" class="form-control" value="1">
           </div>
           <div class="form-group">
-            <label for="rng-dp">Number type</label>
+            <label for="rng-dp">{{ 'label.rng-dp' | pt }}</label>
             <select id="rng-dp" data-param="dp" class="form-control">
-              <option value="0" selected>Whole numbers</option>
-              <option value="1">1 decimal place</option>
-              <option value="2">2 decimal places</option>
-              <option value="3">3 decimal places</option>
-              <option value="4">4 decimal places</option>
-              <option value="5">5 decimal places</option>
-              <option value="6">6 decimal places</option>
+              <option value="0" selected>{{ 'option.rng-dp.0' | pt }}</option>
+              <option value="1">{{ 'option.rng-dp.1' | pt }}</option>
+              <option value="2">{{ 'option.rng-dp.2' | pt }}</option>
+              <option value="3">{{ 'option.rng-dp.3' | pt }}</option>
+              <option value="4">{{ 'option.rng-dp.4' | pt }}</option>
+              <option value="5">{{ 'option.rng-dp.5' | pt }}</option>
+              <option value="6">{{ 'option.rng-dp.6' | pt }}</option>
             </select>
           </div>
         </div>
         <div class="rng-options">
           <label class="checkbox-label">
-            <input type="checkbox" id="rng-dupes" checked>
-            <span>Allow duplicates</span>
+            {{ 'content.tool.label1' | pt }}
           </label>
           <input type="hidden" id="rng-unique" data-param="uniq" value="">
           <label class="checkbox-label">
-            <input type="checkbox" id="rng-sort" data-param="sort">
-            <span>Sort from smallest to largest</span>
+            {{ 'content.tool.label2' | pt }}
           </label>
         </div>
 
         <div class="button-group mt-6">
-          <button type="submit" class="btn btn-primary" id="generate-btn">Generate</button>
-          <button type="button" class="btn btn-secondary" id="reset-btn">Reset</button>
+          <button type="submit" class="btn btn-primary" id="generate-btn">{{ 'text.generate-btn' | pt }}</button>
+          <button type="button" class="btn btn-secondary" id="reset-btn">{{ 'text.reset-btn' | pt }}</button>
         </div>
       </form>
 
@@ -144,14 +55,14 @@ howto:
 
       <div id="result-box" class="result-box is-visible" aria-live="polite">
         <div class="result-header">
-          <span id="result-header-text">Your random number</span>
+          {{ 'content.tool.div1' | pt }}
         </div>
         <div class="result-primary rng-primary" id="result-primary-text">--</div>
-        <ul class="rng-list" id="rng-list" aria-label="Generated numbers"></ul>
+        <ul class="rng-list" id="rng-list" aria-label="{{ 'ariaLabel.rng-list' | pt }}"></ul>
         <p class="form-hint" id="rng-note"></p>
         <div class="button-group mt-4">
-          <button type="button" class="btn btn-sm btn-secondary" id="copy-numbers-btn">Copy numbers</button>
-          <button type="button" class="btn btn-sm btn-secondary" id="download-btn">Download .txt</button>
+          <button type="button" class="btn btn-sm btn-secondary" id="copy-numbers-btn">{{ 'text.copy-numbers-btn' | pt }}</button>
+          <button type="button" class="btn btn-sm btn-secondary" id="download-btn">{{ 'text.download-btn' | pt }}</button>
         </div>
       </div>
     </section>
@@ -159,29 +70,29 @@ howto:
     <!-- tool-end -->
 
     <section class="content-section">
-      <h2>Why Secure Randomness and Rejection Sampling Matter</h2>
-      <p>Computers cannot flip coins, so they use algorithms. Ordinary generators such as JavaScript's Math.random() produce numbers that look random but follow a hidden pattern. Cryptographically secure generators, exposed in browsers as crypto.getRandomValues, are seeded from unpredictable events gathered by the operating system and are designed so that seeing earlier outputs does not help predict the next one.</p>
-      <p>Getting a number in a range also needs care. A secure generator returns values from 0 to 4,294,967,295. To get a number from 1 to 6 you might take the remainder after dividing by 6, but 4,294,967,296 is not a multiple of 6, so the remainders 0 to 3 would come up very slightly more often than 4 and 5. This tool throws away the handful of raw values that cause that imbalance and draws again, so every face is exactly equally likely.</p>
+      <h2>{{ 'content.why-secure-randomness-and-rejection-sampling.heading' | pt }}</h2>
+      <p>{{ 'content.why-secure-randomness-and-rejection-sampling.p1' | pt }}</p>
+      <p>{{ 'content.why-secure-randomness-and-rejection-sampling.p2' | pt }}</p>
       <div class="table-wrapper">
         <table class="table">
-          <caption class="visually-hidden">Common ranges and their chances</caption>
-          <thead><tr><th scope="col">Use</th><th scope="col">Range</th><th scope="col">Chance of each value</th></tr></thead>
+          <caption class="visually-hidden">{{ 'content.why-secure-randomness-and-rejection-sampling.caption1' | pt }}</caption>
+          <thead><tr><th scope="col">{{ 'content.why-secure-randomness-and-rejection-sampling.th1' | pt }}</th><th scope="col">{{ 'content.why-secure-randomness-and-rejection-sampling.th2' | pt }}</th><th scope="col">{{ 'content.why-secure-randomness-and-rejection-sampling.th3' | pt }}</th></tr></thead>
           <tbody>
-            <tr><td>Coin toss</td><td>1–2</td><td>1 in 2 (50%)</td></tr>
-            <tr><td>Six-sided die</td><td>1–6</td><td>1 in 6 (16.67%)</td></tr>
-            <tr><td>Percentage roll</td><td>1–100</td><td>1 in 100 (1%)</td></tr>
-            <tr><td>Day of the year</td><td>1–365</td><td>1 in 365 (0.27%)</td></tr>
-            <tr><td>Four-digit PIN</td><td>0–9999</td><td>1 in 10,000 (0.01%)</td></tr>
+            <tr><td>{{ 'content.why-secure-randomness-and-rejection-sampling.td1' | pt }}</td><td>1–2</td><td>{{ 'content.why-secure-randomness-and-rejection-sampling.td2' | pt }}</td></tr>
+            <tr><td>{{ 'content.why-secure-randomness-and-rejection-sampling.td3' | pt }}</td><td>1–6</td><td>{{ 'content.why-secure-randomness-and-rejection-sampling.td4' | pt }}</td></tr>
+            <tr><td>{{ 'content.why-secure-randomness-and-rejection-sampling.td5' | pt }}</td><td>1–100</td><td>{{ 'content.why-secure-randomness-and-rejection-sampling.td6' | pt }}</td></tr>
+            <tr><td>{{ 'content.why-secure-randomness-and-rejection-sampling.td7' | pt }}</td><td>1–365</td><td>{{ 'content.why-secure-randomness-and-rejection-sampling.td8' | pt }}</td></tr>
+            <tr><td>{{ 'content.why-secure-randomness-and-rejection-sampling.td9' | pt }}</td><td>0–9999</td><td>{{ 'content.why-secure-randomness-and-rejection-sampling.td10' | pt }}</td></tr>
           </tbody>
         </table>
       </div>
 
-      <h2>Ideas for Using Random Numbers</h2>
+      <h2>{{ 'content.ideas-for-using-random-numbers.heading' | pt }}</h2>
       <ul class="content-list">
-        <li><strong>Prize draws:</strong> number the entries and draw winners without duplicates.</li>
-        <li><strong>Teaching and research:</strong> pick random students, survey participants or sample rows from a spreadsheet.</li>
-        <li><strong>Games:</strong> replace lost dice, choose who goes first, or set up random scenarios. The <a href="/tools/coin-flip-dice-roller/">coin flip and dice roller</a> shows dice faces and keeps a history.</li>
-        <li><strong>Testing:</strong> generate test data with decimals or very large ranges, then download it as a file.</li>
+        <li>{{ 'content.ideas-for-using-random-numbers.li1' | pt }}</li>
+        <li>{{ 'content.ideas-for-using-random-numbers.li2' | pt }}</li>
+        <li>{{ 'content.ideas-for-using-random-numbers.li3' | pt }}</li>
+        <li>{{ 'content.ideas-for-using-random-numbers.li4' | pt }}</li>
       </ul>
-      <p>Everything runs in your browser. The numbers are generated on your device and never sent to a server.</p>
+      <p>{{ 'content.ideas-for-using-random-numbers.p1' | pt }}</p>
     </section>

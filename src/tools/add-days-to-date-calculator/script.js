@@ -5,6 +5,7 @@
  */
 document.addEventListener('DOMContentLoaded', () => {
   const logic = window.AddDaysLogic;
+  const T = ToolsBuilt.scope('add-days-to-date-calculator');
   const startDateInput = document.getElementById('startDate');
   const amountInput = document.getElementById('amount');
   const unitSelect = document.getElementById('unit');
@@ -93,7 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (!startDateStr) {
       startDateInput.setAttribute('aria-invalid', 'true');
-      primaryResult.textContent = 'Please enter a valid start date.';
+      primaryResult.textContent = T('errors.missingStart');
       resultDetails.innerHTML = '';
       return;
     }
@@ -101,7 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (rawAmount === '' || isNaN(amount) || amount < 0) {
       amountInput.setAttribute('aria-invalid', 'true');
-      primaryResult.textContent = 'Please enter a valid non-negative amount.';
+      primaryResult.textContent = T('errors.missingAmount');
       resultDetails.innerHTML = '';
       return;
     }
@@ -118,30 +119,35 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function renderResult(res, amount, unit, operation, businessOnly) {
-    const numFormatter = new Intl.NumberFormat('en-US');
+    const numFormatter = new Intl.NumberFormat(ToolsBuilt.pageLocale('en-US'));
     primaryResult.textContent = ToolsBuilt.formatIsoDate(res.resultDate);
-    lastResultText = `Resulting Date: ${ToolsBuilt.formatIsoDate(res.resultDate)} (${res.resultDate}). Elapsed Calendar Days: ${numFormatter.format(res.elapsedCalendarDays)}. Business Days: ${numFormatter.format(res.businessDays)}.`;
+    lastResultText = T('copy.result', {
+      date: ToolsBuilt.formatIsoDate(res.resultDate),
+      iso: res.resultDate,
+      elapsed: numFormatter.format(res.elapsedCalendarDays),
+      business: numFormatter.format(res.businessDays)
+    });
 
-    const opText = operation === 'add' ? 'Added' : 'Subtracted';
-    const bizText = businessOnly ? ' (Business Days Only)' : '';
+    const opKey = `${operation === 'add' ? 'add' : 'subtract'}${businessOnly ? 'Business' : ''}`;
+    const opText = T(`stats.operation.${opKey}`, { amount: numFormatter.format(amount), unit: logic.unitLabel(unit) });
 
     resultDetails.innerHTML = `
       <div class="result-grid mt-4">
         <div class="result-stat-card">
-          <div class="result-stat-label">Operation</div>
-          <div class="result-stat-value">${opText} ${numFormatter.format(amount)} ${unit}${bizText}</div>
+          <div class="result-stat-label">${T('stats.operationLabel')}</div>
+          <div class="result-stat-value">${opText}</div>
         </div>
         <div class="result-stat-card">
-          <div class="result-stat-label">ISO 8601 Date</div>
+          <div class="result-stat-label">${T('stats.isoDate')}</div>
           <div class="result-stat-value">${res.resultDate}</div>
         </div>
         <div class="result-stat-card">
-          <div class="result-stat-label">Elapsed Calendar Days</div>
-          <div class="result-stat-value">${numFormatter.format(res.elapsedCalendarDays)} Days</div>
+          <div class="result-stat-label">${T('stats.elapsedDays')}</div>
+          <div class="result-stat-value">${T('stats.daysValue', { n: numFormatter.format(res.elapsedCalendarDays) })}</div>
         </div>
         <div class="result-stat-card">
-          <div class="result-stat-label">Working Business Days</div>
-          <div class="result-stat-value">${numFormatter.format(res.businessDays)} Days (${numFormatter.format(res.weekendDays)} Weekend)</div>
+          <div class="result-stat-label">${T('stats.businessDays')}</div>
+          <div class="result-stat-value">${T('stats.businessDaysValue', { n: numFormatter.format(res.businessDays), weekend: numFormatter.format(res.weekendDays) })}</div>
         </div>
       </div>
     `;
@@ -203,7 +209,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (copyResultBtn) {
     copyResultBtn.addEventListener('click', () => {
       if (lastResultText && window.ToolsBuilt && window.ToolsBuilt.copy) {
-        window.ToolsBuilt.copy(lastResultText, 'Target date copied to clipboard');
+        window.ToolsBuilt.copy(lastResultText, T('copy.toast'));
       }
     });
   }

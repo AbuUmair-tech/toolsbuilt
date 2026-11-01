@@ -16,6 +16,11 @@
 })(typeof globalThis !== 'undefined' ? globalThis : this, function () {
   'use strict';
 
+  // Messages and steps come from the tool's translation data
+  const T = (typeof ToolsBuilt !== 'undefined' && ToolsBuilt.scope)
+    ? ToolsBuilt.scope('percentage-calculator')
+    : require('../../../scripts/i18n-client.js').scope('percentage-calculator');
+
   function roundSensible(num, maxDecimals = 6) {
     if (!isFinite(num)) return num;
     const factor = Math.pow(10, maxDecimals);
@@ -36,7 +41,7 @@
     const y = parseFloat(total);
 
     if (isNaN(p) || isNaN(y)) {
-      throw new Error('Please enter valid numeric values for percentage and total.');
+      throw new Error(T('errors.percentAndTotal'));
     }
 
     const decimalRate = cleanFloat(p / 100);
@@ -49,8 +54,8 @@
       result: rounded,
       formula: `(${p} ÷ 100) × ${y}`,
       steps: [
-        `Convert percentage to decimal: ${p} ÷ 100 = ${roundSensible(decimalRate, 6)}`,
-        `Multiply by base value: ${roundSensible(decimalRate, 6)} × ${y} = ${rounded}`
+        T('steps.percentToDecimal', { p, decimal: roundSensible(decimalRate, 6) }),
+        T('steps.multiplyBase', { decimal: roundSensible(decimalRate, 6), y, result: rounded })
       ]
     };
   }
@@ -64,11 +69,11 @@
     const y = parseFloat(whole);
 
     if (isNaN(x) || isNaN(y)) {
-      throw new Error('Please enter valid numeric values for part and whole.');
+      throw new Error(T('errors.partAndWhole'));
     }
 
     if (y === 0) {
-      throw new Error('Division by zero is undefined. Whole (Y) cannot be 0.');
+      throw new Error(T('errors.divideByZeroWhole'));
     }
 
     const ratio = cleanFloat(x / y);
@@ -82,8 +87,8 @@
       formattedPercent: `${rounded}%`,
       formula: `(${x} ÷ ${y}) × 100`,
       steps: [
-        `Divide part by total: ${x} ÷ ${y} = ${roundSensible(ratio, 6)}`,
-        `Multiply by 100 to get percentage: ${roundSensible(ratio, 6)} × 100 = ${rounded}%`
+        T('steps.dividePartTotal', { x, y, ratio: roundSensible(ratio, 6) }),
+        T('steps.multiply100', { ratio: roundSensible(ratio, 6), result: rounded })
       ]
     };
   }
@@ -98,7 +103,7 @@
     const p = parseFloat(percent);
 
     if (isNaN(y) || isNaN(p)) {
-      throw new Error('Please enter valid numbers for the base value and percentage.');
+      throw new Error(T('errors.baseAndPercent'));
     }
 
     const delta = cleanFloat((p / 100) * y);
@@ -118,8 +123,8 @@
         ? `${y} × (1 - ${p} ÷ 100) = ${rounded}`
         : `${y} × (1 + ${p} ÷ 100) = ${rounded}`,
       steps: [
-        `Calculate ${p}% change amount: (${p} ÷ 100) × ${y} = ${roundedDelta}`,
-        `${isDecrease ? 'Subtract from' : 'Add to'} initial value: ${y} ${sign} ${roundedDelta} = ${rounded}`
+        T('steps.changeAmount', { p, y, delta: roundedDelta }),
+        T(isDecrease ? 'steps.subtractFromInitial' : 'steps.addToInitial', { y, sign, delta: roundedDelta, result: rounded })
       ]
     };
   }
@@ -136,11 +141,11 @@
     const p = parseFloat(percent);
 
     if (isNaN(x) || isNaN(p)) {
-      throw new Error('Please enter valid numbers for value and percentage.');
+      throw new Error(T('errors.valueAndPercent'));
     }
 
     if (type === 'of') {
-      if (p === 0) throw new Error('Percentage cannot be 0% when finding original value.');
+      if (p === 0) throw new Error(T('errors.zeroPercentOriginal'));
       const rate = cleanFloat(p / 100);
       const original = cleanFloat(x / rate);
       const rounded = roundSensible(original, 4);
@@ -151,13 +156,13 @@
         result: rounded,
         formula: `${x} ÷ (${p} ÷ 100)`,
         steps: [
-          `Convert percentage to decimal: ${p} ÷ 100 = ${roundSensible(rate, 6)}`,
-          `Divide known value by decimal rate: ${x} ÷ ${roundSensible(rate, 6)} = ${rounded}`
+          T('steps.percentToDecimal', { p, decimal: roundSensible(rate, 6) }),
+          T('steps.divideByRate', { x, rate: roundSensible(rate, 6), result: rounded })
         ]
       };
     } else if (type === 'increase') {
       const divisor = cleanFloat(1 + p / 100);
-      if (divisor === 0) throw new Error('Mathematical division by zero.');
+      if (divisor === 0) throw new Error(T('errors.divisionByZero'));
       const original = cleanFloat(x / divisor);
       const rounded = roundSensible(original, 4);
       return {
@@ -167,13 +172,13 @@
         result: rounded,
         formula: `${x} ÷ (1 + ${p} ÷ 100)`,
         steps: [
-          `Find markup multiplier: 1 + (${p} ÷ 100) = ${roundSensible(divisor, 6)}`,
-          `Divide increased value by multiplier: ${x} ÷ ${roundSensible(divisor, 6)} = ${rounded}`
+          T('steps.markupMultiplier', { p, divisor: roundSensible(divisor, 6) }),
+          T('steps.divideIncreased', { x, divisor: roundSensible(divisor, 6), result: rounded })
         ]
       };
     } else if (type === 'decrease') {
       const divisor = cleanFloat(1 - p / 100);
-      if (divisor === 0) throw new Error('Discount cannot be 100% when recovering original baseline.');
+      if (divisor === 0) throw new Error(T('errors.fullDiscount'));
       const original = cleanFloat(x / divisor);
       const rounded = roundSensible(original, 4);
       return {
@@ -183,13 +188,13 @@
         result: rounded,
         formula: `${x} ÷ (1 - ${p} ÷ 100)`,
         steps: [
-          `Find discount factor: 1 - (${p} ÷ 100) = ${roundSensible(divisor, 6)}`,
-          `Divide decreased value by discount factor: ${x} ÷ ${roundSensible(divisor, 6)} = ${rounded}`
+          T('steps.discountFactor', { p, divisor: roundSensible(divisor, 6) }),
+          T('steps.divideDecreased', { x, divisor: roundSensible(divisor, 6), result: rounded })
         ]
       };
     }
 
-    throw new Error(`Unsupported reverse percentage type: ${type}`);
+    throw new Error(T('errors.unsupportedType', { type }));
   }
 
   return {

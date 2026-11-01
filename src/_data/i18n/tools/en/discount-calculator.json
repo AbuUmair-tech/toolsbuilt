@@ -1,0 +1,232 @@
+{
+  "listing": {
+    "name": "Discount Calculator",
+    "shortName": "Discount Calculator",
+    "description": "Calculate final sale prices, total savings, stacked double discounts, and final price including sales tax.",
+    "shortDescription": "Calculate final sale prices, total savings, stacked double discounts, and final price including sales tax.",
+    "keywords": [
+      "discount calculator",
+      "sale price calculator",
+      "percent off calculator",
+      "savings calculator",
+      "double discount with tax"
+    ]
+  },
+  "title": "Discount Calculator - Calculate Sale Price & Savings",
+  "description": "Calculate final sale prices, total dollars saved, stacked double discounts, and sales tax instantly. Free online discount calculator.",
+  "h1": "Discount Calculator",
+  "quickAnswer": "To find the final sale price and total savings, enter the original item price and discount percentage. You can add a secondary stacked coupon and local sales tax to see exact out-of-pocket costs. Calculations use half-up cent rounding to match retail point-of-sale registers and consumer protection guidelines.",
+  "formula": {
+    "title": "Discount & Tax Calculation Formula",
+    "expression": "Final Price = [(Original Price - (Original Price × Discount1%)) - Stacked Discount] × (1 + Tax%)",
+    "explanation": "First, apply the primary discount to the original retail price to find the initial savings. Next, apply any secondary stacked coupon to the reduced subtotal (multiplicative, not additive). Finally, compute sales tax on the discounted subtotal using banker-safe half-up cent rounding."
+  },
+  "workedExamples": [
+    {
+      "title": "Single 25% Off Retail Sale",
+      "inputs": [
+        "Original Price: $100.00",
+        "Primary Discount: 25%",
+        "Stacked Coupon: 0%",
+        "Sales Tax: 0%"
+      ],
+      "steps": [
+        "Calculate discount savings: $100.00 × 0.25 = $25.00",
+        "Subtract discount from original price: $100.00 - $25.00 = $75.00"
+      ],
+      "result": "Final Price: $75.00 (Total Savings: $25.00 / 25.00%)"
+    },
+    {
+      "title": "Stacked 20% Sale + 10% Store Coupon",
+      "inputs": [
+        "Original Price: $80.00",
+        "Primary Discount: 20%",
+        "Stacked Coupon: 10%",
+        "Sales Tax: 0%"
+      ],
+      "steps": [
+        "Apply primary 20% discount: $80.00 - $16.00 = $64.00 subtotal",
+        "Apply secondary 10% coupon to reduced subtotal: $64.00 × 0.10 = $6.40 savings",
+        "Subtract second coupon: $64.00 - $6.40 = $57.60 final price",
+        "Calculate total savings: $16.00 + $6.40 = $22.40 (effective discount: 28.00%, not 30%)"
+      ],
+      "result": "Final Price: $57.60 (Total Savings: $22.40 / 28.00% effective discount)"
+    },
+    {
+      "title": "15% Discount with 8% Sales Tax",
+      "inputs": [
+        "Original Price: $50.00",
+        "Primary Discount: 15%",
+        "Stacked Coupon: 0%",
+        "Sales Tax: 8%"
+      ],
+      "steps": [
+        "Apply 15% discount: $50.00 × 0.15 = $7.50 savings",
+        "Net discounted subtotal: $50.00 - $7.50 = $42.50",
+        "Compute 8% sales tax on discounted subtotal: $42.50 × 0.08 = $3.40",
+        "Add sales tax to subtotal: $42.50 + $3.40 = $45.90"
+      ],
+      "result": "Final Price: $45.90 (Net Savings: $7.50, Tax Added: $3.40)"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Directly Adding Stacked Discounts",
+      "description": "A common retail misconception is adding discount rates together (e.g., 20% off + 10% coupon = 30% off). The secondary coupon applies to the already discounted subtotal, yielding 28% total savings."
+    },
+    {
+      "title": "Applying Sales Tax Before Discounts",
+      "description": "In almost all state and provincial tax jurisdictions, sales tax applies strictly to the net price paid after coupons, not the original sticker price."
+    },
+    {
+      "title": "Cent Rounding Inconsistencies",
+      "description": "Retail systems round to the nearest cent at each sequential step. Rounding only at the final total can produce small 1-cent discrepancies with store receipts."
+    },
+    {
+      "title": "Confusing Percentage Off with Percent of Original Price",
+      "description": "A 25% discount means you pay 75% of the original price, not 25% of the original price."
+    }
+  ],
+  "sources": [
+    {
+      "name": "Federal Trade Commission - Guides Against Deceptive Pricing",
+      "url": "https://www.ftc.gov/"
+    },
+    {
+      "name": "NIST Consumer Pricing Mathematics Standards",
+      "url": "https://www.nist.gov/"
+    },
+    {
+      "name": "ISO 80000-2 Mathematical Signs and Symbols",
+      "url": "https://www.iso.org/standard/64973.html"
+    }
+  ],
+  "howto": {
+    "name": "How to Calculate Sale Price and Discount Savings",
+    "description": "Step-by-step instructions for calculating retail discounts, stacked coupons, and sales tax.",
+    "steps": [
+      {
+        "name": "Select Currency & Original Price",
+        "text": "Choose your currency symbol and enter the item's original sticker price."
+      },
+      {
+        "name": "Enter Primary Discount Rate",
+        "text": "Input the advertised sale discount percentage (e.g. 20%)."
+      },
+      {
+        "name": "Add Stacked Coupons or Tax (Optional)",
+        "text": "Optionally add an extra promo code discount and local sales tax rate."
+      },
+      {
+        "name": "Review Final Cost & Total Savings",
+        "text": "View your final out-of-pocket price, total money saved, and the step-by-step math breakdown."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "How do you calculate the final discounted price of an item?",
+      "a": "Multiply the original sticker price by the discount percentage divided by 100 to find total savings, then subtract the savings from the original price to determine the final sale price."
+    },
+    {
+      "q": "Why does a 20% sale plus a 10% coupon not equal 30% total discount?",
+      "a": "Because stacked store coupons apply to the already reduced sale subtotal rather than the original sticker price. A $100 item reduced by 20% becomes $80; applying 10% off $80 saves $8, bringing the final price to $72 (28% overall savings, not 30%)."
+    },
+    {
+      "q": "Is sales tax calculated before or after applying discounts?",
+      "a": "In retail store purchases, sales tax is calculated on the net discounted subtotal after all promotional store discounts and coupons have been applied."
+    },
+    {
+      "q": "Can I calculate stacked double discounts with this tool?",
+      "a": "Yes. Enter your primary sale discount percentage in the first field and your secondary store coupon percentage in the optional stacked discount field."
+    },
+    {
+      "q": "Is any financial data transmitted to a server?",
+      "a": "No. All discount calculations execute locally inside your web browser using JavaScript. No price numbers or financial inputs leave your device."
+    },
+    {
+      "q": "Can this calculator support international currencies like Pounds and Euros?",
+      "a": "Yes. Use the currency dropdown selector to switch between Dollars ($), Pounds (£), Euros (€), Yen (¥), and Rupees (₹)."
+    },
+    {
+      "q": "What is an effective discount percentage?",
+      "a": "The effective discount percentage is your total dollar savings divided by the original price, expressed as a single equivalent percentage."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Discount Calculator Form",
+      "copy-result-btn": "Copy Result to clipboard"
+    },
+    "label": {
+      "original-price": "Original Price <span class=\"text-accent\">*</span>",
+      "discount-percent": "Primary Discount (%) <span class=\"text-accent\">*</span>",
+      "stacked-discount-percent": "Stacked 2nd Discount (%) <span class=\"label-hint\">(Optional)</span>",
+      "tax-percent": "Sales Tax (%) <span class=\"label-hint\">(Optional)</span>"
+    },
+    "placeholder": {
+      "original-price": "e.g. 99.99",
+      "discount-percent": "e.g. 20",
+      "stacked-discount-percent": "e.g. 10",
+      "tax-percent": "e.g. 8"
+    },
+    "content": {
+      "tool": {
+        "button1": "Calculate Savings",
+        "div1": "Final Out-of-Pocket Cost",
+        "div2": "Total Amount Saved",
+        "div3": "Subtotal (Before Tax)",
+        "div4": "Sales Tax Added"
+      },
+      "how-when-to-use-the-discount": {
+        "heading": "How &amp; When to Use the Discount Calculator",
+        "li1": "<strong>In-Store Shopping &amp; Clearance Racks:</strong> Quickly determine what that \"30% off sticker price\" tag actually comes out to at the register.",
+        "li2": "<strong>Online Checkout Coupon Stacking:</strong> Test what happens when you combine a site-wide 20% sale with an extra 15% influencer promo code.",
+        "li3": "<strong>Retail Wholesaling &amp; Margins:</strong> Compute distributor volume discounts and net pricing before invoice submission.",
+        "li4": "<strong>Budgeting with Local Sales Tax:</strong> See the true out-of-pocket total including state or regional sales tax before swiping your card."
+      }
+    },
+    "text": {
+      "reset-btn": "Reset",
+      "result-header-text": "Discount Calculation Result",
+      "copy-result-btn": "<span data-icon=\"copy\"></span> Copy Result",
+      "result-primary-text": "Final Price: $0.00"
+    },
+    "title": {
+      "copy-result-btn": "Copy Result to clipboard"
+    }
+  },
+  "client": {
+    "errors": {
+      "originalPrice": "Please enter a valid original price (must be 0 or greater).",
+      "primaryDiscount": "Please enter a valid primary discount percentage (0-100%).",
+      "primaryOver100": "Primary discount percentage cannot exceed 100%.",
+      "stackedNegative": "Stacked secondary discount must be 0 or greater.",
+      "stackedOver100": "Stacked secondary discount cannot exceed 100%.",
+      "taxNegative": "Tax percentage must be 0 or greater.",
+      "price": "Please enter a valid original price.",
+      "discount": "Please enter a valid discount percentage.",
+      "negative": "Price, discount, and tax percentages cannot be negative."
+    },
+    "breakdown": {
+      "originalPrice": "Original Price",
+      "primaryDiscount": "Primary Discount ({{pct}}%)",
+      "stackedCoupon": "Stacked Coupon ({{pct}}%)",
+      "salesTax": "Sales Tax ({{pct}}%)"
+    },
+    "result": {
+      "primary": "Final Price: {{final}}",
+      "totalSaved": "{{saved}} ({{pct}}% total)",
+      "copy": "Final Price: {{final}}. Total Saved: {{saved}} ({{pct}}% off). Price before tax: {{beforeTax}}. Sales tax: {{tax}}.",
+      "copied": "Discount calculation copied to clipboard"
+    },
+    "steps": {
+      "heading": "<strong>Calculation Breakdown:</strong><br>",
+      "original": "1. Original Price: <code>{{price}}</code><br>",
+      "primary": "2. Primary Discount ({{pct}}%): Saved <code>{{saved}}</code> → Subtotal: <code>{{subtotal}}</code><br>",
+      "stacked": "3. Stacked 2nd Discount ({{pct}}% off {{base}}): Saved additional <code>{{saved}}</code> → Subtotal: <code>{{subtotal}}</code><br>",
+      "tax": "4. Sales Tax ({{pct}}%): Added <code>{{tax}}</code><br>",
+      "total": "5. Total Out-of-Pocket: <strong>{{final}}</strong> (Total Savings: <strong>{{saved}}</strong>)"
+    }
+  }
+}

@@ -12,6 +12,11 @@
   }
 })(typeof globalThis !== 'undefined' ? globalThis : this, function () {
 
+  // Messages come from the tool's translation data
+  const T = (typeof ToolsBuilt !== 'undefined' && ToolsBuilt.scope)
+    ? ToolsBuilt.scope('coin-flip-dice-roller')
+    : require('../../../scripts/i18n-client.js').scope('coin-flip-dice-roller');
+
   const DICE = [4, 6, 8, 10, 12, 20];
   const MAX_COINS = 100;
   const MAX_DICE = 10;
@@ -23,7 +28,7 @@
     if (typeof require === 'function') {
       try { return require('crypto').webcrypto; } catch (e) {}
     }
-    throw new Error('Secure random numbers are not available in this browser.');
+    throw new Error(T('errors.noCrypto'));
   }
 
   /** Uniform integer in [0, n) with rejection sampling (n <= 2^32). */
@@ -43,7 +48,7 @@
    */
   function flipCoins(count = 1, rand = randomBelow) {
     const n = Number(count);
-    if (!Number.isInteger(n) || n < 1 || n > MAX_COINS) return { error: `Flip between 1 and ${MAX_COINS} coins.`, field: 'coins' };
+    if (!Number.isInteger(n) || n < 1 || n > MAX_COINS) return { error: T('errors.coins', { max: MAX_COINS }), field: 'coins' };
     const results = [];
     let heads = 0;
     for (let i = 0; i < n; i++) {
@@ -61,8 +66,8 @@
   function rollDice(count = 1, sides = 6, rand = randomBelow) {
     const n = Number(count);
     const s = Number(sides);
-    if (!Number.isInteger(n) || n < 1 || n > MAX_DICE) return { error: `Roll between 1 and ${MAX_DICE} dice.`, field: 'dice' };
-    if (!DICE.includes(s)) return { error: `Choose a d${DICE.join(', d')} die.`, field: 'sides' };
+    if (!Number.isInteger(n) || n < 1 || n > MAX_DICE) return { error: T('errors.dice', { max: MAX_DICE }), field: 'dice' };
+    if (!DICE.includes(s)) return { error: T('errors.sides', { dice: DICE.join(', d') }), field: 'sides' };
     const rolls = [];
     for (let i = 0; i < n; i++) rolls.push(1 + rand(s));
     return {

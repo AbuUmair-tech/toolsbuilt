@@ -1,7 +1,7 @@
 {#
   Shared code formatter UI.
   Usage in a tool page:
-    {% from "partials/code-formatter.njk" import codeFormatter %}
+    {% from "partials/code-formatter.njk" import codeFormatter with context %}
     {% call codeFormatter({ language: "Python", importMap: vendor.importMaps.python, engine: "Ruff 0.15.20", sample: "..." }) %}
       ...option <select>s with data-option="<name>"...
     {% endcall %}
@@ -13,7 +13,7 @@
 <script type="importmap">{{ cfg.importMap | dump | safe }}</script>
 <script src="/assets/js/code-formatter.js"></script>
 
-<section class="tool-container code-formatter" aria-label="{{ cfg.language }} Formatter"{% if cfg.grammarUrl %} data-grammar-url="{{ cfg.grammarUrl }}"{% endif %}>
+<section class="tool-container code-formatter" aria-label="{{ 'codeFormatter.formLabel' | t({ language: cfg.language }) }}"{% if cfg.grammarUrl %} data-grammar-url="{{ cfg.grammarUrl }}"{% endif %}>
   <form id="calculator-form" class="code-form" novalidate>
     <!-- Toolbar: options and actions -->
     <div class="code-toolbar">
@@ -21,10 +21,10 @@
         {{ caller() }}
       </div>
       <div class="button-group">
-        <button type="submit" class="btn btn-primary" id="format-btn">Format code</button>
-        <button type="button" class="btn btn-secondary" id="clear-btn">Clear</button>
+        <button type="submit" class="btn btn-primary" id="format-btn">{{ 'codeFormatter.text.format-btn' | t }}</button>
+        <button type="button" class="btn btn-secondary" id="clear-btn">{{ 'codeFormatter.text.clear-btn' | t }}</button>
       </div>
-      <p class="form-hint" id="code-hint">Press Ctrl+Enter (⌘+Enter on a Mac) to format. The {{ cfg.engine }} engine is loaded from this site the first time you format, then runs in your browser.</p>
+      <p class="form-hint" id="code-hint">{{ 'codeFormatter.hint' | t({ engine: cfg.engine }) }}</p>
     </div>
   </form>
 
@@ -35,19 +35,19 @@
   <div class="code-editors">
     <div class="code-pane">
       <div class="code-pane-head">
-        <label for="code-input">Your {{ cfg.language }} code</label>
-        <button type="button" class="btn btn-sm btn-ghost" id="sample-btn">Load example</button>
+        <label for="code-input">{{ 'codeFormatter.inputLabel' | t({ language: cfg.language }) }}</label>
+        <button type="button" class="btn btn-sm btn-ghost" id="sample-btn">{{ 'codeFormatter.text.sample-btn' | t }}</button>
       </div>
       <textarea id="code-input" form="calculator-form" class="form-control code-textarea" rows="16" wrap="off" spellcheck="false" autocapitalize="off" autocomplete="off" aria-describedby="code-hint">{{ cfg.sample }}</textarea>
     </div>
 
     <div class="code-pane code-output-pane">
       <div class="code-pane-head">
-        <label for="code-output">Formatted code</label>
+        <label for="code-output">{{ 'codeFormatter.label.code-output' | t }}</label>
         <span class="code-status" id="code-status" role="status" aria-live="polite"></span>
-        <button type="button" class="btn btn-sm btn-secondary" id="copy-btn" disabled>Copy</button>
+        <button type="button" class="btn btn-sm btn-secondary" id="copy-btn" disabled>{{ 'codeFormatter.text.copy-btn' | t }}</button>
       </div>
-      <textarea id="code-output" class="form-control code-textarea" rows="16" wrap="off" spellcheck="false" readonly placeholder="Your formatted code will appear here."></textarea>
+      <textarea id="code-output" class="form-control code-textarea" rows="16" wrap="off" spellcheck="false" readonly placeholder="{{ 'codeFormatter.placeholder.code-output' | t }}"></textarea>
     </div>
   </div>
 </section>

@@ -1,132 +1,60 @@
 ---
 layout: layouts/tool.njk
 toolSlug: url-encoder-decoder
-title: "URL Encoder & Decoder - encodeURIComponent & encodeURI Tool"
-description: "Free online URL encoder and decoder. Switch between encodeURIComponent and encodeURI modes, inspect query strings in a parameter table, and copy results."
 permalink: /tools/url-encoder-decoder/
 extraCss: /tools/url-encoder-decoder/style.css
-h1: "URL Encoder & Decoder"
-howto:
-  name: "How to Encode and Decode URLs Online"
-  description: "Step-by-step guide to encoding URL components, full URIs, and parsing query string parameters."
-  steps:
-    - name: "Select Operation & Mode"
-      text: "Choose 'Encode' or 'Decode' and pick either Component mode (encodeURIComponent) or Full URI mode (encodeURI)."
-    - name: "Enter String or URL"
-      text: "Type or paste your query parameter, text snippet, or complete web address into the input box."
-    - name: "Inspect & Copy Output"
-      text: "View converted output live, inspect parsed query parameter key-value pairs in the table, and copy the result."
-faqs:
-  - q: "What is the difference between encodeURIComponent and encodeURI?"
-    a: "encodeURIComponent encodes all reserved punctuation characters (including &, =, ?, /, :, and #) into percent-encoded hex sequences. It is intended for encoding individual query parameter keys and values. In contrast, encodeURI preserves valid URL structure characters (;,/?:@&=+$#) and only encodes characters forbidden in standard URIs like spaces and Unicode glyphs."
-  - q: "When should I use encodeURIComponent instead of encodeURI?"
-    a: "Always use encodeURIComponent when preparing values to append to a query string (e.g., ?q=search+term or ?redirect_url=https://example.com). If you used encodeURI, symbols like & and = inside your value would be mistaken for additional query delimiters."
-  - q: "How does this tool handle '+' plus signs in query strings?"
-    a: "In application/x-www-form-urlencoded query strings, plus signs (+) commonly represent spaces. When decoding in Component mode, this tool translates both '+' and '%20' into standard space characters."
-  - q: "Is my URL or private query parameter data sent to a server?"
-    a: "No. All URL encoding, decoding, and query string table parsing run 100% locally in your web browser. Sensitive API tokens and query strings never leave your device."
-  - q: "What is the maximum URL size supported?"
-    a: "The tool supports inputs up to a 1 MB safety cap (1,048,576 characters). Live debounced processing ensures instant UI updates without lag."
-sources:
-  - label: "RFC 3986: Uniform Resource Identifier (URI): Generic Syntax"
-    url: "https://datatracker.ietf.org/doc/html/rfc3986"
-  - label: "MDN Web Docs: encodeURIComponent()"
-    url: "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent"
-  - label: "MDN Web Docs: encodeURI()"
-    url: "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURI"
-quickAnswer: "encodeURIComponent() encodes every character except A–Z, a–z, 0–9, -, _, ., !, ~, *, ', (, ). Use it for individual query-string values. encodeURI() preserves structural characters (:, /, ?, #, &, =) and is used for complete URLs. To decode, paste percent-encoded text and the tool reverses each %XX sequence to the original UTF-8 character."
-workedExamples:
-  - title: "Encode a Query Parameter Value"
-    inputs:
-      - "Mode: encodeURIComponent"
-      - "Input: hello world & goodbye!"
-    steps:
-      - "Spaces → %20, & → %26, ! → %21"
-      - "Output: hello%20world%20%26%20goodbye%21"
-    result: "hello%20world%20%26%20goodbye%21"
-  - title: "Encode a Full URL"
-    inputs:
-      - "Mode: encodeURI"
-      - "Input: https://example.com/search?q=hello world&lang=en"
-    steps:
-      - "Structural characters preserved: ://?&="
-      - "Space → %20, other special chars encoded"
-      - "Output: https://example.com/search?q=hello%20world&lang=en"
-    result: "https://example.com/search?q=hello%20world&lang=en"
-  - title: "Decode a Percent-Encoded String"
-    inputs:
-      - "Mode: Decode"
-      - "Input: Caf%C3%A9%20au%20lait"
-    steps:
-      - "%C3%A9 is the UTF-8 encoding for é (e with acute)"
-      - "%20 is a space character"
-      - "Decoded: Café au lait"
-    result: "Café au lait"
-commonMistakes:
-  - title: "Double-Encoding"
-    description: "Encoding an already percent-encoded string converts existing <code>%</code> characters into <code>%25</code> (e.g. <code>%20</code> becomes <code>%2520</code>). Always verify whether incoming data is already encoded before applying transformation."
-  - title: "Using encodeURI for Query Values"
-    description: "Running <code>encodeURI</code> on a parameter value leaves characters like <code>&amp;</code> and <code>+</code> unencoded, causing server parsers to truncate or split values unexpectedly."
-  - title: "Malformed Percent Sequences"
-    description: "Decoding a string with a bare percent sign (such as <code>discount=50%</code> instead of <code>discount=50%25</code>) throws a fatal JavaScript <code>URIError: URI malformed</code>. Safe tools catch and surface this error clearly."
 ---
 
     <!-- Main Tool Container -->
-    <section class="tool-container" aria-label="URL Encoder &amp; Decoder Form">
+    <section class="tool-container" aria-label="{{ 'ariaLabel.tool-section1' | pt }}">
       <div class="url-controls-bar">
         <div class="mode-radio-group">
-          <span class="text-sm font-bold text-secondary uppercase">Direction:</span>
+          <span class="text-sm font-bold text-secondary uppercase">{{ 'content.tool.span1' | pt }}</span>
           <label class="mode-radio-label">
-            <input type="radio" name="url-direction" value="encode" checked class="cursor-pointer">
-            <span>Encode</span>
+            {{ 'content.tool.label1' | pt }}
           </label>
           <label class="mode-radio-label">
-            <input type="radio" name="url-direction" value="decode" class="cursor-pointer">
-            <span>Decode</span>
+            {{ 'content.tool.label2' | pt }}
           </label>
         </div>
 
         <div class="mode-radio-group">
-          <span class="text-sm font-bold text-secondary uppercase">Mode:</span>
-          <label class="mode-radio-label" title="Encodes all delimiters (;,/?:@&=+$#). Best for parameter keys & values.">
-            <input type="radio" name="url-mode" value="component" checked class="cursor-pointer">
-            <span>Component (encodeURIComponent)</span>
+          <span class="text-sm font-bold text-secondary uppercase">{{ 'content.tool.span2' | pt }}</span>
+          <label class="mode-radio-label" title="{{ 'title.tool-label1' | pt }}">
+            {{ 'content.tool.label3' | pt }}
           </label>
-          <label class="mode-radio-label" title="Preserves URL structure delimiters. Best for full web addresses.">
-            <input type="radio" name="url-mode" value="full" class="cursor-pointer">
-            <span>Full URL (encodeURI)</span>
+          <label class="mode-radio-label" title="{{ 'title.tool-label2' | pt }}">
+            {{ 'content.tool.label4' | pt }}
           </label>
-          <button type="button" class="btn btn-ghost btn-sm ml-2" id="clear-btn">Clear</button>
+          <button type="button" class="btn btn-ghost btn-sm ml-2" id="clear-btn">{{ 'text.clear-btn' | pt }}</button>
         </div>
       </div>
 
       <div class="url-editor-grid">
         <div class="form-group mb-0">
           <div class="row-between mb-2">
-            <label for="url-input" id="input-label" class="font-semibold">Text or URL to Encode (Component):</label>
-            <span id="size-meter" class="text-sm text-secondary">0.0 KB / 1 MB</span>
+            <label for="url-input" id="input-label" class="font-semibold">{{ 'label.url-input' | pt }}</label>
+            <span id="size-meter" class="text-sm text-secondary">{{ 'text.size-meter' | pt }}</span>
           </div>
-          <textarea id="url-input" class="url-textarea" rows="8" placeholder="Paste parameter or text here... e.g. hello world &amp; symbols=?"></textarea>
+          <textarea id="url-input" class="url-textarea" rows="8" placeholder="{{ 'placeholder.url-input' | pt }}"></textarea>
         </div>
 
         <div class="form-group mb-0">
           <div class="row-between mb-2">
-            <label for="url-output" id="output-label" class="font-semibold">Encoded URL Output:</label>
+            <label for="url-output" id="output-label" class="font-semibold">{{ 'label.url-output' | pt }}</label>
           </div>
-          <textarea id="url-output" class="url-textarea" rows="8" readonly placeholder="Output will appear here live as you type..."></textarea>
+          <textarea id="url-output" class="url-textarea" rows="8" readonly placeholder="{{ 'placeholder.url-output' | pt }}"></textarea>
         </div>
       </div>
 
       <!-- Action Buttons -->
       <div class="button-group cluster mt-4">
-        <button type="button" class="btn btn-primary" id="convert-btn">Encode URL</button>
+        <button type="button" class="btn btn-primary" id="convert-btn">{{ 'text.convert-btn' | pt }}</button>
         <button type="button" class="btn btn-secondary" id="swap-btn">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="17 1 21 5 17 9"></polyline><path d="M3 11V9a4 4 0 0 1 4-4h14"></path><polyline points="7 23 3 19 7 15"></polyline><path d="M21 13v2a4 4 0 0 1-4 4H3"></path></svg>
-          Swap Input &amp; Output
+          {{ 'text.swap-btn' | pt }}
         </button>
         <button type="button" class="btn btn-secondary" id="copy-btn">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-          Copy Result
+          {{ 'text.copy-btn' | pt }}
         </button>
       </div>
 
@@ -136,16 +64,16 @@ commonMistakes:
       <!-- Live Query String Parser Table -->
       <div id="query-table-container" class="query-table-wrapper" hidden>
         <div class="row-between mb-2">
-          <h3 class="text-base m-0 text-primary">Parsed Query String Parameters</h3>
-          <span id="query-count-badge" class="panel-card text-sm text-accent">0 parameters</span>
+          <h3 class="text-base m-0 text-primary">{{ 'content.parsed-query-string-parameters.heading' | pt }}</h3>
+          <span id="query-count-badge" class="panel-card text-sm text-accent">{{ 'text.query-count-badge' | pt }}</span>
         </div>
         <div tabindex="0" class="overflow-x-auto">
-          <table class="query-table" aria-label="Parsed query string parameters">
+          <table class="query-table" aria-label="{{ 'ariaLabel.parsed-query-string-parameters-table1' | pt }}">
             <thead>
               <tr>
-                <th scope="col" class="w-25p">Parameter Key</th>
-                <th scope="col" class="w-35p">Raw / Encoded Value</th>
-                <th scope="col" class="w-40p">Decoded Value</th>
+                <th scope="col" class="w-25p">{{ 'content.parsed-query-string-parameters.th1' | pt }}</th>
+                <th scope="col" class="w-35p">{{ 'content.parsed-query-string-parameters.th2' | pt }}</th>
+                <th scope="col" class="w-40p">{{ 'content.parsed-query-string-parameters.th3' | pt }}</th>
               </tr>
             </thead>
             <tbody id="query-table-body"></tbody>
@@ -158,66 +86,66 @@ commonMistakes:
 
     <!-- When to Use Section -->
     <section class="content-section" aria-labelledby="how-to-use-heading">
-      <h2 id="how-to-use-heading">How &amp; When to Use the URL Encoder / Decoder</h2>
+      <h2 id="how-to-use-heading">{{ 'text.how-to-use-heading' | pt }}</h2>
       <ul class="content-list">
-        <li><strong>Passing Nested URLs in Redirects:</strong> When passing a return URL (e.g. <code>?returnTo=https://example.com/dashboard?tab=billing</code>), use <code>encodeURIComponent</code> so the nested query parameters aren't parsed by the outer server.</li>
-        <li><strong>Fixing Broken Links with Spaces:</strong> Web browsers require valid ASCII URIs. Encode spaces as <code>%20</code> (or <code>+</code>) and non-ASCII Unicode characters before sharing links.</li>
-        <li><strong>Debugging Webhook Payloads &amp; Query Strings:</strong> Paste complex query strings to view every parameter neatly parsed into a structured table.</li>
-        <li><strong>Safe Form Data Encoding:</strong> Verify how input field data will be transmitted in <code>application/x-www-form-urlencoded</code> POST requests.</li>
+        <li>{{ 'content.how-when-to-use-the-url.li1' | pt }}</li>
+        <li>{{ 'content.how-when-to-use-the-url.li2' | pt }}</li>
+        <li>{{ 'content.how-when-to-use-the-url.li3' | pt }}</li>
+        <li>{{ 'content.how-when-to-use-the-url.li4' | pt }}</li>
       </ul>
     </section>
 
     <!-- Worked Examples & Comparison Section -->
     <section class="content-section" aria-labelledby="article-heading">
-      <h2 id="article-heading">URL Encoding Specification &amp; Mode Comparison</h2>
-      <p class="text-secondary">RFC 3986 specifies percent-encoding to represent characters in URIs outside the allowed ASCII character set. Understanding the distinction between component and full URI modes prevents broken routes and corrupted parameters.</p>
+      <h2 id="article-heading">{{ 'text.article-heading' | pt }}</h2>
+      <p class="text-secondary">{{ 'content.url-encoding-specification-mode-comparison.p1' | pt }}</p>
 
       <div tabindex="0" class="overflow-x-auto mt-4">
-        <table class="query-table bg-muted rounded-md p-2" aria-label="Mode Comparison">
+        <table class="query-table bg-muted rounded-md p-2" aria-label="{{ 'ariaLabel.url-encoding-specification-mode-comparison-table1' | pt }}">
           <thead>
             <tr>
-              <th scope="col">Character</th>
-              <th scope="col">encodeURI Mode</th>
-              <th scope="col">encodeURIComponent Mode</th>
-              <th scope="col">Reason</th>
+              <th scope="col">{{ 'content.url-encoding-specification-mode-comparison.th1' | pt }}</th>
+              <th scope="col">{{ 'content.url-encoding-specification-mode-comparison.th2' | pt }}</th>
+              <th scope="col">{{ 'content.url-encoding-specification-mode-comparison.th3' | pt }}</th>
+              <th scope="col">{{ 'content.url-encoding-specification-mode-comparison.th4' | pt }}</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td><code>Space ( )</code></td>
+              <td>{{ 'content.url-encoding-specification-mode-comparison.td1' | pt }}</td>
               <td><code>%20</code></td>
               <td><code>%20</code></td>
-              <td>Spaces are never permitted in valid URIs.</td>
+              <td>{{ 'content.url-encoding-specification-mode-comparison.td2' | pt }}</td>
             </tr>
             <tr>
-              <td><code>Ampersand (&amp;)</code></td>
-              <td><code>&amp;</code> (Preserved)</td>
-              <td><code>%26</code> (Encoded)</td>
-              <td>Delimits query parameters; must be encoded inside values.</td>
+              <td>{{ 'content.url-encoding-specification-mode-comparison.td3' | pt }}</td>
+              <td>{{ 'content.url-encoding-specification-mode-comparison.td4' | pt }}</td>
+              <td>{{ 'content.url-encoding-specification-mode-comparison.td5' | pt }}</td>
+              <td>{{ 'content.url-encoding-specification-mode-comparison.td6' | pt }}</td>
             </tr>
             <tr>
-              <td><code>Equals (=)</code></td>
-              <td><code>=</code> (Preserved)</td>
-              <td><code>%3D</code> (Encoded)</td>
-              <td>Separates key and value; must be encoded inside values.</td>
+              <td>{{ 'content.url-encoding-specification-mode-comparison.td7' | pt }}</td>
+              <td>{{ 'content.url-encoding-specification-mode-comparison.td8' | pt }}</td>
+              <td>{{ 'content.url-encoding-specification-mode-comparison.td9' | pt }}</td>
+              <td>{{ 'content.url-encoding-specification-mode-comparison.td10' | pt }}</td>
             </tr>
             <tr>
-              <td><code>Question Mark (?)</code></td>
-              <td><code>?</code> (Preserved)</td>
-              <td><code>%3F</code> (Encoded)</td>
-              <td>Begins query string; must be encoded inside values.</td>
+              <td>{{ 'content.url-encoding-specification-mode-comparison.td11' | pt }}</td>
+              <td>{{ 'content.url-encoding-specification-mode-comparison.td12' | pt }}</td>
+              <td>{{ 'content.url-encoding-specification-mode-comparison.td13' | pt }}</td>
+              <td>{{ 'content.url-encoding-specification-mode-comparison.td14' | pt }}</td>
             </tr>
             <tr>
-              <td><code>Slash (/)</code></td>
-              <td><code>/</code> (Preserved)</td>
-              <td><code>%2F</code> (Encoded)</td>
-              <td>Separates path segments; must be encoded inside values.</td>
+              <td>{{ 'content.url-encoding-specification-mode-comparison.td15' | pt }}</td>
+              <td>{{ 'content.url-encoding-specification-mode-comparison.td16' | pt }}</td>
+              <td>{{ 'content.url-encoding-specification-mode-comparison.td17' | pt }}</td>
+              <td>{{ 'content.url-encoding-specification-mode-comparison.td18' | pt }}</td>
             </tr>
             <tr>
-              <td><code>Hash (#)</code></td>
-              <td><code>#</code> (Preserved)</td>
-              <td><code>%23</code> (Encoded)</td>
-              <td>Begins fragment anchor; must be encoded inside values.</td>
+              <td>{{ 'content.url-encoding-specification-mode-comparison.td19' | pt }}</td>
+              <td>{{ 'content.url-encoding-specification-mode-comparison.td20' | pt }}</td>
+              <td>{{ 'content.url-encoding-specification-mode-comparison.td21' | pt }}</td>
+              <td>{{ 'content.url-encoding-specification-mode-comparison.td22' | pt }}</td>
             </tr>
           </tbody>
         </table>

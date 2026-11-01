@@ -1288,6 +1288,8 @@ const salesTaxLogic = require(path.join(ROOT, 'src/tools/sales-tax-calculator/lo
   const datasets = fs.readdirSync(taxDir).filter(f => f.endsWith('.json'))
     .map(f => ({ file: f, d: JSON.parse(fs.readFileSync(path.join(taxDir, f), 'utf8')) }));
   const tools = JSON.parse(fs.readFileSync(path.join(ROOT, 'src/_data/tools.json'), 'utf8'));
+  // Country page text (FAQs, sections, worked examples) lives in the translation data
+  const countryPages = require(path.join(ROOT, 'src/_data/i18n/tools/en/salary-tax-calculator.json')).countryPages;
 
   // Every dataset: official sources, a verification date, continuous slabs, fixed amounts that
   // match the slabs below, and a tools.json entry for its page
@@ -1307,12 +1309,13 @@ const salesTaxLogic = require(path.join(ROOT, 'src/tools/sales-tax-calculator/lo
     });
     if (d.page) {
       assert(tools.some(t => t.slug === d.page.slug), `TaxData ${file}: tools.json lists /tools/${d.page.slug}/`);
-      assert(d.page.faqs.length >= 3 && d.page.sections.length >= 2 && d.page.workedExamples.length >= 2, `TaxData ${file}: page has its own FAQs, sections and worked examples`);
+      const cp = countryPages[d.country] || {};
+      assert(cp.faqs.length >= 3 && cp.sections.length >= 2 && cp.workedExamples.length >= 2, `TaxData ${file}: page has its own FAQs, sections and worked examples`);
     }
   });
 
   // Each country page has genuinely different text (no shared paragraphs)
-  const pageTexts = datasets.filter(x => x.d.page).map(x => x.d.page.sections.flatMap(s => s.paragraphs));
+  const pageTexts = datasets.filter(x => x.d.page).map(x => countryPages[x.d.country].sections.flatMap(s => s.paragraphs));
   const allParas = pageTexts.flat();
   assert(new Set(allParas).size === allParas.length, 'TaxData: no paragraph is repeated across country pages');
 

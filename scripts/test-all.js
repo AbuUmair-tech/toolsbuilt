@@ -752,6 +752,17 @@ try {
 }
 
 // -----------------------------------------------------------------
+// Test 25b: Translation data (missing keys, placeholders, English copies in sync)
+// -----------------------------------------------------------------
+console.log('\n--- 25b. Translation Data Check ---');
+try {
+  const trOutput = execSync('node scripts/check-translations.js --quiet', { cwd: ROOT, encoding: 'utf8', stdio: 'pipe' });
+  assert(trOutput.includes('Translation check PASSED'), 'Translations: no missing keys or broken placeholders; tools.json/categories.json copies in sync');
+} catch (e) {
+  assert(false, `Translation check failed: ${e.message}\n${e.stdout || ''}${e.stderr || ''}`);
+}
+
+// -----------------------------------------------------------------
 // Test 26: Playwright Language Picker & Banner
 // -----------------------------------------------------------------
 console.log('\n--- 26. Language Picker & Banner Interactions ---');

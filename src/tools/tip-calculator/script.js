@@ -5,6 +5,7 @@
  */
 document.addEventListener('DOMContentLoaded', () => {
   const logic = window.TipCalculatorLogic;
+  const T = ToolsBuilt.scope('tip-calculator');
   const form = document.getElementById('calculator-form');
   const billInput = document.getElementById('bill');
   const currencySelect = document.getElementById('currency');
@@ -81,35 +82,37 @@ document.addEventListener('DOMContentLoaded', () => {
     const money = (n) => ToolsBuilt.money(n, cur);
     const split = res.people > 1;
 
-    headerText.textContent = split ? `Each of ${res.people} people pays` : 'Total to pay';
+    headerText.textContent = split ? T('result.eachPays', { people: res.people }) : T('result.totalToPay');
     primaryText.textContent = split ? money(res.perPerson) : money(res.total);
 
     const stats = [
-      [res.roundedUp ? `Tip (${res.effectiveTipPercent}% after rounding)` : `Tip (${res.tipPercent}%)`, money(res.tip)],
-      ['Total with tip', money(res.total)]
+      [res.roundedUp ? T('stats.tipRounded', { pct: res.effectiveTipPercent }) : T('stats.tip', { pct: res.tipPercent }), money(res.tip)],
+      [T('stats.total'), money(res.total)]
     ];
     if (split) {
-      stats.push(['Per person', money(res.perPerson)]);
-      stats.push(['Tip per person', money(res.tipPerPerson)]);
+      stats.push([T('stats.perPerson'), money(res.perPerson)]);
+      stats.push([T('stats.tipPerPerson'), money(res.tipPerPerson)]);
     }
     if (pretaxBox.checked && res.tax > 0) {
-      stats.push(['Tip based on (before tax)', money(res.tipBase)]);
-      stats.push(['Tax in the bill', money(res.tax)]);
+      stats.push([T('stats.tipBase'), money(res.tipBase)]);
+      stats.push([T('stats.tax'), money(res.tax)]);
     }
     renderStats(stats);
 
     const notes = [];
     if (res.unevenSplit) {
-      notes.push(`${money(res.total)} does not split evenly: ${res.extraCentPayers} ${res.extraCentPayers === 1 ? 'person pays' : 'people pay'} ${money(res.highShare)} and the rest pay ${money(res.lowShare)}.`);
+      notes.push(T(res.extraCentPayers === 1 ? 'notes.uneven.one' : 'notes.uneven.other', {
+        total: money(res.total), count: res.extraCentPayers, high: money(res.highShare), low: money(res.lowShare)
+      }));
     }
     if (res.roundedUp && res.roundingExtra > 0) {
-      notes.push(`Rounding up adds ${money(res.roundingExtra)} to the tip.`);
+      notes.push(T('notes.roundingExtra', { amount: money(res.roundingExtra) }));
     }
     noteText.textContent = notes.join(' ');
     noteText.hidden = notes.length === 0;
 
-    const lines = [`Bill: ${money(res.bill)}`, `Tip: ${money(res.tip)}`, `Total: ${money(res.total)}`];
-    if (split) lines.push(`Per person (${res.people}): ${money(res.perPerson)}`);
+    const lines = [T('copy.bill', { amount: money(res.bill) }), T('copy.tip', { amount: money(res.tip) }), T('copy.total', { amount: money(res.total) })];
+    if (split) lines.push(T('copy.perPerson', { people: res.people, amount: money(res.perPerson) }));
     const barCopy = document.getElementById('action-copy-btn');
     if (barCopy) barCopy.dataset.copyText = lines.join('\n');
 

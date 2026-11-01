@@ -6,6 +6,7 @@
  */
 document.addEventListener('DOMContentLoaded', () => {
   const logic = window.CgpaToPercentageLogic;
+  const T = ToolsBuilt.scope('cgpa-to-percentage-calculator');
   const form = document.getElementById('calculator-form');
   const modeInputs = document.querySelectorAll('input[name="cgpa-mode"]');
   const valueInput = document.getElementById('cgpa-value');
@@ -43,8 +44,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // and the m / c fields show only for "My university's formula"
   function syncForm() {
     const toPercentage = getMode() === 'to-percentage';
-    valueLabel.firstChild.textContent = toPercentage ? 'Your CGPA ' : 'Your percentage ';
-    valueInput.placeholder = toPercentage ? 'e.g. 3.2' : 'e.g. 80';
+    valueLabel.firstChild.textContent = toPercentage ? T('input.cgpaLabel') : T('input.percentageLabel');
+    valueInput.placeholder = toPercentage ? T('input.cgpaPlaceholder') : T('input.percentagePlaceholder');
 
     const isTen = scaleSelect.value === '10';
     cbseOption.disabled = !isTen;
@@ -107,11 +108,11 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     if (!state.value) {
-      showError(mode === 'to-percentage' ? 'Please enter your CGPA.' : 'Please enter your percentage.', valueInput);
+      showError(mode === 'to-percentage' ? T('errors.enterCgpa') : T('errors.enterPercentage'), valueInput);
       return;
     }
     if (state.formula === 'custom' && !state.m) {
-      showError('Enter the multiplier (m) from your transcript formula, or choose another formula.', mInput);
+      showError(T('errors.enterMultiplier'), mInput);
       return;
     }
 
@@ -123,7 +124,7 @@ document.addEventListener('DOMContentLoaded', () => {
       renderResult(res);
       saveState(state);
     } catch (err) {
-      const field = /multiplier|offset|\(m\)|\(c\)/i.test(err.message) ? (/offset|\(c\)/i.test(err.message) ? cInput : mInput) : valueInput;
+      const field = err.field === 'offset' ? cInput : err.field === 'multiplier' ? mInput : valueInput;
       showError(err.message, field);
     }
   }
@@ -134,20 +135,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const cgpaText = trimNumber(res.cgpa, 2);
     const toPercentage = res.direction === 'cgpa-to-percentage';
 
-    document.getElementById('result-header-text').textContent = toPercentage ? 'Percentage' : `CGPA on a ${scaleText} scale`;
+    document.getElementById('result-header-text').textContent = toPercentage ? T('result.percentage') : T('result.cgpaOnScale', { scale: scaleText });
     document.getElementById('result-primary-text').textContent = toPercentage ? percentText : cgpaText;
-    document.getElementById('stat-input-label').textContent = toPercentage ? 'CGPA' : 'Percentage';
+    document.getElementById('stat-input-label').textContent = toPercentage ? T('result.cgpa') : T('result.percentage');
     document.getElementById('stat-input').textContent = toPercentage ? trimNumber(res.cgpa, 4) : `${trimNumber(res.percentage, 4)}%`;
     document.getElementById('stat-scale').textContent = scaleText;
     document.getElementById('stat-formula').textContent = logic.FORMULAS[res.formula].label;
 
-    let steps = `<strong>Formula:</strong> <code>${res.formulaText}</code><br>`;
+    let steps = T('steps.formula', { formula: res.formulaText });
     if (toPercentage) {
       if (res.formula === 'cbse') steps += `${cgpaText} × ${logic.CBSE_MULTIPLIER} = <strong>${percentText}</strong>`;
       else if (res.formula === 'custom') steps += `${res.multiplier} × ${cgpaText} + ${res.offset} = <strong>${percentText}</strong>`;
       else steps += `${cgpaText} ÷ ${scaleText} × 100 = <strong>${percentText}</strong>`;
     } else {
-      steps += 'Solved for CGPA: ';
+      steps += T('steps.solvedFor');
       if (res.formula === 'cbse') steps += `${trimNumber(res.percentage, 2)} ÷ ${logic.CBSE_MULTIPLIER} = <strong>${cgpaText}</strong>`;
       else if (res.formula === 'custom') steps += `(${trimNumber(res.percentage, 2)} − ${res.offset}) ÷ ${res.multiplier} = <strong>${cgpaText}</strong>`;
       else steps += `${trimNumber(res.percentage, 2)} ÷ 100 × ${scaleText} = <strong>${cgpaText}</strong>`;
@@ -155,8 +156,8 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('formula-breakdown-box').innerHTML = steps;
 
     lastResultText = toPercentage
-      ? `CGPA ${cgpaText} on a ${scaleText} scale = ${percentText} (${logic.FORMULAS[res.formula].label}: ${res.formulaText}).`
-      : `${percentText} = CGPA ${cgpaText} on a ${scaleText} scale (${logic.FORMULAS[res.formula].label}: ${res.formulaText}).`;
+      ? T('copy.toPercentage', { cgpa: cgpaText, scale: scaleText, percent: percentText, formula: logic.FORMULAS[res.formula].label, formulaText: res.formulaText })
+      : T('copy.toCgpa', { cgpa: cgpaText, scale: scaleText, percent: percentText, formula: logic.FORMULAS[res.formula].label, formulaText: res.formulaText });
     const actionCopyBtn = document.getElementById('action-copy-btn');
     if (actionCopyBtn) actionCopyBtn.dataset.copyText = lastResultText;
 
@@ -193,7 +194,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (copyBtn) {
     copyBtn.addEventListener('click', () => {
       if (lastResultText && window.ToolsBuilt && window.ToolsBuilt.copy) {
-        window.ToolsBuilt.copy(lastResultText, 'Conversion copied to clipboard');
+        window.ToolsBuilt.copy(lastResultText, T('copy.toast'));
       }
     });
   }

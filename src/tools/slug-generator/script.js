@@ -5,6 +5,7 @@
  */
 document.addEventListener('DOMContentLoaded', () => {
   const logic = window.SlugLogic;
+  const T = ToolsBuilt.scope('slug-generator');
   const form = document.getElementById('slug-form');
   const tabBtns = Array.from(document.querySelectorAll('.mode-tab-btn'));
   const modeFields = Array.from(document.querySelectorAll('[data-mode-field]'));
@@ -78,25 +79,25 @@ document.addEventListener('DOMContentLoaded', () => {
     clearError();
     const max = maxInput.value === '' ? 0 : Number(maxInput.value);
     if (!Number.isInteger(max) || max < 0 || max > 500) {
-      return showError('Max length must be a whole number from 0 (no limit) to 500.');
+      return showError(T('errors.maxLength'));
     }
 
     if (mode === 'single') {
       const slug = logic.slugify(input.value, options());
-      headerText.textContent = 'Slug';
+      headerText.textContent = T('result.single');
       primaryText.textContent = slug || '--';
       noteText.textContent = input.value.trim() && !slug
-        ? 'This title has no letters or numbers to use. Add some words.'
-        : (slug ? `${slug.length} character${slug.length === 1 ? '' : 's'} · /${slug}/` : 'Type a title to get its slug.');
+        ? T('note.noLetters')
+        : (slug ? T(slug.length === 1 ? 'note.length.one' : 'note.length.other', { n: slug.length, slug }) : T('note.empty'));
       copyText = slug;
     } else {
       const rows = logic.slugifyLines(bulkInput.value, options());
       const repeated = rows.filter(r => r.duplicate).length;
-      headerText.textContent = 'Bulk slugs';
-      primaryText.textContent = `${rows.length} slug${rows.length === 1 ? '' : 's'}`;
+      headerText.textContent = T('result.bulk');
+      primaryText.textContent = T(rows.length === 1 ? 'result.count.one' : 'result.count.other', { n: rows.length });
       noteText.textContent = repeated
-        ? `${repeated} title${repeated === 1 ? '' : 's'} gave a slug that was already used${uniqueBox.checked ? ', so a number was added' : ''}.`
-        : 'Each title has its own slug.';
+        ? T(`note.${uniqueBox.checked ? 'repeatedNumbered' : 'repeated'}.${repeated === 1 ? 'one' : 'other'}`, { n: repeated })
+        : T('note.allUnique');
       output.value = rows.map(r => r.slug).join('\n');
       copyText = output.value;
     }
@@ -110,7 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
   form.addEventListener('submit', (e) => { e.preventDefault(); run(); });
 
   copyBtn.addEventListener('click', () => {
-    if (copyText) ToolsBuilt.copy(copyText, mode === 'single' ? 'Slug copied' : 'Slugs copied');
+    if (copyText) ToolsBuilt.copy(copyText, T(mode === 'single' ? 'copied.single' : 'copied.bulk'));
   });
 
   downloadBtn.addEventListener('click', () => {

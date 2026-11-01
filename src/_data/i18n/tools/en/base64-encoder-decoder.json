@@ -1,0 +1,231 @@
+{
+  "listing": {
+    "name": "Base64 Encoder & Decoder",
+    "shortName": "Base64 Encoder",
+    "description": "Encode and decode UTF-8 text to standard or URL-safe Base64 format locally in your browser.",
+    "shortDescription": "Encode and decode UTF-8 text to standard or URL-safe Base64 format locally in your browser.",
+    "keywords": [
+      "base64 encoder",
+      "base64 decoder",
+      "utf8 base64",
+      "url safe base64",
+      "base64 decode online"
+    ]
+  },
+  "title": "Base64 Encoder & Decoder - UTF-8 & URL-Safe Text Converter",
+  "description": "Free online Base64 encoder and decoder. Convert plain text and UTF-8 to standard or URL-safe Base64 strings client-side with zero server storage.",
+  "h1": "Base64 Encoder & Decoder",
+  "quickAnswer": "Base64 encodes binary or text data into a 64-character ASCII alphabet (A–Z, a–z, 0–9, +, /) so it can travel safely across text-only protocols like email and HTTP. URL-safe Base64 swaps '+' and '/' for '-' and '_' to prevent URL delimiter collisions. Base64 is representation encoding, not encryption, and runs entirely in your browser with no network calls.",
+  "workedExamples": [
+    {
+      "title": "Encode ASCII Text 'Man' to Standard Base64",
+      "inputs": [
+        "Mode: Encode to Base64",
+        "Input: Man",
+        "URL-Safe: Disabled"
+      ],
+      "steps": [
+        "Convert ASCII characters to 8-bit bytes: 'M' (77), 'a' (97), 'n' (110)",
+        "Concatenate into 24-bit binary stream: 01001101 01100001 01101110",
+        "Split into four 6-bit index integers: 19, 22, 5, 46",
+        "Map to Base64 index table: T, W, F, u"
+      ],
+      "result": "TWFu"
+    },
+    {
+      "title": "Encode URL-Safe Base64 with Symbols",
+      "inputs": [
+        "Mode: Encode to Base64",
+        "Input: subjects?_d=1",
+        "URL-Safe: Enabled"
+      ],
+      "steps": [
+        "Convert characters to standard Base64 representation: c3ViamVjdHM/X2Q9MQ==",
+        "Substitute standard '+' with '-' and '/' with '_'",
+        "The resulting string is safe for inclusion in URLs and query parameters"
+      ],
+      "result": "c3ViamVjdHM_X2Q9MQ=="
+    },
+    {
+      "title": "Decode Base64 to Plain Text",
+      "inputs": [
+        "Mode: Decode from Base64",
+        "Input: SGVsbG8gV29ybGQh"
+      ],
+      "steps": [
+        "Map four-character chunks back to 6-bit numeric values",
+        "Recombine 6-bit chunks into 8-bit UTF-8 byte sequences",
+        "Decode UTF-8 bytes to unicode characters"
+      ],
+      "result": "Hello World!"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Confusing Encoding with Encryption",
+      "description": "Base64 is not a cipher. It contains no secret key, initialization vector, or computational hardness. Anyone can decode Base64 in milliseconds. For security, apply AES-GCM or ChaCha20 encryption before Base64 encoding."
+    },
+    {
+      "title": "Surrogate Pair Corruption with btoa()",
+      "description": "The native JavaScript <code>window.btoa()</code> function assumes Latin-1 encoding (code points 0–255). Passing characters like emojis or accented vowels throws an uncaught DOMException. Proper implementations always encode strings to UTF-8 byte arrays first."
+    },
+    {
+      "title": "Unpadded String Truncation",
+      "description": "Some web frameworks strip trailing <code>=</code> padding characters. A robust decoder must normalize padding length to a multiple of 4 before processing to prevent decoding errors."
+    }
+  ],
+  "sources": [
+    {
+      "label": "RFC 4648: The Base16, Base32, and Base64 Data Encodings",
+      "url": "https://datatracker.ietf.org/doc/html/rfc4648"
+    },
+    {
+      "label": "MDN Web Docs: Base64 encoding and decoding",
+      "url": "https://developer.mozilla.org/en-US/docs/Glossary/Base64"
+    },
+    {
+      "label": "WHATWG: The TextEncoder and TextDecoder API",
+      "url": "https://encoding.spec.whatwg.org/"
+    }
+  ],
+  "howto": {
+    "name": "How to Encode and Decode Base64 Online",
+    "description": "Step-by-step guide to converting UTF-8 text to Base64 and decoding Base64 back to plain text.",
+    "steps": [
+      {
+        "name": "Select Encode or Decode Mode",
+        "text": "Choose 'Encode to Base64' to transform plain text into Base64, or 'Decode from Base64' to extract original text."
+      },
+      {
+        "name": "Enter Text or Base64 String",
+        "text": "Type or paste your input into the source box. Unicode characters, emojis, and foreign alphabets are automatically handled."
+      },
+      {
+        "name": "Toggle URL-Safe & Copy Result",
+        "text": "Optionally enable the URL-Safe toggle to replace + and / with - and _, then copy the transformed output."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Is Base64 considered encryption?",
+      "a": "No. Base64 is an encoding algorithm, not encryption. It provides zero security, confidential protection, or cryptographic secrecy. Anyone who receives a Base64 string can instantly decode it back to plain text without a key."
+    },
+    {
+      "q": "What is the difference between standard Base64 and URL-safe Base64?",
+      "a": "Standard Base64 (RFC 4648 §4) uses '+' and '/' in its 64-character alphabet, which require percent-encoding when placed inside URLs or filenames. URL-safe Base64 (RFC 4648 §5) substitutes '-' for '+' and '_' for '/', eliminating URL delimiter conflicts."
+    },
+    {
+      "q": "Does this encoder safely handle UTF-8 characters and emojis?",
+      "a": "Yes. Standard browser btoa() fails on characters beyond the Latin-1 range. Our tool converts all text through native UTF-8 byte encoders, guaranteeing full fidelity for accented letters, Asian alphabets, and emojis (e.g. 🚀)."
+    },
+    {
+      "q": "Is my text transmitted to any server?",
+      "a": "No. All encoding and decoding runs 100% locally in your browser memory. We never transmit, log, or store any data."
+    },
+    {
+      "q": "Why does Base64 output end with '=' equal signs?",
+      "a": "The '=' symbol is padding. Base64 processes data in 3-byte chunks (24 bits) into four 6-bit characters. If the input byte length is not divisible by 3, one or two '=' characters pad the final block."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Base64 Encoder &amp; Decoder Form"
+    },
+    "content": {
+      "tool": {
+        "label1": "<input type=\"radio\" name=\"base64-mode\" value=\"encode\" checked class=\"cursor-pointer\">\n            <span>Encode to Base64</span>",
+        "label2": "<input type=\"radio\" name=\"base64-mode\" value=\"decode\" class=\"cursor-pointer\">\n            <span>Decode from Base64</span>",
+        "label3": "<input type=\"checkbox\" id=\"url-safe-toggle\" class=\"cursor-pointer\">\n            <span>URL-safe variant (RFC 4648 §5)</span>"
+      },
+      "important-base64-is-encoding-not-encryption": {
+        "heading": "<svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z\"></path><line x1=\"12\" y1=\"9\" x2=\"12\" y2=\"13\"></line><line x1=\"12\" y1=\"17\" x2=\"12.01\" y2=\"17\"></line></svg>\n        Important: Base64 is Encoding, Not Encryption",
+        "p1": "Base64 is an open representation designed to transport binary data over text-only channels. It offers <strong>zero confidentiality</strong>. Never use Base64 alone to protect passwords, secret tokens, or private user data."
+      },
+      "how-when-to-use-the-base64": {
+        "li1": "<strong>Data URI Embedding:</strong> Convert small images, fonts, or SVG graphics into Base64 strings for inline HTML/CSS <code>data:image/png;base64,...</code> tags.",
+        "li2": "<strong>HTTP Header Transmission:</strong> Format basic HTTP authentication credentials (<code>username:password</code>) into <code>Authorization: Basic &lt;base64&gt;</code> headers.",
+        "li3": "<strong>URL Parameter Passing:</strong> Use the URL-safe mode to encode complex IDs, state tokens, or JSON objects into query parameters without reserved character clashes.",
+        "li4": "<strong>Payload Inspection:</strong> Decode incoming webhook payloads, JWT segments, and email MIME attachments to inspect their plain text contents."
+      },
+      "base64-encoding-method-rfc-4648-worked": {
+        "p1": "Base64 maps binary data into an ASCII subset of 64 characters: uppercase letters (A–Z), lowercase letters (a–z), digits (0–9), and two symbols (+ and /). Three 8-bit bytes (24 bits) are divided into four 6-bit values, increasing total payload length by exactly 33%."
+      },
+      "rfc-4648-standard-vector-man": {
+        "heading": "RFC 4648 Standard Vector: \"Man\"",
+        "p1": "Canonical 3-byte test vector:",
+        "li1": "Plain Text: <code>Man</code>",
+        "li2": "ASCII bytes: <code>77, 97, 110</code>",
+        "li3": "Binary (24 bits): <code>01001101 01100001 01101110</code>",
+        "li4": "6-bit chunks: <code>19, 22, 5, 46</code>",
+        "li5": "Base64: <code>TWFu</code>"
+      },
+      "url-safe-substitution": {
+        "heading": "URL-Safe Substitution",
+        "p1": "Safe representation for URLs and filenames:",
+        "li1": "Standard: <code>subjects?_d</code> &rarr; <code>c3ViamVjdHM/X2Q=</code>",
+        "li2": "URL-Safe: <code>+</code> &rarr; <code>-</code>, <code>/</code> &rarr; <code>_</code>",
+        "li3": "Result: <code>c3ViamVjdHM_X2Q=</code>",
+        "li4": "Can be placed directly in query parameters without percent-encoding."
+      },
+      "multilingual-utf-8-handling": {
+        "heading": "Multilingual UTF-8 Handling",
+        "p1": "Accents and emojis encoded losslessly:",
+        "li1": "Input: <code>café 🚀</code>",
+        "li2": "UTF-8 bytes: 9 bytes",
+        "li3": "Base64: <code>Y2Fmw6kg8J+agA==</code>",
+        "li4": "Decodes back to original characters without corruption."
+      }
+    },
+    "text": {
+      "clear-btn": "Clear",
+      "size-meter": "0.0 KB / 1 MB",
+      "convert-btn": "Encode to Base64",
+      "swap-btn": "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><polyline points=\"17 1 21 5 17 9\"></polyline><path d=\"M3 11V9a4 4 0 0 1 4-4h14\"></path><polyline points=\"7 23 3 19 7 15\"></polyline><path d=\"M21 13v2a4 4 0 0 1-4 4H3\"></path></svg>\n          Swap Input &amp; Output",
+      "copy-btn": "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"9\" y=\"9\" width=\"13\" height=\"13\" rx=\"2\" ry=\"2\"></rect><path d=\"M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1\"></path></svg>\n          Copy Result",
+      "how-to-use-heading": "How &amp; When to Use the Base64 Encoder / Decoder",
+      "article-heading": "Base64 Encoding Method, RFC 4648 &amp; Worked Vectors"
+    },
+    "label": {
+      "base64-input": "Text to Encode (UTF-8 Plain Text):",
+      "base64-output": "Base64 Encoded Output:"
+    },
+    "placeholder": {
+      "base64-input": "Type or paste plain text here (supports emojis, foreign alphabets, and symbols)...",
+      "base64-output": "Converted output will appear here live as you type..."
+    }
+  },
+  "client": {
+    "labels": {
+      "encode": {
+        "input": "Text to Encode (UTF-8 Plain Text):",
+        "output": "Base64 Encoded Output:",
+        "button": "Encode to Base64",
+        "placeholder": "Type or paste plain text here (supports emojis, foreign alphabets, and symbols)..."
+      },
+      "decode": {
+        "input": "Base64 String to Decode:",
+        "output": "Decoded Plain Text (UTF-8):",
+        "button": "Decode from Base64",
+        "placeholder": "Paste Base64 string here (e.g. TWFu or Y2Fmw6k=)..."
+      }
+    },
+    "sizeMeter": "{{kb}} KB / {{max}} MB",
+    "status": {
+      "encoded": "✓ Encoded {{input}} characters into {{output}} Base64 characters ({{bytes}} bytes)",
+      "decoded": "✓ Decoded {{input}} Base64 characters into {{output}} plain text characters"
+    },
+    "errors": {
+      "notText": "Input must be a valid text string.",
+      "notBase64": "Input must be a valid Base64 string.",
+      "tooLarge": "Input exceeds the 1 MB safety limit (max 1,048,576 characters). Current size: {{size}} characters.",
+      "encoding": "Encoding error: {{message}}",
+      "alphabet": "Invalid Base64 format: contains characters outside the Base64 alphabet.",
+      "decoding": "Decoding error: malformed Base64 data or invalid UTF-8 byte sequence ({{message}})."
+    },
+    "toast": {
+      "nothingToCopy": "Nothing to copy. Enter text first.",
+      "copied": "Result copied to clipboard"
+    }
+  }
+}

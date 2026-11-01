@@ -6,6 +6,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   const logic = window.LoanEmiLogic;
   if (!logic) return;
+  const T = ToolsBuilt.scope('loan-emi-calculator');
 
   const form = document.getElementById('calculator-form');
   const amountInput = document.getElementById('loan-amount');
@@ -109,31 +110,31 @@ document.addEventListener('DOMContentLoaded', () => {
     const curCode = currencySelect ? currencySelect.value : 'USD';
 
     if (!rawAmt || isNaN(parseFloat(rawAmt))) {
-      showError('Please enter a valid loan amount.', amountInput);
+      showError(T('errors.amountRequired'), amountInput);
       return;
     }
     if (parseFloat(rawAmt) <= 0) {
-      showError('Loan amount must be greater than zero.', amountInput);
+      showError(T('errors.amountPositive'), amountInput);
       return;
     }
     if (!rawRate || isNaN(parseFloat(rawRate))) {
-      showError('Please enter an annual interest rate.', rateInput);
+      showError(T('errors.rateRequired'), rateInput);
       return;
     }
     if (parseFloat(rawRate) < 0) {
-      showError('Interest rate cannot be negative.', rateInput);
+      showError(T('errors.rateNegative'), rateInput);
       return;
     }
     if (!rawTenure || isNaN(parseFloat(rawTenure))) {
-      showError('Please enter loan tenure.', tenureInput);
+      showError(T('errors.tenureRequired'), tenureInput);
       return;
     }
     if (parseFloat(rawTenure) <= 0) {
-      showError('Tenure must be greater than zero.', tenureInput);
+      showError(T('errors.tenurePositive'), tenureInput);
       return;
     }
     if (rawExtra && (isNaN(parseFloat(rawExtra)) || parseFloat(rawExtra) < 0)) {
-      showError('Extra monthly payment must be 0 or greater.', extraInput);
+      showError(T('errors.extraMin'), extraInput);
       return;
     }
 
@@ -156,18 +157,18 @@ document.addEventListener('DOMContentLoaded', () => {
       const formattedTotalPay = ToolsBuilt.money(res.totalPayment, curCode);
       const formattedTotalInt = ToolsBuilt.money(res.totalInterest, curCode);
 
-      resultPrimary.textContent = `Monthly EMI: ${formattedEmi}`;
+      resultPrimary.textContent = T('result.primary', { value: formattedEmi });
       statMonthlyEmi.textContent = formattedEmi;
       statTotalPayment.textContent = formattedTotalPay;
       statTotalInterest.textContent = formattedTotalInt;
-      statTenure.textContent = `${res.tenureMonths} Months (${res.tenureYears} yrs)`;
+      statTenure.textContent = T('result.tenure', { months: res.tenureMonths, years: res.tenureYears });
 
       // Extra payment card
       if (res.extra && res.extra.extraMonthlyPayment > 0) {
         extraCard.classList.remove('hidden');
         statExtraSaved.textContent = ToolsBuilt.money(res.extra.interestSaved, curCode);
-        statMonthsSaved.textContent = `${res.extra.monthsSaved} Months (${logic.roundCents(res.extra.monthsSaved / 12)} yrs)`;
-        statNewTenure.textContent = `${res.extra.payoffMonths} Months (down from ${res.tenureMonths})`;
+        statMonthsSaved.textContent = T('result.tenure', { months: res.extra.monthsSaved, years: logic.roundCents(res.extra.monthsSaved / 12) });
+        statNewTenure.textContent = T('result.newTenure', { months: res.extra.payoffMonths, from: res.tenureMonths });
       } else {
         extraCard.classList.add('hidden');
       }
@@ -181,20 +182,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // Update copy summary text
       lastResultSummary = [
-        `Loan EMI Calculation Summary:`,
-        `Principal Amount: ${ToolsBuilt.money(res.principal, curCode)}`,
-        `Interest Rate: ${res.annualRate}%`,
-        `Tenure: ${res.tenureMonths} months (${res.tenureYears} years)`,
-        `Monthly EMI: ${formattedEmi}`,
-        `Total Interest: ${formattedTotalInt}`,
-        `Total Payment: ${formattedTotalPay}`
+        T('summary.title'),
+        T('summary.principal', { value: ToolsBuilt.money(res.principal, curCode) }),
+        T('summary.rate', { rate: res.annualRate }),
+        T('summary.tenure', { months: res.tenureMonths, years: res.tenureYears }),
+        T('summary.emi', { value: formattedEmi }),
+        T('summary.totalInterest', { value: formattedTotalInt }),
+        T('summary.totalPayment', { value: formattedTotalPay })
       ];
       if (res.extra && res.extra.extraMonthlyPayment > 0) {
         lastResultSummary.push(
-          `Extra Monthly Payment: ${ToolsBuilt.money(res.extra.extraMonthlyPayment, curCode)}`,
-          `Months Saved: ${res.extra.monthsSaved} months`,
-          `Interest Saved: ${ToolsBuilt.money(res.extra.interestSaved, curCode)}`,
-          `New Payoff Duration: ${res.extra.payoffMonths} months`
+          T('summary.extra', { value: ToolsBuilt.money(res.extra.extraMonthlyPayment, curCode) }),
+          T('summary.monthsSaved', { months: res.extra.monthsSaved }),
+          T('summary.interestSaved', { value: ToolsBuilt.money(res.extra.interestSaved, curCode) }),
+          T('summary.newPayoff', { months: res.extra.payoffMonths })
         );
       }
       lastResultSummary = lastResultSummary.join('\n');
@@ -281,7 +282,7 @@ document.addEventListener('DOMContentLoaded', () => {
     copyBtn.addEventListener('click', () => {
       if (!lastResultSummary) return;
       navigator.clipboard.writeText(lastResultSummary).then(() => {
-        if (window.showTbToast) window.showTbToast('Loan calculation copied to clipboard!');
+        if (window.showTbToast) window.showTbToast(T('toast.copied'));
       }).catch(() => {});
     });
   }

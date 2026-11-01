@@ -12,6 +12,11 @@
   }
 })(typeof globalThis !== 'undefined' ? globalThis : this, function () {
 
+  // Messages come from the tool's translation data
+  const T = (typeof ToolsBuilt !== 'undefined' && ToolsBuilt.scope)
+    ? ToolsBuilt.scope('profit-margin-calculator')
+    : require('../../../scripts/i18n-client.js').scope('profit-margin-calculator');
+
   function isBlank(value) {
     return value === undefined || value === null || String(value).trim() === '';
   }
@@ -22,9 +27,9 @@
   };
 
   function readCost(cost) {
-    if (isBlank(cost)) return { error: 'Enter the cost.', field: 'cost' };
+    if (isBlank(cost)) return { error: T('errors.costEmpty'), field: 'cost' };
     const c = Number(cost);
-    if (!Number.isFinite(c) || c < 0) return { error: 'The cost must be 0 or a positive number.', field: 'cost' };
+    if (!Number.isFinite(c) || c < 0) return { error: T('errors.costInvalid'), field: 'cost' };
     return { value: c };
   }
 
@@ -58,9 +63,9 @@
   function fromCostAndPrice(cost, price) {
     const c = readCost(cost);
     if (c.error) return c;
-    if (isBlank(price)) return { error: 'Enter the selling price.', field: 'price' };
+    if (isBlank(price)) return { error: T('errors.priceEmpty'), field: 'price' };
     const p = Number(price);
-    if (!Number.isFinite(p) || p <= 0) return { error: 'The selling price must be greater than 0.', field: 'price' };
+    if (!Number.isFinite(p) || p <= 0) return { error: T('errors.priceInvalid'), field: 'price' };
     return Object.assign({ mode: 'cost-price' }, summary(c.value, p));
   }
 
@@ -68,10 +73,10 @@
   function priceFromMargin(cost, marginPercent) {
     const c = readCost(cost);
     if (c.error) return c;
-    if (isBlank(marginPercent)) return { error: 'Enter the target margin.', field: 'margin' };
+    if (isBlank(marginPercent)) return { error: T('errors.marginEmpty'), field: 'margin' };
     const m = Number(marginPercent);
-    if (!Number.isFinite(m)) return { error: 'The margin must be a number.', field: 'margin' };
-    if (m >= 100) return { error: 'A margin must be below 100%: at 100% the profit would be the whole price, which needs a cost of 0.', field: 'margin' };
+    if (!Number.isFinite(m)) return { error: T('errors.marginInvalid'), field: 'margin' };
+    if (m >= 100) return { error: T('errors.marginMax'), field: 'margin' };
     const price = c.value / (1 - m / 100);
     return Object.assign({ mode: 'margin', targetMargin: m, equivalentMarkup: marginToMarkup(m) }, summary(c.value, price));
   }
@@ -80,10 +85,10 @@
   function priceFromMarkup(cost, markupPercent) {
     const c = readCost(cost);
     if (c.error) return c;
-    if (isBlank(markupPercent)) return { error: 'Enter the markup.', field: 'markup' };
+    if (isBlank(markupPercent)) return { error: T('errors.markupEmpty'), field: 'markup' };
     const k = Number(markupPercent);
-    if (!Number.isFinite(k)) return { error: 'The markup must be a number.', field: 'markup' };
-    if (k <= -100) return { error: 'A markup of −100% or less would make the price 0 or negative.', field: 'markup' };
+    if (!Number.isFinite(k)) return { error: T('errors.markupInvalid'), field: 'markup' };
+    if (k <= -100) return { error: T('errors.markupMin'), field: 'markup' };
     const price = c.value * (1 + k / 100);
     return Object.assign({ mode: 'markup', targetMarkup: k, equivalentMargin: markupToMargin(k) }, summary(c.value, price));
   }

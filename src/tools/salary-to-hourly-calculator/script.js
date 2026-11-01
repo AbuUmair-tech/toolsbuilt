@@ -5,6 +5,7 @@
  */
 document.addEventListener('DOMContentLoaded', () => {
   const logic = window.SalaryToHourlyLogic;
+  const T = ToolsBuilt.scope('salary-to-hourly-calculator');
   const form = document.getElementById('calculator-form');
   const amountInput = document.getElementById('amount');
   const periodSelect = document.getElementById('period');
@@ -22,14 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const rowsBody = document.getElementById('salary-rows');
 
   const FIELDS = { amount: amountInput, period: periodSelect, hours: hoursInput, days: daysInput, weeks: weeksInput, unpaid: unpaidInput };
-  const ROWS = [
-    ['annual', 'Annual'],
-    ['monthly', 'Monthly'],
-    ['biweekly', 'Bi-weekly (every 2 weeks)'],
-    ['weekly', 'Weekly'],
-    ['daily', 'Daily'],
-    ['hourly', 'Hourly']
-  ];
+  const ROWS = ['annual', 'monthly', 'biweekly', 'weekly', 'daily', 'hourly'].map(key => [key, T(`rows.${key}`)]);
   const DEFAULTS = { amount: '52000', period: 'annual', hours: '40', days: '5', weeks: '52', unpaid: '0' };
   let debounceTimer = null;
 
@@ -65,25 +59,25 @@ document.addEventListener('DOMContentLoaded', () => {
     const money = (n) => ToolsBuilt.money(n, cur);
     // Headline the conversion people usually want: salary -> hourly, anything else -> annual
     const headline = res.input.period === 'hourly' ? 'annual' : 'hourly';
-    headerText.textContent = headline === 'hourly' ? 'Hourly rate' : 'Annual salary';
-    primaryText.textContent = `${money(res[headline])} ${logic.PERIOD_LABELS[headline]}`;
+    headerText.textContent = headline === 'hourly' ? T('result.hourlyRate') : T('result.annualSalary');
+    primaryText.textContent = T('result.primary', { amount: money(res[headline]), period: logic.PERIOD_LABELS[headline] });
 
     rowsBody.replaceChildren(...ROWS.map(([key, label]) => {
       const tr = document.createElement('tr');
       if (key === res.input.period) tr.className = 'is-input';
       const name = document.createElement('td');
-      name.textContent = key === res.input.period ? `${label} (entered)` : label;
+      name.textContent = key === res.input.period ? T('rows.entered', { label }) : label;
       const value = document.createElement('td');
       value.textContent = money(res[key]);
       tr.append(name, value);
       return tr;
     }));
 
-    const hrs = Number(res.hoursPerYear.toFixed(2)).toLocaleString('en-US');
-    noteText.textContent = `Based on ${res.hoursPerWeek} hours × ${res.paidWeeks} paid weeks = ${hrs} hours a year, and ${res.daysPerWeek} days a week. Gross pay, before tax.`;
+    const hrs = Number(res.hoursPerYear.toFixed(2)).toLocaleString(ToolsBuilt.pageLocale('en-US'));
+    noteText.textContent = T('result.note', { hoursPerWeek: res.hoursPerWeek, paidWeeks: res.paidWeeks, hoursPerYear: hrs, daysPerWeek: res.daysPerWeek });
 
     const barCopy = document.getElementById('action-copy-btn');
-    if (barCopy) barCopy.dataset.copyText = ROWS.map(([key, label]) => `${label}: ${money(res[key])}`).join('\n');
+    if (barCopy) barCopy.dataset.copyText = ROWS.map(([key, label]) => T('rows.copy', { label, amount: money(res[key]) })).join('\n');
 
     resultBox.classList.add('is-visible');
     ToolsBuilt.resultLink.update();

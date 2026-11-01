@@ -1,130 +1,29 @@
 ---
 layout: layouts/tool.njk
 toolSlug: html-formatter
-title: "HTML Formatter & Beautifier Online"
-description: "Format messy HTML with Prettier: clean indentation, inline CSS and JavaScript formatted too, parse errors with line numbers, and a careful minify mode."
 permalink: /tools/html-formatter/
-h1: "HTML Formatter"
-quickAnswer: "Paste your HTML and press Format. Prettier puts each block element on its own line, indents nested elements by 2 spaces (or 4, or tabs), formats the CSS inside style tags and the JavaScript inside script tags, and keeps inline elements such as span and a on the same line when it can. If the markup cannot be parsed, for example a closing tag that does not match, you get the line and column instead."
-formula:
-  title: "How the HTML Is Formatted"
-  expression: "Parse HTML → tree of elements → print with indentation and line width, keeping whitespace where the browser would render it"
-  explanation: "The page uses Prettier's HTML printer, loaded from this site the first time you format. It parses the markup into a tree, then prints block elements (div, p, ul, section …) on their own lines with one level of indentation per nesting level, and breaks long lines at the print width you choose. Inline elements (span, a, strong, em …) are whitespace-sensitive: a line break between them shows up as a space on the page, so by default Prettier only adds breaks where the CSS display value says it is safe. CSS inside <style> is formatted with Prettier's CSS printer and JavaScript inside <script> with its JavaScript printer. Elements that are never closed are closed by the parser and reported as warnings with their line number."
-  variables:
-    - name: "Indent"
-      description: "2 spaces (the most common choice for HTML), 4 spaces or tabs."
-    - name: "Print width"
-      description: "The line length Prettier aims for before wrapping attributes or content."
-    - name: "Whitespace sensitivity"
-      description: "css respects each element's default display; strict treats all whitespace as meaningful; ignore treats none of it as meaningful."
-workedExamples:
-  - title: "Nested elements on one line"
-    before: |-
-      <div><p>Hi<span>there</span></p></div>
-    after: |-
-      <div>
-        <p>Hi<span>there</span></p>
-      </div>
-    steps:
-      - "div and p are blocks, so each starts a new line and the p is indented"
-      - "span is inline and touches the text, so adding a line break would add a visible space; it stays where it is"
-  - title: "Inline CSS and JavaScript"
-    before: |-
-      <style>body{margin:0;color:#222}</style><script>function hi(name){return 'Hi '+name}</script>
-    after: |-
-      <style>
-        body {
-          margin: 0;
-          color: #222;
-        }
-      </style>
-      <script>
-        function hi(name) {
-          return "Hi " + name;
-        }
-      </script>
-    steps:
-      - "The style and script contents are handed to Prettier's CSS and JavaScript printers"
-  - title: "A div inside a paragraph"
-    before: |-
-      <p>Intro
-      <div>Block</div>
-      </p>
-    steps:
-      - "A p cannot contain a div: the parser closes the p when the div starts"
-      - "The final </p> then has no open p to close"
-    result: "Line 3, column 1: Unexpected closing tag \"p\""
-commonMistakes:
-  - title: "Putting a block element inside a paragraph"
-    description: "<code>&lt;p&gt;</code> may only contain phrasing content. A <code>&lt;div&gt;</code>, <code>&lt;ul&gt;</code> or <code>&lt;table&gt;</code> inside it ends the paragraph early, so styles and scripts aimed at the paragraph miss the rest of its content. Use a <code>&lt;div&gt;</code> as the wrapper instead."
-  - title: "Leaving elements unclosed"
-    description: "Browsers repair missing end tags, but not always where you expect, which can push later content inside the wrong element. Only a few elements, such as <code>&lt;li&gt;</code>, <code>&lt;p&gt;</code> and <code>&lt;td&gt;</code>, have optional end tags."
-  - title: "Adding line breaks between inline elements"
-    description: "<code>&lt;a&gt;Home&lt;/a&gt;&lt;a&gt;About&lt;/a&gt;</code> and the same links on two lines render differently: the line break becomes a space. That is why the formatter sometimes keeps inline elements together or uses the unusual <code>&gt;</code> placement at the start of the next line."
-  - title: "Expecting minify to optimise everything"
-    description: "Minify here only removes comments and the whitespace between tags. It does not shorten inline CSS or JavaScript, remove optional tags or quotes, or rewrite attributes. Use a build tool for production minification."
-  - title: "Formatting templates as plain HTML"
-    description: "Template syntax such as <code>{{ }}</code>, <code>{% %}</code> or JSX is not HTML. The formatter may move or break it. Format templates with a tool that understands that template language."
-faqs:
-  - q: "How do I format HTML online?"
-    a: "Paste the HTML into the box and press Format, or Ctrl+Enter. Choose the indent, print width and whitespace sensitivity first if you need a particular style."
-  - q: "Why did the formatter not put every tag on its own line?"
-    a: "Inline elements like span, a and strong are whitespace-sensitive: a line break between them can show up as a visible space. With the default css sensitivity, Prettier only breaks lines where it cannot change how the page looks. Choose ignore if you do not mind small spacing changes."
-  - q: "Does it format CSS and JavaScript inside HTML?"
-    a: "Yes. The contents of style tags are formatted as CSS and the contents of script tags as JavaScript. If that code has a syntax error, it is left as it was."
-  - q: "What does 'Unexpected closing tag' mean?"
-    a: "The parser found a closing tag with no matching open element, usually because an element was closed in the wrong order or a block element such as a div was placed inside a p, which closes the p early. The error gives the line and column."
-  - q: "Can I minify HTML here?"
-    a: "Yes, choose Minify. It removes comments and the whitespace between tags, keeping one space between inline elements and leaving pre, textarea, script and style untouched. It does not compress inline CSS or JavaScript."
-  - q: "Is 2 or 4 spaces better for HTML?"
-    a: "Both are common. 2 spaces is the most widely used for HTML because markup nests deeply; Google's HTML style guide uses 2 spaces. Pick one and use it consistently."
-  - q: "Is my HTML uploaded?"
-    a: "No. The formatter is downloaded from this site and runs in your browser. Your code is not sent, stored or added to the page address; only your option choices are remembered on this device."
-sources:
-  - name: "WHATWG HTML Living Standard: Optional tags"
-    url: "https://html.spec.whatwg.org/multipage/syntax.html#optional-tags"
-  - name: "WHATWG HTML Living Standard: The p element (content model)"
-    url: "https://html.spec.whatwg.org/multipage/grouping-content.html#the-p-element"
-  - name: "MDN Web Docs: How whitespace is handled by HTML, CSS, and in the DOM"
-    url: "https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model/Whitespace"
-  - name: "MDN Web Docs: Inline-level content"
-    url: "https://developer.mozilla.org/en-US/docs/Glossary/Inline-level_content"
-  - name: "Prettier documentation: HTML whitespace sensitivity"
-    url: "https://prettier.io/docs/options#html-whitespace-sensitivity"
 lastReviewed: "2026-10-31"
-howto:
-  name: "How to Format HTML"
-  description: "Clean up messy HTML with consistent indentation."
-  steps:
-    - name: "Paste your HTML"
-      text: "Paste a page or a fragment into the input box, or load the example."
-    - name: "Choose the options"
-      text: "Pick Format or Minify, the indent, the print width and the whitespace sensitivity."
-    - name: "Format"
-      text: "Press Format code or Ctrl+Enter. Errors show the line and column; warnings list elements that are never closed."
-    - name: "Copy the result"
-      text: "Copy the formatted HTML from the output box."
 ---
-{% from "partials/code-formatter.njk" import codeFormatter %}
+{% from "partials/code-formatter.njk" import codeFormatter with context %}
 
     {% call codeFormatter({ language: "HTML", importMap: vendor.importMaps.html, engine: "Prettier " + vendor.packages.prettier.version, sample: "<!doctype html><html lang=\"en\"><head><meta charset=\"utf-8\"><title>Order summary</title><style>body{font-family:system-ui;margin:0}.total{font-weight:700;color:#14532d}</style></head><body><main class=\"card\"><h1>Order #1042</h1><p>Thanks for your order, <strong>Sam</strong>. Here is what you bought:</p><ul><li>Notebook <span class=\"qty\">x2</span></li><li>Pen set <span class=\"qty\">x1</span></li></ul><p class=\"total\">Total: $18.50</p><a href=\"#orders\">View all orders</a></main><script>document.querySelector('.total').addEventListener('click',function(){alert('Paid by card')})</script></body></html>\n" }) %}
       <div class="form-group">
-        <label for="opt-mode">Mode</label>
+        <label for="opt-mode">{{ 'label.opt-mode' | pt }}</label>
         <select id="opt-mode" class="form-control" data-option="mode">
-          <option value="format" selected>Format (beautify)</option>
-          <option value="minify">Minify</option>
+          <option value="format" selected>{{ 'option.opt-mode.format' | pt }}</option>
+          <option value="minify">{{ 'option.opt-mode.minify' | pt }}</option>
         </select>
       </div>
       <div class="form-group">
-        <label for="opt-indent">Indent</label>
+        <label for="opt-indent">{{ 'label.opt-indent' | pt }}</label>
         <select id="opt-indent" class="form-control" data-option="indentWidth">
-          <option value="2" selected>2 spaces</option>
-          <option value="4">4 spaces</option>
-          <option value="tab">Tabs</option>
+          <option value="2" selected>{{ 'option.opt-indent.2' | pt }}</option>
+          <option value="4">{{ 'option.opt-indent.4' | pt }}</option>
+          <option value="tab">{{ 'option.opt-indent.tab' | pt }}</option>
         </select>
       </div>
       <div class="form-group">
-        <label for="opt-print-width">Print width</label>
+        <label for="opt-print-width">{{ 'label.opt-print-width' | pt }}</label>
         <select id="opt-print-width" class="form-control" data-option="printWidth">
           <option value="80" selected>80</option>
           <option value="100">100</option>
@@ -132,11 +31,11 @@ howto:
         </select>
       </div>
       <div class="form-group">
-        <label for="opt-whitespace">Whitespace</label>
+        <label for="opt-whitespace">{{ 'label.opt-whitespace' | pt }}</label>
         <select id="opt-whitespace" class="form-control" data-option="whitespace">
-          <option value="css" selected>css (safe default)</option>
-          <option value="strict">strict</option>
-          <option value="ignore">ignore</option>
+          <option value="css" selected>{{ 'option.opt-whitespace.css' | pt }}</option>
+          <option value="strict">{{ 'option.opt-whitespace.strict' | pt }}</option>
+          <option value="ignore">{{ 'option.opt-whitespace.ignore' | pt }}</option>
         </select>
       </div>
     {% endcall %}
@@ -144,37 +43,37 @@ howto:
     <!-- tool-end -->
 
     <section class="content-section" aria-labelledby="conventions-heading">
-      <h2 id="conventions-heading">HTML formatting conventions</h2>
-      <p>HTML has no single official style guide, but most teams and style guides, including Google's HTML/CSS style guide, agree on a few habits that make markup easy to read and review:</p>
+      <h2 id="conventions-heading">{{ 'text.conventions-heading' | pt }}</h2>
+      <p>{{ 'content.html-formatting-conventions.p1' | pt }}</p>
       <ul class="content-list">
-        <li><strong>One block element per line,</strong> with its children indented one level. Short elements whose content fits on the line, such as <code>&lt;li&gt;Notebook&lt;/li&gt;</code>, stay on one line.</li>
-        <li><strong>Consistent indentation,</strong> usually 2 spaces because HTML nests deeply. Never mix tabs and spaces in one file.</li>
-        <li><strong>Lowercase element and attribute names</strong> and double-quoted attribute values, such as <code>&lt;a href="/contact/"&gt;</code>.</li>
-        <li><strong>Long tags wrapped one attribute per line</strong> when they go past the line width, with the closing <code>&gt;</code> on its own line.</li>
-        <li><strong>Embedded CSS and JavaScript</strong> indented inside their <code>&lt;style&gt;</code> and <code>&lt;script&gt;</code> tags and formatted like any other CSS or JavaScript file.</li>
+        <li>{{ 'content.html-formatting-conventions.li1' | pt }}</li>
+        <li>{{ 'content.html-formatting-conventions.li2' | pt }}</li>
+        <li>{{ 'content.html-formatting-conventions.li3' | pt }}</li>
+        <li>{{ 'content.html-formatting-conventions.li4' | pt }}</li>
+        <li>{{ 'content.html-formatting-conventions.li5' | pt }}</li>
       </ul>
-      <p>The formatter changes layout only. It does not rename classes, reorder attributes or fix invalid nesting, and the page looks the same afterwards, except where you choose the ignore whitespace setting.</p>
+      <p>{{ 'content.html-formatting-conventions.p2' | pt }}</p>
     </section>
 
     <section class="content-section" aria-labelledby="whitespace-heading">
-      <h2 id="whitespace-heading">Why inline elements are whitespace-sensitive</h2>
-      <p>Browsers collapse runs of spaces, tabs and line breaks in text into a single space, but they do not remove that space entirely. So <code>&lt;b&gt;Price:&lt;/b&gt;&lt;span&gt;$5&lt;/span&gt;</code> displays as "Price:$5", while the same two elements on separate lines display as "Price: $5". For block elements such as <code>&lt;div&gt;</code> and <code>&lt;p&gt;</code> the space is invisible, so adding line breaks around them is always safe.</p>
-      <p>Prettier's <strong>css</strong> setting uses each element's default CSS display value to decide where breaks are safe. That is why you will sometimes see a closing <code>&gt;</code> moved to the start of the next line: it lets the line break sit inside the tag, where it cannot become a space. <strong>strict</strong> treats every element as inline, which is safest for pages that change display with CSS. <strong>ignore</strong> formats freely and is fine for markup where small spacing changes do not matter.</p>
+      <h2 id="whitespace-heading">{{ 'text.whitespace-heading' | pt }}</h2>
+      <p>{{ 'content.why-inline-elements-are-whitespace-sensitive.p1' | pt }}</p>
+      <p>{{ 'content.why-inline-elements-are-whitespace-sensitive.p2' | pt }}</p>
     </section>
 
     <section class="content-section" aria-labelledby="minify-heading">
-      <h2 id="minify-heading">What minify does, and what it does not</h2>
-      <p>Minify mode is deliberately conservative so it never changes how a page looks:</p>
+      <h2 id="minify-heading">{{ 'text.minify-heading' | pt }}</h2>
+      <p>{{ 'content.what-minify-does-and-what-it.p1' | pt }}</p>
       <ul class="content-list">
-        <li>It removes HTML comments, except conditional comments such as <code>&lt;!--[if IE]&gt;</code>.</li>
-        <li>It removes whitespace next to block elements and collapses whitespace between inline elements and text to one space.</li>
-        <li>It leaves <code>&lt;pre&gt;</code>, <code>&lt;textarea&gt;</code>, <code>&lt;script&gt;</code> and <code>&lt;style&gt;</code> exactly as written.</li>
-        <li>It does not minify inline CSS or JavaScript, remove optional tags or attribute quotes, or shorten URLs. Build tools such as html-minifier-terser do that as part of a production build.</li>
+        <li>{{ 'content.what-minify-does-and-what-it.li1' | pt }}</li>
+        <li>{{ 'content.what-minify-does-and-what-it.li2' | pt }}</li>
+        <li>{{ 'content.what-minify-does-and-what-it.li3' | pt }}</li>
+        <li>{{ 'content.what-minify-does-and-what-it.li4' | pt }}</li>
       </ul>
-      <p>Servers usually compress HTML with gzip or Brotli anyway, which removes most of the benefit of whitespace removal. Minifying by hand is most useful for small snippets, such as an email template or embed code.</p>
+      <p>{{ 'content.what-minify-does-and-what-it.p2' | pt }}</p>
     </section>
 
     <section class="content-section" aria-labelledby="related-heading">
-      <h2 id="related-heading">Other code tools</h2>
-      <p>Format JSON with the <a href="/tools/json-formatter/">JSON formatter</a>, Python with the <a href="/tools/python-formatter/">Python formatter</a> and Java with the <a href="/tools/java-formatter/">Java formatter</a>. To compare two versions of a file, use the <a href="/tools/text-diff-checker/">text diff checker</a>.</p>
+      <h2 id="related-heading">{{ 'text.related-heading' | pt }}</h2>
+      <p>{{ 'content.other-code-tools.p1' | pt }}</p>
     </section>

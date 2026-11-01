@@ -1,7 +1,5 @@
 ---
 layout: layouts/base.njk
-title: Page Not Found | ToolsBuilt
-description: The page you are looking for could not be found. Search our full directory of free online calculators, date utilities, and text tools.
 permalink: /404.html
 noindex: true
 eleventyExcludeFromCollections: true
@@ -11,9 +9,9 @@ eleventyExcludeFromCollections: true
   <main id="main-content">
     <section class="page-hero not-found-hero">
       <div class="container text-center">
-        <p class="text-sm font-semibold uppercase text-accent mb-2">Error 404</p>
-        <h1 class="not-found-title">Page Not Found</h1>
-        <p class="text-base text-secondary leading-normal mb-8 not-found-intro">The link you followed may be broken, or the page may have been moved. Try searching our collection of free calculators or browse popular tools below.</p>
+        <p class="text-sm font-semibold uppercase text-accent mb-2">{{ 'content.tool.p1' | pt }}</p>
+        <h1 class="not-found-title">{{ 'content.tool.heading' | pt }}</h1>
+        <p class="text-base text-secondary leading-normal mb-8 not-found-intro">{{ 'content.tool.p2' | pt }}</p>
 
         <!-- 404 Search Form pointing to /?q= -->
         <form action="/" method="GET" class="hero-search-box not-found-search">
@@ -21,8 +19,8 @@ eleventyExcludeFromCollections: true
             <circle cx="11" cy="11" r="8"></circle>
             <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
           </svg>
-          <input type="search" name="q" class="hero-search-input" placeholder="Search calculators (e.g. Age, Discount, Password)..." aria-label="Search tools" autocomplete="off">
-          <button type="submit" class="btn btn-sm btn-primary">Search</button>
+          <input type="search" name="q" class="hero-search-input" placeholder="{{ 'placeholder.tool-input1' | pt }}" aria-label="{{ 'ariaLabel.tool-input2' | pt }}" autocomplete="off">
+          <button type="submit" class="btn btn-sm btn-primary">{{ 'content.tool.button1' | pt }}</button>
         </form>
       </div>
     </section>
@@ -30,7 +28,7 @@ eleventyExcludeFromCollections: true
     <div class="container page-container text-center not-found-body">
       <!-- Quick Category Links -->
       <div class="mb-12">
-        <p class="text-sm font-semibold uppercase text-tertiary mb-3">Browse by Category</p>
+        <p class="text-sm font-semibold uppercase text-tertiary mb-3">{{ 'content.tool.p3' | pt }}</p>
         <div class="flex flex-wrap justify-center gap-2">
           {% for cat in categories %}
           <a href="{{ cat.slug | categoryUrl }}" class="quick-chip">
@@ -39,14 +37,13 @@ eleventyExcludeFromCollections: true
           </a>
           {% endfor %}
           <a href="/tools/" class="quick-chip">
-            <span>All Tools Directory &rarr;</span>
+            {{ 'content.tool.a1' | pt }}
           </a>
         </div>
       </div>
 
       <div class="flex justify-center gap-4">
-        <a href="/" class="btn btn-secondary">Return to Homepage</a>
-        <a href="/tools/" class="btn btn-ghost">View All Tools</a>
+        {{ 'content.tool.div1' | pt }}
       </div>
     </div>
   </main>

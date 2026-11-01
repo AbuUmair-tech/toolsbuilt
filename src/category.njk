@@ -6,12 +6,12 @@ pagination:
   alias: category
 permalink: "/category/{{ category.slug }}/index.html"
 eleventyComputed:
-  title: "{{ category.seoTitle | safe }}"
-  description: "{{ category.seoDescription | safe }}"
+  title: "{{ (category | localizeCategory).seoTitle | safe }}"
+  description: "{{ (category | localizeCategory).seoDescription | safe }}"
   canonical: "https://toolsbuilt.com/category/{{ category.slug }}/"
-  breadcrumbTitle: "{{ category.name | safe }}"
+  breadcrumbTitle: "{{ (category | localizeCategory).name | safe }}"
 ---
-{% import "partials/cards.njk" as cards %}
+{% import "partials/cards.njk" as cards with context %}{% set category = category | localizeCategory %}
 
 {% set catTools = tools | filterByCategory(category.slug) %}
 
@@ -94,19 +94,19 @@ eleventyComputed:
       <div class="container">
         
         <!-- Breadcrumb Navigation -->
-        <nav class="breadcrumb" aria-label="Breadcrumb">
+        <nav class="breadcrumb" aria-label="{{ 'ariaLabel.tool-nav1' | pt }}">
           <ol>
-            <li><a href="/">Home</a></li>
+            <li>{{ 'content.tool.li1' | pt }}</li>
             <li aria-current="page">{{ category.name }}</li>
           </ol>
         </nav>
     
         <!-- Category Header -->
         <div class="category-hero-header">
-          <p class="section-label">{{ catTools | length }} {{ "tool" if (catTools | length) == 1 else "tools" }}</p>
+          <p class="section-label">{{ 'common.tools' | tp(catTools | length) }}</p>
           <div class="page-title-row">
             {{ cards.categoryTile(category, 28, "icon-tile-lg") }}
-            <h1 class="category-hero-title">Free {{ category.name }}</h1>
+            <h1 class="category-hero-title">{{ 'title.free' | pt({ name: category.name }) }}</h1>
           </div>
           <p class="category-hero-intro">{{ category.intro }}</p>
         </div>
@@ -117,8 +117,8 @@ eleventyComputed:
 
     <!-- Tool List -->
     <section class="category-tools-section" aria-labelledby="tools-list-heading">
-      <p class="section-label">All tools</p>
-      <h2 id="tools-list-heading" class="section-title">Available {{ category.name }}</h2>
+      <p class="section-label">{{ 'content.tool.p1' | pt }}</p>
+      <h2 id="tools-list-heading" class="section-title">{{ 'title.available' | pt({ name: category.name }) }}</h2>
       <ul class="tool-grid">
         {% for tool in catTools %}
         <li>{{ cards.toolCard(tool, category) }}</li>
@@ -129,8 +129,8 @@ eleventyComputed:
     <!-- How to Choose the Right Tool -->
     {% if category.howToChoose and category.howToChoose.length > 0 %}
     <section class="category-guide-section" aria-labelledby="guide-title">
-      <p class="section-label">Which one?</p>
-      <h2 id="guide-title" class="section-title">How to Choose the Right Tool</h2>
+      <p class="section-label">{{ 'content.tool.p2' | pt }}</p>
+      <h2 id="guide-title" class="section-title">{{ 'text.guide-title' | pt }}</h2>
       <ul class="guide-list">
         {% for guide in category.howToChoose %}
         <li><strong>{{ guide.title }}:</strong> {{ guide.description }}</li>
@@ -142,8 +142,8 @@ eleventyComputed:
     <!-- Frequently Asked Questions -->
     {% if category.faqs and category.faqs.length > 0 %}
     <section class="category-faq-section" aria-labelledby="cat-faq-title">
-      <p class="section-label">FAQ</p>
-      <h2 id="cat-faq-title" class="section-title">Frequently Asked Questions</h2>
+      <p class="section-label">{{ 'content.how-to-choose-the-right-tool.p1' | pt }}</p>
+      <h2 id="cat-faq-title" class="section-title">{{ 'text.cat-faq-title' | pt }}</h2>
       <div class="faq-list">
         {% for faq in category.faqs %}
         <details class="faq-item">

@@ -1,0 +1,348 @@
+{
+  "listing": {
+    "name": "Unix Timestamp Converter",
+    "shortName": "Unix Timestamp",
+    "description": "Convert Unix epoch timestamps to UTC and local dates, ISO 8601 and RFC 2822, or dates back to seconds and milliseconds.",
+    "shortDescription": "Epoch seconds or milliseconds to a readable date and back, with a live current timestamp.",
+    "keywords": [
+      "unix timestamp converter",
+      "epoch converter",
+      "epoch to date",
+      "timestamp to date",
+      "date to timestamp",
+      "current unix time",
+      "year 2038 problem"
+    ]
+  },
+  "title": "Unix Timestamp Converter (Epoch to Date & Back)",
+  "description": "Convert a Unix epoch timestamp to a UTC and local date, ISO 8601 and RFC 2822, or a date back to seconds and milliseconds. Live current timestamp.",
+  "h1": "Unix Timestamp Converter",
+  "quickAnswer": "A Unix timestamp is the number of seconds since 1970-01-01 00:00:00 UTC, not counting leap seconds. 1700000000 is 2023-11-14T22:13:20Z, and the same instant in milliseconds is 1700000000000. A 10-digit number is almost always seconds and a 13-digit number milliseconds; this converter detects which one you pasted.",
+  "formula": {
+    "title": "Epoch Conversion Formula",
+    "expression": "Date (UTC) = 1970-01-01T00:00:00Z + timestamp seconds   ·   Timestamp = (Date − 1970-01-01T00:00:00Z) in seconds",
+    "explanation": "Every Unix day is exactly 86,400 seconds, so the date is found by dividing by 86,400 to get the day number since 1 January 1970 and using the remainder as the time of day. Milliseconds are seconds × 1,000. The unit is detected from the size of the number: below 100,000,000,000 is treated as seconds (that reaches the year 5138), up to 14 digits as milliseconds, then microseconds and nanoseconds.",
+    "variables": [
+      {
+        "name": "Seconds",
+        "description": "The classic Unix time used by most servers, databases and the date command."
+      },
+      {
+        "name": "Milliseconds",
+        "description": "Used by JavaScript (Date.now()), Java (System.currentTimeMillis()) and many APIs: seconds × 1,000."
+      },
+      {
+        "name": "Local time",
+        "description": "The same instant shown with your device's time zone offset. The timestamp itself never changes with the time zone."
+      }
+    ]
+  },
+  "workedExamples": [
+    {
+      "title": "The Unix epoch",
+      "inputs": [
+        "Timestamp: 0"
+      ],
+      "steps": [
+        "0 seconds after the epoch"
+      ],
+      "result": "1970-01-01T00:00:00Z (Thursday, 1 January 1970, midnight UTC)",
+      "link": "/tools/unix-timestamp-converter/?ts=0#tool"
+    },
+    {
+      "title": "A 10-digit timestamp in seconds",
+      "inputs": [
+        "Timestamp: 1700000000"
+      ],
+      "steps": [
+        "1,700,000,000 ÷ 86,400 = 19,675 whole days, remainder 80,000 seconds",
+        "Day 19,675 after 1 January 1970 is 14 November 2023",
+        "80,000 seconds = 22 hours 13 minutes 20 seconds"
+      ],
+      "result": "2023-11-14T22:13:20Z (Tue, 14 Nov 2023 22:13:20 +0000)",
+      "link": "/tools/unix-timestamp-converter/?ts=1700000000#tool"
+    },
+    {
+      "title": "A 13-digit timestamp in milliseconds",
+      "inputs": [
+        "Timestamp: 1700000000000"
+      ],
+      "steps": [
+        "13 digits, so it is read as milliseconds",
+        "1,700,000,000,000 ÷ 1,000 = 1,700,000,000 seconds"
+      ],
+      "result": "2023-11-14T22:13:20Z, the same instant as the previous example",
+      "link": "/tools/unix-timestamp-converter/?ts=1700000000000#tool"
+    },
+    {
+      "title": "The last second of 32-bit time",
+      "inputs": [
+        "Timestamp: 2147483647 (2³¹ − 1)"
+      ],
+      "steps": [
+        "The largest value a signed 32-bit integer can hold",
+        "2,147,483,647 seconds after the epoch"
+      ],
+      "result": "2038-01-19T03:14:07Z, one second before 32-bit clocks overflow",
+      "link": "/tools/unix-timestamp-converter/?ts=2147483647#tool"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Treating milliseconds as seconds",
+      "description": "Passing 1700000000000 to a function that expects seconds gives a date about 54,000 years in the future, and passing seconds to JavaScript's <code>new Date()</code> gives a date in January 1970. Count the digits: 10 for seconds, 13 for milliseconds."
+    },
+    {
+      "title": "Thinking a timestamp has a time zone",
+      "description": "A Unix timestamp is always counted from midnight UTC, so the same number is the same instant everywhere. Only the way it is displayed changes. If two systems disagree by whole hours, one of them is formatting in local time."
+    },
+    {
+      "title": "Building a timestamp from local time by mistake",
+      "description": "Converting \"2026-03-01 09:00\" without saying which time zone it is in silently uses the computer's own zone. Choose UTC or local time explicitly when converting a date to a timestamp."
+    },
+    {
+      "title": "Storing time in a signed 32-bit integer",
+      "description": "A signed 32-bit seconds counter overflows after 2038-01-19T03:14:07Z and wraps to December 1901. Use 64-bit integers (BIGINT, int64, time_t on modern 64-bit systems) for anything that might store dates past 2038, including expiry dates and mortgages."
+    },
+    {
+      "title": "Expecting leap seconds",
+      "description": "Unix time ignores leap seconds: every day is exactly 86,400 seconds. Subtracting two timestamps therefore gives elapsed civil time, which can differ from true elapsed seconds by the 27 leap seconds added since 1972."
+    }
+  ],
+  "sources": [
+    {
+      "name": "The Open Group Base Specifications: Seconds Since the Epoch (POSIX)",
+      "url": "https://pubs.opengroup.org/onlinepubs/9799919799/basedefs/V1_chap04.html"
+    },
+    {
+      "name": "RFC 3339: Date and Time on the Internet (ISO 8601 profile)",
+      "url": "https://www.rfc-editor.org/rfc/rfc3339"
+    },
+    {
+      "name": "RFC 2822: Internet Message Format (date and time specification)",
+      "url": "https://www.rfc-editor.org/rfc/rfc2822"
+    },
+    {
+      "name": "IERS Bulletin C: leap second announcements",
+      "url": "https://www.iers.org/IERS/EN/Publications/Bulletins/bulletins.html"
+    }
+  ],
+  "howto": {
+    "name": "How to Convert a Unix Timestamp",
+    "description": "Turn an epoch timestamp into a readable date, or a date into a timestamp.",
+    "steps": [
+      {
+        "name": "Paste the timestamp",
+        "text": "Enter the number in seconds or milliseconds. The unit is detected from the number of digits, or choose it from the Unit menu."
+      },
+      {
+        "name": "Read the date",
+        "text": "See the date in UTC and your local time, plus ISO 8601, RFC 2822 and how long ago or how far ahead it is."
+      },
+      {
+        "name": "Convert a date back",
+        "text": "Pick a date and time, choose whether it is UTC or your local time, and read the timestamp in seconds and milliseconds."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "What is a Unix timestamp?",
+      "a": "It is the number of seconds that have passed since 00:00:00 UTC on 1 January 1970 (the Unix epoch), ignoring leap seconds. It is also called epoch time, POSIX time or Unix time."
+    },
+    {
+      "q": "How do I convert a Unix timestamp to a date?",
+      "a": "Paste it into the converter above. In code: JavaScript new Date(ts * 1000).toISOString(); Python datetime.fromtimestamp(ts, tz=timezone.utc); on Linux date -u -d @1700000000; in Excel =ts/86400 + DATE(1970,1,1)."
+    },
+    {
+      "q": "How do I get the current Unix timestamp?",
+      "a": "The live counter at the top of the tool shows it in seconds and milliseconds. In code: Math.floor(Date.now() / 1000) in JavaScript, int(time.time()) in Python, date +%s in a Unix shell."
+    },
+    {
+      "q": "Is my timestamp in seconds or milliseconds?",
+      "a": "Count the digits. Current timestamps in seconds have 10 digits (1,7xx,xxx,xxx) and in milliseconds 13 digits. The converter detects this automatically, and you can force a unit with the Unit menu."
+    },
+    {
+      "q": "What is the Year 2038 problem?",
+      "a": "Systems that store Unix time in a signed 32-bit integer can count only up to 2,147,483,647 seconds, which is 03:14:07 UTC on 19 January 2038. One second later the value overflows to a negative number and the date jumps back to 13 December 1901. 64-bit time values avoid this."
+    },
+    {
+      "q": "Does a Unix timestamp depend on the time zone?",
+      "a": "No. The timestamp is the same everywhere at the same instant. Time zones only matter when you turn it into a readable date, which is why the converter shows both UTC and your local time."
+    },
+    {
+      "q": "Can a Unix timestamp be negative?",
+      "a": "Yes. Negative values are dates before 1970: −86400 is 31 December 1969 00:00:00 UTC. Most modern languages handle them, but some older systems and spreadsheets do not."
+    },
+    {
+      "q": "What is the difference between ISO 8601 and RFC 2822 dates?",
+      "a": "ISO 8601 (2023-11-14T22:13:20Z) is the sortable format used in JSON and APIs. RFC 2822 (Tue, 14 Nov 2023 22:13:20 +0000) is the format used in email Date headers and many HTTP and RSS feeds."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Unix Timestamp Converter",
+      "tool-div1": "Current Unix timestamp",
+      "copy-result-btn": "Copy result to clipboard"
+    },
+    "content": {
+      "tool": {
+        "div1": "<span class=\"epoch-now-label\">Current timestamp (seconds)</span>\n          <span class=\"epoch-now-value tabular-nums\" id=\"now-seconds\">–</span>",
+        "div2": "<span class=\"epoch-now-label\">Milliseconds</span>\n          <span class=\"epoch-now-value tabular-nums\" id=\"now-ms\">–</span>",
+        "button1": "Copy seconds",
+        "button2": "Copy ms"
+      },
+      "timestamp-to-date": {
+        "heading": "Timestamp to date",
+        "button1": "Convert to Date"
+      },
+      "date-to-timestamp": {
+        "heading": "Date to timestamp"
+      },
+      "the-year-2038-problem-explained": {
+        "heading": "The Year 2038 Problem Explained",
+        "p1": "Early Unix systems stored time in a <code>time_t</code> that was a signed 32-bit integer. The largest number it can hold is 2,147,483,647, and that many seconds after the epoch is <strong>03:14:07 UTC on Tuesday, 19 January 2038</strong>. One second later the counter overflows to −2,147,483,648, which software reads as 20:45:52 UTC on 13 December 1901.",
+        "p2": "This is similar to the Y2K bug, but harder to spot: the problem is not in how years are written but in the binary width of a number deep inside file systems, databases, embedded devices and file formats. Calculations that look into the future, such as 30-year loan schedules, certificate expiry dates or long-term scheduling, can fail long before 2038.",
+        "li1": "<strong>Already fixed:</strong> 64-bit Linux, macOS, Windows and modern languages use 64-bit time, which lasts for about 292 billion years. Linux kernel 5.6 added 64-bit time for 32-bit architectures too.",
+        "li2": "<strong>Still at risk:</strong> old 32-bit embedded systems, MySQL <code>TIMESTAMP</code> columns (limited to 2038-01-19 03:14:07 UTC), file formats with 32-bit time fields, and code that casts timestamps to <code>int</code>.",
+        "li3": "<strong>How to check:</strong> convert 2147483648 above. If your system shows a 2038 date for it, it handles times past the limit."
+      },
+      "timestamps-in-common-languages": {
+        "heading": "Timestamps in Common Languages",
+        "caption1": "Getting and converting Unix timestamps in code",
+        "th1": "Language",
+        "th2": "Current timestamp",
+        "th3": "Timestamp to date",
+        "td1": "JavaScript",
+        "td2": "<code>Math.floor(Date.now() / 1000)</code>",
+        "td3": "<code>new Date(ts * 1000)</code>",
+        "td4": "Python",
+        "td5": "<code>int(time.time())</code>",
+        "td6": "<code>datetime.fromtimestamp(ts, timezone.utc)</code>",
+        "td7": "PHP",
+        "td8": "<code>time()</code>",
+        "td9": "<code>date('c', $ts)</code>",
+        "td10": "Java",
+        "td11": "<code>Instant.now().getEpochSecond()</code>",
+        "td12": "<code>Instant.ofEpochSecond(ts)</code>",
+        "td13": "Shell (GNU)",
+        "td14": "<code>date +%s</code>",
+        "td15": "<code>date -u -d @1700000000</code>",
+        "td16": "SQL (PostgreSQL)",
+        "td17": "<code>extract(epoch from now())</code>",
+        "td18": "<code>to_timestamp(1700000000)</code>",
+        "p1": "Everything on this page runs in your browser: the current timestamp comes from your device clock, and the local time uses your device's time zone setting. If the live counter looks wrong, check that your computer's clock is synchronised."
+      }
+    },
+    "text": {
+      "now-pause": "Pause",
+      "ts-now-btn": "Now",
+      "ts-hint": "10 digits = seconds, 13 digits = milliseconds. Negative values are dates before 1970.",
+      "reset-btn": "Reset",
+      "result-header-text": "Date and time",
+      "copy-result-btn": "<span data-icon=\"copy\"></span> Copy Result"
+    },
+    "label": {
+      "ts-input": "Unix timestamp <span class=\"text-accent\">*</span>",
+      "ts-unit": "Unit",
+      "date-input": "Date and time <span class=\"text-accent\">*</span>",
+      "date-zone": "The time above is in"
+    },
+    "placeholder": {
+      "ts-input": "e.g. 1700000000"
+    },
+    "option": {
+      "ts-unit": {
+        "auto": "Detect automatically",
+        "s": "Seconds",
+        "ms": "Milliseconds",
+        "us": "Microseconds",
+        "ns": "Nanoseconds"
+      },
+      "date-zone": {
+        "utc": "UTC",
+        "local": "My local time"
+      }
+    },
+    "title": {
+      "copy-result-btn": "Copy result to clipboard"
+    }
+  },
+  "client": {
+    "units": {
+      "s": "seconds",
+      "ms": "milliseconds",
+      "us": "microseconds",
+      "ns": "nanoseconds"
+    },
+    "errors": {
+      "empty": "Enter a Unix timestamp, for example 1700000000.",
+      "notNumber": "A Unix timestamp is a whole number of seconds (or milliseconds), such as 1700000000. Remove letters and other symbols.",
+      "unknownUnit": "Unknown unit.",
+      "outOfRange": "That timestamp is outside the range a date can represent (about ±275,000 years from 1970).",
+      "invalidDateTime": "Enter a valid date and time, for example 2023-11-14 22:13:20.",
+      "dateOutOfRange": "That date is outside the supported range.",
+      "pickDateTime": "Pick a date and time to convert."
+    },
+    "relative": {
+      "justNow": "just now",
+      "past": "{{text}} ago",
+      "future": "in {{text}}",
+      "year": {
+        "one": "{{n}} year",
+        "other": "{{n}} years"
+      },
+      "month": {
+        "one": "{{n}} month",
+        "other": "{{n}} months"
+      },
+      "week": {
+        "one": "{{n}} week",
+        "other": "{{n}} weeks"
+      },
+      "day": {
+        "one": "{{n}} day",
+        "other": "{{n}} days"
+      },
+      "hour": {
+        "one": "{{n}} hour",
+        "other": "{{n}} hours"
+      },
+      "minute": {
+        "one": "{{n}} minute",
+        "other": "{{n}} minutes"
+      },
+      "second": {
+        "one": "{{n}} second",
+        "other": "{{n}} seconds"
+      }
+    },
+    "yourTimeZone": "your time zone",
+    "buttons": {
+      "pause": "Pause",
+      "resume": "Resume",
+      "copy": "Copy"
+    },
+    "copy": {
+      "copiedValue": "Copied {{value}}",
+      "ariaLabel": "Copy {{label}}",
+      "copiedLabel": "{{label}} copied"
+    },
+    "detected": {
+      "auto": "Detected as {{unit}}",
+      "forced": "Read as {{unit}}",
+      "beyond2038": "after the 32-bit limit of 2038-01-19T03:14:07Z"
+    },
+    "rows": {
+      "localTime": "Local time ({{zone}})",
+      "isoUtc": "ISO 8601 (UTC)",
+      "isoLocal": "ISO 8601 (local offset)",
+      "relative": "Relative",
+      "seconds": "Seconds",
+      "milliseconds": "Milliseconds",
+      "timestampSeconds": "Timestamp (seconds)",
+      "inLocal": "In your local time ({{zone}})",
+      "inUtc": "In UTC"
+    }
+  }
+}

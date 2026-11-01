@@ -1,0 +1,223 @@
+{
+  "listing": {
+    "name": "Date Difference Calculator",
+    "shortName": "Date Difference",
+    "description": "Calculate total days, working business days (Mon-Fri), and time spans between any two calendar dates.",
+    "shortDescription": "Calculate total days, working business days (Mon-Fri), and time spans between any two calendar dates.",
+    "keywords": [
+      "date difference",
+      "days between dates",
+      "business days between dates",
+      "calendar duration",
+      "work days counter"
+    ]
+  },
+  "title": "Date Difference Calculator - Count Days Between Dates",
+  "description": "Calculate the exact number of days, business days, weeks, months, and years between any two dates. Free online date duration calculator.",
+  "h1": "Date Difference Calculator",
+  "quickAnswer": "To calculate the duration between two dates, pick your start date and end date, then select whether to include or exclude the final day. The calculator provides total calendar days, business days, weekends, weeks, and months. All calculations run client-side in UTC, preventing daylight saving time errors.",
+  "formula": {
+    "title": "Date Span & Duration Formula",
+    "expression": "Duration = (End Date UTC ms - Start Date UTC ms) / 86,400,000 ms [± 1 day if inclusive]",
+    "explanation": "Calendar duration measures whole 24-hour UTC day intervals between two dates. When inclusive mode is selected, 1 day is added to count both boundary days. Business days evaluate each individual day in the span, tallying Mondays through Fridays and skipping weekend days."
+  },
+  "workedExamples": [
+    {
+      "title": "Standard Work Month (Exclusive)",
+      "inputs": [
+        "Start Date: October 1, 2026 (Thursday)",
+        "End Date: October 31, 2026 (Saturday)",
+        "Inclusive: No"
+      ],
+      "steps": [
+        "Compute calendar day interval: 30 days",
+        "Count Monday through Friday business days: 22 days",
+        "Count weekend days: 8 days (4 full weekends)"
+      ],
+      "result": "30 Total Days (22 business days, 8 weekend days, 4 weeks and 2 days)"
+    },
+    {
+      "title": "Inclusive Event Duration (Conference / Rental)",
+      "inputs": [
+        "Start Date: November 1, 2026 (Sunday)",
+        "End Date: November 5, 2026 (Thursday)",
+        "Inclusive: Yes"
+      ],
+      "steps": [
+        "Compute raw interval: 4 days",
+        "Add 1 day for inclusive boundary: 5 days",
+        "Count working days (Mon-Thu): 4 business days, 1 weekend day (Sunday)"
+      ],
+      "result": "5 Total Days (4 business days, 1 weekend day, 120 hours)"
+    },
+    {
+      "title": "Cross-Quarter Duration Across Year Boundary",
+      "inputs": [
+        "Start Date: December 15, 2025 (Monday)",
+        "End Date: March 15, 2026 (Sunday)",
+        "Inclusive: No"
+      ],
+      "steps": [
+        "Compute calendar days across year boundary: 90 days",
+        "Decompose into calendar months: exactly 3 months (0 remaining days)",
+        "Tally working days: 65 business days, 25 weekend days"
+      ],
+      "result": "90 Total Days (3 months, 12 weeks and 6 days, 2,160 hours)"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "The Fencepost Problem (Inclusive vs. Exclusive)",
+      "description": "A hotel stay from Friday to Sunday is 2 nights (exclusive), but spans 3 calendar days (inclusive). Omitting clear boundary definitions causes booking discrepancies."
+    },
+    {
+      "title": "Treating Business Days as an Approximate 5/7 Fraction",
+      "description": "Working days cannot be approximated as 5/7 of calendar days because weekend boundaries dramatically shift working day tallies in short ranges."
+    },
+    {
+      "title": "Assuming Public Holidays Are Excluded",
+      "description": "The business day counter filters Saturdays and Sundays. Statutory national and provincial holidays vary by jurisdiction and are not automatically removed."
+    },
+    {
+      "title": "Local Timezone Clock Shifts",
+      "description": "Calculating day differences using local midnight timestamps can introduce 23-hour or 25-hour errors during Daylight Saving Time switches."
+    }
+  ],
+  "sources": [
+    {
+      "name": "ISO 8601 Date and Time Standards",
+      "url": "https://www.iso.org/iso-8601-date-and-time-format.html"
+    },
+    {
+      "name": "US Naval Observatory Gregorian Calendar Arithmetic",
+      "url": "https://aa.usno.navy.mil/"
+    },
+    {
+      "name": "W3C Note on Date and Time Formats",
+      "url": "https://www.w3.org/TR/NOTE-datetime"
+    }
+  ],
+  "howto": {
+    "name": "How to Calculate the Difference Between Two Dates",
+    "description": "Step-by-step instructions for calculating duration and business days between two dates.",
+    "steps": [
+      {
+        "name": "Enter Start and End Dates",
+        "text": "Select your starting date and ending date from the calendar input fields."
+      },
+      {
+        "name": "Select Inclusive Option",
+        "text": "Optionally check 'Include end date in the count' if your calculation requires counting both boundary days."
+      },
+      {
+        "name": "View Detailed Breakdown",
+        "text": "View total calendar days, working business days (Mon–Fri), weekend days, and breakdown into years, months, and weeks."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "What is the difference between calendar days and business days?",
+      "a": "Calendar days include all 7 days of each week (Monday through Sunday), whereas business days count only standard working days from Monday through Friday, excluding weekend days."
+    },
+    {
+      "q": "When should I check 'Include end date in the count'?",
+      "a": "Check this option if your activity or rental includes both boundary days. For example, a business conference taking place from Monday to Wednesday spans 3 full event days (inclusive), but is 2 days duration if measuring elapsed time (exclusive)."
+    },
+    {
+      "q": "What happens if I enter an end date that occurs before the start date?",
+      "a": "The calculator detects reversed dates, swaps them to compute the positive span, and shows a helpful notice indicating that the dates were ordered automatically."
+    },
+    {
+      "q": "How are leap years handled in multi-year durations?",
+      "a": "Calculations run on UTC midnight timestamps and evaluate each leap day (February 29th) that occurs within the range, ensuring that 366-day years are counted with complete precision. If a day does not exist in a month (for example the 31st), the last day of that month is used."
+    },
+    {
+      "q": "Is any of my date data sent to an external server?",
+      "a": "No. All date arithmetic executes entirely in your web browser. No dates are transmitted or stored remotely."
+    },
+    {
+      "q": "Can I use this tool to calculate business days for invoicing?",
+      "a": "Yes. The business day count gives the exact number of non-weekend days between the start date and the end date, ideal for net-30 payment or SLA tracking."
+    },
+    {
+      "q": "How does the tool break down days into months and weeks?",
+      "a": "It computes whole elapsed calendar months first, then expresses the remainder in weeks and excess days, as well as providing absolute total days and hours."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Date Difference Calculator Form",
+      "copy-result-btn": "Copy Result to clipboard"
+    },
+    "label": {
+      "start-date": "Start Date <span class=\"text-accent\">*</span>",
+      "end-date": "End Date <span class=\"text-accent\">*</span>"
+    },
+    "content": {
+      "tool": {
+        "label1": "<input type=\"checkbox\" id=\"include-end-date\" data-param=\"inc\">\n            <span>Include end date in the count (inclusive calculation)</span>",
+        "button1": "Calculate Difference",
+        "div1": "Total Calendar Days",
+        "div2": "Working / Business Days",
+        "div3": "Years, Months &amp; Days",
+        "div4": "Weeks &amp; Days",
+        "div5": "Total Elapsed Hours"
+      },
+      "how-when-to-use-the-date": {
+        "heading": "How &amp; When to Use the Date Difference Calculator",
+        "p1": "Knowing the exact duration between two calendar dates is valuable for:",
+        "li1": "<strong>Payroll &amp; Billing Timesheets:</strong> Determine billable working days between project start and completion dates.",
+        "li2": "<strong>Commercial Real Estate &amp; Leases:</strong> Calculate exact tenancy durations, rent proration, or security deposit return windows.",
+        "li3": "<strong>Legal &amp; Compliance Deadlines:</strong> Track statutory response windows, court filing deadlines, or statute of limitations timeframes.",
+        "li4": "<strong>Travel Itinerary &amp; Accommodation:</strong> Verify hotel stay night counts (exclusive) vs. total travel activity days (inclusive)."
+      }
+    },
+    "text": {
+      "reset-btn": "Reset",
+      "result-header-text": "Date Difference Calculation Result",
+      "copy-result-btn": "<span data-icon=\"copy\"></span> Copy Result",
+      "result-primary-text": "-- Days"
+    },
+    "title": {
+      "copy-result-btn": "Copy Result to clipboard"
+    }
+  },
+  "client": {
+    "dateLong": "{{month}} {{day}}, {{year}}",
+    "errors": {
+      "invalidStart": "Please select a valid start date (YYYY-MM-DD).",
+      "invalidEnd": "Please select a valid end date (YYYY-MM-DD).",
+      "missingStart": "Please select a valid start date.",
+      "missingEnd": "Please select a valid end date."
+    },
+    "result": {
+      "days": {
+        "one": "{{n}} Day",
+        "other": "{{n}} Days"
+      },
+      "header": "Date Span Difference",
+      "headerSwapped": "Date Span Difference (Dates automatically ordered start to end)"
+    },
+    "stats": {
+      "totalDays": "{{n}} Days",
+      "businessDays": "{{n}} Business Days ({{weekend}} Weekend Days)",
+      "ymd": "{{years}} Years, {{months}} Months, {{days}} Days",
+      "weeksDays": "{{weeks}}, {{days}}",
+      "weeks": {
+        "one": "{{n}} Week",
+        "other": "{{n}} Weeks"
+      },
+      "days": {
+        "one": "{{n}} Day",
+        "other": "{{n}} Days"
+      },
+      "totalHours": "{{n}} Total Hours"
+    },
+    "copy": {
+      "result": "Total Duration: {{total}}. Working Business Days: {{business}} days. Equivalent: {{weeks}}w {{weekDays}}d ({{years}}y {{months}}m {{days}}d).",
+      "resultSwapped": "Total Duration: {{total}} (Dates automatically ordered start to end). Working Business Days: {{business}} days. Equivalent: {{weeks}}w {{weekDays}}d ({{years}}y {{months}}m {{days}}d).",
+      "toast": "Date difference copied to clipboard"
+    }
+  }
+}

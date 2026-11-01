@@ -14,6 +14,12 @@
 })(typeof globalThis !== 'undefined' ? globalThis : this, function () {
   'use strict';
 
+  // Messages come from the tool's translation data; numbers follow the page language
+  const T = (typeof ToolsBuilt !== 'undefined' && ToolsBuilt.scope)
+    ? ToolsBuilt.scope('url-encoder-decoder')
+    : require('../../../scripts/i18n-client.js').scope('url-encoder-decoder');
+  const locale = (typeof ToolsBuilt !== 'undefined' && ToolsBuilt.pageLocale) ? ToolsBuilt.pageLocale() : undefined;
+
   const MAX_INPUT_BYTES = 1048576; // 1 MB (1,048,576 characters)
 
   /**
@@ -21,13 +27,13 @@
    */
   function encode(text, mode = 'component') {
     if (typeof text !== 'string') {
-      return { success: false, error: 'Input must be a valid text string.' };
+      return { success: false, error: T('errors.notText') };
     }
 
     if (text.length > MAX_INPUT_BYTES) {
       return {
         success: false,
-        error: `Input exceeds the 1 MB safety limit (max 1,048,576 characters). Current size: ${text.length.toLocaleString()} characters.`,
+        error: T('errors.tooLarge', { size: text.length.toLocaleString(locale) }),
         isSizeLimit: true
       };
     }
@@ -56,7 +62,7 @@
     } catch (err) {
       return {
         success: false,
-        error: `Encoding error: ${err.message}`
+        error: T('errors.encoding', { message: err.message })
       };
     }
   }
@@ -66,13 +72,13 @@
    */
   function decode(text, mode = 'component') {
     if (typeof text !== 'string') {
-      return { success: false, error: 'Input must be a valid text string.' };
+      return { success: false, error: T('errors.notText') };
     }
 
     if (text.length > MAX_INPUT_BYTES) {
       return {
         success: false,
-        error: `Input exceeds the 1 MB safety limit (max 1,048,576 characters). Current size: ${text.length.toLocaleString()} characters.`,
+        error: T('errors.tooLarge', { size: text.length.toLocaleString(locale) }),
         isSizeLimit: true
       };
     }
@@ -103,7 +109,7 @@
     } catch (err) {
       return {
         success: false,
-        error: `Decoding error: Invalid percent-encoded sequence (${err.message}). Check for incomplete % hex pairs.`
+        error: T('errors.decoding', { message: err.message })
       };
     }
   }

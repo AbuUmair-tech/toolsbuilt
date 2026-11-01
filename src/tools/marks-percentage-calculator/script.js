@@ -6,6 +6,7 @@
  */
 document.addEventListener('DOMContentLoaded', () => {
   const logic = window.MarksPercentageLogic;
+  const T = ToolsBuilt.scope('marks-percentage-calculator');
   const form = document.getElementById('calculator-form');
   const modeFieldset = document.getElementById('mode-fieldset');
   const modeInputs = document.querySelectorAll('input[name="marks-mode"]');
@@ -43,7 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
     div.textContent = text;
     return div.innerHTML;
   };
-  const fmtNum = (n) => Number(n.toFixed(2)).toLocaleString('en-US', { maximumFractionDigits: 2 });
+  const fmtNum = (n) => Number(n.toFixed(2)).toLocaleString(ToolsBuilt.pageLocale('en-US'), { maximumFractionDigits: 2 });
   const getMode = () => (Array.from(modeInputs).find(i => i.checked) || {}).value || 'total';
   const setMode = (value) => modeInputs.forEach(i => { i.checked = i.value === value; });
 
@@ -53,11 +54,11 @@ document.addEventListener('DOMContentLoaded', () => {
   function renumberRows() {
     tbody.querySelectorAll('.subject-row').forEach((tr, i) => {
       const n = i + 1;
-      tr.querySelector('.subject-name').placeholder = `Subject ${n}`;
-      tr.querySelector('.subject-name').setAttribute('aria-label', `Subject ${n} name`);
-      tr.querySelector('.subject-obtained').setAttribute('aria-label', `Subject ${n} obtained marks`);
-      tr.querySelector('.subject-total').setAttribute('aria-label', `Subject ${n} total marks`);
-      tr.querySelector('.remove-subject-btn').setAttribute('aria-label', `Remove subject ${n}`);
+      tr.querySelector('.subject-name').placeholder = T('subjects.defaultName', { n });
+      tr.querySelector('.subject-name').setAttribute('aria-label', T('subjects.nameLabel', { n }));
+      tr.querySelector('.subject-obtained').setAttribute('aria-label', T('subjects.obtainedLabel', { n }));
+      tr.querySelector('.subject-total').setAttribute('aria-label', T('subjects.totalLabel', { n }));
+      tr.querySelector('.remove-subject-btn').setAttribute('aria-label', T('subjects.removeLabel', { n }));
     });
   }
 
@@ -177,9 +178,9 @@ document.addEventListener('DOMContentLoaded', () => {
   function renumberCustomRows() {
     customTbody.querySelectorAll('.custom-scale-row').forEach((tr, i) => {
       const n = i + 1;
-      tr.querySelector('.custom-grade').setAttribute('aria-label', `Grade ${n} name`);
-      tr.querySelector('.custom-min').setAttribute('aria-label', `Grade ${n} minimum percentage`);
-      tr.querySelector('.remove-grade-btn').setAttribute('aria-label', `Remove grade ${n}`);
+      tr.querySelector('.custom-grade').setAttribute('aria-label', T('custom.gradeLabel', { n }));
+      tr.querySelector('.custom-min').setAttribute('aria-label', T('custom.minLabel', { n }));
+      tr.querySelector('.remove-grade-btn').setAttribute('aria-label', T('custom.removeLabel', { n }));
     });
   }
 
@@ -194,7 +195,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function currentScale() {
     if (scaleSelect.value === 'custom') {
       const scale = logic.customScale(readCustomRows());
-      return { ...scale, code: 'custom', name: 'Custom scale', note: 'Your own grading scale.' };
+      return { ...scale, code: 'custom', name: T('custom.name'), note: T('custom.note') };
     }
     return SCALES.find(sc => sc.code === scaleSelect.value) || SCALES[0];
   }
@@ -203,9 +204,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const band = bands[i];
     if (band.label) return band.label;
     const next = bands[i - 1];
-    if (!next) return `${band.min}% and above`;
-    if (band.min === 0) return `Below ${next.min}%`;
-    return `${band.min}% to below ${next.min}%`;
+    if (!next) return T('range.andAbove', { min: band.min });
+    if (band.min === 0) return T('range.below', { min: next.min });
+    return T('range.toBelow', { min: band.min, next: next.min });
   }
 
   // Reference table and note for the chosen scale
@@ -215,7 +216,7 @@ document.addEventListener('DOMContentLoaded', () => {
     try { scale = currentScale(); } catch (e) { scale = null; }
     const rows = !scale ? []
       : scale.type === 'pass'
-        ? [[scale.passLabel, `${scale.passMark}% or more`], [scale.failLabel, `Below ${scale.passMark}%`]]
+        ? [[scale.passLabel, T('range.orMore', { min: scale.passMark })], [scale.failLabel, T('range.below', { min: scale.passMark })]]
         : scale.bands.map((b, i) => [b.grade, bandRange(scale.bands, i)]);
     gradingTbody.innerHTML = '';
     rows.forEach(([grade, range], i) => {
@@ -225,24 +226,26 @@ document.addEventListener('DOMContentLoaded', () => {
       name.textContent = grade;
       const you = document.createElement('span');
       you.className = 'grade-you';
-      you.textContent = ' · your grade';
+      you.textContent = T('range.yourGrade');
       name.appendChild(you);
       const pct = document.createElement('td');
       pct.textContent = range;
       tr.append(name, pct);
       gradingTbody.appendChild(tr);
     });
-    gradingNote.textContent = scale ? scale.note : 'Complete your custom scale to see it here.';
+    gradingNote.textContent = scale ? scale.note : T('custom.incomplete');
     if (scale && scale.source) {
       const link = document.createElement('a');
       link.href = scale.source.url;
       link.target = '_blank';
       link.rel = 'noopener noreferrer';
       link.textContent = scale.source.name;
-      const checked = new Intl.DateTimeFormat('en-GB', { dateStyle: 'long' }).format(new Date(`${scale.verifiedOn}T00:00:00`));
-      gradingNote.append(' Source: ', link, `, checked ${checked}.`);
+      const checked = new Intl.DateTimeFormat(ToolsBuilt.pageLocale('en-GB'), { dateStyle: 'long' }).format(new Date(`${scale.verifiedOn}T00:00:00`));
+      // "Source: {{link}}, checked {{date}}." with the link as an element
+      const [before, after] = T('source.text', { date: checked }).split('{{link}}');
+      gradingNote.append(before, link, after);
     }
-    gradeLabel.textContent = scale && scale.type === 'pass' ? 'Result' : 'Grade';
+    gradeLabel.textContent = scale && scale.type === 'pass' ? T('result.resultLabel') : T('result.gradeLabel');
   }
 
   // Preset for the visitor's country, if there is one
@@ -317,7 +320,7 @@ document.addEventListener('DOMContentLoaded', () => {
     try {
       return { ...logic.calculatePercentage(obtained, total, scale), scale };
     } catch (err) {
-      err.field = /total/i.test(err.message) && !/obtained/i.test(err.message) ? totalInput : obtainedInput;
+      err.field = err.field === 'total' ? totalInput : obtainedInput;
       throw err;
     }
   }
@@ -339,13 +342,13 @@ document.addEventListener('DOMContentLoaded', () => {
     try {
       return { ...logic.calculateSubjects(rows, scale), scale };
     } catch (err) {
-      // Point at the row named in the message
-      const match = err.message.match(/Subject (\d+)/) || null;
-      const named = rows.findIndex(r => r.name && err.message.includes(r.name));
-      const index = match ? Number(match[1]) - 1 : named;
+      // Point at the row and input the error is about
+      const index = err.row === undefined ? -1 : err.row;
       if (index >= 0 && trs[index]) {
-        const field = /total/i.test(err.message) && !/obtained/i.test(err.message) ? '.subject-total' : '.subject-obtained';
+        const field = err.field === 'total' ? '.subject-total' : '.subject-obtained';
         err.field = trs[index].querySelector(field);
+      } else {
+        delete err.field;
       }
       throw err;
     }
@@ -354,7 +357,9 @@ document.addEventListener('DOMContentLoaded', () => {
   function renderResult(res) {
     const pct = `${fmtNum(res.percentage)}%`;
     const marks = `${fmtNum(res.obtained)} / ${fmtNum(res.total)}`;
-    document.getElementById('result-header-text').textContent = res.subjects ? `Overall percentage (${res.subjects.length} ${res.subjects.length === 1 ? 'subject' : 'subjects'})` : 'Your percentage';
+    document.getElementById('result-header-text').textContent = res.subjects
+      ? T(res.subjects.length === 1 ? 'result.overall.one' : 'result.overall.other', { count: res.subjects.length })
+      : T('result.yourPercentage');
     document.getElementById('result-primary-text').textContent = pct;
     document.getElementById('stat-marks').textContent = marks;
     document.getElementById('stat-percentage').textContent = pct;
@@ -362,17 +367,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let steps = '';
     if (res.subjects) {
-      steps += `Grand total obtained: ${res.subjects.map(s => fmtNum(s.obtained)).join(' + ')} = <code>${fmtNum(res.obtained)}</code><br>`;
-      steps += `Grand total marks: ${res.subjects.map(s => fmtNum(s.total)).join(' + ')} = <code>${fmtNum(res.total)}</code><br>`;
+      steps += T('steps.grandObtained', { sum: res.subjects.map(s => fmtNum(s.obtained)).join(' + '), total: fmtNum(res.obtained) });
+      steps += T('steps.grandTotal', { sum: res.subjects.map(s => fmtNum(s.total)).join(' + '), total: fmtNum(res.total) });
     }
-    steps += `Percentage: ${fmtNum(res.obtained)} ÷ ${fmtNum(res.total)} × 100 = <strong>${pct}</strong><br>`;
+    steps += T('steps.percentage', { obtained: fmtNum(res.obtained), total: fmtNum(res.total), pct });
     const scaleName = res.scale.name;
-    steps += `${res.scale.type === 'pass' ? 'Result' : 'Grade'}: <strong>${escapeHtml(res.grade)}</strong> (${escapeHtml(scaleName)})`;
+    steps += T(res.scale.type === 'pass' ? 'steps.result' : 'steps.grade', { grade: escapeHtml(res.grade), scale: escapeHtml(scaleName) });
     document.getElementById('formula-breakdown-box').innerHTML = steps;
 
     lastResultText = res.subjects
-      ? `${res.subjects.map(s => `${s.name}: ${fmtNum(s.obtained)}/${fmtNum(s.total)} (${fmtNum(s.percentage)}%)`).join(', ')}. Total ${marks} = ${pct}, ${res.grade} (${scaleName}).`
-      : `${marks} = ${pct}, ${res.grade} (${scaleName}).`;
+      ? T('copy.subjects', {
+        subjects: res.subjects.map(s => T('copy.subject', { name: s.name, obtained: fmtNum(s.obtained), total: fmtNum(s.total), pct: fmtNum(s.percentage) })).join(T('copy.separator')),
+        marks, pct, grade: res.grade, scale: scaleName
+      })
+      : T('copy.total', { marks, pct, grade: res.grade, scale: scaleName });
     const actionCopyBtn = document.getElementById('action-copy-btn');
     if (actionCopyBtn) actionCopyBtn.dataset.copyText = lastResultText;
 
@@ -415,7 +423,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (copyBtn) {
     copyBtn.addEventListener('click', () => {
       if (lastResultText && window.ToolsBuilt && window.ToolsBuilt.copy) {
-        window.ToolsBuilt.copy(lastResultText, 'Marks percentage copied to clipboard');
+        window.ToolsBuilt.copy(lastResultText, T('copy.toast'));
       }
     });
   }

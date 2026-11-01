@@ -13,6 +13,11 @@
 })(typeof globalThis !== 'undefined' ? globalThis : this, function () {
   'use strict';
 
+  // Time labels come from the tool's translation data
+  const T = (typeof ToolsBuilt !== 'undefined' && ToolsBuilt.scope)
+    ? ToolsBuilt.scope('word-counter')
+    : require('../../../scripts/i18n-client.js').scope('word-counter');
+
   // Curated set of common English stop words
   const STOP_WORDS = new Set([
     'a', 'about', 'above', 'after', 'again', 'against', 'all', 'am', 'an', 'and', 'any', 'are', 'aren\'t', 'as', 'at',
@@ -66,14 +71,12 @@
 
     // Reading & Speaking Time
     function formatTime(totalMinutes) {
-      if (totalMinutes === 0) return { minutes: 0, seconds: 0, text: '0 sec' };
+      if (totalMinutes === 0) return { minutes: 0, seconds: 0, text: T('time.zero') };
       const totalSec = Math.round(totalMinutes * 60);
       const m = Math.floor(totalSec / 60);
       const s = totalSec % 60;
-      let text = '';
-      if (m > 0) text += `${m} min `;
-      text += `${s} sec`;
-      return { minutes: m, seconds: s, text: text.trim() };
+      const text = m > 0 ? T('time.minSec', { m, s }) : T('time.sec', { s });
+      return { minutes: m, seconds: s, text };
     }
 
     const readingTimeObj = formatTime(words > 0 ? words / readingWpm : 0);

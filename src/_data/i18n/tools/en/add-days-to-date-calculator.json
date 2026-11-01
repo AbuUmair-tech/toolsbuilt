@@ -1,0 +1,249 @@
+{
+  "listing": {
+    "name": "Add or Subtract Days from a Date",
+    "shortName": "Add or Subtract Days",
+    "description": "Add or subtract days, weeks, months, or years from any start date. Optional business days only mode.",
+    "shortDescription": "Add or subtract days, weeks, months, or years from any start date. Optional business days only mode.",
+    "keywords": [
+      "add days to date",
+      "subtract days from date",
+      "date plus days",
+      "business days addition",
+      "future date calculator"
+    ]
+  },
+  "title": "Add or Subtract Days from Date Calculator | ToolsBuilt",
+  "description": "Free date addition and subtraction calculator. Add or subtract days, weeks, months, or years from any starting date, with optional business day filtering.",
+  "h1": "Add or Subtract Days from a Date",
+  "quickAnswer": "To add or subtract days from a date, enter your starting calendar date, specify the number of days, weeks, months, or years, and select addition or subtraction. Toggle business days to skip Saturdays and Sundays. The tool instantly calculates the resulting date, weekday, and elapsed calendar days locally in your browser.",
+  "formula": {
+    "title": "Date Arithmetic & Clamping Formula",
+    "expression": "Target Date = Start Date ± (Amount × Unit Interval)",
+    "explanation": "Calendar days and weeks increment sequentially in 24-hour UTC steps. Month and year calculations adjust month indices while clamping day overflow to the final calendar day of the target month. Business day mode increments day-by-day, skipping Saturdays and Sundays."
+  },
+  "workedExamples": [
+    {
+      "title": "Adding 10 Business Days",
+      "inputs": [
+        "Start Date: Friday, October 16, 2026",
+        "Operation: Add 10 Business Days"
+      ],
+      "steps": [
+        "Skip weekend: Oct 17-18 (Saturday-Sunday)",
+        "Count 5 business days: Oct 19 to Oct 23",
+        "Skip weekend: Oct 24-25 (Saturday-Sunday)",
+        "Count remaining 5 business days: Oct 26 to Oct 30"
+      ],
+      "result": "Friday, October 30, 2026 (14 calendar days elapsed: 10 business, 4 weekend)"
+    },
+    {
+      "title": "Adding 1 Month to Month-End (Clamped)",
+      "inputs": [
+        "Start Date: Sunday, January 31, 2027",
+        "Operation: Add 1 Month"
+      ],
+      "steps": [
+        "Increment month from January to February 2027",
+        "2027 is a common year (non-leap), so February has 28 days",
+        "Clamp day 31 to maximum month-end day 28"
+      ],
+      "result": "Sunday, February 28, 2027 (28 calendar days elapsed)"
+    },
+    {
+      "title": "Subtracting 90 Calendar Days",
+      "inputs": [
+        "Start Date: Saturday, October 17, 2026",
+        "Operation: Subtract 90 Calendar Days"
+      ],
+      "steps": [
+        "Step backward 90 consecutive calendar days",
+        "Traverses through October, September, August, and July"
+      ],
+      "result": "Sunday, July 19, 2026 (90 calendar days elapsed)"
+    },
+    {
+      "title": "Adding 3 Weeks",
+      "inputs": [
+        "Start Date: Sunday, March 1, 2026",
+        "Operation: Add 3 Weeks"
+      ],
+      "steps": [
+        "Convert 3 weeks to 21 calendar days (3 × 7)",
+        "Advance 21 calendar days from March 1, 2026"
+      ],
+      "result": "Sunday, March 22, 2026 (21 calendar days elapsed)"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Equating 30 Days to 1 Month",
+      "description": "Calendar months vary between 28 and 31 days. Adding 30 days to January 1 lands on January 31, whereas adding 1 month lands on February 1."
+    },
+    {
+      "title": "Assuming 5 Business Days Equals 5 Calendar Days",
+      "description": "Business days skip Saturdays and Sundays. Adding 5 business days always spans at least 7 calendar days."
+    },
+    {
+      "title": "Unclamped Month Overflows",
+      "description": "Adding 1 month to January 31 must clamp to February 28 (or 29 in leap years). Naive math can inadvertently roll into March."
+    },
+    {
+      "title": "Ignoring Daylight Saving Artifacts",
+      "description": "Local 24-hour additions can drift by 1 hour on clock-change days. UTC midnight normalization ensures exact calendar alignment."
+    }
+  ],
+  "sources": [
+    {
+      "name": "ISO 8601 Calendar Arithmetic Standards",
+      "url": "https://www.iso.org/iso-8601-date-and-time-format.html"
+    },
+    {
+      "name": "US Naval Observatory Astronomical Calendar & Leap Years",
+      "url": "https://aa.usno.navy.mil/"
+    },
+    {
+      "name": "W3C Note on Date and Time Formats",
+      "url": "https://www.w3.org/TR/NOTE-datetime"
+    }
+  ],
+  "howto": {
+    "name": "How to Add or Subtract Days from a Date",
+    "description": "Step-by-step instructions for computing target dates with calendar or business day filtering.",
+    "steps": [
+      {
+        "name": "Pick Start Date",
+        "text": "Select your starting calendar date or click 'Today' to use the current date."
+      },
+      {
+        "name": "Select Operation",
+        "text": "Choose whether you want to Add (+) into the future or Subtract (-) into the past."
+      },
+      {
+        "name": "Enter Quantity and Time Unit",
+        "text": "Enter the number and select days, weeks, months, or years from the dropdown."
+      },
+      {
+        "name": "Filter Working Days (Optional)",
+        "text": "Check 'Count business days only' if you wish to skip Saturdays and Sundays."
+      },
+      {
+        "name": "Review Target Date and Details",
+        "text": "View the resulting calendar date, day of the week, and total elapsed duration."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "How does the business day calculation filter weekends?",
+      "a": "When you check the business days option, the calculator skips Saturdays and Sundays during iteration. If adding 5 business days starting on a Friday, the tool advances through Monday to Friday, producing the exact working day target."
+    },
+    {
+      "q": "How are leap years handled when adding years or months?",
+      "a": "The tool accounts for leap year structures automatically. Adding 365 calendar days across a leap year appropriately factors in February 29th, ensuring exact calendar alignment without manual correction."
+    },
+    {
+      "q": "Can I calculate dates in the past by subtracting days?",
+      "a": "Yes, simply select Subtract from the operation dropdown menu. You can count backward by days, weeks, months, or years to determine exact historical dates for contract origin, notice periods, or historical research."
+    },
+    {
+      "q": "What happens if I add a month to January 31st?",
+      "a": "Standard calendar math adjusts month-end overflows to the last valid day of the target month. For example, adding one month to January 31st lands on February 28th (or February 29th during leap years)."
+    },
+    {
+      "q": "Is any of my date input data stored on external servers?",
+      "a": "No. All date calculations perform locally inside your web browser using client-side JavaScript. None of your input dates or calculated results are transmitted to external servers or logged in database records."
+    },
+    {
+      "q": "How does the calculator handle negative date subtraction?",
+      "a": "Selecting Subtract steps backward in time across days, weeks, months, or years. The algorithm respects month boundaries and leap year days symmetrically in reverse."
+    },
+    {
+      "q": "Does the business day counter skip bank holidays?",
+      "a": "The tool automatically excludes weekend days (Saturday and Sunday). Statutory bank and federal holidays vary by country and region and are not automatically deducted."
+    }
+  ],
+  "body": {
+    "label": {
+      "startDate": "Start Date",
+      "operation": "Operation",
+      "amount": "Amount",
+      "unit": "Unit"
+    },
+    "text": {
+      "todayBtn": "Today",
+      "businessDaysLabel": "<input type=\"checkbox\" id=\"businessDaysOnly\" data-param=\"biz\" autocomplete=\"off\">\n      <span>Count business days only (exclude Saturdays &amp; Sundays)</span>",
+      "businessDaysNote": "Business days work with days and weeks. Months and years always use calendar dates.",
+      "calcBtn": "Calculate",
+      "resetBtn": "Reset",
+      "copyResultBtn": "<span data-icon=\"copy\"></span> Copy Result",
+      "primaryResult": "Select options to calculate..."
+    },
+    "option": {
+      "operation": {
+        "add": "Add (+)",
+        "subtract": "Subtract (-)"
+      },
+      "unit": {
+        "days": "Days",
+        "weeks": "Weeks",
+        "months": "Months",
+        "years": "Years"
+      }
+    },
+    "content": {
+      "tool": {
+        "span1": "Resulting Target Date"
+      },
+      "why-is-accurate-date-arithmetic-essential": {
+        "heading": "Why Is Accurate Date Arithmetic Essential?",
+        "p1": "Accurate date arithmetic is a fundamental requirement across project planning, legal agreements, financial forecasting, and personal scheduling. Counting days manually on a calendar often leads to errors due to variable month lengths, weekend overlaps, and leap days. Utilizing automated client-side date arithmetic ensures exact calendar placement every time."
+      },
+      "how-business-day-filtering-works": {
+        "heading": "How Business Day Filtering Works",
+        "p1": "When planning business operations, standard calendar days often fail to reflect actual working timelines. Project deliverables, payment terms, and legal notice periods routinely specify business days. When the business days filter is active, the calculator skips Saturdays and Sundays, ensuring deadlines accurately reflect actual operational business days."
+      }
+    },
+    "title": {
+      "copyResultBtn": "Copy result to clipboard"
+    },
+    "ariaLabel": {
+      "copyResultBtn": "Copy result to clipboard"
+    }
+  },
+  "client": {
+    "dateLong": "{{month}} {{day}}, {{year}}",
+    "units": {
+      "days": "days",
+      "weeks": "weeks",
+      "months": "months",
+      "years": "years"
+    },
+    "errors": {
+      "invalidStart": "Please enter a valid start date (YYYY-MM-DD).",
+      "invalidAmount": "Invalid amount \"{{amount}}\". Please enter a whole non-negative number (e.g. 5, not \"5abc\" or \"1.9\").",
+      "nonNegative": "Please enter a valid non-negative whole number.",
+      "tooLarge": "Amount {{amount}} {{unit}} exceeds the maximum supported range of ~10,000 years. Please enter a smaller value.",
+      "unsupportedUnit": "Unsupported calendar unit: \"{{unit}}\".",
+      "missingStart": "Please enter a valid start date.",
+      "missingAmount": "Please enter a valid non-negative amount."
+    },
+    "stats": {
+      "operationLabel": "Operation",
+      "operation": {
+        "add": "Added {{amount}} {{unit}}",
+        "subtract": "Subtracted {{amount}} {{unit}}",
+        "addBusiness": "Added {{amount}} {{unit}} (Business Days Only)",
+        "subtractBusiness": "Subtracted {{amount}} {{unit}} (Business Days Only)"
+      },
+      "isoDate": "ISO 8601 Date",
+      "elapsedDays": "Elapsed Calendar Days",
+      "businessDays": "Working Business Days",
+      "daysValue": "{{n}} Days",
+      "businessDaysValue": "{{n}} Days ({{weekend}} Weekend)"
+    },
+    "copy": {
+      "result": "Resulting Date: {{date}} ({{iso}}). Elapsed Calendar Days: {{elapsed}}. Business Days: {{business}}.",
+      "toast": "Target date copied to clipboard"
+    }
+  }
+}

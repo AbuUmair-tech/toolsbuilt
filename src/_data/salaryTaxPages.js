@@ -1,5 +1,7 @@
 // One salary tax page per verified country dataset (src/_data/tax/<cc>-<taxyear>.json with
 // current: true and a `page` block). Pakistan has its own page at its original URL.
+// The page text (title, FAQs, notes, source names, band and status labels, ...) is in
+// src/_data/i18n/tools/<lang>/salary-tax-calculator.json under countryPages.<country code>.
 const fs = require('fs');
 const path = require('path');
 

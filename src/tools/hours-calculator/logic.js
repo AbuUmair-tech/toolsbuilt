@@ -12,8 +12,13 @@
   }
 })(typeof globalThis !== 'undefined' ? globalThis : this, function () {
 
+  // Messages and day names come from the tool's translation data
+  const T = (typeof ToolsBuilt !== 'undefined' && ToolsBuilt.scope)
+    ? ToolsBuilt.scope('hours-calculator')
+    : require('../../../scripts/i18n-client.js').scope('hours-calculator');
+
   const MINUTES_PER_DAY = 1440;
-  const DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+  const DAYS = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'].map(d => T(`days.${d}`));
 
   /**
    * Parses a clock time into minutes after midnight.
@@ -73,13 +78,13 @@
    */
   function calculateDuration(start, end, breakMinutes) {
     const startMin = parseTime(start);
-    if (startMin === null) return { error: 'Enter a valid start time, for example 09:00.' };
+    if (startMin === null) return { error: T('errors.invalidStart'), field: 'start' };
     const endMin = parseTime(end);
-    if (endMin === null) return { error: 'Enter a valid end time, for example 17:30.' };
+    if (endMin === null) return { error: T('errors.invalidEnd'), field: 'end' };
 
     const rawBreak = breakMinutes === '' || breakMinutes === undefined || breakMinutes === null ? 0 : Number(breakMinutes);
     if (!Number.isFinite(rawBreak) || rawBreak < 0) {
-      return { error: 'The break must be zero or a positive number of minutes.' };
+      return { error: T('errors.negativeBreak'), field: 'break' };
     }
     const breakMin = Math.round(rawBreak);
 
@@ -87,7 +92,7 @@
     const spanMinutes = crossesMidnight ? endMin + MINUTES_PER_DAY - startMin : endMin - startMin;
 
     if (breakMin > spanMinutes) {
-      return { error: `The break (${breakMin} min) is longer than the time between start and end (${formatHoursMinutes(spanMinutes)}).` };
+      return { error: T('errors.breakTooLong', { breakMin, span: formatHoursMinutes(spanMinutes) }), field: 'break' };
     }
 
     const workedMinutes = spanMinutes - breakMin;
@@ -117,10 +122,10 @@
     const multiplier = options.overtimeMultiplier === undefined || options.overtimeMultiplier === '' ? 1.5 : Number(options.overtimeMultiplier);
 
     if (useOvertime && (!Number.isFinite(thresholdHours) || thresholdHours < 0)) {
-      return { error: 'Overtime must start after zero or more hours.' };
+      return { error: T('errors.overtimeAfter'), field: 'overtimeAfter' };
     }
     if (useOvertime && (!Number.isFinite(multiplier) || multiplier < 1)) {
-      return { error: 'The overtime multiplier must be 1 or more (for example 1.5).' };
+      return { error: T('errors.multiplier'), field: 'multiplier' };
     }
 
     const thresholdMinutes = useOvertime ? Math.round(thresholdHours * 60) : Infinity;
@@ -154,7 +159,7 @@
    * @param {Object} options - passed to calculatePay
    */
   function calculateTimesheet(rows, options = {}) {
-    if (!Array.isArray(rows)) return { error: 'No timesheet rows were given.' };
+    if (!Array.isArray(rows)) return { error: T('errors.noRows') };
 
     const days = [];
     let totalMinutes = 0;
@@ -162,7 +167,7 @@
 
     for (let i = 0; i < rows.length; i++) {
       const row = rows[i] || {};
-      const label = DAYS[i] || `Day ${i + 1}`;
+      const label = DAYS[i] || T('dayN', { n: i + 1 });
       const hasStart = row.start !== undefined && row.start !== null && String(row.start).trim() !== '';
       const hasEnd = row.end !== undefined && row.end !== null && String(row.end).trim() !== '';
 
@@ -171,11 +176,11 @@
         continue;
       }
       if (!hasStart || !hasEnd) {
-        return { error: `${label}: enter both a start and an end time, or leave both empty.`, rowIndex: i };
+        return { error: T('errors.rowIncomplete', { day: label }), rowIndex: i, field: 'end' };
       }
 
       const duration = calculateDuration(row.start, row.end, row.break);
-      if (duration.error) return { error: `${label}: ${duration.error}`, rowIndex: i };
+      if (duration.error) return { error: T('errors.rowError', { day: label, error: duration.error }), rowIndex: i, field: duration.field };
 
       totalMinutes += duration.workedMinutes;
       if (duration.workedMinutes > 0) daysWorked++;

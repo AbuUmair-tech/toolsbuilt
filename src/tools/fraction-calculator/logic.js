@@ -12,6 +12,11 @@
   }
 })(typeof globalThis !== 'undefined' ? globalThis : this, function () {
 
+  // Messages and steps come from the tool's translation data
+  const T = (typeof ToolsBuilt !== 'undefined' && ToolsBuilt.scope)
+    ? ToolsBuilt.scope('fraction-calculator')
+    : require('../../../scripts/i18n-client.js').scope('fraction-calculator');
+
   const OPS = { '+': 'add', '-': 'subtract', '*': 'multiply', '/': 'divide' };
   const OP_SYMBOLS = { add: '+', subtract: '−', multiply: '×', divide: '÷' };
   const MAX_DIGITS = 60;
@@ -110,20 +115,20 @@
   function parse(input) {
     const raw = String(input === undefined || input === null ? '' : input).trim()
       .replace(/[−–]/g, '-').replace(/\s+/g, ' ').replace(/\s*\/\s*/g, '/');
-    if (!raw) return { error: 'Enter a number or fraction, for example 3/4 or 2 1/3.' };
-    if (raw.replace(/\D/g, '').length > MAX_DIGITS) return { error: 'That number is too long to work with here.' };
+    if (!raw) return { error: T('errors.empty') };
+    if (raw.replace(/\D/g, '').length > MAX_DIGITS) return { error: T('errors.tooLong') };
 
     let m = raw.match(/^([+-])?(\d+) (\d+)\/(\d+)$/);
     if (m) {
       const sign = m[1] === '-' ? -1n : 1n;
       const whole = BigInt(m[2]), n = BigInt(m[3]), d = BigInt(m[4]);
-      if (d === 0n) return { error: `"${raw}" has a denominator of 0, which is undefined.` };
+      if (d === 0n) return { error: T('errors.zeroDenominator', { raw }) };
       return Object.assign(normaliseKeep(sign * (whole * d + n), d), { kind: 'mixed', text: raw, whole, partN: n });
     }
     m = raw.match(/^([+-])?(\d+)\/([+-]?\d+)$/);
     if (m) {
       const d = BigInt(m[3]);
-      if (d === 0n) return { error: `"${raw}" has a denominator of 0, which is undefined.` };
+      if (d === 0n) return { error: T('errors.zeroDenominator', { raw }) };
       return Object.assign(normaliseKeep((m[1] === '-' ? -1n : 1n) * BigInt(m[2]), d), { kind: 'fraction', text: raw });
     }
     m = raw.match(/^([+-])?(\d+)$/);
@@ -134,7 +139,7 @@
       const n = (m[1] === '-' ? -1n : 1n) * (BigInt(m[2] || '0') * d + BigInt(m[3]));
       return { n, d, kind: 'decimal', text: raw };
     }
-    return { error: `"${raw}" is not a number this calculator understands. Use forms like 3/4, 2 1/3, 5 or 0.75.` };
+    return { error: T('errors.notUnderstood', { raw }) };
   }
 
   // Keep the fraction as typed (6/8 stays 6/8) but with a positive denominator
@@ -158,21 +163,22 @@
     };
   }
 
-  function convertStep(p, label) {
+  // which: 'first', 'second' or 'single' (the only number)
+  function convertStep(p, which) {
     if (p.kind === 'mixed') {
       const sign = p.n < 0n ? '−' : '';
-      return `Write ${label} ${p.text} as an improper fraction: ${sign}(${p.whole} × ${p.d} + ${p.partN}) / ${p.d} = ${p.n}/${p.d}`;
+      return T(`steps.convert.mixed.${which}`, { text: p.text, sign, whole: p.whole, d: p.d, partN: p.partN, n: p.n });
     }
-    if (p.kind === 'whole') return `Write ${label} ${p.text} as a fraction: ${p.n}/1`;
-    if (p.kind === 'decimal') return `Write ${label} ${p.text} as a fraction: ${p.n}/${p.d}`;
+    if (p.kind === 'whole') return T(`steps.convert.whole.${which}`, { text: p.text, n: p.n });
+    if (p.kind === 'decimal') return T(`steps.convert.decimal.${which}`, { text: p.text, n: p.n, d: p.d });
     return null;
   }
 
   function simplifyStep(n, d, steps) {
     const g = gcd(n, d);
     if (d < 0n) { n = -n; d = -d; }
-    if (g > 1n) steps.push(`Simplify: GCD(${abs(n)}, ${d}) = ${g}, so ${n}/${d} = ${format({ n: n / g, d: d / g })}`);
-    else steps.push(`${n}/${d} is already in lowest terms (GCD = 1)`);
+    if (g > 1n) steps.push(T('steps.simplify', { absN: abs(n), d, g, n, simplified: format({ n: n / g, d: d / g }) }));
+    else steps.push(T('steps.lowestTerms', { n, d }));
   }
 
   /**
@@ -183,14 +189,14 @@
    */
   function calculate(a, op, b) {
     const operation = OPS[op] || op;
-    if (!OP_SYMBOLS[operation]) return { error: 'Choose an operation: +, −, × or ÷.' };
+    if (!OP_SYMBOLS[operation]) return { error: T('errors.chooseOperation') };
     const x = parse(a);
-    if (x.error) return { error: `First number: ${x.error}`, field: 'a' };
+    if (x.error) return { error: T('errors.firstNumber', { error: x.error }), field: 'a' };
     const y = parse(b);
-    if (y.error) return { error: `Second number: ${y.error}`, field: 'b' };
+    if (y.error) return { error: T('errors.secondNumber', { error: y.error }), field: 'b' };
 
     const steps = [];
-    [convertStep(x, 'the first number'), convertStep(y, 'the second number')].forEach(s => s && steps.push(s));
+    [convertStep(x, 'first'), convertStep(y, 'second')].forEach(s => s && steps.push(s));
     const fx = `${x.n}/${x.d}`, fy = `${y.n}/${y.d}`;
     let n, d;
 
@@ -198,30 +204,30 @@
       const sym = operation === 'add' ? '+' : '−';
       const sign = operation === 'add' ? 1n : -1n;
       if (x.d === y.d) {
-        steps.push(`The denominators are already the same (${x.d}), so ${sym === '+' ? 'add' : 'subtract'} the numerators: ${x.n} ${sym} ${y.n} = ${x.n + sign * y.n}`);
+        steps.push(T(`steps.sameDenominator.${operation}`, { d: x.d, a: x.n, sym, b: y.n, result: x.n + sign * y.n }));
         n = x.n + sign * y.n; d = x.d;
       } else {
         const lcd = lcm(x.d, y.d);
         const ka = lcd / x.d, kb = lcd / y.d;
-        steps.push(`Find a common denominator: LCM(${x.d}, ${y.d}) = ${lcd}`);
-        steps.push(`Rewrite both fractions: ${fx} = ${x.n * ka}/${lcd} and ${fy} = ${y.n * kb}/${lcd}`);
+        steps.push(T('steps.commonDenominator', { da: x.d, db: y.d, lcd }));
+        steps.push(T('steps.rewrite', { fx, na: x.n * ka, lcd, fy, nb: y.n * kb }));
         n = x.n * ka + sign * y.n * kb; d = lcd;
-        steps.push(`${sym === '+' ? 'Add' : 'Subtract'} the numerators: ${x.n * ka} ${sym} ${y.n * kb} = ${n}, giving ${n}/${d}`);
+        steps.push(T(`steps.numerators.${operation}`, { a: x.n * ka, sym, b: y.n * kb, n, d }));
       }
     } else if (operation === 'multiply') {
       n = x.n * y.n; d = x.d * y.d;
-      steps.push(`Multiply the numerators and the denominators: (${x.n} × ${y.n}) / (${x.d} × ${y.d}) = ${n}/${d}`);
+      steps.push(T('steps.multiplyBoth', { xn: x.n, yn: y.n, xd: x.d, yd: y.d, n, d }));
     } else {
-      if (y.n === 0n) return { error: 'You cannot divide by zero: the second number is 0, and division by 0 is undefined.', field: 'b' };
-      steps.push(`Dividing by ${fy} is the same as multiplying by its reciprocal ${y.d}/${y.n}`);
+      if (y.n === 0n) return { error: T('errors.divideByZero'), field: 'b' };
+      steps.push(T('steps.reciprocal', { fy, yd: y.d, yn: y.n }));
       n = x.n * y.d; d = x.d * y.n;
-      steps.push(`Multiply: (${x.n} × ${y.d}) / (${x.d} × ${y.n}) = ${n}/${d}`);
+      steps.push(T('steps.multiply', { xn: x.n, yd: y.d, xd: x.d, yn: y.n, n, d }));
     }
 
     simplifyStep(n, d, steps);
     const out = result({ n, d }, steps);
     if (normalise(n, d).d !== 1n && abs(normalise(n, d).n) > normalise(n, d).d) {
-      steps.push(`As a mixed number: ${out.mixed}`);
+      steps.push(T('steps.asMixed', { mixed: out.mixed }));
     }
     return Object.assign(out, {
       expression: `${x.text} ${OP_SYMBOLS[operation]} ${y.text}`,
@@ -234,40 +240,40 @@
     const p = parse(input);
     if (p.error) return p;
     const steps = [];
-    const c = convertStep(p, 'the number');
+    const c = convertStep(p, 'single');
     if (c) steps.push(c);
     if (p.n === 0n) {
-      steps.push('0 divided by any non-zero number is 0');
+      steps.push(T('steps.zero'));
       return Object.assign(result({ n: 0n, d: 1n }, steps), { gcd: p.d.toString(), alreadySimplest: false });
     }
     const euclid = gcdSteps(p.n, p.d);
-    steps.push(`Find the greatest common divisor of ${abs(p.n)} and ${p.d} with Euclid's algorithm:`);
+    steps.push(T('steps.findGcd', { a: abs(p.n), b: p.d }));
     euclid.steps.forEach(s => steps.push(`  ${s}`));
-    steps.push(`GCD = ${euclid.gcd}`);
-    if (euclid.gcd > 1n) steps.push(`Divide both by ${euclid.gcd}: ${p.n} ÷ ${euclid.gcd} = ${p.n / euclid.gcd}, ${p.d} ÷ ${euclid.gcd} = ${p.d / euclid.gcd}`);
-    else steps.push('The GCD is 1, so the fraction is already in lowest terms');
+    steps.push(T('steps.gcd', { gcd: euclid.gcd }));
+    if (euclid.gcd > 1n) steps.push(T('steps.divideBoth', { g: euclid.gcd, n: p.n, nq: p.n / euclid.gcd, d: p.d, dq: p.d / euclid.gcd }));
+    else steps.push(T('steps.gcdOne'));
     return Object.assign(result(p, steps), { gcd: euclid.gcd.toString(), alreadySimplest: euclid.gcd === 1n });
   }
 
   /** Terminating decimal -> fraction, e.g. 0.375 -> 3/8. */
   function decimalToFraction(input) {
     const raw = String(input === undefined || input === null ? '' : input).trim().replace(/[−–]/g, '-').replace(/,/g, '');
-    if (!raw) return { error: 'Enter a decimal such as 0.375.' };
+    if (!raw) return { error: T('errors.decimalEmpty') };
     const m = raw.match(/^([+-])?(\d*)(?:\.(\d+))?$/);
     if (!m || (!m[2] && !m[3])) {
-      return { error: `"${raw}" is not a terminating decimal. Enter digits with an optional decimal point, such as 0.375 or 2.5. Repeating decimals like 0.333… cannot be entered exactly.` };
+      return { error: T('errors.notTerminating', { raw }) };
     }
-    if ((m[2] + (m[3] || '')).length > MAX_DIGITS) return { error: 'That decimal is too long to work with here.' };
+    if ((m[2] + (m[3] || '')).length > MAX_DIGITS) return { error: T('errors.decimalTooLong') };
     const places = m[3] ? m[3].length : 0;
     const d = 10n ** BigInt(places);
     const n = (m[1] === '-' ? -1n : 1n) * (BigInt(m[2] || '0') * d + BigInt(m[3] || '0'));
     const steps = [];
-    if (places) steps.push(`${raw} has ${places} decimal place${places === 1 ? '' : 's'}, so write it over 10^${places} = ${d}: ${n}/${d}`);
-    else steps.push(`${raw} is a whole number: ${n}/1`);
+    if (places) steps.push(T(places === 1 ? 'steps.decimalPlaces.one' : 'steps.decimalPlaces.other', { raw, places, d, n }));
+    else steps.push(T('steps.wholeNumber', { raw, n }));
     if (n !== 0n && places) {
       const g = gcd(n, d);
-      steps.push(`GCD(${abs(n)}, ${d}) = ${g}`);
-      if (g > 1n) steps.push(`Divide both by ${g}: ${n / g}/${d / g}`);
+      steps.push(T('steps.gcdOf', { a: abs(n), d, g }));
+      if (g > 1n) steps.push(T('steps.divideBothShort', { g, n: n / g, d: d / g }));
     }
     return result({ n, d }, steps);
   }

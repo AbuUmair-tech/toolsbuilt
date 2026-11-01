@@ -22,6 +22,11 @@
 })(typeof globalThis !== 'undefined' ? globalThis : this, function () {
   'use strict';
 
+  // Messages come from the tool's translation data
+  const T = (typeof ToolsBuilt !== 'undefined' && ToolsBuilt.scope)
+    ? ToolsBuilt.scope('html-formatter')
+    : require('../../../scripts/i18n-client.js').scope('html-formatter');
+
   const OPTIONS = {
     mode: { values: ['format', 'minify'], default: 'format' },
     indentWidth: { values: ['2', '4', 'tab'], default: '2' },
@@ -63,7 +68,7 @@
       const raw = o[key] === undefined || o[key] === '' ? OPTIONS[key].default : o[key];
       const value = typeof OPTIONS[key].default === 'number' ? Number(raw) : String(raw);
       if (!OPTIONS[key].values.includes(value)) {
-        throw new Error(`Unsupported ${key}: ${raw}. Choose one of ${OPTIONS[key].values.join(', ')}.`);
+        throw new Error(T('errors.unsupportedOption', { key, value: raw, choices: OPTIONS[key].values.join(', ') }));
       }
       return value;
     };
@@ -116,7 +121,7 @@
       .filter(t => !OPTIONAL_END.has(t.name))
       .map(t => {
         const line = lineAt(code, t.start);
-        return { line, tag: t.name, message: `Line ${line}: <${t.name}> is never closed. Browsers close it at the end of its parent, which may not be where you meant.` };
+        return { line, tag: t.name, message: T('warnings.unclosed', { line, tag: t.name }) };
       });
   }
 
@@ -165,7 +170,7 @@
    */
   async function format(code, options) {
     if (typeof code !== 'string' || !code.trim()) {
-      throw new Error('Paste some HTML to format.');
+      throw new Error(T('errors.empty'));
     }
     const o = normalizeOptions(options);
     const warnings = findUnclosed(code);
@@ -192,8 +197,8 @@
         .replace(/\s*\(\d+:\d+\)\s*$/, '')
         .replace(/ For more info see \S+/, '');
       const err = new Error(loc
-        ? `Line ${loc.line}, column ${loc.column}: ${reason}`
-        : `The HTML could not be parsed. ${reason}`);
+        ? T('errors.at', { line: loc.line, column: loc.column, reason })
+        : T('errors.unparsed', { reason }));
       err.name = 'HtmlSyntaxError';
       if (loc) Object.assign(err, { line: loc.line, column: loc.column });
       throw err;

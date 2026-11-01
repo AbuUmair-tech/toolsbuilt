@@ -14,6 +14,12 @@
   }
 })(typeof globalThis !== 'undefined' ? globalThis : this, function () {
 
+  // Messages and steps come from the tool's translation data
+  const T = (typeof ToolsBuilt !== 'undefined' && ToolsBuilt.scope)
+    ? ToolsBuilt.scope('mean-median-mode-calculator')
+    : require('../../../scripts/i18n-client.js').scope('mean-median-mode-calculator');
+  const locale = () => ((typeof ToolsBuilt !== 'undefined' && ToolsBuilt.pageLocale) ? ToolsBuilt.pageLocale('en-US') : 'en-US');
+
   const MAX_VALUES = 100000;
 
   /** Rounds for display without trailing zeros: 2.13808993 -> "2.1381" (4 dp) */
@@ -21,7 +27,7 @@
     if (value === null || value === undefined || !Number.isFinite(value)) return '—';
     const f = Math.pow(10, dp);
     const r = Math.round((value + Math.sign(value) * Number.EPSILON) * f) / f;
-    return (Object.is(r, -0) ? 0 : r).toLocaleString('en-US', { maximumFractionDigits: dp, useGrouping: false });
+    return (Object.is(r, -0) ? 0 : r).toLocaleString(locale(), { maximumFractionDigits: dp, useGrouping: false });
   }
 
   /**
@@ -31,7 +37,7 @@
   function parseNumbers(text) {
     const raw = String(text === undefined || text === null ? '' : text).replace(/[−–]/g, '-');
     const tokens = raw.split(/[\s,;]+/).filter(Boolean);
-    if (!tokens.length) return { error: 'Enter at least one number. Separate values with commas, spaces or new lines.' };
+    if (!tokens.length) return { error: T('errors.empty') };
     const values = [];
     const bad = [];
     tokens.forEach(t => {
@@ -40,10 +46,11 @@
     });
     if (bad.length) {
       const shown = bad.slice(0, 3).map(b => `"${b}"`).join(', ');
-      return { error: `${shown}${bad.length > 3 ? ` and ${bad.length - 3} more` : ''} ${bad.length === 1 ? 'is' : 'are'} not a number. Use digits with a dot for decimals (2.5), separated by commas, spaces or new lines.` };
+      const key = bad.length > 3 ? 'errors.notNumber.more' : bad.length === 1 ? 'errors.notNumber.one' : 'errors.notNumber.other';
+      return { error: T(key, { shown, more: bad.length - 3 }) };
     }
-    if (values.length > MAX_VALUES) return { error: `Enter at most ${MAX_VALUES.toLocaleString('en-US')} values.` };
-    if (values.some(v => !Number.isFinite(v))) return { error: 'One of the values is too large to work with.' };
+    if (values.length > MAX_VALUES) return { error: T('errors.tooMany', { max: MAX_VALUES.toLocaleString(locale()) }) };
+    if (values.some(v => !Number.isFinite(v))) return { error: T('errors.tooLarge') };
     return { values };
   }
 
@@ -83,8 +90,8 @@
     let values;
     if (Array.isArray(input)) {
       values = input.map(Number);
-      if (!values.length) return { error: 'Enter at least one number.' };
-      if (values.some(v => !Number.isFinite(v))) return { error: 'Every value must be a number.' };
+      if (!values.length) return { error: T('errors.noNumbers') };
+      if (values.some(v => !Number.isFinite(v))) return { error: T('errors.notAllNumbers') };
     } else {
       const parsed = parseNumbers(input);
       if (parsed.error) return parsed;
@@ -130,7 +137,7 @@
       q1,
       q3,
       iqr: q1 === null ? null : q3 - q1,
-      quartileMethod: 'Median of halves: Q1 is the median of the lower half and Q3 the median of the upper half, leaving out the overall median when the count is odd.',
+      quartileMethod: T('quartileMethod'),
       sorted
     };
     stats.steps = buildSteps(stats, values);
@@ -139,33 +146,33 @@
 
   function buildSteps(s, values) {
     const listed = (arr, limit = 12) => arr.length > limit
-      ? `${arr.slice(0, limit).map(v => fmt(v)).join(' + ')} + … (${arr.length - limit} more)`
+      ? `${arr.slice(0, limit).map(v => fmt(v)).join(' + ')} + ${T('more', { count: arr.length - limit })}`
       : arr.map(v => fmt(v)).join(' + ');
 
     const n = s.count;
     const mean = [
-      `Add the ${n} value${n === 1 ? '' : 's'}: ${listed(values)} = ${fmt(s.sum)}`,
-      `Divide by the count: ${fmt(s.sum)} ÷ ${n} = ${fmt(s.mean)}`
+      T(n === 1 ? 'steps.add.one' : 'steps.add.other', { count: n, values: listed(values), sum: fmt(s.sum) }),
+      T('steps.divide', { sum: fmt(s.sum), count: n, mean: fmt(s.mean) })
     ];
 
-    const median = [`Sort the values: ${s.sorted.length > 20 ? `${s.sorted.slice(0, 20).map(v => fmt(v)).join(', ')}, …` : s.sorted.map(v => fmt(v)).join(', ')}`];
+    const median = [T('steps.sort', { values: s.sorted.length > 20 ? `${s.sorted.slice(0, 20).map(v => fmt(v)).join(', ')}, …` : s.sorted.map(v => fmt(v)).join(', ') })];
     if (n % 2) {
-      median.push(`${n} is odd, so the median is the middle value, number ${(n + 1) / 2}: ${fmt(s.median)}`);
+      median.push(T('steps.odd', { count: n, position: (n + 1) / 2, median: fmt(s.median) }));
     } else {
       const a = s.sorted[n / 2 - 1], b = s.sorted[n / 2];
-      median.push(`${n} is even, so the median is the average of values ${n / 2} and ${n / 2 + 1}: (${fmt(a)} + ${fmt(b)}) ÷ 2 = ${fmt(s.median)}`);
+      median.push(T('steps.even', { count: n, first: n / 2, second: n / 2 + 1, a: fmt(a), b: fmt(b), median: fmt(s.median) }));
     }
 
     const devs = values.slice(0, 12).map(v => `(${fmt(v)} − ${fmt(s.mean)})² = ${fmt((v - s.mean) ** 2)}`);
     const sd = [
-      `Subtract the mean from each value and square it: ${devs.join('; ')}${values.length > 12 ? `; … (${values.length - 12} more)` : ''}`,
-      `Add the squared deviations: sum of squares = ${fmt(s.sumOfSquares)}`,
-      `Population variance σ² = ${fmt(s.sumOfSquares)} ÷ ${n} = ${fmt(s.populationVariance)}, so σ = √${fmt(s.populationVariance)} = ${fmt(s.populationSD)}`
+      T('steps.deviations', { deviations: `${devs.join('; ')}${values.length > 12 ? `; ${T('more', { count: values.length - 12 })}` : ''}` }),
+      T('steps.sumOfSquares', { ss: fmt(s.sumOfSquares) }),
+      T('steps.populationVariance', { ss: fmt(s.sumOfSquares), count: n, variance: fmt(s.populationVariance), sd: fmt(s.populationSD) })
     ];
     if (s.sampleVariance !== null) {
-      sd.push(`Sample variance s² = ${fmt(s.sumOfSquares)} ÷ (${n} − 1) = ${fmt(s.sampleVariance)}, so s = √${fmt(s.sampleVariance)} = ${fmt(s.sampleSD)}`);
+      sd.push(T('steps.sampleVariance', { ss: fmt(s.sumOfSquares), count: n, variance: fmt(s.sampleVariance), sd: fmt(s.sampleSD) }));
     } else {
-      sd.push('The sample standard deviation needs at least 2 values (it divides by n − 1).');
+      sd.push(T('steps.sampleNeedsTwo'));
     }
     return { mean, median, sd };
   }

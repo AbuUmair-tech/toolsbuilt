@@ -6,6 +6,7 @@
  */
 document.addEventListener('DOMContentLoaded', function () {
   const logic = window.RandomPickerLogic;
+  const T = ToolsBuilt.scope('random-name-picker');
   const namesInput = document.getElementById('namesInput');
   const spinBtn = document.getElementById('spinBtn');
   const shuffleBtn = document.getElementById('shuffleBtn');
@@ -62,8 +63,8 @@ document.addEventListener('DOMContentLoaded', function () {
     names = logic.parseNames(text, { dedupe: false });
     
     if (nameCountEl) {
-      const numFmt = new Intl.NumberFormat('en-US');
-      nameCountEl.textContent = `${numFmt.format(names.length)} ${names.length === 1 ? 'entry' : 'entries'}`;
+      const numFmt = new Intl.NumberFormat(ToolsBuilt.pageLocale('en-US'));
+      nameCountEl.textContent = T(names.length === 1 ? 'count.one' : 'count.other', { count: numFmt.format(names.length) });
     }
     drawWheel();
   }
@@ -90,7 +91,7 @@ document.addEventListener('DOMContentLoaded', function () {
       ctx.font = '600 16px sans-serif';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
-      ctx.fillText('Enter names to build wheel', centerX, centerY);
+      ctx.fillText(T('wheel.empty'), centerX, centerY);
       return;
     }
 
@@ -139,7 +140,7 @@ document.addEventListener('DOMContentLoaded', function () {
     ctx.font = 'bold 12px sans-serif';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    ctx.fillText('SPIN', centerX, centerY);
+    ctx.fillText(T('wheel.spin'), centerX, centerY);
 
     // Pointer at top (12 o'clock)
     ctx.beginPath();
@@ -209,7 +210,7 @@ document.addEventListener('DOMContentLoaded', function () {
     winnerModal.setAttribute('aria-hidden', 'false');
 
     if (window.ToolsBuilt && window.ToolsBuilt.toast) {
-      window.ToolsBuilt.toast(`Winner: ${currentWinner}!`);
+      window.ToolsBuilt.toast(T('toast.winner', { name: currentWinner }));
     }
 
     if (removeWinnerCheckbox && removeWinnerCheckbox.checked) {
@@ -239,7 +240,7 @@ document.addEventListener('DOMContentLoaded', function () {
     namesInput.value = deduped.join('\n');
     parseNames();
     if (window.ToolsBuilt && window.ToolsBuilt.toast) {
-      window.ToolsBuilt.toast('Removed duplicate names');
+      window.ToolsBuilt.toast(T('toast.deduplicated'));
     }
   }
 
@@ -271,14 +272,14 @@ document.addEventListener('DOMContentLoaded', function () {
   if (copyWinnerBtn) {
     copyWinnerBtn.addEventListener('click', function () {
       if (currentWinner && window.ToolsBuilt && window.ToolsBuilt.copy) {
-        window.ToolsBuilt.copy(currentWinner, 'Winner name copied to clipboard');
+        window.ToolsBuilt.copy(currentWinner, T('toast.copied'));
       }
     });
   }
 
   // Populate initial default names if empty
   if (!namesInput.value.trim()) {
-    namesInput.value = "Emma\nLiam\nOlivia\nNoah\nAva\nEthan\nSophia\nMason";
+    namesInput.value = T('defaultNames');
   }
 
   initSettings();

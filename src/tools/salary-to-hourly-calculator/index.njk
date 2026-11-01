@@ -1,150 +1,61 @@
 ---
 layout: layouts/tool.njk
 toolSlug: salary-to-hourly-calculator
-title: "Salary to Hourly Calculator (and Hourly to Salary)"
-description: "Convert pay between annual, monthly, bi-weekly, weekly, daily and hourly rates using your hours per week, paid weeks per year and unpaid time off."
 permalink: /tools/salary-to-hourly-calculator/
-h1: "Salary to Hourly Calculator"
 extraCss: "/tools/salary-to-hourly-calculator/style.css"
-quickAnswer: "Hourly rate = annual salary ÷ (hours per week × paid weeks per year). At 40 hours and 52 weeks that is 2,080 hours, so 52,000 a year is 25.00 an hour. Going the other way, 30 an hour is 62,400 a year and 5,200 a month. Two unpaid weeks off leaves 50 paid weeks, which raises the hourly equivalent of 52,000 to 26.00."
-formula:
-  title: "Pay Conversion Formula"
-  expression: "Hourly = Annual ÷ (Hours per week × Paid weeks)   ·   Annual = Hourly × Hours per week × Paid weeks   ·   Monthly = Annual ÷ 12"
-  explanation: "Every input is first turned into an annual figure, then divided out. Paid weeks are the weeks in the year minus any unpaid weeks off. Weekly pay is annual ÷ paid weeks, bi-weekly is two of those weeks, daily is weekly ÷ days worked per week, and hourly is weekly ÷ hours per week. Monthly pay is always annual ÷ 12, because months are not a whole number of weeks."
-  variables:
-    - name: "Hours per week"
-      description: "Your contracted or usual paid hours, such as 40 or 37.5."
-    - name: "Paid weeks per year"
-      description: "52 for most salaried jobs (paid holidays count as paid weeks)."
-    - name: "Unpaid weeks off"
-      description: "Weeks you are not paid for, such as unpaid leave or gaps between contracts."
-workedExamples:
-  - title: "52,000 a year to hourly"
-    inputs:
-      - "Pay: 52,000 per year"
-      - "40 hours per week, 52 paid weeks"
-    steps:
-      - "Hours per year: 40 × 52 = 2,080"
-      - "Hourly: 52,000 ÷ 2,080 = 25.00"
-    result: "25.00 per hour (1,000 per week, 4,333.33 per month)"
-    link: "/tools/salary-to-hourly-calculator/?amount=52000&per=annual&hours=40&weeks=52#tool"
-  - title: "30 an hour to yearly and monthly"
-    inputs:
-      - "Pay: 30 per hour"
-      - "40 hours per week, 52 paid weeks"
-    steps:
-      - "Annual: 30 × 40 × 52 = 62,400"
-      - "Monthly: 62,400 ÷ 12 = 5,200"
-    result: "62,400 per year, 5,200 per month"
-    link: "/tools/salary-to-hourly-calculator/?amount=30&per=hourly&hours=40&weeks=52#tool"
-  - title: "52,000 a year with two unpaid weeks"
-    inputs:
-      - "Pay: 52,000 per year"
-      - "40 hours per week, 52 weeks, 2 unpaid weeks off"
-    steps:
-      - "Paid weeks: 52 − 2 = 50"
-      - "Hours worked: 40 × 50 = 2,000"
-      - "Hourly: 52,000 ÷ 2,000 = 26.00"
-    result: "26.00 per hour for the hours actually worked"
-    link: "/tools/salary-to-hourly-calculator/?amount=52000&per=annual&hours=40&weeks=52&unpaid=2#tool"
-commonMistakes:
-  - title: "Multiplying weekly pay by 4 to get monthly pay"
-    description: "A year has 52 weeks but only 48 if you count four per month. Monthly pay is annual ÷ 12, which is weekly pay × 4.33. Using × 4 understates monthly income by about 8%."
-  - title: "Comparing a salary with an hourly rate without counting holidays"
-    description: "A salaried job usually pays for holidays and sick days; a contractor's hourly rate often does not. To compare fairly, enter the contractor's unpaid weeks off so the annual figure reflects the weeks they will actually bill."
-  - title: "Treating bi-weekly as semi-monthly"
-    description: "Bi-weekly means every two weeks, which is 26 paychecks a year. Semi-monthly means twice a month, which is 24. On the same salary a bi-weekly paycheck is smaller than a semi-monthly one."
-  - title: "Using gross figures as take-home pay"
-    description: "These are gross amounts before income tax, social security, pension and other deductions. Use a salary tax calculator for take-home pay."
-  - title: "Ignoring overtime and unpaid extra hours"
-    description: "If you regularly work more than your contracted hours without extra pay, your real hourly rate is lower. Enter the hours you actually work to see it."
-faqs:
-  - q: "How do I convert my salary to an hourly rate?"
-    a: "Divide your annual salary by the number of hours you are paid for in a year. At 40 hours a week for 52 weeks that is 2,080 hours, so divide the salary by 2,080."
-  - q: "How much is 52,000 a year per hour?"
-    a: "52,000 a year is 25.00 an hour at 40 hours a week for 52 weeks. At 37.5 hours a week it is 26.67 an hour."
-  - q: "How much is 30 an hour annually?"
-    a: "30 an hour is 62,400 a year at 40 hours a week and 52 paid weeks, which is 5,200 a month and 1,200 a week."
-  - q: "How many working hours are in a year?"
-    a: "A 40-hour week for 52 weeks is 2,080 hours. A year is actually 52 weeks and 1 or 2 days, so some employers use 2,087 hours; the US Office of Personnel Management uses 2,087 for federal hourly rates."
-  - q: "How do I calculate monthly salary from hourly pay?"
-    a: "Multiply the hourly rate by hours per week and by 52 to get annual pay, then divide by 12. For 20 an hour at 40 hours: 20 × 40 × 52 ÷ 12 = 3,466.67 a month."
-  - q: "What is the difference between bi-weekly and semi-monthly pay?"
-    a: "Bi-weekly pay comes every two weeks, 26 times a year. Semi-monthly pay comes twice a month, 24 times a year. The calculator shows the bi-weekly amount."
-  - q: "Does this include tax?"
-    a: "No. All figures are gross pay before tax and deductions. The ToolsBuilt salary tax calculators show take-home pay for several countries."
-sources:
-  - name: "U.S. Office of Personnel Management: Computing hourly rates of pay using the 2,087-hour divisor"
-    url: "https://www.opm.gov/policy-data-oversight/pay-leave/pay-administration/fact-sheets/computing-hourly-rates-of-pay-using-the-2087-hour-divisor/"
-  - name: "U.S. Department of Labor: Overtime pay (FLSA)"
-    url: "https://www.dol.gov/agencies/whd/overtime"
-  - name: "GOV.UK: National Minimum Wage and National Living Wage rates"
-    url: "https://www.gov.uk/national-minimum-wage-rates"
 lastReviewed: "2026-10-31"
-howto:
-  name: "How to Convert Salary to Hourly Pay"
-  description: "Convert any pay rate into annual, monthly, bi-weekly, weekly, daily and hourly figures."
-  steps:
-    - name: "Enter your pay"
-      text: "Type the amount and choose whether it is per hour, day, week, two weeks, month or year."
-    - name: "Set your working pattern"
-      text: "Enter hours per week, days per week and paid weeks per year (40, 5 and 52 by default)."
-    - name: "Add unpaid time off"
-      text: "Enter any unpaid weeks off, such as unpaid leave or gaps between contracts."
-    - name: "Read every pay period"
-      text: "See the same pay as an annual, monthly, bi-weekly, weekly, daily and hourly amount."
 ---
 {% from "partials/currency-select.njk" import currencySelect, countryData with context %}
 {{ countryData(countries) }}
 
     <!-- Tool Form Container -->
-    <section class="tool-container" aria-label="Salary to Hourly Calculator">
+    <section class="tool-container" aria-label="{{ 'ariaLabel.tool-section1' | pt }}">
       <form id="calculator-form" novalidate>
         <div class="form-grid salary-pay-grid">
           <div class="form-group">
-            <label for="amount">Pay <span class="text-accent">*</span></label>
+            <label for="amount">{{ 'label.amount' | pt }}</label>
             <input type="number" inputmode="decimal" step="any" min="0" id="amount" data-param="amount" class="form-control" value="52000" required aria-required="true">
           </div>
           <div class="form-group">
-            <label for="period">Paid</label>
+            <label for="period">{{ 'label.period' | pt }}</label>
             <select id="period" data-param="per" class="form-control">
-              <option value="hourly">per hour</option>
-              <option value="daily">per day</option>
-              <option value="weekly">per week</option>
-              <option value="biweekly">every two weeks</option>
-              <option value="monthly">per month</option>
-              <option value="annual" selected>per year</option>
+              <option value="hourly">{{ 'option.period.hourly' | pt }}</option>
+              <option value="daily">{{ 'option.period.daily' | pt }}</option>
+              <option value="weekly">{{ 'option.period.weekly' | pt }}</option>
+              <option value="biweekly">{{ 'option.period.biweekly' | pt }}</option>
+              <option value="monthly">{{ 'option.period.monthly' | pt }}</option>
+              <option value="annual" selected>{{ 'option.period.annual' | pt }}</option>
             </select>
           </div>
           {{ currencySelect({ id: "currency", param: "cur", selected: "USD" }) }}
         </div>
 
         <fieldset class="salary-fieldset">
-          <legend>Working pattern</legend>
+          <legend>{{ 'content.tool.legend1' | pt }}</legend>
           <div class="form-grid salary-pattern-grid">
             <div class="form-group">
-              <label for="hours">Hours per week</label>
+              <label for="hours">{{ 'label.hours' | pt }}</label>
               <input type="number" inputmode="decimal" step="any" min="0" max="168" id="hours" data-param="hours" class="form-control" value="40">
             </div>
             <div class="form-group">
-              <label for="days">Days per week</label>
+              <label for="days">{{ 'label.days' | pt }}</label>
               <input type="number" inputmode="decimal" step="any" min="0" max="7" id="days" data-param="days" class="form-control" value="5">
             </div>
             <div class="form-group">
-              <label for="weeks">Weeks per year</label>
+              <label for="weeks">{{ 'label.weeks' | pt }}</label>
               <input type="number" inputmode="decimal" step="any" min="1" max="53" id="weeks" data-param="weeks" class="form-control" value="52">
             </div>
             <div class="form-group">
-              <label for="unpaid">Unpaid weeks off</label>
+              <label for="unpaid">{{ 'label.unpaid' | pt }}</label>
               <input type="number" inputmode="decimal" step="any" min="0" id="unpaid" data-param="unpaid" class="form-control" value="0">
             </div>
           </div>
-          <p class="form-hint">Paid holidays count as paid weeks. Only enter weeks you are not paid for as unpaid weeks off.</p>
+          <p class="form-hint">{{ 'content.tool.p1' | pt }}</p>
         </fieldset>
 
         <div class="button-group mt-6">
-          <button type="submit" class="btn btn-primary">Convert Pay</button>
-          <button type="button" class="btn btn-secondary" id="reset-btn">Reset</button>
+          <button type="submit" class="btn btn-primary">{{ 'content.tool.button1' | pt }}</button>
+          <button type="button" class="btn btn-secondary" id="reset-btn">{{ 'text.reset-btn' | pt }}</button>
         </div>
       </form>
 
@@ -152,17 +63,17 @@ howto:
 
       <div id="result-box" class="result-box is-visible" aria-live="polite">
         <div class="result-header">
-          <span id="result-header-text">Hourly rate</span>
-          <button type="button" class="btn btn-sm btn-ghost" id="copy-result-btn" title="Copy result to clipboard" aria-label="Copy result to clipboard">
-            <span data-icon="copy"></span> Copy Result
+          <span id="result-header-text">{{ 'text.result-header-text' | pt }}</span>
+          <button type="button" class="btn btn-sm btn-ghost" id="copy-result-btn" title="{{ 'title.copy-result-btn' | pt }}" aria-label="{{ 'ariaLabel.copy-result-btn' | pt }}">
+            {{ 'text.copy-result-btn' | pt }}
           </button>
         </div>
         <div class="result-primary" id="result-primary-text">--</div>
         <p class="form-hint" id="result-note"></p>
         <div class="table-wrapper salary-table-wrapper">
           <table class="table salary-table">
-            <caption class="visually-hidden">The same pay in every period</caption>
-            <thead><tr><th scope="col">Period</th><th scope="col">Gross pay</th></tr></thead>
+            <caption class="visually-hidden">{{ 'content.tool.caption1' | pt }}</caption>
+            <thead><tr><th scope="col">{{ 'content.tool.th1' | pt }}</th><th scope="col">{{ 'content.tool.th2' | pt }}</th></tr></thead>
             <tbody id="salary-rows"></tbody>
           </table>
         </div>
@@ -172,12 +83,12 @@ howto:
     <!-- tool-end -->
 
     <section class="content-section">
-      <h2>Common Salaries as Hourly Rates</h2>
-      <p>At 40 hours a week and 52 paid weeks (2,080 hours a year), these round annual figures convert as follows. The same numbers work in any currency.</p>
+      <h2>{{ 'content.common-salaries-as-hourly-rates.heading' | pt }}</h2>
+      <p>{{ 'content.common-salaries-as-hourly-rates.p1' | pt }}</p>
       <div class="table-wrapper">
         <table class="table">
-          <caption class="visually-hidden">Annual salary to monthly, weekly and hourly pay at 2,080 hours a year</caption>
-          <thead><tr><th scope="col">Per year</th><th scope="col">Per month</th><th scope="col">Per week</th><th scope="col">Per hour</th></tr></thead>
+          <caption class="visually-hidden">{{ 'content.common-salaries-as-hourly-rates.caption1' | pt }}</caption>
+          <thead><tr><th scope="col">{{ 'content.common-salaries-as-hourly-rates.th1' | pt }}</th><th scope="col">{{ 'content.common-salaries-as-hourly-rates.th2' | pt }}</th><th scope="col">{{ 'content.common-salaries-as-hourly-rates.th3' | pt }}</th><th scope="col">{{ 'content.common-salaries-as-hourly-rates.th4' | pt }}</th></tr></thead>
           <tbody>
             <tr><td>30,000</td><td>2,500.00</td><td>576.92</td><td>14.42</td></tr>
             <tr><td>40,000</td><td>3,333.33</td><td>769.23</td><td>19.23</td></tr>
@@ -188,14 +99,14 @@ howto:
           </tbody>
         </table>
       </div>
-      <p>A quick rule of thumb at full time: an hourly rate is roughly the annual salary in thousands divided by 2. 50,000 a year is about 25 an hour (24.04 exactly), and 20 an hour is about 40,000 a year (41,600 exactly).</p>
+      <p>{{ 'content.common-salaries-as-hourly-rates.p2' | pt }}</p>
 
-      <h2>When to Use Each Setting</h2>
+      <h2>{{ 'content.when-to-use-each-setting.heading' | pt }}</h2>
       <ul class="content-list">
-        <li><strong>Comparing a job offer with your current pay:</strong> enter both salaries with their real weekly hours. A higher salary with longer hours can be a lower hourly rate.</li>
-        <li><strong>Moving from employee to contractor:</strong> enter the day rate you are offered, set days per week, and add unpaid weeks for holidays, sickness and gaps between contracts.</li>
-        <li><strong>Part-time work:</strong> enter your part-time hours. A 0.6 full-time role at 24 hours a week on 30,000 a year is still 24.04 an hour, the same as 50,000 at 40 hours.</li>
-        <li><strong>Budgeting:</strong> use the monthly figure, which is annual ÷ 12, rather than four weekly payslips.</li>
+        <li>{{ 'content.when-to-use-each-setting.li1' | pt }}</li>
+        <li>{{ 'content.when-to-use-each-setting.li2' | pt }}</li>
+        <li>{{ 'content.when-to-use-each-setting.li3' | pt }}</li>
+        <li>{{ 'content.when-to-use-each-setting.li4' | pt }}</li>
       </ul>
-      <p>Employers sometimes use a different divisor for hourly rates. The US federal government uses 2,087 hours, the average number of working hours in a year once leap years are counted, and some UK employers use 52.14 weeks. Adjust weeks per year if your contract states one of these.</p>
+      <p>{{ 'content.when-to-use-each-setting.p1' | pt }}</p>
     </section>

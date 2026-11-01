@@ -5,6 +5,7 @@
  */
 document.addEventListener('DOMContentLoaded', () => {
   const logic = window.MeritLogic;
+  const T = ToolsBuilt.scope('merit-calculator');
   const form = document.getElementById('calculator-form');
   const presetSelect = document.getElementById('preset');
   const presetNotes = Array.from(document.querySelectorAll('[data-preset-note]'));
@@ -22,9 +23,9 @@ document.addEventListener('DOMContentLoaded', () => {
   try { presets = JSON.parse(document.getElementById('merit-presets').textContent) || []; } catch (e) {}
 
   const DEFAULT_CUSTOM = [
-    ['Matric', '900', '1100', '10'],
-    ['Intermediate', '950', '1100', '40'],
-    ['Entry test', '300', '400', '50']
+    [T('defaults.matric'), '900', '1100', '10'],
+    [T('defaults.intermediate'), '950', '1100', '40'],
+    [T('defaults.entryTest'), '300', '400', '50']
   ];
   const FIELD_CLASS = { name: '.comp-name', obtained: '.comp-obtained', total: '.comp-total', weight: '.comp-weight' };
   let debounceTimer = null;
@@ -63,7 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function updateWeightTotal() {
     const total = rowEls.filter(r => !r.hidden).reduce((s, r) => s + (Number(fieldOf(r, 'weight').value) || 0), 0);
-    weightTotalText.textContent = `Weights entered: ${round(total, 4)}%${Math.abs(total - 100) < 1e-6 ? ' ✓' : ' (must total 100%)'}`;
+    weightTotalText.textContent = T(Math.abs(total - 100) < 1e-6 ? 'weights.ok' : 'weights.notOk', { total: round(total, 4) });
   }
 
   function clearError() {
@@ -98,7 +99,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const preset = presets.find(p => p.id === presetSelect.value);
-    headerText.textContent = preset ? `Aggregate (${preset.name})` : 'Aggregate';
+    headerText.textContent = preset ? T('result.headerPreset', { preset: preset.name }) : T('result.header');
     primaryText.textContent = `${res.aggregateRounded.toFixed(2)}%`;
     tableBody.replaceChildren(...res.rows.map(r => {
       const tr = document.createElement('tr');
@@ -118,7 +119,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const barCopy = document.getElementById('action-copy-btn');
     if (barCopy) {
-      barCopy.dataset.copyText = res.rows.map(r => `${r.name}: ${r.obtained}/${r.total} × ${r.weight}% = ${round(r.contribution, 4)}`).join('\n') + `\nAggregate: ${res.aggregateRounded.toFixed(2)}%`;
+      barCopy.dataset.copyText = res.rows.map(r => T('copy.row', { name: r.name, obtained: r.obtained, total: r.total, weight: r.weight, contribution: round(r.contribution, 4) })).join('\n') + '\n' + T('copy.aggregate', { aggregate: res.aggregateRounded.toFixed(2) });
     }
     resultBox.classList.add('is-visible');
     ToolsBuilt.resultLink.update();

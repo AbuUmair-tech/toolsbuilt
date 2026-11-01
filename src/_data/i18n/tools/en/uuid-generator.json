@@ -1,0 +1,189 @@
+{
+  "listing": {
+    "name": "UUID / GUID Generator",
+    "shortName": "UUID Generator",
+    "description": "Generate cryptographically secure version 4 UUIDs and GUIDs instantly with Web Crypto, bulk generation up to 100, and text download.",
+    "shortDescription": "Generate cryptographically secure version 4 UUIDs and GUIDs with bulk options and text export.",
+    "keywords": [
+      "uuid generator",
+      "guid generator",
+      "v4 uuid",
+      "bulk uuid generator",
+      "random uuid online",
+      "uuid without hyphens"
+    ]
+  },
+  "title": "UUID Generator - Free Online Bulk UUID v4 & GUID Tool",
+  "description": "Generate cryptographically secure version 4 UUIDs and GUIDs instantly with Web Crypto. Bulk generate up to 100, custom formats, and text export.",
+  "h1": "UUID / GUID Generator",
+  "quickAnswer": "To generate cryptographically secure UUIDs (Universally Unique Identifiers), select your desired quantity (1 to 100) and choose case, hyphen, and brace formatting. The generator uses browser Web Crypto API randomUUID to provide 122 bits of hardware-backed entropy with zero server communication.",
+  "formula": {
+    "title": "RFC 4122 Version 4 UUID Structure",
+    "expression": "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx (where y ∈ {8, 9, a, b})",
+    "explanation": "A Version 4 UUID consists of 128 bits: 4 bits are fixed for the version (0100 for v4), 2 bits specify the variant (10 for RFC 4122), and the remaining 122 bits are filled with cryptographically strong pseudorandom numbers. With 2¹²² possible combinations (approximately 5.3 × 10³⁶), the probability of collision is negligible."
+  },
+  "workedExamples": [
+    {
+      "title": "Standard Canonical UUID v4",
+      "inputs": [
+        "Algorithm: RFC 4122 v4",
+        "Format: Lowercase with hyphens",
+        "Braces: None"
+      ],
+      "steps": [
+        "Draw 16 cryptographically random bytes via crypto.randomUUID",
+        "Verify bit 12 to 15 is 0100 (version 4)",
+        "Verify bit 6 to 7 of clock sequence is 10 (RFC 4122 variant)",
+        "Format as 8-4-4-4-12 hex characters"
+      ],
+      "result": "c3b8f1a2-9d4e-4b6a-8f12-5e3a7c8b9d0e"
+    },
+    {
+      "title": "Microsoft COM / C# GUID Format",
+      "inputs": [
+        "Format: Uppercase with braces",
+        "Delimiters: Hyphens included"
+      ],
+      "steps": [
+        "Generate standard 128-bit random byte payload",
+        "Convert all alphanumeric characters to uppercase",
+        "Wrap resulting string in curly braces"
+      ],
+      "result": "{C3B8F1A2-9D4E-4B6A-8F12-5E3A7C8B9D0E}"
+    },
+    {
+      "title": "Raw Database Key Without Hyphens",
+      "inputs": [
+        "Format: 32-character compact hex",
+        "Hyphens: Excluded",
+        "Casing: Lowercase"
+      ],
+      "steps": [
+        "Generate 128-bit UUID",
+        "Strip all 4 hyphen delimiter characters",
+        "Output continuous 32-character hexadecimal string"
+      ],
+      "result": "c3b8f1a29d4e4b6a8f125e3a7c8b9d0e"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Using Math.random() for UUIDs",
+      "description": "Standard JavaScript Math.random() is pseudorandom and predictable. Always require crypto.randomUUID() or crypto.getRandomValues() to prevent identifier collision and forgery."
+    },
+    {
+      "title": "Treating UUIDs as Secret Passwords",
+      "description": "UUIDs are unique identifiers, not authentication tokens or cryptographic keys. They lack cryptographic hashing or salt and should not substitute for secrets."
+    },
+    {
+      "title": "Assuming Sequential Monotonicity",
+      "description": "Version 4 UUIDs are completely random and non-sequential. Using them as clustered database primary keys without sorting indexes can cause B-tree fragmentation."
+    },
+    {
+      "title": "Case-Sensitive Database Lookups",
+      "description": "RFC 4122 specifies that hexadecimal comparisons must be case-insensitive. Failing to normalize case when querying databases can lead to missing records."
+    }
+  ],
+  "sources": [
+    {
+      "name": "IETF RFC 4122: A Universally Unique IDentifier (UUID) URN Namespace",
+      "url": "https://datatracker.ietf.org/doc/html/rfc4122"
+    },
+    {
+      "name": "W3C Web Cryptography API: crypto.randomUUID",
+      "url": "https://w3c.github.io/webcrypto/#Crypto-method-randomUUID"
+    },
+    {
+      "name": "ITU-T Recommendation X.667: Generation and registration of UUIDs",
+      "url": "https://www.itu.int/rec/T-REC-X.667"
+    }
+  ],
+  "howto": {
+    "name": "How to Generate UUID v4 Identifiers",
+    "description": "Step-by-step guide to generating single or bulk cryptographically secure UUIDs.",
+    "steps": [
+      {
+        "name": "Select Quantity",
+        "text": "Choose how many UUIDs to generate at once, from 1 up to 100 in bulk."
+      },
+      {
+        "name": "Choose Formatting Options",
+        "text": "Toggle uppercase letters, hyphen delimiters, or surrounding curly braces to match your framework."
+      },
+      {
+        "name": "Copy or Download",
+        "text": "Click Copy All to copy all IDs to your clipboard, or click Download .txt to save them to a text file."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "What is a Version 4 UUID?",
+      "a": "A Version 4 UUID is a 128-bit universally unique identifier generated using random numbers. It contains 122 random bits, giving 5.3 × 10³⁶ possible values with virtually zero probability of duplicate generation."
+    },
+    {
+      "q": "What is the difference between a UUID and a GUID?",
+      "a": "GUID (Globally Unique Identifier) is Microsoft's implementation term for UUID (Universally Unique Identifier). In modern software, both refer to identical 128-bit RFC 4122 compliant structures."
+    },
+    {
+      "q": "How are UUIDs generated securely in this tool?",
+      "a": "This tool uses the native browser Web Crypto API (crypto.randomUUID). Entropy is gathered directly from your operating system's cryptographic random hardware generator."
+    },
+    {
+      "q": "Can two UUID v4 values collide?",
+      "a": "While theoretically possible, generating 1 billion UUIDs per second for 100 years yields less than a 50% chance of a single collision. For practical software engineering, UUIDs are universally unique."
+    },
+    {
+      "q": "Are generated UUIDs transmitted or logged?",
+      "a": "Never. Generation executes 100% client-side inside your browser memory. No generated keys or logs ever touch external servers."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-div1": "UUID Generator Tool",
+      "quick-uuid-display": "Generated Single UUID",
+      "copy-single-btn": "Copy Single UUID",
+      "regen-single-btn": "Regenerate Single UUID",
+      "uuid-count": "Number of UUIDs to generate",
+      "bulk-output": "Generated UUIDs List"
+    },
+    "label": {
+      "quick-uuid-display": "Single UUID v4 (Quick Copy):",
+      "uuid-count": "Quantity (1 – 100):",
+      "bulk-output": "Generated UUIDs:"
+    },
+    "text": {
+      "copy-single-btn": "<span data-icon=\"copy\"></span> Copy",
+      "regen-single-btn": "<span data-icon=\"refresh\"></span> Regenerate",
+      "generate-btn": "<span data-icon=\"refresh\"></span> Generate Bulk",
+      "uuid-meta-count": "5 UUIDs generated",
+      "copy-all-btn": "<span data-icon=\"copy\"></span> Copy All",
+      "download-txt-btn": "<span data-icon=\"download\"></span> Download .txt"
+    },
+    "content": {
+      "tool": {
+        "label1": "<input type=\"checkbox\" id=\"opt-hyphens\" checked>\n        <span>Include Hyphens (-)</span>",
+        "label2": "<input type=\"checkbox\" id=\"opt-uppercase\">\n        <span>Uppercase (A-F)</span>",
+        "label3": "<input type=\"checkbox\" id=\"opt-braces\">\n        <span>Wrap in Braces ({})</span>"
+      }
+    }
+  },
+  "client": {
+    "errors": {
+      "noSecureRandom": "Cryptographically secure PRNG unavailable.",
+      "notWholeNumber": "Quantity must be a whole number between {{min}} and {{max}}.",
+      "belowMin": "Quantity cannot be less than {{min}}.",
+      "aboveMax": "Quantity cannot exceed {{max}} for bulk generation."
+    },
+    "copy": {
+      "copied": "✓ Copied!",
+      "failed": "Copying failed. Please copy manually."
+    },
+    "meta": {
+      "generated": {
+        "one": "{{count}} UUID generated",
+        "other": "{{count}} UUIDs generated"
+      }
+    }
+  }
+}

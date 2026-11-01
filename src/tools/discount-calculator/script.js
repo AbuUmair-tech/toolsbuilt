@@ -5,6 +5,7 @@
  */
 document.addEventListener('DOMContentLoaded', () => {
   const logic = window.DiscountLogic;
+  const T = ToolsBuilt.scope('discount-calculator');
   const form = document.getElementById('calculator-form');
   const priceInput = document.getElementById('original-price');
   const discountInput = document.getElementById('discount-percent');
@@ -88,12 +89,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const cur = currencySelect.value;
 
     if (!rawPrice || isNaN(parseFloat(rawPrice))) {
-      showError('Please enter a valid original price.', priceInput);
+      showError(T('errors.price'), priceInput);
       return;
     }
 
     if (!rawDisc || isNaN(parseFloat(rawDisc))) {
-      showError('Please enter a valid discount percentage.', discountInput);
+      showError(T('errors.discount'), discountInput);
       return;
     }
 
@@ -103,7 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const tax = rawTax ? parseFloat(rawTax) : 0;
 
     if (price < 0 || disc < 0 || stacked < 0 || tax < 0) {
-      showError('Price, discount, and tax percentages cannot be negative.', priceInput);
+      showError(T('errors.negative'), priceInput);
       return;
     }
 
@@ -126,26 +127,29 @@ document.addEventListener('DOMContentLoaded', () => {
     const finalFormatted = fmt(res.finalPrice);
     const savedFormatted = fmt(res.totalSavings);
 
-    document.getElementById('result-primary-text').textContent = `Final Price: ${finalFormatted}`;
+    document.getElementById('result-primary-text').textContent = T('result.primary', { final: finalFormatted });
     document.getElementById('stat-final-price').textContent = finalFormatted;
-    document.getElementById('stat-total-saved').textContent = `${savedFormatted} (${res.effectiveDiscountPercent}% total)`;
+    document.getElementById('stat-total-saved').textContent = T('result.totalSaved', { saved: savedFormatted, pct: res.effectiveDiscountPercent });
     document.getElementById('stat-price-before-tax').textContent = fmt(res.priceAfterDiscounts);
     document.getElementById('stat-tax-amount').textContent = fmt(res.taxAmount);
 
-    lastResultText = `Final Price: ${finalFormatted}. Total Saved: ${savedFormatted} (${res.effectiveDiscountPercent}% off). Price before tax: ${fmt(res.priceAfterDiscounts)}. Sales tax: ${fmt(res.taxAmount)}.`;
+    lastResultText = T('result.copy', {
+      final: finalFormatted, saved: savedFormatted, pct: res.effectiveDiscountPercent,
+      beforeTax: fmt(res.priceAfterDiscounts), tax: fmt(res.taxAmount)
+    });
 
-    let stepsHtml = `<strong>Calculation Breakdown:</strong><br>`;
-    stepsHtml += `1. Original Price: <code>${fmt(res.originalPrice)}</code><br>`;
-    stepsHtml += `2. Primary Discount (${res.primaryDiscount}%): Saved <code>${fmt(res.primarySavings)}</code> → Subtotal: <code>${fmt(res.subtotalAfterPrimary)}</code><br>`;
+    let stepsHtml = T('steps.heading');
+    stepsHtml += T('steps.original', { price: fmt(res.originalPrice) });
+    stepsHtml += T('steps.primary', { pct: res.primaryDiscount, saved: fmt(res.primarySavings), subtotal: fmt(res.subtotalAfterPrimary) });
 
     if (res.stackedDiscount > 0) {
-      stepsHtml += `3. Stacked 2nd Discount (${res.stackedDiscount}% off ${fmt(res.subtotalAfterPrimary)}): Saved additional <code>${fmt(res.stackedSavings)}</code> → Subtotal: <code>${fmt(res.priceAfterDiscounts)}</code><br>`;
+      stepsHtml += T('steps.stacked', { pct: res.stackedDiscount, base: fmt(res.subtotalAfterPrimary), saved: fmt(res.stackedSavings), subtotal: fmt(res.priceAfterDiscounts) });
     }
 
     if (res.taxPercent > 0) {
-      stepsHtml += `4. Sales Tax (${res.taxPercent}%): Added <code>${fmt(res.taxAmount)}</code><br>`;
+      stepsHtml += T('steps.tax', { pct: res.taxPercent, tax: fmt(res.taxAmount) });
     }
-    stepsHtml += `5. Total Out-of-Pocket: <strong>${finalFormatted}</strong> (Total Savings: <strong>${savedFormatted}</strong>)`;
+    stepsHtml += T('steps.total', { final: finalFormatted, saved: savedFormatted });
 
     const breakdownBox = document.getElementById('formula-breakdown-box');
     if (breakdownBox) {
@@ -187,7 +191,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (copyBtn) {
     copyBtn.addEventListener('click', () => {
       if (lastResultText && window.ToolsBuilt && window.ToolsBuilt.copy) {
-        window.ToolsBuilt.copy(lastResultText, 'Discount calculation copied to clipboard');
+        window.ToolsBuilt.copy(lastResultText, T('result.copied'));
       }
     });
   }

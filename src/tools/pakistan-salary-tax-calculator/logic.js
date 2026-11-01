@@ -21,6 +21,11 @@
 })(typeof globalThis !== 'undefined' ? globalThis : this, function (engine, datasets) {
   'use strict';
 
+  // Error messages come from the tool's translation data
+  const T = (typeof ToolsBuilt !== 'undefined' && ToolsBuilt.scope)
+    ? ToolsBuilt.scope('pakistan-salary-tax-calculator')
+    : require('../../../scripts/i18n-client.js').scope('pakistan-salary-tax-calculator');
+
   const byYear = {};
   datasets.forEach(d => { byYear[d.taxYear] = d; });
   const TAX_YEAR = (datasets.find(d => d.current) || datasets[0]).taxYear;
@@ -40,7 +45,7 @@
 
   function getTable(taxYear) {
     const table = TAX_TABLES[taxYear || TAX_YEAR];
-    if (!table) throw new Error(`Unknown tax year "${taxYear}". Choose ${Object.keys(TAX_TABLES).join(' or ')}.`);
+    if (!table) throw new Error(T('errors.unknownYear', { year: taxYear, years: Object.keys(TAX_TABLES).join(T('errors.yearSeparator')) }));
     return table;
   }
 
@@ -73,10 +78,10 @@
   function calculateSalaryTax(amount, period, taxYear) {
     const value = Number(amount);
     if (!isFinite(value) || value < 0) {
-      throw new Error('Please enter a salary of 0 or more.');
+      throw new Error(T('errors.salaryMin'));
     }
     if (period !== 'monthly' && period !== 'annual') {
-      throw new Error('Choose whether the salary is monthly or annual.');
+      throw new Error(T('errors.period'));
     }
     const year = taxYear || TAX_YEAR;
     const annualIncome = period === 'monthly' ? value * 12 : value;

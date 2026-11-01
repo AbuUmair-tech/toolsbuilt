@@ -21,6 +21,11 @@
 })(typeof globalThis !== 'undefined' ? globalThis : this, function (isNode) {
   'use strict';
 
+  // Messages come from the tool's translation data
+  const T = (typeof ToolsBuilt !== 'undefined' && ToolsBuilt.scope)
+    ? ToolsBuilt.scope('java-formatter')
+    : require('../../../scripts/i18n-client.js').scope('java-formatter');
+
   const OPTIONS = {
     indentWidth: { values: [2, 4], default: 4 },
     printWidth: { values: [80, 100, 120], default: 80 }
@@ -72,7 +77,7 @@
     const pick = (key) => {
       const value = Number(o[key] === undefined || o[key] === '' ? OPTIONS[key].default : o[key]);
       if (!OPTIONS[key].values.includes(value)) {
-        throw new Error(`Unsupported ${key}: ${o[key]}. Choose one of ${OPTIONS[key].values.join(', ')}.`);
+        throw new Error(T('errors.unsupportedOption', { key, value: o[key], choices: OPTIONS[key].values.join(', ') }));
       }
       return value;
     };
@@ -91,7 +96,7 @@
           found = {
             line: node.startPosition.row + 1,
             column: node.startPosition.column + 1,
-            reason: node.isMissing ? `missing "${node.type}"` : 'unexpected code'
+            reason: node.isMissing ? T('errors.missing', { token: node.type }) : T('errors.unexpected')
           };
           return;
         }
@@ -111,7 +116,7 @@
    */
   async function format(code, options) {
     if (typeof code !== 'string' || !code.trim()) {
-      throw new Error('Paste some Java code to format.');
+      throw new Error(T('errors.empty'));
     }
     const o = normalizeOptions(options);
     const { prettier, plugin } = await loadEngine();
@@ -127,8 +132,8 @@
     } catch (raw) {
       const where = await locateSyntaxError(code);
       const err = new Error(where
-        ? `Line ${where.line}, column ${where.column}: ${where.reason}. The code could not be parsed as Java.`
-        : 'The code could not be parsed as Java. Check for a missing semicolon, brace or parenthesis.');
+        ? T('errors.at', { line: where.line, column: where.column, reason: where.reason })
+        : T('errors.unparsed'));
       err.name = 'JavaSyntaxError';
       if (where) Object.assign(err, where);
       throw err;

@@ -13,6 +13,12 @@
   }
 })(typeof globalThis !== 'undefined' ? globalThis : this, function () {
 
+  // Messages come from the tool's translation data
+  const T = (typeof ToolsBuilt !== 'undefined' && ToolsBuilt.scope)
+    ? ToolsBuilt.scope('random-number-generator')
+    : require('../../../scripts/i18n-client.js').scope('random-number-generator');
+  const locale = (typeof ToolsBuilt !== 'undefined' && ToolsBuilt.pageLocale) ? ToolsBuilt.pageLocale('en-US') : 'en-US';
+
   const MAX_COUNT = 1000;
   const MAX_DECIMALS = 6;
   const TWO_32 = 4294967296;
@@ -23,7 +29,7 @@
     if (typeof require === 'function') {
       try { return require('crypto').webcrypto; } catch (e) {}
     }
-    throw new Error('Secure random numbers are not available in this browser.');
+    throw new Error(T('errors.noCrypto'));
   }
 
   /** Uniform 53-bit integer in [0, 2^53) from two 32-bit crypto words. */
@@ -38,7 +44,7 @@
    * Draws above the largest multiple of n are rejected and redrawn.
    */
   function randomBelow(n) {
-    if (!Number.isInteger(n) || n < 1 || n > TWO_53) throw new RangeError('Range size must be between 1 and 2^53.');
+    if (!Number.isInteger(n) || n < 1 || n > TWO_53) throw new RangeError(T('errors.rangeSize'));
     if (n === 1) return 0;
     if (n <= TWO_32) {
       const limit = TWO_32 - (TWO_32 % n);
@@ -76,21 +82,21 @@
    * @param {function} [o.randomInt]      injectable source for tests: (min, max) -> integer
    */
   function generate(o = {}) {
-    if (isBlank(o.min)) return { error: 'Enter the minimum value.', field: 'min' };
-    if (isBlank(o.max)) return { error: 'Enter the maximum value.', field: 'max' };
+    if (isBlank(o.min)) return { error: T('errors.minEmpty'), field: 'min' };
+    if (isBlank(o.max)) return { error: T('errors.maxEmpty'), field: 'max' };
     const min = Number(o.min);
     const max = Number(o.max);
-    if (!Number.isFinite(min)) return { error: 'The minimum must be a number.', field: 'min' };
-    if (!Number.isFinite(max)) return { error: 'The maximum must be a number.', field: 'max' };
-    if (min > max) return { error: `The minimum (${min}) is larger than the maximum (${max}). Swap them or change one.`, field: 'min' };
+    if (!Number.isFinite(min)) return { error: T('errors.minInvalid'), field: 'min' };
+    if (!Number.isFinite(max)) return { error: T('errors.maxInvalid'), field: 'max' };
+    if (min > max) return { error: T('errors.minAboveMax', { min, max }), field: 'min' };
 
     const count = isBlank(o.count) ? 1 : Number(o.count);
     if (!Number.isInteger(count) || count < 1 || count > MAX_COUNT) {
-      return { error: `How many must be a whole number from 1 to ${MAX_COUNT.toLocaleString('en-US')}.`, field: 'count' };
+      return { error: T('errors.count', { max: MAX_COUNT.toLocaleString(locale) }), field: 'count' };
     }
     const decimals = isBlank(o.decimals) ? 0 : Number(o.decimals);
     if (!Number.isInteger(decimals) || decimals < 0 || decimals > MAX_DECIMALS) {
-      return { error: `Decimal places must be a whole number from 0 to ${MAX_DECIMALS}.`, field: 'decimals' };
+      return { error: T('errors.decimals', { max: MAX_DECIMALS }), field: 'decimals' };
     }
 
     // Work in whole units of 10^-decimals, kept inside [min, max]
@@ -98,15 +104,17 @@
     const lo = Math.ceil(Number((min * scale).toFixed(6)));
     const hi = Math.floor(Number((max * scale).toFixed(6)));
     if (!Number.isSafeInteger(lo) || !Number.isSafeInteger(hi) || !Number.isSafeInteger(hi - lo + 1)) {
-      return { error: 'That range is too large. Use smaller numbers or fewer decimal places.', field: 'max' };
+      return { error: T('errors.rangeTooLarge'), field: 'max' };
     }
     if (lo > hi) {
-      return { error: `There is no ${decimals ? `${decimals}-decimal` : 'whole'} number between ${min} and ${max}.`, field: 'max' };
+      return { error: T(decimals ? 'errors.noValue.decimal' : 'errors.noValue.whole', { decimals, min, max }), field: 'max' };
     }
     const possible = hi - lo + 1;
     if (o.unique && count > possible) {
       return {
-        error: `Only ${possible.toLocaleString('en-US')} different ${decimals ? 'values' : 'whole numbers'} exist from ${min} to ${max}, so ${count.toLocaleString('en-US')} numbers cannot all be different. Lower the count, widen the range or allow duplicates.`,
+        error: T(decimals ? 'errors.tooFewUnique.decimal' : 'errors.tooFewUnique.whole', {
+          possible: possible.toLocaleString(locale), min, max, count: count.toLocaleString(locale)
+        }),
         field: 'count'
       };
     }

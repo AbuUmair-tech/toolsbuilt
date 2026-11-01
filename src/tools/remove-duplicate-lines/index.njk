@@ -1,147 +1,60 @@
 ---
 layout: layouts/tool.njk
 toolSlug: remove-duplicate-lines
-title: "Remove Duplicate Lines Online (Keep Order)"
-description: "Remove duplicate lines from a list while keeping the original order. Ignore case or spaces, drop empty lines, keep first or last, sort, copy or download."
 permalink: /tools/remove-duplicate-lines/
-h1: "Remove Duplicate Lines"
 extraCss: "/tools/remove-duplicate-lines/style.css"
-quickAnswer: "Paste your list, one item per line, and every repeated line is removed while the first occurrence of each stays in its original position. Turn on Ignore case to treat 'Apple' and 'apple' as the same, or Trim spaces to ignore spaces at the start and end of lines. The tool shows how many duplicates were removed, and you can copy or download the result."
-formula:
-  title: "How Duplicates Are Found"
-  expression: "Keep a line if its comparison key has not been seen before   ·   key = line (trimmed if Trim spaces) (lower-cased if Ignore case)"
-  explanation: "The lines are read from top to bottom. Each line gets a comparison key: the line itself, with surrounding spaces removed if Trim spaces is on and lower-cased if Ignore case is on. The first line with a given key is kept exactly as you typed it; later lines with the same key are dropped. With Keep last, the list is read from the bottom instead, so the last occurrence survives, still in its original position. Sorting, if chosen, happens after duplicates are removed and is number-aware, so item2 comes before item10."
-  variables:
-    - name: "Ignore case"
-      description: "'Apple', 'APPLE' and 'apple' count as one value."
-    - name: "Trim spaces"
-      description: "Spaces and tabs at the start or end of a line are ignored when comparing. Turn on Trim output to remove them from the result as well."
-    - name: "Keep first / last"
-      description: "Which copy of a repeated line stays in the list."
-workedExamples:
-  - title: "Case-sensitive"
-    inputs:
-      - "Lines: a, b, a, B"
-    steps:
-      - "The second 'a' repeats the first and is removed"
-      - "'B' is different from 'b' when case matters"
-    result: "a, b, B (1 duplicate removed)"
-  - title: "Ignore case"
-    inputs:
-      - "Lines: a, b, a, B"
-      - "Ignore case: on"
-    steps:
-      - "'a' repeats, and 'B' matches 'b'"
-    result: "a, b (2 duplicates removed)"
-  - title: "Trim spaces"
-    inputs:
-      - "Lines: ' a' (with a leading space), 'a'"
-      - "Trim spaces: on"
-    steps:
-      - "Both lines compare as 'a', so the second is removed"
-      - "The kept line is written as typed (' a'); with Trim output on it becomes 'a'"
-    result: "One line: ' a', or 'a' with Trim output"
-commonMistakes:
-  - title: "Missing duplicates that differ only by spaces"
-    description: "'apple' and 'apple ' with a trailing space look the same but are different strings. Turn on Trim spaces when your list was copied from a spreadsheet or document."
-  - title: "Merging values that should stay separate"
-    description: "Ignore case is right for email addresses and most words, but not for case-sensitive data such as passwords, IDs or file names on Linux."
-  - title: "Expecting the list to be sorted"
-    description: "By default the original order is kept. Choose A-Z or Z-A if you want a sorted list."
-  - title: "Losing the last, most recent entry"
-    description: "If later lines are newer versions of earlier ones (for example a log or an export), choose Keep last so the most recent copy survives."
-  - title: "Treating blank lines as data"
-    description: "Several blank lines count as duplicates of each other, so one blank line can remain. Turn on Remove empty lines to drop them all."
-faqs:
-  - q: "How do I remove duplicate lines from a list?"
-    a: "Paste the list into the box. Repeated lines are removed straight away, the first copy of each line stays in its original place, and the count of removed duplicates is shown."
-  - q: "Does this keep the original order?"
-    a: "Yes. Unless you choose a sort order, the kept lines stay in the order you pasted them."
-  - q: "Can I remove duplicates ignoring case?"
-    a: "Yes. Turn on Ignore case and lines that differ only in capital letters, such as 'Paris' and 'paris', count as the same."
-  - q: "How do I keep the last occurrence instead of the first?"
-    a: "Choose Keep last. The last copy of each line is kept, in the position where it appears."
-  - q: "Can I sort the lines and remove duplicates at the same time?"
-    a: "Yes. Choose A-Z or Z-A. Duplicates are removed first, then the remaining lines are sorted, with numbers in natural order."
-  - q: "How do I remove duplicates in Excel instead?"
-    a: "In Excel, select the column and use Data > Remove Duplicates, or =UNIQUE(range) in Excel 365. This tool is quicker for lists you have copied as plain text."
-  - q: "Is my list uploaded anywhere?"
-    a: "No. The lines are processed in your browser and are not sent, stored or added to the page address."
-sources:
-  - name: "Unicode Technical Standard #10: Unicode Collation Algorithm"
-    url: "https://www.unicode.org/reports/tr10/"
-  - name: "ECMAScript Internationalization API: Intl.Collator"
-    url: "https://tc39.es/ecma402/#collator-objects"
-  - name: "Microsoft Support: Find and remove duplicates (Excel)"
-    url: "https://support.microsoft.com/en-us/office/find-and-remove-duplicates-00e35bea-b46a-4d5d-b28e-66a552dc138d"
-  - name: "Microsoft Support: UNIQUE function"
-    url: "https://support.microsoft.com/en-us/office/unique-function-c5ab87fd-30a3-4ce9-9d1a-40204fb85e1e"
-  - name: "GNU Coreutils: uniq invocation"
-    url: "https://www.gnu.org/software/coreutils/manual/html_node/uniq-invocation.html"
 lastReviewed: "2026-10-31"
-howto:
-  name: "How to Remove Duplicate Lines"
-  description: "Remove repeated lines from a list and keep the original order."
-  steps:
-    - name: "Paste your list"
-      text: "Paste the text with one item per line."
-    - name: "Choose how to compare"
-      text: "Turn on Ignore case or Trim spaces if those differences should not count."
-    - name: "Choose what to keep"
-      text: "Keep the first or last copy, remove empty lines, and sort if you want."
-    - name: "Copy or download"
-      text: "Copy the cleaned list or download it as a text file."
 ---
 
     <!-- Tool Form Container -->
-    <section class="tool-container" aria-label="Duplicate Line Remover">
+    <section class="tool-container" aria-label="{{ 'ariaLabel.tool-section1' | pt }}">
       <form id="dedupe-form" novalidate>
         <div class="form-group">
-          <label for="dedupe-input">Your list (one item per line)</label>
-          <textarea id="dedupe-input" class="form-control dedupe-textarea" rows="10" spellcheck="false" autocomplete="off" placeholder="Paste lines here"></textarea>
+          <label for="dedupe-input">{{ 'label.dedupe-input' | pt }}</label>
+          <textarea id="dedupe-input" class="form-control dedupe-textarea" rows="10" spellcheck="false" autocomplete="off" placeholder="{{ 'placeholder.dedupe-input' | pt }}"></textarea>
         </div>
 
         <div class="dedupe-options">
-          <label class="checkbox-label"><input type="checkbox" id="opt-case"><span>Ignore case</span></label>
-          <label class="checkbox-label"><input type="checkbox" id="opt-trim"><span>Trim spaces when comparing</span></label>
-          <label class="checkbox-label"><input type="checkbox" id="opt-trim-output"><span>Trim output</span></label>
-          <label class="checkbox-label"><input type="checkbox" id="opt-empty"><span>Remove empty lines</span></label>
+          <label class="checkbox-label">{{ 'content.tool.label1' | pt }}</label>
+          <label class="checkbox-label">{{ 'content.tool.label2' | pt }}</label>
+          <label class="checkbox-label">{{ 'content.tool.label3' | pt }}</label>
+          <label class="checkbox-label">{{ 'content.tool.label4' | pt }}</label>
         </div>
         <div class="form-grid two-col dedupe-selects">
           <div class="form-group">
-            <label for="opt-keep">Keep</label>
+            <label for="opt-keep">{{ 'label.opt-keep' | pt }}</label>
             <select id="opt-keep" class="form-control">
-              <option value="first" selected>First occurrence</option>
-              <option value="last">Last occurrence</option>
+              <option value="first" selected>{{ 'option.opt-keep.first' | pt }}</option>
+              <option value="last">{{ 'option.opt-keep.last' | pt }}</option>
             </select>
           </div>
           <div class="form-group">
-            <label for="opt-sort">Sort</label>
+            <label for="opt-sort">{{ 'label.opt-sort' | pt }}</label>
             <select id="opt-sort" class="form-control">
-              <option value="none" selected>Keep original order</option>
-              <option value="asc">A to Z</option>
-              <option value="desc">Z to A</option>
+              <option value="none" selected>{{ 'option.opt-sort.none' | pt }}</option>
+              <option value="asc">{{ 'option.opt-sort.asc' | pt }}</option>
+              <option value="desc">{{ 'option.opt-sort.desc' | pt }}</option>
             </select>
           </div>
         </div>
 
         <div class="button-group">
-          <button type="button" class="btn btn-secondary" id="example-btn">Try an example</button>
-          <button type="button" class="btn btn-ghost" id="clear-btn">Clear</button>
+          <button type="button" class="btn btn-secondary" id="example-btn">{{ 'text.example-btn' | pt }}</button>
+          <button type="button" class="btn btn-ghost" id="clear-btn">{{ 'text.clear-btn' | pt }}</button>
         </div>
       </form>
 
       <div id="result-box" class="result-box" aria-live="polite">
         <div class="result-header">
-          <span id="result-header-text">Duplicates removed</span>
+          {{ 'content.tool.div1' | pt }}
         </div>
         <div class="result-primary" id="result-primary-text">--</div>
         <p class="form-hint" id="dedupe-note"></p>
-        <label for="dedupe-output" class="dedupe-output-label">Result</label>
+        <label for="dedupe-output" class="dedupe-output-label">{{ 'label.dedupe-output' | pt }}</label>
         <textarea id="dedupe-output" class="form-control dedupe-textarea" rows="10" readonly spellcheck="false"></textarea>
         <div class="button-group mt-4">
-          <button type="button" class="btn btn-sm btn-secondary" id="copy-output-btn">Copy result</button>
-          <button type="button" class="btn btn-sm btn-secondary" id="download-btn">Download .txt</button>
+          <button type="button" class="btn btn-sm btn-secondary" id="copy-output-btn">{{ 'text.copy-output-btn' | pt }}</button>
+          <button type="button" class="btn btn-sm btn-secondary" id="download-btn">{{ 'text.download-btn' | pt }}</button>
         </div>
       </div>
     </section>
@@ -149,27 +62,27 @@ howto:
     <!-- tool-end -->
 
     <section class="content-section">
-      <h2>Which Options to Use</h2>
+      <h2>{{ 'content.which-options-to-use.heading' | pt }}</h2>
       <div class="table-wrapper">
         <table class="table">
-          <caption class="visually-hidden">Recommended options for common lists</caption>
-          <thead><tr><th scope="col">Your list</th><th scope="col">Suggested options</th></tr></thead>
+          <caption class="visually-hidden">{{ 'content.which-options-to-use.caption1' | pt }}</caption>
+          <thead><tr><th scope="col">{{ 'content.which-options-to-use.th1' | pt }}</th><th scope="col">{{ 'content.which-options-to-use.th2' | pt }}</th></tr></thead>
           <tbody>
-            <tr><td>Email addresses</td><td>Ignore case, Trim spaces, Trim output, Remove empty lines</td></tr>
-            <tr><td>Keywords or tags</td><td>Ignore case, Trim spaces, sort A to Z</td></tr>
-            <tr><td>Product codes or IDs</td><td>Trim spaces only (case can matter)</td></tr>
-            <tr><td>Log lines or exports with newer entries lower down</td><td>Keep last occurrence</td></tr>
-            <tr><td>Code or configuration</td><td>No options: every character counts</td></tr>
+            <tr><td>{{ 'content.which-options-to-use.td1' | pt }}</td><td>{{ 'content.which-options-to-use.td2' | pt }}</td></tr>
+            <tr><td>{{ 'content.which-options-to-use.td3' | pt }}</td><td>{{ 'content.which-options-to-use.td4' | pt }}</td></tr>
+            <tr><td>{{ 'content.which-options-to-use.td5' | pt }}</td><td>{{ 'content.which-options-to-use.td6' | pt }}</td></tr>
+            <tr><td>{{ 'content.which-options-to-use.td7' | pt }}</td><td>{{ 'content.which-options-to-use.td8' | pt }}</td></tr>
+            <tr><td>{{ 'content.which-options-to-use.td9' | pt }}</td><td>{{ 'content.which-options-to-use.td10' | pt }}</td></tr>
           </tbody>
         </table>
       </div>
-      <p>The result keeps each line exactly as you wrote it unless you turn on Trim output. That way an indented line or a line with meaningful trailing spaces is not changed just because spaces were ignored while comparing.</p>
+      <p>{{ 'content.which-options-to-use.p1' | pt }}</p>
 
-      <h2>Other Ways to Remove Duplicates</h2>
+      <h2>{{ 'content.other-ways-to-remove-duplicates.heading' | pt }}</h2>
       <ul class="content-list">
-        <li><strong>Command line:</strong> <code>sort -u file.txt</code> removes duplicates but sorts the file; <code>awk '!seen[$0]++' file.txt</code> keeps the original order.</li>
-        <li><strong>Spreadsheets:</strong> Excel's Remove Duplicates command or the UNIQUE function, and UNIQUE in Google Sheets.</li>
-        <li><strong>Comparing two lists:</strong> to see what changed between two versions rather than what repeats, use the <a href="/tools/text-diff-checker/">text diff checker</a>.</li>
+        <li>{{ 'content.other-ways-to-remove-duplicates.li1' | pt }}</li>
+        <li>{{ 'content.other-ways-to-remove-duplicates.li2' | pt }}</li>
+        <li>{{ 'content.other-ways-to-remove-duplicates.li3' | pt }}</li>
       </ul>
-      <p>Your text stays on your device: it is processed in the browser and is not saved or sent anywhere.</p>
+      <p>{{ 'content.other-ways-to-remove-duplicates.p1' | pt }}</p>
     </section>

@@ -19,7 +19,7 @@
   <span class="category-card-body">
     <span class="category-card-title">{{ cat.name }}</span>
     <span class="category-card-desc">{{ cat.tagline }}</span>
-    <span class="category-card-count">{{ count }} {{ "tool" if count == 1 else "tools" }}</span>
+    <span class="category-card-count">{{ 'common.tools' | tp(count) }}</span>
   </span>
   {{ arrow() }}
 </a>
@@ -33,6 +33,6 @@
   </span>
   <span class="tool-title">{{ tool.name }}</span>
   <span class="tool-desc">{{ tool.shortDescription or tool.description }}</span>
-  <span class="tool-card-action">Use Tool {{ arrow("") }}</span>
+  <span class="tool-card-action">{{ 'cards.useTool' | t }} {{ arrow("") }}</span>
 </a>
 {% endmacro %}

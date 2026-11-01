@@ -6,6 +6,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   const logic = window.CompoundInterestLogic;
   if (!logic) return;
+  const T = ToolsBuilt.scope('compound-interest-calculator');
 
   const form = document.getElementById('calculator-form');
   const principalInput = document.getElementById('principal');
@@ -102,35 +103,35 @@ document.addEventListener('DOMContentLoaded', () => {
     const rawPmt = contributionInput.value.trim();
 
     if (rawP === '' || isNaN(parseFloat(rawP))) {
-      showError('Please enter an initial principal amount (0 or greater).', principalInput);
+      showError(T('errors.principalRequired'), principalInput);
       return;
     }
     if (parseFloat(rawP) < 0) {
-      showError('Initial principal cannot be negative.', principalInput);
+      showError(T('errors.principalNegative'), principalInput);
       return;
     }
     if (rawR === '' || isNaN(parseFloat(rawR))) {
-      showError('Please enter an annual interest rate.', rateInput);
+      showError(T('errors.rateRequired'), rateInput);
       return;
     }
     if (parseFloat(rawR) < 0) {
-      showError('Interest rate cannot be negative.', rateInput);
+      showError(T('errors.rateNegative'), rateInput);
       return;
     }
     if (!rawY || isNaN(parseFloat(rawY))) {
-      showError('Please enter investment duration in years.', yearsInput);
+      showError(T('errors.yearsRequired'), yearsInput);
       return;
     }
     if (parseFloat(rawY) <= 0) {
-      showError('Duration must be greater than zero.', yearsInput);
+      showError(T('errors.yearsMin'), yearsInput);
       return;
     }
     if (rawPmt && (isNaN(parseFloat(rawPmt)) || parseFloat(rawPmt) < 0)) {
-      showError('Contribution amount must be 0 or greater.', contributionInput);
+      showError(T('errors.contributionMin'), contributionInput);
       return;
     }
     if (parseFloat(rawP) === 0 && (!rawPmt || parseFloat(rawPmt) === 0)) {
-      showError('Please enter an initial principal or a regular contribution amount.', principalInput);
+      showError(T('errors.principalOrContributionRequired'), principalInput);
       return;
     }
 
@@ -144,11 +145,11 @@ document.addEventListener('DOMContentLoaded', () => {
       const formattedPrin = money(res.totalPrincipal);
       const formattedInt = money(res.totalInterest);
 
-      resultPrimary.textContent = `Future Value: ${formattedBal}`;
+      resultPrimary.textContent = T('result.primary', { value: formattedBal });
       statFinalBalance.textContent = formattedBal;
       statTotalPrincipal.textContent = formattedPrin;
       statTotalInterest.textContent = formattedInt;
-      statApy.textContent = `${res.apyPercent}% APY`;
+      statApy.textContent = T('result.apy', { apy: res.apyPercent });
 
       // Render SVG Growth Chart
       if (chartContainer) {
@@ -162,15 +163,15 @@ document.addEventListener('DOMContentLoaded', () => {
       if (actionsBar) actionsBar.removeAttribute('hidden');
 
       lastResultSummary = [
-        `Compound Interest Growth Summary:`,
-        `Initial Principal: ${money(res.initialPrincipal)}`,
-        `Interest Rate: ${res.annualRate}% (Compounded ${res.frequencyLabel})`,
-        `Effective APY: ${res.apyPercent}%`,
-        `Time Horizon: ${res.tenureYears} Years`,
-        res.contributionAmount > 0 ? `Monthly Contribution: ${money(res.contributionAmount)}` : null,
-        `Total Principal Invested: ${formattedPrin}`,
-        `Total Compound Interest Earned: ${formattedInt}`,
-        `Ending Future Value: ${formattedBal}`
+        T('summary.title'),
+        T('summary.principal', { value: money(res.initialPrincipal) }),
+        T('summary.rate', { rate: res.annualRate, frequency: res.frequencyLabel }),
+        T('summary.apy', { apy: res.apyPercent }),
+        T('summary.horizon', { years: res.tenureYears }),
+        res.contributionAmount > 0 ? T('summary.contribution', { value: money(res.contributionAmount) }) : null,
+        T('summary.totalPrincipal', { value: formattedPrin }),
+        T('summary.totalInterest', { value: formattedInt }),
+        T('summary.futureValue', { value: formattedBal })
       ].filter(Boolean).join('\n');
 
       saveState(rawP, rawR, rawY, freq, rawPmt);
@@ -187,7 +188,7 @@ document.addEventListener('DOMContentLoaded', () => {
     yearlyData.forEach(row => {
       const tr = document.createElement('tr');
       tr.innerHTML = `
-        <td>Year ${row.year}</td>
+        <td>${T('table.year', { year: row.year })}</td>
         <td>${money(row.annualDeposit)}</td>
         <td>${money(row.totalPrincipal)}</td>
         <td>${money(row.interestEarned)}</td>
@@ -235,7 +236,7 @@ document.addEventListener('DOMContentLoaded', () => {
     copyBtn.addEventListener('click', () => {
       if (!lastResultSummary) return;
       navigator.clipboard.writeText(lastResultSummary).then(() => {
-        if (window.showTbToast) window.showTbToast('Compound interest calculation copied to clipboard!');
+        if (window.showTbToast) window.showTbToast(T('toast.copied'));
       }).catch(() => {});
     });
   }

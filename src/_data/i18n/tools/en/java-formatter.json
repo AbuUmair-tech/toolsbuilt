@@ -1,0 +1,182 @@
+{
+  "listing": {
+    "name": "Java Formatter",
+    "shortName": "Java Formatter",
+    "description": "Format Java code online with Prettier and prettier-plugin-java. Choose 2 or 4 space indents and line width; runs privately in your browser.",
+    "shortDescription": "Format Java code with Prettier and prettier-plugin-java, privately in your browser.",
+    "keywords": [
+      "java formatter",
+      "format java code online",
+      "java code beautifier",
+      "prettier java",
+      "java pretty print",
+      "google java style formatter",
+      "java indentation fixer"
+    ]
+  },
+  "title": "Java Formatter: Format Java Code Online (Prettier)",
+  "description": "Format Java code online with Prettier and prettier-plugin-java. Choose 2 or 4 space indents and line width. Runs in your browser; code is never uploaded.",
+  "h1": "Java Formatter",
+  "quickAnswer": "Paste a Java class and press Format. Prettier with prettier-plugin-java puts opening braces on the same line, indents each block by 4 spaces (or 2 for Google style), adds spaces around operators and after commas, and wraps long expressions at the line width you choose. If the code does not parse, for example because of a missing semicolon or brace, it reports the line and column instead.",
+  "workedExamples": [
+    {
+      "title": "A class written on one line",
+      "before": "public class  OrderTotal{private final List<Integer> prices;public OrderTotal(List<Integer> prices){this.prices=prices;}public int total(){int sum=0;for(int p:prices){sum+=p;}return sum;}}",
+      "after": "public class OrderTotal {\n\n    private final List<Integer> prices;\n\n    public OrderTotal(List<Integer> prices) {\n        this.prices = prices;\n    }\n\n    public int total() {\n        int sum = 0;\n        for (int p : prices) {\n            sum += p;\n        }\n        return sum;\n    }\n}",
+      "result": "Each member moves to its own line, braces open on the same line as the declaration, blocks are indented by 4 spaces, and a blank line separates the members."
+    },
+    {
+      "title": "A for loop with an if inside",
+      "before": "class Report{void print(List<String> items){for(int i=0;i<items.size();i++){if(items.get(i).isEmpty()){continue;}System.out.println(i+\": \"+items.get(i));}}}",
+      "after": "class Report {\n\n    void print(List<String> items) {\n        for (int i = 0; i < items.size(); i++) {\n            if (items.get(i).isEmpty()) {\n                continue;\n            }\n            System.out.println(i + \": \" + items.get(i));\n        }\n    }\n}",
+      "result": "The loop header gets spaces after each semicolon and around operators, and the body is expanded onto separate, indented lines."
+    },
+    {
+      "title": "A stream with lambdas",
+      "before": "class Adults{List<String> names(List<Person> people){return people.stream().filter(p->p.getAge()>=18).map(p->p.getName().toUpperCase()).sorted().collect(Collectors.toList());}}",
+      "after": "class Adults {\n\n    List<String> names(List<Person> people) {\n        return people\n            .stream()\n            .filter(p -> p.getAge() >= 18)\n            .map(p -> p.getName().toUpperCase())\n            .sorted()\n            .collect(Collectors.toList());\n    }\n}",
+      "result": "The chain is too long for one line, so each call moves to its own line, and each lambda gets spaces around the arrow and the comparison."
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Missing semicolon or brace",
+      "description": "Java cannot be parsed without its semicolons and matching braces, so the formatter stops and reports where the parser expected one. A missing closing brace is often reported at the end of the file, because that is where the parser runs out of code."
+    },
+    {
+      "title": "Pasting a fragment instead of a class",
+      "description": "Prettier formats complete Java source. If you paste only a few statements, wrap them in a class and method (for example class Example { void run() { ... } }) so they can be parsed."
+    },
+    {
+      "title": "Mixing 2-space and 4-space projects",
+      "description": "Oracle's conventions use 4 spaces and Google Java Style uses 2. Choose the indent your project already uses, or every file you format will show whitespace-only changes in review."
+    },
+    {
+      "title": "Expecting imports to be sorted or removed",
+      "description": "The formatter keeps imports in the order you wrote them and does not remove unused ones. Use your IDE's organise-imports action or a linter for that."
+    },
+    {
+      "title": "Expecting names to be fixed",
+      "description": "Formatting never renames classes, methods or variables. Java naming conventions, such as UpperCamelCase classes and lowerCamelCase methods, are up to you and your linter."
+    }
+  ],
+  "sources": [
+    {
+      "name": "Code Conventions for the Java Programming Language (Oracle, archived)",
+      "url": "https://www.oracle.com/java/technologies/javase/codeconventions-contents.html"
+    },
+    {
+      "name": "Google Java Style Guide",
+      "url": "https://google.github.io/styleguide/javaguide.html"
+    }
+  ],
+  "howto": {
+    "name": "How to Format Java Code Online",
+    "description": "Format Java source with Prettier and prettier-plugin-java, in your browser.",
+    "steps": [
+      {
+        "name": "Paste your code",
+        "text": "Paste a Java class or file into the input box, or load the example."
+      },
+      {
+        "name": "Choose options",
+        "text": "Pick 4-space (Oracle) or 2-space (Google) indentation and a print width of 80, 100 or 120."
+      },
+      {
+        "name": "Format",
+        "text": "Press Format or Ctrl+Enter. If the code cannot be parsed, fix it at the reported line and column."
+      },
+      {
+        "name": "Copy the result",
+        "text": "Copy the formatted code from the output box."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "How do I format Java code online?",
+      "a": "Paste your Java class into the box, choose an indent and line width, and press Format or Ctrl+Enter. The formatted code appears below, ready to copy. It runs in your browser, so your code is not uploaded."
+    },
+    {
+      "q": "Should Java use 2 or 4 spaces for indentation?",
+      "a": "Both are common. Oracle's original Java code conventions use 4 spaces, and the Google Java Style Guide uses 2 spaces with a 100-column limit. Use whatever your project already uses."
+    },
+    {
+      "q": "What is the Google Java Style Guide line length?",
+      "a": "Google Java Style uses a column limit of 100 characters. Choose 2 spaces and a print width of 100 here to follow it."
+    },
+    {
+      "q": "Where do opening braces go in Java?",
+      "a": "On the same line as the class, method or statement that opens the block, with the closing brace on its own line. Both the Oracle conventions and Google Java Style use this layout, and the formatter applies it."
+    },
+    {
+      "q": "Why does the formatter say the code could not be parsed?",
+      "a": "The code is not valid Java, often because of a missing semicolon, an unbalanced brace or parenthesis, or a fragment that is not inside a class. The error shows the line and column where parsing failed."
+    },
+    {
+      "q": "Does the formatter sort my imports?",
+      "a": "No. Imports keep the order you wrote them. Most IDEs can organise imports for you, and Google Java Style puts static imports in one group and non-static imports in another, each in ASCII order."
+    },
+    {
+      "q": "Is my code uploaded to a server?",
+      "a": "No. Prettier, its Java plugin and the Java grammar are served from this site and run in your browser after they download the first time you format."
+    }
+  ],
+  "body": {
+    "label": {
+      "opt-indent": "Indent",
+      "opt-print-width": "Print width"
+    },
+    "option": {
+      "opt-indent": {
+        "2": "2 spaces (Google)",
+        "4": "4 spaces (Oracle)"
+      },
+      "opt-print-width": {
+        "100": "100 (Google)"
+      }
+    },
+    "text": {
+      "conventions-heading": "Java formatting conventions",
+      "naming-heading": "Naming conventions and imports",
+      "java-errors-heading": "When the code will not format",
+      "java-privacy-heading": "Private by design"
+    },
+    "content": {
+      "java-formatting-conventions": {
+        "p1": "Java has two widely used style references. Oracle's <em>Code Conventions for the Java Programming Language</em> date from 1999 and are now archived, but most Java code still follows their layout. The <em>Google Java Style Guide</em> is a newer, stricter standard used by many teams and open-source projects. Both agree on the basics this formatter applies:",
+        "li1": "<strong>Braces on the same line.</strong> The opening brace goes at the end of the line that starts the class, method, <code>if</code>, <code>for</code> or <code>try</code>; the closing brace sits on its own line, aligned with the start of that statement.",
+        "li2": "<strong>Consistent indentation.</strong> Oracle's conventions use 4 spaces per level and keep lines under 80 characters. Google Java Style uses 2 spaces per block and a 100-column limit.",
+        "li3": "<strong>One statement per line,</strong> with spaces around binary operators, after commas and after keywords such as <code>if</code> and <code>for</code>.",
+        "li4": "<strong>Wrapped long expressions.</strong> Method chains such as streams are broken one call per line, so each step is easy to read.",
+        "p2": "Prettier's Java style is close to both, but it is its own consistent style: it chooses line breaks automatically and does not try to reproduce every detail of either guide. Use 4 spaces and 80 columns for an Oracle-like layout, or 2 spaces and 100 columns for a Google-like one."
+      },
+      "naming-conventions-and-imports": {
+        "p1": "A formatter changes layout only, so naming is still up to you. The usual Java conventions are <code>UpperCamelCase</code> for classes and interfaces (<code>OrderTotal</code>), <code>lowerCamelCase</code> for methods and variables (<code>calculateTotal</code>, <code>itemCount</code>), <code>UPPER_SNAKE_CASE</code> for constants (<code>MAX_RETRIES</code>), and all-lowercase package names (<code>com.example.billing</code>).",
+        "p2": "Imports are left in the order you wrote them, and unused imports are not removed. Google Java Style puts all static imports in one block and all non-static imports in another, each in ASCII order, with no wildcard imports. Most IDEs can organise imports this way for you."
+      },
+      "when-the-code-will-not-format": {
+        "p1": "Prettier has to parse your code before it can print it again. If the parser cannot make sense of it, the formatter does not guess: it reports the line and column of the first missing or unexpected token, and the cursor jumps there in the input. The usual causes are:",
+        "li1": "<strong>A missing semicolon</strong> at the end of a statement, reported as a missing <code>;</code> right after it.",
+        "li2": "<strong>An unbalanced brace or parenthesis.</strong> A missing closing brace is often reported at the end of the code, where the parser runs out of input.",
+        "li3": "<strong>A fragment outside a class.</strong> Statements need to be inside a method, and methods inside a class."
+      },
+      "private-by-design": {
+        "p1": "This page runs Prettier with prettier-plugin-java, which parses Java with a tree-sitter grammar compiled to WebAssembly. All of it is served from this site and downloaded only when you first format code on this page; after that it runs in your browser, so your source code never leaves your device. For Python, use the <a href=\"/tools/python-formatter/\">Python Formatter</a>."
+      }
+    },
+    "value": {
+      "engine": "Prettier {{prettier}} with prettier-plugin-java {{plugin}}"
+    }
+  },
+  "client": {
+    "errors": {
+      "empty": "Paste some Java code to format.",
+      "missing": "missing \"{{token}}\"",
+      "unexpected": "unexpected code",
+      "at": "Line {{line}}, column {{column}}: {{reason}}. The code could not be parsed as Java.",
+      "unparsed": "The code could not be parsed as Java. Check for a missing semicolon, brace or parenthesis.",
+      "unsupportedOption": "Unsupported {{key}}: {{value}}. Choose one of {{choices}}."
+    }
+  }
+}

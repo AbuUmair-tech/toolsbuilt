@@ -13,11 +13,17 @@
   }
 })(typeof globalThis !== 'undefined' ? globalThis : this, function () {
 
-  const WEEKDAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-  const MONTH_NAMES = [
-    'January', 'February', 'March', 'April', 'May', 'June',
-    'July', 'August', 'September', 'October', 'November', 'December'
-  ];
+  // Messages and the long date pattern come from the tool's translation data
+  const T = (typeof ToolsBuilt !== 'undefined' && ToolsBuilt.scope)
+    ? ToolsBuilt.scope('date-difference-calculator')
+    : require('../../../scripts/i18n-client.js').scope('date-difference-calculator');
+  // Month and weekday names come from Intl in the page language (en-US on English pages and in Node)
+  const LOCALE = (typeof ToolsBuilt !== 'undefined' && ToolsBuilt.pageLocale) ? ToolsBuilt.pageLocale('en-US') : 'en-US';
+  const MONTH_NAMES = Array.from({ length: 12 }, (_, i) =>
+    new Intl.DateTimeFormat(LOCALE, { month: 'long', timeZone: 'UTC' }).format(new Date(Date.UTC(2026, i, 1))));
+  // Sunday ... Saturday (4 to 10 January 2026)
+  const WEEKDAYS = Array.from({ length: 7 }, (_, i) =>
+    new Intl.DateTimeFormat(LOCALE, { weekday: 'long', timeZone: 'UTC' }).format(new Date(Date.UTC(2026, 0, 4 + i))));
 
   function parseDateParts(dateStr) {
     if (!dateStr || typeof dateStr !== 'string') return null;
@@ -146,12 +152,12 @@
 
     const sParts = parseDateParts(startDateStr);
     if (!sParts) {
-      return { error: 'Please select a valid start date (YYYY-MM-DD).' };
+      return { error: T('errors.invalidStart') };
     }
 
     const eParts = parseDateParts(endDateStr);
     if (!eParts) {
-      return { error: 'Please select a valid end date (YYYY-MM-DD).' };
+      return { error: T('errors.invalidEnd') };
     }
 
     let d1 = new Date(Date.UTC(sParts.year, sParts.month - 1, sParts.day));
@@ -180,8 +186,8 @@
     const remainingDaysAfterWeeks = totalDays % 7;
     const totalHours = totalDays * 24;
 
-    const formattedStart = `${MONTH_NAMES[d1.getUTCMonth()]} ${d1.getUTCDate()}, ${d1.getUTCFullYear()}`;
-    const formattedEnd = `${MONTH_NAMES[d2.getUTCMonth()]} ${d2.getUTCDate()}, ${d2.getUTCFullYear()}`;
+    const formattedStart = T('dateLong', { month: MONTH_NAMES[d1.getUTCMonth()], day: d1.getUTCDate(), year: d1.getUTCFullYear() });
+    const formattedEnd = T('dateLong', { month: MONTH_NAMES[d2.getUTCMonth()], day: d2.getUTCDate(), year: d2.getUTCFullYear() });
     const startWeekday = WEEKDAYS[d1.getUTCDay()];
     const endWeekday = WEEKDAYS[d2.getUTCDay()];
 

@@ -12,6 +12,11 @@
   }
 })(typeof globalThis !== 'undefined' ? globalThis : this, function () {
 
+  // Messages come from the tool's translation data
+  const T = (typeof ToolsBuilt !== 'undefined' && ToolsBuilt.scope)
+    ? ToolsBuilt.scope('jwt-decoder')
+    : require('../../../scripts/i18n-client.js').scope('jwt-decoder');
+
   const HMAC = { HS256: 'SHA-256', HS384: 'SHA-384', HS512: 'SHA-512' };
   const TIME_CLAIMS = ['iat', 'nbf', 'exp'];
   const MAX_TOKEN = 100000;
@@ -39,21 +44,22 @@
     return b64.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
   }
 
+  /** part: 'header' or 'payload' (picks the error messages) */
   function decodeJsonPart(part, label) {
     const bytes = base64UrlToBytes(part);
-    if (!bytes) return { error: `The ${label} is not valid Base64URL.` };
+    if (!bytes) return { error: T(`errors.${label}.notBase64Url`) };
     let text;
     try {
       text = new TextDecoder('utf-8', { fatal: true }).decode(bytes);
     } catch (e) {
-      return { error: `The ${label} is not valid UTF-8 text.` };
+      return { error: T(`errors.${label}.notUtf8`) };
     }
     try {
       const json = JSON.parse(text);
-      if (json === null || typeof json !== 'object' || Array.isArray(json)) return { error: `The ${label} must be a JSON object.` };
+      if (json === null || typeof json !== 'object' || Array.isArray(json)) return { error: T(`errors.${label}.notObject`) };
       return { json, text };
     } catch (e) {
-      return { error: `The ${label} is not valid JSON.` };
+      return { error: T(`errors.${label}.notJson`) };
     }
   }
 
@@ -72,20 +78,20 @@
    */
   function decode(token, options = {}) {
     const raw = String(token === undefined || token === null ? '' : token).trim().replace(/^Bearer\s+/i, '');
-    if (!raw) return { error: 'Paste a JSON Web Token (three parts separated by dots).' };
-    if (raw.length > MAX_TOKEN) return { error: 'That token is too long to decode here.' };
-    if (/\s/.test(raw)) return { error: 'A JWT cannot contain spaces or line breaks. Copy the token again without them.' };
+    if (!raw) return { error: T('errors.empty') };
+    if (raw.length > MAX_TOKEN) return { error: T('errors.tooLong') };
+    if (/\s/.test(raw)) return { error: T('errors.whitespace') };
     const parts = raw.split('.');
-    if (parts.length === 5) return { error: 'This looks like an encrypted JWT (JWE, five parts). Its payload cannot be read without the decryption key.' };
+    if (parts.length === 5) return { error: T('errors.jwe') };
     if (parts.length !== 3) {
-      return { error: `A JWT has three parts separated by dots (header.payload.signature), but this one has ${parts.length}.` };
+      return { error: T('errors.partCount', { count: parts.length }) };
     }
 
     const header = decodeJsonPart(parts[0], 'header');
     if (header.error) return header;
     const payload = decodeJsonPart(parts[1], 'payload');
     if (payload.error) return payload;
-    if (parts[2] && !base64UrlToBytes(parts[2])) return { error: 'The signature is not valid Base64URL.' };
+    if (parts[2] && !base64UrlToBytes(parts[2])) return { error: T('errors.signatureNotBase64Url') };
 
     const now = options.now === undefined ? Date.now() : options.now;
     const times = {};
@@ -116,7 +122,7 @@
 
   function getSubtle() {
     if (typeof globalThis !== 'undefined' && globalThis.crypto && globalThis.crypto.subtle) return globalThis.crypto.subtle;
-    throw new Error('Signature checks need the Web Crypto API, which this browser does not provide.');
+    throw new Error(T('errors.noWebCrypto'));
   }
 
   /**
@@ -130,18 +136,18 @@
     const decoded = decode(token, { now: 0 });
     if (decoded.error) return decoded;
     const hash = HMAC[decoded.alg];
-    if (!hash) return { error: `This token uses ${decoded.alg || 'no algorithm'}. Only HS256, HS384 and HS512 (shared-secret) signatures can be checked here.` };
-    if (secret === undefined || secret === null || secret === '') return { error: 'Enter the secret to check the signature.' };
+    if (!hash) return { error: T('errors.unsupportedAlgorithm', { alg: decoded.alg || T('errors.noAlgorithm') }) };
+    if (secret === undefined || secret === null || secret === '') return { error: T('errors.noSecret') };
 
     let keyBytes;
     if (options.secretEncoding === 'base64url') {
       keyBytes = base64UrlToBytes(String(secret).trim().replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, ''));
-      if (!keyBytes) return { error: 'The secret is not valid Base64 / Base64URL.' };
+      if (!keyBytes) return { error: T('errors.secretNotBase64') };
     } else {
       keyBytes = new TextEncoder().encode(String(secret));
     }
     const sigBytes = base64UrlToBytes(decoded.signature);
-    if (!sigBytes || !sigBytes.length) return { error: 'The token has no signature to check.' };
+    if (!sigBytes || !sigBytes.length) return { error: T('errors.noSignature') };
 
     const subtle = getSubtle();
     const key = await subtle.importKey('raw', keyBytes, { name: 'HMAC', hash }, false, ['verify']);

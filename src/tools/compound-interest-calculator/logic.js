@@ -13,11 +13,17 @@
 })(typeof globalThis !== 'undefined' ? globalThis : this, function () {
   'use strict';
 
+  // Messages, labels and chart text come from the tool's translation data
+  const T = (typeof ToolsBuilt !== 'undefined' && ToolsBuilt.scope)
+    ? ToolsBuilt.scope('compound-interest-calculator')
+    : require('../../../scripts/i18n-client.js').scope('compound-interest-calculator');
+  const locale = (english) => (typeof ToolsBuilt !== 'undefined' && ToolsBuilt.pageLocale) ? ToolsBuilt.pageLocale(english) : english;
+
   const FREQ_MAP = {
-    daily: { n: 365, label: 'Daily (365/yr)' },
-    monthly: { n: 12, label: 'Monthly (12/yr)' },
-    quarterly: { n: 4, label: 'Quarterly (4/yr)' },
-    annual: { n: 1, label: 'Annually (1/yr)' }
+    daily: { n: 365, label: T('freq.daily') },
+    monthly: { n: 12, label: T('freq.monthly') },
+    quarterly: { n: 4, label: T('freq.quarterly') },
+    annual: { n: 1, label: T('freq.annual') }
   };
 
   /**
@@ -33,7 +39,7 @@
    */
   function formatCurrency(amount, symbol = '$') {
     const rounded = roundCents(amount);
-    const formatted = rounded.toLocaleString('en-US', {
+    const formatted = rounded.toLocaleString(locale('en-US'), {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2
     });
@@ -58,7 +64,7 @@
     const years = parseFloat(tenureYears);
     const freqKey = (typeof frequency === 'string' ? frequency : '').toLowerCase();
     if (!['daily', 'monthly', 'quarterly', 'annual'].includes(freqKey)) {
-      throw new Error('Invalid compounding frequency');
+      throw new Error(T('errors.frequency'));
     }
     const freqInfo = FREQ_MAP[freqKey];
     const n = freqInfo.n;
@@ -67,22 +73,22 @@
     const symbol = options.currencySymbol || '$';
 
     if (isNaN(P) || P < 0) {
-      throw new Error('Initial principal must be 0 or greater.');
+      throw new Error(T('errors.principalMin'));
     }
     if (isNaN(R) || R < 0) {
-      throw new Error('Interest rate must be 0% or greater.');
+      throw new Error(T('errors.rateMin'));
     }
     if (isNaN(years) || years <= 0) {
-      throw new Error('Investment horizon must be greater than zero.');
+      throw new Error(T('errors.horizonMin'));
     }
     if (years > 60) {
-      throw new Error('Investment horizon cannot exceed 60 years.');
+      throw new Error(T('errors.horizonMax'));
     }
     if (isNaN(pmt) || pmt < 0) {
-      throw new Error('Contribution amount must be 0 or greater.');
+      throw new Error(T('errors.contributionMin'));
     }
     if (P === 0 && pmt === 0) {
-      throw new Error('Please enter either an initial principal or a regular contribution amount.');
+      throw new Error(T('errors.principalOrContribution'));
     }
 
     const r = R / 100;
@@ -207,10 +213,10 @@
       const val = (niceMax / yTicks) * t;
       const yPos = getY(val);
       const label = val >= 1000000
-        ? `${currencySymbol}${(val / 1000000).toFixed(1)}M`
+        ? T('chart.axisMillions', { symbol: currencySymbol, value: (val / 1000000).toFixed(1) })
         : val >= 1000
-        ? `${currencySymbol}${(val / 1000).toFixed(0)}k`
-        : `${currencySymbol}${val.toFixed(0)}`;
+        ? T('chart.axisThousands', { symbol: currencySymbol, value: (val / 1000).toFixed(0) })
+        : T('chart.axisUnits', { symbol: currencySymbol, value: val.toFixed(0) });
 
       gridLines.push(`
         <line x1="${padLeft}" y1="${yPos.toFixed(1)}" x2="${width - padRight}" y2="${yPos.toFixed(1)}" stroke="var(--border-subtle, #e5e7eb)" stroke-dasharray="3,3" stroke-width="1" />
@@ -224,27 +230,27 @@
     for (let i = 0; i <= count; i += step) {
       const p = balancePoints[i];
       xLabels.push(`
-        <text x="${p.x.toFixed(1)}" y="${(padTop + plotHeight + 20).toFixed(1)}" text-anchor="middle" font-size="11" fill="var(--text-secondary, #6b7280)">Yr ${yearlyData[i].year}</text>
+        <text x="${p.x.toFixed(1)}" y="${(padTop + plotHeight + 20).toFixed(1)}" text-anchor="middle" font-size="11" fill="var(--text-secondary, #6b7280)">${T('chart.yearTick', { year: yearlyData[i].year })}</text>
       `);
     }
     // Always include final year if not already included
     if ((count % step) !== 0) {
       const p = balancePoints[count];
       xLabels.push(`
-        <text x="${p.x.toFixed(1)}" y="${(padTop + plotHeight + 20).toFixed(1)}" text-anchor="middle" font-size="11" fill="var(--text-secondary, #6b7280)">Yr ${yearlyData[count].year}</text>
+        <text x="${p.x.toFixed(1)}" y="${(padTop + plotHeight + 20).toFixed(1)}" text-anchor="middle" font-size="11" fill="var(--text-secondary, #6b7280)">${T('chart.yearTick', { year: yearlyData[count].year })}</text>
       `);
     }
 
     // Circles for hover/tooltip
     const dataCircles = balancePoints.map(p => `
       <circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="4" fill="var(--accent-primary)" stroke="var(--surface-card)" stroke-width="2">
-        <title>Year ${p.d.year}: Balance ${currencySymbol}${p.d.balance.toLocaleString('en-US')}, Principal ${currencySymbol}${p.d.totalPrincipal.toLocaleString('en-US')}</title>
+        <title>${T('chart.pointTitle', { year: p.d.year, symbol: currencySymbol, balance: p.d.balance.toLocaleString(locale('en-US')), principal: p.d.totalPrincipal.toLocaleString(locale('en-US')) })}</title>
       </circle>
     `).join('');
 
     return `
-      <svg viewBox="0 0 ${width} ${height}" class="compound-growth-svg" role="img" aria-label="Compound interest wealth projection growth chart" style="width: 100%; height: auto; display: block;">
-        <desc>Growth progression comparing total invested principal versus compound interest balance over ${count} years.</desc>
+      <svg viewBox="0 0 ${width} ${height}" class="compound-growth-svg" role="img" aria-label="${T('chart.ariaLabel')}" style="width: 100%; height: auto; display: block;">
+        <desc>${T('chart.desc', { count })}</desc>
         <g class="chart-grid">${gridLines.join('')}</g>
         <!-- Total balance area (accent tint), principal area drawn over it in neutral -->
         <path d="${balanceAreaPath}" fill="var(--accent-subtle)" />

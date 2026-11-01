@@ -1,130 +1,45 @@
 ---
 layout: layouts/tool.njk
 toolSlug: slug-generator
-title: "URL Slug Generator: SEO-Friendly Slugs"
-description: "Turn titles into clean, lowercase URL slugs: accents removed, spaces and punctuation become hyphens, with stop-word removal, max length and bulk mode."
 permalink: /tools/slug-generator/
-h1: "URL Slug Generator"
 extraCss: "/tools/slug-generator/style.css"
-quickAnswer: "A URL slug is the readable part of a web address that identifies a page, such as percentage-change-calculator. To make one, lowercase the title, remove accents, replace spaces and punctuation with hyphens and trim the ends: 'Héllo, Wörld! 2026' becomes hello-world-2026. Keep slugs short and descriptive, and do not change them once a page is published."
-formula:
-  title: "How a Slug Is Built"
-  expression: "Title → NFD normalise and remove accents → lowercase → non-letters and non-digits become the separator → collapse repeats → trim the ends"
-  explanation: "Unicode NFD normalisation splits letters such as é into e plus an accent mark, and the marks are removed. Letters that do not split (ß, æ, ø, ł) are written out as ss, ae, o and l, and & becomes 'and'. Everything that is not a letter or a digit becomes a single separator, and separators at the start or end are removed. Optional steps drop common English stop words and cut the slug at a word boundary so it stays within a maximum length. Letters from non-Latin scripts are kept, because browsers display them, but you may prefer to translate the title first."
-  variables:
-    - name: "Separator"
-      description: "Hyphens (-) are the usual choice for URLs; underscores (_) suit file names and some systems."
-    - name: "Stop words"
-      description: "Short words such as a, the, and, of, to that rarely help a URL. At least one word is always kept."
-    - name: "Max length"
-      description: "Cuts the slug before the word that would go over the limit, so words are never chopped in half."
-workedExamples:
-  - title: "Accents and punctuation"
-    inputs:
-      - "Title: Héllo, Wörld! 2026"
-    steps:
-      - "Remove accents: Hello, World! 2026"
-      - "Lowercase and replace punctuation and spaces: hello-world-2026"
-    result: "hello-world-2026"
-  - title: "Extra spaces and underscores"
-    inputs:
-      - "Title: '  Multiple   Spaces  '"
-      - "Separator: hyphen, then underscore for 'Hello World'"
-    steps:
-      - "Runs of spaces become a single separator and the ends are trimmed"
-    result: "multiple-spaces, and hello_world with the underscore separator"
-  - title: "Maximum length at a word boundary"
-    inputs:
-      - "Title: percentage change calculator"
-      - "Max length: 10"
-    steps:
-      - "'percentage' is 10 characters; adding '-change' would make 17"
-    result: "percentage"
-commonMistakes:
-  - title: "Changing the slug of a live page"
-    description: "A new slug is a new URL. Links, bookmarks and search results that point to the old address break unless you set up a permanent (301) redirect. Choose the slug carefully before publishing."
-  - title: "Stuffing keywords into the slug"
-    description: "best-cheap-free-calculator-online-calculator-tool reads as spam. A short, accurate slug that matches the page title is easier to read and share."
-  - title: "Using dates that will go out of date"
-    description: "A slug like best-laptops-2024 looks stale the following year, and changing it later means a redirect. Leave dates out unless the page is about a specific year."
-  - title: "Mixing upper and lower case"
-    description: "Paths on many servers are case-sensitive, so /About-Us and /about-us can be different pages. Lowercase slugs avoid duplicate URLs."
-  - title: "Using underscores in web addresses"
-    description: "Google's guidance recommends hyphens to separate words in URLs; words joined by underscores can be read as a single word."
-faqs:
-  - q: "What is a URL slug?"
-    a: "It is the part of a web address that names a specific page, usually after the last slash. In toolsbuilt.com/tools/slug-generator/ the slug is slug-generator."
-  - q: "Should I use hyphens or underscores in URLs?"
-    a: "Use hyphens. Google recommends hyphens to separate words in URLs, and they are the common convention. Underscores are fine for file names."
-  - q: "Should I remove stop words like 'the' and 'and' from slugs?"
-    a: "Often, yes, when it makes the slug shorter without losing meaning, such as write-best-guide instead of how-to-write-the-best-guide. Keep them if the slug reads badly without them."
-  - q: "How long should a URL slug be?"
-    a: "There is no fixed limit, but three to five meaningful words is a good target. Use the max length option to keep slugs within a limit without cutting words."
-  - q: "How are accents and special characters handled?"
-    a: "Accents are removed with Unicode normalisation, so é becomes e and ü becomes u; ß becomes ss, and & becomes 'and'. Other symbols turn into the separator."
-  - q: "Can I make slugs for many titles at once?"
-    a: "Yes. Use Bulk mode and paste one title per line. Turn on unique numbering to add -2, -3 and so on to repeated slugs."
-  - q: "Does changing a slug affect SEO?"
-    a: "Changing the URL of an existing page means search engines must find the new address. Use a 301 redirect from the old slug so links and rankings carry over."
-sources:
-  - name: "Google Search Central: URL structure best practices"
-    url: "https://developers.google.com/search/docs/crawling-indexing/url-structure"
-  - name: "RFC 3986: Uniform Resource Identifier (URI) Generic Syntax"
-    url: "https://www.rfc-editor.org/rfc/rfc3986"
-  - name: "Unicode Standard Annex #15: Unicode Normalization Forms"
-    url: "https://www.unicode.org/reports/tr15/"
-  - name: "Google Search Central: Redirects and Google Search"
-    url: "https://developers.google.com/search/docs/crawling-indexing/301-redirects"
 lastReviewed: "2026-10-31"
-howto:
-  name: "How to Create a URL Slug"
-  description: "Turn a page title into a clean, SEO-friendly URL slug."
-  steps:
-    - name: "Type the title"
-      text: "Enter the page or post title, or switch to Bulk mode and paste one title per line."
-    - name: "Choose the options"
-      text: "Pick hyphens or underscores, and optionally remove stop words or set a maximum length."
-    - name: "Copy the slug"
-      text: "Copy the slug and use it as the last part of the page's URL."
 ---
 
     <!-- Tool Form Container -->
-    <section class="tool-container" aria-label="URL Slug Generator">
-      <div class="segmented-control mb-6" role="tablist" aria-label="Single or bulk">
-        <button type="button" class="btn btn-sm mode-tab-btn active" id="tab-single" data-mode="single" role="tab" aria-selected="true" aria-controls="slug-form">Single title</button>
-        <button type="button" class="btn btn-sm mode-tab-btn" id="tab-bulk" data-mode="bulk" role="tab" aria-selected="false" aria-controls="slug-form" tabindex="-1">Bulk (one per line)</button>
+    <section class="tool-container" aria-label="{{ 'ariaLabel.tool-section1' | pt }}">
+      <div class="segmented-control mb-6" role="tablist" aria-label="{{ 'ariaLabel.tool-div1' | pt }}">
+        <button type="button" class="btn btn-sm mode-tab-btn active" id="tab-single" data-mode="single" role="tab" aria-selected="true" aria-controls="slug-form">{{ 'text.tab-single' | pt }}</button>
+        <button type="button" class="btn btn-sm mode-tab-btn" id="tab-bulk" data-mode="bulk" role="tab" aria-selected="false" aria-controls="slug-form" tabindex="-1">{{ 'text.tab-bulk' | pt }}</button>
       </div>
 
       <form id="slug-form" role="tabpanel" aria-labelledby="tab-single" novalidate>
         <div class="form-group" data-mode-field="single">
-          <label for="slug-input">Title</label>
-          <input type="text" id="slug-input" class="form-control" autocomplete="off" value="Héllo, Wörld! 2026">
+          <label for="slug-input">{{ 'label.slug-input' | pt }}</label>
+          <input type="text" id="slug-input" class="form-control" autocomplete="off" value="{{ 'value.slug-input' | pt }}">
         </div>
         <div class="form-group" data-mode-field="bulk" hidden>
-          <label for="slug-bulk">Titles (one per line)</label>
-          <textarea id="slug-bulk" class="form-control slug-textarea" rows="8" spellcheck="false" autocomplete="off">10 Tips for Better Sleep
-Café Menu & Prices
-How to Write the Best Guide
-10 Tips for Better Sleep</textarea>
+          <label for="slug-bulk">{{ 'label.slug-bulk' | pt }}</label>
+          <textarea id="slug-bulk" class="form-control slug-textarea" rows="8" spellcheck="false" autocomplete="off">{{ 'value.slug-bulk' | pt }}</textarea>
         </div>
 
         <div class="form-grid slug-options">
           <div class="form-group">
-            <label for="slug-sep">Separator</label>
+            <label for="slug-sep">{{ 'label.slug-sep' | pt }}</label>
             <select id="slug-sep" class="form-control">
-              <option value="-" selected>Hyphen -</option>
-              <option value="_">Underscore _</option>
+              <option value="-" selected>{{ 'option.slug-sep.-' | pt }}</option>
+              <option value="_">{{ 'option.slug-sep._' | pt }}</option>
             </select>
           </div>
           <div class="form-group">
-            <label for="slug-max">Max length <span class="label-hint">(0 = no limit)</span></label>
+            <label for="slug-max">{{ 'label.slug-max' | pt }}</label>
             <input type="number" inputmode="numeric" min="0" max="500" step="1" id="slug-max" class="form-control" value="0">
           </div>
         </div>
         <div class="slug-checks">
-          <label class="checkbox-label"><input type="checkbox" id="slug-lower" checked><span>Lowercase</span></label>
-          <label class="checkbox-label"><input type="checkbox" id="slug-stop"><span>Remove English stop words</span></label>
-          <label class="checkbox-label" data-mode-field="bulk" hidden><input type="checkbox" id="slug-unique" checked><span>Number repeated slugs (-2, -3 …)</span></label>
+          <label class="checkbox-label">{{ 'content.tool.label1' | pt }}</label>
+          <label class="checkbox-label">{{ 'content.tool.label2' | pt }}</label>
+          <label class="checkbox-label" data-mode-field="bulk" hidden>{{ 'content.tool.label3' | pt }}</label>
         </div>
       </form>
 
@@ -132,15 +47,15 @@ How to Write the Best Guide
 
       <div id="result-box" class="result-box is-visible" aria-live="polite">
         <div class="result-header">
-          <span id="result-header-text">Slug</span>
+          {{ 'content.tool.div1' | pt }}
         </div>
         <div class="result-primary slug-primary" id="result-primary-text">--</div>
         <p class="form-hint" id="slug-note"></p>
-        <label for="slug-output" class="slug-output-label" data-mode-field="bulk" hidden>Slugs</label>
+        <label for="slug-output" class="slug-output-label" data-mode-field="bulk" hidden>{{ 'label.slug-output' | pt }}</label>
         <textarea id="slug-output" class="form-control slug-textarea" rows="8" readonly spellcheck="false" data-mode-field="bulk" hidden></textarea>
         <div class="button-group mt-4">
-          <button type="button" class="btn btn-sm btn-secondary" id="copy-slug-btn">Copy</button>
-          <button type="button" class="btn btn-sm btn-secondary" id="download-btn" data-mode-field="bulk" hidden>Download .txt</button>
+          <button type="button" class="btn btn-sm btn-secondary" id="copy-slug-btn">{{ 'text.copy-slug-btn' | pt }}</button>
+          <button type="button" class="btn btn-sm btn-secondary" id="download-btn" data-mode-field="bulk" hidden>{{ 'text.download-btn' | pt }}</button>
         </div>
       </div>
     </section>
@@ -148,27 +63,27 @@ How to Write the Best Guide
     <!-- tool-end -->
 
     <section class="content-section">
-      <h2>Good and Bad Slugs</h2>
+      <h2>{{ 'content.good-and-bad-slugs.heading' | pt }}</h2>
       <div class="table-wrapper" tabindex="0" role="region" aria-labelledby="slug-examples-caption">
         <table class="table">
-          <caption class="visually-hidden" id="slug-examples-caption">Examples of good and weak URL slugs</caption>
-          <thead><tr><th scope="col">Page</th><th scope="col">Weak slug</th><th scope="col">Better slug</th></tr></thead>
+          <caption class="visually-hidden" id="slug-examples-caption">{{ 'text.slug-examples-caption' | pt }}</caption>
+          <thead><tr><th scope="col">{{ 'content.good-and-bad-slugs.th1' | pt }}</th><th scope="col">{{ 'content.good-and-bad-slugs.th2' | pt }}</th><th scope="col">{{ 'content.good-and-bad-slugs.th3' | pt }}</th></tr></thead>
           <tbody>
-            <tr><td>How to Make Sourdough Bread at Home</td><td>post?id=4172</td><td>sourdough-bread-at-home</td></tr>
-            <tr><td>Our Refund Policy</td><td>Our_Refund_Policy</td><td>refund-policy</td></tr>
-            <tr><td>Café Opening Hours</td><td>caf%C3%A9-opening-hours</td><td>cafe-opening-hours</td></tr>
-            <tr><td>10 Best Laptops for Students</td><td>10-best-laptops-for-students-2024-cheap-best</td><td>best-student-laptops</td></tr>
+            <tr><td>{{ 'content.good-and-bad-slugs.td1' | pt }}</td><td>{{ 'content.good-and-bad-slugs.td2' | pt }}</td><td>{{ 'content.good-and-bad-slugs.td3' | pt }}</td></tr>
+            <tr><td>{{ 'content.good-and-bad-slugs.td4' | pt }}</td><td>{{ 'content.good-and-bad-slugs.td5' | pt }}</td><td>{{ 'content.good-and-bad-slugs.td6' | pt }}</td></tr>
+            <tr><td>{{ 'content.good-and-bad-slugs.td7' | pt }}</td><td>{{ 'content.good-and-bad-slugs.td8' | pt }}</td><td>{{ 'content.good-and-bad-slugs.td9' | pt }}</td></tr>
+            <tr><td>{{ 'content.good-and-bad-slugs.td10' | pt }}</td><td>{{ 'content.good-and-bad-slugs.td11' | pt }}</td><td>{{ 'content.good-and-bad-slugs.td12' | pt }}</td></tr>
           </tbody>
         </table>
       </div>
 
-      <h2>Slug Checklist</h2>
+      <h2>{{ 'content.slug-checklist.heading' | pt }}</h2>
       <ul class="content-list">
-        <li><strong>Short and descriptive:</strong> a reader should guess what the page is about from the URL alone.</li>
-        <li><strong>Lowercase with hyphens:</strong> consistent, easy to type and recommended by Google.</li>
-        <li><strong>No dates or numbers that will change:</strong> unless they are part of what the page is.</li>
-        <li><strong>Stable:</strong> once published, keep the slug. If you must change it, redirect the old URL permanently.</li>
-        <li><strong>Unique:</strong> two pages in the same folder cannot share a slug; bulk mode numbers repeats for you.</li>
+        <li>{{ 'content.slug-checklist.li1' | pt }}</li>
+        <li>{{ 'content.slug-checklist.li2' | pt }}</li>
+        <li>{{ 'content.slug-checklist.li3' | pt }}</li>
+        <li>{{ 'content.slug-checklist.li4' | pt }}</li>
+        <li>{{ 'content.slug-checklist.li5' | pt }}</li>
       </ul>
-      <p>ToolsBuilt follows these rules for its own pages, such as /tools/remove-duplicate-lines/ and /tools/text-diff-checker/. Everything on this page runs in your browser and nothing you type is stored.</p>
+      <p>{{ 'content.slug-checklist.p1' | pt }}</p>
     </section>

@@ -17,9 +17,17 @@
 })(typeof globalThis !== 'undefined' ? globalThis : this, function () {
   'use strict';
 
+  // Messages and labels come from the tool's translation data
+  const T = (typeof ToolsBuilt !== 'undefined' && ToolsBuilt.scope)
+    ? ToolsBuilt.scope('sales-tax-calculator')
+    : require('../../../scripts/i18n-client.js').scope('sales-tax-calculator');
+  const locale = (english) => (typeof ToolsBuilt !== 'undefined' && ToolsBuilt.pageLocale) ? ToolsBuilt.pageLocale(english) : english;
+  // An Error that names the input it is about (price | rate | quantity), so the page can mark it
+  const fieldError = (key, field) => Object.assign(new Error(T(key)), { field });
+
   // Rate presets shown in the calculator; any other rate can be entered as custom
   const RATE_PRESETS = [
-    { value: 18, label: '18% (Pakistan standard sales tax)' },
+    { value: 18, label: T('presets.pk18') },
     { value: 5, label: '5%' },
     { value: 10, label: '10%' },
     { value: 15, label: '15%' }
@@ -38,21 +46,22 @@
     return Math.round((value + Number.EPSILON) * 100) / 100;
   }
 
-  function toNumber(value, name) {
+  // field: price | rate | quantity (error key errors.<field>Required)
+  function toNumber(value, field) {
     const n = typeof value === 'string' ? parseFloat(value.replace(/,/g, '').trim()) : Number(value);
     if (value === '' || value === null || value === undefined || !isFinite(n)) {
-      throw new Error(`Please enter ${name}.`);
+      throw fieldError(`errors.${field}Required`, field);
     }
     return n;
   }
 
   function checkInputs(priceValue, rateValue, quantityValue) {
-    const price = toNumber(priceValue, 'a price');
-    const rate = toNumber(rateValue, 'a tax rate');
-    const quantity = quantityValue === '' || quantityValue === undefined || quantityValue === null ? 1 : toNumber(quantityValue, 'a quantity');
-    if (price < 0) throw new Error('The price cannot be negative.');
-    if (rate < 0 || rate > 100) throw new Error('The tax rate must be between 0% and 100%.');
-    if (quantity <= 0) throw new Error('The quantity must be more than 0.');
+    const price = toNumber(priceValue, 'price');
+    const rate = toNumber(rateValue, 'rate');
+    const quantity = quantityValue === '' || quantityValue === undefined || quantityValue === null ? 1 : toNumber(quantityValue, 'quantity');
+    if (price < 0) throw fieldError('errors.priceNegative', 'price');
+    if (rate < 0 || rate > 100) throw fieldError('errors.rateRange', 'rate');
+    if (quantity <= 0) throw fieldError('errors.quantityPositive', 'quantity');
     return { price, rate, quantity };
   }
 
@@ -75,7 +84,7 @@
   function formatMoney(amount, currency) {
     const c = CURRENCIES[currency] || CURRENCIES.PKR;
     const value = round2(Number(amount) || 0);
-    const text = Math.abs(value).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    const text = Math.abs(value).toLocaleString(locale('en-US'), { minimumFractionDigits: 2, maximumFractionDigits: 2 });
     return `${value < 0 ? '-' : ''}${c.symbol} ${text}`;
   }
 

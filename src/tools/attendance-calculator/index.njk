@@ -1,125 +1,27 @@
 ---
 layout: layouts/tool.njk
 toolSlug: attendance-calculator
-title: "Attendance Calculator: Classes Needed & Classes You Can Miss"
-description: "Work out your attendance percentage, how many classes you must attend to reach 75%, or how many you can miss and still stay above your target."
 permalink: /tools/attendance-calculator/
-h1: "Attendance Calculator"
 extraCss: "/tools/attendance-calculator/style.css"
-quickAnswer: "Attendance % = classes attended ÷ classes held × 100, so 30 out of 40 is 75.00%. To reach a target you must attend n more classes in a row, where n = (target × held − attended) ÷ (1 − target): at 30/40 you need 10 more for 80% (40/50). If you are above target, you can miss (attended − target × held) ÷ target classes: at 45/50 you can miss 10 and still have 75% (45/60)."
-formula:
-  title: "Attendance Formulas"
-  expression: "Attendance % = A ÷ H × 100   ·   Classes needed = ⌈(T·H − A) ÷ (1 − T)⌉   ·   Classes you can miss = ⌊(A − T·H) ÷ T⌋"
-  explanation: "A is classes attended, H is classes held and T is the target as a decimal (75% = 0.75). Attending n more classes changes your attendance to (A + n) ÷ (H + n); missing m more changes it to A ÷ (H + m). Solving each for the target gives the formulas above, rounded up for classes needed and down for classes you can miss, so the advice always keeps you at or above the target. The calculator works in whole numbers, so 75% exactly counts as meeting a 75% target."
-  variables:
-    - name: "A (attended)"
-      description: "Classes, lectures or lab sessions you were marked present for."
-    - name: "H (held)"
-      description: "All classes held so far, including the ones you missed."
-    - name: "T (target)"
-      description: "The minimum attendance your institution requires, often 75% but sometimes 80% or 85%."
-workedExamples:
-  - title: "Exactly on 75%"
-    inputs:
-      - "Attended: 30"
-      - "Held: 40"
-      - "Target: 75%"
-    steps:
-      - "30 ÷ 40 × 100 = 75.00%"
-      - "Can miss: (30 − 0.75 × 40) ÷ 0.75 = 0 classes"
-    result: "75.00%: on target, with no classes to spare"
-    link: "/tools/attendance-calculator/?attended=30&total=40&target=75#tool"
-  - title: "Reaching 80% from 30/40"
-    inputs:
-      - "Attended: 30, held: 40"
-      - "Target: 80%"
-    steps:
-      - "Classes needed: (0.80 × 40 − 30) ÷ (1 − 0.80) = 2 ÷ 0.2 = 10"
-      - "Check: (30 + 10) ÷ (40 + 10) = 40 ÷ 50 = 80%"
-    result: "Attend the next 10 classes"
-    link: "/tools/attendance-calculator/?attended=30&total=40&target=80#tool"
-  - title: "How many classes can I miss at 45/50?"
-    inputs:
-      - "Attended: 45, held: 50 (90%)"
-      - "Target: 75%"
-    steps:
-      - "Can miss: (45 − 0.75 × 50) ÷ 0.75 = 7.5 ÷ 0.75 = 10"
-      - "Check: 45 ÷ (50 + 10) = 45 ÷ 60 = 75%"
-    result: "You can miss 10 classes and still have 75%"
-    link: "/tools/attendance-calculator/?attended=45&total=50&target=75#tool"
-  - title: "Recovering from 70%"
-    inputs:
-      - "Attended: 70, held: 100"
-      - "Target: 75%"
-    steps:
-      - "Classes needed: (0.75 × 100 − 70) ÷ 0.25 = 5 ÷ 0.25 = 20"
-      - "Check: 90 ÷ 120 = 75%"
-    result: "Attend the next 20 classes in a row"
-    link: "/tools/attendance-calculator/?attended=70&total=100&target=75#tool"
-commonMistakes:
-  - title: "Counting only future classes"
-    description: "Each class you attend also adds one to the classes held, so the percentage rises more slowly than you might expect. From 70/100, attending 5 more gives 75/105 = 71.4%, not 75%. You need 20 more."
-  - title: "Assuming you can miss target × remaining classes"
-    description: "If 40 classes remain and the target is 75%, you cannot simply miss 10 of them; what you can miss depends on your attendance so far. Enter your real numbers to see the exact figure."
-  - title: "Mixing subjects or lecture types"
-    description: "Many institutions apply the attendance rule per course, and sometimes separately for theory and lab sessions. Calculate each one on its own rather than combining everything."
-  - title: "Rounding 74.6% up to 75%"
-    description: "Institutions usually compare the exact figure with the requirement. 74.6% is below 75%. The calculator only says you meet the target when you actually reach it."
-  - title: "Ignoring rules on medical or approved leave"
-    description: "Some institutions excuse documented absences or allow a lower threshold with approval; others do not. Check your own institution's attendance regulations before planning absences."
-faqs:
-  - q: "How do I calculate my attendance percentage?"
-    a: "Divide the classes you attended by the total classes held and multiply by 100. 30 attended out of 40 held is 30 ÷ 40 × 100 = 75%."
-  - q: "How many classes do I need to attend to get 75% attendance?"
-    a: "Use n = (0.75 × held − attended) ÷ 0.25 and round up. With 70 out of 100 you need (75 − 70) ÷ 0.25 = 20 more classes in a row, giving 90/120 = 75%."
-  - q: "How many classes can I miss and still have 75%?"
-    a: "Use (attended − 0.75 × held) ÷ 0.75 and round down. With 45 out of 50, you can miss (45 − 37.5) ÷ 0.75 = 10 classes, leaving 45/60 = 75%."
-  - q: "Is 75% attendance compulsory?"
-    a: "Many schools, colleges and universities set a minimum, and 75% is common, but the figure and the consequences vary. Check your institution's or exam board's regulations for the exact rule."
-  - q: "What happens to my attendance if I miss one more class?"
-    a: "It becomes attended ÷ (held + 1). The table under the result shows your percentage after missing or attending each of the next 1 to 10 classes."
-  - q: "Can I calculate attendance for an 80% or 85% requirement?"
-    a: "Yes. Choose 80% or 85%, or type any target such as 70% or 82.5%, and the calculator works out the classes needed or the classes you can miss."
-  - q: "Why can I never get back to 100% attendance?"
-    a: "Once you miss a class, attended is always less than held, so attended ÷ held stays below 100% however many classes you attend afterwards."
-sources:
-  - name: "CBSE: Shortage of attendance (Examination Bye-Laws, Rules 13 and 14)"
-    url: "https://www.cbse.gov.in/cbsenew/exam_short_atn.html"
-  - name: "CBSE: Examination Bye-Laws"
-    url: "https://www.cbse.gov.in/cbsenew/examinationbyelaws.html"
-  - name: "GOV.UK: School attendance and absence"
-    url: "https://www.gov.uk/school-attendance-absence"
 lastReviewed: "2026-10-31"
-howto:
-  name: "How to Calculate Attendance Percentage"
-  description: "Find your attendance and plan how many classes to attend or how many you can miss."
-  steps:
-    - name: "Enter classes attended"
-      text: "Type how many classes you were present for."
-    - name: "Enter classes held"
-      text: "Type how many classes have been held so far, including the ones you missed."
-    - name: "Choose your target"
-      text: "Pick 75%, 80% or 85%, or type your institution's requirement."
-    - name: "Read the advice"
-      text: "See your attendance, the classes you need to attend or can miss, and a table for the next 10 classes."
 ---
 
     <!-- Tool Form Container -->
-    <section class="tool-container" aria-label="Attendance Calculator">
+    <section class="tool-container" aria-label="{{ 'ariaLabel.tool-section1' | pt }}">
       <form id="calculator-form" novalidate>
         <div class="form-grid two-col">
           <div class="form-group">
-            <label for="attended">Classes attended <span class="text-accent">*</span></label>
+            <label for="attended">{{ 'label.attended' | pt }}</label>
             <input type="number" inputmode="numeric" step="1" min="0" id="attended" data-param="attended" class="form-control" value="30" required aria-required="true">
           </div>
           <div class="form-group">
-            <label for="total">Total classes held <span class="text-accent">*</span></label>
+            <label for="total">{{ 'label.total' | pt }}</label>
             <input type="number" inputmode="numeric" step="1" min="1" id="total" data-param="total" class="form-control" value="40" required aria-required="true">
           </div>
         </div>
 
         <fieldset class="choice-toggle attendance-presets">
-          <legend>Required attendance</legend>
+          <legend>{{ 'content.tool.legend1' | pt }}</legend>
           <div class="choice-toggle-options">
             {% for p in [75, 80, 85] %}
             <label class="choice-toggle-option">
@@ -130,13 +32,13 @@ howto:
           </div>
         </fieldset>
         <div class="form-group attendance-target">
-          <label for="target">Target % <span class="label-hint">(or type your own)</span></label>
+          <label for="target">{{ 'label.target' | pt }}</label>
           <input type="number" inputmode="decimal" step="any" min="1" max="100" id="target" data-param="target" class="form-control" value="75">
         </div>
 
         <div class="button-group mt-6">
-          <button type="submit" class="btn btn-primary">Calculate Attendance</button>
-          <button type="button" class="btn btn-secondary" id="reset-btn">Reset</button>
+          <button type="submit" class="btn btn-primary">{{ 'content.tool.button1' | pt }}</button>
+          <button type="button" class="btn btn-secondary" id="reset-btn">{{ 'text.reset-btn' | pt }}</button>
         </div>
       </form>
 
@@ -144,17 +46,17 @@ howto:
 
       <div id="result-box" class="result-box is-visible" aria-live="polite">
         <div class="result-header">
-          <span id="result-header-text">Your attendance</span>
-          <button type="button" class="btn btn-sm btn-ghost" id="copy-result-btn" title="Copy result to clipboard" aria-label="Copy result to clipboard">
-            <span data-icon="copy"></span> Copy Result
+          <span id="result-header-text">{{ 'text.result-header-text' | pt }}</span>
+          <button type="button" class="btn btn-sm btn-ghost" id="copy-result-btn" title="{{ 'title.copy-result-btn' | pt }}" aria-label="{{ 'ariaLabel.copy-result-btn' | pt }}">
+            {{ 'text.copy-result-btn' | pt }}
           </button>
         </div>
         <div class="result-primary" id="result-primary-text">--</div>
         <p class="attendance-advice" id="attendance-advice"></p>
         <div class="table-wrapper attendance-table-wrapper">
           <table class="table attendance-table">
-            <caption id="projection-caption">Attendance after the next classes</caption>
-            <thead><tr><th scope="col">Next</th><th scope="col">Attend all</th><th scope="col">Miss all</th></tr></thead>
+            <caption id="projection-caption">{{ 'text.projection-caption' | pt }}</caption>
+            <thead><tr><th scope="col">{{ 'content.tool.th1' | pt }}</th><th scope="col">{{ 'content.tool.th2' | pt }}</th><th scope="col">{{ 'content.tool.th3' | pt }}</th></tr></thead>
             <tbody id="projection-rows"></tbody>
           </table>
         </div>
@@ -164,29 +66,29 @@ howto:
     <!-- tool-end -->
 
     <section class="content-section">
-      <h2>Quick Reference for a 75% Requirement</h2>
-      <p>At 75%, every class you miss has to be balanced by three classes you attend. That makes it easy to check by hand: you are on target when attended ÷ held is at least 3 ÷ 4.</p>
+      <h2>{{ 'content.quick-reference-for-a-75-requirement.heading' | pt }}</h2>
+      <p>{{ 'content.quick-reference-for-a-75-requirement.p1' | pt }}</p>
       <div class="table-wrapper">
         <table class="table">
-          <caption class="visually-hidden">Classes needed or classes you can miss at a 75% target</caption>
-          <thead><tr><th scope="col">Attended / held</th><th scope="col">Attendance</th><th scope="col">At 75%</th></tr></thead>
+          <caption class="visually-hidden">{{ 'content.quick-reference-for-a-75-requirement.caption1' | pt }}</caption>
+          <thead><tr><th scope="col">{{ 'content.quick-reference-for-a-75-requirement.th1' | pt }}</th><th scope="col">{{ 'content.quick-reference-for-a-75-requirement.th2' | pt }}</th><th scope="col">{{ 'content.quick-reference-for-a-75-requirement.th3' | pt }}</th></tr></thead>
           <tbody>
-            <tr><td>20 / 30</td><td>66.67%</td><td>Attend 10 more (30/40)</td></tr>
-            <tr><td>25 / 35</td><td>71.43%</td><td>Attend 5 more (30/40)</td></tr>
-            <tr><td>30 / 40</td><td>75.00%</td><td>On target, none to spare</td></tr>
-            <tr><td>36 / 45</td><td>80.00%</td><td>Can miss 3 (36/48)</td></tr>
-            <tr><td>45 / 50</td><td>90.00%</td><td>Can miss 10 (45/60)</td></tr>
-            <tr><td>70 / 100</td><td>70.00%</td><td>Attend 20 more (90/120)</td></tr>
+            <tr><td>20 / 30</td><td>66.67%</td><td>{{ 'content.quick-reference-for-a-75-requirement.td1' | pt }}</td></tr>
+            <tr><td>25 / 35</td><td>71.43%</td><td>{{ 'content.quick-reference-for-a-75-requirement.td2' | pt }}</td></tr>
+            <tr><td>30 / 40</td><td>75.00%</td><td>{{ 'content.quick-reference-for-a-75-requirement.td3' | pt }}</td></tr>
+            <tr><td>36 / 45</td><td>80.00%</td><td>{{ 'content.quick-reference-for-a-75-requirement.td4' | pt }}</td></tr>
+            <tr><td>45 / 50</td><td>90.00%</td><td>{{ 'content.quick-reference-for-a-75-requirement.td5' | pt }}</td></tr>
+            <tr><td>70 / 100</td><td>70.00%</td><td>{{ 'content.quick-reference-for-a-75-requirement.td6' | pt }}</td></tr>
           </tbody>
         </table>
       </div>
 
-      <h2>Planning the Rest of the Term</h2>
+      <h2>{{ 'content.planning-the-rest-of-the-term.heading' | pt }}</h2>
       <ul class="content-list">
-        <li><strong>Check early:</strong> the further into the term you are, the more classes it takes to move your percentage. Falling behind in week 3 is much easier to fix than in week 12.</li>
-        <li><strong>Use the table:</strong> the projection shows exactly where you will be after each of the next ten classes, whether you attend or miss them.</li>
-        <li><strong>Count every session type:</strong> if your institution tracks lectures, tutorials and labs separately, run the calculator for each.</li>
-        <li><strong>Keep your own record:</strong> note each class you attend. If your count differs from the official register, raise it with your department early.</li>
+        <li>{{ 'content.planning-the-rest-of-the-term.li1' | pt }}</li>
+        <li>{{ 'content.planning-the-rest-of-the-term.li2' | pt }}</li>
+        <li>{{ 'content.planning-the-rest-of-the-term.li3' | pt }}</li>
+        <li>{{ 'content.planning-the-rest-of-the-term.li4' | pt }}</li>
       </ul>
-      <p>Attendance rules come from your institution, university or exam board, and they differ in the minimum percentage, which sessions count, and whether medical or approved absences are excused. Read your own regulations or student handbook for the rule that applies to you. This calculator only does the arithmetic, in your browser.</p>
+      <p>{{ 'content.planning-the-rest-of-the-term.p1' | pt }}</p>
     </section>

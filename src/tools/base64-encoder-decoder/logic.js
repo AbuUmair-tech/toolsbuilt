@@ -13,6 +13,12 @@
 })(typeof globalThis !== 'undefined' ? globalThis : this, function () {
   'use strict';
 
+  // Messages come from the tool's translation data; numbers follow the page language
+  const T = (typeof ToolsBuilt !== 'undefined' && ToolsBuilt.scope)
+    ? ToolsBuilt.scope('base64-encoder-decoder')
+    : require('../../../scripts/i18n-client.js').scope('base64-encoder-decoder');
+  const locale = (typeof ToolsBuilt !== 'undefined' && ToolsBuilt.pageLocale) ? ToolsBuilt.pageLocale() : undefined;
+
   const MAX_INPUT_BYTES = 1048576; // 1 MB (1,048,576 characters)
 
   /**
@@ -114,13 +120,13 @@
    */
   function encode(text, options = {}) {
     if (typeof text !== 'string') {
-      return { success: false, error: 'Input must be a valid text string.' };
+      return { success: false, error: T('errors.notText') };
     }
 
     if (text.length > MAX_INPUT_BYTES) {
       return {
         success: false,
-        error: `Input exceeds the 1 MB safety limit (max 1,048,576 characters). Current size: ${text.length.toLocaleString()} characters.`,
+        error: T('errors.tooLarge', { size: text.length.toLocaleString(locale) }),
         isSizeLimit: true
       };
     }
@@ -156,7 +162,7 @@
     } catch (err) {
       return {
         success: false,
-        error: `Encoding error: ${err.message}`
+        error: T('errors.encoding', { message: err.message })
       };
     }
   }
@@ -166,13 +172,13 @@
    */
   function decode(base64Str, options = {}) {
     if (typeof base64Str !== 'string') {
-      return { success: false, error: 'Input must be a valid Base64 string.' };
+      return { success: false, error: T('errors.notBase64') };
     }
 
     if (base64Str.length > MAX_INPUT_BYTES) {
       return {
         success: false,
-        error: `Input exceeds the 1 MB safety limit (max 1,048,576 characters). Current size: ${base64Str.length.toLocaleString()} characters.`,
+        error: T('errors.tooLarge', { size: base64Str.length.toLocaleString(locale) }),
         isSizeLimit: true
       };
     }
@@ -198,7 +204,7 @@
     if (!/^[A-Za-z0-9+/]+={0,2}$/.test(normalized)) {
       return {
         success: false,
-        error: 'Invalid Base64 format: contains characters outside the Base64 alphabet.'
+        error: T('errors.alphabet')
       };
     }
 
@@ -218,7 +224,7 @@
     } catch (err) {
       return {
         success: false,
-        error: `Decoding error: malformed Base64 data or invalid UTF-8 byte sequence (${err.message}).`
+        error: T('errors.decoding', { message: err.message })
       };
     }
   }

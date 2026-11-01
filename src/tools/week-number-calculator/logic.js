@@ -13,9 +13,23 @@
   }
 })(typeof globalThis !== 'undefined' ? globalThis : this, function () {
 
+  // Messages come from the tool's translation data
+  const T = (typeof ToolsBuilt !== 'undefined' && ToolsBuilt.scope)
+    ? ToolsBuilt.scope('week-number-calculator')
+    : require('../../../scripts/i18n-client.js').scope('week-number-calculator');
+  // Weekday and month names come from Intl in the page language (en-US on English pages and in Node)
+  const displayLocale = () => ((typeof ToolsBuilt !== 'undefined' && ToolsBuilt.pageLocale) ? ToolsBuilt.pageLocale('en-US') : 'en-US');
+  const formatters = {};
+  function formatter(kind) {
+    if (!formatters[kind]) {
+      formatters[kind] = new Intl.DateTimeFormat(displayLocale(), kind === 'weekday'
+        ? { weekday: 'long', timeZone: 'UTC' }
+        : { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
+    }
+    return formatters[kind];
+  }
+
   const DAY_MS = 86400000;
-  const WEEKDAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-  const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
   const pad = (n) => String(n).padStart(2, '0');
 
@@ -43,9 +57,18 @@
     return `${String(d.getUTCFullYear()).padStart(4, '0')}-${pad(d.getUTCMonth() + 1)}-${pad(d.getUTCDate())}`;
   }
 
+  /** "Thursday, January 1, 2026" on English pages */
   function formatLong(d) {
-    return `${WEEKDAYS[d.getUTCDay()]}, ${MONTHS[d.getUTCMonth()]} ${d.getUTCDate()}, ${d.getUTCFullYear()}`;
+    return formatter('long').format(d);
   }
+
+  /** "Thursday" on English pages */
+  function weekdayName(d) {
+    return formatter('weekday').format(d);
+  }
+
+  // Sunday ... Saturday (4 to 10 January 2026)
+  const WEEKDAYS = [0, 1, 2, 3, 4, 5, 6].map(i => weekdayName(new Date(Date.UTC(2026, 0, 4 + i))));
 
   /** "2026-W01" */
   function formatIsoWeek(year, week) {
@@ -75,10 +98,10 @@
   function isoWeekRange(year, week) {
     const y = Number(year);
     const w = Number(week);
-    if (!Number.isInteger(y) || y < 1 || y > 9999) return { error: 'Enter a year between 1 and 9999.' };
+    if (!Number.isInteger(y) || y < 1 || y > 9999) return { error: T('errors.yearRange'), field: 'year' };
     const max = isoWeeksInYear(y);
     if (!Number.isInteger(w) || w < 1 || w > max) {
-      return { error: `${y} has ${max} ISO weeks. Enter a week number from 1 to ${max}.` };
+      return { error: T('errors.weekRange', { year: y, max }), field: 'week' };
     }
     // Week 1 is the week that contains January 4
     const jan4 = utcDate(y, 1, 4);
@@ -118,7 +141,7 @@
    */
   function weekInfo(dateStr) {
     const p = parseDate(dateStr);
-    if (!p) return { error: 'Enter a valid date (YYYY-MM-DD).' };
+    if (!p) return { error: T('errors.invalidDate') };
     const d = utcDate(p.year, p.month, p.day);
     const iso = isoWeekOfParts(p.year, p.month, p.day);
     const range = isoWeekRange(iso.weekYear, iso.week);
@@ -129,7 +152,7 @@
     return {
       date: toIsoDate(d),
       dateLong: formatLong(d),
-      weekday: WEEKDAYS[d.getUTCDay()],
+      weekday: weekdayName(d),
       isoWeek: iso.week,
       isoWeekYear: iso.weekYear,
       isoWeekday: iso.isoWeekday,
@@ -163,6 +186,7 @@
 
   return {
     WEEKDAYS,
+    weekdayName,
     parseDate,
     toIsoDate,
     formatIsoWeek,

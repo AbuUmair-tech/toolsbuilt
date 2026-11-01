@@ -12,12 +12,23 @@
 })(typeof globalThis !== 'undefined' ? globalThis : this, function () {
   'use strict';
 
-  const MONTH_NAMES = [
-    'January', 'February', 'March', 'April', 'May', 'June',
-    'July', 'August', 'September', 'October', 'November', 'December'
-  ];
+  // Messages and the long date pattern come from the tool's translation data
+  const T = (typeof ToolsBuilt !== 'undefined' && ToolsBuilt.scope)
+    ? ToolsBuilt.scope('add-days-to-date-calculator')
+    : require('../../../scripts/i18n-client.js').scope('add-days-to-date-calculator');
+  // Month and weekday names come from Intl in the page language (en-US on English pages and in Node)
+  const LOCALE = (typeof ToolsBuilt !== 'undefined' && ToolsBuilt.pageLocale) ? ToolsBuilt.pageLocale('en-US') : 'en-US';
+  const MONTH_NAMES = Array.from({ length: 12 }, (_, i) =>
+    new Intl.DateTimeFormat(LOCALE, { month: 'long', timeZone: 'UTC' }).format(new Date(Date.UTC(2026, i, 1))));
+  // Sunday ... Saturday (4 to 10 January 2026)
+  const WEEKDAYS = Array.from({ length: 7 }, (_, i) =>
+    new Intl.DateTimeFormat(LOCALE, { weekday: 'long', timeZone: 'UTC' }).format(new Date(Date.UTC(2026, 0, 4 + i))));
+  const UNITS = ['days', 'weeks', 'months', 'years'];
 
-  const WEEKDAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  /** Unit name shown to visitors ("days"); an unknown unit is shown as given */
+  function unitLabel(unit) {
+    return UNITS.includes(unit) ? T(`units.${unit}`) : unit;
+  }
 
   function isLeapYear(year) {
     return (year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0);
@@ -64,20 +75,18 @@
   function addSubtractDays(startDateStr, amount, unit = 'days', operation = 'add', options = {}) {
     const parts = parseDateParts(startDateStr);
     if (!parts) {
-      throw new Error('Please enter a valid start date (YYYY-MM-DD).');
+      throw new Error(T('errors.invalidStart'));
     }
 
     // Strict integer validation: reject floats ("1.9"), mixed strings ("5abc"),
     // and negative values. Only pure non-negative integers are accepted.
     const amountStr = String(amount).trim();
     if (!/^\d+$/.test(amountStr)) {
-      throw new Error(
-        `Invalid amount "${amount}". Please enter a whole non-negative number (e.g. 5, not "5abc" or "1.9").`
-      );
+      throw new Error(T('errors.invalidAmount', { amount }));
     }
     const numAmount = parseInt(amountStr, 10);
     if (isNaN(numAmount) || numAmount < 0) {
-      throw new Error('Please enter a valid non-negative whole number.');
+      throw new Error(T('errors.nonNegative'));
     }
     // Reject astronomically large amounts that would produce nonsensical dates
     const MAX_DAYS_EQUIVALENT = 3650000; // ~10,000 years worth of days
@@ -86,9 +95,7 @@
       : unit === 'weeks' ? numAmount * 7
       : numAmount;
     if (daysEquivalent > MAX_DAYS_EQUIVALENT) {
-      throw new Error(
-        `Amount ${numAmount} ${unit} exceeds the maximum supported range of ~10,000 years. Please enter a smaller value.`
-      );
+      throw new Error(T('errors.tooLarge', { amount: numAmount, unit: unitLabel(unit) }));
     }
 
     const isAdd = operation !== 'subtract';
@@ -116,7 +123,7 @@
         const clamped = addMonthsClampedUtc(parts.year, parts.month, parts.day, delta * 12);
         resultUtc = Date.UTC(clamped.year, clamped.month - 1, clamped.day);
       } else {
-        throw new Error(`Unsupported calendar unit: "${unit}".`);
+        throw new Error(T('errors.unsupportedUnit', { unit }));
       }
     }
 
@@ -127,7 +134,7 @@
 
     const targetDateStr = `${rY}-${String(rM).padStart(2, '0')}-${String(rD).padStart(2, '0')}`;
     const weekday = WEEKDAYS[resDate.getUTCDay()];
-    const formattedDate = `${MONTH_NAMES[rM - 1]} ${rD}, ${rY}`;
+    const formattedDate = T('dateLong', { month: MONTH_NAMES[rM - 1], day: rD, year: rY });
     const quarter = Math.floor((rM - 1) / 3) + 1;
 
     // Day of year calculation
@@ -169,6 +176,7 @@
   return {
     isLeapYear,
     parseDateParts,
+    unitLabel,
     addSubtractDays,
     calculateAddDays: addSubtractDays,
     shiftBusinessDays

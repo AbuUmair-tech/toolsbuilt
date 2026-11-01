@@ -6,6 +6,7 @@
  */
 document.addEventListener('DOMContentLoaded', () => {
   const logic = window.TimeZoneLogic;
+  const T = ToolsBuilt.scope('time-zone-converter');
   const form = document.getElementById('tz-form');
   const dateInput = document.getElementById('tz-date');
   const timeInput = document.getElementById('tz-time');
@@ -53,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
   })();
 
   function cityLabel(zone) {
-    return zone === userZone ? `${logic.cityName(zone)} (you)` : logic.cityName(zone);
+    return zone === userZone ? T('city.you', { city: logic.cityName(zone) }) : logic.cityName(zone);
   }
 
   /** Turns what was typed into an IANA id; returns null for an unknown zone. */
@@ -74,7 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function niceDate(iso) {
     const [y, m, d] = iso.split('-').map(Number);
     try {
-      const locale = /^en\b/i.test(navigator.language || '') ? navigator.language : 'en-US';
+      const locale = ToolsBuilt.pageLocale(/^en\b/i.test(navigator.language || '') ? navigator.language : 'en-US');
       return new Intl.DateTimeFormat(locale, { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' })
         .format(new Date(Date.UTC(y, m - 1, d)));
     } catch (e) {
@@ -121,7 +122,7 @@ document.addEventListener('DOMContentLoaded', () => {
       li.className = 'tz-card';
       const city = document.createElement('span');
       city.className = 'tz-card-city';
-      city.textContent = `${cityLabel(info.zone)}${i === 0 ? ' · from' : ''}`;
+      city.textContent = i === 0 ? T('city.from', { city: cityLabel(info.zone) }) : cityLabel(info.zone);
       city.title = info.zone;
       const time = document.createElement('span');
       time.className = 'tz-card-time';
@@ -133,7 +134,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const tags = document.createElement('span');
       tags.className = 'tz-card-tags';
       if (i > 0 && info.dayDiff !== 0) tags.appendChild(tag(info.dayLabel, 'badge-primary'));
-      tags.appendChild(info.isWorkingHours ? tag('Working hours', 'badge-success') : tag('Outside 9–5', 'badge-warning'));
+      tags.appendChild(info.isWorkingHours ? tag(T('badges.working'), 'badge-success') : tag(T('badges.outside'), 'badge-warning'));
       li.append(city, time, meta, tags);
       return li;
     }));
@@ -182,36 +183,36 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const fromCity = logic.cityName(fromZone);
     if (res.rows.length < 2) {
-      overlapSummary.textContent = 'Add at least one more zone to compare working hours.';
+      overlapSummary.textContent = T('overlap.needMore');
     } else if (res.overlap.length) {
       const text = hourRanges(res.overlap)
         .map(([a, b]) => `${pad(a)}:00–${pad((b + 1) % 24)}:00`)
         .join(', ');
-      overlapSummary.textContent = `Everyone is between 09:00 and 17:00 during ${text} ${fromCity} time (${res.overlap.length} hour${res.overlap.length === 1 ? '' : 's'}).`;
+      overlapSummary.textContent = T(res.overlap.length === 1 ? 'overlap.all.one' : 'overlap.all.other', { ranges: text, city: fromCity, count: res.overlap.length });
     } else {
       // No full overlap: report the hour(s) where the most zones are working
       const counts = Array.from({ length: 24 }, (_, i) => res.rows.filter(r => r.slots[i].working).length);
       const best = Math.max(...counts);
       const bestHours = counts.map((c, i) => (c === best ? i : -1)).filter(i => i >= 0);
       const text = hourRanges(bestHours).slice(0, 3).map(([a, b]) => `${pad(a)}:00–${pad((b + 1) % 24)}:00`).join(', ');
-      overlapSummary.textContent = `No hour falls within 09:00–17:00 in every zone. The best fit is ${text} ${fromCity} time, when ${best} of ${res.rows.length} zones are in working hours.`;
+      overlapSummary.textContent = T('overlap.none', { ranges: text, city: fromCity, best, total: res.rows.length });
     }
   }
 
   // ---- Calculate --------------------------------------------------------
   function calculate() {
     clearError();
-    if (!dateInput.value) return showError('Pick a date.', dateInput);
-    if (!timeInput.value) return showError('Pick a time.', timeInput);
+    if (!dateInput.value) return showError(T('errors.pickDate'), dateInput);
+    if (!timeInput.value) return showError(T('errors.pickTime'), timeInput);
 
     const from = normaliseZoneInput(fromInput);
-    if (!from) return showError(fromInput.value.trim() ? `No time zone matches "${fromInput.value.trim()}". Try a city such as London or an IANA name such as Europe/London.` : 'Choose the time zone the time is in.', fromInput);
+    if (!from) return showError(fromInput.value.trim() ? T('errors.noMatchFrom', { query: fromInput.value.trim() }) : T('errors.chooseFrom'), fromInput);
 
     const targets = [];
     for (const input of targetInputs) {
       if (!input.value.trim()) continue;
       const zone = normaliseZoneInput(input);
-      if (!zone) return showError(`No time zone matches "${input.value.trim()}". Try a city, a country or an IANA name.`, input);
+      if (!zone) return showError(T('errors.noMatchTarget', { query: input.value.trim() }), input);
       targets.push(zone);
     }
 
@@ -219,13 +220,16 @@ document.addEventListener('DOMContentLoaded', () => {
     if (res.error) return showError(res.error, dateInput);
 
     const src = res.source;
+    const sourceText = T('result.timeIn', { time: src.time, city: logic.cityName(from) });
     primaryText.textContent = res.targets.length
-      ? `${src.time} ${logic.cityName(from)} = ${res.targets.map(t => `${t.time}${t.dayDiff ? ` (${t.dayLabel.toLowerCase()})` : ''} ${logic.cityName(t.zone)}`).join(' · ')}`
-      : `${src.time} ${logic.cityName(from)} · ${res.iso}`;
+      ? `${sourceText} = ${res.targets.map(t => (t.dayDiff
+        ? T('result.timeInDay', { time: t.time, day: logic.dayLabelInline(t.dayDiff), city: logic.cityName(t.zone) })
+        : T('result.timeIn', { time: t.time, city: logic.cityName(t.zone) }))).join(' · ')}`
+      : `${sourceText} · ${res.iso}`;
 
     const notes = [];
-    if (res.nonexistent) notes.push(`${timeInput.value} does not exist in ${from} on this date because the clocks go forward; it has been moved to ${src.time}.`);
-    if (res.ambiguous) notes.push(`${timeInput.value} happens twice in ${from} on this date because the clocks go back; the first occurrence (${src.offsetLabel}) is shown.`);
+    if (res.nonexistent) notes.push(T('notes.nonexistent', { time: timeInput.value, zone: from, moved: src.time }));
+    if (res.ambiguous) notes.push(T('notes.ambiguous', { time: timeInput.value, zone: from, offset: src.offsetLabel }));
     noteText.textContent = notes.join(' ');
     noteText.hidden = notes.length === 0;
 
@@ -233,7 +237,7 @@ document.addEventListener('DOMContentLoaded', () => {
     renderStrip(dateInput.value, from, targets, timeInput.value);
 
     const lines = [`${src.time} ${src.date} ${from} (${src.offsetLabel})`]
-      .concat(res.targets.map(t => `${t.time} ${t.date} ${t.zone} (${t.offsetLabel})${t.dayDiff ? ` – ${t.dayLabel.toLowerCase()}` : ''}`));
+      .concat(res.targets.map(t => `${t.time} ${t.date} ${t.zone} (${t.offsetLabel})${t.dayDiff ? ` – ${logic.dayLabelInline(t.dayDiff)}` : ''}`));
     setCopyText(lines.join('\n'));
     resultBox.classList.add('is-visible');
     ToolsBuilt.resultLink.update();

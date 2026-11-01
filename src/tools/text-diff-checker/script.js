@@ -5,6 +5,8 @@
  * stored, sent anywhere or written to the URL.
  */
 document.addEventListener('DOMContentLoaded', () => {
+  const T = ToolsBuilt.scope('text-diff-checker');
+  const locale = ToolsBuilt.pageLocale('en-US');
   const form = document.getElementById('diff-form');
   const oldInput = document.getElementById('diff-old');
   const newInput = document.getElementById('diff-new');
@@ -27,8 +29,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const CONTEXT = 3;
   const MAX_CHARS = 5000000;
-  const EXAMPLE_OLD = 'Refund policy\n\nItems can be returned within 14 days of delivery.\nRefunds are paid to the original payment method.\nShipping costs are not refunded.\nContact support to start a return.';
-  const EXAMPLE_NEW = 'Refund policy\n\nItems can be returned within 30 days of delivery.\nRefunds are paid to the original payment method within 5 working days.\nContact support to start a return.\nDigital products cannot be returned.';
 
   let worker = null;
   let requestId = 0;
@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
     worker = new Worker('/tools/text-diff-checker/worker.js');
     worker.onmessage = (e) => {
       if (!e.data || e.data.id !== requestId) return; // a newer comparison has started
-      if (e.data.error) return showError(e.data.error);
+      if (e.data.error) return showError(e.data.message || T('errors.failed'));
       render(e.data.result);
     };
     worker.onerror = () => { worker = null; };
@@ -53,11 +53,12 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   const lineCount = (text) => (text ? window.TextDiffLogic.splitLines(text).length : 0);
-  const plural = (n, word) => `${n.toLocaleString('en-US')} ${word}${n === 1 ? '' : 's'}`;
+  // '<key>.one' for 1, '<key>.other' otherwise, with the count formatted for the page
+  const plural = (n, key) => T(`${key}.${n === 1 ? 'one' : 'other'}`, { n: n.toLocaleString(locale) });
 
   function updateCounts() {
-    oldCount.textContent = plural(lineCount(oldInput.value), 'line');
-    newCount.textContent = plural(lineCount(newInput.value), 'line');
+    oldCount.textContent = plural(lineCount(oldInput.value), 'lines');
+    newCount.textContent = plural(lineCount(newInput.value), 'lines');
   }
 
   function showError(message) {
@@ -82,17 +83,17 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
     if (oldInput.value.length + newInput.value.length > MAX_CHARS) {
-      return showError('These texts are too large to compare here (over 5 million characters together).');
+      return showError(T('errors.tooLarge'));
     }
     requestId++;
-    primaryText.textContent = 'Comparing…';
+    primaryText.textContent = T('result.comparing');
     if (worker) {
       worker.postMessage({ id: requestId, oldText: oldInput.value, newText: newInput.value, options: options() });
     } else {
       try {
         render(window.TextDiffLogic.diffTexts(oldInput.value, newInput.value, options()));
       } catch (err) {
-        showError(err.message || 'The comparison failed.');
+        showError(err.message || T('errors.failed'));
       }
     }
   }
@@ -134,10 +135,10 @@ document.addEventListener('DOMContentLoaded', () => {
     let hidden = 0;
     items.forEach((item, i) => {
       if (mask && !mask[i]) { hidden++; return; }
-      if (hidden) { frag.appendChild(el('div', 'diff-fold', `… ${plural(hidden, 'unchanged line')}`)); hidden = 0; }
+      if (hidden) { frag.appendChild(el('div', 'diff-fold', plural(hidden, 'fold'))); hidden = 0; }
       frag.appendChild(renderItem(item));
     });
-    if (hidden) frag.appendChild(el('div', 'diff-fold', `… ${plural(hidden, 'unchanged line')}`));
+    if (hidden) frag.appendChild(el('div', 'diff-fold', plural(hidden, 'fold')));
   }
 
   function renderInline(result) {
@@ -151,7 +152,7 @@ document.addEventListener('DOMContentLoaded', () => {
         el('span', 'diff-sign', line.type === 'removed' ? '−' : line.type === 'added' ? '+' : ''),
         textCell(line)
       );
-      if (line.type !== 'equal') row.setAttribute('aria-label', `${line.type === 'removed' ? 'Removed' : 'Added'} line ${line.oldNo || line.newNo}: ${line.text}`);
+      if (line.type !== 'equal') row.setAttribute('aria-label', T(line.type === 'removed' ? 'aria.removed' : 'aria.added', { no: line.oldNo || line.newNo, text: line.text }));
       return row;
     });
     return frag;
@@ -179,32 +180,30 @@ document.addEventListener('DOMContentLoaded', () => {
     lastResult = result;
     const s = result.stats;
     summary.replaceChildren(
-      el('li', 'is-added', `+${s.added.toLocaleString('en-US')} added`),
-      el('li', 'is-removed', `−${s.removed.toLocaleString('en-US')} removed`),
-      el('li', '', `${s.unchanged.toLocaleString('en-US')} unchanged`)
+      el('li', 'is-added', T('summary.added', { n: s.added.toLocaleString(locale) })),
+      el('li', 'is-removed', T('summary.removed', { n: s.removed.toLocaleString(locale) })),
+      el('li', '', T('summary.unchanged', { n: s.unchanged.toLocaleString(locale) }))
     );
 
     if (result.identical) {
-      const ignoring = [optCase.checked && 'case', optSpace.checked && 'whitespace', optBlank.checked && 'blank lines'].filter(Boolean);
-      primaryText.textContent = 'No differences';
+      const ignoring = [optCase.checked && T('ignored.case'), optSpace.checked && T('ignored.whitespace'), optBlank.checked && T('ignored.blankLines')].filter(Boolean);
+      primaryText.textContent = T('result.identical');
       noteText.textContent = ignoring.length
-        ? `The texts are identical when ${ignoring.join(', ')} ${ignoring.length === 1 ? 'is' : 'are'} ignored.`
-        : 'The two texts are identical.';
+        ? T(ignoring.length === 1 ? 'note.identicalIgnoring.one' : 'note.identicalIgnoring.other', { list: ignoring.join(T('ignored.separator')) })
+        : T('note.identical');
       noteText.hidden = false;
       output.replaceChildren();
     } else {
       const changes = s.added + s.removed;
-      primaryText.textContent = `${plural(changes, 'line')} differ${changes === 1 ? 's' : ''}`;
-      noteText.textContent = result.approximate
-        ? 'These texts are very different, so part of the result lists whole blocks as removed and added rather than the smallest possible set of changes.'
-        : '';
+      primaryText.textContent = plural(changes, 'result.differ');
+      noteText.textContent = result.approximate ? T('note.approximate') : '';
       noteText.hidden = !result.approximate;
       const view = (viewRadios.find(r => r.checked) || viewRadios[0]).value;
       output.replaceChildren(view === 'inline' ? renderInline(result) : renderSplit(result));
     }
 
     const barCopy = document.getElementById('action-copy-btn');
-    if (barCopy) barCopy.dataset.copyText = `${s.added} added, ${s.removed} removed, ${s.unchanged} unchanged lines`;
+    if (barCopy) barCopy.dataset.copyText = T('copySummary', { added: s.added, removed: s.removed, unchanged: s.unchanged });
     resultBox.classList.add('is-visible');
   }
 
@@ -222,7 +221,7 @@ document.addEventListener('DOMContentLoaded', () => {
     e.preventDefault();
     clearTimeout(debounceTimer);
     if (!oldInput.value && !newInput.value) {
-      showError('Paste the original text and the changed text to compare them.');
+      showError(T('errors.empty'));
       oldInput.focus();
       return;
     }
@@ -236,8 +235,8 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   exampleBtn.addEventListener('click', () => {
-    oldInput.value = EXAMPLE_OLD;
-    newInput.value = EXAMPLE_NEW;
+    oldInput.value = T('example.old');
+    newInput.value = T('example.new');
     updateCounts();
     compare();
   });

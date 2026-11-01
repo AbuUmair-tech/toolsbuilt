@@ -5,6 +5,7 @@
  */
 document.addEventListener('DOMContentLoaded', () => {
   const logic = window.DaysUntilLogic;
+  const T = ToolsBuilt.scope('days-until-date-calculator');
   const form = document.getElementById('calculator-form');
   const targetDateInput = document.getElementById('target-date');
   const eventNameInput = document.getElementById('event-name');
@@ -72,7 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const eventName = eventNameInput.value.trim();
 
     if (!rawDate) {
-      showError('Please select a valid target date.');
+      showError(T('errors.missingTarget'));
       return;
     }
 
@@ -86,10 +87,19 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function renderResult(res, eventName) {
-    const numFormatter = new Intl.NumberFormat('en-US');
+    const numFormatter = new Intl.NumberFormat(ToolsBuilt.pageLocale('en-US'));
+    const plural = (n) => (n === 1 ? 'one' : 'other');
+    const weeksDays = (suffix) => T(`stats.weeksDays${suffix}`, {
+      weeks: T(`units.weeks.${plural(res.weeks)}`, { n: res.weeks }),
+      days: T(`units.days.${plural(res.daysAfterWeeks)}`, { n: res.daysAfterWeeks })
+    });
+    const monthsDays = (suffix) => T(`stats.monthsDays${suffix}`, {
+      months: T(`units.months.${plural(res.months)}`, { n: res.months }),
+      days: T(`units.days.${plural(res.daysAfterMonths)}`, { n: res.daysAfterMonths })
+    });
     const tp = res.targetParts;
     const targetDate = ToolsBuilt.formatIsoDate(`${tp.year}-${String(tp.month).padStart(2, '0')}-${String(tp.day).padStart(2, '0')}`);
-    const titleSubject = eventName ? eventName : 'Target Date';
+    const titleSubject = eventName ? eventName : T('result.defaultSubject');
     let primaryStr = '';
 
     const resultHeader = document.getElementById('result-header-text');
@@ -100,30 +110,32 @@ document.addEventListener('DOMContentLoaded', () => {
     const statWeekday = document.getElementById('stat-weekday');
 
     if (res.isToday) {
-      resultHeader.textContent = 'Event Status';
-      primaryStr = `Today is the day! (${titleSubject})`;
+      resultHeader.textContent = T('result.headerToday');
+      primaryStr = T('result.today', { subject: titleSubject });
       resultPrimary.textContent = primaryStr;
-      statTotalDays.textContent = '0 Days';
-      statWeeksDays.textContent = '0 weeks, 0 days';
-      statMonthsDays.textContent = '0 months, 0 days';
-      lastResultText = `${primaryStr} - ${targetDate}`;
+      statTotalDays.textContent = T('stats.zeroDays');
+      statWeeksDays.textContent = T('stats.zeroWeeksDays');
+      statMonthsDays.textContent = T('stats.zeroMonthsDays');
+      lastResultText = T('copy.today', { result: primaryStr, date: targetDate });
     } else if (res.isPast) {
-      resultHeader.textContent = 'Elapsed Time Calculation';
+      resultHeader.textContent = T('result.headerPast');
       const absDays = Math.abs(res.totalDays);
-      primaryStr = `${numFormatter.format(absDays)} Day${absDays === 1 ? '' : 's'} Since ${titleSubject}`;
+      primaryStr = T(`result.since.${plural(absDays)}`, { n: numFormatter.format(absDays), subject: titleSubject });
       resultPrimary.textContent = primaryStr;
-      statTotalDays.textContent = `${numFormatter.format(absDays)} Days Ago`;
-      statWeeksDays.textContent = `${res.weeks} week${res.weeks === 1 ? '' : 's'}, ${res.daysAfterWeeks} day${res.daysAfterWeeks === 1 ? '' : 's'} ago`;
-      statMonthsDays.textContent = `${res.months} month${res.months === 1 ? '' : 's'}, ${res.daysAfterMonths} day${res.daysAfterMonths === 1 ? '' : 's'} ago`;
-      lastResultText = `${primaryStr} (${absDays} days elapsed on ${targetDate}).`;
+      statTotalDays.textContent = T('stats.daysAgo', { n: numFormatter.format(absDays) });
+      statWeeksDays.textContent = weeksDays('Ago');
+      statMonthsDays.textContent = monthsDays('Ago');
+      lastResultText = T('copy.past', { result: primaryStr, n: absDays, date: targetDate });
     } else {
-      resultHeader.textContent = 'Countdown Calculation Result';
-      primaryStr = `${numFormatter.format(res.totalDays)} Day${res.totalDays === 1 ? '' : 's'} Until ${titleSubject}`;
+      resultHeader.textContent = T('result.headerFuture');
+      primaryStr = T(`result.until.${plural(res.totalDays)}`, { n: numFormatter.format(res.totalDays), subject: titleSubject });
       resultPrimary.textContent = primaryStr;
-      statTotalDays.textContent = `${numFormatter.format(res.totalDays)} Days`;
-      statWeeksDays.textContent = `${res.weeks} week${res.weeks === 1 ? '' : 's'}, ${res.daysAfterWeeks} day${res.daysAfterWeeks === 1 ? '' : 's'}`;
-      statMonthsDays.textContent = `${res.months} month${res.months === 1 ? '' : 's'}, ${res.daysAfterMonths} day${res.daysAfterMonths === 1 ? '' : 's'}`;
-      lastResultText = `${primaryStr} (${numFormatter.format(res.totalDays)} days, ${res.weeks}w ${res.daysAfterWeeks}d until ${targetDate}).`;
+      statTotalDays.textContent = T('stats.days', { n: numFormatter.format(res.totalDays) });
+      statWeeksDays.textContent = weeksDays('');
+      statMonthsDays.textContent = monthsDays('');
+      lastResultText = T('copy.future', {
+        result: primaryStr, n: numFormatter.format(res.totalDays), weeks: res.weeks, days: res.daysAfterWeeks, date: targetDate
+      });
     }
 
     statWeekday.textContent = targetDate;
@@ -155,7 +167,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (copyBtn) {
     copyBtn.addEventListener('click', () => {
       if (lastResultText && window.ToolsBuilt && window.ToolsBuilt.copy) {
-        window.ToolsBuilt.copy(lastResultText, 'Countdown result copied to clipboard');
+        window.ToolsBuilt.copy(lastResultText, T('copy.toast'));
       }
     });
   }

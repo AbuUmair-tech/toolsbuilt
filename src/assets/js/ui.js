@@ -29,7 +29,7 @@ window.ToolsBuilt = window.ToolsBuilt || {};
     }, duration);
   };
 
-  ToolsBuilt.copy = function(text, successMsg = 'Copied to clipboard') {
+  ToolsBuilt.copy = function(text, successMsg = ToolsBuilt.t('copy.copiedToClipboard')) {
     const p = (navigator.clipboard && navigator.clipboard.writeText)
       ? navigator.clipboard.writeText(text)
       : new Promise((res, rej) => {

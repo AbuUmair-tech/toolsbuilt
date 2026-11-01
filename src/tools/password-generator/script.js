@@ -5,6 +5,7 @@
  */
 document.addEventListener('DOMContentLoaded', () => {
   const logic = window.PasswordLogic;
+  const T = ToolsBuilt.scope('password-generator');
   const wordlist = window.EFFWordlist || [];
 
   // DOM elements
@@ -167,7 +168,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function renderStrength(strength, entropyBits) {
-    strengthText.textContent = `${strength.score} (~${entropyBits} bits entropy)`;
+    strengthText.textContent = T('strength.summary', { score: strength.score, bits: entropyBits });
     // Colours come from the shared meter component (data-level 0-4); only the width is data
     strengthText.dataset.level = String(strength.level);
     strengthBar.dataset.level = String(strength.level);
@@ -208,8 +209,8 @@ document.addEventListener('DOMContentLoaded', () => {
     multiPasswordsList.innerHTML = items.map((pw, idx) => `
       <div class="list-row">
         <code class="list-row-value">${pw}</code>
-        <button type="button" class="btn btn-sm btn-ghost copy-multi-btn" data-password="${pw}" title="Copy this password">
-          <span data-icon="copy"></span> Copy
+        <button type="button" class="btn btn-sm btn-ghost copy-multi-btn" data-password="${pw}" title="${T('multi.copyTitle')}">
+          <span data-icon="copy"></span> ${T('multi.copy')}
         </button>
       </div>
     `).join('');
@@ -220,7 +221,7 @@ document.addEventListener('DOMContentLoaded', () => {
       btn.addEventListener('click', () => {
         const val = btn.getAttribute('data-password');
         if (window.ToolsBuilt && window.ToolsBuilt.copy) {
-          window.ToolsBuilt.copy(val, 'Password copied to clipboard');
+          window.ToolsBuilt.copy(val, T('copied'));
         }
       });
     });
@@ -263,7 +264,7 @@ document.addEventListener('DOMContentLoaded', () => {
   copyBtn.addEventListener('click', () => {
     if (!passwordDisplay.value) return;
     if (window.ToolsBuilt && window.ToolsBuilt.copy) {
-      window.ToolsBuilt.copy(passwordDisplay.value, 'Password copied to clipboard');
+      window.ToolsBuilt.copy(passwordDisplay.value, T('copied'));
     }
   });
 

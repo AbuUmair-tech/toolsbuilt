@@ -4,6 +4,7 @@ const { execSync } = require('child_process');
 const { buildCss } = require('./scripts/bundle-css.js');
 const { buildSearchIndex } = require('./scripts/build-search-index.js');
 const { generateAllCards } = require('./scripts/generate-og-cards.js');
+const { syncEnglishCopies } = require('./scripts/i18n-sync.js');
 
 function syncToolsDataJs() {
   const toolsPath = path.join(__dirname, 'src', '_data', 'tools.json');
@@ -39,21 +40,26 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addWatchTarget('src/assets/css/');
 
   // Initial CSS, tools-data, and search index build to get hashes before any template renders
+  // (tools.json / categories.json English text is regenerated from src/_data/i18n first)
+  syncEnglishCopies();
   syncToolsDataJs();
   let cssBundle = buildCss({ isProduction });
-  let searchBundle = buildSearchIndex();
+  const builtLanguages = require('./scripts/i18n.js').loadLanguages().filter(l => l.enabled).map(l => l.code);
+  const buildSearchIndexes = () => Object.fromEntries(builtLanguages.map(code => [code, buildSearchIndex({ lang: code })]));
+  let searchBundles = buildSearchIndexes();
 
   eleventyConfig.on('eleventy.before', async () => {
+    syncEnglishCopies();
     syncToolsDataJs();
     cssBundle = buildCss({ isProduction });
-    searchBundle = buildSearchIndex();
+    searchBundles = buildSearchIndexes();
     await generateAllCards();
   });
 
   eleventyConfig.on('eleventy.after', async () => {
     syncToolsDataJs();
     buildCss({ isProduction });
-    buildSearchIndex();
+    buildSearchIndexes();
   });
 
   // Languages: lang/dir data, localized page copies and URL filters
@@ -64,9 +70,9 @@ module.exports = function(eleventyConfig) {
     return cssBundle.cssPath;
   });
 
-  // Shortcode for referencing content-hashed search index
-  eleventyConfig.addShortcode('searchIndexUrl', function() {
-    return searchBundle.searchIndexPath;
+  // Content-hashed search index for a language: {{ lang | searchIndexUrl }}
+  eleventyConfig.addFilter('searchIndexUrl', function(lang) {
+    return (searchBundles[lang] || searchBundles.en).searchIndexPath;
   });
 
   // Global data for environment
@@ -146,7 +152,8 @@ module.exports = function(eleventyConfig) {
 
   // Currencies offered by the shared currency selector: one per currency, in countries.json order
   eleventyConfig.addFilter('currencyOptions', function(countries) {
-    const names = new Intl.DisplayNames(['en'], { type: 'currency' });
+    // Currency names in the page language
+    const names = new Intl.DisplayNames([(this.ctx && this.ctx.lang) || 'en'], { type: 'currency' });
     const seen = new Set();
     return (countries || []).filter(c => !seen.has(c.currency) && seen.add(c.currency)).map(c => {
       const symbol = new Intl.NumberFormat('en', { style: 'currency', currency: c.currency, currencyDisplay: 'narrowSymbol' })
@@ -249,10 +256,12 @@ module.exports = function(eleventyConfig) {
     return i === -1 ? [content || '', ''] : [content.slice(0, i), content.slice(i + marker.length)];
   });
 
+  // In the page language (en-GB style for English)
   eleventyConfig.addFilter('humanDate', function(str) {
     if (!str) return '';
     const d = new Date(str);
-    return isNaN(d.getTime()) ? str : d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+    const lang = (this.ctx && this.ctx.lang) || 'en';
+    return isNaN(d.getTime()) ? str : d.toLocaleDateString(lang === 'en' ? 'en-GB' : lang, { day: 'numeric', month: 'long', year: 'numeric' });
   });
 
   // Blog Filters: readingTime, isoDate, readableDate, jsonStr

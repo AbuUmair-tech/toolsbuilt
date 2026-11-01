@@ -1,134 +1,58 @@
 ---
 layout: layouts/tool.njk
 toolSlug: lorem-ipsum-generator
-title: "Lorem Ipsum Generator - Dummy Text by Words & Paragraphs"
-description: "Free online Lorem Ipsum generator. Produce dummy placeholder text by paragraphs, sentences, or word counts with customizable openings and HTML markup tags."
 permalink: /tools/lorem-ipsum-generator/
 extraCss: /tools/lorem-ipsum-generator/style.css
-h1: "Lorem Ipsum Generator"
-howto:
-  name: "How to Generate Lorem Ipsum Dummy Text Online"
-  description: "Step-by-step instructions to create custom Latin placeholder text for design mockups."
-  steps:
-    - name: "Select Quantity & Unit"
-      text: "Choose whether to generate by paragraphs, sentences, or word count, and enter your target quantity."
-    - name: "Configure Formatting Options"
-      text: "Toggle 'Start with Lorem ipsum' on or off, and optionally enable HTML <p> tags for direct web paste."
-    - name: "Generate & Copy Text"
-      text: "Click Generate to update dummy text immediately, then click Copy Text to paste into your layout or mockup."
-faqs:
-  - q: "Where does the original Lorem Ipsum text come from?"
-    a: "Lorem Ipsum originates from sections 1.10.32 and 1.10.33 of 'De Finibus Bonorum et Malorum' (On the Ends of Good and Evil), written by Roman philosopher Cicero in 45 BC. Renaissance printers adapted scrambled fragments into sample type specimen books."
-  - q: "Why do designers use Lorem Ipsum instead of English placeholder text?"
-    a: "Readable English placeholder text inevitably distracts clients and stakeholders, who start reading and critiquing the draft copy instead of evaluating the typography, visual hierarchy, and structural layout."
-  - q: "Can I generate HTML paragraph tags directly?"
-    a: "Yes. Toggle the 'Include HTML <p> tags' option to generate text formatted with clean opening <p> and closing </p> tags ready for immediate insertion into web templates and CMS editors."
-  - q: "Does generating placeholder text require an internet connection?"
-    a: "No. The entire Latin vocabulary engine runs locally client-side in your browser memory without making any external API requests or network calls."
-  - q: "What is the maximum quantity I can generate?"
-    a: "You can generate up to 50 paragraphs, 200 sentences, or 2,000 words in a single click, adhering to safe browser performance limits."
-sources:
-  - label: "Loeb Classical Library: Cicero's De Finibus Bonorum et Malorum"
-    url: "https://www.loebclassics.com/view/LCL040/1914/volume.xml"
-  - label: "W3C Web Design Standards: Typography and Flow"
-    url: "https://www.w3.org/standards/webdesign/"
-  - label: "Smashing Magazine: The History and Evolution of Lorem Ipsum"
-    url: "https://www.smashingmagazine.com/"
-quickAnswer: "Lorem Ipsum is derived from Cicero's 'De Finibus Bonorum et Malorum' (45 BC). The standard placeholder text starts: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit…'. Use this generator to produce placeholder text by word count, sentence count, or paragraph count, with or without an HTML markup wrapper, to fill layout mockups during design and development."
-workedExamples:
-  - title: "Generate 3 Paragraphs with Standard Opening"
-    inputs:
-      - "Type: Paragraphs"
-      - "Count: 3"
-      - "Start with Lorem ipsum: Yes"
-      - "HTML markup: No"
-    steps:
-      - "Paragraph 1 opens with the canonical 'Lorem ipsum dolor sit amet…' sentence"
-      - "Remaining paragraphs are generated from the standard word pool"
-      - "Paragraphs are separated by double line breaks"
-    result: "3 full paragraphs of Latin-derived placeholder text"
-  - title: "Generate 50 Words for a Button Label Test"
-    inputs:
-      - "Type: Words"
-      - "Count: 50"
-      - "Start with Lorem: No"
-    steps:
-      - "50 words drawn from the 1,000-word Lorem Ipsum corpus"
-      - "Text returned as a single unbroken string"
-    result: "Exactly 50 placeholder words"
-  - title: "Generate HTML-wrapped Paragraphs for CMS Mockup"
-    inputs:
-      - "Type: Paragraphs"
-      - "Count: 2"
-      - "HTML markup: Yes"
-    steps:
-      - "Each paragraph wrapped in <p>…</p> tags"
-      - "Output is valid inline HTML, ready to paste into a CMS template"
-    result: "<p>Lorem ipsum…</p><p>Sed ut perspiciatis…</p>"
-commonMistakes:
-  - title: "Forgetting to Replace Placeholder Copy"
-    description: "Always audit production builds for lingering \"Lorem ipsum\" snippets. Automated grep checks in deployment pipelines prevent placeholder text from slipping into published marketing pages."
-  - title: "Unrealistic Text Lengths in Prototypes"
-    description: "Generating identical 3-line paragraphs can lead to design blind spots. Test edge cases with both short headings and verbose, multi-line paragraph blocks to ensure responsive container robustness."
-  - title: "Ignoring Screen Readers During User Testing"
-    description: "When conducting accessibility audits with assistive technology, be aware that screen readers will attempt to pronounce Latin words phonetically. Temporarily disable or label placeholder regions with appropriate aria attributes."
 ---
 
     <!-- Main Tool Container -->
-    <section class="tool-container" aria-label="Lorem Ipsum Generator Form">
+    <section class="tool-container" aria-label="{{ 'ariaLabel.tool-section1' | pt }}">
       <div class="lorem-controls-bar">
         <div class="flex items-center gap-3">
-          <label for="count-input" class="font-semibold">Count:</label>
+          <label for="count-input" class="font-semibold">{{ 'label.count-input' | pt }}</label>
           <input type="number" id="count-input" class="form-control w-col-md text-center font-semibold" value="3" min="1" max="50">
         </div>
 
         <div class="lorem-unit-group">
           <label class="lorem-unit-label">
-            <input type="radio" name="lorem-unit" value="paragraphs" checked class="cursor-pointer">
-            <span>Paragraphs</span>
+            {{ 'content.tool.label1' | pt }}
           </label>
           <label class="lorem-unit-label">
-            <input type="radio" name="lorem-unit" value="sentences" class="cursor-pointer">
-            <span>Sentences</span>
+            {{ 'content.tool.label2' | pt }}
           </label>
           <label class="lorem-unit-label">
-            <input type="radio" name="lorem-unit" value="words" class="cursor-pointer">
-            <span>Words</span>
+            {{ 'content.tool.label3' | pt }}
           </label>
         </div>
 
         <div class="flex flex-wrap items-center gap-4">
           <label class="option-label text-sm">
-            <input type="checkbox" id="start-lorem-toggle" checked class="cursor-pointer">
-            <span>Start with "Lorem ipsum..."</span>
+            {{ 'content.tool.label4' | pt }}
           </label>
           <label class="option-label text-sm">
-            <input type="checkbox" id="html-tags-toggle" class="cursor-pointer">
-            <span>HTML &lt;p&gt; tags</span>
+            {{ 'content.tool.label5' | pt }}
           </label>
         </div>
       </div>
 
       <div class="form-group mb-0">
-        <label for="lorem-output" class="font-semibold mb-1 block">Generated Placeholder Text:</label>
-        <textarea id="lorem-output" class="lorem-textarea" rows="12" placeholder="Generated text will appear here..."></textarea>
+        <label for="lorem-output" class="font-semibold mb-1 block">{{ 'label.lorem-output' | pt }}</label>
+        <textarea id="lorem-output" class="lorem-textarea" rows="12" placeholder="{{ 'placeholder.lorem-output' | pt }}"></textarea>
       </div>
 
       <div class="lorem-stats-bar" aria-live="polite">
-        <span id="lorem-stats">0 words | 0 characters | 0 paragraphs</span>
+        {{ 'content.tool.div1' | pt }}
       </div>
 
       <!-- Action Buttons -->
       <div class="button-group cluster mt-4">
         <button type="button" class="btn btn-primary" id="generate-btn">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
-          Regenerate Text
+          {{ 'text.generate-btn' | pt }}
         </button>
         <button type="button" class="btn btn-secondary" id="copy-btn">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-          Copy Text
+          {{ 'text.copy-btn' | pt }}
         </button>
-        <button type="button" class="btn btn-ghost" id="clear-btn">Clear</button>
+        <button type="button" class="btn btn-ghost" id="clear-btn">{{ 'text.clear-btn' | pt }}</button>
       </div>
     </section>
 
@@ -136,40 +60,40 @@ commonMistakes:
 
     <!-- When to Use Section -->
     <section class="content-section" aria-labelledby="how-to-use-heading">
-      <h2 id="how-to-use-heading">How &amp; When to Use the Lorem Ipsum Generator</h2>
+      <h2 id="how-to-use-heading">{{ 'text.how-to-use-heading' | pt }}</h2>
       <ul class="content-list">
-        <li><strong>Figma &amp; UI Mockups:</strong> Populate card components, hero banners, and blog post templates with realistic text lengths during user interface prototyping.</li>
-        <li><strong>Typography &amp; Font Testing:</strong> Evaluate typeface legibility, line-height, letter spacing, and kerning across diverse sentence structures without copy bias.</li>
-        <li><strong>Web Development &amp; CMS Staging:</strong> Test responsive design grid break-points and dynamic database seed scripts with standard placeholder paragraphs.</li>
-        <li><strong>Print Layout &amp; Editorial Publishing:</strong> Fill editorial column spaces in magazines, brochures, or flyers before final author copy is approved.</li>
+        <li>{{ 'content.how-when-to-use-the-lorem.li1' | pt }}</li>
+        <li>{{ 'content.how-when-to-use-the-lorem.li2' | pt }}</li>
+        <li>{{ 'content.how-when-to-use-the-lorem.li3' | pt }}</li>
+        <li>{{ 'content.how-when-to-use-the-lorem.li4' | pt }}</li>
       </ul>
     </section>
 
     <!-- Worked Examples & Origins Section -->
     <section class="content-section" aria-labelledby="article-heading">
-      <h2 id="article-heading">The Origins, Meaning &amp; Variations of Lorem Ipsum</h2>
-      <p class="text-secondary">Contrary to popular belief, Lorem Ipsum is not random gibberish. Its roots trace back over 2,000 years to ancient Roman philosophical discourse on ethics and pleasure. The standard passage begins with a truncated portion of Cicero's writing:</p>
+      <h2 id="article-heading">{{ 'text.article-heading' | pt }}</h2>
+      <p class="text-secondary">{{ 'content.the-origins-meaning-variations-of-lorem.p1' | pt }}</p>
 
       <div class="content-grid">
         <div class="content-box">
-          <h3 class="content-box-title">Canonical Latin Opening</h3>
-          <p class="content-note"><em>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."</em></p>
-          <p class="text-sm text-secondary leading-normal">This opening passage established itself as the typesetting standard in the 1500s when an unknown printer scrambled a galley of type to create a specimen book.</p>
+          <h3 class="content-box-title">{{ 'content.canonical-latin-opening.heading' | pt }}</h3>
+          <p class="content-note">{{ 'content.canonical-latin-opening.p1' | pt }}</p>
+          <p class="text-sm text-secondary leading-normal">{{ 'content.canonical-latin-opening.p2' | pt }}</p>
         </div>
 
         <div class="content-box">
-          <h3 class="content-box-title">Original Cicero Translation</h3>
-          <p class="content-note">From <em>De Finibus Bonorum et Malorum</em> (Section 1.10.32):</p>
-          <p class="text-sm text-secondary leading-normal"><em>"Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but occasionally circumstances occur in which toil and pain can procure some great pleasure."</em></p>
+          <h3 class="content-box-title">{{ 'content.original-cicero-translation.heading' | pt }}</h3>
+          <p class="content-note">{{ 'content.original-cicero-translation.p1' | pt }}</p>
+          <p class="text-sm text-secondary leading-normal">{{ 'content.original-cicero-translation.p2' | pt }}</p>
         </div>
 
         <div class="content-box">
-          <h3 class="content-box-title">Natural Word Distribution</h3>
-          <p class="content-note">Why dummy text works so well:</p>
+          <h3 class="content-box-title">{{ 'content.natural-word-distribution.heading' | pt }}</h3>
+          <p class="content-note">{{ 'content.natural-word-distribution.p1' | pt }}</p>
           <ul class="content-list content-list-sm">
-            <li>Realistic varying word lengths (2 to 12 letters)</li>
-            <li>Balanced vowel and consonant frequencies</li>
-            <li>Natural sentence punctuation mimicking conversational English cadence</li>
+            <li>{{ 'content.natural-word-distribution.li1' | pt }}</li>
+            <li>{{ 'content.natural-word-distribution.li2' | pt }}</li>
+            <li>{{ 'content.natural-word-distribution.li3' | pt }}</li>
           </ul>
         </div>
       </div>

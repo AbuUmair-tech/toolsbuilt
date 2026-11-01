@@ -5,6 +5,7 @@
  */
 document.addEventListener('DOMContentLoaded', () => {
   const logic = window.ProfitMarginLogic;
+  const T = ToolsBuilt.scope('profit-margin-calculator');
   const form = document.getElementById('calculator-form');
   const tabBtns = Array.from(document.querySelectorAll('.mode-tab-btn'));
   const modeInput = document.getElementById('mode');
@@ -28,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let mode = 'price';
   let debounceTimer = null;
 
-  const pct = (n) => (n === null ? '—' : `${Number(n.toFixed(2)).toLocaleString('en-US', { maximumFractionDigits: 2 })}%`);
+  const pct = (n) => (n === null ? '—' : `${Number(n.toFixed(2)).toLocaleString(ToolsBuilt.pageLocale('en-US'), { maximumFractionDigits: 2 })}%`);
 
   function switchMode(next, focusTab) {
     mode = ['price', 'margin', 'markup'].includes(next) ? next : 'price';
@@ -103,39 +104,39 @@ document.addEventListener('DOMContentLoaded', () => {
     const money = (n) => ToolsBuilt.money(n, cur);
 
     if (mode === 'price') {
-      headerText.textContent = res.isLoss ? 'Loss on this sale' : 'Profit margin';
-      primaryText.textContent = `${pct(res.marginPercent)} margin · ${pct(res.markupPercent)} markup`;
+      headerText.textContent = res.isLoss ? T('result.loss') : T('result.margin');
+      primaryText.textContent = T('result.marginAndMarkup', { margin: pct(res.marginPercent), markup: pct(res.markupPercent) });
     } else {
-      headerText.textContent = 'Selling price';
+      headerText.textContent = T('result.sellingPrice');
       primaryText.textContent = money(res.price);
     }
 
     renderStats([
-      ['Selling price', money(res.price)],
-      ['Cost', money(res.cost)],
-      [res.isLoss ? 'Loss' : 'Profit', money(res.profit), res.isLoss],
-      ['Margin (of price)', pct(res.marginPercent), res.isLoss],
-      ['Markup (of cost)', res.markupPercent === null ? 'Not defined (cost is 0)' : pct(res.markupPercent), res.isLoss]
+      [T('stats.sellingPrice'), money(res.price)],
+      [T('stats.cost'), money(res.cost)],
+      [res.isLoss ? T('stats.loss') : T('stats.profit'), money(res.profit), res.isLoss],
+      [T('stats.margin'), pct(res.marginPercent), res.isLoss],
+      [T('stats.markup'), res.markupPercent === null ? T('stats.markupUndefined') : pct(res.markupPercent), res.isLoss]
     ]);
 
     const c = money(res.cost), p = money(res.price), pr = money(res.profit);
     const steps = [];
-    if (mode === 'margin') steps.push(`Price = cost ÷ (1 − margin) = ${c} ÷ (1 − ${res.targetMargin / 100}) = ${p}`);
-    if (mode === 'markup') steps.push(`Price = cost × (1 + markup) = ${c} × (1 + ${res.targetMarkup / 100}) = ${p}`);
-    steps.push(`Profit = price − cost = ${p} − ${c} = ${pr}`);
-    steps.push(`Margin = profit ÷ price = ${pr} ÷ ${p} = ${pct(res.marginPercent)}`);
-    if (res.markupPercent !== null) steps.push(`Markup = profit ÷ cost = ${pr} ÷ ${c} = ${pct(res.markupPercent)}`);
+    if (mode === 'margin') steps.push(T('steps.priceFromMargin', { cost: c, margin: res.targetMargin / 100, price: p }));
+    if (mode === 'markup') steps.push(T('steps.priceFromMarkup', { cost: c, markup: res.targetMarkup / 100, price: p }));
+    steps.push(T('steps.profit', { price: p, cost: c, profit: pr }));
+    steps.push(T('steps.margin', { profit: pr, price: p, margin: pct(res.marginPercent) }));
+    if (res.markupPercent !== null) steps.push(T('steps.markup', { profit: pr, cost: c, markup: pct(res.markupPercent) }));
     stepsList.replaceChildren(...steps.map(text => {
       const li = document.createElement('li');
       li.textContent = text;
       return li;
     }));
 
-    noteText.textContent = res.isLoss ? 'The selling price is below the cost, so this sale makes a loss.' : '';
+    noteText.textContent = res.isLoss ? T('result.lossNote') : '';
     noteText.hidden = !res.isLoss;
 
     const barCopy = document.getElementById('action-copy-btn');
-    if (barCopy) barCopy.dataset.copyText = `Cost ${c}, price ${p}: profit ${pr}, margin ${pct(res.marginPercent)}, markup ${pct(res.markupPercent)}`;
+    if (barCopy) barCopy.dataset.copyText = T('result.copy', { cost: c, price: p, profit: pr, margin: pct(res.marginPercent), markup: pct(res.markupPercent) });
 
     resultBox.classList.add('is-visible');
     ToolsBuilt.resultLink.update();

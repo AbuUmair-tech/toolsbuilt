@@ -6,6 +6,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   const logic = window.SipLogic;
   if (!logic) return;
+  const T = ToolsBuilt.scope('sip-calculator');
 
   const form = document.getElementById('calculator-form');
   const investmentInput = document.getElementById('monthly-investment');
@@ -97,31 +98,31 @@ document.addEventListener('DOMContentLoaded', () => {
     const rawStep = stepUpInput.value.trim();
 
     if (!rawInv || isNaN(parseFloat(rawInv))) {
-      showError('Please enter a monthly investment amount.', investmentInput);
+      showError(T('errors.investmentRequired'), investmentInput);
       return;
     }
     if (parseFloat(rawInv) <= 0) {
-      showError('Monthly investment must be greater than zero.', investmentInput);
+      showError(T('errors.investmentPositive'), investmentInput);
       return;
     }
     if (!rawRet || isNaN(parseFloat(rawRet))) {
-      showError('Please enter expected annual return.', returnInput);
+      showError(T('errors.returnRequired'), returnInput);
       return;
     }
     if (parseFloat(rawRet) < 0) {
-      showError('Expected annual return cannot be negative.', returnInput);
+      showError(T('errors.returnNegative'), returnInput);
       return;
     }
     if (!rawYrs || isNaN(parseFloat(rawYrs))) {
-      showError('Please enter investment time period.', yearsInput);
+      showError(T('errors.yearsRequired'), yearsInput);
       return;
     }
     if (parseFloat(rawYrs) <= 0) {
-      showError('Time period must be greater than zero.', yearsInput);
+      showError(T('errors.yearsPositive'), yearsInput);
       return;
     }
     if (rawStep && (isNaN(parseFloat(rawStep)) || parseFloat(rawStep) < 0 || parseFloat(rawStep) > 100)) {
-      showError('Annual step-up percentage must be between 0% and 100%.', stepUpInput);
+      showError(T('errors.stepUpRange'), stepUpInput);
       return;
     }
 
@@ -136,11 +137,11 @@ document.addEventListener('DOMContentLoaded', () => {
       const formattedReturns = money(res.estimatedReturns);
       const multiplier = res.totalInvested > 0 ? (res.maturityValue / res.totalInvested).toFixed(2) : '1.00';
 
-      resultPrimary.textContent = `Maturity Value: ${formattedMaturity}`;
+      resultPrimary.textContent = T('result.primary', { value: formattedMaturity });
       statMaturity.textContent = formattedMaturity;
       statInvested.textContent = formattedInvested;
       statReturns.textContent = formattedReturns;
-      statMultiplier.textContent = `${multiplier}x Growth`;
+      statMultiplier.textContent = T('result.multiplier', { multiplier });
 
       populateYearlyTable(res.yearlyBreakdown);
 
@@ -148,14 +149,14 @@ document.addEventListener('DOMContentLoaded', () => {
       if (actionsBar) actionsBar.removeAttribute('hidden');
 
       lastResultSummary = [
-        `SIP Investment Projection Summary:`,
-        `Monthly Investment: ${money(res.monthlyInvestment)}`,
-        `Expected Return: ${res.expectedReturnPercent}% per year`,
-        `Duration: ${res.tenureYears} Years (${res.totalMonths} installments)`,
-        res.stepUpPercent > 0 ? `Annual Step-Up: ${res.stepUpPercent}%` : null,
-        `Total Invested: ${formattedInvested}`,
-        `Estimated Returns: ${formattedReturns}`,
-        `Projected Maturity Value: ${formattedMaturity} (${multiplier}x invested capital)`
+        T('summary.title'),
+        T('summary.monthly', { value: money(res.monthlyInvestment) }),
+        T('summary.return', { rate: res.expectedReturnPercent }),
+        T('summary.duration', { years: res.tenureYears, months: res.totalMonths }),
+        res.stepUpPercent > 0 ? T('summary.stepUp', { rate: res.stepUpPercent }) : null,
+        T('summary.invested', { value: formattedInvested }),
+        T('summary.returns', { value: formattedReturns }),
+        T('summary.maturity', { value: formattedMaturity, multiplier })
       ].filter(Boolean).join('\n');
 
       saveState(rawInv, rawRet, rawYrs, rawStep);
@@ -172,7 +173,7 @@ document.addEventListener('DOMContentLoaded', () => {
     breakdown.forEach(row => {
       const tr = document.createElement('tr');
       tr.innerHTML = `
-        <td>Year ${row.year}</td>
+        <td>${T('table.year', { year: row.year })}</td>
         <td>${money(row.monthlyDeposit)}</td>
         <td>${money(row.annualInvestment)}</td>
         <td>${money(row.totalInvestedToDate)}</td>
@@ -219,7 +220,7 @@ document.addEventListener('DOMContentLoaded', () => {
     copyBtn.addEventListener('click', () => {
       if (!lastResultSummary) return;
       navigator.clipboard.writeText(lastResultSummary).then(() => {
-        if (window.showTbToast) window.showTbToast('SIP calculation copied to clipboard!');
+        if (window.showTbToast) window.showTbToast(T('toast.copied'));
       }).catch(() => {});
     });
   }

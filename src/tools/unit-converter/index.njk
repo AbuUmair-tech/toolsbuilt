@@ -1,99 +1,21 @@
 ---
 layout: layouts/tool.njk
 toolSlug: unit-converter
-title: "Unit Converter - Length, Weight, Temp, Area & Speed"
-description: "Instantly convert between metric and imperial units for length, weight, temperature, area, volume, and speed with high-precision factor tables."
 permalink: /tools/unit-converter/
-h1: "Unit Converter"
 lastReviewed: "2026-10-24"
-howto:
-  name: "How to Convert Measurement Units Online"
-  description: "Step-by-step instructions for converting between metric and imperial units with exact factors."
-  steps:
-    - name: "Select Measurement Category"
-      text: "Choose between Length, Weight, Temperature, Area, Volume, or Speed."
-    - name: "Choose Source and Target Units"
-      text: "Select your input and output measurement units from the two synchronized dropdowns."
-    - name: "Enter Quantity for Instant Two-Way Conversion"
-      text: "Type in any value into either field to view real-time two-way converted results and dynamic reference tables."
-faqs:
-  - q: "How are measurement conversions calculated accurately?"
-    a: "Non-temperature conversions normalize the source value to a fundamental SI base unit (like meters for length or kilograms for weight) using international NIST definitions, then divide by the target unit's exact conversion factor."
-  - q: "What is the formula to convert Celsius to Fahrenheit?"
-    a: "Multiply the Celsius temperature by 9/5 (or 1.8) and add 32: °F = (°C × 9/5) + 32. For example, 20°C converts to (20 × 1.8) + 32 = 68°F."
-  - q: "What is the formula to convert Fahrenheit to Celsius?"
-    a: "Subtract 32 from the Fahrenheit temperature, then multiply by 5/9: °C = (°F - 32) × 5/9. For instance, 98.6°F converts to (98.6 - 32) × 5/9 = 37°C."
-  - q: "What is the difference between a US gallon and an Imperial gallon?"
-    a: "A US liquid gallon is defined as exactly 231 cubic inches or approximately 3.78541 liters. An Imperial (British) gallon is defined as exactly 4.54609 liters, making the Imperial gallon approximately 20% larger than the US gallon."
-  - q: "Are international conversion factors exact?"
-    a: "Yes. By international agreement (the 1959 International Yard and Pound Agreement), 1 inch is defined as exactly 0.0254 meters, and 1 avoirdupois pound is defined as exactly 0.45359237 kilograms."
-  - q: "How many decimal places of precision are displayed?"
-    a: "Our unit converter displays high-precision floating-point values rounded to 6 decimal places for everyday physical units and 4 decimal places for temperatures, eliminating floating-point rounding errors."
-  - q: "Are any measurements or user inputs stored or uploaded?"
-    a: "No. All unit transformations occur entirely in your local browser using client-side JavaScript. No data is ever transmitted or logged."
-sources:
-  - label: "NIST Special Publication 811: Guide for the Use of the International System of Units (SI)"
-    url: "https://www.nist.gov/pml/special-publication-811"
-  - label: "BIPM: The International System of Units (SI Brochure)"
-    url: "https://www.bipm.org/en/publications/si-brochure"
-  - label: "ISO 80000-1: Quantities and Units - General Principles"
-    url: "https://www.iso.org/standard/30669.html"
-quickAnswer: "To convert between units, multiply the source value by the appropriate conversion factor. For length: 1 mile = 1.60934 km, 1 inch = 2.54 cm, 1 foot = 0.3048 m. For weight: 1 lb = 453.592 g, 1 kg = 2.20462 lb. For temperature: °C = (°F − 32) × 5 ÷ 9. All conversions run instantly in your browser using NIST-standard factor tables."
-workedExamples:
-  - title: "Convert 5 Miles to Kilometres"
-    inputs:
-      - "Category: Length"
-      - "From: Miles"
-      - "To: Kilometres"
-      - "Value: 5"
-    steps:
-      - "Conversion factor: 1 mile = 1.60934 km"
-      - "Result = 5 × 1.60934 = 8.0467 km"
-    result: "8.047 km"
-  - title: "Convert 100°F to Celsius"
-    inputs:
-      - "Category: Temperature"
-      - "From: Fahrenheit"
-      - "To: Celsius"
-      - "Value: 100"
-    steps:
-      - "Formula: °C = (°F − 32) × 5 ÷ 9"
-      - "= (100 − 32) × 5 ÷ 9 = 68 × 5 ÷ 9 ≈ 37.78"
-    result: "37.78 °C"
-  - title: "Convert 10 kg to Pounds"
-    inputs:
-      - "Category: Weight / Mass"
-      - "From: Kilograms"
-      - "To: Pounds"
-      - "Value: 10"
-    steps:
-      - "Conversion factor: 1 kg = 2.20462 lb"
-      - "Result = 10 × 2.20462 = 22.046 lb"
-    result: "22.046 lb"
-commonMistakes:
-  - title: "Confusing US Liquid and Imperial Gallons"
-    description: "A British (Imperial) gallon is 4.546 liters, while a US gallon is only 3.785 liters. Using the wrong gallon definition leads to a 20% measurement discrepancy."
-  - title: "Applying Direct Factors to Temperatures"
-    description: "You cannot multiply Fahrenheit by a single ratio because Fahrenheit and Celsius have different zero points (freezing is 32°F and 0°C). Always subtract 32 before scaling."
-  - title: "Squaring Linear Conversion Factors for Area"
-    description: "Since 1 yard = 3 feet, 1 square yard is not 3 square feet, but <code>3 × 3 = 9</code> square feet. Area factors square the linear relationship."
-formula:
-  title: "Unit Conversion Formulas"
-  expression: "Value in target unit = Value × Conversion factor"
-  explanation: "Multiply by the exact conversion factor relative to the base SI unit (e.g. 1 meter = 3.28084 feet, 1 kilogram = 2.20462 pounds). For temperature, apply the linear formula: °F = (°C × 9/5) + 32 or °C = (°F − 32) × 5/9."
 ---
 
     <!-- Tool Form Container -->
-    <section class="tool-container" aria-label="Unit Converter Form">
+    <section class="tool-container" aria-label="{{ 'ariaLabel.tool-section1' | pt }}">
       
       <!-- Category Tabs -->
-      <div class="segmented-control cluster cluster-sm mb-6" role="tablist" aria-label="Measurement Categories">
-        <button type="button" class="btn btn-sm category-tab-btn active" data-cat="length" role="tab" aria-selected="true">Length</button>
-        <button type="button" class="btn btn-sm category-tab-btn" data-cat="weight" role="tab" aria-selected="false">Weight / Mass</button>
-        <button type="button" class="btn btn-sm category-tab-btn" data-cat="temperature" role="tab" aria-selected="false">Temperature</button>
-        <button type="button" class="btn btn-sm category-tab-btn" data-cat="area" role="tab" aria-selected="false">Area</button>
-        <button type="button" class="btn btn-sm category-tab-btn" data-cat="volume" role="tab" aria-selected="false">Volume</button>
-        <button type="button" class="btn btn-sm category-tab-btn" data-cat="speed" role="tab" aria-selected="false">Speed</button>
+      <div class="segmented-control cluster cluster-sm mb-6" role="tablist" aria-label="{{ 'ariaLabel.tool-div1' | pt }}">
+        <button type="button" class="btn btn-sm category-tab-btn active" data-cat="length" role="tab" aria-selected="true">{{ 'content.tool.button1' | pt }}</button>
+        <button type="button" class="btn btn-sm category-tab-btn" data-cat="weight" role="tab" aria-selected="false">{{ 'content.tool.button2' | pt }}</button>
+        <button type="button" class="btn btn-sm category-tab-btn" data-cat="temperature" role="tab" aria-selected="false">{{ 'content.tool.button3' | pt }}</button>
+        <button type="button" class="btn btn-sm category-tab-btn" data-cat="area" role="tab" aria-selected="false">{{ 'content.tool.button4' | pt }}</button>
+        <button type="button" class="btn btn-sm category-tab-btn" data-cat="volume" role="tab" aria-selected="false">{{ 'content.tool.button5' | pt }}</button>
+        <button type="button" class="btn btn-sm category-tab-btn" data-cat="speed" role="tab" aria-selected="false">{{ 'content.tool.button6' | pt }}</button>
       </div>
 
       <!-- Two-Way Interactive Inputs Grid -->
@@ -103,28 +25,28 @@ formula:
           <!-- Column A -->
           <div class="content-box">
             <div class="form-group mb-3">
-              <label for="unit-select-a" class="font-semibold">From Unit</label>
-              <select id="unit-select-a" class="form-control" aria-label="Source Unit">
+              <label for="unit-select-a" class="font-semibold">{{ 'label.unit-select-a' | pt }}</label>
+              <select id="unit-select-a" class="form-control" aria-label="{{ 'ariaLabel.unit-select-a' | pt }}">
                 <!-- Populated by script.js -->
               </select>
             </div>
             <div class="form-group mb-0">
-              <label for="unit-val-a" class="font-semibold">Amount</label>
-              <input type="number" step="any" id="unit-val-a" class="form-control" placeholder="1" value="1" aria-label="Source Amount">
+              <label for="unit-val-a" class="font-semibold">{{ 'label.unit-val-a' | pt }}</label>
+              <input type="number" step="any" id="unit-val-a" class="form-control" placeholder="1" value="1" aria-label="{{ 'ariaLabel.unit-val-a' | pt }}">
             </div>
           </div>
 
           <!-- Column B -->
           <div class="content-box">
             <div class="form-group mb-3">
-              <label for="unit-select-b" class="font-semibold">To Unit</label>
-              <select id="unit-select-b" class="form-control" aria-label="Target Unit">
+              <label for="unit-select-b" class="font-semibold">{{ 'label.unit-select-b' | pt }}</label>
+              <select id="unit-select-b" class="form-control" aria-label="{{ 'ariaLabel.unit-select-b' | pt }}">
                 <!-- Populated by script.js -->
               </select>
             </div>
             <div class="form-group mb-0">
-              <label for="unit-val-b" class="font-semibold">Converted Amount</label>
-              <input type="number" step="any" id="unit-val-b" class="form-control" placeholder="3.28084" aria-label="Target Amount">
+              <label for="unit-val-b" class="font-semibold">{{ 'label.unit-val-b' | pt }}</label>
+              <input type="number" step="any" id="unit-val-b" class="form-control" placeholder="3.28084" aria-label="{{ 'ariaLabel.unit-val-b' | pt }}">
             </div>
           </div>
 
@@ -132,10 +54,9 @@ formula:
 
         <div class="button-group mt-6">
           <button type="button" class="btn btn-secondary" id="swap-units-btn">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="17 1 21 5 17 9"></polyline><path d="M3 11V9a4 4 0 0 1 4-4h14"></path><polyline points="7 23 3 19 7 15"></polyline><path d="M21 13v2a4 4 0 0 1-4 4H3"></path></svg>
-            Swap Units
+            {{ 'text.swap-units-btn' | pt }}
           </button>
-          <button type="button" class="btn btn-ghost" id="reset-unit-btn">Reset</button>
+          <button type="button" class="btn btn-ghost" id="reset-unit-btn">{{ 'text.reset-unit-btn' | pt }}</button>
         </div>
       </form>
 
@@ -144,13 +65,12 @@ formula:
       <!-- Result Box -->
       <div id="result-box" class="result-box is-visible" aria-live="polite">
         <div class="result-header">
-          <span id="result-header-text">Length Conversion</span>
-          <button type="button" class="btn btn-sm btn-ghost" id="copy-result-btn" title="Copy result to clipboard" aria-label="Copy result to clipboard">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-            <span>Copy</span>
+          <span id="result-header-text">{{ 'text.result-header-text' | pt }}</span>
+          <button type="button" class="btn btn-sm btn-ghost" id="copy-result-btn" title="{{ 'title.copy-result-btn' | pt }}" aria-label="{{ 'ariaLabel.copy-result-btn' | pt }}">
+            {{ 'text.copy-result-btn' | pt }}
           </button>
         </div>
-        <div class="result-primary" id="result-primary-text">1 Meter (m) = 3.28084 Foot (ft)</div>
+        <div class="result-primary" id="result-primary-text">{{ 'text.result-primary-text' | pt }}</div>
         
         <div class="result-grid" id="result-stats-grid">
           <!-- Populated by script.js -->
@@ -163,14 +83,14 @@ formula:
 
       <!-- Conversion Reference Table -->
       <div class="mt-8">
-        <h3 class="text-md mb-3 text-primary">Equivalent Measurements Table</h3>
+        <h3 class="text-md mb-3 text-primary">{{ 'content.equivalent-measurements-table.heading' | pt }}</h3>
         <div class="panel-card overflow-x-auto">
-          <table class="table table-min" aria-label="Equivalent Conversion Units">
+          <table class="table table-min" aria-label="{{ 'ariaLabel.equivalent-measurements-table-table1' | pt }}">
             <thead>
               <tr class="text-left">
-                <th scope="col" class="py-2 px-3 text-sm">Input Quantity</th>
-                <th scope="col" class="py-2 px-3 text-sm text-right">Converted Value</th>
-                <th scope="col" class="py-2 px-3 text-sm">Equivalent Unit</th>
+                <th scope="col" class="py-2 px-3 text-sm">{{ 'content.equivalent-measurements-table.th1' | pt }}</th>
+                <th scope="col" class="py-2 px-3 text-sm text-right">{{ 'content.equivalent-measurements-table.th2' | pt }}</th>
+                <th scope="col" class="py-2 px-3 text-sm">{{ 'content.equivalent-measurements-table.th3' | pt }}</th>
               </tr>
             </thead>
             <tbody id="conversion-table-body">
@@ -185,12 +105,12 @@ formula:
 
     <!-- When to Use Section -->
     <section class="content-section" aria-labelledby="how-to-use-heading">
-      <h2 id="how-to-use-heading">How &amp; When to Use the Unit Converter</h2>
+      <h2 id="how-to-use-heading">{{ 'text.how-to-use-heading' | pt }}</h2>
       <ul class="content-list">
-        <li><strong>International Cooking &amp; Baking Recipes:</strong> Convert milliliters, grams, ounces, and US cups seamlessly when following European or American recipes.</li>
-        <li><strong>Travel &amp; Speed Limits:</strong> Convert kilometers per hour (km/h) to miles per hour (mph) and outdoor temperatures between Celsius and Fahrenheit.</li>
-        <li><strong>Real Estate &amp; Land Measurement:</strong> Convert acres, hectares, square meters, and square feet when reviewing property listings or architectural floor plans.</li>
-        <li><strong>Engineering &amp; Science Homework:</strong> Verify exact metric and imperial conversions with transparent BIPM/NIST SI conversion factors.</li>
+        <li>{{ 'content.how-when-to-use-the-unit.li1' | pt }}</li>
+        <li>{{ 'content.how-when-to-use-the-unit.li2' | pt }}</li>
+        <li>{{ 'content.how-when-to-use-the-unit.li3' | pt }}</li>
+        <li>{{ 'content.how-when-to-use-the-unit.li4' | pt }}</li>
       </ul>
     </section>
 

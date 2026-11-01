@@ -6,6 +6,7 @@
  */
 document.addEventListener('DOMContentLoaded', () => {
   const logic = window.JwtLogic;
+  const T = ToolsBuilt.scope('jwt-decoder');
   const form = document.getElementById('jwt-form');
   const input = document.getElementById('jwt-input');
   const exampleBtn = document.getElementById('example-btn');
@@ -28,11 +29,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const verifyResult = document.getElementById('verify-result');
 
   const EXAMPLE = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c';
-  const CLAIM_NAMES = { iat: 'Issued at (iat)', nbf: 'Not before (nbf)', exp: 'Expires (exp)' };
   let current = null;
   let verifyRun = 0;
 
-  const locale = /^en\b/i.test(navigator.language || '') ? navigator.language : 'en-US';
+  // English pages: the visitor's English variant (en-GB, ...); other languages: the page language
+  const locale = ToolsBuilt.pageLocale() || (/^en\b/i.test(navigator.language || '') ? navigator.language : 'en-US');
   const localFmt = new Intl.DateTimeFormat(locale, { dateStyle: 'medium', timeStyle: 'long' });
 
   function relative(ms) {
@@ -42,11 +43,11 @@ document.addEventListener('DOMContentLoaded', () => {
     for (const [name, size] of units) {
       if (abs >= size) {
         const n = Math.floor(abs / size);
-        const text = `${n.toLocaleString('en-US')} ${name}${n === 1 ? '' : 's'}`;
-        return diff < 0 ? `${text} ago` : `in ${text}`;
+        const text = T(`relative.${name}.${n === 1 ? 'one' : 'other'}`, { n: n.toLocaleString(ToolsBuilt.pageLocale('en-US')) });
+        return diff < 0 ? T('relative.ago', { time: text }) : T('relative.in', { time: text });
       }
     }
-    return 'now';
+    return T('relative.now');
   }
 
   function showError(message) {
@@ -77,13 +78,13 @@ document.addEventListener('DOMContentLoaded', () => {
     if (res.error) return showError(res.error);
     current = res;
 
-    primaryText.textContent = `${res.alg || 'No algorithm'}${res.header.typ ? ` · ${res.header.typ}` : ''}`;
+    primaryText.textContent = `${res.alg || T('result.noAlgorithm')}${res.header.typ ? ` · ${res.header.typ}` : ''}`;
     // Built lazily: only the claims behind the current status exist
     const statusMap = {
-      'expired': () => [`Expired ${relative(res.times.exp.ms)}`, 'is-expired'],
-      'not-yet-valid': () => [`Not valid yet: usable ${relative(res.times.nbf.ms)}`, 'is-expired'],
-      'valid-time': () => [`Not expired: expires ${relative(res.times.exp.ms)}`, 'is-valid-time'],
-      'no-exp': () => ['No expiry (exp) claim: this token does not expire by itself', '']
+      'expired': () => [T('status.expired', { when: relative(res.times.exp.ms) }), 'is-expired'],
+      'not-yet-valid': () => [T('status.notYetValid', { when: relative(res.times.nbf.ms) }), 'is-expired'],
+      'valid-time': () => [T('status.validTime', { when: relative(res.times.exp.ms) }), 'is-valid-time'],
+      'no-exp': () => [T('status.noExp'), '']
     };
     const [statusLabel, statusClass] = statusMap[res.status]();
     statusText.textContent = statusLabel;
@@ -97,11 +98,11 @@ document.addEventListener('DOMContentLoaded', () => {
       const tr = document.createElement('tr');
       const th = document.createElement('th');
       th.scope = 'row';
-      th.textContent = CLAIM_NAMES[name];
+      th.textContent = T(`claims.${name}`);
       const td = document.createElement('td');
       const lines = t.valid
         ? [`${t.iso} (${t.value})`, `${localFmt.format(new Date(t.ms))} · ${relative(t.ms)}`]
-        : [`Not a valid NumericDate: ${JSON.stringify(t.value)}`];
+        : [T('times.invalid', { value: JSON.stringify(t.value) })];
       lines.forEach((line, i) => {
         const span = document.createElement('span');
         span.className = i ? 'jwt-time-local' : 'jwt-time-utc';
@@ -115,18 +116,18 @@ document.addEventListener('DOMContentLoaded', () => {
     timesWrapper.hidden = timeRows.length === 0;
 
     if (res.unsigned) {
-      verifyHint.textContent = 'This token is unsigned (alg "none" or an empty signature). It proves nothing about who created it.';
+      verifyHint.textContent = T('verify.unsigned');
     } else if (res.canVerifyHmac) {
-      verifyHint.textContent = `This token uses ${res.alg}, an HMAC signature with a shared secret. Type the secret to check it here, in your browser.`;
+      verifyHint.textContent = T('verify.hmac', { alg: res.alg });
     } else {
-      verifyHint.textContent = `This token uses ${res.alg || 'an unknown algorithm'}. Only HS256, HS384 and HS512 can be checked here; public-key algorithms such as RS256 need the issuer's public key in your application.`;
+      verifyHint.textContent = T('verify.other', { alg: res.alg || T('verify.unknownAlgorithm') });
     }
     verifyFields.hidden = !res.canVerifyHmac || res.unsigned;
     verifyActions.hidden = verifyFields.hidden;
 
     // The copy action copies the decoded JSON only, never the token itself
     const barCopy = document.getElementById('action-copy-btn');
-    if (barCopy) barCopy.dataset.copyText = `Header:\n${res.headerJson}\n\nPayload:\n${res.payloadJson}`;
+    if (barCopy) barCopy.dataset.copyText = T('copy.decoded', { header: res.headerJson, payload: res.payloadJson });
     resultBox.classList.add('is-visible');
   }
 
@@ -134,22 +135,22 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!current) return;
     const run = ++verifyRun;
     verifyResult.className = 'jwt-verify-result';
-    verifyResult.textContent = 'Checking…';
+    verifyResult.textContent = T('verify.checking');
     let res;
     try {
       res = await logic.verifyHmac(input.value, secretInput.value, { secretEncoding: secretEnc.value });
     } catch (err) {
-      res = { error: err.message || 'The signature could not be checked.' };
+      res = { error: err.message || T('verify.failed') };
     }
     if (run !== verifyRun) return;
     if (res.error) {
       verifyResult.textContent = res.error;
       verifyResult.classList.add('is-invalid');
     } else if (res.valid) {
-      verifyResult.textContent = `✓ Signature valid: this ${res.alg} token was signed with this secret.`;
+      verifyResult.textContent = T('verify.valid', { alg: res.alg });
       verifyResult.classList.add('is-valid');
     } else {
-      verifyResult.textContent = `✗ Signature invalid: the token was not signed with this secret, or it has been changed.`;
+      verifyResult.textContent = T('verify.invalid');
       verifyResult.classList.add('is-invalid');
     }
   }
@@ -163,14 +164,15 @@ document.addEventListener('DOMContentLoaded', () => {
   toggleSecret.addEventListener('click', () => {
     const show = secretInput.type === 'password';
     secretInput.type = show ? 'text' : 'password';
-    toggleSecret.textContent = show ? 'Hide' : 'Show';
+    toggleSecret.textContent = show ? T('toggle.hide') : T('toggle.show');
     toggleSecret.setAttribute('aria-pressed', show ? 'true' : 'false');
   });
 
   document.querySelectorAll('[data-copy-part]').forEach(btn => {
     btn.addEventListener('click', () => {
       if (!current) return;
-      ToolsBuilt.copy(btn.dataset.copyPart === 'header' ? current.headerJson : current.payloadJson, `${btn.dataset.copyPart === 'header' ? 'Header' : 'Payload'} copied`);
+      const isHeader = btn.dataset.copyPart === 'header';
+      ToolsBuilt.copy(isHeader ? current.headerJson : current.payloadJson, T(isHeader ? 'copy.header' : 'copy.payload'));
     });
   });
 

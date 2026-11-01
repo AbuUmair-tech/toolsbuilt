@@ -3,6 +3,8 @@
  * never freeze the page. Same-origin only; the texts never leave the browser.
  */
 /* global TextDiffLogic */
+// The built logic.js starts with the English strings (window.I18N_DEFAULTS); workers have no window
+self.window = self;
 importScripts('/tools/text-diff-checker/logic.js');
 
 self.onmessage = (e) => {
@@ -11,6 +13,7 @@ self.onmessage = (e) => {
     const result = TextDiffLogic.diffTexts(oldText, newText, options);
     self.postMessage({ id, result });
   } catch (err) {
-    self.postMessage({ id, error: (err && err.message) || 'The comparison failed.' });
+    // The page shows its own translated message when there is none
+    self.postMessage({ id, error: true, message: (err && err.message) || '' });
   }
 };

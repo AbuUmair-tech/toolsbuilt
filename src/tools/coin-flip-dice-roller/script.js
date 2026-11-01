@@ -6,6 +6,7 @@
  */
 document.addEventListener('DOMContentLoaded', () => {
   const logic = window.CoinDiceLogic;
+  const T = ToolsBuilt.scope('coin-flip-dice-roller');
   const form = document.getElementById('calculator-form');
   const tabBtns = Array.from(document.querySelectorAll('.mode-tab-btn'));
   const modeInput = document.getElementById('mode');
@@ -41,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (current && focusTab) btn.focus();
     });
     modeFields.forEach(el => { el.hidden = el.dataset.modeField !== mode; });
-    goBtn.textContent = mode === 'dice' ? 'Roll' : 'Flip';
+    goBtn.textContent = mode === 'dice' ? T('buttons.roll') : T('buttons.flip');
     clearError();
   }
 
@@ -91,28 +92,32 @@ document.addEventListener('DOMContentLoaded', () => {
   function flip() {
     const res = logic.flipCoins(coinInput.value);
     if (res.error) return showError(res.error, coinInput);
-    headerText.textContent = res.count === 1 ? 'Coin flip' : `${res.count} coin flips`;
+    headerText.textContent = res.count === 1 ? T('coin.headerOne') : T('coin.headerMany', { count: res.count });
     primaryText.textContent = res.count === 1
-      ? (res.heads ? 'Heads' : 'Tails')
-      : `${res.heads} heads · ${res.tails} tails`;
+      ? (res.heads ? T('coin.heads') : T('coin.tails'))
+      : T('coin.counts', { heads: res.heads, tails: res.tails });
     pieces.classList.toggle('is-few', res.count <= 3);
     pieces.replaceChildren(...res.results.map(side => {
       const li = document.createElement('li');
       li.className = `cd-coin${side === 'H' ? ' is-heads' : ''}`;
-      li.textContent = side;
-      li.setAttribute('aria-label', side === 'H' ? 'Heads' : 'Tails');
+      li.textContent = side === 'H' ? T('coin.headsLetter') : T('coin.tailsLetter');
+      li.setAttribute('aria-label', side === 'H' ? T('coin.heads') : T('coin.tails'));
       return li;
     }));
-    noteText.textContent = res.count > 1 ? `Heads ${(res.heads / res.count * 100).toFixed(0)}%, tails ${(res.tails / res.count * 100).toFixed(0)}%.` : '';
-    history = logic.pushHistory(history, res.count === 1 ? `Coin: ${res.heads ? 'Heads' : 'Tails'}` : `${res.count} coins: ${res.heads} heads, ${res.tails} tails`);
-    return res.count === 1 ? primaryText.textContent : `${res.heads} heads, ${res.tails} tails`;
+    noteText.textContent = res.count > 1
+      ? T('coin.note', { headsPct: (res.heads / res.count * 100).toFixed(0), tailsPct: (res.tails / res.count * 100).toFixed(0) })
+      : '';
+    history = logic.pushHistory(history, res.count === 1
+      ? T('coin.historyOne', { side: res.heads ? T('coin.heads') : T('coin.tails') })
+      : T('coin.historyMany', { count: res.count, heads: res.heads, tails: res.tails }));
+    return res.count === 1 ? primaryText.textContent : T('coin.summaryMany', { heads: res.heads, tails: res.tails });
   }
 
   function roll() {
     const res = logic.rollDice(diceInput.value, sidesSelect.value);
     if (res.error) return showError(res.error, FIELDS[res.field]);
-    headerText.textContent = `Rolled ${res.notation}`;
-    primaryText.textContent = res.count === 1 ? String(res.sum) : `Total ${res.sum}`;
+    headerText.textContent = T('dice.header', { notation: res.notation });
+    primaryText.textContent = res.count === 1 ? String(res.sum) : T('dice.total', { sum: res.sum });
     pieces.classList.toggle('is-few', res.count <= 3);
     pieces.replaceChildren(...res.rolls.map(n => {
       const li = document.createElement('li');
@@ -125,7 +130,9 @@ document.addEventListener('DOMContentLoaded', () => {
       li.append(document.createTextNode(String(n)), type);
       return li;
     }));
-    noteText.textContent = res.count > 1 ? `${res.rolls.join(' + ')} = ${res.sum} (possible ${res.minSum}–${res.maxSum}).` : `Possible 1–${res.sides}.`;
+    noteText.textContent = res.count > 1
+      ? T('dice.noteMany', { rolls: res.rolls.join(' + '), sum: res.sum, min: res.minSum, max: res.maxSum })
+      : T('dice.noteOne', { sides: res.sides });
     history = logic.pushHistory(history, `${res.notation}: ${res.count > 1 ? `${res.rolls.join(' + ')} = ${res.sum}` : res.sum}`);
     return `${res.notation}: ${res.count > 1 ? `${res.rolls.join(' + ')} = ${res.sum}` : res.sum}`;
   }
@@ -136,7 +143,7 @@ document.addEventListener('DOMContentLoaded', () => {
     try {
       summary = mode === 'dice' ? roll() : flip();
     } catch (err) {
-      return showError(err.message || 'Secure random numbers are not available in this browser.');
+      return showError(err.message || T('errors.noCrypto'));
     }
     if (!summary) return;
     animate();

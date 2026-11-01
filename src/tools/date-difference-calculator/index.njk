@@ -1,102 +1,22 @@
 ---
 layout: layouts/tool.njk
 toolSlug: date-difference-calculator
-title: "Date Difference Calculator - Count Days Between Dates"
-description: "Calculate the exact number of days, business days, weeks, months, and years between any two dates. Free online date duration calculator."
 permalink: /tools/date-difference-calculator/
-h1: "Date Difference Calculator"
-quickAnswer: "To calculate the duration between two dates, pick your start date and end date, then select whether to include or exclude the final day. The calculator provides total calendar days, business days, weekends, weeks, and months. All calculations run client-side in UTC, preventing daylight saving time errors."
-formula:
-  title: "Date Span & Duration Formula"
-  expression: "Duration = (End Date UTC ms - Start Date UTC ms) / 86,400,000 ms [± 1 day if inclusive]"
-  explanation: "Calendar duration measures whole 24-hour UTC day intervals between two dates. When inclusive mode is selected, 1 day is added to count both boundary days. Business days evaluate each individual day in the span, tallying Mondays through Fridays and skipping weekend days."
-workedExamples:
-  - title: "Standard Work Month (Exclusive)"
-    inputs:
-      - "Start Date: October 1, 2026 (Thursday)"
-      - "End Date: October 31, 2026 (Saturday)"
-      - "Inclusive: No"
-    steps:
-      - "Compute calendar day interval: 30 days"
-      - "Count Monday through Friday business days: 22 days"
-      - "Count weekend days: 8 days (4 full weekends)"
-    result: "30 Total Days (22 business days, 8 weekend days, 4 weeks and 2 days)"
-  - title: "Inclusive Event Duration (Conference / Rental)"
-    inputs:
-      - "Start Date: November 1, 2026 (Sunday)"
-      - "End Date: November 5, 2026 (Thursday)"
-      - "Inclusive: Yes"
-    steps:
-      - "Compute raw interval: 4 days"
-      - "Add 1 day for inclusive boundary: 5 days"
-      - "Count working days (Mon-Thu): 4 business days, 1 weekend day (Sunday)"
-    result: "5 Total Days (4 business days, 1 weekend day, 120 hours)"
-  - title: "Cross-Quarter Duration Across Year Boundary"
-    inputs:
-      - "Start Date: December 15, 2025 (Monday)"
-      - "End Date: March 15, 2026 (Sunday)"
-      - "Inclusive: No"
-    steps:
-      - "Compute calendar days across year boundary: 90 days"
-      - "Decompose into calendar months: exactly 3 months (0 remaining days)"
-      - "Tally working days: 65 business days, 25 weekend days"
-    result: "90 Total Days (3 months, 12 weeks and 6 days, 2,160 hours)"
-commonMistakes:
-  - title: "The Fencepost Problem (Inclusive vs. Exclusive)"
-    description: "A hotel stay from Friday to Sunday is 2 nights (exclusive), but spans 3 calendar days (inclusive). Omitting clear boundary definitions causes booking discrepancies."
-  - title: "Treating Business Days as an Approximate 5/7 Fraction"
-    description: "Working days cannot be approximated as 5/7 of calendar days because weekend boundaries dramatically shift working day tallies in short ranges."
-  - title: "Assuming Public Holidays Are Excluded"
-    description: "The business day counter filters Saturdays and Sundays. Statutory national and provincial holidays vary by jurisdiction and are not automatically removed."
-  - title: "Local Timezone Clock Shifts"
-    description: "Calculating day differences using local midnight timestamps can introduce 23-hour or 25-hour errors during Daylight Saving Time switches."
-sources:
-  - name: "ISO 8601 Date and Time Standards"
-    url: "https://www.iso.org/iso-8601-date-and-time-format.html"
-  - name: "US Naval Observatory Gregorian Calendar Arithmetic"
-    url: "https://aa.usno.navy.mil/"
-  - name: "W3C Note on Date and Time Formats"
-    url: "https://www.w3.org/TR/NOTE-datetime"
 lastReviewed: "2026-10-24"
-howto:
-  name: "How to Calculate the Difference Between Two Dates"
-  description: "Step-by-step instructions for calculating duration and business days between two dates."
-  steps:
-    - name: "Enter Start and End Dates"
-      text: "Select your starting date and ending date from the calendar input fields."
-    - name: "Select Inclusive Option"
-      text: "Optionally check 'Include end date in the count' if your calculation requires counting both boundary days."
-    - name: "View Detailed Breakdown"
-      text: "View total calendar days, working business days (Mon–Fri), weekend days, and breakdown into years, months, and weeks."
-faqs:
-  - q: "What is the difference between calendar days and business days?"
-    a: "Calendar days include all 7 days of each week (Monday through Sunday), whereas business days count only standard working days from Monday through Friday, excluding weekend days."
-  - q: "When should I check 'Include end date in the count'?"
-    a: "Check this option if your activity or rental includes both boundary days. For example, a business conference taking place from Monday to Wednesday spans 3 full event days (inclusive), but is 2 days duration if measuring elapsed time (exclusive)."
-  - q: "What happens if I enter an end date that occurs before the start date?"
-    a: "The calculator detects reversed dates, swaps them to compute the positive span, and shows a helpful notice indicating that the dates were ordered automatically."
-  - q: "How are leap years handled in multi-year durations?"
-    a: "Calculations run on UTC midnight timestamps and evaluate each leap day (February 29th) that occurs within the range, ensuring that 366-day years are counted with complete precision. If a day does not exist in a month (for example the 31st), the last day of that month is used."
-  - q: "Is any of my date data sent to an external server?"
-    a: "No. All date arithmetic executes entirely in your web browser. No dates are transmitted or stored remotely."
-  - q: "Can I use this tool to calculate business days for invoicing?"
-    a: "Yes. The business day count gives the exact number of non-weekend days between the start date and the end date, ideal for net-30 payment or SLA tracking."
-  - q: "How does the tool break down days into months and weeks?"
-    a: "It computes whole elapsed calendar months first, then expresses the remainder in weeks and excess days, as well as providing absolute total days and hours."
 ---
 
     <!-- Tool Form Container -->
-    <section class="tool-container" aria-label="Date Difference Calculator Form">
+    <section class="tool-container" aria-label="{{ 'ariaLabel.tool-section1' | pt }}">
       <form id="calculator-form" novalidate>
         <div class="form-grid two-col">
           
           <div class="form-group">
-            <label for="start-date">Start Date <span class="text-accent">*</span></label>
+            <label for="start-date">{{ 'label.start-date' | pt }}</label>
             <input type="date" id="start-date" data-param="from" data-param-alias="start" class="form-control" required aria-required="true">
           </div>
 
           <div class="form-group">
-            <label for="end-date">End Date <span class="text-accent">*</span></label>
+            <label for="end-date">{{ 'label.end-date' | pt }}</label>
             <input type="date" id="end-date" data-param="to" data-param-alias="end" class="form-control" required aria-required="true">
           </div>
 
@@ -104,14 +24,13 @@ faqs:
 
         <div class="mt-6">
           <label class="inline-flex items-center gap-2 cursor-pointer text-base text-primary font-medium">
-            <input type="checkbox" id="include-end-date" data-param="inc">
-            <span>Include end date in the count (inclusive calculation)</span>
+            {{ 'content.tool.label1' | pt }}
           </label>
         </div>
 
         <div class="button-group mt-6">
-          <button type="submit" class="btn btn-primary">Calculate Difference</button>
-          <button type="button" class="btn btn-secondary" id="reset-btn">Reset</button>
+          <button type="submit" class="btn btn-primary">{{ 'content.tool.button1' | pt }}</button>
+          <button type="button" class="btn btn-secondary" id="reset-btn">{{ 'text.reset-btn' | pt }}</button>
         </div>
       </form>
 
@@ -120,32 +39,32 @@ faqs:
       <!-- Result Box -->
       <div id="result-box" class="result-box is-visible" aria-live="polite">
         <div class="result-header">
-          <span id="result-header-text">Date Difference Calculation Result</span>
-          <button type="button" class="btn btn-sm btn-ghost" id="copy-result-btn" title="Copy Result to clipboard" aria-label="Copy Result to clipboard">
-            <span data-icon="copy"></span> Copy Result
+          <span id="result-header-text">{{ 'text.result-header-text' | pt }}</span>
+          <button type="button" class="btn btn-sm btn-ghost" id="copy-result-btn" title="{{ 'title.copy-result-btn' | pt }}" aria-label="{{ 'ariaLabel.copy-result-btn' | pt }}">
+            {{ 'text.copy-result-btn' | pt }}
           </button>
         </div>
-        <div class="result-primary" id="result-primary-text">-- Days</div>
+        <div class="result-primary" id="result-primary-text">{{ 'text.result-primary-text' | pt }}</div>
         
         <div class="result-grid">
           <div class="result-stat-card">
-            <div class="result-stat-label">Total Calendar Days</div>
+            <div class="result-stat-label">{{ 'content.tool.div1' | pt }}</div>
             <div class="result-stat-value" id="stat-total-days">--</div>
           </div>
           <div class="result-stat-card">
-            <div class="result-stat-label">Working / Business Days</div>
+            <div class="result-stat-label">{{ 'content.tool.div2' | pt }}</div>
             <div class="result-stat-value" id="stat-business-days">--</div>
           </div>
           <div class="result-stat-card">
-            <div class="result-stat-label">Years, Months &amp; Days</div>
+            <div class="result-stat-label">{{ 'content.tool.div3' | pt }}</div>
             <div class="result-stat-value" id="stat-ymd">--</div>
           </div>
           <div class="result-stat-card">
-            <div class="result-stat-label">Weeks &amp; Days</div>
+            <div class="result-stat-label">{{ 'content.tool.div4' | pt }}</div>
             <div class="result-stat-value" id="stat-weeks-days">--</div>
           </div>
           <div class="result-stat-card">
-            <div class="result-stat-label">Total Elapsed Hours</div>
+            <div class="result-stat-label">{{ 'content.tool.div5' | pt }}</div>
             <div class="result-stat-value" id="stat-months-days">--</div>
           </div>
         </div>
@@ -156,12 +75,12 @@ faqs:
 
     <!-- When to Use Section -->
     <section class="content-section">
-      <h2>How &amp; When to Use the Date Difference Calculator</h2>
-      <p>Knowing the exact duration between two calendar dates is valuable for:</p>
+      <h2>{{ 'content.how-when-to-use-the-date.heading' | pt }}</h2>
+      <p>{{ 'content.how-when-to-use-the-date.p1' | pt }}</p>
       <ul class="content-list">
-        <li><strong>Payroll &amp; Billing Timesheets:</strong> Determine billable working days between project start and completion dates.</li>
-        <li><strong>Commercial Real Estate &amp; Leases:</strong> Calculate exact tenancy durations, rent proration, or security deposit return windows.</li>
-        <li><strong>Legal &amp; Compliance Deadlines:</strong> Track statutory response windows, court filing deadlines, or statute of limitations timeframes.</li>
-        <li><strong>Travel Itinerary &amp; Accommodation:</strong> Verify hotel stay night counts (exclusive) vs. total travel activity days (inclusive).</li>
+        <li>{{ 'content.how-when-to-use-the-date.li1' | pt }}</li>
+        <li>{{ 'content.how-when-to-use-the-date.li2' | pt }}</li>
+        <li>{{ 'content.how-when-to-use-the-date.li3' | pt }}</li>
+        <li>{{ 'content.how-when-to-use-the-date.li4' | pt }}</li>
       </ul>
     </section>

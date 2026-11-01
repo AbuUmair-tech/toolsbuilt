@@ -6,6 +6,7 @@
  */
 document.addEventListener('DOMContentLoaded', () => {
   const engine = window.SalaryTaxEngine;
+  const T = ToolsBuilt.scope('salary-tax-calculator');
   const dataset = (() => {
     try { return JSON.parse(document.getElementById('tax-datasets').textContent)[0]; } catch (e) { return null; }
   })();
@@ -27,6 +28,8 @@ document.addEventListener('DOMContentLoaded', () => {
     status: dataset.defaultStatus || ''
   };
   const money = (n) => ToolsBuilt.money(n, dataset.currency);
+  // This country's labels (tax year, deductions, rebate, cess) from the translation data
+  const C = (key) => T(`countries.${dataset.country}.${key}`);
   const pct = (rate) => `${Number((rate * 100).toFixed(4))}%`;
   let debounceTimer = null;
   let lastResultText = '';
@@ -93,7 +96,7 @@ document.addEventListener('DOMContentLoaded', () => {
     clearError();
     const raw = salaryInput.value.trim();
     if (!raw) {
-      if (fromSubmit === true) showError('Please enter your salary.');
+      if (fromSubmit === true) showError(T('errors.salaryRequired'));
       else { resultBox.classList.remove('is-visible'); highlight(null); }
       return;
     }
@@ -107,7 +110,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function renderResult(res) {
-    document.getElementById('result-primary-text').textContent = `${money(res.annualTax)} a year`;
+    document.getElementById('result-primary-text').textContent = T('result.primary', { tax: money(res.annualTax) });
     document.getElementById('stat-monthly-tax').textContent = money(res.monthlyTax);
     document.getElementById('stat-monthly-takehome').textContent = money(res.monthlyTakeHome);
     document.getElementById('stat-taxable').textContent = money(res.taxableIncome);
@@ -116,22 +119,25 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('stat-slab').textContent = pct(res.marginalRate);
 
     const steps = [];
-    steps.push(`Annual gross salary: <code>${money(res.annualIncome)}</code>`);
-    res.deductions.forEach(d => steps.push(`Less ${d.label.toLowerCase()}: <code>${money(d.amount)}</code>`));
-    steps.push(`Taxable income: <strong>${money(res.taxableIncome)}</strong>`);
+    steps.push(T('steps.gross', { amount: money(res.annualIncome) }));
+    res.deductions.forEach(d => steps.push(T('steps.less', { label: C(`deductions.${d.id}`), amount: money(d.amount) })));
+    steps.push(T('steps.taxable', { amount: money(res.taxableIncome) }));
     const slabs = res.slabs.filter(s => res.taxableIncome > s.over && s.rate > 0);
     slabs.forEach(s => {
       const top = s.upTo === null ? res.taxableIncome : Math.min(s.upTo, res.taxableIncome);
-      steps.push(`${pct(s.rate)} on ${money(top - s.over)} (${money(s.over)} to ${money(top)}): <code>${money((top - s.over) * s.rate)}</code>`);
+      steps.push(T('steps.band', { rate: pct(s.rate), amount: money(top - s.over), from: money(s.over), to: money(top), tax: money((top - s.over) * s.rate) }));
     });
-    steps.push(`Tax from the bands: <code>${money(res.grossTax)}</code>`);
-    if (res.rebate) steps.push(`Less ${dataset.rebate.label || 'rebate'}: <code>${money(res.rebate)}</code>`);
-    if (res.surcharge) steps.push(`Plus surcharge: <code>${money(res.surcharge)}</code>`);
-    if (res.cess) steps.push(`Plus ${dataset.cess.label || 'cess'} (${pct(dataset.cess.rate)}): <code>${money(res.cess)}</code>`);
-    steps.push(`Annual income tax: <strong>${money(res.annualTax)}</strong>, or ${money(res.monthlyTax)} a month`);
+    steps.push(T('steps.bandsTotal', { amount: money(res.grossTax) }));
+    if (res.rebate) steps.push(T('steps.less', { label: dataset.rebate.label ? C('rebate') : T('steps.defaultRebate'), amount: money(res.rebate) }));
+    if (res.surcharge) steps.push(T('steps.surcharge', { amount: money(res.surcharge) }));
+    if (res.cess) steps.push(T('steps.cess', { label: dataset.cess.label ? C('cess') : T('steps.defaultCess'), rate: pct(dataset.cess.rate), amount: money(res.cess) }));
+    steps.push(T('steps.total', { annual: money(res.annualTax), monthly: money(res.monthlyTax) }));
     document.getElementById('formula-breakdown-box').innerHTML = steps.join('<br>');
 
-    lastResultText = `${dataset.countryName} income tax (${dataset.label}) on ${money(res.annualIncome)} a year: ${money(res.annualTax)} a year (${money(res.monthlyTax)} a month), take-home ${money(res.monthlyTakeHome)} a month, effective rate ${res.effectiveRate.toFixed(2)}%.`;
+    lastResultText = T('result.copy', {
+      country: dataset.countryName, label: C('label'), income: money(res.annualIncome), tax: money(res.annualTax),
+      monthlyTax: money(res.monthlyTax), takeHome: money(res.monthlyTakeHome), effective: res.effectiveRate.toFixed(2)
+    });
     const actionCopyBtn = document.getElementById('action-copy-btn');
     if (actionCopyBtn) actionCopyBtn.dataset.copyText = lastResultText;
 
@@ -163,7 +169,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (copyBtn) {
     copyBtn.addEventListener('click', () => {
       if (lastResultText && window.ToolsBuilt && window.ToolsBuilt.copy) {
-        window.ToolsBuilt.copy(lastResultText, 'Tax calculation copied to clipboard');
+        window.ToolsBuilt.copy(lastResultText, T('toast.copied'));
       }
     });
   }

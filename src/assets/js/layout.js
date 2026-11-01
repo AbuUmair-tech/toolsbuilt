@@ -53,7 +53,7 @@
       });
       const headerSearchBtn = document.getElementById('header-search-trigger');
       if (headerSearchBtn) {
-        headerSearchBtn.setAttribute('aria-label', 'Search tools (Press ⌘K)');
+        headerSearchBtn.setAttribute('aria-label', ToolsBuilt.t('layout.searchMac'));
       }
     }
   }
@@ -96,7 +96,7 @@
       try { localStorage.setItem('theme', theme); } catch (e) {}
       const isDark = theme === 'dark';
       toggleButtons.forEach(btn => {
-        btn.setAttribute('aria-label', isDark ? 'Switch to light theme' : 'Switch to dark theme');
+        btn.setAttribute('aria-label', isDark ? ToolsBuilt.t('layout.switchToLight') : ToolsBuilt.t('layout.switchToDark'));
       });
     };
 

@@ -16,7 +16,17 @@
   }
 })(typeof globalThis !== 'undefined' ? globalThis : this, function () {
 
-  const LABELS = ['Very weak', 'Weak', 'Fair', 'Strong', 'Very strong'];
+  // Labels and messages come from the tool's translation data. In the Web Worker neither
+  // ToolsBuilt nor require exists: the page translates the label itself (LABEL_KEYS by score)
+  // and worker errors only trigger the main-thread fallback, so keys are returned as is.
+  const T = (typeof ToolsBuilt !== 'undefined' && ToolsBuilt.scope)
+    ? ToolsBuilt.scope('password-strength-checker')
+    : (typeof require === 'function')
+      ? require('../../../scripts/i18n-client.js').scope('password-strength-checker')
+      : (key) => key;
+
+  const LABEL_KEYS = ['veryWeak', 'weak', 'fair', 'strong', 'veryStrong'];
+  const LABELS = LABEL_KEYS.map(key => T(`labels.${key}`));
   const MAX_CHECK_LENGTH = 256; // zxcvbn-ts only analyses the first 256 characters
 
   /** Length (in characters, not UTF-16 units) and which character sets are used. */
@@ -57,7 +67,7 @@
    */
   function createChecker(ns) {
     if (!ns || !ns.core || !ns['language-common'] || !ns['language-en']) {
-      throw new Error('The password checker library did not load.');
+      throw new Error(T('errors.libraryNotLoaded'));
     }
     const common = ns['language-common'];
     const en = ns['language-en'];
@@ -99,5 +109,5 @@
     return { check };
   }
 
-  return { LABELS, characterInfo, createChecker };
+  return { LABELS, LABEL_KEYS, characterInfo, createChecker };
 });

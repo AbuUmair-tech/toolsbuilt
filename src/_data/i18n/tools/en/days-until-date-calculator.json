@@ -1,0 +1,233 @@
+{
+  "listing": {
+    "name": "Days Until Date Calculator",
+    "shortName": "Days Until Date",
+    "description": "Calculate exact total days, weeks, and months remaining until any future event, birthday, or holiday.",
+    "shortDescription": "Calculate exact total days, weeks, and months remaining until any future event, birthday, or holiday.",
+    "keywords": [
+      "days until date",
+      "event countdown",
+      "how many days until",
+      "days countdown",
+      "calendar days left"
+    ]
+  },
+  "title": "Days Until Date Calculator - Count Days to Any Date",
+  "description": "Calculate the exact number of days, weeks, and months until any date or event. Free online date countdown calculator with zero signup.",
+  "h1": "Days Until Date Calculator",
+  "quickAnswer": "To find the number of days until an upcoming event, choose any target date on the calendar. The tool compares your target against today's date, displaying total remaining days, weeks, months, and hours. It works equally well in reverse to calculate elapsed days since past milestones or anniversaries.",
+  "formula": {
+    "title": "Calendar Countdown Formula",
+    "expression": "Days Until = ⌊(Target Date UTC ms - Current Date UTC ms) / 86,400,000 ms⌋",
+    "explanation": "Both dates are evaluated at midnight UTC to prevent daylight saving clock distortions. Positive values indicate future countdowns, while negative values represent elapsed time since past events."
+  },
+  "workedExamples": [
+    {
+      "title": "30-Day Project Deadline",
+      "inputs": [
+        "Target Date: November 23, 2026 (Monday)",
+        "Base Date: October 24, 2026 (Saturday)"
+      ],
+      "steps": [
+        "Calculate UTC midnight difference: 30 days",
+        "Decompose into weeks: 4 weeks and 2 days",
+        "Calculate hours: 30 × 24 = 720 hours"
+      ],
+      "result": "30 Days Remaining (4 weeks and 2 days, 720 hours, Monday)"
+    },
+    {
+      "title": "New Year Countdown",
+      "inputs": [
+        "Target Date: January 1, 2027 (Friday)",
+        "Base Date: October 24, 2026 (Saturday)"
+      ],
+      "steps": [
+        "Calculate total days: 69 calendar days",
+        "Decompose into months and days: 2 months and 8 days (9 weeks and 6 days)",
+        "Calculate hours: 69 × 24 = 1,656 hours"
+      ],
+      "result": "69 Days Remaining (2 months and 8 days, 1,656 hours, Friday)"
+    },
+    {
+      "title": "Elapsed Milestone Countdown (Past Date)",
+      "inputs": [
+        "Target Date: September 24, 2026 (Thursday)",
+        "Base Date: October 24, 2026 (Saturday)"
+      ],
+      "steps": [
+        "Target occurs in the past: delta of -30 days",
+        "Evaluate absolute elapsed duration: 30 days ago",
+        "Decompose: 1 month ago (4 weeks and 2 days, 720 hours)"
+      ],
+      "result": "30 Days Ago (1 month ago, 720 hours elapsed, Thursday)"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Hardcoding Static Day Counts",
+      "description": "Counting down to annual holidays with static estimates fails because target distances change every 24 hours. Always use dynamic calendar calculations."
+    },
+    {
+      "title": "Local Timezone Date Shifting",
+      "description": "Comparing dates using local midnight can cause off-by-one errors across timezones. Normalizing timestamps to UTC midnight prevents shift bugs."
+    },
+    {
+      "title": "Confusing Elapsed Days with Remaining Days",
+      "description": "Future dates yield positive counts, whereas past historical anniversaries yield elapsed days that must be labeled accordingly."
+    },
+    {
+      "title": "Overlooking Month-End Variations",
+      "description": "Decomposing 60 days into months requires checking the actual lengths of intervening months (e.g., February has 28 or 29 days, while July and August both have 31)."
+    }
+  ],
+  "sources": [
+    {
+      "name": "NIST Time and Frequency Division",
+      "url": "https://www.nist.gov/pml/time-and-frequency-division"
+    },
+    {
+      "name": "ISO 8601 Date and Time Standards",
+      "url": "https://www.iso.org/iso-8601-date-and-time-format.html"
+    },
+    {
+      "name": "W3C Working Group Note on Time and Date Formats",
+      "url": "https://www.w3.org/TR/NOTE-datetime"
+    }
+  ],
+  "howto": {
+    "name": "How to Calculate Days Until Any Target Date",
+    "description": "Step-by-step instructions for calculating days until a future event.",
+    "steps": [
+      {
+        "name": "Select Target Date",
+        "text": "Choose your future event date using the date selector input."
+      },
+      {
+        "name": "Add Event Title",
+        "text": "Optionally enter an event label such as Vacation, Birthday, or Project Deadline."
+      },
+      {
+        "name": "View Countdown Breakdown",
+        "text": "View total remaining days, equivalent weeks and days, calendar months, and the target day of the week."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "How does the Days Until Date Calculator work?",
+      "a": "The calculator computes the exact calendar distance between today's date and your selected target date. All date math is performed using UTC midnight timestamps to eliminate daylight saving time (DST) shifts that often cause off-by-one errors on other calculators."
+    },
+    {
+      "q": "Does this calculator take leap years into account?",
+      "a": "Yes. The algorithm fully accounts for 366-day leap years (including February 29th) when computing spans across calendar years."
+    },
+    {
+      "q": "Can I calculate how many days have passed since a past date?",
+      "a": "Yes. If you pick a date in the past, the tool automatically detects it and displays the elapsed time in days, weeks, and months since that date."
+    },
+    {
+      "q": "How are months and days broken down?",
+      "a": "Months are calculated from full calendar month transitions. The remaining days are clamped to the exact length of the preceding month, correctly handling months with 28, 29, 30, or 31 days."
+    },
+    {
+      "q": "Is my input date stored or sent to a server?",
+      "a": "No. All calculation logic runs strictly inside your web browser using standard JavaScript. No personal dates or event names leave your device."
+    },
+    {
+      "q": "Does the countdown update dynamically if I leave the page open?",
+      "a": "The calculation runs whenever you select a date or reload the page. For real-time updates at midnight, refresh the page to update the base date."
+    },
+    {
+      "q": "Can I use this calculator for wedding or retirement planning?",
+      "a": "Yes. Enter your future retirement or wedding date to view the remaining time broken down into total days, weeks, and calendar months."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Days Until Date Calculator Tool"
+    },
+    "label": {
+      "target-date": "Select Target Date <span class=\"text-accent\">*</span>",
+      "event-name": "Event Name <span class=\"label-hint\">(Optional)</span>"
+    },
+    "placeholder": {
+      "event-name": "e.g. Vacation, Product Launch, Wedding..."
+    },
+    "text": {
+      "calculate-btn": "Calculate Days",
+      "reset-btn": "Reset",
+      "result-primary-text": "-- Days Until Date"
+    },
+    "content": {
+      "tool": {
+        "div1": "<span id=\"result-header-text\">Countdown Calculation Result</span>",
+        "div2": "Total Days",
+        "div3": "Weeks &amp; Days",
+        "div4": "Months &amp; Days",
+        "div5": "Day of the Week"
+      },
+      "how-when-to-use-the-days": {
+        "heading": "How &amp; When to Use the Days Until Date Calculator",
+        "p1": "Tracking time until an upcoming date is helpful across personal, financial, and professional scheduling:",
+        "li1": "<strong>Project Management &amp; Sprints:</strong> Calculate the exact number of calendar days and weeks remaining until a client milestone or release deadline.",
+        "li2": "<strong>Contract &amp; Lease Notice Periods:</strong> Determine deadlines for 30-day, 60-day, or 90-day lease renewals and legal notices.",
+        "li3": "<strong>Event &amp; Travel Planning:</strong> Keep tabs on how many days remain until flights, vacations, conferences, or wedding dates.",
+        "li4": "<strong>Financial Deadlines:</strong> Track tax filing deadlines, quarterly estimated tax payment dates, and bond maturity dates."
+      }
+    }
+  },
+  "client": {
+    "dateLong": "{{month}} {{day}}, {{year}}",
+    "errors": {
+      "invalidTarget": "Please enter a valid target date (YYYY-MM-DD).",
+      "invalidBase": "Please enter a valid base calculation date (YYYY-MM-DD).",
+      "missingTarget": "Please select a valid target date."
+    },
+    "units": {
+      "weeks": {
+        "one": "{{n}} week",
+        "other": "{{n}} weeks"
+      },
+      "months": {
+        "one": "{{n}} month",
+        "other": "{{n}} months"
+      },
+      "days": {
+        "one": "{{n}} day",
+        "other": "{{n}} days"
+      }
+    },
+    "result": {
+      "defaultSubject": "Target Date",
+      "headerToday": "Event Status",
+      "headerPast": "Elapsed Time Calculation",
+      "headerFuture": "Countdown Calculation Result",
+      "today": "Today is the day! ({{subject}})",
+      "since": {
+        "one": "{{n}} Day Since {{subject}}",
+        "other": "{{n}} Days Since {{subject}}"
+      },
+      "until": {
+        "one": "{{n}} Day Until {{subject}}",
+        "other": "{{n}} Days Until {{subject}}"
+      }
+    },
+    "stats": {
+      "zeroDays": "0 Days",
+      "zeroWeeksDays": "0 weeks, 0 days",
+      "zeroMonthsDays": "0 months, 0 days",
+      "days": "{{n}} Days",
+      "daysAgo": "{{n}} Days Ago",
+      "weeksDays": "{{weeks}}, {{days}}",
+      "weeksDaysAgo": "{{weeks}}, {{days}} ago",
+      "monthsDays": "{{months}}, {{days}}",
+      "monthsDaysAgo": "{{months}}, {{days}} ago"
+    },
+    "copy": {
+      "today": "{{result}} - {{date}}",
+      "past": "{{result}} ({{n}} days elapsed on {{date}}).",
+      "future": "{{result}} ({{n}} days, {{weeks}}w {{days}}d until {{date}}).",
+      "toast": "Countdown result copied to clipboard"
+    }
+  }
+}

@@ -17,14 +17,22 @@
   // The signed 32-bit limit behind the Year 2038 problem
   const INT32_MAX = 2147483647;
 
+  // Messages, unit names and relative times come from the tool's translation data
+  const T = (typeof ToolsBuilt !== 'undefined' && ToolsBuilt.scope)
+    ? ToolsBuilt.scope('unix-timestamp-converter')
+    : require('../../../scripts/i18n-client.js').scope('unix-timestamp-converter');
+  // Locale for numbers shown to visitors: en-US on English pages and in Node
+  const displayLocale = () => ((typeof ToolsBuilt !== 'undefined' && ToolsBuilt.pageLocale) ? ToolsBuilt.pageLocale('en-US') : 'en-US');
+
+  // RFC 2822 day and month names are part of the format (always English), not display text
   const WEEKDAYS_SHORT = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
   const MONTHS_SHORT = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
   const UNITS = {
-    s: { label: 'seconds', toMs: 1000 },
-    ms: { label: 'milliseconds', toMs: 1 },
-    us: { label: 'microseconds', toMs: 0.001 },
-    ns: { label: 'nanoseconds', toMs: 0.000001 }
+    s: { label: T('units.s'), toMs: 1000 },
+    ms: { label: T('units.ms'), toMs: 1 },
+    us: { label: T('units.us'), toMs: 0.001 },
+    ns: { label: T('units.ns'), toMs: 0.000001 }
   };
 
   const pad = (n, len = 2) => String(n).padStart(len, '0');
@@ -48,16 +56,16 @@
    */
   function parseTimestamp(input, unit = 'auto') {
     const str = String(input === undefined || input === null ? '' : input).trim().replace(/[,_\s]/g, '');
-    if (!str) return { error: 'Enter a Unix timestamp, for example 1700000000.' };
+    if (!str) return { error: T('errors.empty') };
     if (!/^[-+]?\d+(\.\d+)?$/.test(str)) {
-      return { error: 'A Unix timestamp is a whole number of seconds (or milliseconds), such as 1700000000. Remove letters and other symbols.' };
+      return { error: T('errors.notNumber') };
     }
     const value = Number(str);
     const chosen = unit && unit !== 'auto' ? unit : detectUnit(value);
-    if (!UNITS[chosen]) return { error: 'Unknown unit.' };
+    if (!UNITS[chosen]) return { error: T('errors.unknownUnit') };
     const ms = value * UNITS[chosen].toMs;
     if (!Number.isFinite(ms) || Math.abs(ms) > MAX_DATE_MS) {
-      return { error: 'That timestamp is outside the range a date can represent (about ±275,000 years from 1970).' };
+      return { error: T('errors.outOfRange') };
     }
     return {
       ms: Math.round(ms * 1000) / 1000,
@@ -106,7 +114,7 @@
   function relativeTime(ms, nowMs) {
     const diffSec = Math.round((ms - nowMs) / 1000);
     const abs = Math.abs(diffSec);
-    if (abs < 5) return 'just now';
+    if (abs < 5) return T('relative.justNow');
     const steps = [
       ['year', 365 * 86400],
       ['month', 30 * 86400],
@@ -119,11 +127,11 @@
     for (const [name, size] of steps) {
       if (abs >= size) {
         const n = Math.floor(abs / size);
-        const text = `${n.toLocaleString('en-US')} ${name}${n === 1 ? '' : 's'}`;
-        return diffSec < 0 ? `${text} ago` : `in ${text}`;
+        const text = T(`relative.${name}.${n === 1 ? 'one' : 'other'}`, { n: n.toLocaleString(displayLocale()) });
+        return diffSec < 0 ? T('relative.past', { text }) : T('relative.future', { text });
       }
     }
-    return 'just now';
+    return T('relative.justNow');
   }
 
   /**
@@ -183,7 +191,7 @@
    */
   function dateToTimestamp(dateTimeStr, options = {}) {
     const p = parseDateTime(dateTimeStr);
-    if (!p) return { error: 'Enter a valid date and time, for example 2023-11-14 22:13:20.' };
+    if (!p) return { error: T('errors.invalidDateTime') };
     let d;
     if (options.zone === 'local') {
       d = new Date(2000, 0, 1, 0, 0, 0, 0);
@@ -195,7 +203,7 @@
       d.setUTCHours(p.hour, p.minute, p.second, p.millisecond);
     }
     const ms = d.getTime();
-    if (!Number.isFinite(ms)) return { error: 'That date is outside the supported range.' };
+    if (!Number.isFinite(ms)) return { error: T('errors.dateOutOfRange') };
     return {
       ms,
       seconds: Math.floor(ms / 1000),

@@ -14,13 +14,13 @@ layout: layouts/base.njk
       {
         "@type": "ListItem",
         "position": 1,
-        "name": "Home",
+        "name": {{ 'common.home' | t | jsonStr }},
         "item": "https://toolsbuilt.com/"
       },
       {
         "@type": "ListItem",
         "position": 2,
-        "name": "Blog",
+        "name": {{ 'common.blog' | t | jsonStr }},
         "item": "https://toolsbuilt.com/blog/"
       },
       {
@@ -93,10 +93,10 @@ layout: layouts/base.njk
     <section class="page-hero">
       <div class="container">
         <!-- Breadcrumb Navigation -->
-        <nav class="breadcrumb" aria-label="Breadcrumb">
+        <nav class="breadcrumb" aria-label="{{ 'post.ariaLabel.tool-nav1' | t }}">
           <ol>
-            <li><a href="/">Home</a></li>
-            <li><a href="/blog/">Blog</a></li>
+            <li>{{ 'post.content.tool.li1' | t }}</li>
+            <li>{{ 'post.content.tool.li2' | t }}</li>
             <li aria-current="page">{{ shortTitle or title }}</li>
           </ol>
         </nav>
@@ -104,15 +104,14 @@ layout: layouts/base.njk
         {% if draft %}
         <!-- Visible DRAFT Banner for Dev / Staging -->
         <div class="alert alert-warning draft-banner" role="alert">
-          <span class="badge badge-draft">DRAFT</span>
-          <span class="font-medium">This post is a <strong>draft</strong>. It is only visible in development/staging and is excluded from production builds.</span>
+          {{ 'post.content.tool.div1' | t }}
         </div>
         {% endif %}
 
         <!-- Post Hero Header -->
         <div class="post-hero-header mb-8">
           <div class="category-hero-meta mb-3 flex items-center gap-2">
-            <span class="tool-category-chip" data-cat="tech">{{ category or "Guide" }}</span>
+            <span class="tool-category-chip" data-cat="tech">{{ category or ('post.guide' | t) }}</span>
             <span class="category-count-badge">{{ renderedContent | readingTime }}</span>
           </div>
           <h1 class="tool-hero-title mb-4">{{ title }}</h1>
@@ -120,12 +119,12 @@ layout: layouts/base.njk
           <p class="tool-hero-description text-md text-secondary mb-4 leading-normal">{{ description }}</p>
           {% endif %}
           <div class="tool-byline flex flex-wrap items-center gap-2 text-tertiary text-sm">
-            <span>By <strong>{{ site.authorName or "Abu Umair" }}</strong></span>
+            <span>{{ 'post.content.tool.text1' | t }} <strong>{{ site.authorName or "Abu Umair" }}</strong></span>
             <span>&bull;</span>
-            <span>Published <time datetime="{{ date | isoDate }}">{{ date | readableDate }}</time></span>
+            <span>{{ 'post.content.tool.text2' | t }} <time datetime="{{ date | isoDate }}">{{ date | readableDate }}</time></span>
             {% if updated and (updated | isoDate) != (date | isoDate) %}
             <span>&bull;</span>
-            <span>Updated <time datetime="{{ updated | isoDate }}">{{ updated | readableDate }}</time></span>
+            <span>{{ 'post.content.tool.text3' | t }} <time datetime="{{ updated | isoDate }}">{{ updated | readableDate }}</time></span>
             {% endif %}
             <span>&bull;</span>
             <span>{{ renderedContent | readingTime }}</span>
@@ -150,13 +149,13 @@ layout: layouts/base.njk
               </div>
               <div>
                 <span class="tool-category-chip text-sm mb-1 inline-block" data-cat="{{ matchedTool.category }}">{{ matchedTool.category }}</span>
-                <h2 class="text-md m-0 text-primary">Try the {{ matchedTool.name }}</h2>
+                <h2 class="text-md m-0 text-primary">{{ 'post.tryTool' | t({ name: matchedTool.name }) }}</h2>
               </div>
             </div>
             <p class="m-0 text-secondary text-sm leading-normal">{{ matchedTool.description }}</p>
             <div>
               <a href="/tools/{{ matchedTool.slug }}/" class="btn btn-primary btn-md">
-                <span>Open {{ matchedTool.shortName or matchedTool.name }}</span>
+                <span>{{ 'post.openTool' | t({ name: matchedTool.shortName or matchedTool.name }) }}</span>
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
               </a>
             </div>
@@ -172,7 +171,7 @@ layout: layouts/base.njk
         <!-- FAQs Section (if present) -->
         {% if faqs and faqs.length > 0 %}
         <section class="faq-section mt-12" aria-labelledby="faq-heading">
-          <h2 id="faq-heading" class="section-title">Frequently Asked Questions</h2>
+          <h2 id="faq-heading" class="section-title">{{ 'post.text.faq-heading' | t }}</h2>
           <div class="accordion-group">
             {% for faq in faqs %}
             <details class="faq-item">
@@ -192,19 +191,18 @@ layout: layouts/base.njk
         {% set otherPosts = collections.post | filterOtherPosts(page.url, 2) %}
         {% if otherPosts and otherPosts.length > 0 %}
         <section class="related-posts-section mt-12 pt-8 border-t" aria-labelledby="related-posts-heading">
-          <h2 id="related-posts-heading" class="section-title">More Guides &amp; Articles</h2>
+          <h2 id="related-posts-heading" class="section-title">{{ 'post.text.related-posts-heading' | t }}</h2>
           <div class="tools-grid">
             {% for p in otherPosts %}
             <a href="{{ p.url }}" class="tool-card">
               <div class="tool-card-header">
-                <span class="tool-category-chip" data-cat="tech">{{ p.data.category or "Guide" }}</span>
+                <span class="tool-category-chip" data-cat="tech">{{ p.data.category or ('post.guide' | t) }}</span>
                 <span class="text-sm text-tertiary">{{ p.templateContent | readingTime }}</span>
               </div>
               <h3 class="tool-title">{{ p.data.title }}</h3>
               <p class="tool-desc">{{ p.data.description }}</p>
               <div class="tool-card-action">
-                <span>Read Guide</span>
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                {{ 'post.content.more-guides-articles.div1' | t }}
               </div>
             </a>
             {% endfor %}
@@ -219,11 +217,11 @@ layout: layouts/base.njk
 
       <!-- Desktop Sticky Table of Contents (hidden < 1100px) -->
       {% if toc and toc.length > 0 %}
-      <aside class="tool-toc-aside" aria-label="On this page">
+      <aside class="tool-toc-aside" aria-label="{{ 'post.ariaLabel.more-guides-articles-aside1' | t }}">
         <div class="tool-toc-sticky">
           <div class="sidebar-card">
-          <span class="toc-heading">On This Page</span>
-          <nav class="toc-nav" aria-label="Table of contents">
+          <span class="toc-heading">{{ 'post.content.more-guides-articles.span1' | t }}</span>
+          <nav class="toc-nav" aria-label="{{ 'post.ariaLabel.more-guides-articles-nav1' | t }}">
             <ul class="toc-list">
               {% for item in toc %}
               <li class="toc-item toc-level-{{ item.level }}">
@@ -231,9 +229,9 @@ layout: layouts/base.njk
               </li>
               {% endfor %}
               {% if faqs and faqs.length > 0 %}
-              <li><a href="#faq-heading">Frequently Asked Questions</a></li>
+              <li>{{ 'post.content.more-guides-articles.li1' | t }}</li>
               {% endif %}
-              <li><a href="#related-tools-heading">Related Tools</a></li>
+              <li>{{ 'post.content.more-guides-articles.li2' | t }}</li>
             </ul>
           </nav>
           </div>

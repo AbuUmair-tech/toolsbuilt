@@ -1,13 +1,11 @@
 ---
 layout: layouts/base.njk
-title: ToolsBuilt - Free Online Calculators and Tools
-description: Free online calculators and web tools to solve everyday date, time, math, text, and security tasks instantly. No signup required, fast and mobile-friendly.
 permalink: /index.html
 canonical: https://toolsbuilt.com/
 ---
-{% import "partials/icon.njk" as icons %}
-{% import "partials/cards.njk" as cards %}
-
+{% import "partials/icon.njk" as icons with context %}
+{% import "partials/cards.njk" as cards with context %}
+{% set faqItems = text.faq | fmtDeep({ author: site.authorName, bio: 'site.authorBio' | t }) %}
 {% block jsonLd %}
   <!-- JSON-LD Schema 1: Organization -->
   <script type="application/ld+json">
@@ -38,7 +36,7 @@ canonical: https://toolsbuilt.com/
 
   <!-- JSON-LD Schema 3: FAQPage -->
   <script type="application/ld+json">
-  {{ homepageFaq | faqPageSchema | safe }}
+  {{ faqItems | faqPageSchema | safe }}
   </script>
 {% endblock %}
 
@@ -48,20 +46,20 @@ canonical: https://toolsbuilt.com/
     <!-- 1. Hero -->
     <section class="hero-section" aria-labelledby="hero-title">
       <div class="hero-copy">
-        <p class="section-label hero-badge"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"></path><path d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"></path><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"></path><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"></path></svg> {{ tools | length | roundDownTo(5) }}+ Free Online Tools</p>
-        <h1 id="hero-title" class="hero-title">Free Online Tools.<br><span class="text-accent">Simple</span> Solutions.</h1>
-        <p class="hero-subtitle">Fast, private calculators and everyday tools that run in your browser.</p>
+        <p class="section-label hero-badge"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"></path><path d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"></path><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"></path><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"></path></svg> {{ 'hero.badge' | pt({ count: tools | length | roundDownTo(5) }) }}</p>
+        <h1 id="hero-title" class="hero-title">{{ 'text.hero-title' | pt }}</h1>
+        <p class="hero-subtitle">{{ 'content.tool.p1' | pt }}</p>
 
         <!-- Search: works as a form; with JavaScript it opens the Ctrl+K palette with the query -->
         <form class="hero-search-box" id="hero-search-form" action="/" method="get" role="search">
           <svg class="hero-search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-          <label for="hero-search-input" class="visually-hidden">Search tools</label>
-          <input type="search" id="hero-search-input" name="q" class="hero-search-input" placeholder="Search for a tool, e.g. percentage" autocomplete="off" spellcheck="false">
-          <button type="submit" class="hero-search-submit">Search {{ cards.arrow("") }}</button>
+          <label for="hero-search-input" class="visually-hidden">{{ 'label.hero-search-input' | pt }}</label>
+          <input type="search" id="hero-search-input" name="q" class="hero-search-input" placeholder="{{ 'placeholder.hero-search-input' | pt }}" autocomplete="off" spellcheck="false">
+          <button type="submit" class="hero-search-submit">{{ 'hero.search' | pt }} {{ cards.arrow("") }}</button>
         </form>
 
         <p class="hero-popular">
-          <span>Popular:</span>
+          <span>{{ 'content.tool.span1' | pt }}</span>
           {% for tool in tools | filterPopular(4) %}
           <a href="/tools/{{ tool.slug }}/">{{ tool.shortName or tool.name }}</a>
           {% endfor %}
@@ -76,11 +74,11 @@ canonical: https://toolsbuilt.com/
     <section class="home-section" id="categories" aria-labelledby="categories-title">
       <div class="section-head">
         <div>
-          <p class="section-label">Browse Categories</p>
-          <h2 id="categories-title" class="section-title">Explore by Category</h2>
-          <p class="section-intro">Every tool, grouped by what you need to get done.</p>
+          <p class="section-label">{{ 'content.tool.p2' | pt }}</p>
+          <h2 id="categories-title" class="section-title">{{ 'text.categories-title' | pt }}</h2>
+          <p class="section-intro">{{ 'content.explore-by-category.p1' | pt }}</p>
         </div>
-        <a href="/tools/" class="section-link">View all categories {{ cards.arrow("") }}</a>
+        <a href="/tools/" class="section-link">{{ 'links.allCategories' | pt }} {{ cards.arrow("") }}</a>
       </div>
       <ul class="category-grid">
         {% for cat in categories %}
@@ -93,11 +91,11 @@ canonical: https://toolsbuilt.com/
     <section class="home-section" id="popular-tools" aria-labelledby="popular-tools-title">
       <div class="section-head">
         <div>
-          <p class="section-label">Most Popular</p>
-          <h2 id="popular-tools-title" class="section-title">Popular Tools</h2>
-          <p class="section-intro">Tools people use every day.</p>
+          <p class="section-label">{{ 'content.explore-by-category.p2' | pt }}</p>
+          <h2 id="popular-tools-title" class="section-title">{{ 'text.popular-tools-title' | pt }}</h2>
+          <p class="section-intro">{{ 'content.popular-tools.p1' | pt }}</p>
         </div>
-        <a href="/tools/" class="section-link">View all tools {{ cards.arrow("") }}</a>
+        <a href="/tools/" class="section-link">{{ 'links.allTools' | pt }} {{ cards.arrow("") }}</a>
       </div>
       <ul class="tool-grid">
         {% for tool in tools | filterPopular(8) %}
@@ -108,7 +106,7 @@ canonical: https://toolsbuilt.com/
 
     <!-- 4. All tools, grouped by category (every tool one click from the homepage) -->
     <section class="home-section" id="all-tools" aria-labelledby="all-tools-title">
-      <h2 id="all-tools-title" class="section-title">All Tools</h2>
+      <h2 id="all-tools-title" class="section-title">{{ 'text.all-tools-title' | pt }}</h2>
       <div class="all-tools-groups">
         {% for cat in categories %}
         <div class="all-tools-group" id="cat-{{ cat.slug }}">
@@ -124,28 +122,25 @@ canonical: https://toolsbuilt.com/
     </section>
 
     <!-- 5. Trust strip -->
-    <section class="home-section" aria-label="Why ToolsBuilt">
+    <section class="home-section" aria-label="{{ 'ariaLabel.all-tools-section1' | pt }}">
       <ul class="trust-row">
         <li>
-          <span class="icon-tile trust-icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg></span>
-          <span class="trust-text"><strong>Lightning fast</strong><span>Runs in your browser</span></span>
+          {{ 'content.all-tools.li1' | pt }}
         </li>
         <li>
-          <span class="icon-tile trust-icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg></span>
-          <span class="trust-text"><strong>100% free</strong><span>No hidden charges</span></span>
+          {{ 'content.all-tools.li2' | pt }}
         </li>
         <li>
-          <span class="icon-tile trust-icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><line x1="17" y1="8" x2="23" y2="8"></line></svg></span>
-          <span class="trust-text"><strong>No sign-up required</strong><span>Use any tool instantly</span></span>
+          {{ 'content.all-tools.li3' | pt }}
         </li>
       </ul>
     </section>
 
     <!-- 6. FAQ -->
     <section class="home-section faq-section" id="faq" aria-labelledby="faq-title">
-      <h2 id="faq-title" class="section-title">Frequently Asked Questions</h2>
+      <h2 id="faq-title" class="section-title">{{ 'text.faq-title' | pt }}</h2>
       <div class="faq-list">
-        {% for item in homepageFaq %}
+        {% for item in faqItems %}
         <details class="faq-item">
           <summary class="faq-question">
             <span>{{ item.question }}</span>

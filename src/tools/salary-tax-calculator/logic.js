@@ -26,14 +26,19 @@
 })(typeof globalThis !== 'undefined' ? globalThis : this, function () {
   'use strict';
 
+  // Messages and default labels come from the tool's translation data
+  const T = (typeof ToolsBuilt !== 'undefined' && ToolsBuilt.scope)
+    ? ToolsBuilt.scope('salary-tax-calculator')
+    : require('../../../scripts/i18n-client.js').scope('salary-tax-calculator');
+
   /** Resolves a dataset (and filing status, if any) into slabs with every fixed amount filled in. */
   function resolve(dataset, status) {
-    if (!dataset || typeof dataset !== 'object') throw new Error('No tax data loaded.');
+    if (!dataset || typeof dataset !== 'object') throw new Error(T('engine.errors.noData'));
     let base = dataset;
     if (dataset.statuses) {
       const id = status || dataset.defaultStatus || Object.keys(dataset.statuses)[0];
       base = dataset.statuses[id];
-      if (!base) throw new Error(`Unknown filing status "${status}".`);
+      if (!base) throw new Error(T('engine.errors.unknownStatus', { status }));
     }
     let carried = 0;
     const slabs = base.slabs.map((slab, i) => {
@@ -103,15 +108,15 @@
    */
   function calculate(dataset, annualIncome, options) {
     const income = Number(annualIncome);
-    if (!isFinite(income) || income < 0) throw new Error('Please enter a salary of 0 or more.');
+    if (!isFinite(income) || income < 0) throw new Error(T('engine.errors.salaryMin'));
     const opts = options || {};
     const { slabs, standardDeduction } = resolve(dataset, opts.status);
 
     const deductions = [];
-    if (standardDeduction) deductions.push({ id: 'standard', label: dataset.standardDeductionLabel || 'Standard deduction', amount: Math.min(income, standardDeduction) });
+    if (standardDeduction) deductions.push({ id: 'standard', label: dataset.standardDeductionLabel || T('engine.standardDeduction'), amount: Math.min(income, standardDeduction) });
     const afterStandard = income - (deductions[0] ? deductions[0].amount : 0);
     const allowance = personalAllowance(dataset, income);
-    if (dataset.personalAllowance) deductions.push({ id: 'allowance', label: dataset.personalAllowance.label || 'Personal allowance', amount: Math.min(afterStandard, allowance) });
+    if (dataset.personalAllowance) deductions.push({ id: 'allowance', label: dataset.personalAllowance.label || T('engine.personalAllowance'), amount: Math.min(afterStandard, allowance) });
 
     const taxable = Math.max(0, income - deductions.reduce((sum, d) => sum + d.amount, 0));
     const slab = findSlab(slabs, taxable);
@@ -143,8 +148,8 @@
   /** Same as calculate(), for an amount entered per month or per year. */
   function calculateSalary(dataset, amount, period, options) {
     const value = Number(amount);
-    if (!isFinite(value) || value < 0) throw new Error('Please enter a salary of 0 or more.');
-    if (period !== 'monthly' && period !== 'annual') throw new Error('Choose whether the salary is monthly or annual.');
+    if (!isFinite(value) || value < 0) throw new Error(T('engine.errors.salaryMin'));
+    if (period !== 'monthly' && period !== 'annual') throw new Error(T('engine.errors.period'));
     const annual = period === 'monthly' ? value * 12 : value;
     const result = calculate(dataset, annual, options);
     return {

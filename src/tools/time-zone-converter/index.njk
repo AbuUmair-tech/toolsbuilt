@@ -1,146 +1,51 @@
 ---
 layout: layouts/tool.njk
 toolSlug: time-zone-converter
-title: "Time Zone Converter & Meeting Planner"
-description: "Convert a date and time between time zones with daylight saving handled, compare up to five cities, and find shared 9 to 5 working hours for a meeting."
 permalink: /tools/time-zone-converter/
-h1: "Time Zone Converter & Meeting Planner"
 extraCss: "/tools/time-zone-converter/style.css"
-quickAnswer: "To convert a time between zones, pick the date, time and the zone it is in, then the zones you need. Noon in New York on 1 July 2026 (EDT, UTC−4) is 16:00 UTC and 21:00 in Karachi (UTC+5). In winter the gap changes: 09:00 in London on 15 January 2026 (GMT) is 14:00 in Karachi. Daylight saving time is applied automatically for the exact date."
-formula:
-  title: "Time Zone Conversion Method"
-  expression: "Target time = Source time − Source UTC offset (on that date) + Target UTC offset (at that instant)"
-  explanation: "The time you enter is first turned into a single instant in UTC by subtracting the source zone's offset in force on that date, then that instant is shown with each target zone's own offset. Offsets come from your browser's built-in IANA time zone database through Intl.DateTimeFormat, so daylight saving changes and historical rule changes are applied for the exact date rather than a fixed offset."
-  variables:
-    - name: "UTC offset"
-      description: "Hours and minutes ahead of (+) or behind (−) Coordinated Universal Time, such as UTC+05:00 for Pakistan or UTC−04:00 for New York in summer."
-    - name: "IANA zone"
-      description: "A Region/City name such as America/New_York or Asia/Karachi that carries the full history of that place's offsets and DST rules."
-    - name: "Working hours"
-      description: "The meeting planner shades 09:00 to 17:00 local time in each zone and highlights the hours when every zone is inside that window."
-workedExamples:
-  - title: "New York noon in summer to UTC and Karachi"
-    inputs:
-      - "Date and time: 1 July 2026, 12:00"
-      - "From: America/New_York (EDT, UTC−04:00)"
-      - "To: UTC, Asia/Karachi (PKT, UTC+05:00)"
-    steps:
-      - "12:00 − (−4 h) = 16:00 UTC"
-      - "16:00 UTC + 5 h = 21:00 in Karachi"
-    result: "16:00 UTC and 21:00 PKT on 1 July 2026 (Karachi is 9 hours ahead)"
-    link: "/tools/time-zone-converter/?date=2026-07-01&time=12%3A00&from=America%2FNew_York&z1=UTC&z2=Asia%2FKarachi#tool"
-  - title: "London morning in winter to Karachi"
-    inputs:
-      - "Date and time: 15 January 2026, 09:00"
-      - "From: Europe/London (GMT, UTC+00:00)"
-      - "To: Asia/Karachi (UTC+05:00)"
-    steps:
-      - "London is on GMT in January, so 09:00 is 09:00 UTC"
-      - "09:00 UTC + 5 h = 14:00 in Karachi"
-    result: "14:00 in Karachi (5 hours ahead; 4 hours ahead in summer when London is on BST)"
-    link: "/tools/time-zone-converter/?date=2026-01-15&time=09%3A00&from=Europe%2FLondon&z1=Asia%2FKarachi#tool"
-  - title: "A late call that lands on the next day"
-    inputs:
-      - "Date and time: 10 March 2026, 18:00"
-      - "From: America/Los_Angeles (PDT, UTC−07:00 after the 8 March change)"
-      - "To: Asia/Tokyo (JST, UTC+09:00)"
-    steps:
-      - "18:00 + 7 h = 01:00 UTC on 11 March"
-      - "01:00 UTC + 9 h = 10:00 on 11 March in Tokyo"
-    result: "10:00 on Wednesday 11 March in Tokyo (next day)"
-    link: "/tools/time-zone-converter/?date=2026-03-10&time=18%3A00&from=America%2FLos_Angeles&z1=Asia%2FTokyo#tool"
-commonMistakes:
-  - title: "Using a fixed offset all year"
-    description: "New York is UTC−5 in winter and UTC−4 in summer, so the gap to Karachi switches between 10 and 9 hours. Always convert for the actual date, which this converter does using the IANA rules built into your browser."
-  - title: "Forgetting that DST changes on different dates"
-    description: "The US moves its clocks on the second Sunday in March and the first Sunday in November, while the EU and UK change on the last Sundays of March and October. For a few weeks each year the New York–London gap is 4 hours instead of 5."
-  - title: "Writing EST in July"
-    description: "EST is UTC−5 standard time; in summer New York is on EDT (UTC−4). Many abbreviations are also ambiguous (CST is used in the US, China and Cuba; IST in India, Ireland and Israel). Use city or IANA names in invitations instead."
-  - title: "Ignoring half-hour and 45-minute offsets"
-    description: "India is UTC+05:30, Nepal UTC+05:45, Iran UTC+03:30 and parts of Australia UTC+09:30. A meeting on the hour in one zone can start at half past in another."
-  - title: "Booking times that do not exist or happen twice"
-    description: "When clocks spring forward, one local hour is skipped; when they fall back, one hour repeats. The converter moves a skipped time forward and, for a repeated time, uses the first occurrence and tells you."
-faqs:
-  - q: "How do I convert time from one time zone to another?"
-    a: "Enter the date and time, choose the zone that time is in, and choose the zones you want. The converter turns it into UTC using the offset for that date and then shows it in each zone, including whether it falls on the previous or next day."
-  - q: "Does the converter handle daylight saving time?"
-    a: "Yes. It uses your browser's IANA time zone data through Intl.DateTimeFormat, so the offset is looked up for the exact date and time you enter, including daylight saving changes."
-  - q: "What is the time difference between New York and Karachi?"
-    a: "Karachi (UTC+5, no daylight saving) is 9 hours ahead of New York in summer (EDT, UTC−4) and 10 hours ahead in winter (EST, UTC−5)."
-  - q: "What is the time difference between London and Pakistan?"
-    a: "Pakistan is 5 hours ahead of London in winter when the UK is on GMT, and 4 hours ahead in summer when the UK is on British Summer Time (UTC+1)."
-  - q: "How do I find a good meeting time across time zones?"
-    a: "Add every participant's zone and look at the working hours strip. Green cells are 09:00 to 17:00 local time, and highlighted columns are hours when every zone is inside working hours. If there is no overlap, the strip shows the closest hours."
-  - q: "Is GMT the same as UTC?"
-    a: "For everyday use they show the same time. UTC is the precise atomic time standard; GMT is the time zone used by the UK in winter. The UK switches to BST (UTC+1) in summer, while UTC never changes."
-  - q: "Why does my city not appear in the list?"
-    a: "IANA zones are named after one representative city per region. Type your country or a nearby large city: for example, Lahore and Islamabad use Asia/Karachi, and Delhi uses Asia/Kolkata. The search also understands many country names and abbreviations."
-  - q: "Does this time zone converter need an internet connection?"
-    a: "No. After the page loads, all conversions use the time zone data built into your browser. Nothing you enter is sent to a server."
-sources:
-  - name: "IANA Time Zone Database"
-    url: "https://www.iana.org/time-zones"
-  - name: "ECMAScript Internationalization API (ECMA-402): DateTimeFormat"
-    url: "https://tc39.es/ecma402/#datetimeformat-objects"
-  - name: "NIST: Daylight Saving Time rules (US)"
-    url: "https://www.nist.gov/pml/time-and-frequency-division/popular-links/daylight-saving-time-dst"
-  - name: "GOV.UK: When do the clocks change?"
-    url: "https://www.gov.uk/when-do-the-clocks-change"
 lastReviewed: "2026-10-31"
-howto:
-  name: "How to Convert Time Between Time Zones"
-  description: "Convert a date and time to other zones and find shared working hours."
-  steps:
-    - name: "Enter the date and time"
-      text: "Pick the date and the time you want to convert. The first zone defaults to your own."
-    - name: "Choose the zones"
-      text: "Type a city, country, abbreviation or IANA name for up to four other zones."
-    - name: "Read the converted times"
-      text: "See each zone's local time, date, UTC offset and whether it is the same, previous or next day."
-    - name: "Plan the meeting"
-      text: "Use the working hours strip to find the hours when every zone is between 09:00 and 17:00."
 ---
 
     <!-- Tool Form Container -->
-    <section class="tool-container" aria-label="Time Zone Converter">
+    <section class="tool-container" aria-label="{{ 'ariaLabel.tool-section1' | pt }}">
       <form id="tz-form" novalidate>
         <div class="form-grid tz-source-grid">
           <div class="form-group">
-            <label for="tz-date">Date <span class="text-accent">*</span></label>
+            <label for="tz-date">{{ 'label.tz-date' | pt }}</label>
             <input type="date" id="tz-date" data-param="date" class="form-control" required aria-required="true">
           </div>
           <div class="form-group">
-            <label for="tz-time">Time <span class="text-accent">*</span></label>
+            <label for="tz-time">{{ 'label.tz-time' | pt }}</label>
             <input type="time" id="tz-time" data-param="time" class="form-control" required aria-required="true">
           </div>
           <div class="form-group tz-zone-field">
-            <label for="tz-from">In time zone <span class="text-accent">*</span></label>
+            <label for="tz-from">{{ 'label.tz-from' | pt }}</label>
             <div class="input-with-button">
-              <input type="text" id="tz-from" data-param="from" class="form-control tz-zone-input" list="tz-list" autocomplete="off" spellcheck="false" placeholder="City, country or zone" required aria-required="true" aria-describedby="tz-from-hint">
-              <button type="button" class="btn btn-secondary" id="tz-now-btn">Now</button>
+              <input type="text" id="tz-from" data-param="from" class="form-control tz-zone-input" list="tz-list" autocomplete="off" spellcheck="false" placeholder="{{ 'placeholder.tz-from' | pt }}" required aria-required="true" aria-describedby="tz-from-hint">
+              <button type="button" class="btn btn-secondary" id="tz-now-btn">{{ 'text.tz-now-btn' | pt }}</button>
             </div>
-            <p class="form-hint" id="tz-from-hint">Defaults to your own time zone.</p>
+            <p class="form-hint" id="tz-from-hint">{{ 'text.tz-from-hint' | pt }}</p>
           </div>
         </div>
 
         <fieldset class="tz-fieldset">
-          <legend>Convert to (up to 4 zones)</legend>
+          <legend>{{ 'content.tool.legend1' | pt }}</legend>
           <div class="form-grid tz-target-grid">
             {% for i in [1, 2, 3, 4] %}
             <div class="form-group">
-              <label for="tz-z{{ i }}">Zone {{ i }}{% if i > 1 %} <span class="label-hint">(optional)</span>{% endif %}</label>
-              <input type="text" id="tz-z{{ i }}" data-param="z{{ i }}" class="form-control tz-zone-input tz-target" list="tz-list" autocomplete="off" spellcheck="false" placeholder="e.g. London, Pakistan, PST">
+              <label for="tz-z{{ i }}">{{ 'label.zone-n' | pt({ i: i }) }}{% if i > 1 %} <span class="label-hint">{{ 'content.tool.span1' | pt }}</span>{% endif %}</label>
+              <input type="text" id="tz-z{{ i }}" data-param="z{{ i }}" class="form-control tz-zone-input tz-target" list="tz-list" autocomplete="off" spellcheck="false" placeholder="{{ 'placeholder.tool-input1' | pt }}">
             </div>
             {% endfor %}
           </div>
-          <p class="form-hint">Search by city, country, abbreviation (PST, CET) or IANA name such as Asia/Karachi. Leave a box empty to skip it.</p>
+          <p class="form-hint">{{ 'content.tool.p1' | pt }}</p>
         </fieldset>
         <datalist id="tz-list"></datalist>
 
         <div class="button-group mt-6">
-          <button type="submit" class="btn btn-primary">Convert Time</button>
-          <button type="button" class="btn btn-secondary" id="tz-swap-btn">Swap first two</button>
-          <button type="button" class="btn btn-secondary" id="reset-btn">Reset</button>
+          <button type="submit" class="btn btn-primary">{{ 'content.tool.button1' | pt }}</button>
+          <button type="button" class="btn btn-secondary" id="tz-swap-btn">{{ 'text.tz-swap-btn' | pt }}</button>
+          <button type="button" class="btn btn-secondary" id="reset-btn">{{ 'text.reset-btn' | pt }}</button>
         </div>
       </form>
 
@@ -148,9 +53,9 @@ howto:
 
       <div id="result-box" class="result-box is-visible" aria-live="polite">
         <div class="result-header">
-          <span id="result-header-text">Converted time</span>
-          <button type="button" class="btn btn-sm btn-ghost" id="copy-result-btn" title="Copy result to clipboard" aria-label="Copy result to clipboard">
-            <span data-icon="copy"></span> Copy Result
+          <span id="result-header-text">{{ 'text.result-header-text' | pt }}</span>
+          <button type="button" class="btn btn-sm btn-ghost" id="copy-result-btn" title="{{ 'title.copy-result-btn' | pt }}" aria-label="{{ 'ariaLabel.copy-result-btn' | pt }}">
+            {{ 'text.copy-result-btn' | pt }}
           </button>
         </div>
         <div class="result-primary tz-primary" id="result-primary-text">--</div>
@@ -158,38 +63,36 @@ howto:
         <ul class="tz-cards" id="tz-cards"></ul>
       </div>
 
-      <h2 class="tz-heading">Working hours overlap</h2>
+      <h2 class="tz-heading">{{ 'content.working-hours-overlap.heading' | pt }}</h2>
       <p class="form-hint" id="overlap-summary"></p>
       <div class="table-wrapper tz-strip-wrapper" tabindex="0" role="region" aria-labelledby="overlap-caption">
         <table class="tz-strip" id="tz-strip">
-          <caption id="overlap-caption" class="visually-hidden">Local hour in each zone for 24 hours from midnight in the first zone. Shaded cells are 09:00 to 17:00.</caption>
+          <caption id="overlap-caption" class="visually-hidden">{{ 'text.overlap-caption' | pt }}</caption>
         </table>
       </div>
       <p class="tz-legend">
-        <span class="tz-legend-item"><span class="tz-swatch tz-swatch-work" aria-hidden="true"></span> 09:00–17:00 local</span>
-        <span class="tz-legend-item"><span class="tz-swatch tz-swatch-overlap" aria-hidden="true"></span> Everyone in working hours</span>
-        <span class="tz-legend-item"><span class="tz-swatch tz-swatch-selected" aria-hidden="true"></span> Selected time</span>
+        {{ 'content.working-hours-overlap.p1' | pt }}
       </p>
     </section>
 
     <!-- tool-end -->
 
     <section class="content-section">
-      <h2>How Daylight Saving Time Is Handled</h2>
-      <p>A time zone is not a fixed offset. Places change their clocks for daylight saving time, and governments occasionally change the rules altogether. This converter does not store its own table of offsets. It asks your browser, through the standard <code>Intl.DateTimeFormat</code> API, what the local time is in each IANA zone at the exact instant you picked. Browsers ship the IANA time zone database and update it with the browser, so the rules match the ones your operating system uses.</p>
+      <h2>{{ 'content.how-daylight-saving-time-is-handled.heading' | pt }}</h2>
+      <p>{{ 'content.how-daylight-saving-time-is-handled.p1' | pt }}</p>
       <ul class="content-list">
-        <li><strong>United States and Canada:</strong> clocks go forward on the second Sunday in March and back on the first Sunday in November, at 02:00 local time.</li>
-        <li><strong>UK and European Union:</strong> clocks change at 01:00 UTC on the last Sunday in March and the last Sunday in October.</li>
-        <li><strong>Southern hemisphere:</strong> Australia (in the states that use DST), New Zealand and Chile move their clocks in the opposite season, so a gap to Europe can change by two hours over the year.</li>
-        <li><strong>No DST:</strong> Pakistan, India, China, Japan, the UAE, Saudi Arabia and most of Africa keep the same offset all year.</li>
+        <li>{{ 'content.how-daylight-saving-time-is-handled.li1' | pt }}</li>
+        <li>{{ 'content.how-daylight-saving-time-is-handled.li2' | pt }}</li>
+        <li>{{ 'content.how-daylight-saving-time-is-handled.li3' | pt }}</li>
+        <li>{{ 'content.how-daylight-saving-time-is-handled.li4' | pt }}</li>
       </ul>
-      <p>Because of these different dates, the gap between two cities can change several times a year. New York and London are usually 5 hours apart, but for about three weeks in March and one week in late October/early November they are 4 hours apart.</p>
+      <p>{{ 'content.how-daylight-saving-time-is-handled.p2' | pt }}</p>
 
-      <h2>Tips for Scheduling Across Time Zones</h2>
+      <h2>{{ 'content.tips-for-scheduling-across-time-zones.heading' | pt }}</h2>
       <ul class="content-list">
-        <li>Write meeting times with a city or an offset, such as "15:00 London (UTC+1)", not just "3 pm BST".</li>
-        <li>Put the time in the organiser's zone in the calendar invite. Calendar apps convert it for each attendee using the same IANA data.</li>
-        <li>Check the date as well as the time. A call at 17:00 in San Francisco is already the next morning in Asia.</li>
-        <li>Rotate inconvenient slots when a team has no shared working hours, so the same people are not always on early or late calls.</li>
+        <li>{{ 'content.tips-for-scheduling-across-time-zones.li1' | pt }}</li>
+        <li>{{ 'content.tips-for-scheduling-across-time-zones.li2' | pt }}</li>
+        <li>{{ 'content.tips-for-scheduling-across-time-zones.li3' | pt }}</li>
+        <li>{{ 'content.tips-for-scheduling-across-time-zones.li4' | pt }}</li>
       </ul>
     </section>

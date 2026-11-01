@@ -4,7 +4,7 @@
  * Multilingual safety check
  *
  * (a) English output is unchanged: builds the current tree and a base commit (in a temporary
- *     git worktree) and compares every English page. Allowed differences: the language picker
+ *     git worktree) and compares every English page, and every feed/text file byte for byte. Allowed differences: the language picker
  *     (<!-- language-menu --> ... <!-- /language-menu -->), the language banner, the picker
  *     script tag, the <html lang/dir> attributes, hreflang links added for translated pages,
  *     the content hash in main.<hash>.css and blank lines.
@@ -127,7 +127,8 @@ const prefixes = languages.filter(l => l.prefix).map(l => l.prefix);
 const isLocalized = rel => prefixes.includes(rel.split('/')[0]);
 
 console.log('Building the current tree...');
-const currentDir = path.join(CACHE_DIR, 'current');
+// Per checkout, so several worktrees can run the check at once (the base build cache is shared)
+const currentDir = path.join(os.tmpdir(), `toolsbuilt-i18n-current-${require('crypto').createHash('md5').update(ROOT).digest('hex').slice(0, 8)}`);
 build(ROOT, currentDir);
 
 // (a) English output unchanged
@@ -156,6 +157,18 @@ for (const rel of currentEnglish.filter(rel => !basePages.includes(rel))) {
   console.log(`ℹ️  New English page (not in base): /${rel}`);
 }
 if (!changed) console.log(`✅ ${basePages.length} English pages unchanged apart from the language picker and banner`);
+
+// Feeds and text files (feed.xml, sitemap.xml, llms.txt, robots.txt, ...) must be byte-identical
+const textFiles = walk(baseDir, /\.(xml|txt|webmanifest)$/).map(f => path.relative(baseDir, f)).filter(rel => !isLocalized(rel));
+let textChanged = 0;
+for (const rel of textFiles) {
+  const currentFile = path.join(currentDir, rel);
+  if (!fs.existsSync(currentFile) || fs.readFileSync(currentFile, 'utf8') !== fs.readFileSync(path.join(baseDir, rel), 'utf8')) {
+    textChanged++;
+    fail(`/${rel} differs from ${sha.slice(0, 7)}`);
+  }
+}
+if (!textChanged) console.log(`✅ ${textFiles.length} feeds and text files identical (${textFiles.join(', ')})`);
 
 // (b) lang and dir on every page
 console.log('\n--- (b) <html lang dir> on every page ---');

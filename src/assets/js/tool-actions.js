@@ -178,12 +178,12 @@
 
         if (navigator.clipboard && navigator.clipboard.writeText) {
           navigator.clipboard.writeText(text).then(() => {
-            showToast('Result copied to clipboard!');
+            showToast(ToolsBuilt.t('toolActions.resultCopiedToClipboard'));
           }).catch(() => {
-            showToast('Result copied!');
+            showToast(ToolsBuilt.t('toolActions.resultCopied'));
           });
         } else {
-          showToast('Result copied!');
+          showToast(ToolsBuilt.t('toolActions.resultCopied'));
         }
       });
     }
@@ -194,7 +194,7 @@
         e.preventDefault();
         const link = window.location.href;
         if (navigator.clipboard && navigator.clipboard.writeText) {
-          navigator.clipboard.writeText(link).then(() => showToast('Link to this result copied!')).catch(() => showToast(link));
+          navigator.clipboard.writeText(link).then(() => showToast(ToolsBuilt.t('toolActions.resultLinkCopied'))).catch(() => showToast(link));
         } else {
           showToast(link);
         }
@@ -208,7 +208,7 @@
         const resultText = getResultText();
         const shareData = {
           title: document.title,
-          text: resultText ? `Calculated on ToolsBuilt: ${resultText}` : document.title,
+          text: resultText ? ToolsBuilt.t('toolActions.shareText', { result: resultText }) : document.title,
           url: window.location.href
         };
 
@@ -216,10 +216,10 @@
           navigator.share(shareData).catch(() => {});
         } else if (navigator.clipboard && navigator.clipboard.writeText) {
           navigator.clipboard.writeText(window.location.href).then(() => {
-            showToast('Tool link copied to clipboard!');
+            showToast(ToolsBuilt.t('toolActions.toolLinkCopied'));
           });
         } else {
-          showToast('Tool link ready to share');
+          showToast(ToolsBuilt.t('toolActions.toolLinkReady'));
         }
       });
     }
@@ -318,7 +318,7 @@
     document.querySelectorAll('[data-copy-page-link]').forEach(btn => {
       btn.addEventListener('click', () => {
         const link = window.location.origin + window.location.pathname;
-        if (window.ToolsBuilt && ToolsBuilt.copy) ToolsBuilt.copy(link, 'Link to this tool copied');
+        if (window.ToolsBuilt && ToolsBuilt.copy) ToolsBuilt.copy(link, ToolsBuilt.t('toolActions.toolLinkCopiedShort'));
       });
     });
   }

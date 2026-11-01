@@ -4,6 +4,7 @@
  * highlights its calculator, and opens it. Without JavaScript the plain list of links works.
  */
 document.addEventListener('DOMContentLoaded', () => {
+  const T = ToolsBuilt.scope('salary-tax-calculator');
   const form = document.getElementById('country-picker-form');
   const select = document.getElementById('hub-country');
   const note = document.getElementById('hub-country-note');
@@ -20,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
       a.classList.toggle('is-suggested', a.dataset.country === code);
     });
     const target = targetFor(code);
-    note.textContent = target && target.noTax ? `${target.name} does not tax individuals' salaries. See the note below.` : '';
+    note.textContent = target && target.noTax ? T('hub.noTaxNote', { name: target.name }) : '';
   }
 
   const guess = ToolsBuilt.guessCountry();

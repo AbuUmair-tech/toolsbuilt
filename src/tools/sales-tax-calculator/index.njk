@@ -1,164 +1,68 @@
 ---
 layout: layouts/tool.njk
 toolSlug: sales-tax-calculator
-title: "Sales Tax, VAT & GST Calculator: Add or Remove Tax"
-description: "Add or remove sales tax, VAT or GST from a price at your country's rate (UK, EU, India, Pakistan, Saudi Arabia, UAE, Canada and more) or any custom rate."
 permalink: /tools/sales-tax-calculator/
-h1: "Sales Tax, VAT & GST Calculator"
 extraCss: "/tools/sales-tax-calculator/style.css"
-quickAnswer: "To add tax, multiply the price by (1 + rate): 1,000 plus 18% is 1,000 × 1.18 = 1,180, with 180 tax. To remove tax from a price that already includes it, divide by (1 + rate): 1,180 ÷ 1.18 = 1,000. Never just subtract 18%: 5,000 including 18% tax is 4,237.29 before tax, not 4,100."
-formula:
-  title: "Sales Tax Formulas"
-  expression: "Total = Price × (1 + Rate) · Price before tax = Total ÷ (1 + Rate)"
-  explanation: "Write the rate as a decimal (18% = 0.18). To add tax to a tax-exclusive price, the tax is Price × Rate and the total is Price × (1 + Rate). To find the price before tax inside a tax-inclusive total, divide the total by (1 + Rate); the tax is the total minus that price. With a quantity, multiply the unit price by the quantity first."
-  variables:
-    - name: "Price"
-      description: "The price excluding tax (add mode) or including tax (remove mode), for one item."
-    - name: "Rate"
-      description: "The tax rate as a decimal, e.g. 0.18 for 18%."
-workedExamples:
-  - title: "Add 18% to 1,000"
-    inputs:
-      - "Price excluding tax: 1,000"
-      - "Rate: 18%"
-    steps:
-      - "Tax: 1,000 × 0.18 = 180"
-      - "Total: 1,000 + 180 = 1,180"
-    result: "Tax 180, total 1,180"
-    link: "/tools/sales-tax-calculator/?mode=add&price=1000&rate=18&qty=1&cur=PKR#tool"
-  - title: "Remove 18% from 1,180"
-    inputs:
-      - "Price including tax: 1,180"
-      - "Rate: 18%"
-    steps:
-      - "Price before tax: 1,180 ÷ 1.18 = 1,000"
-      - "Tax inside the price: 1,180 − 1,000 = 180"
-    result: "Price before tax 1,000, tax 180"
-    link: "/tools/sales-tax-calculator/?mode=remove&price=1180&rate=18&qty=1&cur=PKR#tool"
-  - title: "Remove 18% from 5,000"
-    inputs:
-      - "Price including tax: 5,000"
-      - "Rate: 18%"
-    steps:
-      - "Price before tax: 5,000 ÷ 1.18 = 4,237.29"
-      - "Tax inside the price: 5,000 − 4,237.29 = 762.71"
-      - "Subtracting 18% instead (5,000 − 900 = 4,100) would be wrong by 137.29"
-    result: "Price before tax 4,237.29, tax 762.71"
-    link: "/tools/sales-tax-calculator/?mode=remove&price=5000&rate=18&qty=1&cur=PKR#tool"
-  - title: "3 items at 1,000 each, plus 18%"
-    inputs:
-      - "Price excluding tax: 1,000 per item"
-      - "Quantity: 3"
-      - "Rate: 18%"
-    steps:
-      - "Subtotal: 3 × 1,000 = 3,000"
-      - "Tax: 3,000 × 0.18 = 540"
-      - "Total: 3,000 + 540 = 3,540"
-    result: "Total 3,540 including 540 tax"
-    link: "/tools/sales-tax-calculator/?mode=add&price=1000&rate=18&qty=3&cur=PKR#tool"
-commonMistakes:
-  - title: "Subtracting the rate from a tax-inclusive price"
-    description: "18% of a tax-inclusive price is not the tax inside it, because the tax was charged on the smaller pre-tax price. 1,180 minus 18% is 967.60, but the real pre-tax price is 1,180 ÷ 1.18 = 1,000. Always divide by (1 + rate)."
-  - title: "Not knowing whether a price includes tax"
-    description: "Retail prices in many countries already include tax, while business quotes and US shelf prices often do not. Check the invoice or price tag before choosing Add tax or Remove tax."
-  - title: "Using the wrong rate"
-    description: "Rates differ between countries, states and provinces, and between products and services. Reduced rates, exemptions and provincial or state taxes on services all change the answer, so confirm the rate that applies to your item."
-  - title: "Rounding each item before multiplying"
-    description: "For several identical items, multiply the unit price by the quantity first and work out the tax on the subtotal. Rounding the tax on each item separately can leave the total a few paisa or cents out."
-  - title: "Calling the tax-inclusive price the cost"
-    description: "If you are registered for sales tax or VAT and can claim input tax back, your real cost is the price before tax. Use Remove tax to find it."
-faqs:
-  - q: "How do I add 18% sales tax to a price?"
-    a: "Multiply the price by 1.18. The tax is the price × 0.18. For example, 1,000 × 0.18 = 180 tax, and the total is 1,180."
-  - q: "How do I remove 18% GST from a price?"
-    a: "Divide the tax-inclusive price by 1.18 to get the price before tax, then subtract that from the total to get the tax. 1,180 ÷ 1.18 = 1,000, so the tax is 180."
-  - q: "Why can't I just subtract 18% from a price that includes tax?"
-    a: "Because the 18% was charged on the price before tax, not on the total. Subtracting 18% of the total removes too much: 5,000 − 18% is 4,100, but the actual price before tax is 5,000 ÷ 1.18 = 4,237.29."
-  - q: "What is 18% of 1,000?"
-    a: "18% of 1,000 is 180. If 1,000 is the price before tax, the total with 18% tax is 1,180. If 1,000 already includes 18% tax, the price before tax is 1,000 ÷ 1.18 = 847.46 and the tax is 152.54."
-  - q: "What is the sales tax rate in Pakistan?"
-    a: "The standard rate of sales tax on goods in Pakistan is 18%, but some goods have reduced, special or zero rates, and sales tax on services is set by the provinces. Check the current rate for your item with FBR or your provincial revenue authority."
-  - q: "What is the difference between GST, VAT and sales tax?"
-    a: "GST and VAT are taxes charged at each stage of supply, where registered businesses claim back the tax they paid on inputs, and the price shown to shoppers usually includes the tax. US sales tax is charged once at the final sale, set by states and localities, and usually added at the till. The arithmetic for adding or removing a percentage is the same for all three."
-  - q: "How do I calculate tax for several items?"
-    a: "Enter the price of one item and the quantity. The calculator multiplies them to get the subtotal and works out the tax on the subtotal. Three items at 1,000 plus 18% tax come to 3,540."
-sources:
-  - name: "Federal Board of Revenue (FBR), Government of Pakistan"
-    url: "https://www.fbr.gov.pk/"
 lastReviewed: "2026-10-31"
-howto:
-  name: "How to Add or Remove Sales Tax"
-  description: "Add GST or sales tax to a price, or find the price before tax inside a total."
-  steps:
-    - name: "Choose add or remove"
-      text: "Pick Add tax if your price excludes tax, or Remove tax if it already includes tax."
-    - name: "Enter the price and quantity"
-      text: "Type the price of one item and, if needed, the number of items."
-    - name: "Choose the rate"
-      text: "Pick 18%, 5%, 10% or 15%, or enter a custom rate."
-    - name: "Read the result"
-      text: "See the price before tax, the tax amount and the total, with the formula used."
 ---
 {% from "partials/currency-select.njk" import currencySelect, countryData with context %}
 {{ countryData(countries) }}
 
     <!-- Tool Form Container -->
     <script type="application/json" id="vat-data">{{ vatRates.countries | dump | safe }}</script>
-    <section class="tool-container" aria-label="Sales Tax, VAT and GST Calculator Form">
+    <section class="tool-container" aria-label="{{ 'ariaLabel.tool-section1' | pt }}">
       <form id="calculator-form" novalidate>
         <fieldset class="form-group choice-toggle">
-          <legend>I want to</legend>
+          <legend>{{ 'content.tool.legend1' | pt }}</legend>
           <div class="segmented-control choice-toggle-options">
             <label class="choice-toggle-option">
-              <input type="radio" name="tax-mode" id="mode-add" value="add" data-param="mode" checked>
-              <span>Add tax</span>
+              {{ 'content.tool.label1' | pt }}
             </label>
             <label class="choice-toggle-option">
-              <input type="radio" name="tax-mode" id="mode-remove" value="remove" data-param="mode">
-              <span>Remove tax</span>
+              {{ 'content.tool.label2' | pt }}
             </label>
           </div>
         </fieldset>
 
         <div class="form-grid two-col">
           <div class="form-group">
-            <label for="tax-price" id="price-label">Price excluding tax <span class="text-accent">*</span></label>
-            <input type="number" inputmode="decimal" step="any" min="0" id="tax-price" data-param="price" class="form-control" placeholder="e.g. 1000" required aria-required="true">
+            <label for="tax-price" id="price-label">{{ 'label.tax-price' | pt }}</label>
+            <input type="number" inputmode="decimal" step="any" min="0" id="tax-price" data-param="price" class="form-control" placeholder="{{ 'placeholder.tax-price' | pt }}" required aria-required="true">
           </div>
           <div class="form-group">
-            <label for="tax-qty">Quantity</label>
+            <label for="tax-qty">{{ 'label.tax-qty' | pt }}</label>
             <input type="number" inputmode="numeric" step="any" min="0" id="tax-qty" data-param="qty" class="form-control" value="1">
           </div>
           <div class="form-group col-span-full">
-            <label for="tax-country">Country</label>
+            <label for="tax-country">{{ 'label.tax-country' | pt }}</label>
             <select id="tax-country" data-param="country" class="form-control" data-country-remember aria-describedby="tax-country-note">
-              {% for c in vatRates.countries %}
-              <option value="{{ c.code }}"{% if c.code == "PK" %} selected{% endif %}>{{ c.name }}{% if c.rates.length %} ({{ c.taxName }} {{ c.rates[0].rate }}%){% else %} ({{ c.taxName | lower }} varies){% endif %}</option>
+              {% for c in vatRates.countries %}{% set v = text.client.vat[c.code] %}
+              <option value="{{ c.code }}"{% if c.code == "PK" %} selected{% endif %}>{% if c.rates.length %}{{ 'vat.optionWithRate' | pt({ name: v.name, taxName: v.taxName, rate: c.rates[0].rate }) }}{% else %}{{ 'vat.optionVaries' | pt({ name: v.name, taxName: v.taxName | lower }) }}{% endif %}</option>
               {% endfor %}
             </select>
             {% set pk = vatRates.countries | byCode("PK") %}
-            <p class="form-hint" id="tax-country-note">{{ pk.notes }} Source: <a href="{{ pk.source.url }}" target="_blank" rel="noopener noreferrer">{{ pk.source.name }}</a>, checked {{ pk.verifiedOn | humanDate }}.</p>
+            <p class="form-hint" id="tax-country-note">{{ 'vat.countryNote' | pt({ notes: text.client.vat.PK.notes, url: pk.source.url, source: text.client.vat.PK.source, date: pk.verifiedOn | humanDate }) }}</p>
           </div>
           <div class="form-group">
-            <label for="tax-rate-preset">Tax rate</label>
+            <label for="tax-rate-preset">{{ 'label.tax-rate-preset' | pt }}</label>
             <select id="tax-rate-preset" data-param="rate" class="form-control">
-              <option value="18" selected>18% – Pakistan standard sales tax on goods</option>
+              <option value="18" selected>{{ 'option.tax-rate-preset.18' | pt }}</option>
               <option value="5">5%</option>
               <option value="10">10%</option>
               <option value="15">15%</option>
-              <option value="custom">Custom rate</option>
+              <option value="custom">{{ 'option.tax-rate-preset.custom' | pt }}</option>
             </select>
           </div>
           <div class="form-group" id="custom-rate-group" hidden>
-            <label for="tax-rate-custom">Custom rate (%)</label>
-            <input type="number" inputmode="decimal" step="any" min="0" max="100" id="tax-rate-custom" data-param="custom" class="form-control" placeholder="e.g. 17">
+            <label for="tax-rate-custom">{{ 'label.tax-rate-custom' | pt }}</label>
+            <input type="number" inputmode="decimal" step="any" min="0" max="100" id="tax-rate-custom" data-param="custom" class="form-control" placeholder="{{ 'placeholder.tax-rate-custom' | pt }}">
           </div>
           {{ currencySelect({ id: "tax-currency", param: "cur", selected: "PKR" }) }}
         </div>
 
         <div class="button-group">
-          <button type="submit" class="btn btn-primary">Calculate</button>
-          <button type="button" class="btn btn-secondary" id="reset-btn">Reset</button>
+          <button type="submit" class="btn btn-primary">{{ 'content.tool.button1' | pt }}</button>
+          <button type="button" class="btn btn-secondary" id="reset-btn">{{ 'text.reset-btn' | pt }}</button>
         </div>
       </form>
 
@@ -167,25 +71,25 @@ howto:
       <!-- Result Box -->
       <div id="result-box" class="result-box" aria-live="polite">
         <div class="result-header">
-          <span id="result-header-text">Total including tax</span>
-          <button type="button" class="btn btn-sm btn-ghost" id="copy-result-btn" title="Copy Result to clipboard" aria-label="Copy Result to clipboard">
-            <span data-icon="copy"></span> Copy Result
+          <span id="result-header-text">{{ 'text.result-header-text' | pt }}</span>
+          <button type="button" class="btn btn-sm btn-ghost" id="copy-result-btn" title="{{ 'title.copy-result-btn' | pt }}" aria-label="{{ 'ariaLabel.copy-result-btn' | pt }}">
+            {{ 'text.copy-result-btn' | pt }}
           </button>
         </div>
-        <div class="result-primary" id="result-primary-text">Rs 0.00</div>
+        <div class="result-primary" id="result-primary-text">{{ 'text.result-primary-text' | pt }}</div>
 
         <div class="result-grid">
           <div class="result-stat-card">
-            <div class="result-stat-label">Price before tax</div>
-            <div class="result-stat-value" id="stat-net">Rs 0.00</div>
+            <div class="result-stat-label">{{ 'content.tool.div1' | pt }}</div>
+            <div class="result-stat-value" id="stat-net">{{ 'text.stat-net' | pt }}</div>
           </div>
           <div class="result-stat-card">
-            <div class="result-stat-label" id="stat-tax-label">Tax (18%)</div>
-            <div class="result-stat-value" id="stat-tax">Rs 0.00</div>
+            <div class="result-stat-label" id="stat-tax-label">{{ 'text.stat-tax-label' | pt }}</div>
+            <div class="result-stat-value" id="stat-tax">{{ 'text.stat-tax' | pt }}</div>
           </div>
           <div class="result-stat-card">
-            <div class="result-stat-label">Total including tax</div>
-            <div class="result-stat-value" id="stat-gross">Rs 0.00</div>
+            <div class="result-stat-label">{{ 'content.tool.div2' | pt }}</div>
+            <div class="result-stat-value" id="stat-gross">{{ 'text.stat-gross' | pt }}</div>
           </div>
         </div>
         <p class="tax-per-item" id="per-item-line" hidden></p>
@@ -196,36 +100,36 @@ howto:
       </div>
 
       <div class="tool-note">
-        <h3 class="tool-note-title">Check the official rate</h3>
-        <p>Rates vary by country, state or province, and product or service. For Pakistan, confirm the rate with <a href="https://www.fbr.gov.pk/" rel="noopener" target="_blank">FBR</a> or your provincial revenue authority.</p>
+        <h3 class="tool-note-title">{{ 'content.check-the-official-rate.heading' | pt }}</h3>
+        <p>{{ 'content.check-the-official-rate.p1' | pt }}</p>
       </div>
     </section>
 
     <!-- tool-end -->
 
     <section class="content-section" aria-labelledby="vat-rates-heading">
-      <h2 id="vat-rates-heading">VAT and GST rates by country</h2>
-      <p>The country presets in the calculator use the rates below. Each was checked against the tax authority or official source linked in the table on the date shown. Reduced rates only apply to the goods and services the law lists, so use the standard rate unless you know your item qualifies. In the United States there is no national sales tax: states, counties and cities set their own rates, so type the combined rate for your area as a custom rate.</p>
-      <div class="table-wrapper" tabindex="0" role="region" aria-label="VAT and GST rates by country (scrollable)">
+      <h2 id="vat-rates-heading">{{ 'text.vat-rates-heading' | pt }}</h2>
+      <p>{{ 'content.vat-and-gst-rates-by-country.p1' | pt }}</p>
+      <div class="table-wrapper" tabindex="0" role="region" aria-label="{{ 'ariaLabel.vat-and-gst-rates-by-country-div1' | pt }}">
         <table class="table">
-          <caption class="visually-hidden">Standard and reduced VAT, GST and sales tax rates used by the calculator</caption>
+          <caption class="visually-hidden">{{ 'content.vat-and-gst-rates-by-country.caption1' | pt }}</caption>
           <thead>
             <tr>
-              <th scope="col">Country</th>
-              <th scope="col">Tax</th>
-              <th scope="col">Standard</th>
-              <th scope="col">Other rates</th>
-              <th scope="col">Source (checked)</th>
+              <th scope="col">{{ 'content.vat-and-gst-rates-by-country.th1' | pt }}</th>
+              <th scope="col">{{ 'content.vat-and-gst-rates-by-country.th2' | pt }}</th>
+              <th scope="col">{{ 'content.vat-and-gst-rates-by-country.th3' | pt }}</th>
+              <th scope="col">{{ 'content.vat-and-gst-rates-by-country.th4' | pt }}</th>
+              <th scope="col">{{ 'content.vat-and-gst-rates-by-country.th5' | pt }}</th>
             </tr>
           </thead>
           <tbody>
-            {% for c in vatRates.countries %}
+            {% for c in vatRates.countries %}{% set v = text.client.vat[c.code] %}
             <tr>
-              <th scope="row">{{ c.name }}</th>
-              <td>{{ c.taxName }}</td>
-              <td>{% if c.rates.length %}{{ c.rates[0].rate }}%{% else %}Set by state and city{% endif %}</td>
-              <td>{% for r in c.rates %}{% if not loop.first %}{{ r.rate }}% ({{ r.label }}){% if not loop.last %}; {% endif %}{% endif %}{% endfor %}</td>
-              <td>{% if c.source %}<a href="{{ c.source.url }}" target="_blank" rel="noopener noreferrer">{{ c.source.name }}</a> ({{ c.verifiedOn | humanDate }}){% else %}–{% endif %}</td>
+              <th scope="row">{{ v.name }}</th>
+              <td>{{ v.taxName }}</td>
+              <td>{% if c.rates.length %}{{ c.rates[0].rate }}%{% else %}{{ 'vat.noPresetRate' | pt }}{% endif %}</td>
+              <td>{% for r in c.rates %}{% if not loop.first %}{{ 'vat.otherRate' | pt({ rate: r.rate, label: v.rates[loop.index0] }) }}{% if not loop.last %}; {% endif %}{% endif %}{% endfor %}</td>
+              <td>{% if c.source %}<a href="{{ c.source.url }}" target="_blank" rel="noopener noreferrer">{{ v.source }}</a> ({{ c.verifiedOn | humanDate }}){% else %}–{% endif %}</td>
             </tr>
             {% endfor %}
           </tbody>
@@ -234,27 +138,27 @@ howto:
     </section>
 
     <section class="content-section" aria-labelledby="inclusive-heading">
-      <h2 id="inclusive-heading">Tax-exclusive and tax-inclusive prices</h2>
-      <p>Every sales tax question starts with one check: does the price you have already include the tax? A <strong>tax-exclusive</strong> price is the amount before tax, the figure on most business quotes and on US shelf labels. A <strong>tax-inclusive</strong> price already has the tax built in, which is how most retail prices are shown in Pakistan, the UK, the EU and the Gulf.</p>
+      <h2 id="inclusive-heading">{{ 'text.inclusive-heading' | pt }}</h2>
+      <p>{{ 'content.tax-exclusive-and-tax-inclusive-prices.p1' | pt }}</p>
       <ul class="content-list">
-        <li>If your price <strong>excludes</strong> tax, choose <strong>Add tax</strong>. The calculator multiplies by the rate to find the tax and adds it on.</li>
-        <li>If your price <strong>includes</strong> tax, choose <strong>Remove tax</strong>. The calculator divides by (1 + rate) to find the price before tax, and the difference is the tax you paid.</li>
+        <li>{{ 'content.tax-exclusive-and-tax-inclusive-prices.li1' | pt }}</li>
+        <li>{{ 'content.tax-exclusive-and-tax-inclusive-prices.li2' | pt }}</li>
       </ul>
-      <p>Invoices usually show both: a net amount, the tax, and a gross total. Use this calculator to check that the three numbers agree.</p>
+      <p>{{ 'content.tax-exclusive-and-tax-inclusive-prices.p2' | pt }}</p>
     </section>
 
     <section class="content-section" aria-labelledby="reverse-heading">
-      <h2 id="reverse-heading">Why you divide by (1 + rate) to remove tax</h2>
-      <p>When a seller adds 18% tax, they multiply the pre-tax price by 1.18. To undo that, you divide the total by 1.18. The formula is <code>price before tax = total ÷ (1 + rate)</code>, with the rate as a decimal.</p>
-      <p>The most common mistake is to take 18% off the total instead. That treats the tax as 18% of the total, when it was really 18% of the smaller pre-tax price. On a 5,000 total, subtracting 18% gives 4,100, but the true price before tax is 5,000 ÷ 1.18 = 4,237.29, and the tax inside it is 762.71, not 900. The higher the rate, the bigger the error, so use Remove tax whenever the price already includes tax. For other percentage questions, such as what share one number is of another, use the <a href="/tools/percentage-calculator/">Percentage Calculator</a>.</p>
+      <h2 id="reverse-heading">{{ 'text.reverse-heading' | pt }}</h2>
+      <p>{{ 'content.why-you-divide-by-1-rate.p1' | pt }}</p>
+      <p>{{ 'content.why-you-divide-by-1-rate.p2' | pt }}</p>
     </section>
 
     <section class="content-section" aria-labelledby="gst-vat-heading">
-      <h2 id="gst-vat-heading">GST, VAT and US sales tax</h2>
-      <p>GST (goods and services tax) and VAT (value added tax) are charged at each stage of supply, with registered businesses claiming back the tax they paid on their inputs, and shoppers usually see prices that already include the tax. US sales tax is charged once, at the final sale to the customer, at rates set by states and local governments, and it is usually added at the till rather than shown on the price tag. Pakistan's sales tax on goods works like a VAT, while sales tax on services is collected by the provinces. The arithmetic for adding or removing tax is the same in every case; only the rate and whether prices include it change.</p>
+      <h2 id="gst-vat-heading">{{ 'text.gst-vat-heading' | pt }}</h2>
+      <p>{{ 'content.gst-vat-and-us-sales-tax.p1' | pt }}</p>
     </section>
 
     <section class="content-section" aria-labelledby="rates-heading">
-      <h2 id="rates-heading">Rates vary: check the official rate</h2>
-      <p>The presets here are common rates, not a statement of what applies to your purchase. Rates differ between countries, between states and provinces, and between products and services, and many items are reduced-rate, zero-rated or exempt. In Pakistan the standard rate of sales tax on goods is 18%, but check the current rate for your item with <a href="https://www.fbr.gov.pk/" rel="noopener" target="_blank">FBR</a> or your provincial revenue authority, and use the custom rate when it differs. If a price has a discount as well as tax, work out the discount first with the <a href="/tools/discount-calculator/">Discount Calculator</a>, which can also add sales tax to the discounted price.</p>
+      <h2 id="rates-heading">{{ 'text.rates-heading' | pt }}</h2>
+      <p>{{ 'content.rates-vary-check-the-official-rate.p1' | pt }}</p>
     </section>

@@ -18,6 +18,11 @@
 })(typeof globalThis !== 'undefined' ? globalThis : this, function () {
   'use strict';
 
+  // Messages come from the tool's translation data
+  const T = (typeof ToolsBuilt !== 'undefined' && ToolsBuilt.scope)
+    ? ToolsBuilt.scope('python-formatter')
+    : require('../../../scripts/i18n-client.js').scope('python-formatter');
+
   const OPTIONS = {
     lineLength: { values: [79, 88, 100, 120], default: 88 },
     indentWidth: { values: [2, 4], default: 4 },
@@ -47,7 +52,7 @@
       const value = o[key] === undefined || o[key] === '' ? OPTIONS[key].default : o[key];
       const parsed = typeof OPTIONS[key].default === 'number' ? Number(value) : value;
       if (!OPTIONS[key].values.includes(parsed)) {
-        throw new Error(`Unsupported ${key}: ${value}. Choose one of ${OPTIONS[key].values.join(', ')}.`);
+        throw new Error(T('errors.unsupportedOption', { key, value, choices: OPTIONS[key].values.join(', ') }));
       }
       return parsed;
     };
@@ -73,7 +78,7 @@
       const pos = positionFromByteOffset(code, Number(match[1]));
       err.line = pos.line;
       err.column = pos.column;
-      err.message = `Line ${pos.line}, column ${pos.column}: ${reason}`;
+      err.message = T('errors.at', { line: pos.line, column: pos.column, reason });
     }
     err.reason = reason;
     return err;
@@ -86,7 +91,7 @@
    */
   async function format(code, options) {
     if (typeof code !== 'string' || !code.trim()) {
-      throw new Error('Paste some Python code to format.');
+      throw new Error(T('errors.empty'));
     }
     const o = normalizeOptions(options);
     const engine = await loadEngine();

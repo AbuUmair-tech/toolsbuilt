@@ -12,6 +12,11 @@
   }
 })(typeof globalThis !== 'undefined' ? globalThis : this, function () {
 
+  // Sorting follows the page language in the browser ('en' on English pages and in Node)
+  function collatorLocale() {
+    return (typeof ToolsBuilt !== 'undefined' && ToolsBuilt.pageLocale) ? ToolsBuilt.pageLocale('en') : 'en';
+  }
+
   function splitLines(text) {
     if (text === undefined || text === null || text === '') return [];
     const lines = String(text).split(/\r\n|\r|\n/);
@@ -64,7 +69,7 @@
 
     let out = kept.map(k => (options.trimOutput ? k.line.trim() : k.line));
     if (options.sort === 'asc' || options.sort === 'desc') {
-      const collator = new Intl.Collator('en', { numeric: true, sensitivity: options.caseInsensitive ? 'base' : 'variant' });
+      const collator = new Intl.Collator(collatorLocale(), { numeric: true, sensitivity: options.caseInsensitive ? 'base' : 'variant' });
       out.sort(collator.compare);
       if (options.sort === 'desc') out.reverse();
     }

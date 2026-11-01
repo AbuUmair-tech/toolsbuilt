@@ -1,87 +1,8 @@
 ---
 layout: layouts/tool.njk
 toolSlug: random-name-picker
-title: "Random Name Picker Wheel | ToolsBuilt"
-description: "Free online random name picker wheel. Enter names, spin to select unbiased winners for raffles, classrooms, and giveaways. Powered by Web Crypto API."
 permalink: /tools/random-name-picker/
-h1: "Random Name Picker Wheel"
-quickAnswer: "To pick a random name or winner from a list, paste or type your candidates, choose whether to remove duplicates, and click pick. The tool uses cryptographically secure hardware randomness to ensure equal winning probability without bias. It supports single-winner draws and multi-prize raffles without replacement."
-formula:
-  title: "Fair Selection & Probability Formula"
-  expression: "P(Selection) = 1 / Total Candidate Pool Size  |  Index = CryptoRandomUint() % PoolSize"
-  explanation: "Every candidate possesses a mathematically identical probability of selection. Drawing uses native browser Web Crypto API hardware entropy with rejection sampling to eliminate modulo bias. For multi-tier raffles without replacement, selected winners are removed sequentially from the pool."
-workedExamples:
-  - title: "Single Winner Draw from 5 Candidates"
-    inputs:
-      - "Candidates: Alice, Bob, Charlie, David, Emma (5 candidates)"
-      - "Mode: Single Winner"
-    steps:
-      - "Tokenize names into 5 distinct entries"
-      - "Assign uniform probability P = 1/5 (20.00%) to each participant"
-      - "Draw uniform random index in range [0, 4] using crypto.getRandomValues"
-    result: "Winner drawn with exact 20.0% probability"
-  - title: "Multi-Prize Raffle Without Replacement"
-    inputs:
-      - "Candidates: Alice, Bob, Charlie, David (4 candidates)"
-      - "Prizes to Award: 2 winners without replacement"
-    steps:
-      - "Round 1: Pick 1st winner from 4 candidates (P = 1/4 = 25.0%)"
-      - "Remove 1st winner from active pool (3 candidates remain)"
-      - "Round 2: Pick 2nd winner from 3 remaining candidates (P = 1/3 = 33.3%)"
-    result: "2 unique winners awarded, 2 candidates remaining"
-  - title: "Deduplication of Raw Spreadsheet Entries"
-    inputs:
-      - "Raw Input: Alice, Bob, Alice, Charlie (4 entries)"
-      - "Options: Deduplicate = True"
-    steps:
-      - "Parse entries across commas and newlines"
-      - "Filter duplicate 'Alice' through Set deduplication"
-      - "Form clean pool of 3 unique names (Alice, Bob, Charlie)"
-    result: "3 unique participants eligible (P = 33.3% each)"
-commonMistakes:
-  - title: "Using Predictable Math.random() in Real Contests"
-    description: "Standard pseudo-random Math.random() is susceptible to statistical patterns. Giveaways require cryptographic hardware randomness via crypto.getRandomValues."
-  - title: "Allowing Accidental Duplicate Entries"
-    description: "When pasting entries from spreadsheets, duplicate names double an entrant's winning odds. Always use the Deduplicate button before spinning."
-  - title: "Drawing With Replacement in Tiered Giveaways"
-    description: "Failing to remove previous winners during multi-prize draws allows the same participant to win multiple prizes."
-  - title: "Modulo Skew in Candidate Indexing"
-    description: "Simple modulo operations on random integers introduce slight mathematical bias toward lower index values. Rejection sampling ensures exact uniform fairness."
-sources:
-  - name: "W3C Web Cryptography API Specification"
-    url: "https://www.w3.org/TR/WebCryptoAPI/"
-  - name: "NIST SP 800-90A: Recommendation for Random Number Generation"
-    url: "https://csrc.nist.gov/publications/detail/sp/800-90a/rev-1/final"
-  - name: "RFC 7929: Guidelines for Cryptographic Random Number Generation"
-    url: "https://www.rfc-editor.org/rfc/rfc7929"
 lastReviewed: "2026-10-24"
-howto:
-  name: "How to Pick a Random Name Using the Wheel"
-  description: "Step-by-step instructions for selecting random winners using cryptographically unbiased wheel spins."
-  steps:
-    - name: "Enter Participant Names"
-      text: "Type or paste your list of names into the text box (one name per line, or comma-separated)."
-    - name: "Configure Settings"
-      text: "Optionally click Deduplicate to remove duplicate entries, or check 'Remove winner automatically after spin' for multi-round draws."
-    - name: "Spin Wheel to Pick Winner"
-      text: "Click Spin Wheel to initiate the spin animation or instant selection if reduced motion is preferred."
-    - name: "Announce and Copy Winner"
-      text: "View the winning name in the modal announcement dialog and copy the winner's name to your clipboard."
-faqs:
-  - q: "How does the random name picker ensure fair and unbiased selection?"
-    a: "The tool utilizes your browser's native Web Crypto API via crypto.getRandomValues with rejection sampling to eliminate modulo bias. Unlike standard Math.random algorithms, hardware-level OS entropy ensures uniform probability distribution across all entries. Every name has an equal mathematical chance of being chosen on each spin."
-  - q: "Can I remove winning names automatically after each spin?"
-    a: "Yes. Simply enable the 'Remove winner automatically after spin' checkbox, or click 'Remove Winner & Close' in the announcement modal. The tool removes the chosen entry immediately and redraws the wheel geometry for subsequent rounds."
-  - q: "Does the wheel accommodate users with motion sensitivity or vestibular disorders?"
-    a: "Yes. The random name picker respects your device's system-level accessibility preferences. When 'prefers-reduced-motion' is active, spinning animations are bypassed entirely. The tool computes the winning slice instantly and opens the winner dialog immediately."
-  - q: "Is there a limit on how many names I can paste into the wheel?"
-    a: "You can enter hundreds of names into the text box. The generator automatically calculates slice angles and fits labels on the wheel. Each slice remains mathematically distinct throughout the cryptographic selection process."
-  - q: "Are my participant names stored on remote servers or tracked?"
-    a: "No. All name lists, spin computations, and winner selections operate exclusively in local browser memory. None of your entered names are transmitted to external servers, logged in databases, or stored in URLs."
-  - q: "Can I paste comma-separated or semicolon-separated names?"
-    a: "Yes. The input parser splits entries automatically across newlines, commas, and semicolons, trimming extra whitespace around each name."
-  - q: "How do I ensure fair odds when multiple tickets per person are allowed?"
-    a: "Leave the Deduplicate option unchecked so entrants who purchased multiple tickets retain their multiple entries in the candidate pool."
 ---
 
 <div class="tool-container">
@@ -89,33 +10,32 @@ faqs:
     <div class="wheel-controls-col">
       <div class="form-group">
         <div class="label-row row-between mb-2">
-          <label for="namesInput" class="font-semibold mb-0">Names List (one per line):</label>
-          <span id="nameCount" class="text-sm text-muted">8 entries</span>
+          <label for="namesInput" class="font-semibold mb-0">{{ 'label.namesInput' | pt }}</label>
+          <span id="nameCount" class="text-sm text-muted">{{ 'text.nameCount' | pt }}</span>
         </div>
-        <textarea id="namesInput" class="form-input code-input" rows="8" placeholder="Enter names here..."></textarea>
+        <textarea id="namesInput" class="form-input code-input" rows="8" placeholder="{{ 'placeholder.namesInput' | pt }}"></textarea>
         <p class="text-sm text-muted mt-2 mb-0">
-          Names are separated by <strong>new lines</strong>, <strong>commas</strong>, or <strong>semicolons</strong> — so <code>Smith, John</code> becomes two names: <em>Smith</em> and <em>John</em>.
+          {{ 'content.tool.p1' | pt }}
         </p>
       </div>
 
       <div class="form-group mt-4">
         <label class="checkbox-label option-label">
-          <input type="checkbox" id="removeWinner">
-          <span>Remove winner automatically after spin</span>
+          {{ 'content.tool.label1' | pt }}
         </label>
       </div>
 
       <div class="btn-group flex gap-2 flex-wrap mt-4">
-        <button type="button" id="spinBtn" class="btn btn-primary flex-full">Spin Wheel!</button>
-        <button type="button" id="shuffleBtn" class="btn btn-secondary">Shuffle</button>
-        <button type="button" id="dedupeBtn" class="btn btn-secondary">Deduplicate</button>
-        <button type="button" id="clearBtn" class="btn btn-ghost">Clear</button>
+        <button type="button" id="spinBtn" class="btn btn-primary flex-full">{{ 'text.spinBtn' | pt }}</button>
+        <button type="button" id="shuffleBtn" class="btn btn-secondary">{{ 'text.shuffleBtn' | pt }}</button>
+        <button type="button" id="dedupeBtn" class="btn btn-secondary">{{ 'text.dedupeBtn' | pt }}</button>
+        <button type="button" id="clearBtn" class="btn btn-ghost">{{ 'text.clearBtn' | pt }}</button>
       </div>
     </div>
 
     <div class="wheel-canvas-col">
       <div class="canvas-wrapper flex justify-center items-center">
-        <canvas id="wheelCanvas" width="400" height="400" aria-label="Random Name Wheel"></canvas>
+        <canvas id="wheelCanvas" width="400" height="400" aria-label="{{ 'ariaLabel.wheelCanvas' | pt }}"></canvas>
       </div>
     </div>
   </div>
@@ -123,12 +43,12 @@ faqs:
   <!-- Winner Modal -->
   <div id="winnerModal" class="modal-overlay hidden" aria-hidden="true" role="dialog" aria-labelledby="winnerTitle">
     <div class="modal-card text-center panel-card max-w-sm my-8 mx-auto">
-      <h2 id="winnerTitle" class="modal-title mt-0 text-accent">🎉 We Have a Winner!</h2>
+      <h2 id="winnerTitle" class="modal-title mt-0 text-accent">{{ 'text.winnerTitle' | pt }}</h2>
       <div id="winnerName" class="winner-display-name text-2xl font-extrabold my-6 mx-0 break-words">---</div>
       <div class="modal-actions flex gap-3 flex-col">
-        <button type="button" id="copyWinnerBtn" class="btn btn-outline"><span data-icon="copy"></span> Copy Winner</button>
-        <button type="button" id="removeWinnerBtn" class="btn btn-primary">Remove Winner &amp; Close</button>
-        <button type="button" id="closeModalBtn" class="btn btn-secondary">Keep in List &amp; Close</button>
+        <button type="button" id="copyWinnerBtn" class="btn btn-outline">{{ 'text.copyWinnerBtn' | pt }}</button>
+        <button type="button" id="removeWinnerBtn" class="btn btn-primary">{{ 'text.removeWinnerBtn' | pt }}</button>
+        <button type="button" id="closeModalBtn" class="btn btn-secondary">{{ 'text.closeModalBtn' | pt }}</button>
       </div>
     </div>
   </div>
@@ -138,19 +58,19 @@ faqs:
 
 <!-- When to Use Section -->
 <section class="content-section" aria-labelledby="when-to-use-heading">
-  <h2 id="when-to-use-heading">When to Use the Random Name Picker Wheel</h2>
+  <h2 id="when-to-use-heading">{{ 'text.when-to-use-heading' | pt }}</h2>
   <ul class="content-list">
-    <li><strong>Classrooms &amp; Student Participation:</strong> Ensure equal, tension-free student selection by having a neutral spinning wheel choose speakers.</li>
-    <li><strong>Raffles &amp; Social Giveaways:</strong> Run live-streamed giveaway draws where participants can visually confirm the fairness of the draw.</li>
-    <li><strong>Team Standups &amp; Agile Retrospectives:</strong> Randomly determine speaking order during daily standup meetings or code review assignments.</li>
-    <li><strong>Fair Decision Making:</strong> Choose between competing projects, restaurants, or chores with complete impartial randomness.</li>
+    <li>{{ 'content.when-to-use-the-random-name.li1' | pt }}</li>
+    <li>{{ 'content.when-to-use-the-random-name.li2' | pt }}</li>
+    <li>{{ 'content.when-to-use-the-random-name.li3' | pt }}</li>
+    <li>{{ 'content.when-to-use-the-random-name.li4' | pt }}</li>
   </ul>
 </section>
 
 <div class="article-content">
-  <h2>Why Use a Digital Random Name Picker Wheel?</h2>
-  <p>Whether you are running a social media giveaway, choosing students for classroom participation, organizing team secret Santa exchanges, or deciding who pays for coffee, choosing fairly is essential. Physical drawings with paper slips take time to assemble and can raise suspicions of bias. Digital spinning wheels provide a transparent, engaging, and verifiably fair method for picking winners in real time.</p>
+  <h2>{{ 'content.why-use-a-digital-random-name.heading' | pt }}</h2>
+  <p>{{ 'content.why-use-a-digital-random-name.p1' | pt }}</p>
 
-  <h2>Cryptographically Secure Randomness</h2>
-  <p>Many online wheels rely on standard pseudorandom number generators like <code>Math.random()</code>, which are fine for basic games but exhibit predictable mathematical patterns over repeated runs. Our tool utilizes the browser's native <strong>Web Crypto API (<code>crypto.getRandomValues</code>)</strong>. This provides hardware-level entropy and cryptographically strong randomness, guaranteeing that every single spin is completely independent and unbiased.</p>
+  <h2>{{ 'content.cryptographically-secure-randomness.heading' | pt }}</h2>
+  <p>{{ 'content.cryptographically-secure-randomness.p1' | pt }}</p>
 </div>

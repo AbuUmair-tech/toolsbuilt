@@ -1,11 +1,9 @@
 ---
 layout: layouts/base.njk
-title: "All Free Online Calculators & Web Tools | ToolsBuilt"
-description: "Browse our complete directory of free online calculators, date utilities, percentage tools, text counters, and password generators. 100% free and private."
 permalink: /tools/index.html
 canonical: https://toolsbuilt.com/tools/
 ---
-{% import "partials/cards.njk" as cards %}
+{% import "partials/cards.njk" as cards with context %}
 
 {% block jsonLd %}
   <!-- JSON-LD Schema 1: BreadcrumbList -->
@@ -64,18 +62,18 @@ canonical: https://toolsbuilt.com/tools/
       <div class="container">
         
         <!-- Breadcrumb Navigation -->
-        <nav class="breadcrumb" aria-label="Breadcrumb">
+        <nav class="breadcrumb" aria-label="{{ 'ariaLabel.tool-nav1' | pt }}">
           <ol>
-            <li><a href="/">Home</a></li>
-            <li aria-current="page">All Tools</li>
+            <li>{{ 'content.tool.li1' | pt }}</li>
+            <li aria-current="page">{{ 'content.tool.li2' | pt }}</li>
           </ol>
         </nav>
     
         <!-- Page Header -->
         <div class="directory-hero-header">
-          <p class="section-label">Directory</p>
-          <h1 class="directory-hero-title">All Calculators &amp; Web Tools</h1>
-          <p class="directory-hero-subtitle">Browse our complete directory of {{ tools | length }} free, fast, and privacy-respecting online utilities across {{ categories | length }} categories.</p>
+          <p class="section-label">{{ 'content.tool.p1' | pt }}</p>
+          <h1 class="directory-hero-title">{{ 'content.tool.heading' | pt }}</h1>
+          <p class="directory-hero-subtitle">{{ 'hero.subtitle' | pt({ tools: tools | length, categories: categories | length }) }}</p>
     
           <!-- Live Directory Filter -->
           <div class="directory-search-wrapper">
@@ -83,13 +81,13 @@ canonical: https://toolsbuilt.com/tools/
               <circle cx="11" cy="11" r="8"></circle>
               <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
             </svg>
-            <input type="search" id="directory-search" class="directory-search-input" placeholder="Filter {{ tools | length }} tools by name or topic" aria-label="Filter all tools">
+            <input type="search" id="directory-search" class="directory-search-input" placeholder="{{ 'search.placeholder' | pt({ count: tools | length }) }}" aria-label="{{ 'ariaLabel.directory-search' | pt }}">
           </div>
     
           <!-- Category Filter Chips -->
-          <div class="directory-filter-bar" role="toolbar" aria-label="Filter tools by category">
+          <div class="directory-filter-bar" role="toolbar" aria-label="{{ 'ariaLabel.tool-div1' | pt }}">
             <button type="button" class="tool-filter-chip is-active" data-category="all">
-              All <span class="chip-count">{{ tools | length }}</span>
+              {{ 'content.tool.text1' | pt }} <span class="chip-count">{{ tools | length }}</span>
             </button>
             {% for cat in categories %}
             <button type="button" class="tool-filter-chip" data-category="{{ cat.slug }}">
@@ -125,9 +123,9 @@ canonical: https://toolsbuilt.com/tools/
 
     <!-- No Matching Tools State -->
     <div id="directory-no-results" class="no-results-panel" hidden>
-      <h3 class="no-results-title">No tools match your query</h3>
-      <p class="no-results-desc">Can't find the calculator you're looking for? Let us know and we'll build it.</p>
-      <a href="/contact/" class="btn btn-secondary">Suggest a Tool</a>
+      <h3 class="no-results-title">{{ 'content.no-tools-match-your-query.heading' | pt }}</h3>
+      <p class="no-results-desc">{{ 'content.no-tools-match-your-query.p1' | pt }}</p>
+      <a href="/contact/" class="btn btn-secondary">{{ 'content.no-tools-match-your-query.a1' | pt }}</a>
     </div>
 
     </div>

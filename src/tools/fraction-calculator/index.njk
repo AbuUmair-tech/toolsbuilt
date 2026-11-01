@@ -1,116 +1,17 @@
 ---
 layout: layouts/tool.njk
 toolSlug: fraction-calculator
-title: "Fraction Calculator: Add, Subtract, Multiply, Divide"
-description: "Add, subtract, multiply and divide fractions and mixed numbers with step-by-step working. Simplify fractions and turn decimals into fractions."
 permalink: /tools/fraction-calculator/
-h1: "Fraction Calculator"
 extraCss: "/tools/fraction-calculator/style.css"
-quickAnswer: "To add or subtract fractions, rewrite them over a common denominator and combine the numerators: 1/2 + 1/3 = 3/6 + 2/6 = 5/6. To multiply, multiply tops and bottoms; to divide, multiply by the reciprocal: 3/4 ÷ 1/2 = 3/4 × 2/1 = 6/4 = 3/2 = 1 1/2. Always finish by dividing top and bottom by their greatest common divisor."
-formula:
-  title: "Fraction Rules"
-  expression: "a/b ± c/d = (a·d ± c·b) / (b·d)   ·   a/b × c/d = (a·c) / (b·d)   ·   a/b ÷ c/d = (a·d) / (b·c)"
-  explanation: "For addition and subtraction the calculator uses the least common multiple of the denominators, which keeps the numbers small, then adds or subtracts the rewritten numerators. Multiplication multiplies straight across. Division multiplies by the reciprocal of the second fraction, which is impossible if that fraction is zero. The result is reduced by its greatest common divisor (found with Euclid's algorithm) and also shown as a mixed number and a decimal, with any repeating digits in brackets."
-  variables:
-    - name: "Mixed number"
-      description: "A whole number and a fraction, such as 2 1/3. It is converted to an improper fraction first: (2 × 3 + 1)/3 = 7/3."
-    - name: "LCM"
-      description: "Least common multiple: the smallest number both denominators divide into, used as the common denominator."
-    - name: "GCD"
-      description: "Greatest common divisor: the largest number that divides both numerator and denominator, used to simplify."
-workedExamples:
-  - title: "1/2 + 1/3"
-    inputs:
-      - "1/2 + 1/3"
-    steps:
-      - "LCM(2, 3) = 6"
-      - "1/2 = 3/6 and 1/3 = 2/6"
-      - "3/6 + 2/6 = 5/6, already in lowest terms"
-    result: "5/6 = 0.8(3)"
-    link: "/tools/fraction-calculator/?mode=calc&a=1%2F2&op=add&b=1%2F3#tool"
-  - title: "3/4 ÷ 1/2"
-    inputs:
-      - "3/4 ÷ 1/2"
-    steps:
-      - "Multiply by the reciprocal: 3/4 × 2/1"
-      - "(3 × 2)/(4 × 1) = 6/4"
-      - "GCD(6, 4) = 2, so 6/4 = 3/2"
-    result: "3/2 = 1 1/2 = 1.5"
-    link: "/tools/fraction-calculator/?mode=calc&a=3%2F4&op=divide&b=1%2F2#tool"
-  - title: "2 1/3 × 3/7"
-    inputs:
-      - "2 1/3 × 3/7"
-    steps:
-      - "2 1/3 = (2 × 3 + 1)/3 = 7/3"
-      - "7/3 × 3/7 = 21/21"
-      - "GCD(21, 21) = 21, so the answer is 1"
-    result: "1"
-    link: "/tools/fraction-calculator/?mode=calc&a=2+1%2F3&op=multiply&b=3%2F7#tool"
-  - title: "Simplify 6/8 and convert 0.375"
-    inputs:
-      - "Simplify: 6/8"
-      - "Decimal to fraction: 0.375"
-    steps:
-      - "GCD(6, 8) = 2, so 6/8 = 3/4"
-      - "0.375 = 375/1000; GCD(375, 1000) = 125, so 375/1000 = 3/8"
-    result: "6/8 = 3/4 and 0.375 = 3/8"
-    link: "/tools/fraction-calculator/?mode=dec&dec=0.375#tool"
-commonMistakes:
-  - title: "Adding denominators"
-    description: "1/2 + 1/3 is not 2/5. Denominators say what size the pieces are, so they must match before you add: 3/6 + 2/6 = 5/6."
-  - title: "Dividing without flipping the second fraction"
-    description: "To divide by a fraction, multiply by its reciprocal (flip the second fraction only). 3/4 ÷ 1/2 = 3/4 × 2/1 = 3/2, not 3/8."
-  - title: "Multiplying the whole number of a mixed number separately"
-    description: "2 1/3 × 3/7 is not (2 × 3/7) plus (1/3) or 2 × 1/3 × 3/7. Convert 2 1/3 to 7/3 first, then multiply."
-  - title: "Stopping before the fraction is simplified"
-    description: "6/4 is correct but not finished. Divide top and bottom by their greatest common divisor (2) to get 3/2, or 1 1/2 as a mixed number."
-  - title: "Losing the minus sign of a mixed number"
-    description: "−1 1/2 means −(1 + 1/2) = −3/2, not −1 + 1/2 = −1/2. Keep the sign outside the whole mixed number."
-faqs:
-  - q: "How do you add fractions with different denominators?"
-    a: "Find a common denominator (the least common multiple of the denominators), rewrite each fraction over it, then add the numerators. 1/2 + 1/3 = 3/6 + 2/6 = 5/6."
-  - q: "How do you divide fractions?"
-    a: "Keep the first fraction, change ÷ to ×, and flip the second fraction. 3/4 ÷ 1/2 = 3/4 × 2/1 = 6/4 = 3/2."
-  - q: "How do you multiply mixed numbers?"
-    a: "Convert each mixed number to an improper fraction, multiply the numerators and the denominators, then simplify. 2 1/3 × 3/7 = 7/3 × 3/7 = 21/21 = 1."
-  - q: "How do I simplify a fraction?"
-    a: "Divide the numerator and denominator by their greatest common divisor. For 6/8 the GCD is 2, so 6/8 = 3/4."
-  - q: "How do you turn a decimal into a fraction?"
-    a: "Write the digits after the point over 10, 100, 1000 and so on, then simplify. 0.375 = 375/1000, and dividing both by 125 gives 3/8."
-  - q: "How do I type a mixed number?"
-    a: "Type the whole number, a space, then the fraction: 2 1/3. Negative mixed numbers are written -2 1/3. Whole numbers (5) and decimals (0.75) work too."
-  - q: "What does a number in brackets in the decimal mean?"
-    a: "The digits in brackets repeat forever. 5/6 = 0.8(3) means 0.8333…, and 1/7 = 0.(142857) means 0.142857142857…."
-  - q: "Why can't I divide by zero?"
-    a: "Dividing by a fraction means multiplying by its reciprocal, and 0 has no reciprocal. No number times 0 gives a non-zero answer, so division by zero is undefined."
-sources:
-  - name: "Common Core State Standards for Mathematics: Number and Operations—Fractions"
-    url: "https://www.thecorestandards.org/Math/Content/NF/"
-  - name: "Euclid's Elements, Book VII, Proposition 2 (greatest common measure)"
-    url: "https://mathcs.clarku.edu/~djoyce/java/elements/bookVII/propVII2.html"
-  - name: "NIST Digital Library of Mathematical Functions: §27.1 Number theory, GCD"
-    url: "https://dlmf.nist.gov/27.1"
 lastReviewed: "2026-10-31"
-howto:
-  name: "How to Use the Fraction Calculator"
-  description: "Calculate with fractions and mixed numbers, simplify fractions, and convert decimals to fractions."
-  steps:
-    - name: "Choose a mode"
-      text: "Calculate with two fractions, simplify one fraction, or convert a decimal to a fraction."
-    - name: "Type the numbers"
-      text: "Enter fractions like 3/4, mixed numbers like 2 1/3, whole numbers or decimals."
-    - name: "Pick the operation"
-      text: "Choose add, subtract, multiply or divide."
-    - name: "Read the answer and steps"
-      text: "See the simplified fraction, mixed number, decimal and every step of the working."
 ---
 
     <!-- Tool Form Container -->
-    <section class="tool-container" aria-label="Fraction Calculator">
-      <div class="segmented-control mb-6" role="tablist" aria-label="Calculator mode">
-        <button type="button" class="btn btn-sm mode-tab-btn active" id="tab-calc" data-mode="calc" role="tab" aria-selected="true" aria-controls="calculator-form">Calculate</button>
-        <button type="button" class="btn btn-sm mode-tab-btn" id="tab-simplify" data-mode="simplify" role="tab" aria-selected="false" aria-controls="calculator-form" tabindex="-1">Simplify</button>
-        <button type="button" class="btn btn-sm mode-tab-btn" id="tab-dec" data-mode="dec" role="tab" aria-selected="false" aria-controls="calculator-form" tabindex="-1">Decimal</button>
+    <section class="tool-container" aria-label="{{ 'ariaLabel.tool-section1' | pt }}">
+      <div class="segmented-control mb-6" role="tablist" aria-label="{{ 'ariaLabel.tool-div1' | pt }}">
+        <button type="button" class="btn btn-sm mode-tab-btn active" id="tab-calc" data-mode="calc" role="tab" aria-selected="true" aria-controls="calculator-form">{{ 'text.tab-calc' | pt }}</button>
+        <button type="button" class="btn btn-sm mode-tab-btn" id="tab-simplify" data-mode="simplify" role="tab" aria-selected="false" aria-controls="calculator-form" tabindex="-1">{{ 'text.tab-simplify' | pt }}</button>
+        <button type="button" class="btn btn-sm mode-tab-btn" id="tab-dec" data-mode="dec" role="tab" aria-selected="false" aria-controls="calculator-form" tabindex="-1">{{ 'text.tab-dec' | pt }}</button>
       </div>
 
       <form id="calculator-form" role="tabpanel" aria-labelledby="tab-calc" novalidate>
@@ -118,39 +19,39 @@ howto:
 
         <div class="fraction-expr" data-mode-field="calc">
           <div class="form-group">
-            <label for="frac-a">First number</label>
+            <label for="frac-a">{{ 'label.frac-a' | pt }}</label>
             <input type="text" inputmode="text" autocomplete="off" spellcheck="false" id="frac-a" data-param="a" class="form-control fraction-input" value="1/2" aria-describedby="frac-hint">
           </div>
           <div class="form-group fraction-op">
-            <label for="frac-op">Operation</label>
+            <label for="frac-op">{{ 'label.frac-op' | pt }}</label>
             <select id="frac-op" data-param="op" class="form-control">
-              <option value="add" selected>+ add</option>
-              <option value="subtract">− subtract</option>
-              <option value="multiply">× multiply</option>
-              <option value="divide">÷ divide</option>
+              <option value="add" selected>{{ 'option.frac-op.add' | pt }}</option>
+              <option value="subtract">{{ 'option.frac-op.subtract' | pt }}</option>
+              <option value="multiply">{{ 'option.frac-op.multiply' | pt }}</option>
+              <option value="divide">{{ 'option.frac-op.divide' | pt }}</option>
             </select>
           </div>
           <div class="form-group">
-            <label for="frac-b">Second number</label>
+            <label for="frac-b">{{ 'label.frac-b' | pt }}</label>
             <input type="text" inputmode="text" autocomplete="off" spellcheck="false" id="frac-b" data-param="b" class="form-control fraction-input" value="1/3" aria-describedby="frac-hint">
           </div>
         </div>
-        <p class="form-hint" id="frac-hint" data-mode-field="calc">Type fractions (3/4), mixed numbers with a space (2 1/3), whole numbers (5) or decimals (0.75).</p>
+        <p class="form-hint" id="frac-hint" data-mode-field="calc">{{ 'text.frac-hint' | pt }}</p>
 
         <div class="form-group" data-mode-field="simplify" hidden>
-          <label for="frac-s">Fraction to simplify</label>
+          <label for="frac-s">{{ 'label.frac-s' | pt }}</label>
           <input type="text" autocomplete="off" spellcheck="false" id="frac-s" data-param="s" class="form-control fraction-input" value="6/8">
         </div>
 
         <div class="form-group" data-mode-field="dec" hidden>
-          <label for="frac-dec">Decimal</label>
+          <label for="frac-dec">{{ 'label.frac-dec' | pt }}</label>
           <input type="text" inputmode="decimal" autocomplete="off" spellcheck="false" id="frac-dec" data-param="dec" class="form-control fraction-input" value="0.375">
-          <p class="form-hint">Terminating decimals only, such as 0.375 or 2.5.</p>
+          <p class="form-hint">{{ 'content.tool.p1' | pt }}</p>
         </div>
 
         <div class="button-group mt-6">
-          <button type="submit" class="btn btn-primary">Calculate</button>
-          <button type="button" class="btn btn-secondary" id="reset-btn">Reset</button>
+          <button type="submit" class="btn btn-primary">{{ 'content.tool.button1' | pt }}</button>
+          <button type="button" class="btn btn-secondary" id="reset-btn">{{ 'text.reset-btn' | pt }}</button>
         </div>
       </form>
 
@@ -158,15 +59,15 @@ howto:
 
       <div id="result-box" class="result-box is-visible" aria-live="polite">
         <div class="result-header">
-          <span id="result-header-text">Answer</span>
-          <button type="button" class="btn btn-sm btn-ghost" id="copy-result-btn" title="Copy result to clipboard" aria-label="Copy result to clipboard">
-            <span data-icon="copy"></span> Copy Result
+          <span id="result-header-text">{{ 'text.result-header-text' | pt }}</span>
+          <button type="button" class="btn btn-sm btn-ghost" id="copy-result-btn" title="{{ 'title.copy-result-btn' | pt }}" aria-label="{{ 'ariaLabel.copy-result-btn' | pt }}">
+            {{ 'text.copy-result-btn' | pt }}
           </button>
         </div>
         <div class="result-primary fraction-primary" id="result-primary-text">--</div>
         <div class="result-grid" id="result-stats"></div>
         <details class="result-steps">
-          <summary>Step by step</summary>
+          <summary>{{ 'content.tool.summary1' | pt }}</summary>
           <ol class="fraction-steps" id="result-steps"></ol>
         </details>
       </div>
@@ -175,26 +76,26 @@ howto:
     <!-- tool-end -->
 
     <section class="content-section">
-      <h2>Fraction Rules in One Table</h2>
+      <h2>{{ 'content.fraction-rules-in-one-table.heading' | pt }}</h2>
       <div class="table-wrapper">
         <table class="table">
-          <caption class="visually-hidden">How to add, subtract, multiply and divide fractions</caption>
-          <thead><tr><th scope="col">Operation</th><th scope="col">What to do</th><th scope="col">Example</th></tr></thead>
+          <caption class="visually-hidden">{{ 'content.fraction-rules-in-one-table.caption1' | pt }}</caption>
+          <thead><tr><th scope="col">{{ 'content.fraction-rules-in-one-table.th1' | pt }}</th><th scope="col">{{ 'content.fraction-rules-in-one-table.th2' | pt }}</th><th scope="col">{{ 'content.fraction-rules-in-one-table.th3' | pt }}</th></tr></thead>
           <tbody>
-            <tr><td>Add</td><td>Common denominator, add numerators</td><td>1/4 + 2/3 = 3/12 + 8/12 = 11/12</td></tr>
-            <tr><td>Subtract</td><td>Common denominator, subtract numerators</td><td>5/6 − 1/4 = 10/12 − 3/12 = 7/12</td></tr>
-            <tr><td>Multiply</td><td>Numerator × numerator, denominator × denominator</td><td>2/3 × 3/5 = 6/15 = 2/5</td></tr>
-            <tr><td>Divide</td><td>Multiply by the reciprocal of the second fraction</td><td>2/3 ÷ 4/9 = 2/3 × 9/4 = 18/12 = 3/2</td></tr>
-            <tr><td>Simplify</td><td>Divide top and bottom by their GCD</td><td>18/24: GCD(18, 24) = 6, so 18/24 = 3/4</td></tr>
+            <tr><td>{{ 'content.fraction-rules-in-one-table.td1' | pt }}</td><td>{{ 'content.fraction-rules-in-one-table.td2' | pt }}</td><td>1/4 + 2/3 = 3/12 + 8/12 = 11/12</td></tr>
+            <tr><td>{{ 'content.fraction-rules-in-one-table.td3' | pt }}</td><td>{{ 'content.fraction-rules-in-one-table.td4' | pt }}</td><td>5/6 − 1/4 = 10/12 − 3/12 = 7/12</td></tr>
+            <tr><td>{{ 'content.fraction-rules-in-one-table.td5' | pt }}</td><td>{{ 'content.fraction-rules-in-one-table.td6' | pt }}</td><td>2/3 × 3/5 = 6/15 = 2/5</td></tr>
+            <tr><td>{{ 'content.fraction-rules-in-one-table.td7' | pt }}</td><td>{{ 'content.fraction-rules-in-one-table.td8' | pt }}</td><td>2/3 ÷ 4/9 = 2/3 × 9/4 = 18/12 = 3/2</td></tr>
+            <tr><td>{{ 'content.fraction-rules-in-one-table.td9' | pt }}</td><td>{{ 'content.fraction-rules-in-one-table.td10' | pt }}</td><td>{{ 'content.fraction-rules-in-one-table.td11' | pt }}</td></tr>
           </tbody>
         </table>
       </div>
 
-      <h2>Mixed Numbers, Improper Fractions and Decimals</h2>
-      <p>An improper fraction has a numerator at least as large as its denominator, such as 7/3. A mixed number writes the same value as a whole number plus a proper fraction: 7 ÷ 3 = 2 remainder 1, so 7/3 = 2 1/3. Calculations are easiest with improper fractions, which is why the calculator converts mixed numbers first and converts back at the end.</p>
-      <p>Every fraction is also a decimal. If the simplified denominator has no prime factors other than 2 and 5, the decimal ends (3/8 = 0.375). Otherwise it repeats forever, and the calculator puts the repeating block in brackets: 1/3 = 0.(3), 5/6 = 0.8(3), 1/7 = 0.(142857). Going the other way, only terminating decimals can be typed exactly, so 0.333 becomes 333/1000, not 1/3.</p>
+      <h2>{{ 'content.mixed-numbers-improper-fractions-and-decimals.heading' | pt }}</h2>
+      <p>{{ 'content.mixed-numbers-improper-fractions-and-decimals.p1' | pt }}</p>
+      <p>{{ 'content.mixed-numbers-improper-fractions-and-decimals.p2' | pt }}</p>
 
-      <h2>How Euclid's Algorithm Finds the GCD</h2>
-      <p>To simplify 84/126, divide the larger number by the smaller and keep the remainder: 126 = 1 × 84 + 42, then 84 = 2 × 42 + 0. When the remainder reaches 0, the last divisor (42) is the greatest common divisor, so 84/126 = 2/3. The Simplify mode shows each of these lines, which is handy for checking homework by hand.</p>
-      <p>All arithmetic uses exact whole-number maths in your browser, so even very large numerators and denominators are never rounded.</p>
+      <h2>{{ 'content.how-euclid-s-algorithm-finds-the.heading' | pt }}</h2>
+      <p>{{ 'content.how-euclid-s-algorithm-finds-the.p1' | pt }}</p>
+      <p>{{ 'content.how-euclid-s-algorithm-finds-the.p2' | pt }}</p>
     </section>

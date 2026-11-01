@@ -5,6 +5,7 @@
  */
 document.addEventListener('DOMContentLoaded', () => {
   const logic = window.UnixTimestampLogic;
+  const T = ToolsBuilt.scope('unix-timestamp-converter');
   const tsForm = document.getElementById('ts-form');
   const tsInput = document.getElementById('ts-input');
   const unitSelect = document.getElementById('ts-unit');
@@ -25,11 +26,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const nowMs = document.getElementById('now-ms');
   const pauseBtn = document.getElementById('now-pause');
 
-  const locale = /^en\b/i.test(navigator.language || '') ? navigator.language : 'en-US';
-  let userZone = 'your time zone';
+  const locale = ToolsBuilt.pageLocale(/^en\b/i.test(navigator.language || '') ? navigator.language : 'en-US');
+  let userZone = T('yourTimeZone');
   try { userZone = Intl.DateTimeFormat().resolvedOptions().timeZone || userZone; } catch (e) {}
   const pad = (n) => String(n).padStart(2, '0');
-  const group = (n) => Number(n).toLocaleString('en-US');
 
   let debounceTimer = null;
   let paused = false;
@@ -47,14 +47,14 @@ document.addEventListener('DOMContentLoaded', () => {
   pauseBtn.addEventListener('click', () => {
     paused = !paused;
     pauseBtn.setAttribute('aria-pressed', paused ? 'true' : 'false');
-    pauseBtn.textContent = paused ? 'Resume' : 'Pause';
+    pauseBtn.textContent = paused ? T('buttons.resume') : T('buttons.pause');
     if (!paused) tick();
   });
 
   document.querySelectorAll('[data-copy-now]').forEach(btn => {
     btn.addEventListener('click', () => {
       const text = btn.dataset.copyNow === 'ms' ? nowMs.textContent : nowSeconds.textContent;
-      ToolsBuilt.copy(text, `Copied ${text}`);
+      ToolsBuilt.copy(text, T('copy.copiedValue', { value: text }));
     });
   });
 
@@ -73,9 +73,9 @@ document.addEventListener('DOMContentLoaded', () => {
       const btn = document.createElement('button');
       btn.type = 'button';
       btn.className = 'btn btn-sm btn-ghost';
-      btn.textContent = 'Copy';
-      btn.setAttribute('aria-label', `Copy ${label}`);
-      btn.addEventListener('click', () => ToolsBuilt.copy(value, `${label} copied`));
+      btn.textContent = T('buttons.copy');
+      btn.setAttribute('aria-label', T('copy.ariaLabel', { label }));
+      btn.addEventListener('click', () => ToolsBuilt.copy(value, T('copy.copiedLabel', { label })));
       dd.append(val, btn);
       row.append(dt, dd);
       return row;
@@ -134,7 +134,7 @@ document.addEventListener('DOMContentLoaded', () => {
     clearError(errorBox, tsInput);
     if (!tsInput.value.trim()) {
       resultBox.classList.remove('is-visible');
-      showError(errorBox, 'Enter a Unix timestamp, for example 1700000000.', tsInput);
+      showError(errorBox, T('errors.empty'), tsInput);
       return false;
     }
     const res = logic.convertTimestamp(tsInput.value, { unit: unitSelect.value, now: Date.now() });
@@ -146,19 +146,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const offset = localOffsetMinutes(res.ms);
     primaryText.textContent = res.iso;
-    detectedText.textContent = (res.detected ? `Detected as ${res.unitLabel}` : `Read as ${res.unitLabel}`) +
+    // " · " separates the parts; the 30-second refresh below swaps the relative part between them
+    detectedText.textContent = (res.detected ? T('detected.auto', { unit: res.unitLabel }) : T('detected.forced', { unit: res.unitLabel })) +
       ` · ${res.relative}` +
-      (res.beyond2038 ? ' · after the 32-bit limit of 2038-01-19T03:14:07Z' : '');
+      (res.beyond2038 ? ` · ${T('detected.beyond2038')}` : '');
 
     const rows = [
       ['UTC', formatUtc(res.ms)],
-      [`Local time (${userZone})`, formatLocal(res.ms)],
-      ['ISO 8601 (UTC)', res.iso],
-      ['ISO 8601 (local offset)', logic.toIsoWithOffset(res.ms, offset)],
+      [T('rows.localTime', { zone: userZone }), formatLocal(res.ms)],
+      [T('rows.isoUtc'), res.iso],
+      [T('rows.isoLocal'), logic.toIsoWithOffset(res.ms, offset)],
       ['RFC 2822', res.rfc2822],
-      ['Relative', res.relative],
-      ['Seconds', String(res.seconds)],
-      ['Milliseconds', String(res.milliseconds)]
+      [T('rows.relative'), res.relative],
+      [T('rows.seconds'), String(res.seconds)],
+      [T('rows.milliseconds'), String(res.milliseconds)]
     ];
     renderList(tsDetails, rows);
     setCopyText(rows.map(([l, v]) => `${l}: ${v}`).join('\n'));
@@ -172,7 +173,7 @@ document.addEventListener('DOMContentLoaded', () => {
     clearError(dateError, dateInput);
     if (!dateInput.value) {
       dateResult.hidden = true;
-      showError(dateError, 'Pick a date and time to convert.', dateInput);
+      showError(dateError, T('errors.pickDateTime'), dateInput);
       return;
     }
     const zone = zoneSelect.value === 'utc' ? 'utc' : 'local';
@@ -183,10 +184,10 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
     renderList(dateDetails, [
-      ['Timestamp (seconds)', String(res.seconds)],
-      ['Milliseconds', String(res.milliseconds)],
-      ['ISO 8601 (UTC)', res.iso],
-      [zone === 'utc' ? `In your local time (${userZone})` : 'In UTC', zone === 'utc' ? formatLocal(res.ms) : formatUtc(res.ms)]
+      [T('rows.timestampSeconds'), String(res.seconds)],
+      [T('rows.milliseconds'), String(res.milliseconds)],
+      [T('rows.isoUtc'), res.iso],
+      [zone === 'utc' ? T('rows.inLocal', { zone: userZone }) : T('rows.inUtc'), zone === 'utc' ? formatLocal(res.ms) : formatUtc(res.ms)]
     ]);
     dateResult.hidden = false;
     ToolsBuilt.resultLink.update();

@@ -5,6 +5,7 @@
  */
 document.addEventListener('DOMContentLoaded', () => {
   const logic = window.PakistanSalaryTaxLogic;
+  const T = ToolsBuilt.scope('pakistan-salary-tax-calculator');
   const form = document.getElementById('calculator-form');
   const salaryInput = document.getElementById('salary-amount');
   const periodInputs = document.querySelectorAll('input[name="salary-period"]');
@@ -76,20 +77,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const year = yearSelect.value;
 
     if (!raw) {
-      showError('Please enter your salary in rupees.');
+      showError(T('errors.salaryRequired'));
       return;
     }
     const salary = Number(raw);
     if (!isFinite(salary)) {
-      showError('Please enter the salary as a number, for example 150000.');
+      showError(T('errors.salaryNumber'));
       return;
     }
     if (salary < 0) {
-      showError('Salary cannot be negative.');
+      showError(T('errors.salaryNegative'));
       return;
     }
     if (period === 'monthly' && salary > 0 && salary < 1000) {
-      showError('That looks too small for a monthly salary. Enter the full amount in rupees, for example 150000.');
+      showError(T('errors.salaryTooSmall'));
       return;
     }
 
@@ -103,22 +104,22 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function slabText(slab) {
-    return slab.upTo === null ? `Above ${fmt(slab.over)}` : `${fmt(slab.over === 0 ? 0 : slab.over + 1)} to ${fmt(slab.upTo)}`;
+    return slab.upTo === null ? T('slab.above', { over: fmt(slab.over) }) : T('slab.range', { from: fmt(slab.over === 0 ? 0 : slab.over + 1), to: fmt(slab.upTo) });
   }
 
   function comparisonText(res) {
     const saving = Math.round(res.comparison.monthlySaving);
     const { newerYear, olderYear } = res.comparison;
-    if (saving > 0) return `You save ${fmt(saving)} per month in ${newerYear} compared to ${olderYear}.`;
-    if (saving < 0) return `You pay ${fmt(-saving)} more per month in ${newerYear} compared to ${olderYear}.`;
-    return `Your tax is the same in ${newerYear} and ${olderYear}.`;
+    if (saving > 0) return T('comparison.save', { amount: fmt(saving), newer: newerYear, older: olderYear });
+    if (saving < 0) return T('comparison.more', { amount: fmt(-saving), newer: newerYear, older: olderYear });
+    return T('comparison.same', { newer: newerYear, older: olderYear });
   }
 
   function renderResult(res) {
     const rate = `${Math.round(res.marginalRate * 100)}%`;
     const effective = `${res.effectiveRate.toFixed(2)}%`;
 
-    document.getElementById('result-header-text').textContent = `Monthly take-home salary, ${res.taxYear.replace('-', '\u2011')}`; // keep the year on one line
+    document.getElementById('result-header-text').textContent = T('result.header', { year: res.taxYear.replace('-', '\u2011') }); // keep the year on one line
     document.getElementById('result-primary-text').textContent = fmt(res.monthlyTakeHome);
     document.getElementById('result-comparison').textContent = comparisonText(res);
     document.getElementById('stat-monthly-tax').textContent = fmt(res.monthlyTax);
@@ -129,22 +130,24 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('stat-slab').textContent = rate;
     document.getElementById('stat-slab-range').textContent = slabText(res.slab);
 
-    let steps = `1. Annual taxable income: <code>${fmt(res.annualIncome)}</code>`;
-    if (res.period === 'monthly') steps += ` (${fmt(res.monthlyIncome)} × 12)`;
-    steps += `<br>2. Slab: <code>${slabText(res.slab)}</code>, ${rate} on income above ${fmt(res.slab.over)}`;
+    let steps = T('steps.income', { income: fmt(res.annualIncome) });
+    if (res.period === 'monthly') steps += T('steps.monthly', { monthly: fmt(res.monthlyIncome) });
+    steps += T('steps.slab', { slab: slabText(res.slab), rate, over: fmt(res.slab.over) });
     if (res.slab.rate > 0) {
-      steps += `<br>3. Tax: ${fmt(res.slab.fixed)} + ${rate} × (${fmt(res.annualIncome)} − ${fmt(res.slab.over)}) = <code>${fmt(res.baseTax)}</code>`;
+      steps += T('steps.tax', { fixed: fmt(res.slab.fixed), rate, income: fmt(res.annualIncome), over: fmt(res.slab.over), tax: fmt(res.baseTax) });
     } else {
-      steps += '<br>3. Tax: <code>Rs 0</code> (below the taxable threshold)';
+      steps += T('steps.taxZero');
     }
     if (res.surcharge > 0) {
-      steps += `<br>4. Surcharge (9% of tax above ${fmt(logic.TAX_TABLES[res.taxYear].surcharge.incomeAbove)}): <code>${fmt(res.surcharge)}</code>`;
+      steps += T('steps.surcharge', { above: fmt(logic.TAX_TABLES[res.taxYear].surcharge.incomeAbove), surcharge: fmt(res.surcharge) });
     }
-    steps += `<br>Monthly tax: ${fmt(res.annualTax)} ÷ 12 = <strong>${fmt(res.monthlyTax)}</strong>`;
+    steps += T('steps.monthlyTax', { annual: fmt(res.annualTax), monthly: fmt(res.monthlyTax) });
     document.getElementById('formula-breakdown-box').innerHTML = steps;
 
-    lastResultText = `Pakistan salary tax ${res.taxYear}: annual taxable income ${fmt(res.annualIncome)}, annual tax ${fmt(res.annualTax)}, ` +
-      `monthly tax ${fmt(res.monthlyTax)}, monthly take-home ${fmt(res.monthlyTakeHome)}, effective rate ${effective}, ${rate} slab. ${comparisonText(res)}`;
+    lastResultText = T('result.copy', {
+      year: res.taxYear, income: fmt(res.annualIncome), annualTax: fmt(res.annualTax), monthlyTax: fmt(res.monthlyTax),
+      takeHome: fmt(res.monthlyTakeHome), effective, rate, comparison: comparisonText(res)
+    });
 
     const actionCopyBtn = document.getElementById('action-copy-btn');
     if (actionCopyBtn) actionCopyBtn.dataset.copyText = lastResultText;
@@ -194,7 +197,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (copyBtn) {
     copyBtn.addEventListener('click', () => {
       if (lastResultText && window.ToolsBuilt && window.ToolsBuilt.copy) {
-        window.ToolsBuilt.copy(lastResultText, 'Salary tax result copied to clipboard');
+        window.ToolsBuilt.copy(lastResultText, T('toast.copied'));
       }
     });
   }

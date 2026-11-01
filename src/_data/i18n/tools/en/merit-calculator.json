@@ -1,0 +1,302 @@
+{
+  "listing": {
+    "name": "Merit & Aggregate Calculator",
+    "shortName": "Merit Calculator",
+    "description": "Calculate an admission merit aggregate from Matric, Intermediate, entry test and interview marks with custom or verified NUST and MDCAT weights.",
+    "shortDescription": "Admission aggregate from board and test marks with custom or verified weights.",
+    "keywords": [
+      "merit calculator",
+      "aggregate calculator",
+      "nust aggregate calculator",
+      "mdcat aggregate calculator",
+      "merit calculation formula",
+      "entry test aggregate",
+      "university merit calculator"
+    ]
+  },
+  "title": "Merit & Aggregate Calculator (Custom Weights)",
+  "description": "Calculate your admission merit aggregate from Matric, Intermediate, entry test and interview marks, with custom weights or verified NUST and MDCAT presets.",
+  "h1": "Merit & Aggregate Calculator",
+  "quickAnswer": "Aggregate = Σ (marks obtained ÷ total marks × weight %). With Matric 900/1100 at 10%, Intermediate 950/1100 at 40% and an entry test 300/400 at 50%, the aggregate is 8.18 + 34.55 + 37.50 = 80.23%. The weights must add up to 100%, and every university sets its own, so confirm them in the official prospectus for your admission year.",
+  "formula": {
+    "title": "Merit Aggregate Formula",
+    "expression": "Aggregate % = Σ (Obtained ÷ Total × 100 × Weight ÷ 100)",
+    "explanation": "Each component (Matric/SSC, Intermediate/HSSC, entry test, interview and so on) is first turned into a percentage of its own total, so a test out of 200 and a board exam out of 1100 can be compared. That percentage is multiplied by the component's weight, and the weighted parts are added. Because the weights total 100%, the result is itself a percentage from 0 to 100. The calculator keeps full precision until the end and rounds the aggregate to 2 decimal places.",
+    "variables": [
+      {
+        "name": "Obtained / Total",
+        "description": "Your marks in that component and the maximum possible, exactly as on your result card."
+      },
+      {
+        "name": "Weight",
+        "description": "The share of the aggregate the institution gives that component, in %. All weights together must equal 100%."
+      },
+      {
+        "name": "Contribution",
+        "description": "Your percentage in the component × its weight ÷ 100: the points it adds to your aggregate."
+      }
+    ]
+  },
+  "workedExamples": [
+    {
+      "title": "Matric, Intermediate and entry test (10 / 40 / 50)",
+      "inputs": [
+        "Matric: 900 / 1100, weight 10%",
+        "Intermediate: 950 / 1100, weight 40%",
+        "Entry test: 300 / 400, weight 50%"
+      ],
+      "steps": [
+        "Matric: 900 ÷ 1100 = 81.818%, × 10% = 8.1818",
+        "Intermediate: 950 ÷ 1100 = 86.364%, × 40% = 34.5455",
+        "Entry test: 300 ÷ 400 = 75%, × 50% = 37.5",
+        "Total: 8.1818 + 34.5455 + 37.5 = 80.2273"
+      ],
+      "result": "Aggregate 80.23%",
+      "link": "/tools/merit-calculator/?preset=custom&c1n=Matric&c1o=900&c1t=1100&c1w=10&c2n=Intermediate&c2o=950&c2t=1100&c2w=40&c3n=Entry+test&c3o=300&c3t=400&c3w=50#tool"
+    },
+    {
+      "title": "NUST NET weights (10 / 15 / 75)",
+      "inputs": [
+        "SSC: 1000 / 1100, weight 10%",
+        "HSSC Part-1: 480 / 550, weight 15%",
+        "NET: 140 / 200, weight 75%"
+      ],
+      "steps": [
+        "SSC: 90.909% × 10% = 9.0909",
+        "HSSC: 87.273% × 15% = 13.0909",
+        "NET: 70% × 75% = 52.5"
+      ],
+      "result": "Aggregate 74.68%",
+      "link": "/tools/merit-calculator/?preset=nust-net&c1o=1000&c1t=1100&c2o=480&c2t=550&c3o=140&c3t=200#tool"
+    },
+    {
+      "title": "With an interview (four components)",
+      "inputs": [
+        "SSC 850/1100 at 10%, HSSC 900/1100 at 30%",
+        "Test 150/200 at 50%, interview 40/50 at 10%"
+      ],
+      "steps": [
+        "SSC 77.273% × 10% = 7.7273; HSSC 81.818% × 30% = 24.5455",
+        "Test 75% × 50% = 37.5; interview 80% × 10% = 8"
+      ],
+      "result": "Aggregate 77.77%",
+      "link": "/tools/merit-calculator/?preset=custom&c1n=SSC&c1o=850&c1t=1100&c1w=10&c2n=HSSC&c2o=900&c2t=1100&c2w=30&c3n=Test&c3o=150&c3t=200&c3w=50&c4n=Interview&c4o=40&c4t=50&c4w=10#tool"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Using last year's weights",
+      "description": "Universities and regulators change their merit formulas, sometimes every year. Always check the weights in the official prospectus or admission notice for the session you are applying to."
+    },
+    {
+      "title": "Adding raw marks instead of percentages",
+      "description": "Adding 900 board marks to 150 test marks gives a number that means nothing, because the totals differ. Each component must be turned into a percentage of its own total before it is weighted."
+    },
+    {
+      "title": "Entering the wrong total",
+      "description": "Board totals differ between Matric schemes and boards, and some formulas use HSSC Part-1 marks only. Copy the total exactly from your result card and from the institution's rules."
+    },
+    {
+      "title": "Forgetting hafiz-e-Quran or other additions",
+      "description": "Some institutions add extra marks or deduct marks for repeated attempts. These rules vary, so add them yourself according to the official prospectus."
+    },
+    {
+      "title": "Rounding each component",
+      "description": "Rounding every contribution before adding can move the final aggregate by a few hundredths, which matters on close merit lists. The calculator keeps full precision and rounds only the final result."
+    }
+  ],
+  "sources": [
+    {
+      "name": "NUST: Merit generation criteria for UG admission on NET basis",
+      "url": "https://nust.edu.pk/admissions/undergraduates/merit-criteria-for-admission-on-net-basis/"
+    },
+    {
+      "name": "PM&DC: Laws and regulations (Admissions, Curriculum and Conduct Regulations 2026)",
+      "url": "https://pmdc.pk/Publication/LawsAndRegulations"
+    },
+    {
+      "name": "IBCC: Equivalence of O/A Level and foreign qualifications",
+      "url": "https://ibcc.edu.pk/"
+    }
+  ],
+  "howto": {
+    "name": "How to Calculate a Merit Aggregate",
+    "description": "Combine board results, entry tests and interviews into an admission aggregate.",
+    "steps": [
+      {
+        "name": "Choose custom or a preset",
+        "text": "Use Custom to type any weights, or pick a verified preset to fill in its components and weights."
+      },
+      {
+        "name": "Enter your marks",
+        "text": "For each component, type marks obtained and total marks exactly as on your result card."
+      },
+      {
+        "name": "Check the weights",
+        "text": "Make sure the weights add up to 100% and match the official prospectus for your admission year."
+      },
+      {
+        "name": "Read your aggregate",
+        "text": "See each component's percentage and contribution, and your aggregate to two decimal places."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "How do I calculate my merit aggregate?",
+      "a": "Divide your marks by the total marks for each component, multiply by that component's weight, and add the results. For 900/1100 at 10%, 950/1100 at 40% and 300/400 at 50% the aggregate is 80.23%."
+    },
+    {
+      "q": "What is the NUST aggregate formula?",
+      "a": "For admission on NET basis, NUST's published criteria are NET 75%, HSSC (Part-1 or full) 15% and SSC/O Level 10%. Choose the NUST preset, enter your marks, and check NUST's merit criteria page for the current session."
+    },
+    {
+      "q": "What is the MDCAT aggregate formula?",
+      "a": "Under the PM&DC Admissions, Curriculum and Conduct Regulations 2026, open merit admission to public and private medical and dental colleges uses MDCAT 50%, FSc/HSSC 40% and SSC/Matric 10%. Your admitting university publishes the final criteria."
+    },
+    {
+      "q": "Why does the calculator say my weights must total 100%?",
+      "a": "An aggregate is a weighted percentage, so the weights must cover the whole 100%. If they add up to 90%, a component or part of a weight is missing; check the institution's formula."
+    },
+    {
+      "q": "Can I add an interview or a second test?",
+      "a": "Yes. Custom mode accepts up to five components. Give each a name, marks obtained, total marks and weight."
+    },
+    {
+      "q": "Where are the weights for UET ECAT or other universities?",
+      "a": "This calculator only includes presets that were checked against an official source. For any other university, use Custom mode and copy the weights from its current prospectus."
+    },
+    {
+      "q": "Is my calculated aggregate the official one?",
+      "a": "No. It is an estimate from the marks and weights you enter. The admitting institution's own calculation and merit list are final."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Merit and Aggregate Calculator",
+      "tool-div1": "Components",
+      "copy-result-btn": "Copy result to clipboard"
+    },
+    "label": {
+      "preset": "Weights",
+      "componentObtained": "Obtained",
+      "componentTotal": "Total",
+      "componentWeight": "Weight %"
+    },
+    "option": {
+      "preset": {
+        "custom": "Custom (enter your own weights)"
+      }
+    },
+    "text": {
+      "preset-note": "Weights differ between universities and can change each year. Confirm them in the official prospectus for your admission session.",
+      "reset-btn": "Reset",
+      "result-header-text": "Aggregate",
+      "copy-result-btn": "<span data-icon=\"copy\"></span> Copy Result"
+    },
+    "content": {
+      "tool": {
+        "text1": "Source:",
+        "text2": "· verified",
+        "text3": ". Weights can change each year; confirm them in the official prospectus.",
+        "div1": "<span>Component</span><span>Obtained</span><span>Total</span><span>Weight %</span>",
+        "button1": "Calculate Aggregate",
+        "caption1": "Each component's percentage and contribution to the aggregate",
+        "th1": "Component",
+        "th2": "Marks",
+        "th3": "Weight",
+        "th4": "Adds",
+        "summary1": "Working"
+      },
+      "always-check-the-official-prospectus": {
+        "heading": "Always Check the Official Prospectus",
+        "p1": "Merit formulas are set by each university, medical regulator or admitting authority, and they change. Weights shift between Matric, Intermediate and entry tests; some institutions use HSSC Part-1 marks only, add an interview, or treat O/A Level equivalence differently. Before you rely on any aggregate, open the official prospectus or admission notice for your session and compare its formula with the weights you entered.",
+        "p2": "This calculator includes presets only where the weights were checked against an official source, and each preset shows that source and the date it was checked:",
+        "caption1": "Verified merit presets",
+        "th1": "Preset",
+        "th2": "Weights",
+        "th3": "Verified",
+        "p3": "For any other university, choose Custom and copy the weights from its prospectus. If the formula includes something this calculator does not, such as extra marks for hafiz-e-Quran or a deduction for an improvement attempt, apply that adjustment to your marks first."
+      },
+      "improving-your-aggregate": {
+        "heading": "Improving Your Aggregate",
+        "li1": "<strong>Look at the weights:</strong> a component with a 50% or 75% weight moves your aggregate far more than one at 10%. Under NUST's formula, each extra NET percentage point adds 0.75 to your aggregate.",
+        "li2": "<strong>Know what is fixed:</strong> your Matric marks are usually final by the time you apply; your entry test and sometimes your Intermediate marks are not.",
+        "li3": "<strong>Compare with past merit:</strong> institutions often publish closing merit from previous years. Treat them as a rough guide only; they change with the number of applicants and seats."
+      }
+    },
+    "title": {
+      "copy-result-btn": "Copy result to clipboard"
+    },
+    "components": {
+      "label": "Component {{n}}",
+      "placeholder1": "e.g. Matric",
+      "placeholder2": "e.g. Intermediate",
+      "placeholder3": "e.g. Entry test",
+      "placeholder4": "e.g. Interview",
+      "placeholder5": "Optional"
+    }
+  },
+  "client": {
+    "presets": {
+      "nust-net": {
+        "name": "NUST undergraduate (NET basis)",
+        "institution": "National University of Sciences & Technology (NUST), Islamabad",
+        "components": {
+          "ssc": "SSC / Matric / O Level",
+          "hssc": "HSSC / FSc (Part-1 or full) / A Level / DAE",
+          "net": "NUST Entry Test (NET)"
+        },
+        "note": "General criteria for admission on NET basis. Candidates still in A Level are given 25% weight on O Level equivalence marks (IBCC). ACT/SAT applicants for national seats use the same 75/10/15 split with the ACT/SAT score in place of NET.",
+        "sourceName": "NUST: Merit Generation Criteria"
+      },
+      "pmdc-mdcat": {
+        "name": "MBBS / BDS open merit (PM&DC, MDCAT)",
+        "institution": "Pakistan Medical & Dental Council (public and private medical and dental colleges)",
+        "components": {
+          "ssc": "SSC / Matriculation / equivalent",
+          "hssc": "FSc Pre-Medical / HSSC / equivalent",
+          "mdcat": "MDCAT"
+        },
+        "note": "Set by the PM&DC (Admissions, Curriculum and Conduct) Policy and Regulations 2026, notified 12 October 2026, for open merit seats in public and private colleges. Armed Forces-administered colleges admit through NUMS and its own admission test.",
+        "sourceName": "PM&DC Admissions, Curriculum and Conduct Policy and Regulations 2026"
+      }
+    },
+    "defaults": {
+      "matric": "Matric",
+      "intermediate": "Intermediate",
+      "entryTest": "Entry test"
+    },
+    "errors": {
+      "addComponent": "Add at least one component.",
+      "tooMany": "Use at most {{max}} components.",
+      "enterObtained": "{{name}}: enter the marks obtained.",
+      "enterTotal": "{{name}}: enter the total marks.",
+      "enterWeight": "{{name}}: enter the weight.",
+      "totalPositive": "{{name}}: total marks must be more than 0.",
+      "obtainedNonNegative": "{{name}}: marks obtained must be 0 or more.",
+      "obtainedOverTotal": "{{name}}: marks obtained ({{obtained}}) cannot be more than the total ({{total}}).",
+      "weightRange": "{{name}}: the weight must be more than 0% and at most 100%.",
+      "noComponents": "Enter marks and a weight for at least one component.",
+      "weightsAddMore": "The weights add up to {{total}}%, but they must total 100%. Add {{diff}}% more to one or more components.",
+      "weightsRemove": "The weights add up to {{total}}%, but they must total 100%. Remove {{diff}}% to one or more components."
+    },
+    "componentName": "Component {{n}}",
+    "steps": {
+      "component": "{{name}}: {{obtained}} ÷ {{total}} × 100 = {{pct}}%, × {{weight}}% weight = {{contribution}}",
+      "aggregate": "Aggregate = {{sum}} = {{exact}} ≈ {{rounded}}%"
+    },
+    "weights": {
+      "ok": "Weights entered: {{total}}% ✓",
+      "notOk": "Weights entered: {{total}}% (must total 100%)"
+    },
+    "result": {
+      "header": "Aggregate",
+      "headerPreset": "Aggregate ({{preset}})"
+    },
+    "copy": {
+      "row": "{{name}}: {{obtained}}/{{total}} × {{weight}}% = {{contribution}}",
+      "aggregate": "Aggregate: {{aggregate}}%"
+    }
+  }
+}

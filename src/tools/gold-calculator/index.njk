@@ -1,201 +1,100 @@
 ---
 layout: layouts/tool.njk
 toolSlug: gold-calculator
-title: "Gold Calculator: Price by Tola, Gram & Karat"
-description: "Work out the price of gold by tola, gram, masha or ratti for 24K, 22K, 21K or 18K from today's rate, with making charges and rates per tola and per gram."
 permalink: /tools/gold-calculator/
-h1: "Gold Calculator: Price by Tola, Gram & Karat"
 extraCss: "/tools/gold-calculator/style.css"
-quickAnswer: "Gold price = weight in grams × (karat ÷ 24) × the rate of pure gold per gram. At Rs 400,000 per tola for 24K, 2 tola of 22K gold is worth Rs 733,333.33 and 10 grams of 24K is Rs 342,941.30, before making charges. One tola is 11.6638038 grams."
-formula:
-  title: "Gold Price Formula"
-  expression: "Gold value = Weight (g) × (Item karat ÷ 24) × Pure gold rate per gram"
-  explanation: "First turn the rate you were quoted into the price of one gram of pure (24K) gold: divide by the grams in the rate's unit (11.6638038 for a tola, 10 for 10 grams) and divide by the purity of the rate's karat. Then multiply by the item's weight in grams and its purity. Making charges are added on top, either as a percentage of the gold value or as a fixed amount per gram."
-  variables:
-    - name: "Weight (g)"
-      description: "The item's weight converted to grams: 1 tola = 11.6638038 g, 1 masha = 1/12 tola, 1 ratti = 1/8 masha."
-    - name: "Karat ÷ 24"
-      description: "Purity as a fraction: 22K = 22/24 = 91.7%, 21K = 87.5%, 18K = 75%."
-    - name: "Pure gold rate per gram"
-      description: "The 24K price of one gram, worked out from the rate you entered."
-workedExamples:
-  - title: "2 tola of 22K at Rs 400,000 per tola (24K)"
-    inputs:
-      - "Rate: Rs 400,000 per tola for 24K"
-      - "Weight: 2 tola"
-      - "Item karat: 22K"
-    steps:
-      - "22K purity: 22 ÷ 24 = 0.916667"
-      - "Gold value: 2 × 400,000 × 0.916667 = 733,333.33"
-    result: "Rs 733,333.33 (22K rate: Rs 366,666.67 per tola)"
-    link: "/tools/gold-calculator/?rate=400000&per=tola&ratek=24&weight=2&unit=tola&karat=22&cur=PKR#tool"
-  - title: "10 grams of 24K and 21K"
-    inputs:
-      - "Rate: Rs 400,000 per tola for 24K"
-      - "Weight: 10 g"
-    steps:
-      - "24K rate per gram: 400,000 ÷ 11.6638038 = 34,294.13"
-      - "10 g of 24K: 10 × 34,294.13 = Rs 342,941.30"
-      - "10 g of 21K: 10 × (21 ÷ 24) × 34,294.13 = Rs 300,073.63"
-    result: "Rs 342,941.30 for 24K, Rs 300,073.63 for 21K"
-    link: "/tools/gold-calculator/?rate=400000&per=tola&ratek=24&weight=10&unit=gram&karat=21&cur=PKR#tool"
-  - title: "1 masha of 24K"
-    inputs:
-      - "Rate: Rs 400,000 per tola for 24K"
-      - "Weight: 1 masha (1/12 tola)"
-    steps:
-      - "1 masha = 11.6638038 ÷ 12 = 0.9719836 g"
-      - "Value: 400,000 ÷ 12 = 33,333.33"
-    result: "Rs 33,333.33"
-    link: "/tools/gold-calculator/?rate=400000&per=tola&ratek=24&weight=1&unit=masha&karat=24&cur=PKR#tool"
-  - title: "10 grams of 22K with Rs 500 per gram making"
-    inputs:
-      - "Rate: Rs 400,000 per tola for 24K"
-      - "Weight: 10 g, 22K"
-      - "Making charges: Rs 500 per gram"
-    steps:
-      - "Gold value: 10 × (22 ÷ 24) × 34,294.13 = Rs 314,362.86"
-      - "Making charges: 10 × 500 = Rs 5,000"
-      - "Total: 314,362.86 + 5,000 = Rs 319,362.86"
-    result: "Rs 319,362.86 including making charges"
-    link: "/tools/gold-calculator/?rate=400000&per=tola&ratek=24&weight=10&unit=gram&karat=22&making=perGram&mv=500&cur=PKR#tool"
-commonMistakes:
-  - title: "Using a 24K rate for 22K or 21K jewellery"
-    description: "Jewellery is rarely 24K. If the rate you were given is for 24K and the item is 22K, the gold in it is only 22/24 of its weight. Paying the 24K rate for 22K jewellery overpays by about 9%."
-  - title: "Treating a tola as 10 grams"
-    description: "A tola is 11.6638038 grams, not 10. Rates quoted per tola and per 10 grams are different numbers, so check which one you have before comparing shops."
-  - title: "Mixing up the rate's karat"
-    description: "Some shops quote a 22K rate, others a 24K rate. Choose the karat the rate is for, then the karat of the item; the calculator scales between them."
-  - title: "Ignoring making charges and kaat"
-    description: "The price you pay for jewellery includes making charges, and when you sell or exchange it a jeweller may deduct kaat (a wastage or impurity deduction). The pure gold value is only part of the shop's price."
-  - title: "Counting stone weight as gold"
-    description: "If a piece has stones, beads or lacquer, their weight is not gold. Ask for the net gold weight before working out its value."
-faqs:
-  - q: "How do I calculate the price of gold per tola?"
-    a: "Multiply the number of tola by the rate per tola for the karat you are buying. If your rate is for 24K and the item is 22K, multiply by 22 ÷ 24 as well. At Rs 400,000 per tola for 24K, 2 tola of 22K is 2 × 400,000 × 22/24 = Rs 733,333.33."
-  - q: "How many grams are in one tola?"
-    a: "One tola is 11.6638038 grams. It is defined as 180 grains, and a grain is 64.79891 milligrams."
-  - q: "How many masha and ratti are in one tola?"
-    a: "One tola is 12 masha, and one masha is 8 ratti, so one tola is 96 ratti. One masha is about 0.972 grams and one ratti about 0.1215 grams."
-  - q: "How do I calculate the 22K gold price from the 24K rate?"
-    a: "Multiply the 24K rate by 22 ÷ 24, which is about 0.9167. A 24K rate of Rs 400,000 per tola is Rs 366,666.67 per tola for 22K. For 21K multiply by 21 ÷ 24 (0.875), and for 18K by 18 ÷ 24 (0.75)."
-  - q: "What is the difference between 22K and 21K gold?"
-    a: "22K gold is about 91.7% pure gold and 21K is 87.5%, so 21K contains less gold per gram and is worth less at the same weight. The rest is other metals that make the jewellery harder."
-  - q: "Why is the jeweller's price higher than this calculator?"
-    a: "Shops add making charges for the work, may add wastage, and may round the rate. The calculator shows the gold value and the making charges separately, so you can compare what part of a quote is for the gold itself."
-  - q: "What is kaat in gold?"
-    a: "Kaat is a deduction a jeweller makes when buying back or exchanging gold, to allow for impurity, wastage or solder in the piece. The amount varies between shops, so ask how much kaat will be deducted before you sell."
-  - q: "Where can I find today's gold rate?"
-    a: "Take the day's rate from your local sarafa association or your jeweller. This calculator does not fetch live prices; type the rate you were quoted and choose its unit and karat."
-sources:
-  - name: "NIST Office of Weights and Measures (grain definition)"
-    url: "https://www.nist.gov/pml/owm"
-  - name: "Bureau of Indian Standards: Hallmarking overview"
-    url: "https://www.bis.gov.in/hallmarking-overview/"
 lastReviewed: "2026-10-31"
-howto:
-  name: "How to Calculate the Price of Gold"
-  description: "Work out the value of gold from today's rate, its weight and its karat."
-  steps:
-    - name: "Enter today's rate"
-      text: "Type the rate you were quoted and choose whether it is per tola, per 10 grams or per gram, and which karat it is for."
-    - name: "Enter the weight"
-      text: "Type the weight in tola, grams, masha or ratti."
-    - name: "Choose the item's karat"
-      text: "Pick 24K, 22K, 21K or 18K for the piece you are pricing."
-    - name: "Add making charges if any"
-      text: "Choose a percentage of the gold value or a fixed amount per gram, then read the gold value, making charges and total."
 ---
 {% from "partials/currency-select.njk" import currencySelect, countryData with context %}
 {{ countryData(countries) }}
 
     <!-- Tool Form Container -->
-    <section class="tool-container" aria-label="Gold Calculator Form">
+    <section class="tool-container" aria-label="{{ 'ariaLabel.tool-section1' | pt }}">
       <form id="calculator-form" novalidate>
         <fieldset class="gold-fieldset">
-          <legend>Today's gold rate</legend>
+          <legend>{{ 'content.tool.legend1' | pt }}</legend>
           <div class="form-grid gold-rate-grid">
             <div class="form-group">
-              <label for="gold-rate">Rate <span class="text-accent">*</span></label>
-              <input type="number" inputmode="decimal" step="any" min="0" id="gold-rate" data-param="rate" class="form-control" placeholder="e.g. 400000" required aria-required="true" aria-describedby="rate-hint">
+              <label for="gold-rate">{{ 'label.gold-rate' | pt }}</label>
+              <input type="number" inputmode="decimal" step="any" min="0" id="gold-rate" data-param="rate" class="form-control" placeholder="{{ 'placeholder.gold-rate' | pt }}" required aria-required="true" aria-describedby="rate-hint">
             </div>
             <div class="form-group">
-              <label for="rate-unit">Rate is</label>
+              <label for="rate-unit">{{ 'label.rate-unit' | pt }}</label>
               <select id="rate-unit" data-param="per" class="form-control">
-                <option value="tola" selected>per tola</option>
-                <option value="10g">per 10 grams</option>
-                <option value="gram">per gram</option>
-                <option value="troyOunce">per troy ounce (31.1035 g)</option>
-                <option value="taelTroy">per tael, Hong Kong (37.429 g)</option>
-                <option value="kilogram">per kilogram</option>
+                <option value="tola" selected>{{ 'option.rate-unit.tola' | pt }}</option>
+                <option value="10g">{{ 'option.rate-unit.10g' | pt }}</option>
+                <option value="gram">{{ 'option.rate-unit.gram' | pt }}</option>
+                <option value="troyOunce">{{ 'option.rate-unit.troyOunce' | pt }}</option>
+                <option value="taelTroy">{{ 'option.rate-unit.taelTroy' | pt }}</option>
+                <option value="kilogram">{{ 'option.rate-unit.kilogram' | pt }}</option>
               </select>
             </div>
             <div class="form-group">
-              <label for="rate-karat">Rate is for</label>
+              <label for="rate-karat">{{ 'label.rate-karat' | pt }}</label>
               <select id="rate-karat" data-param="ratek" class="form-control">
-                <option value="24" selected>24K</option>
-                <option value="22">22K</option>
-                <option value="21">21K</option>
-                <option value="18">18K</option>
+                <option value="24" selected>{{ 'option.rate-karat.24' | pt }}</option>
+                <option value="22">{{ 'option.rate-karat.22' | pt }}</option>
+                <option value="21">{{ 'option.rate-karat.21' | pt }}</option>
+                <option value="18">{{ 'option.rate-karat.18' | pt }}</option>
               </select>
             </div>
             {{ currencySelect({ id: "currency", param: "cur", selected: "PKR" }) }}
           </div>
-          <p class="form-hint" id="rate-hint">Take today's rate from your local sarafa association or jeweller. This calculator does not fetch live prices.</p>
+          <p class="form-hint" id="rate-hint">{{ 'text.rate-hint' | pt }}</p>
         </fieldset>
 
         <fieldset class="gold-fieldset">
-          <legend>Your gold</legend>
+          <legend>{{ 'content.tool.legend2' | pt }}</legend>
           <div class="form-grid gold-item-grid">
             <div class="form-group">
-              <label for="gold-weight">Weight <span class="text-accent">*</span></label>
-              <input type="number" inputmode="decimal" step="any" min="0" id="gold-weight" data-param="weight" class="form-control" placeholder="e.g. 2" required aria-required="true">
+              <label for="gold-weight">{{ 'label.gold-weight' | pt }}</label>
+              <input type="number" inputmode="decimal" step="any" min="0" id="gold-weight" data-param="weight" class="form-control" placeholder="{{ 'placeholder.gold-weight' | pt }}" required aria-required="true">
             </div>
             <div class="form-group">
-              <label for="weight-unit">Unit</label>
+              <label for="weight-unit">{{ 'label.weight-unit' | pt }}</label>
               <select id="weight-unit" data-param="unit" class="form-control">
-                <option value="tola" selected>Tola</option>
-                <option value="gram">Gram</option>
-                <option value="masha">Masha</option>
-                <option value="ratti">Ratti</option>
-                <option value="troyOunce">Troy ounce</option>
-                <option value="taelTroy">Tael (Hong Kong, troy)</option>
-                <option value="kilogram">Kilogram</option>
+                <option value="tola" selected>{{ 'option.weight-unit.tola' | pt }}</option>
+                <option value="gram">{{ 'option.weight-unit.gram' | pt }}</option>
+                <option value="masha">{{ 'option.weight-unit.masha' | pt }}</option>
+                <option value="ratti">{{ 'option.weight-unit.ratti' | pt }}</option>
+                <option value="troyOunce">{{ 'option.weight-unit.troyOunce' | pt }}</option>
+                <option value="taelTroy">{{ 'option.weight-unit.taelTroy' | pt }}</option>
+                <option value="kilogram">{{ 'option.weight-unit.kilogram' | pt }}</option>
               </select>
             </div>
             <div class="form-group">
-              <label for="item-karat">Karat</label>
+              <label for="item-karat">{{ 'label.item-karat' | pt }}</label>
               <select id="item-karat" data-param="karat" class="form-control">
-                <option value="24">24K</option>
-                <option value="22" selected>22K</option>
-                <option value="21">21K</option>
-                <option value="18">18K</option>
+                <option value="24">{{ 'option.item-karat.24' | pt }}</option>
+                <option value="22" selected>{{ 'option.item-karat.22' | pt }}</option>
+                <option value="21">{{ 'option.item-karat.21' | pt }}</option>
+                <option value="18">{{ 'option.item-karat.18' | pt }}</option>
               </select>
             </div>
           </div>
         </fieldset>
 
         <fieldset class="gold-fieldset">
-          <legend>Making charges <span class="label-hint">(optional)</span></legend>
+          <legend>{{ 'content.tool.legend3' | pt }}</legend>
           <div class="form-grid two-col">
             <div class="form-group">
-              <label for="making-type">Charged as</label>
+              <label for="making-type">{{ 'label.making-type' | pt }}</label>
               <select id="making-type" data-param="making" class="form-control">
-                <option value="none" selected>No making charges</option>
-                <option value="percent">% of gold value</option>
-                <option value="perGram">Fixed amount per gram</option>
+                <option value="none" selected>{{ 'option.making-type.none' | pt }}</option>
+                <option value="percent">{{ 'option.making-type.percent' | pt }}</option>
+                <option value="perGram">{{ 'option.making-type.perGram' | pt }}</option>
               </select>
             </div>
             <div class="form-group" id="making-value-group" hidden>
-              <label for="making-value" id="making-value-label">Making charges (%)</label>
-              <input type="number" inputmode="decimal" step="any" min="0" id="making-value" data-param="mv" class="form-control" placeholder="e.g. 8">
+              <label for="making-value" id="making-value-label">{{ 'label.making-value' | pt }}</label>
+              <input type="number" inputmode="decimal" step="any" min="0" id="making-value" data-param="mv" class="form-control" placeholder="{{ 'placeholder.making-value' | pt }}">
             </div>
           </div>
         </fieldset>
 
         <div class="button-group mt-6">
-          <button type="submit" class="btn btn-primary">Calculate Price</button>
-          <button type="button" class="btn btn-secondary" id="reset-btn">Reset</button>
+          <button type="submit" class="btn btn-primary">{{ 'content.tool.button1' | pt }}</button>
+          <button type="button" class="btn btn-secondary" id="reset-btn">{{ 'text.reset-btn' | pt }}</button>
         </div>
       </form>
 
@@ -204,37 +103,37 @@ howto:
       <!-- Result Box -->
       <div id="result-box" class="result-box" aria-live="polite">
         <div class="result-header">
-          <span id="result-header-text">Total price</span>
-          <button type="button" class="btn btn-sm btn-ghost" id="copy-result-btn" title="Copy Result to clipboard" aria-label="Copy Result to clipboard">
-            <span data-icon="copy"></span> Copy Result
+          <span id="result-header-text">{{ 'text.result-header-text' | pt }}</span>
+          <button type="button" class="btn btn-sm btn-ghost" id="copy-result-btn" title="{{ 'title.copy-result-btn' | pt }}" aria-label="{{ 'ariaLabel.copy-result-btn' | pt }}">
+            {{ 'text.copy-result-btn' | pt }}
           </button>
         </div>
-        <div class="result-primary" id="result-primary-text">Rs 0.00</div>
+        <div class="result-primary" id="result-primary-text">{{ 'text.result-primary-text' | pt }}</div>
 
         <div class="result-grid">
           <div class="result-stat-card">
-            <div class="result-stat-label">Pure gold content</div>
-            <div class="result-stat-value" id="stat-pure-grams">0 g</div>
+            <div class="result-stat-label">{{ 'content.tool.div1' | pt }}</div>
+            <div class="result-stat-value" id="stat-pure-grams">{{ 'text.stat-pure-grams' | pt }}</div>
           </div>
           <div class="result-stat-card">
-            <div class="result-stat-label">Gold value</div>
-            <div class="result-stat-value" id="stat-gold-value">Rs 0.00</div>
+            <div class="result-stat-label">{{ 'content.tool.div2' | pt }}</div>
+            <div class="result-stat-value" id="stat-gold-value">{{ 'text.stat-gold-value' | pt }}</div>
           </div>
           <div class="result-stat-card">
-            <div class="result-stat-label">Making charges</div>
-            <div class="result-stat-value" id="stat-making">Rs 0.00</div>
+            <div class="result-stat-label">{{ 'content.tool.div3' | pt }}</div>
+            <div class="result-stat-value" id="stat-making">{{ 'text.stat-making' | pt }}</div>
           </div>
           <div class="result-stat-card">
-            <div class="result-stat-label">Total price</div>
-            <div class="result-stat-value" id="stat-total">Rs 0.00</div>
+            <div class="result-stat-label">{{ 'content.tool.div4' | pt }}</div>
+            <div class="result-stat-value" id="stat-total">{{ 'text.stat-total' | pt }}</div>
           </div>
         </div>
 
-        <h3 class="gold-rates-title" id="rates-title">Equivalent rates for 22K</h3>
+        <h3 class="gold-rates-title" id="rates-title">{{ 'text.rates-title' | pt }}</h3>
         <dl class="gold-rates">
-          <div><dt>Per tola</dt><dd id="rate-per-tola">–</dd></div>
-          <div><dt>Per 10 grams</dt><dd id="rate-per-10g">–</dd></div>
-          <div><dt>Per gram</dt><dd id="rate-per-gram">–</dd></div>
+          <div><dt>{{ 'content.equivalent-rates-for-22k.dt1' | pt }}</dt><dd id="rate-per-tola">–</dd></div>
+          <div><dt>{{ 'content.equivalent-rates-for-22k.dt2' | pt }}</dt><dd id="rate-per-10g">–</dd></div>
+          <div><dt>{{ 'content.equivalent-rates-for-22k.dt3' | pt }}</dt><dd id="rate-per-gram">–</dd></div>
         </dl>
         <p class="gold-weight-line" id="weight-line"></p>
 
@@ -245,23 +144,23 @@ howto:
 
       <!-- Unit conversion table, rendered from logic.js unit data -->
       <div class="gold-units-block">
-        <h2 class="gold-units-title">Gold weight units</h2>
-        <div class="table-wrapper" tabindex="0" role="region" aria-label="Gold weight unit conversions (scrollable)">
+        <h2 class="gold-units-title">{{ 'content.gold-weight-units.heading' | pt }}</h2>
+        <div class="table-wrapper" tabindex="0" role="region" aria-label="{{ 'ariaLabel.gold-weight-units-div1' | pt }}">
           <table class="table gold-units-table">
-            <caption class="visually-hidden">Gold weight unit conversions</caption>
+            <caption class="visually-hidden">{{ 'content.gold-weight-units.caption1' | pt }}</caption>
             <thead>
               <tr>
-                <th scope="col">Unit</th>
-                <th scope="col">Tola</th>
-                <th scope="col">Grams</th>
-                <th scope="col">Masha</th>
-                <th scope="col">Ratti</th>
+                <th scope="col">{{ 'content.gold-weight-units.th1' | pt }}</th>
+                <th scope="col">{{ 'content.gold-weight-units.th2' | pt }}</th>
+                <th scope="col">{{ 'content.gold-weight-units.th3' | pt }}</th>
+                <th scope="col">{{ 'content.gold-weight-units.th4' | pt }}</th>
+                <th scope="col">{{ 'content.gold-weight-units.th5' | pt }}</th>
               </tr>
             </thead>
             <tbody>
               {% for row in goldUnits.rows %}
               <tr>
-                <th scope="row">{{ row.label }}</th>
+                <th scope="row">{{ ('units.' + row.key) | pt }}</th>
                 <td>{{ row.tola }}</td>
                 <td>{{ row.gram }}</td>
                 <td>{{ row.masha }}</td>
@@ -271,43 +170,43 @@ howto:
             </tbody>
           </table>
         </div>
-        <p class="form-hint">Troy ounce: 31.1034768 g, from <a href="https://www.nist.gov/document/nist-hb-44-2024-appendix-c-general-tables-units-measurement" target="_blank" rel="noopener noreferrer">NIST Handbook 44, Appendix C</a>. Hong Kong tael: the statutory “tael troy” of 37.429 g used for precious metals, from the <a href="https://www.elegislation.gov.hk/hk/cap68" target="_blank" rel="noopener noreferrer">Weights and Measures Ordinance (Cap. 68)</a>, not the ordinary tael of 1/16 catty.</p>
+        <p class="form-hint">{{ 'content.gold-weight-units.p1' | pt }}</p>
       </div>
     </section>
 
     <!-- tool-end -->
 
     <section class="content-section" aria-labelledby="tola-gram-heading">
-      <h2 id="tola-gram-heading">Tola and gram: which unit is your rate in?</h2>
-      <p>In Pakistan and much of South Asia, gold is traditionally weighed and priced by the tola, while many shops, banks and international markets quote prices per gram or per 10 grams. A tola is not 10 grams: it is 11.6638038 grams, defined as 180 grains, with one grain equal to 64.79891 milligrams. Smaller jewellery is often weighed in masha and ratti: 12 masha make a tola and 8 ratti make a masha, so a tola is 96 ratti.</p>
-      <p>Because the units differ, the same day's price can look very different from shop to shop. Choose the unit your rate is quoted in, and the calculator converts everything to grams before working out the value. The result also shows the equivalent rate per tola, per 10 grams and per gram, so you can compare quotes that use different units.</p>
+      <h2 id="tola-gram-heading">{{ 'text.tola-gram-heading' | pt }}</h2>
+      <p>{{ 'content.tola-and-gram-which-unit-is.p1' | pt }}</p>
+      <p>{{ 'content.tola-and-gram-which-unit-is.p2' | pt }}</p>
     </section>
 
     <section class="content-section" aria-labelledby="karat-heading">
-      <h2 id="karat-heading">Karat and purity</h2>
-      <p>A karat measures how much of an item is pure gold, out of 24 parts. The calculator uses purity = karat ÷ 24:</p>
+      <h2 id="karat-heading">{{ 'text.karat-heading' | pt }}</h2>
+      <p>{{ 'content.karat-and-purity.p1' | pt }}</p>
       <ul class="content-list">
-        <li><strong>24K:</strong> pure gold. Gold sold as 24K is normally hallmarked 999, or 99.9% gold.</li>
-        <li><strong>22K:</strong> 22/24 = 91.7% gold, the most common purity for jewellery in Pakistan and India, often marked 916.</li>
-        <li><strong>21K:</strong> 21/24 = 87.5% gold, widely used in the Gulf and for some local jewellery.</li>
-        <li><strong>18K:</strong> 18/24 = 75% gold, common for jewellery set with stones.</li>
+        <li>{{ 'content.karat-and-purity.li1' | pt }}</li>
+        <li>{{ 'content.karat-and-purity.li2' | pt }}</li>
+        <li>{{ 'content.karat-and-purity.li3' | pt }}</li>
+        <li>{{ 'content.karat-and-purity.li4' | pt }}</li>
       </ul>
-      <p>The rest of the metal is usually silver, copper or zinc, which makes the jewellery harder. When your rate is for one karat and the item is another, the calculator scales the price by the ratio of the two purities. For example, a 22K item priced from a 24K rate is worth 22/24 of the 24K amount at the same weight.</p>
+      <p>{{ 'content.karat-and-purity.p2' | pt }}</p>
     </section>
 
     <section class="content-section" aria-labelledby="shop-price-heading">
-      <h2 id="shop-price-heading">Why shop prices differ from the gold value</h2>
-      <p>The calculator's gold value is what the metal in the item is worth at the rate you entered. A jeweller's quote is usually higher, for a few reasons:</p>
+      <h2 id="shop-price-heading">{{ 'text.shop-price-heading' | pt }}</h2>
+      <p>{{ 'content.why-shop-prices-differ-from-the.p1' | pt }}</p>
       <ul class="content-list">
-        <li><strong>Making charges:</strong> the cost of turning gold into jewellery, charged either as a percentage of the gold value or as a fixed amount per gram or per tola. Intricate designs usually cost more.</li>
-        <li><strong>Wastage:</strong> some shops add a charge for metal lost while the piece was made.</li>
-        <li><strong>Kaat:</strong> when you sell or exchange gold, a jeweller may deduct kaat for impurity, solder or wastage, so you receive less than the gold value.</li>
-        <li><strong>Stones and other materials:</strong> their weight is not gold, so ask for the net gold weight.</li>
+        <li>{{ 'content.why-shop-prices-differ-from-the.li1' | pt }}</li>
+        <li>{{ 'content.why-shop-prices-differ-from-the.li2' | pt }}</li>
+        <li>{{ 'content.why-shop-prices-differ-from-the.li3' | pt }}</li>
+        <li>{{ 'content.why-shop-prices-differ-from-the.li4' | pt }}</li>
       </ul>
-      <p>Enter the making charges a shop quotes to see the total, and compare the gold value line between shops: if two quotes have the same gold value, the difference is in the charges.</p>
+      <p>{{ 'content.why-shop-prices-differ-from-the.p2' | pt }}</p>
     </section>
 
     <section class="content-section" aria-labelledby="todays-rate-heading">
-      <h2 id="todays-rate-heading">Use today's rate from your sarafa association or jeweller</h2>
-      <p>Gold prices change during the day and differ between cities and countries. This calculator does not show or fetch live prices. Take the day's rate from your local sarafa association or your jeweller, note which unit and karat it is for, and enter it here. Your rate and weights stay in your browser.</p>
+      <h2 id="todays-rate-heading">{{ 'text.todays-rate-heading' | pt }}</h2>
+      <p>{{ 'content.use-today-s-rate-from-your.p1' | pt }}</p>
     </section>

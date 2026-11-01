@@ -5,6 +5,8 @@
  */
 document.addEventListener('DOMContentLoaded', () => {
   const logic = window.DuplicateLinesLogic;
+  const T = ToolsBuilt.scope('remove-duplicate-lines');
+  const locale = ToolsBuilt.pageLocale('en-US');
   const input = document.getElementById('dedupe-input');
   const optCase = document.getElementById('opt-case');
   const optTrim = document.getElementById('opt-trim');
@@ -21,10 +23,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const copyBtn = document.getElementById('copy-output-btn');
   const downloadBtn = document.getElementById('download-btn');
 
-  const EXAMPLE = 'apple\nBanana\napple\ncherry\n banana\n\nCherry\ndate\n\napple';
   let debounceTimer = null;
 
-  const plural = (n, word) => `${n.toLocaleString('en-US')} ${word}${n === 1 ? '' : 's'}`;
+  // '<key>.one' for 1, '<key>.other' otherwise, with the count formatted for the page
+  const plural = (n, key) => T(`${key}.${n === 1 ? 'one' : 'other'}`, { n: n.toLocaleString(locale) });
 
   function run() {
     if (!input.value) {
@@ -40,14 +42,15 @@ document.addEventListener('DOMContentLoaded', () => {
       keep: optKeep.value,
       sort: optSort.value
     });
-    primaryText.textContent = `${plural(res.duplicatesRemoved, 'duplicate')} removed`;
-    const parts = [`${plural(res.totalLines, 'line')} in, ${plural(res.keptLines, 'line')} out`];
-    if (res.emptyRemoved) parts.push(`${plural(res.emptyRemoved, 'empty line')} removed`);
+    primaryText.textContent = plural(res.duplicatesRemoved, 'result.removed');
+    const parts = [T('note.inOut', { in: plural(res.totalLines, 'note.lines'), out: plural(res.keptLines, 'note.lines') })];
+    if (res.emptyRemoved) parts.push(plural(res.emptyRemoved, 'note.emptyRemoved'));
     if (res.repeated.length) {
-      const label = (line) => (line.trim() === '' ? '(empty line)' : `"${line.length > 30 ? `${line.slice(0, 30)}…` : line}"`);
-      parts.push(`Most repeated: ${res.repeated.slice(0, 3).map(r => `${label(r.line)} ×${r.count}`).join(', ')}`);
+      const label = (line) => (line.trim() === '' ? T('note.emptyLine') : T('note.quoted', { text: line.length > 30 ? `${line.slice(0, 30)}…` : line }));
+      const list = res.repeated.slice(0, 3).map(r => T('note.repeatedItem', { line: label(r.line), count: r.count })).join(T('note.listSeparator'));
+      parts.push(T('note.mostRepeated', { list }));
     }
-    noteText.textContent = `${parts.join('. ')}.`;
+    noteText.textContent = T('note.sentences', { text: parts.join(T('note.sentenceSeparator')) });
     output.value = res.output;
     const barCopy = document.getElementById('action-copy-btn');
     if (barCopy) barCopy.dataset.copyText = res.output;
@@ -64,7 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('dedupe-form').addEventListener('submit', (e) => { e.preventDefault(); run(); });
 
   exampleBtn.addEventListener('click', () => {
-    input.value = EXAMPLE;
+    input.value = T('example');
     run();
   });
 
@@ -75,7 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   copyBtn.addEventListener('click', () => {
-    if (output.value) ToolsBuilt.copy(output.value, 'Result copied');
+    if (output.value) ToolsBuilt.copy(output.value, T('copied'));
   });
 
   downloadBtn.addEventListener('click', () => {

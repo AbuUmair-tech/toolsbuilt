@@ -29,7 +29,7 @@ function initScrollableTables() {
         wrapper.setAttribute('tabindex', '0');
         wrapper.setAttribute('role', 'region');
         const caption = wrapper.querySelector('caption');
-        wrapper.setAttribute('aria-label', caption && caption.textContent.trim() ? caption.textContent.trim() : 'Scrollable table');
+        wrapper.setAttribute('aria-label', caption && caption.textContent.trim() ? caption.textContent.trim() : ToolsBuilt.t('table.scrollable'));
       } else if (!overflows && wrapper.dataset.tbScroll === 'on') {
         wrapper.dataset.tbScroll = 'off';
         ['tabindex', 'role', 'aria-label'].forEach(a => wrapper.removeAttribute(a));
@@ -91,6 +91,49 @@ function initAccordions() {
   });
 }
 
+window.ToolsBuilt = window.ToolsBuilt || {};
+
+/**
+ * Translations (see scripts/i18n-client.js)
+ *   ToolsBuilt.t('copy.copiedToClipboard')      -> shared UI string
+ *   ToolsBuilt.tp('codeFormatter.formattedLines', n) -> plural shared string
+ *   const T = ToolsBuilt.scope('<tool slug>');   T('resultIncrease', { pct: '12%' })
+ *   ToolsBuilt.pageLocale('en-US')              -> locale for Intl: the given English locale on
+ *                                                  English pages, the page language otherwise
+ * window.I18N (non-English pages) wins over window.I18N_DEFAULTS (English, built into the JS).
+ */
+(function() {
+  function lookup(obj, key) {
+    return String(key).split('.').reduce((o, k) => (o && typeof o === 'object' ? o[k] : undefined), obj);
+  }
+  function format(str, vars) {
+    return vars ? str.replace(/\{\{\s*(\w+)\s*\}\}/g, (m, name) => (name in vars ? String(vars[name]) : m)) : str;
+  }
+  function resolve(path, vars) {
+    let value = lookup(window.I18N, path);
+    if (typeof value !== 'string') value = lookup(window.I18N_DEFAULTS, path);
+    return typeof value === 'string' ? format(value, vars) : path.split('.').pop();
+  }
+  function t(key, vars) {
+    return resolve(`ui.${key}`, vars);
+  }
+  function scope(slug) {
+    return (key, vars) => resolve(`tools.${slug}.${key}`, vars);
+  }
+  // Plural UI string: the key holds one entry per plural category (one, few, many, other, ...)
+  function tp(key, count, vars) {
+    const lang = document.documentElement.lang || 'en';
+    const form = new Intl.PluralRules(lang).select(Number(count));
+    const forms = lookup(window.I18N, `ui.${key}`) || lookup(window.I18N_DEFAULTS, `ui.${key}`) || {};
+    return resolve(`ui.${key}.${form in forms ? form : 'other'}`, { count, ...(vars || {}) });
+  }
+  function pageLocale(englishLocale) {
+    const lang = document.documentElement.lang || 'en';
+    return lang === 'en' ? englishLocale : lang;
+  }
+  Object.assign(window.ToolsBuilt, { t, tp, scope, pageLocale });
+})();
+
 /**
  * Shareable result links
  * Inputs marked data-param="<name>" (optionally data-param-alias="<old name>") are
@@ -105,7 +148,6 @@ function initAccordions() {
  * The URL is only written once the visitor has interacted with the tool (or arrived
  * with a result link), so a plain visit keeps the clean URL while defaults are shown.
  */
-window.ToolsBuilt = window.ToolsBuilt || {};
 ToolsBuilt.resultLink = (function() {
   let armed = false;
   const arm = (e) => {
@@ -276,7 +318,10 @@ ToolsBuilt.resultLink = (function() {
 
   // English date in the visitor's regional order, e.g. en-GB "Saturday 31 October 2026",
   // en-US "Saturday, October 31, 2026". Content stays English; only the format follows the region.
+  // English pages: English with the visitor's region (en-GB, en-IN, ...); otherwise the page language
   function dateLocale() {
+    const pageLang = document.documentElement.lang || 'en';
+    if (pageLang !== 'en') return pageLang;
     const langs = navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || 'en-US'];
     for (const lang of langs) {
       const region = (lang.split('-')[1] || '').toUpperCase();

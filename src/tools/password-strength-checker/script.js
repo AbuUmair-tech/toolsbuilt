@@ -7,6 +7,7 @@
  */
 document.addEventListener('DOMContentLoaded', () => {
   const logic = window.PasswordStrengthLogic;
+  const T = ToolsBuilt.scope('password-strength-checker');
   const form = document.getElementById('pw-form');
   const input = document.getElementById('pw-input');
   const toggleBtn = document.getElementById('toggle-pw');
@@ -69,7 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const s = document.createElement('script');
       s.src = src;
       s.onload = resolve;
-      s.onerror = () => reject(new Error('The password checker could not be loaded. Check your connection and try again.'));
+      s.onerror = () => reject(new Error(T('errors.loadFailedConnection')));
       document.head.appendChild(s);
     });
     return scripts.reduce((p, src) => p.then(() => load(src)), Promise.resolve()).then(() => {
@@ -81,7 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function ensureEngine() {
     if (engine) return Promise.resolve(engine);
     if (!loading) {
-      statusText.textContent = 'Loading the strength checker (about 0.9 MB, once)…';
+      statusText.textContent = T('status.loading');
       const start = typeof Worker === 'function' ? loadInWorker().catch(() => loadOnMainThread()) : loadOnMainThread();
       loading = start.then((e) => {
         engine = e;
@@ -90,7 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }).catch((err) => {
         loading = null;
         statusText.textContent = '';
-        showError(err.message || 'The password checker could not be loaded.');
+        showError(err.message || T('errors.loadFailed'));
         throw err;
       });
     }
@@ -114,15 +115,17 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function render(r) {
-    primaryText.textContent = `${r.score} of 4 · ${r.label}`;
+    // The label is looked up here, not taken from the worker, so it follows the page language
+    const label = T(`labels.${logic.LABEL_KEYS[r.score]}`);
+    primaryText.textContent = T('result.primary', { score: r.score, label });
     meter.dataset.score = String(r.score);
     meter.setAttribute('aria-valuenow', String(r.score));
-    meter.setAttribute('aria-valuetext', `${r.score} of 4, ${r.label}`);
+    meter.setAttribute('aria-valuetext', T('result.ariaValue', { score: r.score, label }));
 
     warningText.textContent = r.warning;
     warningText.hidden = !r.warning;
     const tips = r.suggestions.slice();
-    if (r.info.length < 15) tips.push('NIST recommends at least 15 characters for a password used on its own.');
+    if (r.info.length < 15) tips.push(T('tips.nistLength'));
     suggestionsList.replaceChildren(...tips.map(t => {
       const li = document.createElement('li');
       li.textContent = t;
@@ -131,17 +134,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
     onlineText.textContent = r.crackTimes.onlineThrottled ? cap(r.crackTimes.onlineThrottled.display) : '--';
     offlineText.textContent = r.crackTimes.offlineFast ? cap(r.crackTimes.offlineFast.display) : '--';
-    lengthText.textContent = `${r.info.length} character${r.info.length === 1 ? '' : 's'}`;
-    guessesText.textContent = `about 10^${Math.round(r.guessesLog10)}`;
+    lengthText.textContent = T(r.info.length === 1 ? 'stats.characters.one' : 'stats.characters.other', { count: r.info.length });
+    guessesText.textContent = T('stats.guesses', { exponent: Math.round(r.guessesLog10) });
 
-    const names = { lower: 'lower case', upper: 'upper case', digits: 'digits', symbols: 'symbols', spaces: 'spaces', other: 'other characters' };
-    const used = r.info.setsUsed.map(k => `${names[k]} (${r.info.sets[k]})`).join(', ');
+    const used = r.info.setsUsed.map(k => T('sets.item', { name: T(`sets.${k}`), count: r.info.sets[k] })).join(T('sets.separator'));
+    // Pattern names (dictionary, repeat, ...) are zxcvbn-ts identifiers
     const patterns = r.patterns.filter(p => p !== 'bruteforce');
-    setsText.textContent = `Uses ${used || 'no characters'}. ${patterns.length ? `Patterns found: ${patterns.join(', ')}.` : 'No dictionary words or patterns were found.'}${r.truncated ? ' Only the first 256 characters were analysed.' : ''}`;
+    const usesText = T('summary.uses', { sets: used || T('summary.noCharacters') });
+    const patternsText = patterns.length ? T('summary.patterns', { patterns: patterns.join(T('sets.separator')) }) : T('summary.noPatterns');
+    setsText.textContent = `${usesText} ${patternsText}${r.truncated ? ` ${T('summary.truncated')}` : ''}`;
 
     // The copy action copies the assessment, never the password
     const barCopy = document.getElementById('action-copy-btn');
-    if (barCopy) barCopy.dataset.copyText = `Password strength: ${r.score}/4 (${r.label}). Online: ${onlineText.textContent}. Offline: ${offlineText.textContent}.`;
+    if (barCopy) barCopy.dataset.copyText = T('copy.assessment', { score: r.score, label, online: onlineText.textContent, offline: offlineText.textContent });
     resultBox.classList.add('is-visible');
   }
 
@@ -168,7 +173,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!input.value) { requestId++; clearResult(); return; }
     // Open the result area straight away (a check can take a second), so the page does not jump later
     if (!resultBox.classList.contains('is-visible')) {
-      primaryText.textContent = 'Checking…';
+      primaryText.textContent = T('status.checking');
       resultBox.classList.add('is-visible');
     }
     debounceTimer = setTimeout(check, 250);
@@ -178,7 +183,7 @@ document.addEventListener('DOMContentLoaded', () => {
   toggleBtn.addEventListener('click', () => {
     const show = input.type === 'password';
     input.type = show ? 'text' : 'password';
-    toggleBtn.textContent = show ? 'Hide' : 'Show';
+    toggleBtn.textContent = show ? T('toggle.hide') : T('toggle.show');
     toggleBtn.setAttribute('aria-pressed', show ? 'true' : 'false');
   });
 

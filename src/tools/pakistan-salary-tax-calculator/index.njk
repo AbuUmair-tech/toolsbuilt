@@ -3,147 +3,46 @@ layout: layouts/tool.njk
 toolSlug: pakistan-salary-tax-calculator
 taxEngine: true
 areaServed: Pakistan
-title: "Salary Tax Calculator Pakistan 2026-27 (New FBR Slabs)"
-description: "Calculate income tax on your salary in Pakistan for 2026-27 with the new FBR slabs. See monthly tax, take-home pay, your slab, and savings vs 2025-26."
 permalink: /tools/pakistan-salary-tax-calculator/
-h1: "Pakistan Salary Tax Calculator 2026-27"
 extraCss: "/tools/pakistan-salary-tax-calculator/style.css"
-quickAnswer: "In tax year 2026-27, a salaried person earning Rs 100,000 a month (Rs 1,200,000 a year) pays Rs 6,000 a year in income tax, which is Rs 500 a month. Salary up to Rs 600,000 a year is tax-free; above that, tax is a fixed amount for your slab plus 1% to 35% of the income above the slab's starting point."
-formula:
-  title: "Salary Tax Formula"
-  expression: "Annual tax = Fixed amount of your slab + Slab rate × (Annual taxable income − Slab starting point)"
-  explanation: "Find the slab your annual taxable salary falls in, take that slab's fixed amount, and add the slab rate applied only to the part of your income above the slab's starting point. Divide the annual tax by 12 for the monthly deduction. In 2025-26 a 9% surcharge on the tax applied when taxable income exceeded Rs 10,000,000; it does not apply to salaried individuals in 2026-27."
-  variables:
-    - name: "Annual taxable income"
-      description: "Monthly taxable salary × 12, or your annual taxable salary."
-    - name: "Fixed amount"
-      description: "The total tax due on all the income below your slab, already worked out for you in the slab table."
-    - name: "Slab rate"
-      description: "The marginal rate, which applies only to income above the slab's starting point."
-workedExamples:
-  - title: "Monthly salary Rs 100,000"
-    inputs:
-      - "Monthly salary: Rs 100,000"
-      - "Annual taxable income: Rs 1,200,000"
-      - "Slab: Rs 600,001 to Rs 1,200,000 (1%)"
-    steps:
-      - "Income above the slab start: 1,200,000 − 600,000 = 600,000"
-      - "Annual tax: 0 + 1% × 600,000 = Rs 6,000"
-      - "Monthly tax: 6,000 ÷ 12 = Rs 500"
-      - "Monthly take-home: 100,000 − 500 = Rs 99,500"
-    result: "Rs 500 tax a month, Rs 99,500 take-home (effective rate 0.5%). The same as in 2025-26."
-    link: "/tools/pakistan-salary-tax-calculator/?salary=100000&period=monthly&year=2026-27#tool"
-  - title: "Monthly salary Rs 250,000"
-    inputs:
-      - "Monthly salary: Rs 250,000"
-      - "Annual taxable income: Rs 3,000,000"
-      - "Slab: Rs 2,200,001 to Rs 3,200,000 (Rs 116,000 + 20%)"
-    steps:
-      - "Income above the slab start: 3,000,000 − 2,200,000 = 800,000"
-      - "Annual tax: 116,000 + 20% × 800,000 = Rs 276,000"
-      - "Monthly tax: 276,000 ÷ 12 = Rs 23,000"
-      - "Monthly take-home: 250,000 − 23,000 = Rs 227,000"
-      - "2025-26 for comparison: 116,000 + 23% × 800,000 = Rs 300,000 a year, Rs 25,000 a month"
-    result: "Rs 23,000 tax a month, Rs 227,000 take-home (effective rate 9.2%). You save Rs 2,000 a month compared to 2025-26."
-    link: "/tools/pakistan-salary-tax-calculator/?salary=250000&period=monthly&year=2026-27#tool"
-  - title: "Monthly salary Rs 500,000"
-    inputs:
-      - "Monthly salary: Rs 500,000"
-      - "Annual taxable income: Rs 6,000,000"
-      - "Slab: Rs 5,600,001 to Rs 7,000,000 (Rs 976,000 + 32%)"
-    steps:
-      - "Income above the slab start: 6,000,000 − 5,600,000 = 400,000"
-      - "Annual tax: 976,000 + 32% × 400,000 = Rs 1,104,000"
-      - "Monthly tax: 1,104,000 ÷ 12 = Rs 92,000"
-      - "Monthly take-home: 500,000 − 92,000 = Rs 408,000"
-      - "2025-26 for comparison: 616,000 + 35% × 1,900,000 = Rs 1,281,000 a year, Rs 106,750 a month"
-    result: "Rs 92,000 tax a month, Rs 408,000 take-home (effective rate 18.4%). You save Rs 14,750 a month compared to 2025-26."
-    link: "/tools/pakistan-salary-tax-calculator/?salary=500000&period=monthly&year=2026-27#tool"
-commonMistakes:
-  - title: "Applying the top rate to the whole salary"
-    description: "Falling in the 32% slab does not mean 32% of your salary goes in tax. The rate applies only to income above the slab's starting point; the income below it is covered by the fixed amount. That is why Rs 6,000,000 a year is taxed at an effective 18.4%, not 32%."
-  - title: "Forgetting the fixed amount"
-    description: "Multiplying only the excess by the slab rate leaves out the tax on everything below the slab. For Rs 3,000,000 a year, 20% × 800,000 is Rs 160,000, but the correct tax is Rs 116,000 + Rs 160,000 = Rs 276,000."
-  - title: "Mixing monthly and annual figures"
-    description: "The slabs are annual. Comparing a monthly salary of Rs 250,000 directly with a Rs 600,000 threshold, or dividing an annual fixed amount by 12 in only one place, gives badly wrong answers. Convert the salary to an annual figure first, work out the annual tax, then divide by 12."
-  - title: "Using the wrong tax year"
-    description: "Pakistan's tax year runs from July to June. Salary paid from July 2026 to June 2027 falls under tax year 2026-27; salary paid before July 2026 uses the 2025-26 slabs."
-  - title: "Treating gross pay as taxable income"
-    description: "Taxable income can differ from the salary on your offer letter because of exempt allowances, deductions and tax credits. This calculator applies the slabs to the amount you enter, so enter your taxable salary for the closest estimate."
-faqs:
-  - q: "How much tax will I pay on a salary of Rs 100,000 per month in 2026-27?"
-    a: "Rs 500 a month. Rs 100,000 a month is Rs 1,200,000 a year, which falls in the 1% slab: 1% of the Rs 600,000 above the Rs 600,000 threshold is Rs 6,000 a year, or Rs 500 a month. Your take-home pay is Rs 99,500."
-  - q: "What are the new income tax slabs for salaried persons in 2026-27?"
-    a: "Annual salary up to Rs 600,000 is tax-free. Above that the rates are 1% (up to Rs 1,200,000), 11% (up to Rs 2,200,000), 20% (up to Rs 3,200,000), 25% (up to Rs 4,100,000), 29% (up to Rs 5,600,000), 32% (up to Rs 7,000,000) and 35% above Rs 7,000,000, each on top of the fixed amount shown in the slab table."
-  - q: "Is salary up to Rs 50,000 per month tax-free in Pakistan?"
-    a: "Yes. Rs 50,000 a month is Rs 600,000 a year, which is the top of the 0% slab in both 2025-26 and 2026-27, so no income tax is due on taxable salary up to that amount."
-  - q: "How is monthly income tax on salary calculated in Pakistan?"
-    a: "Multiply your monthly taxable salary by 12, find your slab, and work out the annual tax as the slab's fixed amount plus the slab rate on the income above the slab's starting point. Divide the annual tax by 12 to get the monthly deduction."
-  - q: "What changed in salary tax from 2025-26 to 2026-27?"
-    a: "Rates were cut in four slabs (23% to 20%, 30% to 25%, and 35% to 29% and 32% in two new slabs between Rs 4,100,000 and Rs 7,000,000), the top 35% rate now starts at Rs 7,000,000 instead of Rs 4,100,000, and the 9% surcharge on salaried income above Rs 10,000,000 was removed."
-  - q: "Is there a surcharge on salary income in 2026-27?"
-    a: "No. The 9% surcharge on the tax of salaried individuals earning more than Rs 10,000,000 a year applied in 2025-26 and does not apply in 2026-27."
-  - q: "What is the difference between my tax slab and my effective tax rate?"
-    a: "Your slab rate is the rate on your last rupees of income. Your effective rate is your total tax divided by your total income, which is always lower because the income in the lower slabs is taxed at lower rates. Rs 3,000,000 a year is in the 20% slab but has an effective rate of 9.2%."
-  - q: "Does this calculator include allowances, exemptions or tax credits?"
-    a: "No. It applies the salaried slabs to the taxable salary you enter. It does not account for exempt allowances, deductions, tax credits or rebates, so treat the result as an estimate and confirm your liability with FBR or a tax adviser."
-sources:
-  - name: "Federal Board of Revenue (FBR), Government of Pakistan"
-    url: "https://www.fbr.gov.pk/"
-  - name: "Finance Act 2026 (FBR, PDF)"
-    url: "https://download1.fbr.gov.pk/Docs/20266291261044366FinanceAct2026.pdf"
 lastReviewed: "2026-10-31"
-howto:
-  name: "How to Calculate Salary Tax in Pakistan"
-  description: "Estimate income tax and take-home pay on a Pakistani salary with the 2026-27 FBR slabs."
-  steps:
-    - name: "Enter your salary"
-      text: "Type your taxable salary in rupees."
-    - name: "Choose monthly or annual"
-      text: "Tell the calculator whether the amount is per month or per year."
-    - name: "Pick the tax year"
-      text: "Use 2026-27 for salary paid from July 2026, or 2025-26 to compare."
-    - name: "Read your result"
-      text: "See your annual and monthly tax, take-home pay, effective rate, your slab highlighted in the table, and the difference from the other tax year."
 ---
 
     <script type="application/json" id="tax-datasets">{{ [tax["pk-2026-27"], tax["pk-2025-26"]] | dump | safe }}</script>
     <!-- Tool Form Container -->
-    <section class="tool-container" aria-label="Pakistan Salary Tax Calculator Form">
+    <section class="tool-container" aria-label="{{ 'ariaLabel.tool-section1' | pt }}">
       <form id="calculator-form" novalidate>
         <div class="form-group">
-          <label for="salary-amount">Salary (Rs) <span class="text-accent">*</span></label>
-          <input type="number" inputmode="numeric" min="0" step="any" id="salary-amount" data-param="salary" class="form-control" placeholder="e.g. 150000" required aria-required="true" aria-describedby="salary-hint">
-          <p class="form-hint" id="salary-hint">Your taxable salary before tax.</p>
+          <label for="salary-amount">{{ 'label.salary-amount' | pt }}</label>
+          <input type="number" inputmode="numeric" min="0" step="any" id="salary-amount" data-param="salary" class="form-control" placeholder="{{ 'placeholder.salary-amount' | pt }}" required aria-required="true" aria-describedby="salary-hint">
+          <p class="form-hint" id="salary-hint">{{ 'text.salary-hint' | pt }}</p>
         </div>
 
         <div class="form-grid two-col">
           <fieldset class="form-group choice-toggle">
-            <legend>Salary is</legend>
+            <legend>{{ 'content.tool.legend1' | pt }}</legend>
             <div class="segmented-control choice-toggle-options">
               <label class="choice-toggle-option">
-                <input type="radio" name="salary-period" id="period-monthly" value="monthly" data-param="period" checked>
-                <span>Monthly</span>
+                {{ 'content.tool.label1' | pt }}
               </label>
               <label class="choice-toggle-option">
-                <input type="radio" name="salary-period" id="period-annual" value="annual" data-param="period">
-                <span>Annual</span>
+                {{ 'content.tool.label2' | pt }}
               </label>
             </div>
           </fieldset>
 
           <div class="form-group">
-            <label for="tax-year">Tax year</label>
+            <label for="tax-year">{{ 'label.tax-year' | pt }}</label>
             <select id="tax-year" data-param="year" class="form-control">
-              <option value="2026-27" selected>2026-27 (current)</option>
-              <option value="2025-26">2025-26 (to compare)</option>
+              <option value="2026-27" selected>{{ 'option.tax-year.2026-27' | pt }}</option>
+              <option value="2025-26">{{ 'option.tax-year.2025-26' | pt }}</option>
             </select>
           </div>
         </div>
 
         <div class="button-group mt-6">
-          <button type="submit" class="btn btn-primary">Calculate Tax</button>
-          <button type="button" class="btn btn-secondary" id="reset-btn">Reset</button>
+          <button type="submit" class="btn btn-primary">{{ 'content.tool.button1' | pt }}</button>
+          <button type="button" class="btn btn-secondary" id="reset-btn">{{ 'text.reset-btn' | pt }}</button>
         </div>
       </form>
 
@@ -152,37 +51,37 @@ howto:
       <!-- Result Box -->
       <div id="result-box" class="result-box" aria-live="polite">
         <div class="result-header">
-          <span id="result-header-text">Your salary tax</span>
-          <button type="button" class="btn btn-sm btn-ghost" id="copy-result-btn" title="Copy Result to clipboard" aria-label="Copy Result to clipboard">
-            <span data-icon="copy"></span> Copy Result
+          <span id="result-header-text">{{ 'text.result-header-text' | pt }}</span>
+          <button type="button" class="btn btn-sm btn-ghost" id="copy-result-btn" title="{{ 'title.copy-result-btn' | pt }}" aria-label="{{ 'ariaLabel.copy-result-btn' | pt }}">
+            {{ 'text.copy-result-btn' | pt }}
           </button>
         </div>
-        <div class="result-primary" id="result-primary-text">Rs 0</div>
+        <div class="result-primary" id="result-primary-text">{{ 'text.result-primary-text' | pt }}</div>
         <p class="salary-comparison" id="result-comparison"></p>
 
         <div class="result-grid">
           <div class="result-stat-card">
-            <div class="result-stat-label">Monthly tax</div>
-            <div class="result-stat-value" id="stat-monthly-tax">Rs 0</div>
+            <div class="result-stat-label">{{ 'content.tool.div1' | pt }}</div>
+            <div class="result-stat-value" id="stat-monthly-tax">{{ 'text.stat-monthly-tax' | pt }}</div>
           </div>
           <div class="result-stat-card">
-            <div class="result-stat-label">Monthly take-home salary</div>
-            <div class="result-stat-value" id="stat-monthly-takehome">Rs 0</div>
+            <div class="result-stat-label">{{ 'content.tool.div2' | pt }}</div>
+            <div class="result-stat-value" id="stat-monthly-takehome">{{ 'text.stat-monthly-takehome' | pt }}</div>
           </div>
           <div class="result-stat-card">
-            <div class="result-stat-label">Annual taxable income</div>
-            <div class="result-stat-value" id="stat-annual-income">Rs 0</div>
+            <div class="result-stat-label">{{ 'content.tool.div3' | pt }}</div>
+            <div class="result-stat-value" id="stat-annual-income">{{ 'text.stat-annual-income' | pt }}</div>
           </div>
           <div class="result-stat-card">
-            <div class="result-stat-label">Annual income tax</div>
-            <div class="result-stat-value" id="stat-annual-tax">Rs 0</div>
+            <div class="result-stat-label">{{ 'content.tool.div4' | pt }}</div>
+            <div class="result-stat-value" id="stat-annual-tax">{{ 'text.stat-annual-tax' | pt }}</div>
           </div>
           <div class="result-stat-card">
-            <div class="result-stat-label">Effective tax rate</div>
+            <div class="result-stat-label">{{ 'content.tool.div5' | pt }}</div>
             <div class="result-stat-value" id="stat-effective-rate">0%</div>
           </div>
           <div class="result-stat-card">
-            <div class="result-stat-label">Your slab</div>
+            <div class="result-stat-label">{{ 'content.tool.div6' | pt }}</div>
             <div class="result-stat-value" id="stat-slab">0%</div>
             <div class="slab-range" id="stat-slab-range"></div>
           </div>
@@ -199,70 +98,70 @@ howto:
         { year: pakistanSalaryTax.previousTaxYear, rows: pakistanSalaryTax.previous }
       ] %}
       <div class="slab-table-block" data-year="{{ table.year }}"{% if table.year != pakistanSalaryTax.taxYear %} hidden{% endif %}>
-        <h2 class="slab-table-title">Salary tax slabs {{ table.year }}</h2>
-        <div class="table-wrapper" tabindex="0" role="region" aria-label="Salary tax slabs {{ table.year }} (scrollable)">
+        <h2 class="slab-table-title">{{ 'slabs.title' | pt({ year: table.year }) }}</h2>
+        <div class="table-wrapper" tabindex="0" role="region" aria-label="{{ 'slabs.ariaLabel' | pt({ year: table.year }) }}">
           <table class="table slab-table">
-            <caption class="visually-hidden">Income tax slabs for salaried individuals, tax year {{ table.year }}</caption>
+            <caption class="visually-hidden">{{ 'slabs.caption' | pt({ year: table.year }) }}</caption>
             <thead>
               <tr>
-                <th scope="col">Annual taxable salary</th>
-                <th scope="col">Income tax</th>
+                <th scope="col">{{ 'content.tool.th1' | pt }}</th>
+                <th scope="col">{{ 'content.tool.th2' | pt }}</th>
               </tr>
             </thead>
             <tbody>
               {% for row in table.rows %}
               <tr data-slab="{{ row.index }}">
-                <td>{% if row.to %}{{ row.from }} to {{ row.to }}{% else %}Above {{ row.over }}{% endif %}<span class="slab-you"> · your slab</span></td>
-                <td>{% if row.isZero %}0%{% elif row.fixed == 0 %}{{ row.rate }} of the amount over {{ row.over }}{% else %}{{ row.fixedText }} + {{ row.rate }} of the amount over {{ row.over }}{% endif %}</td>
+                <td>{% if row.to %}{{ 'slabs.range' | pt({ from: row.from, to: row.to }) }}{% else %}{{ 'slabs.above' | pt({ over: row.over }) }}{% endif %}<span class="slab-you"> {{ 'content.tool.span1' | pt }}</span></td>
+                <td>{% if row.isZero %}0%{% elif row.fixed == 0 %}{{ 'slabs.rate' | pt({ rate: row.rate, over: row.over }) }}{% else %}{{ 'slabs.fixedRate' | pt({ fixed: row.fixedText, rate: row.rate, over: row.over }) }}{% endif %}</td>
               </tr>
               {% endfor %}
             </tbody>
           </table>
         </div>
         {% if table.year == pakistanSalaryTax.previousTaxYear and pakistanSalaryTax.previousSurcharge %}
-        <p class="slab-table-note">Plus a surcharge of {{ (pakistanSalaryTax.previousSurcharge.rate * 100) | round }}% of the tax when taxable income exceeds Rs 10,000,000.</p>
+        <p class="slab-table-note">{{ 'slabs.surcharge' | pt({ rate: (pakistanSalaryTax.previousSurcharge.rate * 100) | round }) }}</p>
         {% elif table.year == pakistanSalaryTax.taxYear %}
-        <p class="slab-table-note">No surcharge for salaried individuals in {{ table.year }}.</p>
+        <p class="slab-table-note">{{ 'slabs.noSurcharge' | pt({ year: table.year }) }}</p>
         {% endif %}
       </div>
       {% endfor %}
 
       <div class="tool-note">
-        <h3 class="tool-note-title">This is an estimate</h3>
-        <p>It is for salaried individuals only and ignores allowances, exemptions, tax credits and rebates. Confirm your tax with FBR or a tax adviser.</p>
+        <h3 class="tool-note-title">{{ 'content.this-is-an-estimate.heading' | pt }}</h3>
+        <p>{{ 'content.this-is-an-estimate.p1' | pt }}</p>
       </div>
     </section>
 
     <!-- tool-end -->
 
     <section class="content-section" aria-labelledby="how-calculated-heading">
-      <h2 id="how-calculated-heading">How salary tax is calculated in Pakistan</h2>
-      <p>Income tax on a salary in Pakistan is worked out on a yearly figure, even though most employers deduct it every month. Three ideas are enough to follow the whole calculation.</p>
+      <h2 id="how-calculated-heading">{{ 'text.how-calculated-heading' | pt }}</h2>
+      <p>{{ 'content.how-salary-tax-is-calculated-in.p1' | pt }}</p>
       <ul class="content-list">
-        <li><strong>Taxable income:</strong> the part of your annual salary that is subject to tax. For most salaried people this is close to their annual pay, but exempt allowances, deductions and tax credits can make it lower. This calculator applies the slabs to whatever amount you enter.</li>
-        <li><strong>Slabs:</strong> the law divides annual income into bands. The first Rs 600,000 a year is taxed at 0%, and each band above it has its own rate, rising to 35% on income above Rs 7,000,000 in 2026-27.</li>
-        <li><strong>Fixed amount plus marginal rate:</strong> each slab lists a fixed amount and a rate. The fixed amount is simply the tax on all the income in the slabs below yours, already added up. The rate, called the marginal rate, applies only to the income above your slab's starting point.</li>
+        <li>{{ 'content.how-salary-tax-is-calculated-in.li1' | pt }}</li>
+        <li>{{ 'content.how-salary-tax-is-calculated-in.li2' | pt }}</li>
+        <li>{{ 'content.how-salary-tax-is-calculated-in.li3' | pt }}</li>
       </ul>
-      <p>So moving into a higher slab never makes your take-home pay fall: only the rupees above the new threshold are taxed at the higher rate. Your effective tax rate, which is total tax divided by total income, is always lower than your slab rate. Your employer deducts roughly one-twelfth of the annual tax from each month's pay, which is the monthly tax figure the calculator shows.</p>
+      <p>{{ 'content.how-salary-tax-is-calculated-in.p2' | pt }}</p>
     </section>
 
     <section class="content-section" aria-labelledby="budget-changes-heading">
-      <h2 id="budget-changes-heading">What changed in Budget 2026-27</h2>
-      <p>The Finance Act 2026 changed the salaried slabs for the tax year that runs from July 2026 to June 2027. Income up to Rs 2,200,000 a year is taxed exactly as before, so the changes matter most to middle and higher earners.</p>
+      <h2 id="budget-changes-heading">{{ 'text.budget-changes-heading' | pt }}</h2>
+      <p>{{ 'content.what-changed-in-budget-2026-27.p1' | pt }}</p>
       <ul class="content-list">
-        <li><strong>Rates cut in four slabs:</strong> income from Rs 2,200,001 to Rs 3,200,000 is now taxed at 20% instead of 23%; Rs 3,200,001 to Rs 4,100,000 at 25% instead of 30%; Rs 4,100,001 to Rs 5,600,000 at 29% instead of 35%; and Rs 5,600,001 to Rs 7,000,000 at 32% instead of 35%.</li>
-        <li><strong>Two new slabs:</strong> the old single top band above Rs 4,100,000 is now split into three, so the top 35% rate starts at Rs 7,000,000 a year instead of Rs 4,100,000. That takes the table from six slabs to eight.</li>
-        <li><strong>Surcharge removed:</strong> in 2025-26, salaried individuals with taxable income above Rs 10,000,000 paid an extra 9% of their tax as a surcharge. There is no surcharge for salaried individuals in 2026-27.</li>
+        <li>{{ 'content.what-changed-in-budget-2026-27.li1' | pt }}</li>
+        <li>{{ 'content.what-changed-in-budget-2026-27.li2' | pt }}</li>
+        <li>{{ 'content.what-changed-in-budget-2026-27.li3' | pt }}</li>
       </ul>
-      <p>Because each slab's fixed amount carries forward the lower rates, everyone above Rs 2,200,000 a year pays less tax in 2026-27 than in 2025-26 on the same salary. Choose 2025-26 in the calculator, or read the comparison line under the result, to see the difference for your salary in rupees per month.</p>
+      <p>{{ 'content.what-changed-in-budget-2026-27.p2' | pt }}</p>
     </section>
 
     <section class="content-section" aria-labelledby="estimate-heading">
-      <h2 id="estimate-heading">What this calculator does not include</h2>
-      <p>This is an estimate for salaried individuals only. It applies the salaried slabs to the taxable salary you enter and does not account for allowances, exemptions, deductions, tax credits or rebates, or for income from business, property or investments, which is taxed under different rules. Rates for non-salaried individuals are also different. If your situation includes any of these, confirm your tax with FBR or a qualified tax adviser before relying on the figure.</p>
+      <h2 id="estimate-heading">{{ 'text.estimate-heading' | pt }}</h2>
+      <p>{{ 'content.what-this-calculator-does-not-include.p1' | pt }}</p>
     </section>
 
     <section class="content-section" aria-labelledby="other-countries-heading">
-      <h2 id="other-countries-heading">Working outside Pakistan?</h2>
-      <p>If you are paid in another country, its own tax rules apply to that salary. Our <a href="/tools/salary-tax-calculator/">salary tax calculators by country</a> cover the UK, the US and India, and note which Gulf countries do not tax salaries at all.</p>
+      <h2 id="other-countries-heading">{{ 'text.other-countries-heading' | pt }}</h2>
+      <p>{{ 'content.working-outside-pakistan.p1' | pt }}</p>
     </section>

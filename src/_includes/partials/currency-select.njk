@@ -12,7 +12,7 @@
 
 {% macro currencySelect(cfg) %}
 <div class="form-group currency-select-group">
-  <label for="{{ cfg.id }}">{{ cfg.label or "Currency" }}</label>
+  <label for="{{ cfg.id }}">{{ cfg.label or ('currencySelect.label' | t) }}</label>
   <select id="{{ cfg.id }}"{% if cfg.param %} data-param="{{ cfg.param }}"{% endif %}{% if cfg.alias %} data-param-alias="{{ cfg.alias }}"{% endif %} class="form-control" data-currency-select>
     {% for cur in countries | currencyOptions %}
     <option value="{{ cur.code }}" data-country="{{ cur.country }}"{% if cur.code == cfg.selected %} selected{% endif %}>{{ cur.code }}{% if cur.symbol != cur.code %} ({{ cur.symbol }}){% endif %} – {{ cur.name }}</option>
