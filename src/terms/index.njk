@@ -3,7 +3,8 @@ layout: layouts/page.njk
 permalink: /terms/
 updated: 2026-10-24
 ---
-      <p>{{ 'content.tool.p1' | pt }}</p>
+{% if lang != 'en' %}      <p class="legal-translation-note">{{ 'legal.translationNote' | t }}</p>
+{% endif %}      <p>{{ 'content.tool.p1' | pt }}</p>
 
       <h2>{{ 'content.1-acceptance-of-terms.heading' | pt }}</h2>
       <p>{{ 'content.1-acceptance-of-terms.p1' | pt }}</p>

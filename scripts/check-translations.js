@@ -11,6 +11,7 @@
  *     - broken placeholders: {{name}}, %s/%d, or HTML tags (and link targets) that differ
  *     - non-text fields that differ from English (e.g. a changed URL)
  *     - plural forms missing for a category the language needs (Intl.PluralRules)
+ *     - page title over 60 or description over 155 characters
  *   WARNINGS:
  *     - extra keys that English does not have
  *     - text identical to English (possibly untranslated), except brand names and other
@@ -24,17 +25,13 @@
 const fs = require('fs');
 const path = require('path');
 const { I18N_DIR } = require('./i18n-data.js');
+const { NON_TEXT, isObject, isPluralForms, needsTranslation, filePairs } = require('./i18n-text.js');
 const { loadLanguages } = require('./i18n.js');
 const { syncEnglishCopies } = require('./i18n-sync.js');
 
 const args = process.argv.slice(2);
 const quiet = args.includes('--quiet');
 const languages = loadLanguages();
-const glossary = JSON.parse(fs.readFileSync(path.join(I18N_DIR, 'glossary.json'), 'utf8'));
-
-// Fields that are data, not text: translations may omit them and must not change them
-const NON_TEXT = new Set(['url', 'link', 'href', 'id', 'code', 'slug', 'icon', 'iconName', 'value', 'lang']);
-const PLURAL_CATEGORIES = new Set(['zero', 'one', 'two', 'few', 'many', 'other']);
 // Text that is fine to leave as in English: formulas and expressions
 const SAME_OK_PATH = /(^|\.)(formula\.expression|expression|keywords)(\.|$)/;
 
@@ -55,20 +52,8 @@ function readJson(file) {
   return fs.existsSync(file) ? JSON.parse(fs.readFileSync(file, 'utf8')) : undefined;
 }
 
-// Translation file pairs: [label, englishFile, languageFile]
-function filePairs(code) {
-  const pairs = [['ui', path.join(I18N_DIR, 'ui', 'en.json'), path.join(I18N_DIR, 'ui', `${code}.json`)]];
-  for (const dir of ['tools', 'pages']) {
-    const enDir = path.join(I18N_DIR, dir, 'en');
-    for (const file of fs.readdirSync(enDir).filter(f => f.endsWith('.json'))) {
-      pairs.push([`${dir}/${file}`, path.join(enDir, file), path.join(I18N_DIR, dir, code, file)]);
-    }
-  }
-  return pairs;
-}
-
-const isObject = v => v !== null && typeof v === 'object' && !Array.isArray(v);
-const isPluralForms = v => isObject(v) && 'other' in v && Object.keys(v).every(k => PLURAL_CATEGORIES.has(k));
+// Search-result limits, in characters (not bytes)
+const LIMITS = { title: 60, description: 155 };
 
 const placeholders = s => (s.match(/\{\{\s*\w+\s*\}\}|%[sd]/g) || []).map(p => p.replace(/\s/g, '')).sort().join(' ');
 const tags = s => (s.match(/<\/?[a-zA-Z][^>]*>/g) || [])
@@ -76,13 +61,8 @@ const tags = s => (s.match(/<\/?[a-zA-Z][^>]*>/g) || [])
   .sort().join(' ');
 const numbers = s => (s.match(/\d+(?:[.,]\d+)*/g) || []).map(n => n.replace(/[.,]/g, '')).sort().join(' ');
 
-const termPattern = new RegExp(glossary.doNotTranslate.map(t => t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).sort((a, b) => b.length - a.length).join('|'), 'g');
-function needsTranslation(s) {
-  const words = s.replace(/<[^>]*>/g, ' ').replace(/&[a-z#0-9]+;/gi, ' ').replace(/\{\{\s*\w+\s*\}\}/g, ' ').replace(termPattern, ' ');
-  return /\p{L}{2,}/u.test(words);
-}
-
 function compare(en, tr, where, keyPath, code) {
+  if (tr === null) tr = undefined; // a gap: English is used there
   const at = keyPath ? `${where} ${keyPath}` : where;
   const last = keyPath.split('.').pop();
   if (NON_TEXT.has(last) && typeof en !== 'object') {
@@ -130,6 +110,8 @@ function checkString(en, tr, at, keyPath, code) {
   if (typeof tr !== 'string') { errors.push(`[${code}] ${at}: should be text`); return; }
   if (placeholders(en) !== placeholders(tr)) errors.push(`[${code}] ${at}: placeholders differ (English: ${placeholders(en) || 'none'}; ${code}: ${placeholders(tr) || 'none'})`);
   if (tags(en) !== tags(tr)) errors.push(`[${code}] ${at}: HTML tags differ (English: ${tags(en) || 'none'}; ${code}: ${tags(tr) || 'none'})`);
+  const limit = LIMITS[keyPath];
+  if (limit && [...tr].length > limit) errors.push(`[${code}] ${at}: ${[...tr].length} characters, limit ${limit}`);
   if (tr === en && needsTranslation(en) && !SAME_OK_PATH.test(keyPath)) warnings.push(`[${code}] ${at}: same as English (untranslated?)`);
   if (/(^|\.)(workedExamples|exampleSections)/.test(keyPath) && numbers(en) !== numbers(tr)) {
     warnings.push(`[${code}] ${at}: numbers differ from English (${numbers(en)} vs ${numbers(tr)})`);

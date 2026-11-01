@@ -3,7 +3,8 @@ layout: layouts/page.njk
 permalink: /privacy-policy/
 updated: 2026-10-24
 ---
-      <p>{{ 'content.tool.p1' | pt }}</p>
+{% if lang != 'en' %}      <p class="legal-translation-note">{{ 'legal.translationNote' | t }}</p>
+{% endif %}      <p>{{ 'content.tool.p1' | pt }}</p>
 
       <h2>{{ 'content.client-side-tool-processing.heading' | pt }}</h2>
       <p>{{ 'content.client-side-tool-processing.p1' | pt }}</p>

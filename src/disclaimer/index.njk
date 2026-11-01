@@ -3,7 +3,8 @@ layout: layouts/page.njk
 permalink: /disclaimer/
 updated: 2026-10-25
 ---
-      <p>{{ 'content.tool.p1' | pt }}</p>
+{% if lang != 'en' %}      <p class="legal-translation-note">{{ 'legal.translationNote' | t }}</p>
+{% endif %}      <p>{{ 'content.tool.p1' | pt }}</p>
 
       <h2>{{ 'content.no-financial-or-investment-advice.heading' | pt }}</h2>
       <p>{{ 'content.no-financial-or-investment-advice.p1' | pt }}</p>
