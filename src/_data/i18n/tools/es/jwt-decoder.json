@@ -1,0 +1,345 @@
+{
+  "listing": {
+    "name": "Decodificador JWT",
+    "shortName": "Decodificador JWT",
+    "description": "Decodifica en local la cabecera y el payload de un JSON Web Token, ve iat, nbf y exp como fechas y verifica firmas HS256, HS384 y HS512.",
+    "shortDescription": "Decodifica JWT, comprueba la caducidad y verifica firmas HMAC en tu navegador.",
+    "keywords": [
+      "decodificador jwt",
+      "decodificar jwt",
+      "json web token",
+      "leer token jwt",
+      "verificar firma jwt",
+      "caducidad jwt",
+      "hs256"
+    ]
+  },
+  "title": "Decodificador JWT: decodifica JSON Web Tokens en local",
+  "description": "Decodificador JWT: lee la cabecera y el payload de un JSON Web Token en tu navegador, ve iat, nbf y exp como fechas y verifica firmas HS256/384/512.",
+  "h1": "Decodificador JWT",
+  "quickAnswer": "Un JWT son tres partes codificadas en Base64URL separadas por puntos: una cabecera, un payload con claims y una firma. Decodificar las dos primeras partes muestra su JSON, pero no demuestra que el token sea auténtico; solo lo hace verificar la firma con la clave correcta. Este decodificador JWT funciona por completo en tu navegador y puede verificar firmas HS256, HS384 y HS512 con un secreto que escribas.",
+  "formula": {
+    "title": "Cómo se decodifica y verifica un JWT",
+    "expression": "JWT = Base64URL(header) . Base64URL(payload) . Base64URL(signature)   ·   HS256 signature = HMAC-SHA256(secret, header + '.' + payload)",
+    "explanation": "Cada parte usa la codificación Base64URL (RFC 4648), que cambia + y / por - y _ y elimina el relleno =. Al decodificar la cabecera y el payload se obtiene JSON en UTF-8. Los claims de tiempo iat (emitido en), nbf (no antes de) y exp (caduca) son valores NumericDate: segundos desde 1970-01-01T00:00:00Z, que aquí se muestran como fechas UTC y locales. En los algoritmos HMAC, la firma se vuelve a calcular sobre el texto exacto de la cabecera y el payload con el secreto, usando la API Web Crypto del navegador, y se compara en tiempo constante. Los tokens firmados con RS256, ES256 u otros algoritmos de clave pública necesitan la clave pública del emisor y aquí no se verifican.",
+    "variables": [
+      {
+        "name": "Cabecera (header)",
+        "description": "Metadatos como alg (el algoritmo de firma) y typ (normalmente JWT)."
+      },
+      {
+        "name": "Payload",
+        "description": "Los claims: a quién se refiere el token (sub), quién lo emitió (iss), la audiencia (aud), las fechas y cualquier dato personalizado."
+      },
+      {
+        "name": "Firma (signature)",
+        "description": "La prueba de que la cabecera y el payload los creó alguien que tiene la clave y de que no se han modificado."
+      }
+    ]
+  },
+  "workedExamples": [
+    {
+      "title": "El token de ejemplo de jwt.io",
+      "inputs": [
+        "Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+      ],
+      "steps": [
+        "Cabecera: {\"alg\": \"HS256\", \"typ\": \"JWT\"}",
+        "Payload: {\"sub\": \"1234567890\", \"name\": \"John Doe\", \"iat\": 1516239022}",
+        "iat 1516239022 = 2018-01-18T01:30:22Z; no hay claim exp"
+      ],
+      "result": "Decodificado; con el secreto your-256-bit-secret la firma HS256 es válida"
+    },
+    {
+      "title": "Un token con solo dos partes",
+      "inputs": [
+        "Token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIn0"
+      ],
+      "steps": [
+        "Al separar por los puntos salen 2 partes en lugar de 3"
+      ],
+      "result": "Error: falta la parte de la firma"
+    },
+    {
+      "title": "Un token caducado",
+      "inputs": [
+        "El payload contiene exp: 1700000000"
+      ],
+      "steps": [
+        "1700000000 = 2023-11-14T22:13:20Z, que ya pasó"
+      ],
+      "result": "Marcado como caducado; un servidor que compruebe exp lo rechazaría"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Confiar en un token decodificado",
+      "description": "Cualquiera puede crear un token con cualquier payload. Decodificarlo solo sirve para leerlo. Tu servidor debe verificar la firma con la clave y el algoritmo correctos, y comprobar exp, nbf, iss y aud, antes de confiar en cualquier claim."
+    },
+    {
+      "title": "Poner secretos en el payload",
+      "description": "Un JWT firmado está codificado, no cifrado: cualquiera que tenga el token puede leer el payload. Nunca incluyas contraseñas, números de tarjeta ni otros secretos."
+    },
+    {
+      "title": "Aceptar alg: none o permitir cambiar de algoritmo",
+      "description": "Las bibliotecas solo deben aceptar los algoritmos que esperas. Permitir 'none', o dejar que un atacante cambie de RS256 a HS256, son vulnerabilidades clásicas de JWT recogidas por OWASP."
+    },
+    {
+      "title": "Pegar tokens de producción en sitios web",
+      "description": "Un token válido equivale a una contraseña mientras dure. Pega tokens solo en herramientas que funcionen en local, como esta, y mejor si son tokens caducados o de prueba."
+    },
+    {
+      "title": "Usar un secreto HMAC débil",
+      "description": "Los secretos HS256 como 'secret' se pueden adivinar sin conexión a partir de cualquier token. Usa una clave aleatoria larga, de al menos 256 bits para HS256, como exige el RFC 7518."
+    }
+  ],
+  "sources": [
+    {
+      "name": "RFC 7519: JSON Web Token (JWT)"
+    },
+    {
+      "name": "RFC 7515: JSON Web Signature (JWS)"
+    },
+    {
+      "name": "RFC 7518: JSON Web Algorithms (JWA)"
+    },
+    {
+      "name": "RFC 8725: JSON Web Token Best Current Practices"
+    },
+    {
+      "name": "OWASP Cheat Sheet Series: JSON Web Token"
+    },
+    {
+      "name": "OWASP Web Security Testing Guide: Testing JSON Web Tokens"
+    }
+  ],
+  "howto": {
+    "name": "Cómo decodificar un JSON Web Token",
+    "description": "Lee la cabecera y los claims de un JWT y, si quieres, comprueba su firma HMAC, todo en local.",
+    "steps": [
+      {
+        "name": "Pega el token",
+        "text": "Pega el JWT, con o sin el prefijo 'Bearer '."
+      },
+      {
+        "name": "Lee la cabecera y el payload",
+        "text": "Consulta ambas partes como JSON formateado y los claims de tiempo como fechas UTC y locales."
+      },
+      {
+        "name": "Comprueba la caducidad",
+        "text": "El estado indica si el token ha caducado o si todavía no es válido."
+      },
+      {
+        "name": "Verifica la firma (HS256/384/512)",
+        "text": "Escribe el secreto compartido y pulsa Verificar para comprobar la firma en local."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "¿Cómo decodifico un JWT?",
+      "a": "Pega el token en el cuadro. La cabecera y el payload se decodifican desde Base64URL y se muestran como JSON formateado, con los claims de tiempo convertidos en fechas."
+    },
+    {
+      "q": "¿Es seguro pegar mi JWT aquí?",
+      "a": "La decodificación y la comprobación de la firma funcionan en tu navegador. El token y el secreto no se envían a ningún sitio, no se guardan, no se registran ni se añaden a la dirección de la página. Aun así, evita pegar tokens de producción activos en cualquier sitio web que no controles."
+    },
+    {
+      "q": "¿Decodificar un JWT lo verifica?",
+      "a": "No. Decodificar solo lee el contenido. Un token es fiable solo después de verificar su firma con la clave correcta y de comprobar su caducidad y su audiencia."
+    },
+    {
+      "q": "¿Cómo compruebo si un JWT ha caducado?",
+      "a": "Mira el claim exp: es una marca de tiempo Unix en segundos. Si es anterior a la hora actual, el token ha caducado. El decodificador muestra exp como fecha y marca los tokens caducados."
+    },
+    {
+      "q": "¿Cómo verifico la firma de un JWT HS256?",
+      "a": "Introduce el secreto compartido en la sección de la firma y pulsa Verificar. El HMAC se vuelve a calcular en local con Web Crypto. Para el token de ejemplo de jwt.io, el secreto es your-256-bit-secret."
+    },
+    {
+      "q": "¿Puedo verificar aquí tokens RS256 o ES256?",
+      "a": "Por ahora no. Usan firmas de clave pública y necesitan la clave pública del emisor (a menudo desde una URL JWKS). Verifícalos en tu aplicación con una biblioteca JWT mantenida."
+    },
+    {
+      "q": "¿Qué diferencia hay entre JWT, JWS y JWE?",
+      "a": "Un JWT es un conjunto de claims. Cuando está firmado es un JWS (tres partes) y su payload se puede leer; cuando está cifrado es un JWE (cinco partes) y el payload solo se puede leer con la clave de descifrado."
+    },
+    {
+      "q": "¿Qué significan iat, nbf y exp?",
+      "a": "iat es cuándo se emitió el token, nbf es el momento más temprano en que se puede usar y exp es cuándo caduca. Los tres son segundos desde el 1 de enero de 1970 UTC."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Decodificador JWT",
+      "jwt-header": "Cabecera decodificada",
+      "jwt-payload": "Payload decodificado"
+    },
+    "text": {
+      "jwt-privacy": "Tu token y tu secreto se quedan en esta pestaña del navegador. No se envían, no se guardan ni se añaden a la URL.",
+      "example-btn": "Usar el ejemplo de jwt.io",
+      "clear-btn": "Borrar",
+      "toggle-secret": "Mostrar",
+      "verify-btn": "Verificar firma"
+    },
+    "label": {
+      "jwt-input": "JSON Web Token",
+      "jwt-secret": "Secreto",
+      "jwt-secret-enc": "Formato del secreto"
+    },
+    "placeholder": {
+      "jwt-input": "eyJhbGciOi…"
+    },
+    "content": {
+      "tool": {
+        "div1": "<span id=\"result-header-text\">Token decodificado</span>",
+        "p1": "<strong>Decodificado, NO verificado.</strong> Cualquiera puede crear un token con este contenido. Confía en él solo después de comprobar su firma con la clave correcta.",
+        "span1": "Cabecera",
+        "button1": "Copiar",
+        "span2": "Payload",
+        "button2": "Copiar",
+        "caption1": "Claims de tiempo",
+        "th1": "Claim",
+        "th2": "Cuándo (UTC y luego local)",
+        "p2": "Comprueba la firma"
+      },
+      "common-jwt-claims": {
+        "heading": "Claims JWT habituales",
+        "caption1": "Nombres de claims registrados en el RFC 7519",
+        "th1": "Claim",
+        "th2": "Nombre",
+        "th3": "Significado",
+        "td1": "<code>iss</code>",
+        "td2": "Emisor (issuer)",
+        "td3": "Quién creó y firmó el token",
+        "td4": "<code>sub</code>",
+        "td5": "Sujeto (subject)",
+        "td6": "A quién se refiere el token, a menudo un ID de usuario",
+        "td7": "<code>aud</code>",
+        "td8": "Audiencia (audience)",
+        "td9": "A qué servicio va destinado el token",
+        "td10": "<code>exp</code>",
+        "td11": "Fecha de caducidad (expiration time)",
+        "td12": "Después de este momento el token debe rechazarse",
+        "td13": "<code>nbf</code>",
+        "td14": "No antes de (not before)",
+        "td15": "Antes de este momento el token debe rechazarse",
+        "td16": "<code>iat</code>",
+        "td17": "Emitido en (issued at)",
+        "td18": "Cuándo se creó el token",
+        "td19": "<code>jti</code>",
+        "td20": "ID del JWT (JWT ID)",
+        "td21": "Un ID único que evita que un token se reutilice (ataque de repetición)"
+      },
+      "decoding-is-not-verifying": {
+        "heading": "Decodificar no es verificar",
+        "p1": "La cabecera y el payload de un JWT firmado solo están codificados, así que cualquiera puede leerlos y cualquiera puede cambiarlos. Lo que impide la manipulación es la firma: si cambia un solo carácter de la cabecera o del payload, la firma deja de coincidir. Por eso, un servidor debe:",
+        "li1": "<strong>Verificar la firma</strong> con la clave esperada y una lista de algoritmos permitidos, nunca solo con el algoritmo que indica el token.",
+        "li2": "<strong>Comprobar las fechas</strong>: rechazar los tokens posteriores a <code>exp</code> o anteriores a <code>nbf</code>, con solo un pequeño margen de desfase del reloj.",
+        "li3": "<strong>Comprobar a quién va dirigido</strong>: <code>iss</code> y <code>aud</code> deben coincidir con tu emisor y tu servicio.",
+        "li4": "<strong>Usar tokens de corta duración</strong> y enviarlos solo por HTTPS, como recomienda el RFC 8725.",
+        "p2": "Esta página sirve para leer y depurar tokens. Las firmas HMAC se comprueban con la API Web Crypto del navegador, y el token y el secreto solo se guardan en memoria mientras la página está abierta. Para generar secretos aleatorios, usa el <a href=\"/tools/password-generator/\">generador de contraseñas</a>; para calcular el hash de un texto, el <a href=\"/tools/hash-generator/\">generador de hash</a>."
+      }
+    },
+    "option": {
+      "jwt-secret-enc": {
+        "utf8": "Texto sin formato",
+        "base64url": "Base64 / Base64URL"
+      }
+    }
+  },
+  "client": {
+    "errors": {
+      "empty": "Pega un JSON Web Token (tres partes separadas por puntos).",
+      "tooLong": "Ese token es demasiado largo para decodificarlo aquí.",
+      "whitespace": "Un JWT no puede contener espacios ni saltos de línea. Vuelve a copiar el token sin ellos.",
+      "jwe": "Parece un JWT cifrado (JWE, cinco partes). Su payload no se puede leer sin la clave de descifrado.",
+      "partCount": "Un JWT tiene tres partes separadas por puntos (header.payload.signature), pero este tiene {{count}}.",
+      "header": {
+        "notBase64Url": "La cabecera no es Base64URL válido.",
+        "notUtf8": "La cabecera no es texto UTF-8 válido.",
+        "notObject": "La cabecera debe ser un objeto JSON.",
+        "notJson": "La cabecera no es JSON válido."
+      },
+      "payload": {
+        "notBase64Url": "El payload no es Base64URL válido.",
+        "notUtf8": "El payload no es texto UTF-8 válido.",
+        "notObject": "El payload debe ser un objeto JSON.",
+        "notJson": "El payload no es JSON válido."
+      },
+      "signatureNotBase64Url": "La firma no es Base64URL válido.",
+      "noWebCrypto": "La comprobación de firmas necesita la API Web Crypto, que este navegador no ofrece.",
+      "unsupportedAlgorithm": "Este token usa {{alg}}. Aquí solo se pueden comprobar firmas HS256, HS384 y HS512 (de secreto compartido).",
+      "noAlgorithm": "sin algoritmo",
+      "noSecret": "Introduce el secreto para comprobar la firma.",
+      "secretNotBase64": "El secreto no es Base64 / Base64URL válido.",
+      "noSignature": "El token no tiene firma que comprobar."
+    },
+    "relative": {
+      "year": {
+        "many": "{{n}} años",
+        "one": "{{n}} año",
+        "other": "{{n}} años"
+      },
+      "day": {
+        "many": "{{n}} días",
+        "one": "{{n}} día",
+        "other": "{{n}} días"
+      },
+      "hour": {
+        "many": "{{n}} horas",
+        "one": "{{n}} hora",
+        "other": "{{n}} horas"
+      },
+      "minute": {
+        "many": "{{n}} minutos",
+        "one": "{{n}} minuto",
+        "other": "{{n}} minutos"
+      },
+      "second": {
+        "many": "{{n}} segundos",
+        "one": "{{n}} segundo",
+        "other": "{{n}} segundos"
+      },
+      "ago": "hace {{time}}",
+      "in": "dentro de {{time}}",
+      "now": "ahora"
+    },
+    "result": {
+      "noAlgorithm": "Sin algoritmo"
+    },
+    "status": {
+      "expired": "Caducado {{when}}",
+      "notYetValid": "Todavía no es válido: se puede usar {{when}}",
+      "validTime": "No caducado: caduca {{when}}",
+      "noExp": "Sin claim de caducidad (exp): este token no caduca por sí solo"
+    },
+    "claims": {
+      "iat": "Emitido en (iat)",
+      "nbf": "No antes de (nbf)",
+      "exp": "Caduca (exp)"
+    },
+    "times": {
+      "invalid": "No es un NumericDate válido: {{value}}"
+    },
+    "verify": {
+      "unsigned": "Este token no está firmado (alg \"none\" o firma vacía). No demuestra nada sobre quién lo creó.",
+      "hmac": "Este token usa {{alg}}, una firma HMAC con un secreto compartido. Escribe el secreto para comprobarla aquí, en tu navegador.",
+      "other": "Este token usa {{alg}}. Aquí solo se pueden comprobar HS256, HS384 y HS512; los algoritmos de clave pública como RS256 necesitan la clave pública del emisor en tu aplicación.",
+      "unknownAlgorithm": "un algoritmo desconocido",
+      "checking": "Comprobando…",
+      "failed": "No se pudo comprobar la firma.",
+      "valid": "✓ Firma válida: este token {{alg}} se firmó con este secreto.",
+      "invalid": "✗ Firma no válida: el token no se firmó con este secreto o ha sido modificado."
+    },
+    "copy": {
+      "decoded": "Cabecera:\n{{header}}\n\nPayload:\n{{payload}}",
+      "header": "Cabecera copiada",
+      "payload": "Payload copiado"
+    },
+    "toggle": {
+      "hide": "Ocultar",
+      "show": "Mostrar"
+    }
+  }
+}

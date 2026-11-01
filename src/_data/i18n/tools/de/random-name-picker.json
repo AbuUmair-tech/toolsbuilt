@@ -1,0 +1,205 @@
+{
+  "listing": {
+    "name": "Glücksrad: Zufallsnamen-Generator",
+    "shortName": "Zufallsnamen-Generator",
+    "description": "Dreh ein interaktives Glücksrad und lose Gewinner zufällig aus einer Namensliste aus. Mit kryptografisch sicherem Zufall.",
+    "shortDescription": "Dreh ein interaktives Glücksrad und lose Gewinner zufällig aus einer Namensliste aus. Mit kryptografisch sicherem Zufall.",
+    "keywords": [
+      "zufallsnamen generator",
+      "glücksrad namen",
+      "namen auslosen",
+      "zufällige auswahl",
+      "glücksrad online"
+    ]
+  },
+  "title": "Glücksrad für Namen - Namen zufällig auslosen | ToolsBuilt",
+  "description": "Kostenloses Glücksrad für Namen: Namen eingeben, drehen und Gewinner fair auslosen – für Verlosungen, Schulklassen und Gewinnspiele. Mit Web Crypto API.",
+  "h1": "Glücksrad: Zufallsnamen-Generator",
+  "quickAnswer": "Um einen Namen oder Gewinner zufällig aus einer Liste auszulosen, fügst du deine Kandidaten ins Glücksrad ein, entscheidest, ob Duplikate entfernt werden, und drehst. Das Tool nutzt kryptografisch sicheren Hardware-Zufall, damit jeder exakt die gleiche Gewinnchance hat. Es eignet sich für einzelne Gewinner und für Verlosungen mehrerer Preise ohne Zurücklegen.",
+  "formula": {
+    "title": "Faire Auswahl & Wahrscheinlichkeit",
+    "expression": "P(Auswahl) = 1 / Anzahl der Kandidaten  |  Index = CryptoRandomUint() % Anzahl",
+    "explanation": "Jeder Kandidat hat mathematisch exakt die gleiche Auswahlwahrscheinlichkeit. Die Ziehung nutzt Hardware-Entropie aus der Web Crypto API des Browsers mit Rejection Sampling, um den Modulo-Bias zu vermeiden. Bei Verlosungen mehrerer Preise ohne Zurücklegen werden gezogene Gewinner nacheinander aus dem Pool entfernt."
+  },
+  "workedExamples": [
+    {
+      "title": "Ein Gewinner aus 5 Kandidaten",
+      "inputs": [
+        "Kandidaten: Alice, Bob, Charlie, David, Emma (5 Kandidaten)",
+        "Modus: ein Gewinner"
+      ],
+      "steps": [
+        "Namen in 5 eindeutige Einträge zerlegen",
+        "Jedem Teilnehmer die gleiche Wahrscheinlichkeit P = 1/5 (20.00%) zuweisen",
+        "Gleichverteilten Zufallsindex im Bereich [0, 4] mit crypto.getRandomValues ziehen"
+      ],
+      "result": "Gewinner mit exakt 20.0% Wahrscheinlichkeit gezogen"
+    },
+    {
+      "title": "Verlosung mehrerer Preise ohne Zurücklegen",
+      "inputs": [
+        "Kandidaten: Alice, Bob, Charlie, David (4 Kandidaten)",
+        "Zu vergebende Preise: 2 Gewinner ohne Zurücklegen"
+      ],
+      "steps": [
+        "Runde 1: 1. Gewinner aus 4 Kandidaten ziehen (P = 1/4 = 25.0%)",
+        "1. Gewinner aus dem Pool entfernen (3 Kandidaten bleiben)",
+        "Runde 2: 2. Gewinner aus den 3 übrigen Kandidaten ziehen (P = 1/3 = 33.3%)"
+      ],
+      "result": "2 verschiedene Gewinner, 2 Kandidaten übrig"
+    },
+    {
+      "title": "Doppelte Einträge aus einer Tabelle bereinigen",
+      "inputs": [
+        "Rohdaten: Alice, Bob, Alice, Charlie (4 Einträge)",
+        "Optionen: Duplikate entfernen = an"
+      ],
+      "steps": [
+        "Einträge an Kommas und Zeilenumbrüchen trennen",
+        "Doppelte 'Alice' per Set-Deduplizierung herausfiltern",
+        "Bereinigter Pool mit 3 eindeutigen Namen (Alice, Bob, Charlie)"
+      ],
+      "result": "3 eindeutige Teilnehmer (je P = 33.3%)"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Vorhersagbares Math.random() bei echten Gewinnspielen",
+      "description": "Das normale pseudozufällige Math.random() ist anfällig für statistische Muster. Gewinnspiele brauchen kryptografischen Hardware-Zufall über crypto.getRandomValues."
+    },
+    {
+      "title": "Versehentlich doppelte Einträge zulassen",
+      "description": "Beim Einfügen aus Tabellen verdoppeln doppelte Namen die Gewinnchancen eines Teilnehmers. Nutze vor dem Drehen immer „Duplikate entfernen“."
+    },
+    {
+      "title": "Mit Zurücklegen bei gestaffelten Verlosungen ziehen",
+      "description": "Werden frühere Gewinner bei Verlosungen mehrerer Preise nicht entfernt, kann dieselbe Person mehrere Preise gewinnen."
+    },
+    {
+      "title": "Modulo-Verzerrung bei der Indexwahl",
+      "description": "Einfache Modulo-Operationen auf Zufallszahlen bevorzugen niedrige Indizes leicht. Rejection Sampling sorgt für exakt gleichverteilte Fairness."
+    }
+  ],
+  "sources": [
+    {
+      "name": "W3C Web Cryptography API: Spezifikation"
+    },
+    {
+      "name": "NIST SP 800-90A: Empfehlung zur Erzeugung von Zufallszahlen"
+    },
+    {
+      "name": "RFC 7929: Richtlinien zur kryptografischen Erzeugung von Zufallszahlen"
+    }
+  ],
+  "howto": {
+    "name": "So losest du mit dem Glücksrad einen Namen aus",
+    "description": "Schritt-für-Schritt-Anleitung, um Gewinner mit kryptografisch fairem Glücksrad auszulosen.",
+    "steps": [
+      {
+        "name": "Namen der Teilnehmer eingeben",
+        "text": "Tippe oder füge deine Namensliste in das Textfeld ein (ein Name pro Zeile oder durch Kommas getrennt)."
+      },
+      {
+        "name": "Einstellungen wählen",
+        "text": "Klicke optional auf „Duplikate entfernen“ oder aktiviere „Gewinner nach dem Drehen automatisch entfernen“ für mehrere Runden."
+      },
+      {
+        "name": "Rad drehen und Gewinner ziehen",
+        "text": "Klicke auf „Rad drehen“, um die Drehanimation zu starten, oder erhalte bei reduzierter Bewegung sofort das Ergebnis."
+      },
+      {
+        "name": "Gewinner verkünden und kopieren",
+        "text": "Sieh dir den Gewinnernamen im Dialogfenster an und kopiere ihn in die Zwischenablage."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Wie sorgt der Zufallsnamen-Generator für eine faire, unvoreingenommene Auswahl?",
+      "a": "Das Tool nutzt die native Web Crypto API deines Browsers über crypto.getRandomValues mit Rejection Sampling, um den Modulo-Bias zu vermeiden. Anders als bei normalen Math.random-Algorithmen sorgt Entropie aus dem Betriebssystem für eine gleichmäßige Verteilung über alle Einträge. Jeder Name hat bei jeder Drehung mathematisch die gleiche Chance."
+    },
+    {
+      "q": "Kann ich Gewinner nach jeder Drehung automatisch entfernen?",
+      "a": "Ja. Aktiviere einfach „Gewinner nach dem Drehen automatisch entfernen“ oder klicke im Gewinnerfenster auf „Gewinner entfernen &amp; schließen“. Das Tool entfernt den Eintrag sofort und zeichnet das Rad für die nächsten Runden neu."
+    },
+    {
+      "q": "Ist das Rad auch für Menschen mit Bewegungsempfindlichkeit geeignet?",
+      "a": "Ja. Der Zufallsnamen-Generator beachtet die Barrierefreiheitseinstellungen deines Geräts. Ist „prefers-reduced-motion“ aktiv, wird die Drehanimation komplett übersprungen. Das Tool berechnet das Gewinnersegment sofort und öffnet direkt das Gewinnerfenster."
+    },
+    {
+      "q": "Gibt es eine Grenze, wie viele Namen ich ins Rad einfügen kann?",
+      "a": "Du kannst Hunderte Namen in das Textfeld eingeben. Der Generator berechnet automatisch die Segmentwinkel und passt die Beschriftungen ans Rad an. Jedes Segment bleibt während der kryptografischen Auswahl mathematisch eigenständig."
+    },
+    {
+      "q": "Werden meine Teilnehmernamen auf Servern gespeichert oder getrackt?",
+      "a": "Nein. Alle Namenslisten, Drehberechnungen und Gewinnerauswahlen laufen ausschließlich im lokalen Arbeitsspeicher deines Browsers. Keiner deiner Namen wird an externe Server übertragen, in Datenbanken protokolliert oder in URLs gespeichert."
+    },
+    {
+      "q": "Kann ich durch Kommas oder Semikolons getrennte Namen einfügen?",
+      "a": "Ja. Die Eingabe wird automatisch an Zeilenumbrüchen, Kommas und Semikolons getrennt, überflüssige Leerzeichen um jeden Namen werden entfernt."
+    },
+    {
+      "q": "Wie bleiben die Chancen fair, wenn mehrere Lose pro Person erlaubt sind?",
+      "a": "Lass „Duplikate entfernen“ ausgeschaltet, damit Teilnehmer mit mehreren Losen auch mehrfach im Pool stehen."
+    }
+  ],
+  "body": {
+    "label": {
+      "namesInput": "Namensliste (einer pro Zeile):"
+    },
+    "text": {
+      "nameCount": "8 Einträge",
+      "spinBtn": "Rad drehen!",
+      "shuffleBtn": "Mischen",
+      "dedupeBtn": "Duplikate entfernen",
+      "clearBtn": "Leeren",
+      "winnerTitle": "🎉 Wir haben einen Gewinner!",
+      "copyWinnerBtn": "<span data-icon=\"copy\"></span> Gewinner kopieren",
+      "removeWinnerBtn": "Gewinner entfernen &amp; schließen",
+      "closeModalBtn": "In der Liste lassen &amp; schließen",
+      "when-to-use-heading": "Wann du das Glücksrad für Namen nutzt"
+    },
+    "placeholder": {
+      "namesInput": "Namen hier eingeben ..."
+    },
+    "content": {
+      "tool": {
+        "p1": "Namen werden durch <strong>Zeilenumbrüche</strong>, <strong>Kommas</strong> oder <strong>Semikolons</strong> getrennt – aus <code>Smith, John</code> werden also zwei Namen: <em>Smith</em> und <em>John</em>.",
+        "label1": "<input type=\"checkbox\" id=\"removeWinner\">\n          <span>Gewinner nach dem Drehen automatisch entfernen</span>"
+      },
+      "when-to-use-the-random-name": {
+        "li1": "<strong>Schule &amp; Unterricht:</strong> Lass ein neutrales Glücksrad entscheiden, wer drankommt – fair und ohne Druck.",
+        "li2": "<strong>Verlosungen &amp; Gewinnspiele:</strong> Führe Verlosungen im Livestream durch, bei denen alle sehen, dass die Ziehung fair ist.",
+        "li3": "<strong>Team-Standups &amp; agile Retrospektiven:</strong> Lege die Redereihenfolge im Daily oder die Verteilung von Code-Reviews zufällig fest.",
+        "li4": "<strong>Faire Entscheidungen:</strong> Wähle mit völlig unparteiischem Zufall zwischen Projekten, Restaurants oder Aufgaben im Haushalt."
+      },
+      "why-use-a-digital-random-name": {
+        "heading": "Warum ein digitales Glücksrad für Namen?",
+        "p1": "Ob Gewinnspiel in sozialen Medien, Auswahl von Schülern im Unterricht, Wichteln im Team oder die Frage, wer den Kaffee bezahlt: Fair auszuwählen ist wichtig. Ziehungen mit Papierzetteln dauern und können den Verdacht der Bevorzugung wecken. Ein digitales Glücksrad ist transparent, unterhaltsam und nachweislich fair, um Gewinner in Echtzeit auszulosen."
+      },
+      "cryptographically-secure-randomness": {
+        "heading": "Kryptografisch sicherer Zufall",
+        "p1": "Viele Online-Glücksräder nutzen normale Pseudozufallsgeneratoren wie <code>Math.random()</code>, die für einfache Spiele reichen, aber bei vielen Durchläufen vorhersagbare Muster zeigen. Unser Tool nutzt die native <strong>Web Crypto API (<code>crypto.getRandomValues</code>)</strong> des Browsers. Sie liefert Entropie auf Hardware-Ebene und kryptografisch starken Zufall, sodass jede einzelne Drehung völlig unabhängig und unvoreingenommen ist."
+      }
+    },
+    "ariaLabel": {
+      "wheelCanvas": "Glücksrad für Namen"
+    }
+  },
+  "client": {
+    "count": {
+      "one": "{{count}} Eintrag",
+      "other": "{{count}} Einträge"
+    },
+    "wheel": {
+      "empty": "Namen eingeben, um das Rad zu füllen",
+      "spin": "DREHEN"
+    },
+    "toast": {
+      "winner": "Gewinner: {{name}}!",
+      "deduplicated": "Doppelte Namen entfernt",
+      "copied": "Gewinnername in die Zwischenablage kopiert"
+    },
+    "defaultNames": "Emma\nNoah\nMia\nPaul\nSophia\nLeon\nHanna\nBen"
+  }
+}

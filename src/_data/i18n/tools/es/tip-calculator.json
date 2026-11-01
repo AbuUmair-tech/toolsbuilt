@@ -1,0 +1,259 @@
+{
+  "listing": {
+    "name": "Calculadora de propinas y división de cuenta",
+    "shortName": "Calculadora de propinas",
+    "description": "Calcula la propina y divide la cuenta entre cualquier número de personas, con propina sobre el importe sin impuestos y redondeo por persona.",
+    "shortDescription": "Propina, total y lo que paga cada persona, con porcentajes predefinidos o personalizados.",
+    "keywords": [
+      "calculadora de propinas",
+      "dividir la cuenta",
+      "calculadora para dividir cuenta",
+      "propina por persona",
+      "calcular propina",
+      "propina en restaurante",
+      "cuánto dejar de propina"
+    ]
+  },
+  "title": "Calculadora de propinas: divide la cuenta por persona",
+  "description": "Calculadora de propinas: calcula la propina y divide la cuenta entre varias personas. Porcentaje fijo o propio, propina sin impuestos y redondeo.",
+  "h1": "Calculadora de propinas y división de cuenta",
+  "quickAnswer": "En esta calculadora de propinas, propina = cuenta × % de propina ÷ 100, total = cuenta + propina, y cada persona paga total ÷ número de personas. Una cuenta de 85.50 con un 18% de propina da 15.39 de propina y 100.89 en total, así que tres personas pagan 33.63 cada una. Para dejar propina solo sobre la comida y la bebida, resta primero los impuestos de la cuenta.",
+  "formula": {
+    "title": "Fórmula de la propina y la división",
+    "expression": "Propina = Cuenta × %Propina ÷ 100   ·   Total = Cuenta + Propina   ·   Por persona = Total ÷ Personas",
+    "explanation": "La propina se redondea al céntimo más cercano, se suma a la cuenta y el total se divide entre las personas que la comparten. Si el total no se divide exactamente, la calculadora indica cuántas personas pagan un céntimo más para que las partes sumen el total exacto. Si activas la propina sobre el importe sin impuestos, primero se descuentan los impuestos de la cuenta: importe sin impuestos = cuenta ÷ (1 + %impuesto ÷ 100), y la propina se calcula solo sobre ese importe.",
+    "variables": [
+      {
+        "name": "Cuenta",
+        "description": "El total del recibo, con los impuestos incluidos pero sin la propina."
+      },
+      {
+        "name": "% de propina",
+        "description": "El porcentaje que quieres dejar, elegido entre los predefinidos o escrito por ti."
+      },
+      {
+        "name": "Redondear hacia arriba",
+        "description": "Redondea la parte de cada persona hacia arriba hasta la siguiente unidad entera de la moneda. Lo extra se suma a la propina, y la calculadora muestra el porcentaje de propina resultante."
+      }
+    ]
+  },
+  "workedExamples": [
+    {
+      "title": "Cena para tres con un 18%",
+      "inputs": [
+        "Cuenta: 85.50",
+        "Propina: 18%",
+        "Personas: 3"
+      ],
+      "steps": [
+        "Propina: 85.50 × 18 ÷ 100 = 15.39",
+        "Total: 85.50 + 15.39 = 100.89",
+        "Por persona: 100.89 ÷ 3 = 33.63"
+      ],
+      "result": "Propina 15.39, total 100.89, 33.63 cada uno"
+    },
+    {
+      "title": "La misma cena, redondeando hacia arriba por persona",
+      "inputs": [
+        "Cuenta: 85.50, propina 18%, 3 personas",
+        "Redondear hacia arriba por persona: activado"
+      ],
+      "steps": [
+        "Parte exacta: 33.63, redondeada hacia arriba a 34.00",
+        "Recaudado: 3 × 34.00 = 102.00",
+        "Propina que realmente se deja: 102.00 − 85.50 = 16.50, es decir, el 19.3% de la cuenta"
+      ],
+      "result": "34.00 cada uno, propina 16.50 (19.3%)"
+    },
+    {
+      "title": "Propina sobre el importe antes de impuestos",
+      "inputs": [
+        "Cuenta: 108.00 con un 8% de impuesto sobre las ventas incluido",
+        "Propina: 20% sobre el importe sin impuestos",
+        "Personas: 2"
+      ],
+      "steps": [
+        "Importe sin impuestos: 108.00 ÷ 1.08 = 100.00 (impuesto 8.00)",
+        "Propina: 100.00 × 20% = 20.00 en lugar de 21.60 sobre la cuenta completa",
+        "Total: 108.00 + 20.00 = 128.00, es decir, 64.00 cada uno"
+      ],
+      "result": "Propina 20.00, total 128.00, 64.00 cada uno"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Dejar propina sobre un cargo por servicio ya incluido",
+      "description": "Algunos restaurantes añaden a la cuenta un cargo por servicio o propina, a menudo para grupos grandes. Revisa el recibo antes de sumar otra propina, o podrías pagarla dos veces."
+    },
+    {
+      "title": "Dividir la cuenta antes de sumar la propina",
+      "description": "Si cada uno divide la cuenta de la comida y luego redondea su propia propina, la propina total suele quedar por debajo de lo previsto. Suma primero la propina a toda la cuenta y después divide el total."
+    },
+    {
+      "title": "Redondear todas las partes hacia abajo",
+      "description": "Redondear 33.63 a 33 para tres personas deja a la mesa con 1.89 de menos. Redondea las partes hacia arriba, o usa el importe exacto y deja que la calculadora reparta los céntimos sobrantes."
+    },
+    {
+      "title": "Suponer que la costumbre de la propina es igual en todas partes",
+      "description": "Si se espera propina, y cuánta, varía según el país, el tipo de negocio e incluso la ciudad. Cuando viajes, consulta las recomendaciones locales o pregunta; en algunos lugares el servicio está incluido en los precios."
+    },
+    {
+      "title": "Olvidar los impuestos al dejar propina sobre el subtotal",
+      "description": "Si quieres dejar propina sobre el importe sin impuestos, usa el subtotal del recibo o activa la opción sin impuestos e introduce la tasa del impuesto, en lugar de calcularla sobre el total de la cuenta."
+    }
+  ],
+  "sources": [
+    {
+      "name": "Departamento de Trabajo de EE. UU.: empleados que reciben propinas según la FLSA (Fact Sheet #15)"
+    },
+    {
+      "name": "IRS: registro y declaración de propinas"
+    },
+    {
+      "name": "GOV.UK: propinas en el trabajo"
+    }
+  ],
+  "howto": {
+    "name": "Cómo calcular la propina y dividir la cuenta",
+    "description": "Calcula la propina, el total y lo que debe pagar cada persona.",
+    "steps": [
+      {
+        "name": "Introduce la cuenta",
+        "text": "Escribe el importe del recibo y elige tu moneda."
+      },
+      {
+        "name": "Elige la propina",
+        "text": "Elige 10, 15, 18, 20 o 25%, o escribe cualquier porcentaje."
+      },
+      {
+        "name": "Introduce el número de personas",
+        "text": "Indica cuántas personas comparten la cuenta."
+      },
+      {
+        "name": "Ajusta las opciones",
+        "text": "Si lo prefieres, calcula la propina sobre el importe sin impuestos y redondea la parte de cada persona a un importe entero si así es más fácil pagar."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "¿Cómo se calcula una propina?",
+      "a": "Multiplica la cuenta por el porcentaje de propina y divide entre 100. Para una cuenta de 60 y una propina del 15%: 60 × 15 ÷ 100 = 9, así que el total es 69. Un truco mental rápido para el 20% es mover el punto decimal un lugar a la izquierda y multiplicar por dos."
+    },
+    {
+      "q": "¿Cómo se divide una cuenta con propina entre varias personas?",
+      "a": "Suma la propina a la cuenta para obtener el total y luego divídelo entre el número de personas. Si no se divide exactamente al céntimo, algunas personas pagan un céntimo más; la calculadora te dice cuántas."
+    },
+    {
+      "q": "¿Cuánto es el 18% de 85.50?",
+      "a": "El 18% de 85.50 es 15.39. El total con propina es 100.89, es decir, 33.63 cada uno entre tres personas."
+    },
+    {
+      "q": "¿La propina se calcula sobre el total antes o después de impuestos?",
+      "a": "Las guías de etiqueta no coinciden. Mucha gente deja propina sobre el subtotal sin impuestos, porque los impuestos no forman parte del servicio. Activa 'Propina sobre el importe sin impuestos' e introduce la tasa del impuesto para ver ambas cifras."
+    },
+    {
+      "q": "¿Cuánta propina debo dejar?",
+      "a": "Depende de dónde estés y del tipo de servicio. Las costumbres van desde no dejar propina hasta un porcentaje fijo. Elige un porcentaje predefinido o escribe el tuyo; la calculadora no presupone ningún país."
+    },
+    {
+      "q": "¿Qué hace la opción de redondear hacia arriba por persona?",
+      "a": "Redondea la parte de cada persona hacia arriba hasta la siguiente unidad entera (por ejemplo, de 33.63 a 34.00). Los céntimos extra se suman a la propina, y el resultado muestra el porcentaje de propina que realmente dejas."
+    },
+    {
+      "q": "¿Un cargo por servicio es lo mismo que una propina?",
+      "a": "No siempre. El cargo por servicio lo añade el negocio y puede repartirse de forma distinta a una propina voluntaria. Las normas sobre quién recibe los cargos por servicio y las propinas varían según el país, así que consulta las recomendaciones locales."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Calculadora de propinas",
+      "copy-result-btn": "Copiar el resultado al portapapeles"
+    },
+    "label": {
+      "bill": "Importe de la cuenta <span class=\"text-accent\">*</span>",
+      "tip-percent": "% de propina <span class=\"label-hint\">(o escribe un valor personalizado)</span>",
+      "people": "Número de personas",
+      "tax-percent": "Impuesto incluido en la cuenta (%)"
+    },
+    "content": {
+      "tool": {
+        "legend1": "Porcentaje de propina",
+        "label1": "<input type=\"checkbox\" id=\"pretax\" data-param=\"pretax\" aria-controls=\"tax-group\">\n            <span>Propina sobre el importe sin impuestos</span>",
+        "label2": "<input type=\"checkbox\" id=\"round-up\" data-param=\"round\">\n            <span>Redondear la parte de cada persona a un importe entero</span>",
+        "button1": "Calcular propina"
+      },
+      "quick-tip-percentages": {
+        "heading": "Porcentajes de propina rápidos",
+        "p1": "Para una cifra aproximada sin calculadora, parte del 10%, que es la cuenta con el punto decimal movido un lugar a la izquierda. Todo lo demás se puede calcular a partir de ahí:",
+        "caption1": "Atajos mentales para porcentajes de propina habituales en una cuenta de 64.00",
+        "th1": "Propina",
+        "th2": "Atajo",
+        "th3": "En una cuenta de 64.00",
+        "td1": "Mueve el punto decimal un lugar a la izquierda",
+        "td2": "El 10% más su mitad",
+        "td3": "El 20% menos un 2%",
+        "td4": "El 10% multiplicado por dos",
+        "td5": "Una cuarta parte de la cuenta"
+      },
+      "tipping-customs-differ": {
+        "heading": "Las costumbres de propina varían",
+        "p1": "No existe una regla única para la propina. En algunos países la propina es una parte importante del ingreso de los camareros y se espera; en otros el servicio está incluido en los precios del menú o aparece un cargo por servicio en la cuenta, y la propina es solo un pequeño extra por un buen servicio. Los hoteles, taxis, repartos y peluquerías suelen tener sus propias costumbres. Como estas costumbres varían y cambian, esta calculadora no sugiere un porcentaje para ningún país. Consulta las recomendaciones locales cuando viajes y revisa el recibo por si incluye un cargo por servicio antes de añadir una propina.",
+        "p2": "Las normas laborales sobre las propinas también varían. En Estados Unidos, el Departamento de Trabajo fija las reglas para los empleados que reciben propinas y los fondos comunes de propinas, y el IRS considera las propinas ingreso gravable para el trabajador. En el Reino Unido, los empleadores deben entregar a los trabajadores todas las propinas, gratificaciones y cargos por servicio sin deducciones. Las fuentes de abajo enlazan a estas páginas oficiales."
+      },
+      "splitting-fairly": {
+        "heading": "Dividir de forma justa",
+        "li1": "<strong>División a partes iguales:</strong> lo mejor cuando todos pidieron cantidades parecidas. La calculadora divide al céntimo y te indica si alguien tiene que pagar un céntimo más.",
+        "li2": "<strong>División por consumo:</strong> si los pedidos son muy distintos, usa la calculadora una vez por persona con su propio subtotal y una sola persona, con el mismo porcentaje de propina.",
+        "li3": "<strong>Pago en efectivo:</strong> activa el redondeo hacia arriba para que cada uno ponga un importe entero; lo extra se suma a la propina."
+      }
+    },
+    "text": {
+      "reset-btn": "Restablecer",
+      "result-header-text": "Cada persona paga",
+      "copy-result-btn": "<span data-icon=\"copy\"></span> Copiar resultado"
+    },
+    "title": {
+      "copy-result-btn": "Copiar el resultado al portapapeles"
+    }
+  },
+  "client": {
+    "errors": {
+      "billEmpty": "Introduce el importe de la cuenta.",
+      "billInvalid": "La cuenta debe ser un número mayor que 0.",
+      "tipEmpty": "Introduce un porcentaje de propina o elige uno predefinido.",
+      "tipNegative": "La propina debe ser del 0% o más.",
+      "tipOver100": "La propina no puede superar el 100% de la cuenta.",
+      "people": "El número de personas debe ser un número entero de 1 o más.",
+      "peopleMax": "Divide entre 1,000 personas o menos.",
+      "tax": "La tasa del impuesto debe estar entre 0% y 100%."
+    },
+    "result": {
+      "eachPays": "Cada una de las {{people}} personas paga",
+      "totalToPay": "Total a pagar"
+    },
+    "stats": {
+      "tipRounded": "Propina ({{pct}}% tras redondear)",
+      "tip": "Propina ({{pct}}%)",
+      "total": "Total con propina",
+      "perPerson": "Por persona",
+      "tipPerPerson": "Propina por persona",
+      "tipBase": "Base de la propina (sin impuestos)",
+      "tax": "Impuesto en la cuenta"
+    },
+    "notes": {
+      "uneven": {
+        "many": "{{total}} no se divide exactamente: {{count}} personas pagan {{high}} y el resto paga {{low}}.",
+        "one": "{{total}} no se divide exactamente: {{count}} persona paga {{high}} y el resto paga {{low}}.",
+        "other": "{{total}} no se divide exactamente: {{count}} personas pagan {{high}} y el resto paga {{low}}."
+      },
+      "roundingExtra": "El redondeo hacia arriba suma {{amount}} a la propina."
+    },
+    "copy": {
+      "bill": "Cuenta: {{amount}}",
+      "tip": "Propina: {{amount}}",
+      "total": "Total: {{amount}}",
+      "perPerson": "Por persona ({{people}}): {{amount}}"
+    }
+  }
+}

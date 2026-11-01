@@ -1,0 +1,201 @@
+{
+  "listing": {
+    "name": "Hash-Generator",
+    "shortName": "Hash-Generator",
+    "description": "Berechne kryptografische Hashes für Text lokal mit Web Crypto. Unterstützt SHA-256, SHA-512, SHA-384 und SHA-1 mit sofortigem Hash-Vergleich.",
+    "shortDescription": "Berechne SHA-256-, SHA-512-, SHA-384- und SHA-1-Hashes lokal und vergleiche sie sofort.",
+    "keywords": [
+      "hash generator",
+      "sha256 berechnen",
+      "sha512 online",
+      "sha1 generator",
+      "hash vergleichen",
+      "prüfsumme berechnen"
+    ]
+  },
+  "title": "Hash-Generator online - SHA-256, SHA-512, SHA-384, SHA-1",
+  "description": "Hash-Generator: Berechne kryptografische Hashes für Text lokal mit Web Crypto. SHA-256, SHA-512, SHA-384 und SHA-1 mit sofortigem Hash-Vergleich.",
+  "h1": "Hash-Generator (SHA-256, SHA-512, SHA-384, SHA-1)",
+  "quickAnswer": "Mit dem Hash-Generator erzeugst du kryptografische Hashes für Text: Tippe oder füge deine Zeichenkette unten ein. Das Tool berechnet SHA-256, SHA-512, SHA-384 und das veraltete SHA-1 gleichzeitig in deinem Browser über die hardwarebeschleunigte Web Cryptography API. Alles läuft im lokalen Arbeitsspeicher, nichts wird übertragen.",
+  "formula": {
+    "title": "Prinzip einer kryptografischen Hashfunktion",
+    "expression": "H = Hash(M)  |  H ist ein Digest fester Länge, M eine Nachricht beliebiger Länge",
+    "explanation": "Eine kryptografische Hashfunktion bildet Binärdaten beliebiger Länge auf einen hexadezimalen Digest fester Länge ab. Ideale Hashfunktionen sind deterministisch, schnell berechenbar, nicht umkehrbar (Urbildresistenz), kollisionsresistent (keine zwei Nachrichten ergeben denselben Digest) und zeigen einen Lawineneffekt: Ändert sich 1 Bit der Eingabe, ändern sich über 50% der Ausgabebits."
+  },
+  "workedExamples": [
+    {
+      "title": "SHA-256-Digest einer leeren Zeichenkette",
+      "inputs": [
+        "Algorithmus: SHA-256 (256-Bit-Digest)",
+        "Eingabe: leere Zeichenkette (\"\")"
+      ],
+      "steps": [
+        "Die 8 Standard-Zustandswörter à 32 Bit aus den Nachkommastellen der Quadratwurzeln der ersten 8 Primzahlen initialisieren",
+        "Eingabe mit Bit 1, gefolgt von Nullen und einer 64-Bit-Längenangabe auffüllen",
+        "512-Bit-Nachrichtenblock in 64 Kompressionsrunden verarbeiten",
+        "Kanonischen Hexadezimal-Digest mit 64 Zeichen ausgeben"
+      ],
+      "result": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "title": "SHA-512-Digest einer Standardbegrüßung",
+      "inputs": [
+        "Algorithmus: SHA-512 (512-Bit-Digest)",
+        "Eingabe: \"hello world\""
+      ],
+      "steps": [
+        "ASCII-Zeichen in einen UTF-8-Bytestrom kodieren [0x68, 0x65, 0x6c, 0x6c, 0x6f, 0x20, 0x77, 0x6f, 0x72, 0x6c, 0x64]",
+        "80 Kompressionsrunden auf 1024-Bit-Blöcken mit 64-Bit-Wortoperationen ausführen",
+        "Die 64 Ausgabebytes in eine hexadezimale Zeichenkette mit 128 Zeichen umwandeln"
+      ],
+      "result": "309ecc489c12d6eb4cc40f50c902f2b4d0ed77ee511a7c7a9bcd3ca86d4cd86f989dd35bc5ff499670da34255b45b0cfd830e81f605dcf7dc5542e40ae9074da"
+    },
+    {
+      "title": "SHA-1-Testvektor (veraltet)",
+      "inputs": [
+        "Algorithmus: SHA-1 (160-Bit-Digest)",
+        "Eingabe: \"The quick brown fox jumps over the lazy dog\""
+      ],
+      "steps": [
+        "SHA-1-Kompressionsrunden ausführen, die einen 20-Byte-Digest erzeugen",
+        "Als 40 Hexadezimalzeichen formatieren"
+      ],
+      "result": "2fd4e1c67a2d28fced849ee1bb76e7391b93eb12"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Schnelle Hashes (SHA-256/MD5) für Passwörter verwenden",
+      "description": "Schnelle kryptografische Hashfunktionen schaffen auf handelsüblichen GPUs Milliarden Rateversuche pro Sekunde. Passwörter brauchen immer langsame, speicherintensive Schlüsselableitungsfunktionen wie Argon2, bcrypt oder PBKDF2 mit eindeutigem Salt."
+    },
+    {
+      "title": "SHA-1 oder MD5 in neuen Systemen einsetzen",
+      "description": "Für SHA-1 und MD5 sind praktische Kollisionsangriffe nachgewiesen (z. B. der SHAttered-Angriff). Für digitale Signaturen, Zertifikate und Integritätsnachweise sind sie veraltet und unsicher."
+    },
+    {
+      "title": "Zeichenkodierung ignorieren (UTF-8 vs. Latin-1)",
+      "description": "Hashing arbeitet mit den rohen Bytes. Werden Unicode-Zeichen aus mehreren Bytes (Akzente, Emojis) in unterschiedlichen Kodierungen gehasht, entstehen völlig verschiedene Digests."
+    },
+    {
+      "title": "Sich auf Hashes ohne Salt verlassen",
+      "description": "Ohne kryptografisches Salt können Angreifer Digests mit vorberechneten Rainbow Tables sofort zurückführen."
+    }
+  ],
+  "sources": [
+    {
+      "name": "NIST FIPS PUB 180-4: Secure Hash Standard (SHS)"
+    },
+    {
+      "name": "W3C Web Cryptography API: SubtleCrypto.digest()"
+    },
+    {
+      "name": "CWI Amsterdam & Google: SHAttered-Kollisionsangriff auf SHA-1"
+    }
+  ],
+  "howto": {
+    "name": "So berechnest und vergleichst du kryptografische Hashes",
+    "description": "Schritt-für-Schritt-Anleitung, um Text zu hashen und Prüfsummen online zu vergleichen.",
+    "steps": [
+      {
+        "name": "Klartext eingeben",
+        "text": "Tippe oder füge deine Nachricht oder dein Geheimnis in das Eingabefeld ein, die Hashes werden live berechnet."
+      },
+      {
+        "name": "Format des Digests wählen",
+        "text": "Wechsle zwischen Hexadezimal in Kleinbuchstaben (Standard) und in Großbuchstaben."
+      },
+      {
+        "name": "Prüfen oder kopieren",
+        "text": "Kopiere jeden Hash mit einem Klick oder füge eine Prüfsumme in das Vergleichsfeld ein, um eine Übereinstimmung zu prüfen."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Ist SHA-256 sicher zum Speichern von Passwörtern?",
+      "a": "Nein. SHA-256 ist für Prüfsummen auf extreme Geschwindigkeit ausgelegt, sodass moderne GPUs über 10 Milliarden Hashes pro Sekunde raten können. Für Passwörter nutze immer langsame, gesalzene, speicherintensive Algorithmen wie Argon2id, bcrypt oder scrypt."
+    },
+    {
+      "q": "Warum gibt es in diesem Tool kein MD5?",
+      "a": "MD5 gilt seit 2004 als kryptografisch gebrochen; Kollisionen lassen sich nachweislich in unter einer Sekunde erzeugen. Weil MD5 in modernen Anwendungen ein ernstes Sicherheitsrisiko ist, bietet ToolsBuilt MD5 bewusst nicht an."
+    },
+    {
+      "q": "Kann man einen kryptografischen Hash entschlüsseln oder umkehren?",
+      "a": "Nein. Hashfunktionen sind strikt einseitige mathematische Operationen, die Daten verdichten und dabei die ursprüngliche Länge und Struktur verwerfen. Ein Hash lässt sich mathematisch nicht umkehren, nur per Brute Force erraten."
+    },
+    {
+      "q": "Was ist der Unterschied zwischen SHA-256 und SHA-512?",
+      "a": "SHA-256 erzeugt mit 32-Bit-Operationen einen Digest von 256 Bit (32 Byte), SHA-512 mit 64-Bit-Operationen einen Digest von 512 Bit (64 Byte). Auf 64-Bit-Prozessoren ist SHA-512 oft schneller als SHA-256."
+    },
+    {
+      "q": "Sendet ToolsBuilt meinen Text an einen Server, um den Hash zu berechnen?",
+      "a": "Nein. Alle Hashes werden lokal in deinem Webbrowser mit Web Crypto (crypto.subtle) berechnet. Dein Text und die berechneten Hashes werden nie über das Netzwerk übertragen."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-div1": "Hash-Generator",
+      "hash-input-text": "Klartext-Eingabe",
+      "hash-sha256-val": "SHA-256-Hash",
+      "tool-button1": "SHA-256-Hash kopieren",
+      "hash-sha512-val": "SHA-512-Hash",
+      "tool-button2": "SHA-512-Hash kopieren",
+      "hash-sha384-val": "SHA-384-Hash",
+      "tool-button3": "SHA-384-Hash kopieren",
+      "hash-sha1-val": "SHA-1-Hash",
+      "tool-button4": "SHA-1-Hash kopieren",
+      "hash-compare-input": "Ziel-Hash zum Vergleichen"
+    },
+    "content": {
+      "tool": {
+        "div1": "<strong>Sicherheitshinweis:</strong> SHA-1 und MD5 sind kryptografisch gebrochen und anfällig für Kollisionsangriffe. Sie dürfen nie für Passwort-Hashing, digitale Signaturen oder sicherheitskritische Authentifizierung verwendet werden. ToolsBuilt bietet MD5 bewusst nicht an. Für Passwörter nutze immer gesalzene Algorithmen wie <strong>Argon2</strong> oder <strong>bcrypt</strong>. Für die Integrität von Dateien nutze <strong>SHA-256</strong> oder <strong>SHA-512</strong>.",
+        "label1": "<input type=\"checkbox\" id=\"opt-hash-uppercase\">\n          <span>Hex in Großbuchstaben</span>",
+        "div2": "<span id=\"hash-byte-counter\">0 Zeichen / 0 Bytes</span>\n      <span>Lokal über die Web Crypto API berechnet</span>",
+        "div3": "<span>SHA-256</span>\n          <span class=\"text-sm text-success font-semibold\">(Empfohlen für Integrität)</span>",
+        "span1": "256 Bit (64 Hex-Zeichen)",
+        "button1": "<span data-icon=\"copy\"></span> Kopieren",
+        "div4": "<span>SHA-512</span>",
+        "span2": "512 Bit (128 Hex-Zeichen)",
+        "button2": "<span data-icon=\"copy\"></span> Kopieren",
+        "div5": "<span>SHA-384</span>",
+        "span3": "384 Bit (96 Hex-Zeichen)",
+        "button3": "<span data-icon=\"copy\"></span> Kopieren",
+        "div6": "<span>SHA-1</span>\n          <span class=\"hash-badge-legacy\">Veraltet / unsicher für Passwörter</span>",
+        "span4": "160 Bit (40 Hex-Zeichen)",
+        "button4": "<span data-icon=\"copy\"></span> Kopieren"
+      }
+    },
+    "label": {
+      "hash-input-text": "Klartext-Eingabe:",
+      "hash-compare-input": "Hash vergleichen / prüfen:"
+    },
+    "text": {
+      "clear-input-btn": "<span data-icon=\"trash\"></span> Leeren",
+      "hash-compare-status": "<span class=\"text-secondary\">Füge oben einen Hash ein, um ihn mit den berechneten Werten abzugleichen.</span>"
+    },
+    "placeholder": {
+      "hash-input-text": "Text zum Hashen eingeben ...",
+      "hash-compare-input": "Externe Prüfsumme oder Hash zum Vergleichen einfügen ..."
+    }
+  },
+  "client": {
+    "warnings": {
+      "password": "Sicherheitswarnung: SHA-1 und MD5 sind kryptografisch gebrochen und anfällig für Kollisionsangriffe. Sie dürfen nie für Passwort-Hashing, digitale Signaturen oder sicherheitskritische Authentifizierung verwendet werden. Nutze Argon2, bcrypt oder scrypt für Passwörter und SHA-256 oder SHA-512 für die Prüfung der Datenintegrität."
+    },
+    "errors": {
+      "unsupportedAlgorithm": "Nicht unterstützter Hash-Algorithmus: {{algorithm}}. Unterstützt: {{supported}}",
+      "computationFailed": "Berechnung des kryptografischen Hashes fehlgeschlagen: {{message}}"
+    },
+    "counter": "{{chars}} Zeichen / {{bytes}} Bytes",
+    "copy": {
+      "copied": "✓ Kopiert!",
+      "failed": "Kopieren fehlgeschlagen."
+    },
+    "compare": {
+      "prompt": "Füge oben einen Hash ein, um ihn mit den berechneten Werten abzugleichen.",
+      "match": "✓ ÜBEREINSTIMMUNG BESTÄTIGT ({{algorithm}})",
+      "noMatch": "✕ KEINE ÜBEREINSTIMMUNG"
+    },
+    "sampleInput": "Hallo ToolsBuilt!"
+  }
+}

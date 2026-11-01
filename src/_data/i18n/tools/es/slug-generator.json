@@ -1,0 +1,262 @@
+{
+  "listing": {
+    "name": "Generador de slugs para URL",
+    "shortName": "Generador de slugs",
+    "description": "Convierte títulos en slugs de URL limpios y en minúsculas, sin acentos, con guiones o guiones bajos, eliminación opcional de palabras vacías y modo masivo.",
+    "shortDescription": "Slugs de URL optimizados para SEO a partir de títulos, uno o muchos a la vez.",
+    "keywords": [
+      "generador de slugs",
+      "slug de URL",
+      "slugify",
+      "URL amigable para SEO",
+      "generador de enlaces permanentes",
+      "convertir título en slug",
+      "URL amigable"
+    ]
+  },
+  "title": "Generador de slugs: URL amigables para SEO",
+  "description": "Generador de slugs: convierte títulos en URL limpias y en minúsculas, sin acentos ni signos, con filtro de palabras vacías, longitud máxima y modo masivo.",
+  "h1": "Generador de slugs para URL",
+  "quickAnswer": "Un slug es la parte legible de una dirección web que identifica una página, como percentage-change-calculator. Para crearlo con un generador de slugs, pasa el título a minúsculas, quita los acentos, cambia los espacios y signos de puntuación por guiones y recorta los extremos: 'Héllo, Wörld! 2026' se convierte en hello-world-2026. Usa slugs cortos y descriptivos, y no los cambies una vez publicada la página.",
+  "formula": {
+    "title": "Cómo se construye un slug",
+    "expression": "Título → normalización NFD y eliminación de acentos → minúsculas → lo que no es letra ni dígito pasa a ser el separador → se unen los repetidos → se recortan los extremos",
+    "explanation": "La normalización Unicode NFD separa letras como é en e más una marca de acento, y las marcas se eliminan. Las letras que no se separan (ß, æ, ø, ł) se escriben como ss, ae, o y l, y & se convierte en 'and'. Todo lo que no es letra ni dígito se convierte en un único separador, y los separadores del principio o del final se eliminan. Los pasos opcionales quitan palabras vacías comunes en inglés y cortan el slug en un límite de palabra para que no supere una longitud máxima. Las letras de alfabetos no latinos se conservan, porque los navegadores las muestran, aunque quizá prefieras traducir el título antes.",
+    "variables": [
+      {
+        "name": "Separador",
+        "description": "Los guiones (-) son la opción habitual en las URL; los guiones bajos (_) sirven para nombres de archivo y algunos sistemas."
+      },
+      {
+        "name": "Palabras vacías",
+        "description": "Palabras cortas como a, the, and, of o to que rara vez aportan algo a una URL. Siempre se conserva al menos una palabra."
+      },
+      {
+        "name": "Longitud máxima",
+        "description": "Corta el slug antes de la palabra que superaría el límite, así que las palabras nunca quedan cortadas por la mitad."
+      }
+    ]
+  },
+  "workedExamples": [
+    {
+      "title": "Acentos y signos de puntuación",
+      "inputs": [
+        "Título: Héllo, Wörld! 2026"
+      ],
+      "steps": [
+        "Quita los acentos: Hello, World! 2026",
+        "Pasa a minúsculas y reemplaza signos y espacios: hello-world-2026"
+      ],
+      "result": "hello-world-2026"
+    },
+    {
+      "title": "Espacios de más y guiones bajos",
+      "inputs": [
+        "Título: '  Multiple   Spaces  '",
+        "Separador: guion, y luego guion bajo para 'Hello World'"
+      ],
+      "steps": [
+        "Los grupos de espacios se convierten en un solo separador y se recortan los extremos"
+      ],
+      "result": "multiple-spaces, y hello_world con el separador de guion bajo"
+    },
+    {
+      "title": "Longitud máxima en un límite de palabra",
+      "inputs": [
+        "Título: percentage change calculator",
+        "Longitud máxima: 10"
+      ],
+      "steps": [
+        "'percentage' tiene 10 caracteres; agregar '-change' daría 17"
+      ],
+      "result": "percentage"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Cambiar el slug de una página publicada",
+      "description": "Un slug nuevo es una URL nueva. Los enlaces, marcadores y resultados de búsqueda que apuntan a la dirección anterior dejan de funcionar, a menos que configures una redirección permanente (301). Elige bien el slug antes de publicar."
+    },
+    {
+      "title": "Llenar el slug de palabras clave",
+      "description": "mejor-calculadora-barata-gratis-online-calculadora-herramienta parece spam. Un slug corto y preciso que coincida con el título de la página es más fácil de leer y compartir."
+    },
+    {
+      "title": "Usar fechas que quedarán desactualizadas",
+      "description": "Un slug como mejores-laptops-2024 parece viejo al año siguiente, y cambiarlo después obliga a usar una redirección. No pongas fechas, salvo que la página trate de un año concreto."
+    },
+    {
+      "title": "Mezclar mayúsculas y minúsculas",
+      "description": "En muchos servidores las rutas distinguen mayúsculas de minúsculas, así que /Sobre-Nosotros y /sobre-nosotros pueden ser páginas distintas. Los slugs en minúsculas evitan URL duplicadas."
+    },
+    {
+      "title": "Usar guiones bajos en direcciones web",
+      "description": "Las recomendaciones de Google aconsejan usar guiones para separar palabras en las URL; las palabras unidas con guiones bajos pueden interpretarse como una sola palabra."
+    }
+  ],
+  "sources": [
+    {
+      "name": "Google Search Central: prácticas recomendadas para la estructura de URL"
+    },
+    {
+      "name": "RFC 3986: Uniform Resource Identifier (URI) Generic Syntax"
+    },
+    {
+      "name": "Unicode Standard Annex #15: Unicode Normalization Forms"
+    },
+    {
+      "name": "Google Search Central: redirecciones y la Búsqueda de Google"
+    }
+  ],
+  "howto": {
+    "name": "Cómo crear un slug para una URL",
+    "description": "Convierte el título de una página en un slug de URL limpio y optimizado para SEO.",
+    "steps": [
+      {
+        "name": "Escribe el título",
+        "text": "Introduce el título de la página o publicación, o cambia al modo masivo y pega un título por línea."
+      },
+      {
+        "name": "Elige las opciones",
+        "text": "Elige guiones o guiones bajos y, si quieres, quita las palabras vacías o fija una longitud máxima."
+      },
+      {
+        "name": "Copia el slug",
+        "text": "Copia el slug y úsalo como la última parte de la URL de la página."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "¿Qué es un slug de URL?",
+      "a": "Es la parte de una dirección web que nombra una página concreta, normalmente después de la última barra. En toolsbuilt.com/tools/slug-generator/ el slug es slug-generator."
+    },
+    {
+      "q": "¿Debo usar guiones o guiones bajos en las URL?",
+      "a": "Usa guiones. Google recomienda los guiones para separar palabras en las URL, y son la convención habitual. Los guiones bajos están bien para nombres de archivo."
+    },
+    {
+      "q": "¿Debo quitar palabras vacías como 'the' y 'and' de los slugs?",
+      "a": "A menudo sí, cuando el slug queda más corto sin perder sentido, por ejemplo write-best-guide en lugar de how-to-write-the-best-guide. Consérvalas si el slug se lee mal sin ellas. La opción de esta herramienta solo quita palabras vacías en inglés."
+    },
+    {
+      "q": "¿Qué longitud debe tener un slug de URL?",
+      "a": "No hay un límite fijo, pero de tres a cinco palabras significativas es un buen objetivo. Usa la opción de longitud máxima para mantener los slugs dentro de un límite sin cortar palabras."
+    },
+    {
+      "q": "¿Cómo se tratan los acentos y los caracteres especiales?",
+      "a": "Los acentos se eliminan con la normalización Unicode, así que é pasa a ser e y ü pasa a ser u; ß se convierte en ss y & en 'and'. Los demás símbolos se convierten en el separador."
+    },
+    {
+      "q": "¿Puedo crear slugs para muchos títulos a la vez?",
+      "a": "Sí. Usa el modo masivo y pega un título por línea. Activa la numeración única para añadir -2, -3, etc. a los slugs repetidos."
+    },
+    {
+      "q": "¿Cambiar un slug afecta al SEO?",
+      "a": "Cambiar la URL de una página existente obliga a los buscadores a encontrar la nueva dirección. Usa una redirección 301 desde el slug anterior para que los enlaces y el posicionamiento se mantengan."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Generador de slugs para URL",
+      "tool-div1": "Individual o masivo"
+    },
+    "text": {
+      "tab-single": "Un título",
+      "tab-bulk": "Masivo (uno por línea)",
+      "copy-slug-btn": "Copiar",
+      "download-btn": "Descargar .txt",
+      "slug-examples-caption": "Ejemplos de slugs de URL buenos y mejorables"
+    },
+    "label": {
+      "slug-input": "Título",
+      "slug-bulk": "Títulos (uno por línea)",
+      "slug-sep": "Separador",
+      "slug-max": "Longitud máxima <span class=\"label-hint\">(0 = sin límite)</span>",
+      "slug-output": "Slugs"
+    },
+    "option": {
+      "slug-sep": {
+        "-": "Guion -",
+        "_": "Guion bajo _"
+      }
+    },
+    "content": {
+      "tool": {
+        "label1": "<input type=\"checkbox\" id=\"slug-lower\" checked><span>Minúsculas</span>",
+        "label2": "<input type=\"checkbox\" id=\"slug-stop\"><span>Quitar palabras vacías en inglés</span>",
+        "label3": "<input type=\"checkbox\" id=\"slug-unique\" checked><span>Numerar slugs repetidos (-2, -3 …)</span>",
+        "div1": "<span id=\"result-header-text\">Slug</span>"
+      },
+      "good-and-bad-slugs": {
+        "heading": "Slugs buenos y malos",
+        "th1": "Página",
+        "th2": "Slug mejorable",
+        "th3": "Mejor slug",
+        "td1": "Cómo hacer pan de masa madre en casa",
+        "td2": "post?id=4172",
+        "td3": "pan-de-masa-madre-en-casa",
+        "td4": "Nuestra política de reembolso",
+        "td5": "Nuestra_Politica_de_Reembolso",
+        "td6": "politica-de-reembolso",
+        "td7": "Horario del café",
+        "td8": "horario-del-caf%C3%A9",
+        "td9": "horario-del-cafe",
+        "td10": "10 mejores laptops para estudiantes",
+        "td11": "10-mejores-laptops-para-estudiantes-2024-baratas-mejores",
+        "td12": "laptops-para-estudiantes"
+      },
+      "slug-checklist": {
+        "heading": "Lista de comprobación para slugs",
+        "li1": "<strong>Corto y descriptivo:</strong> quien lo lea debería adivinar de qué trata la página solo con la URL.",
+        "li2": "<strong>En minúsculas y con guiones:</strong> coherente, fácil de escribir y recomendado por Google.",
+        "li3": "<strong>Sin fechas ni números que vayan a cambiar:</strong> salvo que formen parte de lo que es la página.",
+        "li4": "<strong>Estable:</strong> una vez publicado, no cambies el slug. Si tienes que cambiarlo, redirige la URL anterior de forma permanente.",
+        "li5": "<strong>Único:</strong> dos páginas de la misma carpeta no pueden compartir slug; el modo masivo numera los repetidos por ti.",
+        "p1": "ToolsBuilt sigue estas reglas en sus propias páginas, como /tools/remove-duplicate-lines/ y /tools/text-diff-checker/. Todo lo que hay en esta página funciona en tu navegador y no se guarda nada de lo que escribes."
+      }
+    },
+    "value": {
+      "slug-input": "Héllo, Wörld! 2026",
+      "slug-bulk": "10 consejos para dormir mejor\nMenú y precios del café\nCómo escribir la mejor guía\n10 consejos para dormir mejor"
+    }
+  },
+  "client": {
+    "errors": {
+      "maxLength": "La longitud máxima debe ser un número entero de 0 (sin límite) a 500."
+    },
+    "result": {
+      "single": "Slug",
+      "bulk": "Slugs en lote",
+      "count": {
+        "many": "{{n}} slugs",
+        "one": "{{n}} slug",
+        "other": "{{n}} slugs"
+      }
+    },
+    "note": {
+      "noLetters": "Este título no tiene letras ni números que usar. Agrega algunas palabras.",
+      "empty": "Escribe un título para obtener su slug.",
+      "length": {
+        "many": "{{n}} caracteres · /{{slug}}/",
+        "one": "{{n}} carácter · /{{slug}}/",
+        "other": "{{n}} caracteres · /{{slug}}/"
+      },
+      "repeated": {
+        "many": "{{n}} títulos generaron un slug que ya se había usado.",
+        "one": "{{n}} título generó un slug que ya se había usado.",
+        "other": "{{n}} títulos generaron un slug que ya se había usado."
+      },
+      "repeatedNumbered": {
+        "many": "{{n}} títulos generaron un slug que ya se había usado, así que se añadió un número.",
+        "one": "{{n}} título generó un slug que ya se había usado, así que se añadió un número.",
+        "other": "{{n}} títulos generaron un slug que ya se había usado, así que se añadió un número."
+      },
+      "allUnique": "Cada título tiene su propio slug."
+    },
+    "copied": {
+      "single": "Slug copiado",
+      "bulk": "Slugs copiados"
+    }
+  }
+}

@@ -1,0 +1,226 @@
+{
+  "listing": {
+    "name": "Tage-bis-Datum-Rechner",
+    "shortName": "Tage bis Datum",
+    "description": "Berechne die genauen Tage, Wochen und Monate bis zu einem Ereignis, Geburtstag oder Feiertag in der Zukunft.",
+    "shortDescription": "Berechne die genauen Tage, Wochen und Monate bis zu einem Ereignis, Geburtstag oder Feiertag in der Zukunft.",
+    "keywords": [
+      "tage bis datum",
+      "countdown rechner",
+      "wie viele tage noch bis",
+      "tage countdown",
+      "verbleibende tage berechnen"
+    ]
+  },
+  "title": "Tage bis Datum berechnen - Countdown zu jedem Datum",
+  "description": "Wie viele Tage noch? Berechne die genaue Zahl der Tage, Wochen und Monate bis zu jedem Datum oder Ereignis. Kostenloser Countdown-Rechner ohne Anmeldung.",
+  "h1": "Tage-bis-Datum-Rechner",
+  "quickAnswer": "Um zu berechnen, wie viele Tage es noch bis zu einem Ereignis sind, wählst du im Tage-bis-Datum-Rechner ein Zieldatum im Kalender. Das Tool vergleicht es mit dem heutigen Datum und zeigt die verbleibenden Tage, Wochen, Monate und Stunden. Umgekehrt funktioniert es genauso: So berechnest du die vergangenen Tage seit einem Meilenstein oder Jahrestag.",
+  "formula": {
+    "title": "Formel für den Kalender-Countdown",
+    "expression": "Tage bis = ⌊(Zieldatum UTC ms - Heutiges Datum UTC ms) / 86,400,000 ms⌋",
+    "explanation": "Beide Daten werden um Mitternacht UTC ausgewertet, damit die Zeitumstellung nichts verfälscht. Positive Werte bedeuten einen Countdown in die Zukunft, negative die seit einem vergangenen Ereignis verstrichene Zeit."
+  },
+  "workedExamples": [
+    {
+      "title": "Projektfrist in 30 Tagen",
+      "inputs": [
+        "Zieldatum: 23. November 2026 (Montag)",
+        "Ausgangsdatum: 24. Oktober 2026 (Samstag)"
+      ],
+      "steps": [
+        "Differenz zur UTC-Mitternacht berechnen: 30 Tage",
+        "In Wochen zerlegen: 4 Wochen und 2 Tage",
+        "Stunden berechnen: 30 × 24 = 720 Stunden"
+      ],
+      "result": "Noch 30 Tage (4 Wochen und 2 Tage, 720 Stunden, Montag)"
+    },
+    {
+      "title": "Countdown bis Neujahr",
+      "inputs": [
+        "Zieldatum: 1. Januar 2027 (Freitag)",
+        "Ausgangsdatum: 24. Oktober 2026 (Samstag)"
+      ],
+      "steps": [
+        "Tage insgesamt berechnen: 69 Kalendertage",
+        "In Monate und Tage zerlegen: 2 Monate und 8 Tage (9 Wochen und 6 Tage)",
+        "Stunden berechnen: 69 × 24 = 1,656 Stunden"
+      ],
+      "result": "Noch 69 Tage (2 Monate und 8 Tage, 1,656 Stunden, Freitag)"
+    },
+    {
+      "title": "Vergangener Meilenstein (Datum in der Vergangenheit)",
+      "inputs": [
+        "Zieldatum: 24. September 2026 (Donnerstag)",
+        "Ausgangsdatum: 24. Oktober 2026 (Samstag)"
+      ],
+      "steps": [
+        "Das Ziel liegt in der Vergangenheit: Differenz von -30 Tagen",
+        "Verstrichene Zeit als Betrag: vor 30 Tagen",
+        "Zerlegen: vor 1 Monat (4 Wochen und 2 Tage, 720 Stunden)"
+      ],
+      "result": "Vor 30 Tagen (vor 1 Monat, 720 Stunden vergangen, Donnerstag)"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Feste Tageszahlen fest eintragen",
+      "description": "Countdowns zu jährlichen Feiertagen mit festen Schätzwerten funktionieren nicht, weil sich der Abstand alle 24 Stunden ändert. Rechne immer dynamisch mit dem Kalender."
+    },
+    {
+      "title": "Datumsverschiebung durch die lokale Zeitzone",
+      "description": "Vergleichst du Daten mit lokaler Mitternacht, kann es über Zeitzonen hinweg zu Abweichungen um einen Tag kommen. Werden Zeitstempel auf UTC-Mitternacht normalisiert, passiert das nicht."
+    },
+    {
+      "title": "Vergangene und verbleibende Tage verwechseln",
+      "description": "Zukünftige Daten ergeben positive Werte, vergangene Jahrestage dagegen verstrichene Tage, die entsprechend gekennzeichnet werden müssen."
+    },
+    {
+      "title": "Unterschiedliche Monatslängen übersehen",
+      "description": "Wer 60 Tage in Monate zerlegt, muss die tatsächliche Länge der Monate dazwischen prüfen (z. B. hat der Februar 28 oder 29 Tage, Juli und August haben je 31)."
+    }
+  ],
+  "sources": [
+    {
+      "name": "NIST Time and Frequency Division"
+    },
+    {
+      "name": "ISO 8601: Normen für Datum und Uhrzeit"
+    },
+    {
+      "name": "W3C Working Group Note zu Zeit- und Datumsformaten"
+    }
+  ],
+  "howto": {
+    "name": "So berechnest du die Tage bis zu einem Zieldatum",
+    "description": "Schritt-für-Schritt-Anleitung, um die Tage bis zu einem zukünftigen Ereignis zu berechnen.",
+    "steps": [
+      {
+        "name": "Zieldatum wählen",
+        "text": "Wähle das Datum deines Ereignisses in der Datumsauswahl."
+      },
+      {
+        "name": "Ereignisnamen hinzufügen",
+        "text": "Gib optional eine Bezeichnung ein, etwa Urlaub, Geburtstag oder Projektfrist."
+      },
+      {
+        "name": "Countdown ansehen",
+        "text": "Sieh dir die verbleibenden Tage, die Entsprechung in Wochen und Tagen, die Kalendermonate und den Wochentag des Zieldatums an."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Wie funktioniert der Tage-bis-Datum-Rechner?",
+      "a": "Der Rechner bestimmt den genauen Kalenderabstand zwischen dem heutigen Datum und deinem Zieldatum. Alle Datumsberechnungen nutzen Zeitstempel zur UTC-Mitternacht, damit die Zeitumstellung (Sommerzeit) keine Fehler um einen Tag verursacht, wie sie bei anderen Rechnern häufig vorkommen."
+    },
+    {
+      "q": "Berücksichtigt der Rechner Schaltjahre?",
+      "a": "Ja. Der Algorithmus berücksichtigt Schaltjahre mit 366 Tagen (einschließlich 29. Februar) vollständig, wenn Zeiträume über mehrere Kalenderjahre berechnet werden."
+    },
+    {
+      "q": "Kann ich berechnen, wie viele Tage seit einem vergangenen Datum vergangen sind?",
+      "a": "Ja. Wählst du ein Datum in der Vergangenheit, erkennt das Tool das automatisch und zeigt die seitdem vergangene Zeit in Tagen, Wochen und Monaten."
+    },
+    {
+      "q": "Wie werden Monate und Tage aufgeteilt?",
+      "a": "Monate werden aus vollen Kalendermonatswechseln berechnet. Die übrigen Tage werden auf die genaue Länge des vorherigen Monats begrenzt, sodass Monate mit 28, 29, 30 oder 31 Tagen korrekt behandelt werden."
+    },
+    {
+      "q": "Wird mein Datum gespeichert oder an einen Server gesendet?",
+      "a": "Nein. Die gesamte Rechenlogik läuft ausschließlich in deinem Webbrowser mit Standard-JavaScript. Keine persönlichen Daten oder Ereignisnamen verlassen dein Gerät."
+    },
+    {
+      "q": "Aktualisiert sich der Countdown automatisch, wenn die Seite offen bleibt?",
+      "a": "Die Berechnung läuft, wenn du ein Datum wählst oder die Seite neu lädst. Damit sich das Ausgangsdatum nach Mitternacht aktualisiert, lade die Seite neu."
+    },
+    {
+      "q": "Kann ich den Rechner für Hochzeits- oder Ruhestandsplanung nutzen?",
+      "a": "Ja. Gib das Datum deines Ruhestands oder deiner Hochzeit ein, um die verbleibende Zeit in Tagen, Wochen und Kalendermonaten zu sehen."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Tage-bis-Datum-Rechner"
+    },
+    "label": {
+      "target-date": "Zieldatum wählen <span class=\"text-accent\">*</span>",
+      "event-name": "Name des Ereignisses <span class=\"label-hint\">(optional)</span>"
+    },
+    "placeholder": {
+      "event-name": "z. B. Urlaub, Produktstart, Hochzeit ..."
+    },
+    "text": {
+      "calculate-btn": "Tage berechnen",
+      "reset-btn": "Zurücksetzen",
+      "result-primary-text": "-- Tage bis zum Datum"
+    },
+    "content": {
+      "tool": {
+        "div1": "<span id=\"result-header-text\">Ergebnis des Countdowns</span>",
+        "div2": "Tage insgesamt",
+        "div3": "Wochen &amp; Tage",
+        "div4": "Monate &amp; Tage",
+        "div5": "Wochentag"
+      },
+      "how-when-to-use-the-days": {
+        "heading": "Wie &amp; wann du den Tage-bis-Datum-Rechner nutzt",
+        "p1": "Die Zeit bis zu einem bevorstehenden Datum im Blick zu behalten hilft bei privaten, finanziellen und beruflichen Planungen:",
+        "li1": "<strong>Projektmanagement &amp; Sprints:</strong> Berechne die genauen Kalendertage und Wochen bis zu einem Kunden-Meilenstein oder Release-Termin.",
+        "li2": "<strong>Kündigungsfristen für Verträge &amp; Mietverträge:</strong> Ermittle Fristen von 30, 60 oder 90 Tagen für Verlängerungen und rechtliche Mitteilungen.",
+        "li3": "<strong>Event- &amp; Reiseplanung:</strong> Behalte im Blick, wie viele Tage es noch bis zu Flügen, Urlaub, Konferenzen oder der Hochzeit sind.",
+        "li4": "<strong>Finanzielle Fristen:</strong> Verfolge Abgabefristen für die Steuererklärung, Termine für Steuervorauszahlungen und Fälligkeiten von Anleihen."
+      }
+    }
+  },
+  "client": {
+    "errors": {
+      "invalidTarget": "Bitte gib ein gültiges Zieldatum ein (JJJJ-MM-TT).",
+      "invalidBase": "Bitte gib ein gültiges Ausgangsdatum ein (JJJJ-MM-TT).",
+      "missingTarget": "Bitte wähle ein gültiges Zieldatum."
+    },
+    "units": {
+      "weeks": {
+        "one": "{{n}} Woche",
+        "other": "{{n}} Wochen"
+      },
+      "months": {
+        "one": "{{n}} Monat",
+        "other": "{{n}} Monate"
+      },
+      "days": {
+        "one": "{{n}} Tag",
+        "other": "{{n}} Tage"
+      }
+    },
+    "result": {
+      "defaultSubject": "Zieldatum",
+      "headerToday": "Status des Ereignisses",
+      "headerPast": "Vergangene Zeit",
+      "headerFuture": "Ergebnis des Countdowns",
+      "today": "Heute ist es so weit! ({{subject}})",
+      "since": {
+        "one": "{{n}} Tag seit {{subject}}",
+        "other": "{{n}} Tage seit {{subject}}"
+      },
+      "until": {
+        "one": "Noch {{n}} Tag bis {{subject}}",
+        "other": "Noch {{n}} Tage bis {{subject}}"
+      }
+    },
+    "stats": {
+      "zeroDays": "0 Tage",
+      "zeroWeeksDays": "0 Wochen, 0 Tage",
+      "zeroMonthsDays": "0 Monate, 0 Tage",
+      "days": "{{n}} Tage",
+      "daysAgo": "Vor {{n}} Tagen",
+      "weeksDaysAgo": "{{weeks}}, {{days}} her",
+      "monthsDaysAgo": "{{months}}, {{days}} her"
+    },
+    "copy": {
+      "past": "{{result}} ({{n}} Tage vergangen am {{date}}).",
+      "future": "{{result}} ({{n}} Tage, {{weeks}} W. {{days}} T. bis {{date}}).",
+      "toast": "Countdown-Ergebnis in die Zwischenablage kopiert"
+    }
+  }
+}

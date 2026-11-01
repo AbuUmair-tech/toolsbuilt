@@ -1,0 +1,194 @@
+{
+  "listing": {
+    "name": "Formateador Python",
+    "shortName": "Formateador Python",
+    "description": "Formatea código Python en línea con el formateador Ruff en estilo compatible con Black. Elige longitud de línea, sangría y comillas; funciona en tu navegador.",
+    "shortDescription": "Formatea código Python con el formateador Ruff (compatible con Black), en privado en tu navegador.",
+    "keywords": [
+      "formateador python",
+      "formatear código python online",
+      "embellecedor de código python",
+      "black formatter online",
+      "formateador ruff",
+      "formateador pep 8",
+      "indentar código python"
+    ]
+  },
+  "title": "Formateador Python: formatea código Python en línea (Ruff)",
+  "description": "Formateador Python en línea con Ruff, compatible con Black. Elige longitud de línea, sangría y comillas. Funciona en tu navegador; tu código es privado.",
+  "h1": "Formateador Python",
+  "quickAnswer": "Pega tu código en el formateador Python y pulsa Formatear. El formateador Ruff lo reescribe en estilo compatible con Black: sangría de 4 espacios, espacios alrededor de los operadores, dos líneas en blanco entre funciones y clases de nivel superior, comillas dobles y líneas ajustadas a 88 caracteres (o 79 para seguir PEP 8 de forma estricta). Solo cambia el formato, no el comportamiento, e informa los errores de sintaxis con el número de línea en lugar de adivinar una corrección.",
+  "workedExamples": [
+    {
+      "title": "Una función apretada",
+      "before": "def  calculate_total( items,tax_rate = 0.18 ) :\n  subtotal=sum( item['price']*item['qty'] for item in items )\n  return subtotal*( 1+tax_rate )",
+      "after": "def calculate_total(items, tax_rate=0.18):\n    subtotal = sum(item[\"price\"] * item[\"qty\"] for item in items)\n    return subtotal * (1 + tax_rate)",
+      "result": "Se normalizan los espacios alrededor de = y *, el argumento por defecto pierde sus espacios, el cuerpo se sangra con 4 espacios y las comillas simples pasan a ser dobles."
+    },
+    {
+      "title": "Un diccionario largo",
+      "before": "config = {'host':'localhost','port':5432,'database':'inventory','user':'admin','options':{'sslmode':'require','connect_timeout':10}}",
+      "after": "config = {\n    \"host\": \"localhost\",\n    \"port\": 5432,\n    \"database\": \"inventory\",\n    \"user\": \"admin\",\n    \"options\": {\"sslmode\": \"require\", \"connect_timeout\": 10},\n}",
+      "result": "La línea supera los 88 caracteres, así que cada clave pasa a su propia línea con una coma final. El diccionario anidado sigue cabiendo en una línea, así que se queda así."
+    },
+    {
+      "title": "Una clase con métodos amontonados",
+      "before": "class   Account :\n    def __init__(self,owner,balance=0):\n        self.owner=owner;self.balance=balance\n    def deposit(self,amount):\n        if amount<=0: raise ValueError('Deposit must be positive')\n        self.balance+=amount\n        return self.balance",
+      "after": "class Account:\n    def __init__(self, owner, balance=0):\n        self.owner = owner\n        self.balance = balance\n\n    def deposit(self, amount):\n        if amount <= 0:\n            raise ValueError(\"Deposit must be positive\")\n        self.balance += amount\n        return self.balance",
+      "result": "Las dos sentencias unidas por un punto y coma se separan en líneas distintas, el cuerpo del if de una línea se expande y una línea en blanco separa los métodos."
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Mezclar tabulaciones y espacios",
+      "description": "Python trata una tabulación y los espacios como sangrías distintas, así que un bloque que los mezcla lanza IndentationError o TabError. El formateador no puede analizar ese código e informa \"Unexpected indentation\" con un número de línea. Vuelve a sangrar ese bloque solo con espacios y formatea de nuevo."
+    },
+    {
+      "title": "Esperar que el formateador corrija errores de sintaxis",
+      "description": "Si falta dos puntos, un corchete o una comilla, el archivo no se puede analizar. El formateador solo reorganiza código válido, así que primero corrige el error en la línea indicada. La línea que indica puede estar justo después del error real, por ejemplo la línea que sigue a un corchete sin cerrar."
+    },
+    {
+      "title": "Esperar que se ordenen o separen los imports",
+      "description": "El formateo deja import os, sys tal como está escrito. Separar un import por línea y ordenar los imports son tareas de un linter, como las reglas de lint de Ruff o isort, no del formateador."
+    },
+    {
+      "title": "No acordar una longitud de línea",
+      "description": "Si una persona formatea a 79 columnas y otra a 88, todos los archivos cambian una y otra vez. Elige un valor para el proyecto y guárdalo en una configuración compartida, como line-length en pyproject.toml."
+    },
+    {
+      "title": "Dejar una coma final que no quieres",
+      "description": "Una coma final después del último elemento le indica al formateador que mantenga una llamada o colección expandida con un elemento por línea, aunque quepa en una sola. Quita la coma si quieres que se contraiga."
+    }
+  ],
+  "sources": [
+    {
+      "name": "PEP 8: Style Guide for Python Code"
+    },
+    {
+      "name": "The Ruff Formatter (documentación de Astral)"
+    }
+  ],
+  "howto": {
+    "name": "Cómo formatear código Python en línea",
+    "description": "Formatea código Python en estilo compatible con Black con el formateador Ruff, en tu navegador.",
+    "steps": [
+      {
+        "name": "Pega tu código",
+        "text": "Pega un fragmento de Python o un archivo completo en el cuadro de entrada, o carga el ejemplo."
+      },
+      {
+        "name": "Elige las opciones",
+        "text": "Elige una longitud de línea (88 por defecto), el ancho de sangría y el estilo de comillas."
+      },
+      {
+        "name": "Formatea",
+        "text": "Pulsa Formatear o Ctrl+Enter. Corrige cualquier error de sintaxis en la línea indicada y vuelve a formatear."
+      },
+      {
+        "name": "Copia el resultado",
+        "text": "Copia el código formateado del cuadro de salida."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "¿Cómo formateo código Python en línea?",
+      "a": "Pega tu código en el cuadro, elige la longitud de línea, la sangría y el estilo de comillas, y pulsa Formatear o Ctrl+Enter. El código formateado aparece debajo, listo para copiar. El formateador funciona en tu navegador, así que tu código no se sube a ningún servidor."
+    },
+    {
+      "q": "¿Es lo mismo que Black?",
+      "a": "Usa el formateador Ruff, diseñado como reemplazo directo de Black, que produce un resultado casi idéntico en código formateado con Black. A diferencia de Black, Ruff te permite elegir el estilo de comillas."
+    },
+    {
+      "q": "¿Qué longitud de línea recomienda PEP 8?",
+      "a": "PEP 8 recomienda un máximo de 79 caracteres para el código y 72 para comentarios y docstrings, y permite que los equipos acuerden hasta 99. Black y Ruff usan 88 por defecto, por eso 88 es el valor predeterminado aquí."
+    },
+    {
+      "q": "¿Por qué el formateador dice \"Unexpected indentation\"?",
+      "a": "Una línea tiene más sangría que el bloque al que pertenece, a menudo porque se mezclan tabulaciones y espacios o porque se pegó una línea con sangría de más. Corrige la sangría en la línea indicada para que cada bloque use el mismo número de espacios."
+    },
+    {
+      "q": "¿El formateador cambia las comillas simples por dobles?",
+      "a": "Sí, por defecto, para coincidir con Black. Elige Simples para preferir comillas simples, o Conservar para mantener las comillas que ya tiene cada cadena. Las comillas solo se cambian cuando eso no requiere escapes adicionales."
+    },
+    {
+      "q": "¿El formateo cambiará cómo se ejecuta mi código?",
+      "a": "No. El formateador solo cambia espacios en blanco, saltos de línea, comillas y paréntesis que no afectan al significado. Si el código no se puede analizar, se detiene con un error en lugar de cambiar nada."
+    },
+    {
+      "q": "¿Cuál es la diferencia entre un formateador y un linter?",
+      "a": "Un formateador reescribe el formato automáticamente. Un linter informa problemas como imports sin usar, nombres no definidos o patrones arriesgados, y solo algunos se pueden corregir automáticamente. La mayoría de los proyectos usan ambos."
+    },
+    {
+      "q": "¿Se sube mi código a un servidor?",
+      "a": "No. El formateador Ruff está compilado a WebAssembly y se sirve desde este sitio; se descarga la primera vez que formateas y después funciona dentro de tu navegador."
+    }
+  ],
+  "body": {
+    "label": {
+      "opt-line-length": "Longitud de línea",
+      "opt-indent": "Sangría",
+      "opt-quotes": "Estilo de comillas"
+    },
+    "option": {
+      "opt-line-length": {
+        "79": "79 (PEP 8)",
+        "88": "88 (predeterminado de Black / Ruff)"
+      },
+      "opt-indent": {
+        "2": "2 espacios",
+        "4": "4 espacios"
+      },
+      "opt-quotes": {
+        "double": "Dobles",
+        "single": "Simples",
+        "preserve": "Conservar"
+      }
+    },
+    "text": {
+      "pep8-heading": "Conceptos básicos de PEP 8",
+      "ruff-style-heading": "En qué se diferencia el estilo de Ruff y Black del PEP 8 básico",
+      "cannot-fix-heading": "Errores que el formateador no puede corregir",
+      "privacy-heading": "Privado por diseño"
+    },
+    "content": {
+      "pep-8-basics": {
+        "p1": "PEP 8 es la guía de estilo oficial de Python. Un formateador aplica por ti sus partes mecánicas, para que dediques la revisión a lo que hace el código y no a cómo está dispuesto. Las reglas que aplica con más frecuencia son:",
+        "li1": "<strong>Cuatro espacios por nivel de sangría.</strong> Espacios, no tabulaciones, y nunca una mezcla de ambos en un mismo bloque.",
+        "li2": "<strong>Una longitud de línea limitada.</strong> PEP 8 recomienda 79 caracteres para el código y 72 para comentarios y docstrings, para que quepan dos archivos uno al lado del otro y los diffs sigan siendo legibles.",
+        "li3": "<strong>Líneas en blanco con sentido.</strong> Dos líneas en blanco alrededor de las funciones y clases de nivel superior, y una línea en blanco entre los métodos de una clase.",
+        "li4": "<strong>Espacios alrededor de los operadores.</strong> Un espacio a cada lado de los operadores de asignación y comparación (<code>x = y + 1</code>, <code>if total &gt;= limit</code>), pero sin espacios alrededor de <code>=</code> en argumentos con nombre y valores por defecto (<code>def f(rate=0.18)</code>).",
+        "li5": "<strong>Sin espacios de más dentro de los corchetes</strong> y una sentencia por línea, así que <code>a = 1; b = 2</code> se convierte en dos líneas.",
+        "p2": "Las convenciones de nombres, como <code>snake_case</code> para funciones y variables y <code>CapWords</code> para clases, también forman parte de PEP 8, pero un formateador nunca cambia nombres. Eso es tarea de un linter y de la revisión de código."
+      },
+      "how-ruff-and-black-style-differs": {
+        "p1": "PEP 8 deja muchas decisiones abiertas, y dos personas que lo siguen pueden disponer el mismo código de forma distinta. Black, y el formateador Ruff que copia su estilo, eliminan esas decisiones para que todos los archivos de un proyecto se vean iguales:",
+        "li1": "<strong>88 columnas en lugar de 79.</strong> Black eligió 88 porque produce archivos notablemente más cortos que con 79 y aun así caben cómodamente en pantalla. Elige 79 aquí si tu proyecto sigue estrictamente el límite de PEP 8.",
+        "li2": "<strong>Comillas dobles por defecto.</strong> PEP 8 permite cualquier estilo de comillas siempre que seas coherente; Black estandariza las comillas dobles. Ruff añade la opción de preferir comillas simples o conservar las existentes.",
+        "li3": "<strong>Ajuste de líneas predecible.</strong> Cuando una llamada, lista o diccionario es demasiado largo, se divide con un elemento por línea y una coma final, así que añadir un elemento después cambia solo una línea en el diff.",
+        "li4": "<strong>La coma final mágica.</strong> Si dejas una coma final después del último elemento, el formateador mantiene la expresión expandida aunque quepa en una línea.",
+        "p2": "Como el resultado es el mismo sin importar quién lo ejecute, los equipos suelen formatear al guardar o en un hook de pre-commit y dejan de discutir el formato en las revisiones."
+      },
+      "errors-the-formatter-cannot-fix": {
+        "p1": "El formateador primero analiza tu código y lo convierte en un árbol sintáctico, y solo después lo vuelve a escribir con un estilo coherente. Si el análisis falla, no hay nada que formatear, así que informa un error con la línea y la columna en lugar de adivinar lo que querías decir:",
+        "li1": "<strong>IndentationError y TabError.</strong> Mezclar tabulaciones y espacios, o sangrar una línea más que su bloque, hace que la estructura sea ambigua. El formateador informa \"Unexpected indentation\" en la primera línea afectada.",
+        "li2": "<strong>Errores de sintaxis.</strong> Si faltan los dos puntos después de <code>def</code> o <code>if</code>, o hay un corchete sin cerrar o una cadena sin terminar, el análisis se detiene. Un corchete sin cerrar suele indicarse en la línea siguiente, porque ahí es donde Python se da cuenta de que la expresión no terminó.",
+        "li3": "<strong>Problemas que detecta un linter.</strong> Los imports sin usar, los nombres no definidos o una variable ocultada son sintaxis válida, así que el formateador no los toca.",
+        "p2": "Cuando el formateador informa un error, el cursor salta a esa posición en la entrada para que lo corrijas y vuelvas a formatear."
+      },
+      "private-by-design": {
+        "p1": "Esta página ejecuta el formateador Ruff compilado a WebAssembly. El motor se sirve desde este sitio y solo se descarga la primera vez que formateas código en esta página; después funciona por completo en tu navegador, así que el código privado o sin publicar nunca sale de tu dispositivo. Para otros lenguajes, consulta el <a href=\"/tools/java-formatter/\">formateador Java</a>, o el <a href=\"/tools/json-formatter/\">formateador JSON</a> para archivos de datos."
+      }
+    },
+    "value": {
+      "engine": "Formateador Ruff ({{name}} {{version}})"
+    }
+  },
+  "client": {
+    "errors": {
+      "empty": "Pega código Python para formatear.",
+      "at": "Línea {{line}}, columna {{column}}: {{reason}}",
+      "unsupportedOption": "{{key}} no admitido: {{value}}. Elige una de estas opciones: {{choices}}."
+    }
+  }
+}

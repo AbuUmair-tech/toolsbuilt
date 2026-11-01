@@ -1,0 +1,254 @@
+{
+  "listing": {
+    "name": "Calculadora de margem de lucro e markup",
+    "shortName": "Margem de lucro",
+    "description": "Calcule lucro, margem e markup a partir do custo e do preço, ou o preço de venda que dá a margem ou o markup desejado.",
+    "shortDescription": "Lucro, margem e markup a partir do custo e do preço, ou o preço a partir de uma margem desejada.",
+    "keywords": [
+      "calculadora de margem de lucro",
+      "calculadora de markup",
+      "margem x markup",
+      "margem bruta",
+      "calcular preço de venda",
+      "converter markup em margem",
+      "calculadora de precificação"
+    ]
+  },
+  "title": "Calculadora de margem de lucro: margem x markup",
+  "description": "Calculadora de margem de lucro: veja lucro, margem e markup a partir do custo e do preço, ou o preço de venda para a margem desejada. Com tabela.",
+  "h1": "Calculadora de margem de lucro e markup",
+  "quickAnswer": "Na calculadora de margem de lucro, a margem é o lucro como porcentagem do preço de venda; o markup é o lucro como porcentagem do custo. Um item que custa 60 e é vendido por 100 dá 40 de lucro, 40% de margem e 66.67% de markup. Para chegar a uma margem desejada, preço = custo ÷ (1 − margem); assim, 25% de margem sobre um custo de 75 exige um preço de 100.",
+  "formula": {
+    "title": "Fórmulas de margem e markup",
+    "expression": "Lucro = preço − custo   ·   Margem % = lucro ÷ preço × 100   ·   Markup % = lucro ÷ custo × 100",
+    "explanation": "Margem e markup usam o mesmo lucro, mas o dividem por números diferentes, por isso o markup é sempre a porcentagem maior. Para achar o preço a partir de uma margem desejada, divida o custo por (1 − margem ÷ 100). Para achar o preço a partir de um markup, multiplique o custo por (1 + markup ÷ 100). Um converte direto no outro: markup = margem ÷ (1 − margem) e margem = markup ÷ (1 + markup), com os dois em decimal.",
+    "variables": [
+      {
+        "name": "Custo",
+        "description": "Quanto o item custa para você: o preço de compra, ou material e mão de obra para o que você produz."
+      },
+      {
+        "name": "Preço",
+        "description": "O preço de venda antes do imposto sobre vendas ou do VAT."
+      },
+      {
+        "name": "Margem",
+        "description": "A parte do preço de venda que fica com você como lucro bruto. Sempre abaixo de 100%."
+      },
+      {
+        "name": "Markup",
+        "description": "Quanto você acrescenta ao custo, como porcentagem do custo. Pode passar de 100%."
+      }
+    ]
+  },
+  "workedExamples": [
+    {
+      "title": "Custo 60, preço 100",
+      "inputs": [
+        "Custo: 60",
+        "Preço de venda: 100"
+      ],
+      "steps": [
+        "Lucro: 100 − 60 = 40",
+        "Margem: 40 ÷ 100 = 40%",
+        "Markup: 40 ÷ 60 = 66.67%"
+      ],
+      "result": "Lucro 40, margem 40%, markup 66.67%"
+    },
+    {
+      "title": "Preço para 25% de margem sobre um custo de 75",
+      "inputs": [
+        "Custo: 75",
+        "Margem desejada: 25%"
+      ],
+      "steps": [
+        "Preço = 75 ÷ (1 − 0.25) = 75 ÷ 0.75 = 100",
+        "Conferindo: lucro 25 ÷ preço 100 = 25% de margem"
+      ],
+      "result": "Preço de venda 100 (markup de 33.33%)"
+    },
+    {
+      "title": "Preço para 25% de markup sobre um custo de 80",
+      "inputs": [
+        "Custo: 80",
+        "Markup: 25%"
+      ],
+      "steps": [
+        "Preço = 80 × (1 + 0.25) = 100",
+        "Margem: lucro 20 ÷ preço 100 = 20%"
+      ],
+      "result": "Preço de venda 100 (margem de 20%)"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Somar a porcentagem de margem ao custo",
+      "description": "Somar 25% a um custo de 75 dá 93.75, que é um <em>markup</em> de 25% e só 20% de margem. Para ter 25% de margem é preciso dividir: 75 ÷ 0.75 = 100."
+    },
+    {
+      "title": "Tratar margem e markup como a mesma coisa",
+      "description": "Um markup de 50% é uma margem de 33.3%, e uma margem de 50% é um markup de 100%. Deixe claro de qual está falando em tabelas de preço, negociações com fornecedores e planos de comissão."
+    },
+    {
+      "title": "Esperar uma margem acima de 100%",
+      "description": "A margem é uma parte do preço de venda, então nunca chega a 100%, a menos que o custo seja zero. Se aparecer um valor acima de 100%, é um markup."
+    },
+    {
+      "title": "Deixar custos de fora",
+      "description": "A margem bruta usa o custo direto do item. Frete, taxas de pagamento, embalagem e devoluções também são custos reais; inclua-os no custo se quiser a margem que realmente fica com você."
+    },
+    {
+      "title": "Incluir imposto sobre vendas ou VAT no preço",
+      "description": "O imposto recolhido para o governo não é receita. Use o preço de venda sem imposto, senão a margem vai parecer maior do que é."
+    }
+  ],
+  "sources": [
+    {
+      "name": "IRS Publication 334: guia tributário para pequenas empresas (lucro bruto e custo das mercadorias vendidas)"
+    },
+    {
+      "name": "SEC dos EUA: guia para iniciantes sobre demonstrações financeiras (lucro bruto e margens)"
+    },
+    {
+      "name": "GOV.UK: alíquotas de VAT (excluir o imposto do preço de venda)"
+    }
+  ],
+  "howto": {
+    "name": "Como calcular margem de lucro e markup",
+    "description": "Encontre a margem e o markup a partir do custo e do preço, ou o preço a partir de uma margem ou markup desejado.",
+    "steps": [
+      {
+        "name": "Escolha o que você já sabe",
+        "text": "Escolha Preço para ver a margem e o markup de um preço de venda, ou Margem ou Markup para obter o preço que dá a margem ou o markup desejado."
+      },
+      {
+        "name": "Informe o custo",
+        "text": "Digite quanto o item custa para você, incluindo os custos diretos que quer cobrir."
+      },
+      {
+        "name": "Informe o preço, a margem ou o markup",
+        "text": "Digite o preço de venda sem imposto, ou a margem ou o markup que você quer."
+      },
+      {
+        "name": "Veja os resultados",
+        "text": "Veja lado a lado o lucro, a margem, o markup e o preço de venda."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Qual é a diferença entre margem e markup?",
+      "a": "Os dois partem do mesmo lucro (preço − custo). A margem divide esse lucro pelo preço de venda; o markup divide pelo custo. Custo 60 e preço 100 dão 40% de margem, mas 66.67% de markup."
+    },
+    {
+      "q": "Como calcular a margem de lucro?",
+      "a": "Subtraia o custo do preço de venda para obter o lucro, divida o lucro pelo preço de venda e multiplique por 100. Preço 100 e custo 60: (100 − 60) ÷ 100 = 40%."
+    },
+    {
+      "q": "Como calcular o preço de venda a partir da margem desejada?",
+      "a": "Divida o custo por (1 − margem em decimal). Para 25% de margem sobre um custo de 75: 75 ÷ 0.75 = 100."
+    },
+    {
+      "q": "Como converter markup em margem?",
+      "a": "Margem = markup ÷ (1 + markup), usando decimais. Um markup de 25% dá 0.25 ÷ 1.25 = 20% de margem; um markup de 100% dá 50% de margem."
+    },
+    {
+      "q": "Quanto é um markup de 50% em margem?",
+      "a": "Um markup de 50% é uma margem de 33.33%. Um custo de 100 com 50% de markup é vendido por 150, e 50 de lucro ÷ 150 de preço = 33.33%."
+    },
+    {
+      "q": "A margem de lucro pode ser negativa?",
+      "a": "Sim. Se você vender abaixo do custo, o lucro fica negativo, e a margem e o markup também. A calculadora mostra isso como prejuízo."
+    },
+    {
+      "q": "Qual é uma boa margem de lucro?",
+      "a": "Depende do setor, do modelo de negócio e de você estar falando de margem bruta ou líquida. Compare com negócios parecidos com o seu e inclua todos os custos antes de definir uma meta."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Calculadora de margem de lucro",
+      "tool-div1": "Calcule a margem a partir de um preço, ou um preço a partir de uma margem ou markup",
+      "copy-result-btn": "Copiar o resultado para a área de transferência"
+    },
+    "text": {
+      "tab-price": "Preço",
+      "tab-margin": "Margem",
+      "tab-markup": "Markup",
+      "reset-btn": "Redefinir",
+      "result-header-text": "Margem de lucro",
+      "copy-result-btn": "<span data-icon=\"copy\"></span> Copiar resultado"
+    },
+    "label": {
+      "cost": "Custo <span class=\"text-accent\">*</span>",
+      "price": "Preço de venda <span class=\"text-accent\">*</span>",
+      "margin": "Margem desejada (%) <span class=\"text-accent\">*</span>",
+      "markup": "Markup (%) <span class=\"text-accent\">*</span>"
+    },
+    "content": {
+      "tool": {
+        "button1": "Calcular",
+        "summary1": "Passo a passo"
+      },
+      "margin-vs-markup-at-a-glance": {
+        "heading": "Margem x markup em resumo",
+        "p1": "Margem e markup descrevem o mesmo lucro por dois lados. A margem responde \"quanto de cada venda fica comigo?\", enquanto o markup responde \"quanto eu acrescentei ao meu custo?\". Como o preço de venda é sempre maior que o custo quando há lucro, a porcentagem de margem é sempre a menor das duas.",
+        "caption1": "Margem e markup de um item que custa 100",
+        "th1": "Preço de venda",
+        "th2": "Lucro",
+        "th3": "Margem (sobre o preço)",
+        "th4": "Markup (sobre o custo)",
+        "p2": "Leia cada linha para converter: um markup de 25% é uma margem de 20%, e uma margem de 50% exige um markup de 100%. Conforme a margem se aproxima de 100%, o markup cresce sem limite; por isso margens acima de 100% são impossíveis, enquanto markups de 200% ou 300% são comuns em itens de baixo custo."
+      },
+      "which-one-should-you-use": {
+        "heading": "Qual usar?",
+        "li1": "<strong>Definir preços a partir do custo:</strong> o markup é prático para uma tabela de preços (\"custo mais 40%\"), mas sempre confira a margem que ele dá.",
+        "li2": "<strong>Planejamento e relatórios:</strong> a margem segue a forma como as demonstrações financeiras mostram o lucro bruto e permite comparar produtos com preços muito diferentes.",
+        "li3": "<strong>Descontos:</strong> o desconto sai do preço de venda, então corta a margem diretamente. Um desconto de 20% em um produto com 20% de margem acaba com todo o lucro.",
+        "li4": "<strong>Conversas com fornecedores e equipe:</strong> diga \"margem\" ou \"markup\" de forma explícita; \"40% de lucro\" é ambíguo.",
+        "p1": "Esta calculadora calcula a margem bruta de um único item: o preço de venda menos o custo direto desse item. A margem líquida também desconta despesas como aluguel, salários, marketing e impostos, por isso é sempre menor que a margem bruta."
+      }
+    },
+    "title": {
+      "copy-result-btn": "Copiar o resultado para a área de transferência"
+    }
+  },
+  "client": {
+    "errors": {
+      "costEmpty": "Informe o custo.",
+      "costInvalid": "O custo deve ser 0 ou um número positivo.",
+      "priceEmpty": "Informe o preço de venda.",
+      "priceInvalid": "O preço de venda deve ser maior que 0.",
+      "marginEmpty": "Informe a margem desejada.",
+      "marginInvalid": "A margem deve ser um número.",
+      "marginMax": "A margem deve ficar abaixo de 100%: com 100%, o lucro seria o preço inteiro, o que exige custo 0.",
+      "markupEmpty": "Informe o markup.",
+      "markupInvalid": "O markup deve ser um número.",
+      "markupMin": "Um markup de −100% ou menos deixaria o preço em 0 ou negativo."
+    },
+    "result": {
+      "loss": "Prejuízo nesta venda",
+      "margin": "Margem de lucro",
+      "marginAndMarkup": "{{margin}} de margem · {{markup}} de markup",
+      "sellingPrice": "Preço de venda",
+      "lossNote": "O preço de venda está abaixo do custo, então esta venda dá prejuízo.",
+      "copy": "Custo {{cost}}, preço {{price}}: lucro {{profit}}, margem {{margin}}, markup {{markup}}"
+    },
+    "stats": {
+      "sellingPrice": "Preço de venda",
+      "cost": "Custo",
+      "loss": "Prejuízo",
+      "profit": "Lucro",
+      "margin": "Margem (sobre o preço)",
+      "markup": "Markup (sobre o custo)",
+      "markupUndefined": "Não definido (custo é 0)"
+    },
+    "steps": {
+      "priceFromMargin": "Preço = custo ÷ (1 − margem) = {{cost}} ÷ (1 − {{margin}}) = {{price}}",
+      "priceFromMarkup": "Preço = custo × (1 + markup) = {{cost}} × (1 + {{markup}}) = {{price}}",
+      "profit": "Lucro = preço − custo = {{price}} − {{cost}} = {{profit}}",
+      "margin": "Margem = lucro ÷ preço = {{profit}} ÷ {{price}} = {{margin}}",
+      "markup": "Markup = lucro ÷ custo = {{profit}} ÷ {{cost}} = {{markup}}"
+    }
+  }
+}

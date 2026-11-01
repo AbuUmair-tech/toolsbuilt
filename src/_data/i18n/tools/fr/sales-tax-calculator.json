@@ -1,0 +1,750 @@
+{
+  "listing": {
+    "name": "Calculateur de TVA (VAT), GST et taxe de vente",
+    "shortName": "TVA, GST et taxe de vente",
+    "description": "Ajoutez ou retirez la taxe de vente, la TVA ou la GST au taux de votre pays ou à un taux personnalisé, avec quantité et formule affichée.",
+    "shortDescription": "Ajoutez la taxe à un prix ou retirez-la d'un prix TTC, à n'importe quel taux, avec la formule affichée.",
+    "keywords": [
+      "calcul tva",
+      "calculateur gst",
+      "calcul ttc ht",
+      "retirer la tva d'un prix",
+      "ajouter 18% de gst",
+      "calculateur de tva",
+      "taxe de vente pakistan 18%",
+      "calcul prix toutes taxes comprises"
+    ]
+  },
+  "title": "Calculateur de TVA, GST et taxe de vente : HT et TTC",
+  "description": "Ajoutez ou retirez la TVA, la GST ou la taxe de vente au taux de votre pays (Royaume-Uni, UE, Inde, Pakistan, EAU, Canada...) ou à un taux libre.",
+  "h1": "Calculateur de TVA (VAT), GST et taxe de vente",
+  "quickAnswer": "Pour ajouter la taxe, multipliez le prix par (1 + taux) : 1,000 plus 18% donne 1,000 × 1.18 = 1,180, dont 180 de taxe. Pour retirer la taxe d'un prix qui l'inclut déjà, divisez par (1 + taux) : 1,180 ÷ 1.18 = 1,000. Ne soustrayez jamais simplement 18% : 5,000 taxe de 18% comprise donne 4,237.29 hors taxe, et non 4,100. Ce calculateur de TVA, GST et taxe de vente fait le calcul pour vous.",
+  "formula": {
+    "title": "Formules de la taxe de vente",
+    "expression": "Total = Prix × (1 + Taux) · Prix HT = Total ÷ (1 + Taux)",
+    "explanation": "Écrivez le taux sous forme décimale (18% = 0.18). Pour ajouter la taxe à un prix hors taxe, la taxe vaut Prix × Taux et le total Prix × (1 + Taux). Pour retrouver le prix hors taxe contenu dans un total TTC, divisez le total par (1 + Taux) ; la taxe est la différence entre le total et ce prix. Avec une quantité, multipliez d'abord le prix unitaire par la quantité.",
+    "variables": [
+      {
+        "name": "Prix",
+        "description": "Le prix hors taxe (mode ajout) ou taxe comprise (mode retrait), pour un article."
+      },
+      {
+        "name": "Taux",
+        "description": "Le taux de taxe sous forme décimale, par ex. 0.18 pour 18%."
+      }
+    ]
+  },
+  "workedExamples": [
+    {
+      "title": "Ajouter 18% à 1,000",
+      "inputs": [
+        "Prix hors taxe : 1,000",
+        "Taux : 18%"
+      ],
+      "steps": [
+        "Taxe : 1,000 × 0.18 = 180",
+        "Total : 1,000 + 180 = 1,180"
+      ],
+      "result": "Taxe 180, total 1,180"
+    },
+    {
+      "title": "Retirer 18% de 1,180",
+      "inputs": [
+        "Prix taxe comprise : 1,180",
+        "Taux : 18%"
+      ],
+      "steps": [
+        "Prix hors taxe : 1,180 ÷ 1.18 = 1,000",
+        "Taxe contenue dans le prix : 1,180 − 1,000 = 180"
+      ],
+      "result": "Prix hors taxe 1,000, taxe 180"
+    },
+    {
+      "title": "Retirer 18% de 5,000",
+      "inputs": [
+        "Prix taxe comprise : 5,000",
+        "Taux : 18%"
+      ],
+      "steps": [
+        "Prix hors taxe : 5,000 ÷ 1.18 = 4,237.29",
+        "Taxe contenue dans le prix : 5,000 − 4,237.29 = 762.71",
+        "Soustraire 18% à la place (5,000 − 900 = 4,100) donnerait une erreur de 137.29"
+      ],
+      "result": "Prix hors taxe 4,237.29, taxe 762.71"
+    },
+    {
+      "title": "3 articles à 1,000 chacun, plus 18%",
+      "inputs": [
+        "Prix hors taxe : 1,000 par article",
+        "Quantité : 3",
+        "Taux : 18%"
+      ],
+      "steps": [
+        "Sous-total : 3 × 1,000 = 3,000",
+        "Taxe : 3,000 × 0.18 = 540",
+        "Total : 3,000 + 540 = 3,540"
+      ],
+      "result": "Total 3,540 dont 540 de taxe"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Soustraire le taux d'un prix taxe comprise",
+      "description": "18% d'un prix TTC n'est pas la taxe qu'il contient, car la taxe a été calculée sur le prix hors taxe, plus petit. 1,180 moins 18% donne 967.60, alors que le vrai prix hors taxe est 1,180 ÷ 1.18 = 1,000. Divisez toujours par (1 + taux)."
+    },
+    {
+      "title": "Ne pas savoir si un prix inclut la taxe",
+      "description": "Dans de nombreux pays, les prix de détail incluent déjà la taxe, alors que les devis professionnels et les prix affichés en rayon aux États-Unis ne l'incluent souvent pas. Vérifiez la facture ou l'étiquette avant de choisir Ajouter la taxe ou Retirer la taxe."
+    },
+    {
+      "title": "Utiliser le mauvais taux",
+      "description": "Les taux varient selon les pays, les États et les provinces, et entre biens et services. Les taux réduits, les exonérations et les taxes provinciales ou d'État sur les services modifient tous le résultat : vérifiez le taux applicable à votre article."
+    },
+    {
+      "title": "Arrondir chaque article avant de multiplier",
+      "description": "Pour plusieurs articles identiques, multipliez d'abord le prix unitaire par la quantité, puis calculez la taxe sur le sous-total. Arrondir la taxe de chaque article séparément peut fausser le total de quelques paisa ou centimes."
+    },
+    {
+      "title": "Considérer le prix TTC comme le coût",
+      "description": "Si vous êtes assujetti à la taxe de vente ou à la TVA et pouvez récupérer la taxe payée sur vos achats, votre coût réel est le prix hors taxe. Utilisez Retirer la taxe pour le trouver."
+    }
+  ],
+  "sources": [
+    {
+      "name": "Federal Board of Revenue (FBR), gouvernement du Pakistan"
+    }
+  ],
+  "howto": {
+    "name": "Comment ajouter ou retirer la taxe de vente",
+    "description": "Ajoutez la GST ou la taxe de vente à un prix, ou retrouvez le prix hors taxe contenu dans un total.",
+    "steps": [
+      {
+        "name": "Choisir ajouter ou retirer",
+        "text": "Choisissez Ajouter la taxe si votre prix est hors taxe, ou Retirer la taxe s'il inclut déjà la taxe."
+      },
+      {
+        "name": "Saisir le prix et la quantité",
+        "text": "Saisissez le prix d'un article et, si besoin, le nombre d'articles."
+      },
+      {
+        "name": "Choisir le taux",
+        "text": "Choisissez 18%, 5%, 10% ou 15%, ou saisissez un taux personnalisé."
+      },
+      {
+        "name": "Lire le résultat",
+        "text": "Consultez le prix hors taxe, le montant de la taxe et le total, avec la formule utilisée."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Comment ajouter 18% de taxe de vente à un prix ?",
+      "a": "Multipliez le prix par 1.18. La taxe correspond au prix × 0.18. Par exemple, 1,000 × 0.18 = 180 de taxe, et le total est de 1,180."
+    },
+    {
+      "q": "Comment retirer 18% de GST d'un prix ?",
+      "a": "Divisez le prix taxe comprise par 1.18 pour obtenir le prix hors taxe, puis soustrayez-le du total pour obtenir la taxe. 1,180 ÷ 1.18 = 1,000 : la taxe est donc de 180."
+    },
+    {
+      "q": "Pourquoi ne puis-je pas simplement soustraire 18% d'un prix taxe comprise ?",
+      "a": "Parce que les 18% ont été appliqués au prix hors taxe, et non au total. Soustraire 18% du total retire trop : 5,000 − 18% donne 4,100, alors que le vrai prix hors taxe est 5,000 ÷ 1.18 = 4,237.29."
+    },
+    {
+      "q": "Combien font 18% de 1,000 ?",
+      "a": "18% de 1,000 font 180. Si 1,000 est le prix hors taxe, le total avec 18% de taxe est de 1,180. Si 1,000 inclut déjà 18% de taxe, le prix hors taxe est 1,000 ÷ 1.18 = 847.46 et la taxe 152.54."
+    },
+    {
+      "q": "Quel est le taux de la taxe de vente au Pakistan ?",
+      "a": "Le taux normal de la taxe de vente sur les biens au Pakistan est de 18%, mais certains biens bénéficient de taux réduits, spéciaux ou nuls, et la taxe de vente sur les services est fixée par les provinces. Vérifiez le taux en vigueur pour votre article auprès du FBR ou de l'administration fiscale de votre province."
+    },
+    {
+      "q": "Quelle est la différence entre la GST, la TVA et la taxe de vente ?",
+      "a": "La GST et la TVA sont perçues à chaque étape de la chaîne d'approvisionnement : les entreprises assujetties récupèrent la taxe payée sur leurs achats, et le prix affiché aux consommateurs inclut généralement la taxe. La taxe de vente américaine (sales tax) est perçue une seule fois, lors de la vente finale, à des taux fixés par les États et les collectivités locales, et elle est généralement ajoutée en caisse. Le calcul pour ajouter ou retirer un pourcentage est le même dans les trois cas."
+    },
+    {
+      "q": "Comment calculer la taxe pour plusieurs articles ?",
+      "a": "Saisissez le prix d'un article et la quantité. Le calculateur les multiplie pour obtenir le sous-total et calcule la taxe sur ce sous-total. Trois articles à 1,000 plus 18% de taxe font 3,540."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Formulaire du calculateur de TVA, GST et taxe de vente",
+      "copy-result-btn": "Copier le résultat dans le presse-papiers",
+      "vat-and-gst-rates-by-country-div1": "Taux de TVA et de GST par pays (défilant)"
+    },
+    "content": {
+      "tool": {
+        "legend1": "Je veux",
+        "label1": "<input type=\"radio\" name=\"tax-mode\" id=\"mode-add\" value=\"add\" data-param=\"mode\" checked>\n              <span>Ajouter la taxe</span>",
+        "label2": "<input type=\"radio\" name=\"tax-mode\" id=\"mode-remove\" value=\"remove\" data-param=\"mode\">\n              <span>Retirer la taxe</span>",
+        "button1": "Calculer",
+        "div1": "Prix hors taxe",
+        "div2": "Total taxe comprise"
+      },
+      "check-the-official-rate": {
+        "heading": "Vérifiez le taux officiel",
+        "p1": "Les taux varient selon le pays, l'État ou la province, et selon le bien ou le service. Pour le Pakistan, vérifiez le taux auprès du <a href=\"https://www.fbr.gov.pk/\" rel=\"noopener\" target=\"_blank\">FBR</a> ou de l'administration fiscale de votre province."
+      },
+      "vat-and-gst-rates-by-country": {
+        "p1": "Les préréglages par pays du calculateur utilisent les taux ci-dessous. Chacun a été vérifié auprès de l'administration fiscale ou de la source officielle indiquée dans le tableau, à la date mentionnée. Les taux réduits ne s'appliquent qu'aux biens et services énumérés par la loi : utilisez le taux normal sauf si vous savez que votre article y a droit. Aux États-Unis, il n'existe pas de taxe de vente nationale : les États, comtés et villes fixent leurs propres taux, saisissez donc le taux combiné de votre zone comme taux personnalisé.",
+        "caption1": "Taux normaux et réduits de TVA, de GST et de taxe de vente utilisés par le calculateur",
+        "th1": "Pays",
+        "th2": "Taxe",
+        "th3": "Normal",
+        "th4": "Autres taux",
+        "th5": "Source (vérifiée)"
+      },
+      "tax-exclusive-and-tax-inclusive-prices": {
+        "p1": "Toute question de taxe de vente commence par une vérification : le prix dont vous disposez inclut-il déjà la taxe ? Un prix <strong>hors taxe</strong> (HT) est le montant avant taxe, celui de la plupart des devis professionnels et des étiquettes en rayon aux États-Unis. Un prix <strong>toutes taxes comprises</strong> (TTC) inclut déjà la taxe : c'est ainsi que sont affichés la plupart des prix de détail au Pakistan, au Royaume-Uni, dans l'UE et dans les pays du Golfe.",
+        "li1": "Si votre prix est <strong>hors taxe</strong>, choisissez <strong>Ajouter la taxe</strong>. Le calculateur multiplie par le taux pour trouver la taxe et l'ajoute.",
+        "li2": "Si votre prix est <strong>taxe comprise</strong>, choisissez <strong>Retirer la taxe</strong>. Le calculateur divise par (1 + taux) pour trouver le prix hors taxe ; la différence correspond à la taxe payée.",
+        "p2": "Les factures indiquent généralement les deux : un montant net, la taxe et un total brut. Utilisez ce calculateur pour vérifier que les trois chiffres concordent."
+      },
+      "why-you-divide-by-1-rate": {
+        "p1": "Quand un vendeur ajoute 18% de taxe, il multiplie le prix hors taxe par 1.18. Pour annuler cette opération, divisez le total par 1.18. La formule est <code>prix HT = total ÷ (1 + taux)</code>, avec le taux sous forme décimale.",
+        "p2": "L'erreur la plus fréquente consiste à retirer 18% du total. On considère alors la taxe comme 18% du total, alors qu'elle représentait 18% du prix hors taxe, plus petit. Sur un total de 5,000, soustraire 18% donne 4,100, mais le vrai prix hors taxe est 5,000 ÷ 1.18 = 4,237.29, et la taxe qu'il contient est de 762.71, et non de 900. Plus le taux est élevé, plus l'erreur est importante : utilisez Retirer la taxe dès que le prix inclut déjà la taxe. Pour d'autres questions de pourcentage, comme la part qu'un nombre représente d'un autre, utilisez le <a href=\"/tools/percentage-calculator/\">calculateur de pourcentage</a>."
+      },
+      "gst-vat-and-us-sales-tax": {
+        "p1": "La GST (goods and services tax) et la TVA (taxe sur la valeur ajoutée, VAT en anglais) sont perçues à chaque étape de la chaîne d'approvisionnement : les entreprises assujetties récupèrent la taxe payée sur leurs achats, et les consommateurs voient généralement des prix qui incluent déjà la taxe. La taxe de vente américaine est perçue une seule fois, lors de la vente finale au client, à des taux fixés par les États et les collectivités locales, et elle est généralement ajoutée en caisse plutôt qu'affichée sur l'étiquette. Au Pakistan, la taxe de vente sur les biens fonctionne comme une TVA, tandis que la taxe de vente sur les services est perçue par les provinces. Le calcul pour ajouter ou retirer la taxe est le même dans tous les cas ; seuls le taux et l'inclusion ou non de la taxe dans les prix changent."
+      },
+      "rates-vary-check-the-official-rate": {
+        "p1": "Les préréglages proposés ici sont des taux courants, et non une indication de ce qui s'applique à votre achat. Les taux diffèrent selon les pays, les États et les provinces, et entre biens et services, et de nombreux articles bénéficient d'un taux réduit, d'un taux zéro ou d'une exonération. Au Pakistan, le taux normal de la taxe de vente sur les biens est de 18%, mais vérifiez le taux en vigueur pour votre article auprès du <a href=\"https://www.fbr.gov.pk/\" rel=\"noopener\" target=\"_blank\">FBR</a> ou de l'administration fiscale de votre province, et utilisez le taux personnalisé s'il est différent. Si un prix comporte une remise en plus de la taxe, calculez d'abord la remise avec le <a href=\"/tools/discount-calculator/\">calculateur de remise</a>, qui peut aussi ajouter la taxe de vente au prix remisé."
+      }
+    },
+    "label": {
+      "tax-price": "Prix hors taxe <span class=\"text-accent\">*</span>",
+      "tax-qty": "Quantité",
+      "tax-country": "Pays",
+      "tax-rate-preset": "Taux de taxe",
+      "tax-rate-custom": "Taux personnalisé (%)"
+    },
+    "option": {
+      "tax-rate-preset": {
+        "18": "18% – taxe de vente normale sur les biens au Pakistan",
+        "custom": "Taux personnalisé"
+      }
+    },
+    "text": {
+      "reset-btn": "Réinitialiser",
+      "result-header-text": "Total taxe comprise",
+      "copy-result-btn": "<span data-icon=\"copy\"></span> Copier le résultat",
+      "result-primary-text": "Rs 0.00",
+      "stat-net": "Rs 0.00",
+      "stat-tax-label": "Taxe (18%)",
+      "stat-tax": "Rs 0.00",
+      "stat-gross": "Rs 0.00",
+      "vat-rates-heading": "Taux de TVA et de GST par pays",
+      "inclusive-heading": "Prix hors taxe et prix toutes taxes comprises",
+      "reverse-heading": "Pourquoi diviser par (1 + taux) pour retirer la taxe",
+      "gst-vat-heading": "GST, TVA et taxe de vente américaine",
+      "rates-heading": "Les taux varient : vérifiez le taux officiel"
+    },
+    "title": {
+      "copy-result-btn": "Copier le résultat dans le presse-papiers"
+    },
+    "vat": {
+      "optionVaries": "{{name}} ({{taxName}} variable)",
+      "countryNote": "{{notes}} Source : <a href=\"{{url}}\" target=\"_blank\" rel=\"noopener noreferrer\">{{source}}</a>, vérifiée le {{date}}.",
+      "noPresetRate": "Fixé par l'État et la ville"
+    }
+  },
+  "client": {
+    "presets": {
+      "pk18": "18% (taxe de vente normale au Pakistan)"
+    },
+    "vat": {
+      "AT": {
+        "name": "Autriche",
+        "rates": [
+          "taux normal",
+          "taux réduit",
+          "taux réduit",
+          "taux parking"
+        ],
+        "notes": "État membre de l'UE. Les taux réduits ne s'appliquent qu'aux biens et services énumérés par la loi nationale.",
+        "source": "L'Europe est à vous (Union européenne) : taux de TVA dans les pays de l'UE, vérifié le 13/07/2026"
+      },
+      "BE": {
+        "name": "Belgique",
+        "rates": [
+          "taux normal",
+          "taux réduit",
+          "taux réduit",
+          "taux parking"
+        ],
+        "notes": "État membre de l'UE. Les taux réduits ne s'appliquent qu'aux biens et services énumérés par la loi nationale.",
+        "source": "L'Europe est à vous (Union européenne) : taux de TVA dans les pays de l'UE, vérifié le 13/07/2026"
+      },
+      "BG": {
+        "name": "Bulgarie",
+        "rates": [
+          "taux normal",
+          "taux réduit"
+        ],
+        "notes": "État membre de l'UE. Les taux réduits ne s'appliquent qu'aux biens et services énumérés par la loi nationale.",
+        "source": "L'Europe est à vous (Union européenne) : taux de TVA dans les pays de l'UE, vérifié le 13/07/2026"
+      },
+      "HR": {
+        "name": "Croatie",
+        "rates": [
+          "taux normal",
+          "taux réduit",
+          "taux réduit"
+        ],
+        "notes": "État membre de l'UE. Les taux réduits ne s'appliquent qu'aux biens et services énumérés par la loi nationale.",
+        "source": "L'Europe est à vous (Union européenne) : taux de TVA dans les pays de l'UE, vérifié le 13/07/2026"
+      },
+      "CY": {
+        "name": "Chypre",
+        "rates": [
+          "taux normal",
+          "taux réduit",
+          "taux réduit",
+          "taux super réduit"
+        ],
+        "notes": "État membre de l'UE. Les taux réduits ne s'appliquent qu'aux biens et services énumérés par la loi nationale.",
+        "source": "L'Europe est à vous (Union européenne) : taux de TVA dans les pays de l'UE, vérifié le 13/07/2026"
+      },
+      "CZ": {
+        "name": "Tchéquie",
+        "rates": [
+          "taux normal",
+          "taux réduit"
+        ],
+        "notes": "État membre de l'UE. Les taux réduits ne s'appliquent qu'aux biens et services énumérés par la loi nationale.",
+        "source": "L'Europe est à vous (Union européenne) : taux de TVA dans les pays de l'UE, vérifié le 13/07/2026"
+      },
+      "DK": {
+        "name": "Danemark",
+        "rates": [
+          "taux normal"
+        ],
+        "notes": "État membre de l'UE. Les taux réduits ne s'appliquent qu'aux biens et services énumérés par la loi nationale.",
+        "source": "L'Europe est à vous (Union européenne) : taux de TVA dans les pays de l'UE, vérifié le 13/07/2026"
+      },
+      "EE": {
+        "name": "Estonie",
+        "rates": [
+          "taux normal",
+          "taux réduit"
+        ],
+        "notes": "État membre de l'UE. Les taux réduits ne s'appliquent qu'aux biens et services énumérés par la loi nationale.",
+        "source": "L'Europe est à vous (Union européenne) : taux de TVA dans les pays de l'UE, vérifié le 13/07/2026"
+      },
+      "FI": {
+        "name": "Finlande",
+        "rates": [
+          "taux normal",
+          "taux réduit",
+          "taux réduit"
+        ],
+        "notes": "État membre de l'UE. Les taux réduits ne s'appliquent qu'aux biens et services énumérés par la loi nationale.",
+        "source": "L'Europe est à vous (Union européenne) : taux de TVA dans les pays de l'UE, vérifié le 13/07/2026"
+      },
+      "FR": {
+        "name": "France",
+        "rates": [
+          "taux normal",
+          "taux réduit",
+          "taux réduit",
+          "taux super réduit"
+        ],
+        "notes": "État membre de l'UE. Les taux réduits ne s'appliquent qu'aux biens et services énumérés par la loi nationale.",
+        "source": "L'Europe est à vous (Union européenne) : taux de TVA dans les pays de l'UE, vérifié le 13/07/2026"
+      },
+      "DE": {
+        "name": "Allemagne",
+        "rates": [
+          "taux normal",
+          "taux réduit"
+        ],
+        "notes": "État membre de l'UE. Les taux réduits ne s'appliquent qu'aux biens et services énumérés par la loi nationale.",
+        "source": "L'Europe est à vous (Union européenne) : taux de TVA dans les pays de l'UE, vérifié le 13/07/2026"
+      },
+      "GR": {
+        "name": "Grèce",
+        "rates": [
+          "taux normal",
+          "taux réduit",
+          "taux réduit",
+          "taux réduit",
+          "taux super réduit"
+        ],
+        "notes": "État membre de l'UE. Les taux réduits ne s'appliquent qu'aux biens et services énumérés par la loi nationale.",
+        "source": "L'Europe est à vous (Union européenne) : taux de TVA dans les pays de l'UE, vérifié le 13/07/2026"
+      },
+      "HU": {
+        "name": "Hongrie",
+        "rates": [
+          "taux normal",
+          "taux réduit",
+          "taux réduit"
+        ],
+        "notes": "État membre de l'UE. Les taux réduits ne s'appliquent qu'aux biens et services énumérés par la loi nationale.",
+        "source": "L'Europe est à vous (Union européenne) : taux de TVA dans les pays de l'UE, vérifié le 13/07/2026"
+      },
+      "IN": {
+        "name": "Inde",
+        "rates": [
+          "taux normal",
+          "taux « mérite »",
+          "taux spécial sur quelques produits de luxe et produits nocifs"
+        ],
+        "notes": "Depuis le 22 septembre 2025, la GST compte deux tranches principales, 18% et 5%, plus un taux spécial de 40% sur quelques biens et services. Certains articles sont taxés à taux nul.",
+        "source": "GST Council / communiqué de presse du PIB, 3 septembre 2025"
+      },
+      "IE": {
+        "name": "Irlande",
+        "rates": [
+          "taux normal",
+          "taux réduit",
+          "taux réduit"
+        ],
+        "notes": "État membre de l'UE. Les taux réduits ne s'appliquent qu'aux biens et services énumérés par la loi nationale.",
+        "source": "L'Europe est à vous (Union européenne) : taux de TVA dans les pays de l'UE, vérifié le 13/07/2026"
+      },
+      "IT": {
+        "name": "Italie",
+        "rates": [
+          "taux normal",
+          "taux réduit",
+          "taux réduit",
+          "taux super réduit"
+        ],
+        "notes": "État membre de l'UE. Les taux réduits ne s'appliquent qu'aux biens et services énumérés par la loi nationale.",
+        "source": "L'Europe est à vous (Union européenne) : taux de TVA dans les pays de l'UE, vérifié le 13/07/2026"
+      },
+      "LV": {
+        "name": "Lettonie",
+        "rates": [
+          "taux normal",
+          "taux réduit",
+          "taux réduit"
+        ],
+        "notes": "État membre de l'UE. Les taux réduits ne s'appliquent qu'aux biens et services énumérés par la loi nationale.",
+        "source": "L'Europe est à vous (Union européenne) : taux de TVA dans les pays de l'UE, vérifié le 13/07/2026"
+      },
+      "LT": {
+        "name": "Lituanie",
+        "rates": [
+          "taux normal",
+          "taux réduit",
+          "taux réduit"
+        ],
+        "notes": "État membre de l'UE. Les taux réduits ne s'appliquent qu'aux biens et services énumérés par la loi nationale.",
+        "source": "L'Europe est à vous (Union européenne) : taux de TVA dans les pays de l'UE, vérifié le 13/07/2026"
+      },
+      "LU": {
+        "name": "Luxembourg",
+        "rates": [
+          "taux normal",
+          "taux réduit",
+          "taux super réduit",
+          "taux parking"
+        ],
+        "notes": "État membre de l'UE. Les taux réduits ne s'appliquent qu'aux biens et services énumérés par la loi nationale.",
+        "source": "L'Europe est à vous (Union européenne) : taux de TVA dans les pays de l'UE, vérifié le 13/07/2026"
+      },
+      "MT": {
+        "name": "Malte",
+        "rates": [
+          "taux normal",
+          "taux réduit",
+          "taux réduit",
+          "taux parking"
+        ],
+        "notes": "État membre de l'UE. Les taux réduits ne s'appliquent qu'aux biens et services énumérés par la loi nationale.",
+        "source": "L'Europe est à vous (Union européenne) : taux de TVA dans les pays de l'UE, vérifié le 13/07/2026"
+      },
+      "NL": {
+        "name": "Pays-Bas",
+        "rates": [
+          "taux normal",
+          "taux réduit"
+        ],
+        "notes": "État membre de l'UE. Les taux réduits ne s'appliquent qu'aux biens et services énumérés par la loi nationale.",
+        "source": "L'Europe est à vous (Union européenne) : taux de TVA dans les pays de l'UE, vérifié le 13/07/2026"
+      },
+      "NZ": {
+        "name": "Nouvelle-Zélande",
+        "rates": [
+          "taux normal"
+        ],
+        "source": "Inland Revenue (IRD) : GST"
+      },
+      "PK": {
+        "name": "Pakistan",
+        "taxName": "Taxe de vente",
+        "rates": [
+          "taxe de vente normale sur les biens"
+        ],
+        "notes": "Taxe de vente fédérale sur les biens, en vertu de la section 3 du Sales Tax Act de 1990. Les services sont taxés par les provinces à leurs propres taux.",
+        "source": "FBR : Sales Tax Act, 1990 (modifié jusqu'au 30 juin 2025), section 3"
+      },
+      "PL": {
+        "name": "Pologne",
+        "rates": [
+          "taux normal",
+          "taux réduit",
+          "taux réduit"
+        ],
+        "notes": "État membre de l'UE. Les taux réduits ne s'appliquent qu'aux biens et services énumérés par la loi nationale.",
+        "source": "L'Europe est à vous (Union européenne) : taux de TVA dans les pays de l'UE, vérifié le 13/07/2026"
+      },
+      "PT": {
+        "name": "Portugal",
+        "rates": [
+          "taux normal",
+          "taux réduit",
+          "taux réduit",
+          "taux parking"
+        ],
+        "notes": "État membre de l'UE. Les taux réduits ne s'appliquent qu'aux biens et services énumérés par la loi nationale.",
+        "source": "L'Europe est à vous (Union européenne) : taux de TVA dans les pays de l'UE, vérifié le 13/07/2026"
+      },
+      "RO": {
+        "name": "Roumanie",
+        "rates": [
+          "taux normal",
+          "taux réduit"
+        ],
+        "notes": "État membre de l'UE. Les taux réduits ne s'appliquent qu'aux biens et services énumérés par la loi nationale.",
+        "source": "L'Europe est à vous (Union européenne) : taux de TVA dans les pays de l'UE, vérifié le 13/07/2026"
+      },
+      "SA": {
+        "name": "Arabie saoudite",
+        "rates": [
+          "taux normal"
+        ],
+        "source": "ZATCA : guide des modifications du règlement d'application de la TVA (avril 2025)"
+      },
+      "SG": {
+        "name": "Singapour",
+        "rates": [
+          "taux normal (depuis le 1er janvier 2024)"
+        ],
+        "notes": "Certaines livraisons sont taxées à taux zéro ou exonérées.",
+        "source": "IRAS : taux de GST en vigueur"
+      },
+      "SK": {
+        "name": "Slovaquie",
+        "rates": [
+          "taux normal",
+          "taux réduit",
+          "taux réduit"
+        ],
+        "notes": "État membre de l'UE. Les taux réduits ne s'appliquent qu'aux biens et services énumérés par la loi nationale.",
+        "source": "L'Europe est à vous (Union européenne) : taux de TVA dans les pays de l'UE, vérifié le 13/07/2026"
+      },
+      "SI": {
+        "name": "Slovénie",
+        "rates": [
+          "taux normal",
+          "taux réduit",
+          "taux réduit"
+        ],
+        "notes": "État membre de l'UE. Les taux réduits ne s'appliquent qu'aux biens et services énumérés par la loi nationale.",
+        "source": "L'Europe est à vous (Union européenne) : taux de TVA dans les pays de l'UE, vérifié le 13/07/2026"
+      },
+      "ZA": {
+        "name": "Afrique du Sud",
+        "rates": [
+          "taux normal"
+        ],
+        "notes": "Certaines livraisons sont taxées à taux zéro ou exonérées.",
+        "source": "SARS : taxe sur la valeur ajoutée"
+      },
+      "ES": {
+        "name": "Espagne",
+        "rates": [
+          "taux normal",
+          "taux réduit",
+          "taux super réduit"
+        ],
+        "notes": "État membre de l'UE. Les taux réduits ne s'appliquent qu'aux biens et services énumérés par la loi nationale.",
+        "source": "L'Europe est à vous (Union européenne) : taux de TVA dans les pays de l'UE, vérifié le 13/07/2026"
+      },
+      "SE": {
+        "name": "Suède",
+        "rates": [
+          "taux normal",
+          "taux réduit",
+          "taux réduit"
+        ],
+        "notes": "État membre de l'UE. Les taux réduits ne s'appliquent qu'aux biens et services énumérés par la loi nationale.",
+        "source": "L'Europe est à vous (Union européenne) : taux de TVA dans les pays de l'UE, vérifié le 13/07/2026"
+      },
+      "AE": {
+        "name": "Émirats arabes unis",
+        "rates": [
+          "taux normal"
+        ],
+        "notes": "Certaines livraisons sont taxées à taux zéro ou exonérées en vertu de la loi sur la TVA.",
+        "source": "Autorité fiscale fédérale des EAU : décret-loi fédéral n° 8 de 2017 sur la TVA, article 3"
+      },
+      "GB": {
+        "name": "Royaume-Uni",
+        "rates": [
+          "taux normal",
+          "taux réduit (par ex. sièges auto pour enfants, énergie domestique)"
+        ],
+        "notes": "Certains biens et services sont taxés à taux zéro (0%), par exemple la plupart des aliments et les vêtements pour enfants.",
+        "source": "GOV.UK : taux de TVA"
+      },
+      "US": {
+        "name": "États-Unis",
+        "taxName": "Taxe de vente",
+        "notes": "Il n'existe pas de taxe de vente fédérale. Chaque État, et souvent le comté et la ville, fixe son propre taux : saisissez le taux combiné de votre localité."
+      },
+      "CA-AB": {
+        "name": "Canada – Alberta",
+        "rates": [
+          "GST (fédérale)"
+        ],
+        "notes": "Pas de taxe de vente provinciale.",
+        "source": "Agence du revenu du Canada : calculateur et taux de TPS/TVH (GST/HST) (taux au 1er avril 2025)"
+      },
+      "CA-BC": {
+        "name": "Canada – Colombie-Britannique",
+        "rates": [
+          "GST (fédérale)",
+          "GST + PST combinées"
+        ],
+        "notes": "La province perçoit aussi une PST (TVP) de 7% sur le prix avant GST ; l'option combinée additionne les deux.",
+        "source": "Agence du revenu du Canada : calculateur et taux de TPS/TVH (GST/HST) (taux au 1er avril 2025)"
+      },
+      "CA-MB": {
+        "name": "Canada – Manitoba",
+        "rates": [
+          "GST (fédérale)",
+          "GST + PST combinées"
+        ],
+        "notes": "La province perçoit aussi une PST (TVP) de 7% sur le prix avant GST ; l'option combinée additionne les deux.",
+        "source": "Agence du revenu du Canada : calculateur et taux de TPS/TVH (GST/HST) (taux au 1er avril 2025)"
+      },
+      "CA-NB": {
+        "name": "Canada – Nouveau-Brunswick",
+        "taxName": "HST",
+        "rates": [
+          "HST (fédérale + provinciale)"
+        ],
+        "notes": "Une seule taxe de vente harmonisée (HST, ou TVH) couvre les parts fédérale et provinciale.",
+        "source": "Agence du revenu du Canada : calculateur et taux de TPS/TVH (GST/HST) (taux au 1er avril 2025)"
+      },
+      "CA-NL": {
+        "name": "Canada – Terre-Neuve-et-Labrador",
+        "taxName": "HST",
+        "rates": [
+          "HST (fédérale + provinciale)"
+        ],
+        "notes": "Une seule taxe de vente harmonisée (HST, ou TVH) couvre les parts fédérale et provinciale.",
+        "source": "Agence du revenu du Canada : calculateur et taux de TPS/TVH (GST/HST) (taux au 1er avril 2025)"
+      },
+      "CA-NT": {
+        "name": "Canada – Territoires du Nord-Ouest",
+        "rates": [
+          "GST (fédérale)"
+        ],
+        "notes": "Pas de taxe de vente provinciale.",
+        "source": "Agence du revenu du Canada : calculateur et taux de TPS/TVH (GST/HST) (taux au 1er avril 2025)"
+      },
+      "CA-NS": {
+        "name": "Canada – Nouvelle-Écosse",
+        "taxName": "HST",
+        "rates": [
+          "HST (fédérale + provinciale)"
+        ],
+        "notes": "Une seule taxe de vente harmonisée (HST, ou TVH) couvre les parts fédérale et provinciale.",
+        "source": "Agence du revenu du Canada : calculateur et taux de TPS/TVH (GST/HST) (taux au 1er avril 2025)"
+      },
+      "CA-NU": {
+        "name": "Canada – Nunavut",
+        "rates": [
+          "GST (fédérale)"
+        ],
+        "notes": "Pas de taxe de vente provinciale.",
+        "source": "Agence du revenu du Canada : calculateur et taux de TPS/TVH (GST/HST) (taux au 1er avril 2025)"
+      },
+      "CA-ON": {
+        "name": "Canada – Ontario",
+        "taxName": "HST",
+        "rates": [
+          "HST (fédérale + provinciale)"
+        ],
+        "notes": "Une seule taxe de vente harmonisée (HST, ou TVH) couvre les parts fédérale et provinciale.",
+        "source": "Agence du revenu du Canada : calculateur et taux de TPS/TVH (GST/HST) (taux au 1er avril 2025)"
+      },
+      "CA-PE": {
+        "name": "Canada – Île-du-Prince-Édouard",
+        "taxName": "HST",
+        "rates": [
+          "HST (fédérale + provinciale)"
+        ],
+        "notes": "Une seule taxe de vente harmonisée (HST, ou TVH) couvre les parts fédérale et provinciale.",
+        "source": "Agence du revenu du Canada : calculateur et taux de TPS/TVH (GST/HST) (taux au 1er avril 2025)"
+      },
+      "CA-QC": {
+        "name": "Canada – Québec",
+        "rates": [
+          "GST (fédérale)",
+          "GST + QST combinées"
+        ],
+        "notes": "La province perçoit aussi une QST (TVQ) de 9.975% sur le prix avant GST ; l'option combinée additionne les deux.",
+        "source": "Agence du revenu du Canada : calculateur et taux de TPS/TVH (GST/HST) (taux au 1er avril 2025)"
+      },
+      "CA-SK": {
+        "name": "Canada – Saskatchewan",
+        "rates": [
+          "GST (fédérale)",
+          "GST + PST combinées"
+        ],
+        "notes": "La province perçoit aussi une PST (TVP) de 6% sur le prix avant GST ; l'option combinée additionne les deux.",
+        "source": "Agence du revenu du Canada : calculateur et taux de TPS/TVH (GST/HST) (taux au 1er avril 2025)"
+      },
+      "CA-YT": {
+        "name": "Canada – Yukon",
+        "rates": [
+          "GST (fédérale)"
+        ],
+        "notes": "Pas de taxe de vente provinciale.",
+        "source": "Agence du revenu du Canada : calculateur et taux de TPS/TVH (GST/HST) (taux au 1er avril 2025)"
+      }
+    },
+    "customRate": "Taux personnalisé",
+    "countryNote": "{{notes}} Source : <a href=\"{{url}}\" target=\"_blank\" rel=\"noopener noreferrer\">{{source}}</a>, vérifiée le {{date}}.",
+    "priceLabel": {
+      "add": "Prix hors taxe ",
+      "remove": "Prix taxe comprise "
+    },
+    "errors": {
+      "priceRequired": "Veuillez saisir un prix.",
+      "rateRequired": "Veuillez saisir un taux de taxe.",
+      "quantityRequired": "Veuillez saisir une quantité.",
+      "priceNegative": "Le prix ne peut pas être négatif.",
+      "rateRange": "Le taux de taxe doit être compris entre 0% et 100%.",
+      "quantityPositive": "La quantité doit être supérieure à 0.",
+      "customRequired": "Veuillez saisir votre taux de taxe personnalisé."
+    },
+    "result": {
+      "headerAdd": "Total taxe comprise",
+      "headerRemove": "Prix hors taxe",
+      "taxLabel": "Taxe ({{rate}})",
+      "perItem": "Par article : {{net}} hors taxe, {{tax}} de taxe, {{gross}} au total.",
+      "copyAdd": "{{net}} + taxe de {{rate}} ({{tax}}) = {{gross}}.",
+      "copyRemove": "{{gross}} taxe de {{rate}} comprise = {{net}} hors taxe + {{tax}} de taxe."
+    },
+    "steps": {
+      "addFormula": "<strong>Ajouter la taxe :</strong> <code>Total = Prix × (1 + Taux)</code><br>",
+      "addNet": "Prix hors taxe : {{qty}}<code>{{net}}</code><br>",
+      "addTax": "Taxe : {{net}} × {{rate}} = <code>{{tax}}</code><br>",
+      "addTotal": "Total : {{net}} + {{tax}} = <strong>{{gross}}</strong>",
+      "removeFormula": "<strong>Retirer la taxe :</strong> <code>Prix HT = Total ÷ (1 + Taux)</code><br>",
+      "removeGross": "Total taxe comprise : {{qty}}<code>{{gross}}</code><br>",
+      "removeNet": "Prix hors taxe : {{gross}} ÷ {{factor}} = <strong>{{net}}</strong><br>",
+      "removeTax": "Taxe contenue dans le prix : {{gross}} − {{net}} = <code>{{tax}}</code>"
+    },
+    "toast": {
+      "copied": "Calcul de taxe copié dans le presse-papiers"
+    }
+  }
+}

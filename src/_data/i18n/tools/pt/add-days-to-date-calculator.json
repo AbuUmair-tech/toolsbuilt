@@ -1,0 +1,245 @@
+{
+  "listing": {
+    "name": "Somar ou subtrair dias de uma data",
+    "shortName": "Somar ou subtrair dias",
+    "description": "Some ou subtraia dias, semanas, meses ou anos de qualquer data inicial. Modo opcional só com dias úteis.",
+    "shortDescription": "Some ou subtraia dias, semanas, meses ou anos de qualquer data inicial. Modo opcional só com dias úteis.",
+    "keywords": [
+      "somar dias a uma data",
+      "subtrair dias de uma data",
+      "calculadora de datas",
+      "somar dias úteis",
+      "calcular data futura"
+    ]
+  },
+  "title": "Calculadora para somar ou subtrair dias de uma data",
+  "description": "Calculadora de datas grátis: some ou subtraia dias, semanas, meses ou anos de qualquer data inicial, com opção de contar só dias úteis.",
+  "h1": "Somar ou subtrair dias de uma data",
+  "quickAnswer": "Para somar ou subtrair dias de uma data, informe a data inicial, a quantidade de dias, semanas, meses ou anos e escolha somar ou subtrair. Ative os dias úteis para pular sábados e domingos. A calculadora mostra na hora a data resultante, o dia da semana e os dias corridos, tudo localmente no seu navegador.",
+  "formula": {
+    "title": "Fórmula de cálculo com datas e ajuste de fim de mês",
+    "expression": "Data final = data inicial ± (quantidade × unidade)",
+    "explanation": "Dias e semanas avançam em passos sequenciais de 24 horas em UTC. Nos cálculos com meses e anos, o mês é ajustado e, se o dia não existir no mês de destino, ele é limitado ao último dia desse mês. No modo de dias úteis, a contagem avança dia a dia pulando sábados e domingos."
+  },
+  "workedExamples": [
+    {
+      "title": "Somar 10 dias úteis",
+      "inputs": [
+        "Data inicial: sexta-feira, 16 de outubro de 2026",
+        "Operação: somar 10 dias úteis"
+      ],
+      "steps": [
+        "Pular o fim de semana: 17-18 out (sábado-domingo)",
+        "Contar 5 dias úteis: de 19 out a 23 out",
+        "Pular o fim de semana: 24-25 out (sábado-domingo)",
+        "Contar os 5 dias úteis restantes: de 26 out a 30 out"
+      ],
+      "result": "Sexta-feira, 30 de outubro de 2026 (14 dias corridos: 10 úteis, 4 de fim de semana)"
+    },
+    {
+      "title": "Somar 1 mês a um fim de mês (com ajuste)",
+      "inputs": [
+        "Data inicial: domingo, 31 de janeiro de 2027",
+        "Operação: somar 1 mês"
+      ],
+      "steps": [
+        "Avançar o mês de janeiro para fevereiro de 2027",
+        "2027 é um ano comum (não bissexto), então fevereiro tem 28 dias",
+        "Limitar o dia 31 ao último dia do mês, 28"
+      ],
+      "result": "Domingo, 28 de fevereiro de 2027 (28 dias corridos)"
+    },
+    {
+      "title": "Subtrair 90 dias corridos",
+      "inputs": [
+        "Data inicial: sábado, 17 de outubro de 2026",
+        "Operação: subtrair 90 dias corridos"
+      ],
+      "steps": [
+        "Voltar 90 dias corridos consecutivos",
+        "Passa por outubro, setembro, agosto e julho"
+      ],
+      "result": "Domingo, 19 de julho de 2026 (90 dias corridos)"
+    },
+    {
+      "title": "Somar 3 semanas",
+      "inputs": [
+        "Data inicial: domingo, 1 de março de 2026",
+        "Operação: somar 3 semanas"
+      ],
+      "steps": [
+        "Converter 3 semanas em 21 dias corridos (3 × 7)",
+        "Avançar 21 dias corridos a partir de 1 de março de 2026"
+      ],
+      "result": "Domingo, 22 de março de 2026 (21 dias corridos)"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Achar que 30 dias são 1 mês",
+      "description": "Os meses têm entre 28 e 31 dias. Somar 30 dias a 1 de janeiro cai em 31 de janeiro, enquanto somar 1 mês cai em 1 de fevereiro."
+    },
+    {
+      "title": "Achar que 5 dias úteis são 5 dias corridos",
+      "description": "Os dias úteis pulam sábados e domingos. Somar 5 dias úteis sempre abrange pelo menos 7 dias corridos."
+    },
+    {
+      "title": "Não ajustar o estouro do mês",
+      "description": "Somar 1 mês a 31 de janeiro deve resultar em 28 de fevereiro (ou 29 em anos bissextos). Uma conta ingênua pode acabar caindo em março sem querer."
+    },
+    {
+      "title": "Ignorar efeitos do horário de verão",
+      "description": "Somas de 24 horas no horário local podem ficar 1 hora fora nos dias de troca de horário. Normalizar para a meia-noite UTC garante o alinhamento exato com o calendário."
+    }
+  ],
+  "sources": [
+    {
+      "name": "Normas de aritmética de calendário ISO 8601"
+    },
+    {
+      "name": "Calendário astronômico e anos bissextos do US Naval Observatory"
+    },
+    {
+      "name": "Nota do W3C sobre formatos de data e hora"
+    }
+  ],
+  "howto": {
+    "name": "Como somar ou subtrair dias de uma data",
+    "description": "Instruções passo a passo para calcular datas com dias corridos ou só dias úteis.",
+    "steps": [
+      {
+        "name": "Escolha a data inicial",
+        "text": "Selecione a data inicial ou clique em 'Hoje' para usar a data atual."
+      },
+      {
+        "name": "Escolha a operação",
+        "text": "Escolha se quer somar (+) para ir ao futuro ou subtrair (-) para voltar ao passado."
+      },
+      {
+        "name": "Informe a quantidade e a unidade",
+        "text": "Digite o número e escolha dias, semanas, meses ou anos na lista."
+      },
+      {
+        "name": "Filtre os dias úteis (opcional)",
+        "text": "Marque 'Contar só dias úteis' se quiser pular sábados e domingos."
+      },
+      {
+        "name": "Confira a data final e os detalhes",
+        "text": "Veja a data resultante, o dia da semana e a duração total decorrida."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Como o cálculo de dias úteis exclui os fins de semana?",
+      "a": "Quando você marca a opção de dias úteis, a calculadora pula sábados e domingos na contagem. Ao somar 5 dias úteis a partir de uma sexta-feira, a ferramenta avança de segunda a sexta e chega à data exata em dias de trabalho."
+    },
+    {
+      "q": "Como os anos bissextos são tratados ao somar anos ou meses?",
+      "a": "A ferramenta considera os anos bissextos automaticamente. Somar 365 dias corridos atravessando um ano bissexto leva em conta o 29 de fevereiro, garantindo o alinhamento exato com o calendário sem correção manual."
+    },
+    {
+      "q": "Posso calcular datas no passado subtraindo dias?",
+      "a": "Sim, basta escolher Subtrair na lista de operações. Você pode voltar em dias, semanas, meses ou anos para descobrir datas exatas do passado, como o início de um contrato, prazos de aviso prévio ou pesquisas históricas."
+    },
+    {
+      "q": "O que acontece se eu somar um mês a 31 de janeiro?",
+      "a": "O cálculo padrão de calendário ajusta o estouro de fim de mês para o último dia válido do mês de destino. Por exemplo, somar um mês a 31 de janeiro dá 28 de fevereiro (ou 29 de fevereiro em anos bissextos)."
+    },
+    {
+      "q": "As datas que informo ficam armazenadas em servidores externos?",
+      "a": "Não. Todos os cálculos de data são feitos localmente no seu navegador, com JavaScript. Nenhuma data informada ou resultado calculado é enviado a servidores externos ou registrado em banco de dados."
+    },
+    {
+      "q": "Como a calculadora faz a subtração de datas?",
+      "a": "Ao escolher Subtrair, a calculadora volta no tempo em dias, semanas, meses ou anos. O algoritmo respeita os limites dos meses e os dias bissextos da mesma forma, no sentido inverso."
+    },
+    {
+      "q": "O contador de dias úteis pula feriados bancários?",
+      "a": "A ferramenta exclui automaticamente os fins de semana (sábado e domingo). Os feriados bancários e oficiais variam de país para país e de região para região e não são descontados automaticamente."
+    }
+  ],
+  "body": {
+    "label": {
+      "startDate": "Data inicial",
+      "operation": "Operação",
+      "amount": "Quantidade",
+      "unit": "Unidade"
+    },
+    "text": {
+      "todayBtn": "Hoje",
+      "businessDaysLabel": "<input type=\"checkbox\" id=\"businessDaysOnly\" data-param=\"biz\" autocomplete=\"off\">\n      <span>Contar só dias úteis (sem sábados e domingos)</span>",
+      "businessDaysNote": "Os dias úteis valem para dias e semanas. Meses e anos sempre usam datas do calendário.",
+      "calcBtn": "Calcular",
+      "resetBtn": "Redefinir",
+      "copyResultBtn": "<span data-icon=\"copy\"></span> Copiar resultado",
+      "primaryResult": "Escolha as opções para calcular..."
+    },
+    "option": {
+      "operation": {
+        "add": "Somar (+)",
+        "subtract": "Subtrair (-)"
+      },
+      "unit": {
+        "days": "Dias",
+        "weeks": "Semanas",
+        "months": "Meses",
+        "years": "Anos"
+      }
+    },
+    "content": {
+      "tool": {
+        "span1": "Data resultante"
+      },
+      "why-is-accurate-date-arithmetic-essential": {
+        "heading": "Por que calcular datas com precisão é essencial?",
+        "p1": "Calcular datas com precisão é fundamental no planejamento de projetos, em contratos, em previsões financeiras e na agenda pessoal. Contar dias à mão no calendário costuma gerar erros por causa dos meses de tamanhos diferentes, dos fins de semana e dos dias bissextos. Fazer as contas automaticamente no navegador garante a data exata no calendário todas as vezes."
+      },
+      "how-business-day-filtering-works": {
+        "heading": "Como funciona o filtro de dias úteis",
+        "p1": "No planejamento de um negócio, os dias corridos muitas vezes não refletem os prazos reais de trabalho. Entregas de projetos, prazos de pagamento e prazos legais de aviso costumam ser definidos em dias úteis. Com o filtro de dias úteis ativado, a calculadora pula sábados e domingos, para que os prazos reflitam os dias reais de funcionamento."
+      }
+    },
+    "title": {
+      "copyResultBtn": "Copiar o resultado para a área de transferência"
+    },
+    "ariaLabel": {
+      "copyResultBtn": "Copiar o resultado para a área de transferência"
+    }
+  },
+  "client": {
+    "units": {
+      "days": "dias",
+      "weeks": "semanas",
+      "months": "meses",
+      "years": "anos"
+    },
+    "errors": {
+      "invalidStart": "Informe uma data inicial válida (AAAA-MM-DD).",
+      "invalidAmount": "Quantidade inválida \"{{amount}}\". Digite um número inteiro não negativo (ex.: 5, e não \"5abc\" ou \"1.9\").",
+      "nonNegative": "Digite um número inteiro não negativo válido.",
+      "tooLarge": "A quantidade {{amount}} {{unit}} passa do limite máximo de cerca de 10 mil anos. Digite um valor menor.",
+      "unsupportedUnit": "Unidade de calendário não suportada: \"{{unit}}\".",
+      "missingStart": "Informe uma data inicial válida.",
+      "missingAmount": "Informe uma quantidade válida e não negativa."
+    },
+    "stats": {
+      "operationLabel": "Operação",
+      "operation": {
+        "add": "Somados {{amount}} {{unit}}",
+        "subtract": "Subtraídos {{amount}} {{unit}}",
+        "addBusiness": "Somados {{amount}} {{unit}} (só dias úteis)",
+        "subtractBusiness": "Subtraídos {{amount}} {{unit}} (só dias úteis)"
+      },
+      "isoDate": "Data ISO 8601",
+      "elapsedDays": "Dias corridos",
+      "businessDays": "Dias úteis",
+      "daysValue": "{{n}} dias",
+      "businessDaysValue": "{{n}} dias ({{weekend}} de fim de semana)"
+    },
+    "copy": {
+      "result": "Data resultante: {{date}} ({{iso}}). Dias corridos: {{elapsed}}. Dias úteis: {{business}}.",
+      "toast": "Data resultante copiada para a área de transferência"
+    }
+  }
+}

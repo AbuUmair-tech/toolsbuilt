@@ -1,0 +1,254 @@
+{
+  "listing": {
+    "name": "Calculadora de margen de ganancia y markup",
+    "shortName": "Margen de ganancia",
+    "description": "Calcula la ganancia, el margen y el markup a partir del costo y el precio, o el precio de venta que da un margen o markup objetivo.",
+    "shortDescription": "Ganancia, margen y markup a partir del costo y el precio, o un precio a partir de un margen objetivo.",
+    "keywords": [
+      "calculadora de margen de ganancia",
+      "calculadora de markup",
+      "margen vs markup",
+      "margen bruto",
+      "calcular precio de venta",
+      "convertir markup a margen",
+      "calculadora de precios"
+    ]
+  },
+  "title": "Calculadora de margen de ganancia: margen vs markup",
+  "description": "Calculadora de margen de ganancia: halla la ganancia, el margen y el markup con costo y precio, o el precio para un margen objetivo. Incluye tabla.",
+  "h1": "Calculadora de margen de ganancia y markup",
+  "quickAnswer": "En la calculadora de margen de ganancia, el margen es la ganancia como porcentaje del precio de venta; el markup (margen sobre costo) es la ganancia como porcentaje del costo. Un artículo que cuesta 60 y se vende a 100 deja 40 de ganancia, un margen del 40% y un markup del 66.67%. Para lograr un margen objetivo, precio = costo ÷ (1 − margen), así que un margen del 25% sobre un costo de 75 exige un precio de 100.",
+  "formula": {
+    "title": "Fórmulas de margen y markup",
+    "expression": "Ganancia = Precio − Costo   ·   Margen % = Ganancia ÷ Precio × 100   ·   Markup % = Ganancia ÷ Costo × 100",
+    "explanation": "El margen y el markup usan la misma ganancia, pero la dividen entre números distintos, por eso el markup siempre es el porcentaje mayor. Para hallar el precio a partir de un margen objetivo, divide el costo entre (1 − margen ÷ 100). Para hallarlo a partir de un markup, multiplica el costo por (1 + markup ÷ 100). Ambos se convierten directamente: markup = margen ÷ (1 − margen) y margen = markup ÷ (1 + markup), escritos los dos como decimales.",
+    "variables": [
+      {
+        "name": "Costo",
+        "description": "Lo que te cuesta el artículo: el precio de compra, o los materiales y la mano de obra si lo fabricas tú."
+      },
+      {
+        "name": "Precio",
+        "description": "El precio de venta antes del impuesto sobre las ventas o el VAT."
+      },
+      {
+        "name": "Margen",
+        "description": "La parte del precio de venta que te quedas como ganancia bruta. Siempre por debajo del 100%."
+      },
+      {
+        "name": "Markup",
+        "description": "Cuánto añades sobre el costo, como porcentaje del costo. Puede superar el 100%."
+      }
+    ]
+  },
+  "workedExamples": [
+    {
+      "title": "Costo 60, precio 100",
+      "inputs": [
+        "Costo: 60",
+        "Precio de venta: 100"
+      ],
+      "steps": [
+        "Ganancia: 100 − 60 = 40",
+        "Margen: 40 ÷ 100 = 40%",
+        "Markup: 40 ÷ 60 = 66.67%"
+      ],
+      "result": "Ganancia 40, margen 40%, markup 66.67%"
+    },
+    {
+      "title": "Precio para un margen del 25% con un costo de 75",
+      "inputs": [
+        "Costo: 75",
+        "Margen objetivo: 25%"
+      ],
+      "steps": [
+        "Precio = 75 ÷ (1 − 0.25) = 75 ÷ 0.75 = 100",
+        "Comprobación: ganancia 25 ÷ precio 100 = 25% de margen"
+      ],
+      "result": "Precio de venta 100 (un markup del 33.33%)"
+    },
+    {
+      "title": "Precio para un markup del 25% con un costo de 80",
+      "inputs": [
+        "Costo: 80",
+        "Markup: 25%"
+      ],
+      "steps": [
+        "Precio = 80 × (1 + 0.25) = 100",
+        "Margen: ganancia 20 ÷ precio 100 = 20%"
+      ],
+      "result": "Precio de venta 100 (un margen del 20%)"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Sumar el porcentaje de margen al costo",
+      "description": "Sumar un 25% a un costo de 75 da 93.75, que es un <em>markup</em> del 25% y solo un 20% de margen. Para un margen del 25% hay que dividir: 75 ÷ 0.75 = 100."
+    },
+    {
+      "title": "Tratar el margen y el markup como lo mismo",
+      "description": "Un markup del 50% es un margen del 33.3%, y un margen del 50% es un markup del 100%. Deja claro a cuál te refieres en listas de precios, negociaciones con proveedores y planes de comisiones."
+    },
+    {
+      "title": "Esperar un margen superior al 100%",
+      "description": "El margen es una parte del precio de venta, así que nunca puede llegar al 100% salvo que el costo sea cero. Si ves una cifra superior al 100%, es un markup."
+    },
+    {
+      "title": "Olvidar costos",
+      "description": "El margen bruto usa el costo directo del artículo. El envío, las comisiones de pago, el embalaje y las devoluciones también son costos reales; inclúyelos en el costo si quieres el margen que de verdad te queda."
+    },
+    {
+      "title": "Incluir el impuesto sobre las ventas o el VAT en el precio",
+      "description": "El impuesto que cobras para el Estado no es un ingreso. Usa el precio de venta sin impuestos o el margen parecerá mayor de lo que es."
+    }
+  ],
+  "sources": [
+    {
+      "name": "Publicación 334 del IRS: guía fiscal para pequeñas empresas (ganancia bruta y costo de los bienes vendidos)"
+    },
+    {
+      "name": "SEC de EE. UU.: guía para principiantes sobre estados financieros (ganancia bruta y márgenes)"
+    },
+    {
+      "name": "GOV.UK: tipos de VAT (excluir los impuestos del precio de venta)"
+    }
+  ],
+  "howto": {
+    "name": "Cómo calcular el margen de ganancia y el markup",
+    "description": "Calcula el margen y el markup a partir de un costo y un precio, o un precio a partir de un margen o markup objetivo.",
+    "steps": [
+      {
+        "name": "Elige lo que sabes",
+        "text": "Elige Precio para obtener el margen y el markup de un precio de venta, o Margen o Markup para obtener el precio que da un margen o markup objetivo."
+      },
+      {
+        "name": "Introduce el costo",
+        "text": "Escribe lo que te cuesta el artículo, incluidos los costos directos que quieras cubrir."
+      },
+      {
+        "name": "Introduce el precio, el margen o el markup",
+        "text": "Escribe el precio de venta sin impuestos, o el margen o markup que quieres."
+      },
+      {
+        "name": "Lee los resultados",
+        "text": "Ve la ganancia, el margen, el markup y el precio de venta uno al lado del otro."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "¿Qué diferencia hay entre margen y markup?",
+      "a": "Ambos parten de la misma ganancia (precio − costo). El margen la divide entre el precio de venta; el markup, entre el costo. Un costo de 60 y un precio de 100 dan un margen del 40% pero un markup del 66.67%."
+    },
+    {
+      "q": "¿Cómo calculo el margen de ganancia?",
+      "a": "Resta el costo al precio de venta para obtener la ganancia, divide la ganancia entre el precio de venta y multiplica por 100. Precio 100 y costo 60: (100 − 60) ÷ 100 = 40%."
+    },
+    {
+      "q": "¿Cómo calculo el precio de venta a partir del margen que quiero?",
+      "a": "Divide el costo entre (1 − margen en decimal). Para un margen del 25% con un costo de 75: 75 ÷ 0.75 = 100."
+    },
+    {
+      "q": "¿Cómo convierto el markup en margen?",
+      "a": "Margen = markup ÷ (1 + markup), en decimales. Un markup del 25% es 0.25 ÷ 1.25 = 20% de margen; un markup del 100% es un margen del 50%."
+    },
+    {
+      "q": "¿Cuánto margen es un markup del 50%?",
+      "a": "Un markup del 50% es un margen del 33.33%. Un costo de 100 con un markup del 50% se vende a 150, y 50 de ganancia ÷ 150 de precio = 33.33%."
+    },
+    {
+      "q": "¿El margen de ganancia puede ser negativo?",
+      "a": "Sí. Si vendes por debajo del costo, la ganancia es negativa, y también el margen y el markup. La calculadora lo muestra como una pérdida."
+    },
+    {
+      "q": "¿Qué es un buen margen de ganancia?",
+      "a": "Depende del sector, del modelo de negocio y de si hablas de margen bruto o neto. Compárate con negocios como el tuyo e incluye todos tus costos antes de fijar un objetivo."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Calculadora de margen de ganancia",
+      "tool-div1": "Calcula el margen a partir de un precio, o un precio a partir de un margen o markup",
+      "copy-result-btn": "Copiar el resultado al portapapeles"
+    },
+    "text": {
+      "tab-price": "Precio",
+      "tab-margin": "Margen",
+      "tab-markup": "Markup",
+      "reset-btn": "Restablecer",
+      "result-header-text": "Margen de ganancia",
+      "copy-result-btn": "<span data-icon=\"copy\"></span> Copiar resultado"
+    },
+    "label": {
+      "cost": "Costo <span class=\"text-accent\">*</span>",
+      "price": "Precio de venta <span class=\"text-accent\">*</span>",
+      "margin": "Margen objetivo (%) <span class=\"text-accent\">*</span>",
+      "markup": "Markup (%) <span class=\"text-accent\">*</span>"
+    },
+    "content": {
+      "tool": {
+        "button1": "Calcular",
+        "summary1": "Paso a paso"
+      },
+      "margin-vs-markup-at-a-glance": {
+        "heading": "Margen vs markup de un vistazo",
+        "p1": "El margen y el markup describen la misma ganancia desde dos direcciones. El margen responde a \"¿cuánto me quedo de cada venta?\", y el markup a \"¿cuánto añadí a mi costo?\". Como el precio de venta siempre es mayor que el costo cuando hay ganancia, el porcentaje de margen siempre es el menor de los dos.",
+        "caption1": "Margen y markup de un artículo que cuesta 100",
+        "th1": "Precio de venta",
+        "th2": "Ganancia",
+        "th3": "Margen (sobre el precio)",
+        "th4": "Markup (sobre el costo)",
+        "p2": "Lee cada fila para convertir: un markup del 25% es un margen del 20%, y un margen del 50% necesita un markup del 100%. A medida que el margen se acerca al 100%, el markup crece sin límite; por eso los márgenes de más del 100% son imposibles, mientras que los markups del 200% o el 300% son habituales en artículos de bajo costo."
+      },
+      "which-one-should-you-use": {
+        "heading": "¿Cuál deberías usar?",
+        "li1": "<strong>Fijar precios a partir de costos:</strong> el markup es rápido para una lista de precios (\"costo más 40%\"), pero comprueba siempre el margen que te deja.",
+        "li2": "<strong>Planificación e informes:</strong> el margen coincide con la forma en que los estados financieros presentan la ganancia bruta y permite comparar productos con precios muy distintos.",
+        "li3": "<strong>Descuentos:</strong> un descuento se resta del precio de venta, así que reduce el margen directamente. Un descuento del 20% en un producto con un margen del 20% se come toda la ganancia.",
+        "li4": "<strong>Al hablar con proveedores y empleados:</strong> di \"margen\" o \"markup\" de forma explícita; \"40% de ganancia\" es ambiguo.",
+        "p1": "Esta calculadora obtiene el margen bruto de un solo artículo: el precio de venta menos su costo directo. El margen neto también resta gastos generales como el alquiler, los sueldos, el marketing y los impuestos, por lo que siempre es menor que el margen bruto."
+      }
+    },
+    "title": {
+      "copy-result-btn": "Copiar el resultado al portapapeles"
+    }
+  },
+  "client": {
+    "errors": {
+      "costEmpty": "Introduce el costo.",
+      "costInvalid": "El costo debe ser 0 o un número positivo.",
+      "priceEmpty": "Introduce el precio de venta.",
+      "priceInvalid": "El precio de venta debe ser mayor que 0.",
+      "marginEmpty": "Introduce el margen objetivo.",
+      "marginInvalid": "El margen debe ser un número.",
+      "marginMax": "El margen debe ser inferior al 100%: con un 100% la ganancia sería todo el precio, lo que exige un costo de 0.",
+      "markupEmpty": "Introduce el markup.",
+      "markupInvalid": "El markup debe ser un número.",
+      "markupMin": "Un markup de −100% o menos haría que el precio fuera 0 o negativo."
+    },
+    "result": {
+      "loss": "Pérdida en esta venta",
+      "margin": "Margen de ganancia",
+      "marginAndMarkup": "{{margin}} de margen · {{markup}} de markup",
+      "sellingPrice": "Precio de venta",
+      "lossNote": "El precio de venta es inferior al costo, así que esta venta genera una pérdida.",
+      "copy": "Costo {{cost}}, precio {{price}}: ganancia {{profit}}, margen {{margin}}, markup {{markup}}"
+    },
+    "stats": {
+      "sellingPrice": "Precio de venta",
+      "cost": "Costo",
+      "loss": "Pérdida",
+      "profit": "Ganancia",
+      "margin": "Margen (sobre el precio)",
+      "markup": "Markup (sobre el costo)",
+      "markupUndefined": "No definido (el costo es 0)"
+    },
+    "steps": {
+      "priceFromMargin": "Precio = costo ÷ (1 − margen) = {{cost}} ÷ (1 − {{margin}}) = {{price}}",
+      "priceFromMarkup": "Precio = costo × (1 + markup) = {{cost}} × (1 + {{markup}}) = {{price}}",
+      "profit": "Ganancia = precio − costo = {{price}} − {{cost}} = {{profit}}",
+      "margin": "Margen = ganancia ÷ precio = {{profit}} ÷ {{price}} = {{margin}}",
+      "markup": "Markup = ganancia ÷ costo = {{profit}} ÷ {{cost}} = {{markup}}"
+    }
+  }
+}

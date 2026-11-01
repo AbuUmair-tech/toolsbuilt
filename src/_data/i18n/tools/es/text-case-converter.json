@@ -1,0 +1,242 @@
+{
+  "listing": {
+    "name": "Conversor de mayúsculas y minúsculas",
+    "shortName": "Mayúsculas y minúsculas",
+    "description": "Convierte texto al instante entre MAYÚSCULAS, minúsculas, Tipo Título, Tipo oración, camelCase, snake_case y kebab-case.",
+    "shortDescription": "Convierte texto al instante entre MAYÚSCULAS, minúsculas, Tipo Título, Tipo oración, camelCase, snake_case y kebab-case.",
+    "keywords": [
+      "conversor de mayúsculas y minúsculas",
+      "pasar de mayúsculas a minúsculas",
+      "convertir texto a mayúsculas",
+      "conversor camelcase",
+      "snake case"
+    ]
+  },
+  "title": "Conversor de mayúsculas y minúsculas online gratis",
+  "description": "Conversor de mayúsculas y minúsculas: pasa texto a MAYÚSCULAS, minúsculas, Tipo Título, Tipo oración, camelCase, PascalCase, snake_case o kebab-case.",
+  "h1": "Conversor de mayúsculas y minúsculas",
+  "quickAnswer": "Para cambiar el formato de tu texto con este conversor de mayúsculas y minúsculas, pega el contenido en el cuadro de entrada y elige un estilo. La herramienta transforma el texto al instante a MAYÚSCULAS, minúsculas, Tipo Título, Tipo oración, camelCase, PascalCase, snake_case, kebab-case y más, conservando la puntuación y los caracteres Unicode, todo en tu navegador.",
+  "formula": {
+    "title": "Reglas de transformación y tokenización",
+    "expression": "Transformed Text = ApplyCaseTransform(TokenizeWords(InputString, UnicodeRegex), StyleRule)",
+    "explanation": "El texto de entrada se divide en palabras con escapes de propiedades Unicode de letra (\\p{L}). Luego las palabras se reorganizan según las reglas de cada estilo: las reglas de palabras menores del Chicago Manual of Style para Tipo Título, o los separadores de guion bajo o guion para identificadores de programación."
+  },
+  "workedExamples": [
+    {
+      "title": "Titular a Tipo Título (estilo Chicago)",
+      "inputs": [
+        "Entrada: 'the quick brown fox jumps over the lazy dog'",
+        "Estilo de destino: Tipo Título"
+      ],
+      "steps": [
+        "Divide las palabras según los espacios en blanco Unicode",
+        "Pon en mayúscula la primera y la última palabra ('The', 'Dog')",
+        "Pon en mayúscula las palabras principales ('Quick', 'Brown', 'Fox', 'Jumps', 'Lazy')",
+        "Deja en minúscula las preposiciones y artículos menores ('over', 'the')"
+      ],
+      "result": "'The Quick Brown Fox Jumps Over the Lazy Dog'"
+    },
+    {
+      "title": "Título a camelCase (identificador de JavaScript)",
+      "inputs": [
+        "Entrada: 'user profile setting'",
+        "Estilo de destino: camelCase"
+      ],
+      "steps": [
+        "Extrae las palabras alfanuméricas: ['user', 'profile', 'setting']",
+        "Pon en minúscula la primera palabra: 'user'",
+        "Pon en mayúscula la primera letra de las palabras siguientes: 'Profile', 'Setting'",
+        "Une las palabras sin espacios"
+      ],
+      "result": "'userProfileSetting'"
+    },
+    {
+      "title": "Título a kebab-case (slug de URL)",
+      "inputs": [
+        "Entrada: 'Annual Financial Report 2026'",
+        "Estilo de destino: kebab-case"
+      ],
+      "steps": [
+        "Divide en palabras: ['Annual', 'Financial', 'Report', '2026']",
+        "Convierte todos los caracteres a minúsculas",
+        "Une las palabras con guiones (-)"
+      ],
+      "result": "'annual-financial-report-2026'"
+    },
+    {
+      "title": "Mayúsculas en Tipo oración",
+      "inputs": [
+        "Entrada: 'hello world! this is a test. here is another one.'",
+        "Estilo de destino: Tipo oración"
+      ],
+      "steps": [
+        "Identifica los signos de fin de oración (. ! ?)",
+        "Pon en mayúscula la letra inicial de cada oración",
+        "Deja el resto de los caracteres de la oración en minúscula"
+      ],
+      "result": "'Hello world! This is a test. Here is another one.'"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Poner en mayúscula las preposiciones menores en Tipo Título",
+      "description": "En los estilos Chicago y AP para títulos en inglés, las preposiciones, artículos y conjunciones de menos de cuatro letras (p. ej., 'in', 'on', 'the', 'and', 'for') van en minúscula salvo al inicio de una oración."
+    },
+    {
+      "title": "Romper caracteres Unicode y acentuados",
+      "description": "Una conversión simple basada en expresiones regulares ASCII falla con letras acentuadas como 'é' o con alfabetos no latinos; hay que usar escapes de propiedades Unicode (\\p{L})."
+    },
+    {
+      "title": "Perder los separadores al convertir código",
+      "description": "Convertir código en camelCase o snake_case a Tipo oración elimina los separadores de programación. Guarda una copia o usa el botón Deshacer."
+    },
+    {
+      "title": "Aplicar Tipo Título a texto todo en mayúsculas",
+      "description": "Si se pasa texto en mayúsculas a un motor de Tipo Título sin convertirlo antes a minúsculas, las preposiciones menores quedan en mayúscula. Nuestro algoritmo normaliza primero las palabras."
+    }
+  ],
+  "sources": [
+    {
+      "name": "The Chicago Manual of Style: reglas de mayúsculas en encabezados y títulos"
+    },
+    {
+      "name": "Unicode Standard Annex #29: segmentación de texto Unicode"
+    },
+    {
+      "name": "W3C Internationalization (i18n): normas de conversión entre mayúsculas y minúsculas"
+    }
+  ],
+  "howto": {
+    "name": "Cómo convertir mayúsculas y minúsculas online",
+    "description": "Guía paso a paso para convertir texto entre 12 formatos distintos de mayúsculas y minúsculas con ToolsBuilt.",
+    "steps": [
+      {
+        "name": "Pega tu contenido",
+        "text": "Pega o escribe tu texto sin formato en el área de texto."
+      },
+      {
+        "name": "Elige un estilo",
+        "text": "Haz clic en cualquiera de los 12 botones de transformación (como Tipo Título, MAYÚSCULAS, camelCase o CONSTANT_CASE)."
+      },
+      {
+        "name": "Copia o deshaz",
+        "text": "Haz clic en Copiar texto para copiar el resultado al portapapeles, o en Deshacer si quieres volver atrás."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "¿Cómo se cambian mayúsculas y minúsculas de un texto online?",
+      "a": "Pega tu texto en el cuadro del conversor y haz clic en cualquier botón de transformación, como MAYÚSCULAS, minúsculas, Tipo Título o Tipo oración. El texto se actualiza al instante en tu navegador."
+    },
+    {
+      "q": "¿Cuál es la diferencia entre Tipo Título y Capitalizar palabras?",
+      "a": "Tipo Título pone en mayúscula las palabras principales, pero deja en minúscula los artículos y preposiciones menores (como 'in', 'the', 'of', 'and', 'for') salvo que sean la primera o la última palabra. Capitalizar palabras pone en mayúscula la primera letra de todas las palabras, sin excepción."
+    },
+    {
+      "q": "¿Cuál es la diferencia entre camelCase, PascalCase, snake_case y kebab-case?",
+      "a": "camelCase empieza en minúscula y pone en mayúscula las palabras siguientes, sin espacios (p. ej., 'myVariable'). PascalCase pone en mayúscula todas las palabras, incluida la primera ('MyVariable'). snake_case separa las palabras con guiones bajos en minúscula ('my_variable'). kebab-case separa las palabras con guiones ('my-variable')."
+    },
+    {
+      "q": "¿Puedo deshacer una conversión si no me gusta el resultado?",
+      "a": "Sí. Haz clic en el botón Deshacer para volver al texto anterior en cualquier momento."
+    },
+    {
+      "q": "¿Mi texto es privado cuando uso el conversor?",
+      "a": "Sí. Toda la lógica de transformación se ejecuta solo en la memoria local de tu navegador mediante JavaScript. Tu texto nunca se guarda en URL ni en cookies, y nunca se envía a servidores remotos."
+    },
+    {
+      "q": "¿El conversor admite otros idiomas y caracteres acentuados?",
+      "a": "Sí. El motor de texto usa escapes de propiedades Unicode (\\p{L}) para manejar sin problemas tildes, diéresis y alfabetos internacionales como el español, el francés o el alemán."
+    },
+    {
+      "q": "¿Para qué se usa CONSTANT_CASE?",
+      "a": "CONSTANT_CASE convierte el texto a mayúsculas con guiones bajos, la convención de nombres estándar para variables globales, constantes inmutables y variables de entorno en programación."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Formulario del conversor de mayúsculas y minúsculas"
+    },
+    "label": {
+      "text-input": "<span>Escribe o pega tu texto abajo:</span>"
+    },
+    "placeholder": {
+      "text-input": "Escribe o pega texto aquí y luego haz clic en cualquier botón de estilo..."
+    },
+    "text": {
+      "char-stats": "0 caracteres (0 sin espacios) | 0 palabras | 0 líneas",
+      "copy-btn": "<span data-icon=\"copy\"></span> Copiar texto",
+      "undo-btn": "Deshacer",
+      "clear-btn": "Borrar texto"
+    },
+    "content": {
+      "tool": {
+        "label1": "Elige el estilo de conversión (12 disponibles):",
+        "button1": "MAYÚSCULAS",
+        "button2": "minúsculas",
+        "button3": "Tipo Título",
+        "button4": "Tipo oración",
+        "button5": "Capitalizar Palabras",
+        "button6": "camelCase",
+        "button7": "PascalCase",
+        "button8": "snake_case",
+        "button9": "kebab-case",
+        "button10": "CONSTANT_CASE",
+        "button11": "dot.case",
+        "button12": "aLtErNaDo"
+      },
+      "how-when-to-use-the-text": {
+        "heading": "Cómo y cuándo usar el conversor de mayúsculas y minúsculas",
+        "li1": "<strong>Desarrollo de software y programación:</strong> convierte entradas de usuario o definiciones de esquemas a convenciones de código estándar (p. ej., `camelCase` para variables de JavaScript, `snake_case` para columnas de Python o bases de datos, o `CONSTANT_CASE` para variables de entorno globales).",
+        "li2": "<strong>Titulares de blogs y artículos:</strong> convierte títulos de borrador desordenados en un elegante Tipo Título al estilo Chicago, con las preposiciones menores en minúscula.",
+        "li3": "<strong>Corregir el BLOQ MAYÚS activado por error:</strong> recupera oraciones escritas con el bloqueo de mayúsculas activado sin tener que volver a escribir los párrafos.",
+        "li4": "<strong>Slugs de URL para SEO:</strong> convierte los titulares de tus artículos en slugs `kebab-case` aptos para buscadores en las URL de tu sitio web."
+      },
+      "case-style-reference-developer-conventions": {
+        "heading": "Referencia de estilos y convenciones de desarrollo",
+        "th1": "Estilo",
+        "th2": "Ejemplo de salida",
+        "th3": "Uso habitual",
+        "td1": "MAYÚSCULAS",
+        "td2": "<code>HELLO WORLD</code>",
+        "td3": "Titulares, advertencias, siglas",
+        "td4": "minúsculas",
+        "td5": "<code>hello world</code>",
+        "td6": "Direcciones de correo, normalización de búsquedas",
+        "td7": "Tipo Título",
+        "td8": "<code>The Return of the King</code>",
+        "td9": "Títulos de libros en inglés, artículos editoriales",
+        "td10": "Tipo oración",
+        "td11": "<code>Hello world. Good morning.</code>",
+        "td12": "Texto corrido, documentación para usuarios",
+        "td13": "camelCase",
+        "td14": "<code>helloWorld</code>",
+        "td15": "Nombres de variables y métodos en JavaScript y Java",
+        "td16": "PascalCase",
+        "td17": "<code>HelloWorld</code>",
+        "td18": "Clases en C#, Java, Python y TypeScript",
+        "td19": "snake_case",
+        "td20": "<code>hello_world</code>",
+        "td21": "Variables de Python, columnas de bases de datos SQL",
+        "td22": "kebab-case",
+        "td23": "<code>hello-world</code>",
+        "td24": "Slugs de URL, clases CSS, atributos HTML",
+        "td25": "CONSTANT_CASE",
+        "td26": "<code>HELLO_WORLD</code>",
+        "td27": "Variables de entorno, constantes inmutables",
+        "td28": "dot.case",
+        "td29": "<code>hello.world</code>",
+        "td30": "Rutas de propiedades, claves de configuración"
+      }
+    }
+  },
+  "client": {
+    "stats": "{{characters}} caracteres ({{noSpaces}} sin espacios) | {{words}} palabras | {{lines}} líneas",
+    "toast": {
+      "converted": "Convertido a {{style}}",
+      "restored": "Texto anterior restaurado",
+      "copied": "Texto convertido copiado al portapapeles"
+    }
+  }
+}

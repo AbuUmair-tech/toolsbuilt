@@ -1,0 +1,180 @@
+{
+  "listing": {
+    "name": "Formatador de Java",
+    "shortName": "Formatador de Java",
+    "description": "Formate código Java online com Prettier e prettier-plugin-java. Escolha recuo de 2 ou 4 espaços e a largura da linha; roda com privacidade no navegador.",
+    "shortDescription": "Formate código Java com Prettier e prettier-plugin-java, com privacidade, no seu navegador.",
+    "keywords": [
+      "formatador de java",
+      "formatar código java online",
+      "embelezar código java",
+      "prettier java",
+      "indentar código java",
+      "formatador google java style",
+      "corrigir indentação java"
+    ]
+  },
+  "title": "Formatador de Java: formatar código Java online (Prettier)",
+  "description": "Formatador de Java online com Prettier e prettier-plugin-java. Recuo de 2 ou 4 espaços e largura da linha. Roda no navegador; o código não é enviado.",
+  "h1": "Formatador de Java",
+  "quickAnswer": "Cole uma classe Java no formatador de Java e clique em Formatar. O Prettier com o prettier-plugin-java coloca as chaves de abertura na mesma linha, recua cada bloco em 4 espaços (ou 2 no estilo Google), põe espaços em volta dos operadores e depois das vírgulas e quebra expressões longas na largura de linha escolhida. Se o código não puder ser analisado, por exemplo por faltar um ponto e vírgula ou uma chave, ele informa a linha e a coluna do problema.",
+  "workedExamples": [
+    {
+      "title": "Uma classe escrita em uma única linha",
+      "before": "public class  OrderTotal{private final List<Integer> prices;public OrderTotal(List<Integer> prices){this.prices=prices;}public int total(){int sum=0;for(int p:prices){sum+=p;}return sum;}}",
+      "after": "public class OrderTotal {\n\n    private final List<Integer> prices;\n\n    public OrderTotal(List<Integer> prices) {\n        this.prices = prices;\n    }\n\n    public int total() {\n        int sum = 0;\n        for (int p : prices) {\n            sum += p;\n        }\n        return sum;\n    }\n}",
+      "result": "Cada membro vai para a própria linha, as chaves abrem na mesma linha da declaração, os blocos são recuados em 4 espaços e uma linha em branco separa os membros."
+    },
+    {
+      "title": "Um laço for com um if dentro",
+      "before": "class Report{void print(List<String> items){for(int i=0;i<items.size();i++){if(items.get(i).isEmpty()){continue;}System.out.println(i+\": \"+items.get(i));}}}",
+      "after": "class Report {\n\n    void print(List<String> items) {\n        for (int i = 0; i < items.size(); i++) {\n            if (items.get(i).isEmpty()) {\n                continue;\n            }\n            System.out.println(i + \": \" + items.get(i));\n        }\n    }\n}",
+      "result": "O cabeçalho do laço ganha espaços depois de cada ponto e vírgula e em volta dos operadores, e o corpo é expandido em linhas separadas e recuadas."
+    },
+    {
+      "title": "Um stream com lambdas",
+      "before": "class Adults{List<String> names(List<Person> people){return people.stream().filter(p->p.getAge()>=18).map(p->p.getName().toUpperCase()).sorted().collect(Collectors.toList());}}",
+      "after": "class Adults {\n\n    List<String> names(List<Person> people) {\n        return people\n            .stream()\n            .filter(p -> p.getAge() >= 18)\n            .map(p -> p.getName().toUpperCase())\n            .sorted()\n            .collect(Collectors.toList());\n    }\n}",
+      "result": "A cadeia é longa demais para uma linha, então cada chamada vai para a própria linha, e cada lambda ganha espaços em volta da seta e da comparação."
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Falta de ponto e vírgula ou de chave",
+      "description": "O Java não pode ser analisado sem os pontos e vírgulas e as chaves correspondentes, então o formatador para e informa onde o analisador esperava um deles. A falta de uma chave de fechamento costuma ser apontada no fim do arquivo, porque é ali que o código acaba para o analisador."
+    },
+    {
+      "title": "Colar um trecho em vez de uma classe",
+      "description": "O Prettier formata código Java completo. Se você colar só algumas instruções, coloque-as dentro de uma classe e de um método (por exemplo class Example { void run() { ... } }) para que possam ser analisadas."
+    },
+    {
+      "title": "Misturar projetos com 2 e 4 espaços",
+      "description": "As convenções da Oracle usam 4 espaços e o Google Java Style usa 2. Escolha o recuo que o seu projeto já usa, senão cada arquivo formatado vai mostrar mudanças só de espaços na revisão."
+    },
+    {
+      "title": "Esperar que os imports sejam ordenados ou removidos",
+      "description": "O formatador mantém os imports na ordem em que você escreveu e não remove os que não são usados. Para isso, use a ação de organizar imports da sua IDE ou um linter."
+    },
+    {
+      "title": "Esperar que os nomes sejam corrigidos",
+      "description": "A formatação nunca renomeia classes, métodos ou variáveis. As convenções de nomes do Java, como classes em UpperCamelCase e métodos em lowerCamelCase, ficam por sua conta e do seu linter."
+    }
+  ],
+  "sources": [
+    {
+      "name": "Code Conventions for the Java Programming Language (Oracle, arquivado)"
+    },
+    {
+      "name": "Guia de estilo Google Java Style"
+    }
+  ],
+  "howto": {
+    "name": "Como formatar código Java online",
+    "description": "Formate código Java com Prettier e prettier-plugin-java, no seu navegador.",
+    "steps": [
+      {
+        "name": "Cole o seu código",
+        "text": "Cole uma classe ou um arquivo Java na caixa de entrada, ou carregue o exemplo."
+      },
+      {
+        "name": "Escolha as opções",
+        "text": "Escolha recuo de 4 espaços (Oracle) ou 2 espaços (Google) e uma largura de linha de 80, 100 ou 120."
+      },
+      {
+        "name": "Formate",
+        "text": "Clique em Formatar ou pressione Ctrl+Enter. Se o código não puder ser analisado, corrija-o na linha e coluna indicadas."
+      },
+      {
+        "name": "Copie o resultado",
+        "text": "Copie o código formatado da caixa de saída."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Como formatar código Java online?",
+      "a": "Cole a sua classe Java na caixa, escolha o recuo e a largura da linha e clique em Formatar ou pressione Ctrl+Enter. O código formatado aparece abaixo, pronto para copiar. Tudo roda no seu navegador, então o seu código não é enviado."
+    },
+    {
+      "q": "O Java deve usar 2 ou 4 espaços de recuo?",
+      "a": "Os dois são comuns. As convenções originais de código Java da Oracle usam 4 espaços, e o Google Java Style Guide usa 2 espaços com limite de 100 colunas. Use o que o seu projeto já usa."
+    },
+    {
+      "q": "Qual é o tamanho de linha do Google Java Style Guide?",
+      "a": "O Google Java Style usa um limite de 100 caracteres por linha. Para segui-lo aqui, escolha 2 espaços e largura de linha 100."
+    },
+    {
+      "q": "Onde ficam as chaves de abertura em Java?",
+      "a": "Na mesma linha da classe, do método ou da instrução que abre o bloco, com a chave de fechamento em uma linha própria. Tanto as convenções da Oracle quanto o Google Java Style usam esse formato, e o formatador o aplica."
+    },
+    {
+      "q": "Por que o formatador diz que o código não pôde ser analisado?",
+      "a": "O código não é Java válido, muitas vezes por faltar um ponto e vírgula, por uma chave ou parêntese desbalanceado ou por um trecho que não está dentro de uma classe. O erro mostra a linha e a coluna onde a análise falhou."
+    },
+    {
+      "q": "O formatador ordena os meus imports?",
+      "a": "Não. Os imports ficam na ordem em que você escreveu. A maioria das IDEs organiza os imports para você, e o Google Java Style coloca os imports estáticos em um grupo e os não estáticos em outro, cada um em ordem ASCII."
+    },
+    {
+      "q": "Meu código é enviado a um servidor?",
+      "a": "Não. O Prettier, o plugin de Java e a gramática Java são servidos por este site e rodam no seu navegador depois de baixados na primeira vez que você formata."
+    }
+  ],
+  "body": {
+    "label": {
+      "opt-indent": "Recuo",
+      "opt-print-width": "Largura da linha"
+    },
+    "option": {
+      "opt-indent": {
+        "2": "2 espaços (Google)",
+        "4": "4 espaços (Oracle)"
+      },
+      "opt-print-width": {
+        "100": "100 (Google)"
+      }
+    },
+    "text": {
+      "conventions-heading": "Convenções de formatação Java",
+      "naming-heading": "Convenções de nomes e imports",
+      "java-errors-heading": "Quando o código não é formatado",
+      "java-privacy-heading": "Privacidade desde a concepção"
+    },
+    "content": {
+      "java-formatting-conventions": {
+        "p1": "O Java tem duas referências de estilo muito usadas. As <em>Code Conventions for the Java Programming Language</em> da Oracle são de 1999 e hoje estão arquivadas, mas a maior parte do código Java ainda segue esse layout. O <em>Google Java Style Guide</em> é um padrão mais novo e mais rígido, usado por muitas equipes e projetos de código aberto. Os dois concordam no básico que este formatador aplica:",
+        "li1": "<strong>Chaves na mesma linha.</strong> A chave de abertura fica no fim da linha que inicia a classe, o método, o <code>if</code>, o <code>for</code> ou o <code>try</code>; a chave de fechamento fica em uma linha própria, alinhada com o início dessa instrução.",
+        "li2": "<strong>Recuo consistente.</strong> As convenções da Oracle usam 4 espaços por nível e linhas com menos de 80 caracteres. O Google Java Style usa 2 espaços por bloco e limite de 100 colunas.",
+        "li3": "<strong>Uma instrução por linha,</strong> com espaços em volta dos operadores binários, depois das vírgulas e depois de palavras-chave como <code>if</code> e <code>for</code>.",
+        "li4": "<strong>Expressões longas quebradas.</strong> Cadeias de métodos, como streams, ficam com uma chamada por linha, para que cada etapa seja fácil de ler.",
+        "p2": "O estilo Java do Prettier é próximo dos dois, mas é um estilo próprio e consistente: ele escolhe as quebras de linha automaticamente e não tenta reproduzir cada detalhe de nenhum dos guias. Use 4 espaços e 80 colunas para um layout parecido com o da Oracle, ou 2 espaços e 100 colunas para um parecido com o do Google."
+      },
+      "naming-conventions-and-imports": {
+        "p1": "Um formatador muda só o layout, então os nomes continuam por sua conta. As convenções usuais do Java são <code>UpperCamelCase</code> para classes e interfaces (<code>OrderTotal</code>), <code>lowerCamelCase</code> para métodos e variáveis (<code>calculateTotal</code>, <code>itemCount</code>), <code>UPPER_SNAKE_CASE</code> para constantes (<code>MAX_RETRIES</code>) e nomes de pacote todos em minúsculas (<code>com.example.billing</code>).",
+        "p2": "Os imports ficam na ordem em que você os escreveu, e os imports não usados não são removidos. O Google Java Style coloca todos os imports estáticos em um bloco e todos os não estáticos em outro, cada um em ordem ASCII, sem imports com curinga. A maioria das IDEs consegue organizar os imports assim para você."
+      },
+      "when-the-code-will-not-format": {
+        "p1": "O Prettier precisa analisar o seu código antes de escrevê-lo de novo. Se o analisador não entender o código, o formatador não tenta adivinhar: ele informa a linha e a coluna do primeiro token ausente ou inesperado, e o cursor pula para lá na entrada. As causas mais comuns são:",
+        "li1": "<strong>Falta de ponto e vírgula</strong> no fim de uma instrução, indicada como um <code>;</code> ausente logo depois dela.",
+        "li2": "<strong>Chave ou parêntese desbalanceado.</strong> A falta de uma chave de fechamento costuma ser apontada no fim do código, onde a entrada acaba para o analisador.",
+        "li3": "<strong>Um trecho fora de uma classe.</strong> As instruções precisam estar dentro de um método, e os métodos dentro de uma classe."
+      },
+      "private-by-design": {
+        "p1": "Esta página roda o Prettier com o prettier-plugin-java, que analisa Java com uma gramática tree-sitter compilada para WebAssembly. Tudo isso é servido por este site e baixado só na primeira vez que você formata código nesta página; depois roda no seu navegador, então o seu código-fonte nunca sai do seu dispositivo. Para Python, use o <a href=\"/tools/python-formatter/\">Formatador de Python</a>."
+      }
+    },
+    "value": {
+      "engine": "Prettier {{prettier}} com prettier-plugin-java {{plugin}}"
+    }
+  },
+  "client": {
+    "errors": {
+      "empty": "Cole algum código Java para formatar.",
+      "missing": "falta \"{{token}}\"",
+      "unexpected": "código inesperado",
+      "at": "Linha {{line}}, coluna {{column}}: {{reason}}. Não foi possível analisar o código como Java.",
+      "unparsed": "Não foi possível analisar o código como Java. Verifique se falta um ponto e vírgula, uma chave ou um parêntese.",
+      "unsupportedOption": "{{key}} não suportado: {{value}}. Escolha uma destas opções: {{choices}}."
+    }
+  }
+}

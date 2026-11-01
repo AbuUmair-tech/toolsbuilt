@@ -1,0 +1,211 @@
+{
+  "listing": {
+    "name": "Formateador y validador JSON",
+    "shortName": "Formateador JSON",
+    "description": "Formatea, minifica, valida y ordena las claves de cadenas JSON, con mensajes de error que indican la línea y la columna.",
+    "shortDescription": "Formatea, minifica, valida y ordena las claves de cadenas JSON, con mensajes de error que indican la línea y la columna.",
+    "keywords": [
+      "formateador json",
+      "validador json",
+      "embellecer json",
+      "minificar json",
+      "validar sintaxis json online"
+    ]
+  },
+  "title": "Formateador JSON y validador: formatear, minificar y ordenar",
+  "description": "Formateador JSON, validador y minificador online gratis. Indenta con 2/4 espacios o tabulaciones, ordena claves, detecta errores con su línea y descarga.",
+  "h1": "Formateador y validador JSON",
+  "quickAnswer": "Para formatear y validar JSON con este formateador JSON, pega tu cadena en el editor. La herramienta analiza el texto con JSON.parse(), valida la sintaxis, señala la línea y la columna exactas del error si no es válido y embellece la estructura con 2 espacios, 4 espacios o tabulaciones. También puedes minificarlo para quitar los espacios en blanco u ordenar las claves alfabéticamente. Funciona 100% en tu navegador.",
+  "workedExamples": [
+    {
+      "title": "Embellecer JSON compacto con indentación de 2 espacios",
+      "inputs": [
+        "Entrada: {\"name\":\"ToolsBuilt\",\"tools\":23,\"free\":true}",
+        "Indentación: 2 espacios",
+        "Ordenar claves: desactivado"
+      ],
+      "steps": [
+        "Analizar la cadena y convertirla en un árbol en memoria",
+        "Serializar con indentación de 2 espacios y saltos de línea"
+      ],
+      "result": "{\n  \"name\": \"ToolsBuilt\",\n  \"tools\": 23,\n  \"free\": true\n}"
+    },
+    {
+      "title": "Orden alfabético de claves (objeto anidado)",
+      "inputs": [
+        "Entrada: {\"z\": 1, \"a\": {\"y\": 2, \"b\": 3}}",
+        "Ordenar claves: activado"
+      ],
+      "steps": [
+        "Recorrer el objeto JSON de forma recursiva",
+        "Ordenar las claves de primer nivel: 'a' antes que 'z'",
+        "Ordenar las claves hijas dentro de 'a': 'b' antes que 'y'"
+      ]
+    },
+    {
+      "title": "Minificar JSON para enviarlo por la red",
+      "inputs": [
+        "Entrada: JSON formateado con espacios en blanco y varias líneas",
+        "Acción: minificar"
+      ],
+      "steps": [
+        "Quitar todos los espacios, tabulaciones y saltos de línea innecesarios fuera de las cadenas literales",
+        "Reducir el tamaño en bytes para una transmisión HTTP eficiente"
+      ],
+      "result": "{\"name\":\"ToolsBuilt\",\"tools\":23,\"free\":true}"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Comas finales",
+      "description": "Añadir una coma después del último elemento de un array (<code>[1, 2, 3,]</code>) o de un objeto (<code>{\"a\": 1,}</code>) es válido en JavaScript moderno, pero provoca un error de sintaxis inmediato en JSON estándar."
+    },
+    {
+      "title": "Comillas simples en las cadenas",
+      "description": "JSON exige estrictamente comillas dobles (<code>\"key\": \"value\"</code>). Todos los analizadores JSON que cumplen el estándar rechazan las comillas simples (<code>'key': 'value'</code>)."
+    },
+    {
+      "title": "Claves de objeto sin comillas",
+      "description": "En JavaScript, las claves pueden ir sin comillas (<code>{name: \"value\"}</code>). En JSON, las claves siempre deben ir entre comillas dobles."
+    },
+    {
+      "title": "Caracteres de control sin escapar",
+      "description": "Las tabulaciones literales o los saltos de línea sin escapar dentro de los valores de cadena rompen el análisis del JSON y deben escaparse como <code>\\t</code> o <code>\\n</code>."
+    }
+  ],
+  "sources": [
+    {
+      "label": "ECMA-404: el estándar de intercambio de datos JSON"
+    },
+    {
+      "label": "RFC 8259: el formato de intercambio de datos JavaScript Object Notation (JSON)"
+    },
+    {
+      "label": "MDN Web Docs: especificación de JSON.parse()"
+    }
+  ],
+  "howto": {
+    "name": "Cómo formatear y validar JSON online",
+    "description": "Instrucciones paso a paso para embellecer, validar la sintaxis y minificar JSON en tu navegador.",
+    "steps": [
+      {
+        "name": "Pega o escribe el JSON",
+        "text": "Pega tu código JSON en el editor de JSON de entrada o haz clic en Cargar ejemplo."
+      },
+      {
+        "name": "Elige las opciones de formato",
+        "text": "Selecciona la indentación que prefieras (2 espacios, 4 espacios o tabulación) y, si quieres, activa el orden alfabético de claves."
+      },
+      {
+        "name": "Formatea, valida o descarga",
+        "text": "Mira el resultado formateado en tiempo real, revisa los errores de sintaxis con su número de línea y columna, o haz clic en Copiar o Descargar."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "¿Qué causa los errores de sintaxis JSON más comunes?",
+      "a": "Los errores de sintaxis JSON más frecuentes son las comas finales después del último elemento de un array o la última propiedad de un objeto, las claves sin comillas, las comillas simples en lugar de dobles y los saltos de línea sin escapar dentro de las cadenas."
+    },
+    {
+      "q": "¿Este formateador JSON ordena las claves de forma recursiva?",
+      "a": "Sí. Cuando activas «Ordenar claves alfabéticamente», las claves se ordenan alfabéticamente en el primer nivel y dentro de todos los objetos hijos anidados."
+    },
+    {
+      "q": "¿Cuál es el tamaño máximo de archivo que se puede formatear?",
+      "a": "Para proteger el navegador y mantener una respuesta fluida, la herramienta aplica un límite de seguridad de 1 MB (1,048,576 caracteres). Con contenidos grandes, el procesamiento se retrasa ligeramente para evitar que la interfaz se bloquee."
+    },
+    {
+      "q": "¿Se suben mis datos JSON a un servidor externo?",
+      "a": "No. Todo el formateo, el orden de claves, la validación y la minificación se hacen 100% en la memoria de tu navegador. Tus claves de API confidenciales, volcados de datos y archivos de configuración nunca se envían por la red."
+    },
+    {
+      "q": "¿Qué diferencia hay entre formatear y minificar JSON?",
+      "a": "Formatear añade indentación y saltos de línea para que los desarrolladores puedan revisar y depurar los datos con facilidad. Minificar quita todos los espacios en blanco innecesarios para reducir al mínimo el ancho de banda al enviar datos por la red."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Formulario del formateador y validador JSON",
+      "example-1-unformatted-input-pre1": "Ejemplo de JSON sin formatear",
+      "example-2-formatted-2-spaces-pre1": "Ejemplo de JSON formateado con indentación de 2 espacios"
+    },
+    "label": {
+      "indent-select": "Indentación:",
+      "json-input": "JSON de entrada:",
+      "json-output": "Salida formateada / minificada:"
+    },
+    "option": {
+      "indent-select": {
+        "2": "2 espacios",
+        "4": "4 espacios",
+        "tab": "Tabulación"
+      }
+    },
+    "content": {
+      "tool": {
+        "label1": "<input type=\"checkbox\" id=\"sort-keys-toggle\" class=\"cursor-pointer\">\n            <span>Ordenar claves alfabéticamente</span>"
+      },
+      "how-when-to-use-the-json": {
+        "li1": "<strong>Depurar APIs REST y GraphQL:</strong> convierte las respuestas de API de una sola línea obtenidas con cURL o Postman en estructuras anidadas y legibles.",
+        "li2": "<strong>Validar archivos de configuración:</strong> revisa rápidamente <code>tsconfig.json</code>, <code>package.json</code> o configuraciones de Kubernetes en busca de errores de sintaxis antes de desplegar.",
+        "li3": "<strong>Optimizar el tamaño de los datos:</strong> minifica archivos JSON antes de empaquetarlos o enviarlos por la web para reducir el tamaño de transferencia HTTP y el consumo de ancho de banda.",
+        "li4": "<strong>Comparar claves de forma determinista:</strong> usa el orden alfabético de claves para normalizar dos documentos JSON y comparar sus diferencias sin falsos desajustes por el orden de las claves."
+      },
+      "json-formatting-standards-indentation-formulas": {
+        "p1": "JavaScript Object Notation (JSON) es un formato de intercambio de datos estricto y basado en texto, definido en ECMA-404 y RFC 8259. A diferencia de los literales de objeto de JavaScript, JSON exige comillas dobles en todas las claves y cadenas, y prohíbe estrictamente las comas finales, los comentarios y los identificadores sin comillas."
+      },
+      "example-1-unformatted-input": {
+        "heading": "Ejemplo 1: entrada sin formatear",
+        "p1": "Contenido compacto en una sola línea:"
+      },
+      "example-2-formatted-2-spaces": {
+        "heading": "Ejemplo 2: formateado (2 espacios)",
+        "p1": "Embellecido con indentación estándar:"
+      },
+      "example-3-key-sorting-comparison": {
+        "heading": "Ejemplo 3: comparación del orden de claves",
+        "p1": "El orden alfabético ordena las claves de forma uniforme:",
+        "li1": "Antes: <code>{\"z\": 1, \"a\": 2}</code>",
+        "li2": "Después: <code>{\"a\": 2, \"z\": 1}</code>",
+        "li3": "Permite hashes deterministas y comparaciones limpias en el control de versiones."
+      }
+    },
+    "text": {
+      "sample-btn": "Cargar ejemplo",
+      "clear-btn": "Borrar",
+      "size-meter": "0.0 KB / 1 MB",
+      "format-btn": "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><polyline points=\"16 18 22 12 16 6\"></polyline><polyline points=\"8 6 2 12 8 18\"></polyline></svg>\n          Formatear JSON",
+      "minify-btn": "Minificar JSON",
+      "validate-btn": "Validar sintaxis",
+      "copy-btn": "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"9\" y=\"9\" width=\"13\" height=\"13\" rx=\"2\" ry=\"2\"></rect><path d=\"M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1\"></path></svg>\n          Copiar salida",
+      "download-btn": "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4\"></path><polyline points=\"7 10 12 15 17 10\"></polyline><line x1=\"12\" y1=\"15\" x2=\"12\" y2=\"3\"></line></svg>\n          Descargar .json",
+      "how-to-use-heading": "Cómo y cuándo usar el formateador JSON",
+      "article-heading": "Estándares de formato JSON, indentación y reglas"
+    },
+    "placeholder": {
+      "json-output": "La salida formateada aparecerá aquí en tiempo real mientras escribes..."
+    }
+  },
+  "client": {
+    "sizeMeter": "{{kb}} KB / {{max}} MB",
+    "status": {
+      "formatted": "✓ JSON válido: {{lines}} líneas formateadas ({{kb}} KB)",
+      "minified": "✓ JSON minificado: 1 línea ({{chars}} caracteres)",
+      "valid": "✓ Sintaxis JSON válida: {{lines}} líneas ({{kb}} KB)"
+    },
+    "errors": {
+      "invalid": "JSON no válido",
+      "empty": "La entrada JSON está vacía. Pega o escribe JSON para validarlo.",
+      "tooLarge": "La entrada supera el límite de seguridad de 1 MB (máximo 1,048,576 caracteres). Tamaño actual: {{size}} caracteres.",
+      "syntax": "Error de sintaxis: {{message}} en la línea {{line}}, columna {{column}}"
+    },
+    "toast": {
+      "nothingToCopy": "No hay nada que copiar. Primero introduce un JSON válido.",
+      "copied": "JSON copiado al portapapeles",
+      "nothingToDownload": "No hay nada que descargar. Primero introduce un JSON válido.",
+      "downloaded": "Descargado: {{file}}",
+      "downloadFailed": "No se pudo descargar. Usa la opción de copiar."
+    }
+  }
+}

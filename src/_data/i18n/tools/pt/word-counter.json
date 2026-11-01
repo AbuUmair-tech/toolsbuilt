@@ -1,0 +1,194 @@
+{
+  "listing": {
+    "name": "Contador de palavras e caracteres",
+    "shortName": "Contador de palavras",
+    "description": "Conte palavras, caracteres (com e sem espaços), frases, parágrafos e tempo de leitura em tempo real enquanto digita.",
+    "shortDescription": "Conte palavras, caracteres (com e sem espaços), frases, parágrafos e tempo de leitura em tempo real enquanto digita.",
+    "keywords": [
+      "contador de palavras",
+      "contador de caracteres",
+      "contar palavras online",
+      "contador de frases",
+      "calcular tempo de leitura"
+    ]
+  },
+  "title": "Contador de palavras e caracteres online grátis",
+  "description": "Contador de palavras e de caracteres online grátis. Veja palavras, caracteres, frases, tempo de leitura e palavras mais usadas enquanto digita.",
+  "h1": "Contador de palavras e caracteres",
+  "quickAnswer": "Para analisar o seu texto, digite ou cole o conteúdo no editor. O contador de palavras mostra em tempo real as palavras, os caracteres com e sem espaços, as frases, os parágrafos e o tempo de leitura, calculado com 225 palavras por minuto. Tudo é processado localmente, com suporte completo a Unicode, então o seu texto continua privado e seguro.",
+  "formula": {
+    "title": "Fórmulas de análise de texto e velocidade de leitura",
+    "expression": "Palavras = total de tokens de palavra Unicode (\\p{L}\\p{N}+)  |  Tempo de leitura = palavras / 225 ppm",
+    "explanation": "As palavras são identificadas por sequências contínuas de letras e números Unicode, reconhecendo corretamente contrações e caracteres de vários alfabetos. O tempo estimado de leitura silenciosa usa a referência de 225 palavras por minuto, validada em estudos revisados por pares (meta-análise de Brysbaert, 2019)."
+  },
+  "workedExamples": [
+    {
+      "title": "Post curto de rede social",
+      "inputs": [
+        "Texto: 'ToolsBuilt provides instant calculators that run entirely in your browser without data collection.'"
+      ],
+      "steps": [
+        "Extrair os tokens de palavra Unicode: 13 palavras",
+        "Contar o total de caracteres com espaços: 98 caracteres",
+        "Contar os caracteres visíveis sem espaços: 86 caracteres",
+        "Calcular o tempo de leitura silenciosa (13 / 225 ppm): 3 segundos"
+      ],
+      "result": "13 palavras | 98 caracteres (86 sem espaços) | 1 frase | 3 s de leitura"
+    },
+    {
+      "title": "Texto multilíngue Unicode com emoji",
+      "inputs": [
+        "Texto: 'Café au lait costs €4.50 in Paris! ☕'"
+      ],
+      "steps": [
+        "Separar palavras acentuadas e números: ['Café', 'au', 'lait', 'costs', '4', '50', 'in', 'Paris'] = 8 palavras",
+        "Contar os pontos de código Unicode (emoji conta como 1 símbolo): 36 caracteres",
+        "Contar os caracteres sem espaços: 29 caracteres"
+      ],
+      "result": "8 palavras | 36 caracteres (29 sem espaços) | 1 frase | 2 s de leitura"
+    },
+    {
+      "title": "Tempo de uma redação longa (450 palavras)",
+      "inputs": [
+        "Texto: 450 palavras de corpo de texto"
+      ],
+      "steps": [
+        "Somar as palavras: 450 palavras",
+        "Calcular o tempo de leitura silenciosa: 450 ÷ 225 ppm = 2 min 0 s",
+        "Calcular o tempo de fala em ritmo de conversa: 450 ÷ 140 ppm = 3 min 13 s"
+      ],
+      "result": "450 palavras | Tempo de leitura: 2 min 0 s | Tempo de fala: 3 min 13 s"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Separar palavras só pelos espaços",
+      "description": "Usar text.split(' ') conta pontuação solta, espaços duplos e emojis como palavras separadas. Uma contagem precisa exige identificar as letras Unicode."
+    },
+    {
+      "title": "Supor uma leitura de 300 palavras por minuto",
+      "description": "Embora se fale muito em 300 ppm, meta-análises da ciência cognitiva (Brysbaert, 2019) estabelecem a referência padrão de leitura silenciosa de adultos em 225 ppm."
+    },
+    {
+      "title": "Confundir caracteres com e sem espaços",
+      "description": "Redes sociais, agências de tradução e formulários com limite de caracteres diferenciam o total de símbolos com espaços dos caracteres visíveis sem espaços."
+    },
+    {
+      "title": "Contar errado os pares substitutos UTF-16 dos emojis",
+      "description": "No JavaScript básico, um emoji formado por par substituto conta como 2 caracteres. Para medir o tamanho correto, use Array.from(text) ou uma regex que conte pontos de código Unicode."
+    }
+  ],
+  "sources": [
+    {
+      "name": "Unicode Standard Annex #29: segmentação de texto Unicode"
+    },
+    {
+      "name": "Grupo de Trabalho de Internacionalização do W3C"
+    },
+    {
+      "name": "Brysbaert, M. (2019) How many words do we read per minute? A review and meta-analysis"
+    }
+  ],
+  "howto": {
+    "name": "Como contar palavras e caracteres online",
+    "description": "Guia passo a passo para usar o contador de palavras grátis do ToolsBuilt.",
+    "steps": [
+      {
+        "name": "Digite ou cole o texto",
+        "text": "Digite ou cole o seu texto na área principal."
+      },
+      {
+        "name": "Veja as métricas em tempo real",
+        "text": "Confira a contagem de palavras, caracteres, frases e o tempo estimado de leitura, atualizados automaticamente."
+      },
+      {
+        "name": "Copie ou limpe o texto",
+        "text": "Use o botão Copiar texto para copiar o texto para a área de transferência ou Limpar texto para recomeçar."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Como o contador de palavras e caracteres conta as palavras?",
+      "a": "A ferramenta usa uma separação de palavras compatível com Unicode (sequências de letras e dígitos em qualquer alfabeto, incluindo caracteres acentuados). Hífens e limites de pontuação são tratados de acordo com as convenções tipográficas padrão."
+    },
+    {
+      "q": "Qual é a diferença entre caracteres com e sem espaços?",
+      "a": "Caracteres com espaços contam todos os símbolos, espaços e quebras de linha. Caracteres sem espaços excluem os espaços em branco e contam só os caracteres visíveis."
+    },
+    {
+      "q": "Como os tempos de leitura e de fala são estimados?",
+      "a": "O tempo de leitura usa a referência padrão de leitura de adultos de 225 palavras por minuto (ppm), definida em estudos de psicologia cognitiva. O tempo de fala usa a referência de apresentação em ritmo de conversa de 140 palavras por minuto."
+    },
+    {
+      "q": "Por que as palavras muito comuns ficam fora da densidade de palavras-chave?",
+      "a": "Palavras gramaticais comuns, como 'the', 'is', 'at' e 'and' em inglês, aparecem com muita frequência em quase todo texto. Filtrar essas stop words revela as palavras-chave que realmente indicam o assunto do seu conteúdo."
+    },
+    {
+      "q": "O texto que digito é salvo ou enviado a um servidor?",
+      "a": "Não. Toda a análise do texto roda 100% localmente na memória do seu navegador. O que você escreve nunca é transmitido, armazenado ou analisado em nenhum servidor externo."
+    },
+    {
+      "q": "Como a ferramenta conta frases e parágrafos?",
+      "a": "As frases são identificadas pelos sinais de pontuação final padrão (. ! ?). Os parágrafos são contados a partir das quebras de linha consecutivas."
+    },
+    {
+      "q": "Posso usar este contador de palavras no celular?",
+      "a": "Sim. A ferramenta é totalmente responsiva e funciona na hora em celulares e tablets, direto em qualquer navegador."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Formulário do contador de palavras e caracteres"
+    },
+    "label": {
+      "text-input": "<span>Digite ou cole o seu texto abaixo:</span>"
+    },
+    "placeholder": {
+      "text-input": "Comece a digitar ou cole o seu conteúdo aqui para ver as estatísticas de palavras e caracteres em tempo real..."
+    },
+    "text": {
+      "copy-btn": "<span data-icon=\"copy\"></span> Copiar texto",
+      "copy-stats-btn": "Copiar resumo das estatísticas",
+      "clear-btn": "Limpar texto",
+      "stat-reading-time": "0 s",
+      "stat-speaking-time": "0 s"
+    },
+    "content": {
+      "live-text-statistics": {
+        "heading": "Estatísticas do texto em tempo real",
+        "div1": "Total de palavras",
+        "div2": "Caracteres (com espaços)",
+        "div3": "Caracteres (sem espaços)",
+        "div4": "Frases",
+        "div5": "Parágrafos",
+        "div6": "Tempo estimado de leitura (225 ppm)",
+        "div7": "Tempo estimado de fala (140 ppm)",
+        "heading-2": "5 palavras-chave principais (sem stop words)",
+        "li1": "Digite ou cole um texto para ver a densidade de palavras-chave."
+      },
+      "how-when-to-use-the-word": {
+        "heading": "Como e quando usar o contador de palavras",
+        "li1": "<strong>Limites de caracteres nas redes sociais:</strong> confira a contagem de caracteres antes de publicar no X / Twitter (280 caracteres), em posts do LinkedIn (3.000 caracteres) ou em legendas do Instagram (2.200 caracteres).",
+        "li2": "<strong>Trabalhos acadêmicos e redações:</strong> garanta que redações, resumos e trabalhos cumpram o tamanho exigido (ex.: cartas de apresentação de 500 palavras ou resumos de artigo de 250 palavras).",
+        "li3": "<strong>Ensaio de discursos e apresentações:</strong> estime a duração da apresentação com a referência de fala de 140 ppm para caber no tempo reservado.",
+        "li4": "<strong>Meta descriptions e títulos de página para SEO:</strong> mantenha as meta descriptions entre 150 e 160 caracteres, como recomendado, para evitar que o trecho seja cortado nos buscadores."
+      }
+    }
+  },
+  "client": {
+    "time": {
+      "zero": "0 s",
+      "sec": "{{s}} s",
+      "minSec": "{{m}} min {{s}} s"
+    },
+    "topWords": {
+      "empty": "Nenhuma palavra-chave repetida encontrada ainda."
+    },
+    "copy": {
+      "text": "Texto copiado para a área de transferência",
+      "stats": "Estatísticas do texto copiadas para a área de transferência",
+      "summary": "Palavras: {{words}} | Caracteres: {{characters}} ({{charactersNoSpaces}} sem espaços) | Frases: {{sentences}} | Parágrafos: {{paragraphs}} | Tempo de leitura: {{readingTime}} | Tempo de fala: {{speakingTime}}"
+    }
+  }
+}

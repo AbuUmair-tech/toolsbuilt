@@ -1,0 +1,194 @@
+{
+  "listing": {
+    "name": "Compteur de mots et de caractères",
+    "shortName": "Compteur de mots",
+    "description": "Comptez les mots, les caractères (avec et sans espaces), les phrases, les paragraphes et le temps de lecture en direct pendant la saisie.",
+    "shortDescription": "Comptez les mots, les caractères (avec et sans espaces), les phrases, les paragraphes et le temps de lecture en direct pendant la saisie.",
+    "keywords": [
+      "compteur de mots",
+      "compteur de caractères",
+      "compter les mots d'un texte",
+      "compteur de phrases",
+      "calcul temps de lecture"
+    ]
+  },
+  "title": "Compteur de mots – caractères et temps de lecture",
+  "description": "Compteur de mots et de caractères gratuit en ligne. Calculez mots, caractères, phrases, temps de lecture et mots clés en direct pendant la saisie.",
+  "h1": "Compteur de mots et de caractères",
+  "quickAnswer": "Pour analyser votre texte, tapez-le ou collez-le directement dans l'éditeur. Le compteur de mots compte en direct les mots, les caractères avec et sans espaces, les phrases, les paragraphes et le temps de lecture sur la base de 225 mots par minute. Tout est traité localement avec une prise en charge complète d'Unicode : vos écrits restent privés et sécurisés.",
+  "formula": {
+    "title": "Formules d'analyse lexicale et de vitesse de lecture",
+    "expression": "Nombre de mots = total des jetons de mots Unicode (\\p{L}\\p{N}+)  |  Temps de lecture = mots / 225 mots/min",
+    "explanation": "Les mots sont découpés en repérant les suites continues de lettres et de chiffres Unicode, ce qui reconnaît correctement les contractions et les caractères de toutes les écritures. Le temps estimé de lecture silencieuse applique la référence cognitive validée par les pairs de 225 mots par minute (méta-analyse de Brysbaert, 2019)."
+  },
+  "workedExamples": [
+    {
+      "title": "Court message pour les réseaux sociaux",
+      "inputs": [
+        "Texte : 'ToolsBuilt provides instant calculators that run entirely in your browser without data collection.'"
+      ],
+      "steps": [
+        "Extraire les jetons de mots Unicode : 13 mots",
+        "Compter le total des caractères avec espaces : 98 caractères",
+        "Compter les caractères imprimables sans espaces : 86 caractères",
+        "Calculer le temps de lecture silencieuse (13 / 225 mots/min) : 3 secondes"
+      ],
+      "result": "13 mots | 98 caractères (86 sans espaces) | 1 phrase | 3 s de lecture"
+    },
+    {
+      "title": "Texte multilingue Unicode avec emoji",
+      "inputs": [
+        "Texte : 'Café au lait costs €4.50 in Paris! ☕'"
+      ],
+      "steps": [
+        "Découper les mots accentués et les nombres : ['Café', 'au', 'lait', 'costs', '4', '50', 'in', 'Paris'] = 8 mots",
+        "Compter les points de code Unicode (un emoji compte pour 1 glyphe) : 36 caractères",
+        "Compter les caractères sans espaces : 29 caractères"
+      ],
+      "result": "8 mots | 36 caractères (29 sans espaces) | 1 phrase | 2 s de lecture"
+    },
+    {
+      "title": "Durée d'une longue dissertation (450 mots)",
+      "inputs": [
+        "Texte : 450 mots de corps de texte"
+      ],
+      "steps": [
+        "Compter le total des mots : 450 mots",
+        "Calculer la durée de lecture silencieuse : 450 ÷ 225 mots/min = 2 min 0 s",
+        "Calculer la durée à l'oral, au rythme d'une conversation : 450 ÷ 140 mots/min = 3 min 13 s"
+      ],
+      "result": "450 mots | Temps de lecture : 2 min 0 s | Temps de parole : 3 min 13 s"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Se fier à un simple découpage sur les espaces",
+      "description": "Avec text.split(' '), la ponctuation isolée, les doubles espaces et les emoji comptent comme des mots distincts. Un comptage exact exige un découpage sur les lettres Unicode."
+    },
+    {
+      "title": "Supposer une vitesse de lecture de 300 mots/min",
+      "description": "Le chiffre de 300 mots/min circule souvent, mais les méta-analyses cognitives empiriques (Brysbaert 2019) fixent la référence de lecture silencieuse d'un adulte à 225 mots/min."
+    },
+    {
+      "title": "Confondre caractères avec et sans espaces",
+      "description": "Réseaux sociaux, agences de traduction et formulaires limités en caractères distinguent le total des glyphes avec espaces et les caractères imprimables sans espaces."
+    },
+    {
+      "title": "Mal compter les paires de substitution UTF-16 des emoji",
+      "description": "En JavaScript de base, un emoji en paire de substitution compte pour 2 caractères. Une longueur exacte exige Array.from(text) ou un comptage des points de code par regex unicode."
+    }
+  ],
+  "sources": [
+    {
+      "name": "Unicode Standard Annex #29 : Unicode Text Segmentation"
+    },
+    {
+      "name": "Groupe de travail Internationalisation du W3C"
+    },
+    {
+      "name": "Brysbaert, M. (2019) How many words do we read per minute? A review and meta-analysis"
+    }
+  ],
+  "howto": {
+    "name": "Comment compter les mots et les caractères en ligne",
+    "description": "Guide étape par étape pour utiliser le compteur de mots gratuit de ToolsBuilt.",
+    "steps": [
+      {
+        "name": "Saisir ou coller le texte",
+        "text": "Tapez ou collez votre texte dans la zone de saisie principale."
+      },
+      {
+        "name": "Consulter les statistiques en temps réel",
+        "text": "Lisez le nombre de mots, de caractères et de phrases ainsi que le temps de lecture estimé, mis à jour automatiquement."
+      },
+      {
+        "name": "Copier ou effacer le texte",
+        "text": "Utilisez le bouton « Copier le texte » pour copier votre texte dans le presse-papiers, ou « Effacer le texte » pour tout réinitialiser."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Comment le compteur de mots et de caractères calcule-t-il le nombre de mots ?",
+      "a": "L'outil utilise un découpage en mots compatible Unicode (suites de lettres et de chiffres de tous les alphabets, caractères accentués compris). Les traits d'union et les limites de ponctuation sont traités selon les conventions typographiques usuelles."
+    },
+    {
+      "q": "Quelle est la différence entre caractères avec et sans espaces ?",
+      "a": "Les caractères avec espaces incluent chaque glyphe, chaque espace et chaque saut de ligne. Les caractères sans espaces excluent les espaces et ne comptent que les caractères imprimables visibles."
+    },
+    {
+      "q": "Comment les temps de lecture et de parole sont-ils estimés ?",
+      "a": "Le temps de lecture repose sur la référence standard de lecture d'un adulte, 225 mots par minute, établie par les études de psychologie cognitive. Le temps de parole utilise une référence de présentation orale de 140 mots par minute."
+    },
+    {
+      "q": "Pourquoi les mots vides courants sont-ils exclus de la densité des mots clés ?",
+      "a": "Les mots grammaticaux courants comme 'the', 'is', 'at' et 'and' reviennent très souvent dans presque tous les textes anglais. Filtrer ces mots vides fait ressortir les mots clés réellement significatifs de votre contenu."
+    },
+    {
+      "q": "Mon texte est-il enregistré ou envoyé à un serveur ?",
+      "a": "Non. Toute l'analyse s'exécute à 100% localement, dans la mémoire de votre navigateur. Vos écrits ne sont jamais transmis, stockés ni analysés sur un serveur externe."
+    },
+    {
+      "q": "Comment l'outil compte-t-il les phrases et les paragraphes ?",
+      "a": "Les phrases sont repérées grâce aux signes de ponctuation finale standard (. ! ?). Les paragraphes sont comptés à partir des sauts de ligne successifs."
+    },
+    {
+      "q": "Puis-je utiliser ce compteur de mots sur mobile ?",
+      "a": "Oui. L'outil est entièrement adaptatif et fonctionne instantanément sur smartphone et tablette, directement dans n'importe quel navigateur mobile."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Formulaire du compteur de mots et de caractères"
+    },
+    "label": {
+      "text-input": "<span>Tapez ou collez votre texte ci-dessous :</span>"
+    },
+    "placeholder": {
+      "text-input": "Commencez à taper ou collez votre contenu ici pour obtenir les statistiques de mots et de caractères en temps réel..."
+    },
+    "text": {
+      "copy-btn": "<span data-icon=\"copy\"></span> Copier le texte",
+      "copy-stats-btn": "Copier le résumé des statistiques",
+      "clear-btn": "Effacer le texte",
+      "stat-reading-time": "0 s",
+      "stat-speaking-time": "0 s"
+    },
+    "content": {
+      "live-text-statistics": {
+        "heading": "Statistiques du texte en direct",
+        "div1": "Total des mots",
+        "div2": "Caractères (avec espaces)",
+        "div3": "Caractères (sans espaces)",
+        "div4": "Phrases",
+        "div5": "Paragraphes",
+        "div6": "Temps de lecture estimé (225 mots/min)",
+        "div7": "Temps de parole estimé (140 mots/min)",
+        "heading-2": "5 principaux mots clés (mots vides exclus)",
+        "li1": "Tapez ou collez du texte pour voir la densité des mots clés."
+      },
+      "how-when-to-use-the-word": {
+        "heading": "Comment et quand utiliser le compteur de mots",
+        "li1": "<strong>Limites de caractères des réseaux sociaux :</strong> vérifiez le nombre de caractères avant de publier sur des plateformes comme X / Twitter (280 caractères), les posts LinkedIn (3,000 caractères) ou les légendes Instagram (2,200 caractères).",
+        "li2": "<strong>Rédaction universitaire et dissertations :</strong> assurez-vous que vos dissertations, résumés et mémoires respectent les longueurs imposées (par ex. lettres de motivation de 500 mots ou résumés d'articles de 250 mots).",
+        "li3": "<strong>Répétition de discours et de présentations :</strong> estimez précisément la durée de votre présentation grâce à la référence orale de 140 mots/min pour tenir dans le temps de parole imparti.",
+        "li4": "<strong>Meta descriptions et titres de page SEO :</strong> gardez vos meta descriptions dans la fourchette recommandée de 150–160 caractères pour éviter qu'elles soient tronquées dans les résultats de recherche."
+      }
+    }
+  },
+  "client": {
+    "time": {
+      "zero": "0 s",
+      "sec": "{{s}} s",
+      "minSec": "{{m}} min {{s}} s"
+    },
+    "topWords": {
+      "empty": "Aucun mot clé répété détecté pour l'instant."
+    },
+    "copy": {
+      "text": "Texte copié dans le presse-papiers",
+      "stats": "Statistiques du texte copiées dans le presse-papiers",
+      "summary": "Nombre de mots : {{words}} | Caractères : {{characters}} ({{charactersNoSpaces}} sans espaces) | Phrases : {{sentences}} | Paragraphes : {{paragraphs}} | Temps de lecture : {{readingTime}} | Temps de parole : {{speakingTime}}"
+    }
+  }
+}

@@ -1,0 +1,194 @@
+{
+  "listing": {
+    "name": "Wort- & Zeichenzähler",
+    "shortName": "Wortzähler",
+    "description": "Wörter zählen, Zeichen (mit und ohne Leerzeichen), Sätze, Absätze und Lesezeit live beim Tippen.",
+    "shortDescription": "Wörter zählen, Zeichen (mit und ohne Leerzeichen), Sätze, Absätze und Lesezeit live beim Tippen.",
+    "keywords": [
+      "wörter zählen",
+      "zeichen zählen",
+      "wortzähler",
+      "zeichenzähler online",
+      "lesezeit berechnen"
+    ]
+  },
+  "title": "Wörter zählen - Wortzähler mit Zeichen & Lesezeit",
+  "description": "Wörter zählen online: kostenloser Wortzähler und Zeichenzähler. Wörter, Zeichen, Sätze, Lesezeit und häufigste Wörter live beim Tippen.",
+  "h1": "Wörter zählen: Wort- & Zeichenzähler",
+  "quickAnswer": "Um Wörter zu zählen, tippst du deinen Text ein oder fügst ihn in den Editor ein. Das Tool zählt live Wörter, Zeichen mit und ohne Leerzeichen, Sätze, Absätze und die Lesezeit bei 225 Wörtern pro Minute. Alles läuft lokal mit voller Unicode-Unterstützung, dein Text bleibt also privat und sicher.",
+  "formula": {
+    "title": "Formeln für Textanalyse & Lesegeschwindigkeit",
+    "expression": "Wortanzahl = Unicode-Wort-Tokens (\\p{L}\\p{N}+)  |  Lesezeit = Wörter / 225 WpM",
+    "explanation": "Wörter werden als zusammenhängende Folgen von Unicode-Buchstaben und -Ziffern erkannt, sodass Zusammenziehungen und Schriften verschiedener Sprachen korrekt gezählt werden. Die geschätzte stille Lesezeit nutzt den wissenschaftlich belegten Richtwert von 225 Wörtern pro Minute (Metaanalyse von Brysbaert 2019)."
+  },
+  "workedExamples": [
+    {
+      "title": "Kurzer Social-Media-Beitrag",
+      "inputs": [
+        "Text: 'ToolsBuilt provides instant calculators that run entirely in your browser without data collection.'"
+      ],
+      "steps": [
+        "Unicode-Wort-Tokens ermitteln: 13 Wörter",
+        "Zeichen mit Leerzeichen zählen: 98 Zeichen",
+        "Sichtbare Zeichen ohne Leerraum zählen: 86 Zeichen",
+        "Stille Lesezeit berechnen (13 / 225 WpM): 3 Sekunden"
+      ],
+      "result": "13 Wörter | 98 Zeichen (86 ohne Leerzeichen) | 1 Satz | 3 Sek. Lesezeit"
+    },
+    {
+      "title": "Mehrsprachiger Unicode-Text mit Emoji",
+      "inputs": [
+        "Text: 'Café au lait costs €4.50 in Paris! ☕'"
+      ],
+      "steps": [
+        "Wörter mit Akzenten und Zahlen zerlegen: ['Café', 'au', 'lait', 'costs', '4', '50', 'in', 'Paris'] = 8 Wörter",
+        "Unicode-Codepunkte zählen (Emoji zählt als 1 Zeichen): 36 Zeichen",
+        "Zeichen ohne Leerraum zählen: 29 Zeichen"
+      ],
+      "result": "8 Wörter | 36 Zeichen (29 ohne Leerzeichen) | 1 Satz | 2 Sek. Lesezeit"
+    },
+    {
+      "title": "Lesedauer eines längeren Aufsatzes (450 Wörter)",
+      "inputs": [
+        "Text: 450 Wörter Fließtext"
+      ],
+      "steps": [
+        "Wörter zählen: 450 Wörter",
+        "Stille Lesedauer berechnen: 450 ÷ 225 WpM = 2 Min. 0 Sek.",
+        "Sprechdauer im Gesprächstempo berechnen: 450 ÷ 140 WpM = 3 Min. 13 Sek."
+      ],
+      "result": "450 Wörter | Lesezeit: 2 Min. 0 Sek. | Sprechzeit: 3 Min. 13 Sek."
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Einfach an Leerzeichen trennen",
+      "description": "Mit text.split(' ') werden einzelne Satzzeichen, doppelte Leerzeichen und Emojis als eigene Wörter gezählt. Genaue Zahlen erfordern eine Zerlegung nach Unicode-Buchstaben."
+    },
+    {
+      "title": "300 Wörter pro Minute annehmen",
+      "description": "Oft werden 300 WpM behauptet, doch empirische Metaanalysen (Brysbaert 2019) setzen den Richtwert für stilles Lesen bei Erwachsenen auf 225 WpM."
+    },
+    {
+      "title": "Zeichen mit und ohne Leerzeichen verwechseln",
+      "description": "Soziale Netzwerke, Übersetzungsbüros und Formulare mit Zeichenlimit unterscheiden zwischen allen Zeichen mit Leerzeichen und sichtbaren Zeichen ohne Leerzeichen."
+    },
+    {
+      "title": "UTF-16-Surrogatpaare bei Emojis falsch zählen",
+      "description": "In einfachem JavaScript zählen Emoji-Surrogate als 2 Zeichen. Für eine genaue Länge brauchst du Array.from(text) oder eine Regex, die Unicode-Codepunkte zählt."
+    }
+  ],
+  "sources": [
+    {
+      "name": "Unicode Standard Annex #29: Unicode-Textsegmentierung"
+    },
+    {
+      "name": "W3C Internationalization Working Group"
+    },
+    {
+      "name": "Brysbaert, M. (2019): Wie viele Wörter lesen wir pro Minute? Übersicht und Metaanalyse"
+    }
+  ],
+  "howto": {
+    "name": "So zählst du Wörter und Zeichen online",
+    "description": "Schritt-für-Schritt-Anleitung für den kostenlosen Wortzähler von ToolsBuilt.",
+    "steps": [
+      {
+        "name": "Text eingeben oder einfügen",
+        "text": "Tippe oder füge deinen Text in das Haupteingabefeld ein."
+      },
+      {
+        "name": "Kennzahlen in Echtzeit ansehen",
+        "text": "Lies die automatisch aktualisierte Wortanzahl, Zeichenanzahl, Sätze und geschätzte Lesezeit ab."
+      },
+      {
+        "name": "Text kopieren oder leeren",
+        "text": "Mit „Text kopieren“ kopierst du deinen Text in die Zwischenablage, mit „Text leeren“ setzt du alles zurück."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Wie zählt der Wort- & Zeichenzähler die Wörter?",
+      "a": "Das Tool zerlegt Text Unicode-gerecht in Wörter (zusammenhängende Buchstaben und Ziffern in allen Alphabeten, auch mit Akzenten). Bindestriche und Satzzeichen werden nach üblichen typografischen Regeln behandelt."
+    },
+    {
+      "q": "Was ist der Unterschied zwischen Zeichen mit und ohne Leerzeichen?",
+      "a": "Zeichen mit Leerzeichen zählen jedes Zeichen, jeden Leerraum und jeden Zeilenumbruch. Zeichen ohne Leerzeichen lassen Leerraum weg und zählen nur sichtbare Zeichen."
+    },
+    {
+      "q": "Wie werden Lese- und Sprechzeit geschätzt?",
+      "a": "Die Lesezeit basiert auf dem in der Kognitionspsychologie ermittelten Richtwert von 225 Wörtern pro Minute (WpM) für Erwachsene. Die Sprechzeit nutzt einen Richtwert von 140 Wörtern pro Minute für einen Vortrag im Gesprächstempo."
+    },
+    {
+      "q": "Warum werden häufige Stoppwörter bei der Keyword-Dichte ausgeschlossen?",
+      "a": "Häufige Funktionswörter wie 'the', 'is', 'at' und 'and' kommen in fast jedem englischen Text oft vor. Werden diese Stoppwörter herausgefiltert, zeigen sich die wirklich aussagekräftigen Schlüsselwörter deines Textes."
+    },
+    {
+      "q": "Wird mein Text gespeichert oder an einen Server gesendet?",
+      "a": "Nein. Die gesamte Textanalyse läuft zu 100 % lokal im Arbeitsspeicher deines Browsers. Dein Text wird nie übertragen, gespeichert oder auf einem externen Server analysiert."
+    },
+    {
+      "q": "Wie zählt das Tool Sätze und Absätze?",
+      "a": "Sätze werden an den üblichen Satzschlusszeichen (. ! ?) erkannt. Absätze werden anhand von Zeilenumbrüchen gezählt."
+    },
+    {
+      "q": "Kann ich den Wortzähler auf dem Smartphone nutzen?",
+      "a": "Ja. Das Tool ist vollständig responsiv und läuft sofort auf Smartphones und Tablets in jedem mobilen Browser."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Formular des Wort- &amp; Zeichenzählers"
+    },
+    "label": {
+      "text-input": "<span>Tippe oder füge deinen Text unten ein:</span>"
+    },
+    "placeholder": {
+      "text-input": "Fang an zu tippen oder füge deinen Text hier ein, um Wörter und Zeichen in Echtzeit zu zählen ..."
+    },
+    "text": {
+      "copy-btn": "<span data-icon=\"copy\"></span> Text kopieren",
+      "copy-stats-btn": "Statistik kopieren",
+      "clear-btn": "Text leeren",
+      "stat-reading-time": "0 Sek.",
+      "stat-speaking-time": "0 Sek."
+    },
+    "content": {
+      "live-text-statistics": {
+        "heading": "Textstatistik live",
+        "div1": "Wörter",
+        "div2": "Zeichen (mit Leerzeichen)",
+        "div3": "Zeichen (ohne Leerzeichen)",
+        "div4": "Sätze",
+        "div5": "Absätze",
+        "div6": "Gesch. Lesezeit (225 WpM)",
+        "div7": "Gesch. Sprechzeit (140 WpM)",
+        "heading-2": "Top 5 Schlüsselwörter (ohne Stoppwörter)",
+        "li1": "Tippe oder füge Text ein, um die Keyword-Dichte zu sehen."
+      },
+      "how-when-to-use-the-word": {
+        "heading": "Wie &amp; wann du den Wortzähler nutzt",
+        "li1": "<strong>Zeichenlimits in sozialen Netzwerken:</strong> Prüfe die Zeichenanzahl, bevor du auf Plattformen wie X / Twitter (280 Zeichen), LinkedIn (3,000 Zeichen) oder in Instagram-Bildunterschriften (2,200 Zeichen) postest.",
+        "li2": "<strong>Hausarbeiten &amp; Aufsätze:</strong> Stelle sicher, dass Aufsätze, Abstracts und Hausarbeiten die vorgeschriebene Länge einhalten (z. B. 500 Wörter für ein Motivationsschreiben oder 250 Wörter für ein Abstract).",
+        "li3": "<strong>Reden &amp; Präsentationen üben:</strong> Schätze die Dauer deines Vortrags mit dem Richtwert von 140 WpM genau ab, damit du in deine Redezeit passt.",
+        "li4": "<strong>SEO-Meta-Beschreibungen &amp; Seitentitel:</strong> Halte Meta-Beschreibungen im empfohlenen Bereich von 150–160 Zeichen, damit Suchmaschinen sie nicht abschneiden."
+      }
+    }
+  },
+  "client": {
+    "time": {
+      "zero": "0 Sek.",
+      "sec": "{{s}} Sek.",
+      "minSec": "{{m}} Min. {{s}} Sek."
+    },
+    "topWords": {
+      "empty": "Noch keine wiederholten Schlüsselwörter gefunden."
+    },
+    "copy": {
+      "text": "Text in die Zwischenablage kopiert",
+      "stats": "Textstatistik in die Zwischenablage kopiert",
+      "summary": "Wörter: {{words}} | Zeichen: {{characters}} ({{charactersNoSpaces}} ohne Leerzeichen) | Sätze: {{sentences}} | Absätze: {{paragraphs}} | Lesezeit: {{readingTime}} | Sprechzeit: {{speakingTime}}"
+    }
+  }
+}
