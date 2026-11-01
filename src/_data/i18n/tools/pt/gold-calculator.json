@@ -1,0 +1,360 @@
+{
+  "listing": {
+    "name": "Calculadora de ouro",
+    "shortName": "Calculadora de ouro",
+    "description": "Calcule o preço do ouro por tola, grama, masha ou ratti para 24K, 22K, 21K ou 18K a partir da cotação do dia, com mão de obra e preço por tola e por grama.",
+    "shortDescription": "Preço do ouro por tola, grama, masha ou ratti e quilate a partir da cotação do dia, com mão de obra.",
+    "keywords": [
+      "calculadora de ouro",
+      "calcular preço do ouro por tola",
+      "tola em gramas",
+      "cotação do ouro por tola",
+      "calcular preço do ouro 22k",
+      "preço do ouro 21k",
+      "calcular mão de obra de joia de ouro",
+      "masha ratti em gramas"
+    ]
+  },
+  "title": "Calculadora de ouro: preço por tola, grama e quilate",
+  "description": "Calcule o preço do ouro por tola, grama, masha ou ratti para 24K, 22K, 21K ou 18K com a cotação do dia, mão de obra e preço por tola e por grama.",
+  "h1": "Calculadora de ouro: preço por tola, grama e quilate",
+  "quickAnswer": "Na calculadora de ouro, preço do ouro = peso em gramas × (quilates ÷ 24) × cotação do ouro puro por grama. Com Rs 400,000 por tola de 24K, 2 tolas de ouro 22K valem Rs 733,333.33 e 10 gramas de 24K valem Rs 342,941.30, sem a mão de obra. Uma tola tem 11.6638038 gramas.",
+  "formula": {
+    "title": "Fórmula do preço do ouro",
+    "expression": "Valor do ouro = peso (g) × (quilates da peça ÷ 24) × cotação do ouro puro por grama",
+    "explanation": "Primeiro, transforme a cotação informada no preço de um grama de ouro puro (24K): divida pelos gramas da unidade da cotação (11.6638038 para uma tola, 10 para 10 gramas) e pela pureza do quilate da cotação. Depois multiplique pelo peso da peça em gramas e pela pureza dela. A mão de obra é somada por cima, como porcentagem do valor do ouro ou como valor fixo por grama.",
+    "variables": [
+      {
+        "name": "Peso (g)",
+        "description": "O peso da peça convertido em gramas: 1 tola = 11.6638038 g, 1 masha = 1/12 tola, 1 ratti = 1/8 masha."
+      },
+      {
+        "name": "Quilates ÷ 24",
+        "description": "Pureza como fração: 22K = 22/24 = 91.7%, 21K = 87.5%, 18K = 75%."
+      },
+      {
+        "name": "Cotação do ouro puro por grama",
+        "description": "O preço de um grama de 24K, calculado a partir da cotação informada."
+      }
+    ]
+  },
+  "workedExamples": [
+    {
+      "title": "2 tolas de 22K a Rs 400,000 por tola (24K)",
+      "inputs": [
+        "Cotação: Rs 400,000 por tola de 24K",
+        "Peso: 2 tolas",
+        "Quilate da peça: 22K"
+      ],
+      "steps": [
+        "Pureza do 22K: 22 ÷ 24 = 0.916667",
+        "Valor do ouro: 2 × 400,000 × 0.916667 = 733,333.33"
+      ],
+      "result": "Rs 733,333.33 (cotação 22K: Rs 366,666.67 por tola)"
+    },
+    {
+      "title": "10 gramas de 24K e de 21K",
+      "inputs": [
+        "Cotação: Rs 400,000 por tola de 24K",
+        "Peso: 10 g"
+      ],
+      "steps": [
+        "Cotação 24K por grama: 400,000 ÷ 11.6638038 = 34,294.13",
+        "10 g de 24K: 10 × 34,294.13 = Rs 342,941.30",
+        "10 g de 21K: 10 × (21 ÷ 24) × 34,294.13 = Rs 300,073.63"
+      ],
+      "result": "Rs 342,941.30 em 24K, Rs 300,073.63 em 21K"
+    },
+    {
+      "title": "1 masha de 24K",
+      "inputs": [
+        "Cotação: Rs 400,000 por tola de 24K",
+        "Peso: 1 masha (1/12 tola)"
+      ],
+      "steps": [
+        "1 masha = 11.6638038 ÷ 12 = 0.9719836 g",
+        "Valor: 400,000 ÷ 12 = 33,333.33"
+      ],
+      "result": "Rs 33,333.33"
+    },
+    {
+      "title": "10 gramas de 22K com Rs 500 por grama de mão de obra",
+      "inputs": [
+        "Cotação: Rs 400,000 por tola de 24K",
+        "Peso: 10 g, 22K",
+        "Mão de obra: Rs 500 por grama"
+      ],
+      "steps": [
+        "Valor do ouro: 10 × (22 ÷ 24) × 34,294.13 = Rs 314,362.86",
+        "Mão de obra: 10 × 500 = Rs 5,000",
+        "Total: 314,362.86 + 5,000 = Rs 319,362.86"
+      ],
+      "result": "Rs 319,362.86 com a mão de obra"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Usar a cotação 24K para joias de 22K ou 21K",
+      "description": "Joias raramente são 24K. Se a cotação que você recebeu é de 24K e a peça é 22K, o ouro nela é só 22/24 do peso. Pagar a cotação 24K por uma joia 22K significa pagar cerca de 9% a mais."
+    },
+    {
+      "title": "Tratar uma tola como 10 gramas",
+      "description": "Uma tola tem 11.6638038 gramas, e não 10. Cotações por tola e por 10 gramas são números diferentes, então confira qual você tem antes de comparar lojas."
+    },
+    {
+      "title": "Confundir o quilate da cotação",
+      "description": "Algumas lojas informam a cotação de 22K, outras a de 24K. Escolha o quilate a que a cotação se refere e depois o quilate da peça; a calculadora faz a conversão entre eles."
+    },
+    {
+      "title": "Ignorar a mão de obra e o kaat",
+      "description": "O preço que você paga por uma joia inclui a mão de obra, e quando você vende ou troca a peça o joalheiro pode descontar o kaat (um desconto por perda ou impureza). O valor do ouro puro é só uma parte do preço da loja."
+    },
+    {
+      "title": "Contar o peso das pedras como ouro",
+      "description": "Se a peça tem pedras, contas ou laca, o peso delas não é ouro. Peça o peso líquido do ouro antes de calcular o valor."
+    }
+  ],
+  "sources": [
+    {
+      "name": "NIST Office of Weights and Measures (definição do grão)"
+    },
+    {
+      "name": "Bureau of Indian Standards: visão geral da contrastaria (hallmarking)"
+    }
+  ],
+  "howto": {
+    "name": "Como calcular o preço do ouro",
+    "description": "Calcule o valor do ouro a partir da cotação do dia, do peso e do quilate.",
+    "steps": [
+      {
+        "name": "Informe a cotação do dia",
+        "text": "Digite a cotação que você recebeu e escolha se ela é por tola, por 10 gramas ou por grama, e para qual quilate."
+      },
+      {
+        "name": "Informe o peso",
+        "text": "Digite o peso em tolas, gramas, masha ou ratti."
+      },
+      {
+        "name": "Escolha o quilate da peça",
+        "text": "Escolha 24K, 22K, 21K ou 18K para a peça que está avaliando."
+      },
+      {
+        "name": "Acrescente a mão de obra, se houver",
+        "text": "Escolha uma porcentagem do valor do ouro ou um valor fixo por grama e veja o valor do ouro, a mão de obra e o total."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Como calcular o preço do ouro por tola?",
+      "a": "Multiplique o número de tolas pela cotação por tola do quilate que você está comprando. Se a sua cotação é de 24K e a peça é 22K, multiplique também por 22 ÷ 24. Com Rs 400,000 por tola de 24K, 2 tolas de 22K são 2 × 400,000 × 22/24 = Rs 733,333.33."
+    },
+    {
+      "q": "Quantos gramas tem uma tola?",
+      "a": "Uma tola tem 11.6638038 gramas. Ela é definida como 180 grãos, e um grão tem 64.79891 miligramas."
+    },
+    {
+      "q": "Quantos masha e ratti tem uma tola?",
+      "a": "Uma tola tem 12 masha, e um masha tem 8 ratti, então uma tola tem 96 ratti. Um masha tem cerca de 0.972 grama e um ratti cerca de 0.1215 grama."
+    },
+    {
+      "q": "Como calcular o preço do ouro 22K a partir da cotação 24K?",
+      "a": "Multiplique a cotação 24K por 22 ÷ 24, cerca de 0.9167. Uma cotação 24K de Rs 400,000 por tola dá Rs 366,666.67 por tola em 22K. Para 21K, multiplique por 21 ÷ 24 (0.875), e para 18K, por 18 ÷ 24 (0.75)."
+    },
+    {
+      "q": "Qual é a diferença entre ouro 22K e 21K?",
+      "a": "O ouro 22K tem cerca de 91.7% de ouro puro e o 21K tem 87.5%, então o 21K tem menos ouro por grama e vale menos com o mesmo peso. O restante são outros metais que deixam a joia mais resistente."
+    },
+    {
+      "q": "Por que o preço do joalheiro é maior que o desta calculadora?",
+      "a": "As lojas cobram a mão de obra, podem cobrar perdas e podem arredondar a cotação. A calculadora mostra o valor do ouro e a mão de obra separados, para você comparar que parte do orçamento é do ouro em si."
+    },
+    {
+      "q": "O que é kaat no ouro?",
+      "a": "Kaat é um desconto que o joalheiro faz ao recomprar ou trocar o ouro, para cobrir impurezas, perdas ou a solda da peça. O valor varia entre lojas, então pergunte quanto de kaat será descontado antes de vender."
+    },
+    {
+      "q": "Onde encontrar a cotação do ouro de hoje?",
+      "a": "Pegue a cotação do dia com a associação sarafa local ou com o seu joalheiro. Esta calculadora não busca preços ao vivo; digite a cotação que você recebeu e escolha a unidade e o quilate."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Formulário da calculadora de ouro",
+      "copy-result-btn": "Copiar o resultado para a área de transferência",
+      "gold-weight-units-div1": "Conversão de unidades de peso do ouro (com rolagem)"
+    },
+    "content": {
+      "tool": {
+        "legend1": "Cotação do ouro de hoje",
+        "legend2": "O seu ouro",
+        "legend3": "Mão de obra <span class=\"label-hint\">(opcional)</span>",
+        "button1": "Calcular preço",
+        "div1": "Conteúdo de ouro puro",
+        "div2": "Valor do ouro",
+        "div3": "Mão de obra",
+        "div4": "Preço total"
+      },
+      "equivalent-rates-for-22k": {
+        "dt1": "Por tola",
+        "dt2": "Por 10 gramas",
+        "dt3": "Por grama"
+      },
+      "gold-weight-units": {
+        "heading": "Unidades de peso do ouro",
+        "caption1": "Conversão de unidades de peso do ouro",
+        "th1": "Unidade",
+        "th2": "Tola",
+        "th3": "Gramas",
+        "th4": "Masha",
+        "th5": "Ratti",
+        "p1": "Onça troy: 31.1034768 g, segundo o <a href=\"https://www.nist.gov/document/nist-hb-44-2024-appendix-c-general-tables-units-measurement\" target=\"_blank\" rel=\"noopener noreferrer\">NIST Handbook 44, Apêndice C</a>. Tael de Hong Kong: o “tael troy” legal de 37.429 g usado para metais preciosos, segundo a <a href=\"https://www.elegislation.gov.hk/hk/cap68\" target=\"_blank\" rel=\"noopener noreferrer\">Weights and Measures Ordinance (Cap. 68)</a>, e não o tael comum de 1/16 de catty."
+      },
+      "tola-and-gram-which-unit-is": {
+        "p1": "No Paquistão e em boa parte do sul da Ásia, o ouro é tradicionalmente pesado e precificado por tola, enquanto muitas lojas, bancos e mercados internacionais cotam o preço por grama ou por 10 gramas. Uma tola não tem 10 gramas: tem 11.6638038 gramas, definida como 180 grãos, sendo um grão igual a 64.79891 miligramas. Joias menores costumam ser pesadas em masha e ratti: 12 masha formam uma tola e 8 ratti formam um masha, então uma tola tem 96 ratti.",
+        "p2": "Como as unidades são diferentes, o preço do mesmo dia pode parecer bem diferente de uma loja para outra. Escolha a unidade em que a sua cotação está, e a calculadora converte tudo para gramas antes de calcular o valor. O resultado também mostra a cotação equivalente por tola, por 10 gramas e por grama, para você comparar orçamentos em unidades diferentes."
+      },
+      "karat-and-purity": {
+        "p1": "O quilate mede quanto de uma peça é ouro puro, em 24 partes. A calculadora usa pureza = quilates ÷ 24:",
+        "li1": "<strong>24K:</strong> ouro puro. O ouro vendido como 24K normalmente tem o contraste 999, ou 99.9% de ouro.",
+        "li2": "<strong>22K:</strong> 22/24 = 91.7% de ouro, a pureza mais comum em joias no Paquistão e na Índia, muitas vezes marcada como 916.",
+        "li3": "<strong>21K:</strong> 21/24 = 87.5% de ouro, muito usado no Golfo e em algumas joias locais.",
+        "li4": "<strong>18K:</strong> 18/24 = 75% de ouro, comum em joias com pedras.",
+        "p2": "O restante do metal costuma ser prata, cobre ou zinco, que deixam a joia mais resistente. Quando a sua cotação é de um quilate e a peça é de outro, a calculadora ajusta o preço pela razão entre as duas purezas. Por exemplo, uma peça 22K precificada a partir de uma cotação 24K vale 22/24 do valor em 24K com o mesmo peso."
+      },
+      "why-shop-prices-differ-from-the": {
+        "p1": "O valor do ouro na calculadora é quanto vale o metal da peça na cotação que você informou. O orçamento de um joalheiro costuma ser maior por alguns motivos:",
+        "li1": "<strong>Mão de obra:</strong> o custo de transformar o ouro em joia, cobrado como porcentagem do valor do ouro ou como valor fixo por grama ou por tola. Desenhos mais elaborados costumam custar mais.",
+        "li2": "<strong>Perdas:</strong> algumas lojas cobram pelo metal perdido durante a fabricação da peça.",
+        "li3": "<strong>Kaat:</strong> quando você vende ou troca ouro, o joalheiro pode descontar o kaat por impureza, solda ou perdas, então você recebe menos que o valor do ouro.",
+        "li4": "<strong>Pedras e outros materiais:</strong> o peso deles não é ouro, então peça o peso líquido do ouro.",
+        "p2": "Informe a mão de obra cobrada por uma loja para ver o total e compare a linha do valor do ouro entre as lojas: se dois orçamentos têm o mesmo valor do ouro, a diferença está nas taxas."
+      },
+      "use-today-s-rate-from-your": {
+        "p1": "O preço do ouro muda ao longo do dia e varia entre cidades e países. Esta calculadora não mostra nem busca preços ao vivo. Pegue a cotação do dia com a associação sarafa local ou com o seu joalheiro, anote a unidade e o quilate a que ela se refere e informe-a aqui. A sua cotação e os pesos ficam no seu navegador."
+      }
+    },
+    "label": {
+      "gold-rate": "Cotação <span class=\"text-accent\">*</span>",
+      "rate-unit": "A cotação é",
+      "rate-karat": "A cotação é para",
+      "gold-weight": "Peso <span class=\"text-accent\">*</span>",
+      "weight-unit": "Unidade",
+      "item-karat": "Quilate",
+      "making-type": "Cobrada como",
+      "making-value": "Mão de obra (%)"
+    },
+    "option": {
+      "rate-unit": {
+        "tola": "por tola",
+        "10g": "por 10 gramas",
+        "gram": "por grama",
+        "troyOunce": "por onça troy (31.1035 g)",
+        "taelTroy": "por tael, Hong Kong (37.429 g)",
+        "kilogram": "por quilograma"
+      },
+      "weight-unit": {
+        "tola": "Tola",
+        "gram": "Grama",
+        "masha": "Masha",
+        "ratti": "Ratti",
+        "troyOunce": "Onça troy",
+        "taelTroy": "Tael (Hong Kong, troy)",
+        "kilogram": "Quilograma"
+      },
+      "making-type": {
+        "none": "Sem mão de obra",
+        "percent": "% do valor do ouro",
+        "perGram": "Valor fixo por grama"
+      }
+    },
+    "text": {
+      "rate-hint": "Pegue a cotação de hoje com a associação sarafa local ou com o joalheiro. Esta calculadora não busca preços ao vivo.",
+      "reset-btn": "Redefinir",
+      "result-header-text": "Preço total",
+      "copy-result-btn": "<span data-icon=\"copy\"></span> Copiar resultado",
+      "result-primary-text": "Rs 0.00",
+      "stat-gold-value": "Rs 0.00",
+      "stat-making": "Rs 0.00",
+      "stat-total": "Rs 0.00",
+      "rates-title": "Cotações equivalentes para 22K",
+      "tola-gram-heading": "Tola e grama: em que unidade está a sua cotação?",
+      "karat-heading": "Quilate e pureza",
+      "shop-price-heading": "Por que o preço da loja é diferente do valor do ouro",
+      "todays-rate-heading": "Use a cotação de hoje da associação sarafa ou do joalheiro"
+    },
+    "title": {
+      "copy-result-btn": "Copiar o resultado para a área de transferência"
+    },
+    "units": {
+      "gram": "1 grama",
+      "masha": "1 masha",
+      "ratti": "1 ratti",
+      "troyOunce": "1 onça troy",
+      "taelTroy": "1 tael (Hong Kong, troy)",
+      "kilogram": "1 quilograma"
+    }
+  },
+  "client": {
+    "units": {
+      "tola": "Tola",
+      "gram": "Grama",
+      "masha": "Masha",
+      "ratti": "Ratti",
+      "troyOunce": "Onça troy",
+      "taelTroy": "Tael (Hong Kong, troy)",
+      "kilogram": "Quilograma"
+    },
+    "rateUnits": {
+      "tola": "por tola",
+      "10g": "por 10 gramas",
+      "gram": "por grama",
+      "troyOunce": "por onça troy",
+      "taelTroy": "por tael (Hong Kong, troy)",
+      "kilogram": "por quilograma"
+    },
+    "errors": {
+      "rateRequired": "Informe a cotação do ouro de hoje.",
+      "weightRequired": "Informe o peso.",
+      "makingRequired": "Informe a mão de obra.",
+      "weightUnit": "Escolha uma unidade de peso da lista.",
+      "ratePositive": "A cotação do ouro deve ser maior que 0.",
+      "weightPositive": "O peso deve ser maior que 0.",
+      "rateUnit": "Escolha a unidade de peso a que a cotação se refere.",
+      "karat": "Escolha um quilate: {{karats}}.",
+      "makingNegative": "A mão de obra não pode ser negativa.",
+      "makingType": "Escolha como a mão de obra é cobrada."
+    },
+    "making": {
+      "labelPercent": "Mão de obra (%)",
+      "labelPerGram": "Mão de obra ({{symbol}} por grama)"
+    },
+    "result": {
+      "header": "Preço total, {{weight}} de {{karat}}K",
+      "ratesTitle": "Cotações equivalentes para {{karat}}K",
+      "copy": "{{weight}} de ouro {{karat}}K ({{pure}} g puros): valor do ouro {{value}}, mão de obra {{making}}, total {{total}}. Cotação {{karat}}K: {{perTola}} por tola, {{perGram}} por grama."
+    },
+    "steps": {
+      "weight": "1. Peso da peça: <code>{{grams}} g</code><br>",
+      "purity": "2. Pureza: {{karat}} ÷ 24 = <code>{{purity}}%</code>, então ouro puro = <code>{{pure}} g</code><br>",
+      "makingPercent": "4. Mão de obra: {{percent}}% do valor do ouro = <code>{{value}}</code><br>",
+      "makingPerGram": "4. Mão de obra: {{grams}} g × {{rate}} = <code>{{value}}</code><br>",
+      "total": "Total: <strong>{{total}}</strong>"
+    },
+    "toast": {
+      "copied": "Preço do ouro copiado para a área de transferência"
+    },
+    "weightAmount": {
+      "masha": "{{value}} masha",
+      "ratti": "{{value}} ratti"
+    },
+    "weightText": {
+      "gram": "{{value}} grama(s)",
+      "masha": "{{value}} masha",
+      "ratti": "{{value}} ratti",
+      "troyOunce": "{{value}} onça(s) troy",
+      "taelTroy": "{{value}} tael (Hong Kong, troy)",
+      "kilogram": "{{value}} quilograma(s)"
+    }
+  }
+}

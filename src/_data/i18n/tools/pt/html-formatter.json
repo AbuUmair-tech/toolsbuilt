@@ -1,0 +1,226 @@
+{
+  "listing": {
+    "name": "Formatador de HTML",
+    "shortName": "Formatador de HTML",
+    "description": "Formate e embeleze HTML com o Prettier, incluindo CSS e JavaScript embutidos, com erros de análise por linha e um modo de minificação cuidadoso.",
+    "shortDescription": "Embeleze ou minifique HTML com recuo limpo e erros por linha.",
+    "keywords": [
+      "formatador de html",
+      "embelezador de html",
+      "formatar html online",
+      "indentar html",
+      "minificador de html",
+      "organizar código html",
+      "html beautifier"
+    ]
+  },
+  "title": "Formatador de HTML online: embelezar e indentar HTML",
+  "description": "Formatador de HTML com Prettier: recuo limpo, CSS e JavaScript embutidos também formatados, erros com número da linha e modo de minificação cuidadoso.",
+  "h1": "Formatador de HTML",
+  "quickAnswer": "Cole o seu HTML no formatador de HTML e clique em Formatar. O Prettier coloca cada elemento de bloco em uma linha própria, recua os elementos aninhados em 2 espaços (ou 4, ou tabulações), formata o CSS dentro das tags style e o JavaScript dentro das tags script, e mantém elementos inline como span e a na mesma linha quando possível. Se a marcação não puder ser analisada, por exemplo por uma tag de fechamento que não corresponde, você recebe a linha e a coluna do problema.",
+  "formula": {
+    "title": "Como o HTML é formatado",
+    "expression": "Analisar o HTML → árvore de elementos → imprimir com recuo e largura de linha, mantendo os espaços onde o navegador os exibiria",
+    "explanation": "A página usa o gerador de HTML do Prettier, carregado deste site na primeira vez que você formata. Ele analisa a marcação e monta uma árvore, depois imprime os elementos de bloco (div, p, ul, section …) em linhas próprias, com um nível de recuo por nível de aninhamento, e quebra as linhas longas na largura escolhida. Os elementos inline (span, a, strong, em …) são sensíveis a espaços: uma quebra de linha entre eles aparece como um espaço na página, então por padrão o Prettier só acrescenta quebras onde o valor de display do CSS indica que é seguro. O CSS dentro de <style> é formatado com o gerador de CSS do Prettier e o JavaScript dentro de <script> com o gerador de JavaScript. Elementos que nunca são fechados são fechados pelo analisador e apontados como avisos, com o número da linha.",
+    "variables": [
+      {
+        "name": "Recuo",
+        "description": "2 espaços (a escolha mais comum para HTML), 4 espaços ou tabulações."
+      },
+      {
+        "name": "Largura da linha",
+        "description": "O comprimento de linha que o Prettier busca antes de quebrar atributos ou conteúdo."
+      },
+      {
+        "name": "Sensibilidade a espaços",
+        "description": "css respeita o display padrão de cada elemento; strict trata todos os espaços como significativos; ignore não trata nenhum como significativo."
+      }
+    ]
+  },
+  "workedExamples": [
+    {
+      "title": "Elementos aninhados em uma linha",
+      "before": "<div><p>Hi<span>there</span></p></div>",
+      "after": "<div>\n  <p>Hi<span>there</span></p>\n</div>",
+      "steps": [
+        "div e p são blocos, então cada um começa uma nova linha e o p fica recuado",
+        "span é inline e está colado no texto, então uma quebra de linha acrescentaria um espaço visível; ele fica onde está"
+      ]
+    },
+    {
+      "title": "CSS e JavaScript embutidos",
+      "before": "<style>body{margin:0;color:#222}</style><script>function hi(name){return 'Hi '+name}</script>",
+      "after": "<style>\n  body {\n    margin: 0;\n    color: #222;\n  }\n</style>\n<script>\n  function hi(name) {\n    return \"Hi \" + name;\n  }\n</script>",
+      "steps": [
+        "O conteúdo de style e de script é passado para os geradores de CSS e JavaScript do Prettier"
+      ]
+    },
+    {
+      "title": "Uma div dentro de um parágrafo",
+      "before": "<p>Intro\n<div>Block</div>\n</p>",
+      "steps": [
+        "Um p não pode conter uma div: o analisador fecha o p quando a div começa",
+        "O </p> final fica então sem nenhum p aberto para fechar"
+      ],
+      "result": "Linha 3, coluna 1: Unexpected closing tag \"p\""
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Colocar um elemento de bloco dentro de um parágrafo",
+      "description": "O <code>&lt;p&gt;</code> só pode conter conteúdo de frase. Uma <code>&lt;div&gt;</code>, <code>&lt;ul&gt;</code> ou <code>&lt;table&gt;</code> dentro dele encerra o parágrafo antes da hora, então estilos e scripts voltados ao parágrafo não alcançam o restante do conteúdo. Use uma <code>&lt;div&gt;</code> como contêiner."
+    },
+    {
+      "title": "Deixar elementos sem fechar",
+      "description": "Os navegadores corrigem as tags de fechamento que faltam, mas nem sempre onde você espera, o que pode empurrar o conteúdo seguinte para dentro do elemento errado. Só alguns elementos, como <code>&lt;li&gt;</code>, <code>&lt;p&gt;</code> e <code>&lt;td&gt;</code>, têm tag de fechamento opcional."
+    },
+    {
+      "title": "Acrescentar quebras de linha entre elementos inline",
+      "description": "<code>&lt;a&gt;Home&lt;/a&gt;&lt;a&gt;About&lt;/a&gt;</code> e os mesmos links em duas linhas aparecem de forma diferente: a quebra de linha vira um espaço. Por isso o formatador às vezes mantém elementos inline juntos ou usa o posicionamento incomum do <code>&gt;</code> no início da linha seguinte."
+    },
+    {
+      "title": "Esperar que a minificação otimize tudo",
+      "description": "A minificação aqui só remove comentários e os espaços entre tags. Ela não encurta CSS ou JavaScript embutidos, não remove tags ou aspas opcionais nem reescreve atributos. Use uma ferramenta de build para a minificação de produção."
+    },
+    {
+      "title": "Formatar templates como HTML puro",
+      "description": "Sintaxes de template como <code>{{ }}</code>, <code>{% %}</code> ou JSX não são HTML. O formatador pode mover ou quebrar essas partes. Formate templates com uma ferramenta que entenda essa linguagem de template."
+    }
+  ],
+  "sources": [
+    {
+      "name": "WHATWG HTML Living Standard: tags opcionais"
+    },
+    {
+      "name": "WHATWG HTML Living Standard: o elemento p (modelo de conteúdo)"
+    },
+    {
+      "name": "MDN Web Docs: como os espaços são tratados pelo HTML, pelo CSS e no DOM"
+    },
+    {
+      "name": "MDN Web Docs: conteúdo inline"
+    },
+    {
+      "name": "Documentação do Prettier: sensibilidade a espaços no HTML"
+    }
+  ],
+  "howto": {
+    "name": "Como formatar HTML",
+    "description": "Organize HTML bagunçado com recuo consistente.",
+    "steps": [
+      {
+        "name": "Cole o seu HTML",
+        "text": "Cole uma página ou um trecho na caixa de entrada, ou carregue o exemplo."
+      },
+      {
+        "name": "Escolha as opções",
+        "text": "Escolha Formatar ou Minificar, o recuo, a largura da linha e a sensibilidade a espaços."
+      },
+      {
+        "name": "Formate",
+        "text": "Clique em Formatar código ou pressione Ctrl+Enter. Os erros mostram a linha e a coluna; os avisos listam os elementos que nunca são fechados."
+      },
+      {
+        "name": "Copie o resultado",
+        "text": "Copie o HTML formatado da caixa de saída."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Como formatar HTML online?",
+      "a": "Cole o HTML na caixa e clique em Formatar, ou pressione Ctrl+Enter. Se precisar de um estilo específico, escolha antes o recuo, a largura da linha e a sensibilidade a espaços."
+    },
+    {
+      "q": "Por que o formatador não colocou cada tag em uma linha própria?",
+      "a": "Elementos inline como span, a e strong são sensíveis a espaços: uma quebra de linha entre eles pode aparecer como um espaço visível. Com a sensibilidade css padrão, o Prettier só quebra linhas onde isso não muda a aparência da página. Escolha ignore se pequenas mudanças de espaçamento não forem problema."
+    },
+    {
+      "q": "Ele formata CSS e JavaScript dentro do HTML?",
+      "a": "Sim. O conteúdo das tags style é formatado como CSS e o das tags script como JavaScript. Se esse código tiver um erro de sintaxe, ele fica como estava."
+    },
+    {
+      "q": "O que significa 'Unexpected closing tag'?",
+      "a": "O analisador encontrou uma tag de fechamento sem elemento aberto correspondente, geralmente porque um elemento foi fechado na ordem errada ou porque um elemento de bloco como uma div foi colocado dentro de um p, o que fecha o p antes da hora. O erro informa a linha e a coluna."
+    },
+    {
+      "q": "Posso minificar HTML aqui?",
+      "a": "Sim, escolha Minificar. Ele remove comentários e os espaços entre tags, mantendo um espaço entre elementos inline e deixando pre, textarea, script e style intactos. Ele não comprime CSS ou JavaScript embutidos."
+    },
+    {
+      "q": "2 ou 4 espaços: qual é melhor para HTML?",
+      "a": "Os dois são comuns. 2 espaços é o mais usado em HTML, porque a marcação tem muitos níveis de aninhamento; o guia de estilo de HTML do Google usa 2 espaços. Escolha um e use sempre o mesmo."
+    },
+    {
+      "q": "Meu HTML é enviado a algum lugar?",
+      "a": "Não. O formatador é baixado deste site e roda no seu navegador. O seu código não é enviado, armazenado nem colocado no endereço da página; só as opções que você escolhe ficam lembradas neste dispositivo."
+    }
+  ],
+  "body": {
+    "label": {
+      "opt-mode": "Modo",
+      "opt-indent": "Recuo",
+      "opt-print-width": "Largura da linha",
+      "opt-whitespace": "Espaços"
+    },
+    "option": {
+      "opt-mode": {
+        "format": "Formatar (embelezar)",
+        "minify": "Minificar"
+      },
+      "opt-indent": {
+        "2": "2 espaços",
+        "4": "4 espaços",
+        "tab": "Tabulações"
+      },
+      "opt-whitespace": {
+        "css": "css (padrão seguro)",
+        "strict": "strict (rígido)",
+        "ignore": "ignore (ignorar)"
+      }
+    },
+    "text": {
+      "conventions-heading": "Convenções de formatação de HTML",
+      "whitespace-heading": "Por que os elementos inline são sensíveis a espaços",
+      "minify-heading": "O que a minificação faz e o que não faz",
+      "related-heading": "Outras ferramentas de código"
+    },
+    "content": {
+      "html-formatting-conventions": {
+        "p1": "O HTML não tem um guia de estilo oficial único, mas a maioria das equipes e dos guias, incluindo o guia de estilo HTML/CSS do Google, concorda em alguns hábitos que deixam a marcação fácil de ler e revisar:",
+        "li1": "<strong>Um elemento de bloco por linha,</strong> com os filhos recuados em um nível. Elementos curtos cujo conteúdo cabe na linha, como <code>&lt;li&gt;Notebook&lt;/li&gt;</code>, ficam em uma linha só.",
+        "li2": "<strong>Recuo consistente,</strong> geralmente 2 espaços, porque o HTML tem muitos níveis de aninhamento. Nunca misture tabulações e espaços no mesmo arquivo.",
+        "li3": "<strong>Nomes de elementos e atributos em minúsculas</strong> e valores de atributos entre aspas duplas, como <code>&lt;a href=\"/contact/\"&gt;</code>.",
+        "li4": "<strong>Tags longas quebradas com um atributo por linha</strong> quando passam da largura da linha, com o <code>&gt;</code> de fechamento em uma linha própria.",
+        "li5": "<strong>CSS e JavaScript embutidos</strong> recuados dentro das tags <code>&lt;style&gt;</code> e <code>&lt;script&gt;</code> e formatados como qualquer arquivo CSS ou JavaScript.",
+        "p2": "O formatador muda só o layout. Ele não renomeia classes, não reordena atributos nem corrige aninhamentos inválidos, e a página fica com a mesma aparência depois, exceto se você escolher a opção ignore para os espaços."
+      },
+      "why-inline-elements-are-whitespace-sensitive": {
+        "p1": "Os navegadores juntam sequências de espaços, tabulações e quebras de linha do texto em um único espaço, mas não removem esse espaço por completo. Assim, <code>&lt;b&gt;Price:&lt;/b&gt;&lt;span&gt;$5&lt;/span&gt;</code> aparece como \"Price:$5\", enquanto os mesmos dois elementos em linhas separadas aparecem como \"Price: $5\". Em elementos de bloco como <code>&lt;div&gt;</code> e <code>&lt;p&gt;</code> o espaço é invisível, então acrescentar quebras de linha em volta deles é sempre seguro.",
+        "p2": "A opção <strong>css</strong> do Prettier usa o valor de display CSS padrão de cada elemento para decidir onde as quebras são seguras. Por isso às vezes você vê um <code>&gt;</code> de fechamento movido para o início da linha seguinte: assim a quebra de linha fica dentro da tag, onde não pode virar um espaço. <strong>strict</strong> trata todos os elementos como inline, o que é mais seguro para páginas que mudam o display com CSS. <strong>ignore</strong> formata livremente e serve para marcação em que pequenas mudanças de espaçamento não importam."
+      },
+      "what-minify-does-and-what-it": {
+        "p1": "O modo de minificação é propositalmente conservador, para nunca mudar a aparência da página:",
+        "li1": "Remove os comentários HTML, exceto comentários condicionais como <code>&lt;!--[if IE]&gt;</code>.",
+        "li2": "Remove os espaços ao lado de elementos de bloco e reduz a um espaço os espaços entre elementos inline e texto.",
+        "li3": "Deixa <code>&lt;pre&gt;</code>, <code>&lt;textarea&gt;</code>, <code>&lt;script&gt;</code> e <code>&lt;style&gt;</code> exatamente como foram escritos.",
+        "li4": "Não minifica CSS ou JavaScript embutidos, não remove tags ou aspas opcionais de atributos nem encurta URLs. Ferramentas de build como o html-minifier-terser fazem isso no build de produção.",
+        "p2": "Os servidores normalmente já comprimem o HTML com gzip ou Brotli, o que elimina boa parte do ganho de remover espaços. Minificar à mão é mais útil para trechos pequenos, como um template de e-mail ou um código de incorporação."
+      },
+      "other-code-tools": {
+        "p1": "Formate JSON com o <a href=\"/tools/json-formatter/\">formatador de JSON</a>, Python com o <a href=\"/tools/python-formatter/\">formatador de Python</a> e Java com o <a href=\"/tools/java-formatter/\">formatador de Java</a>. Para comparar duas versões de um arquivo, use o <a href=\"/tools/text-diff-checker/\">comparador de textos</a>."
+      }
+    }
+  },
+  "client": {
+    "errors": {
+      "empty": "Cole algum HTML para formatar.",
+      "at": "Linha {{line}}, coluna {{column}}: {{reason}}",
+      "unparsed": "Não foi possível analisar o HTML. {{reason}}",
+      "unsupportedOption": "{{key}} não suportado: {{value}}. Escolha uma destas opções: {{choices}}."
+    },
+    "warnings": {
+      "unclosed": "Linha {{line}}: <{{tag}}> nunca é fechado. Os navegadores o fecham no fim do elemento pai, o que pode não ser o que você queria."
+    }
+  }
+}

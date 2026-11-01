@@ -1,0 +1,262 @@
+{
+  "listing": {
+    "name": "Calculadora de juros compostos",
+    "shortName": "Calculadora de juros compostos",
+    "description": "Calcule juros compostos com capitalização diária, mensal, trimestral ou anual e aportes regulares opcionais, com gráficos de crescimento.",
+    "shortDescription": "Calcule o crescimento com juros compostos diários, mensais ou anuais, com aportes regulares.",
+    "keywords": [
+      "calculadora de juros compostos",
+      "juros compostos diários",
+      "juros compostos mensais",
+      "simulador de investimento",
+      "calculadora de rendimento da poupança"
+    ]
+  },
+  "title": "Calculadora de juros compostos - Diários e com aportes",
+  "description": "Calculadora de juros compostos com capitalização diária, mensal, trimestral ou anual e aportes regulares opcionais, com gráfico de crescimento. Grátis.",
+  "h1": "Calculadora de juros compostos",
+  "quickAnswer": "Na calculadora de juros compostos, o cálculo usa a fórmula A = P(1 + r/n)^(nt), em que P é o valor principal, r a taxa de juros anual (em decimal), n o número de capitalizações por ano e t o tempo em anos. Com aportes mensais regulares PMT, o valor futuro também cresce pela fórmula de série de pagamentos: PMT × [((1 + r/n)^(nt) - 1) / (r/n)]. Todos os cálculos e gráficos rodam no seu navegador.",
+  "formula": {
+    "title": "Fórmula dos juros compostos",
+    "explanation": "Sem aportes, o valor futuro A cresce a partir do principal P à taxa anual r, capitalizada n vezes por ano durante t anos, rendendo juros sobre os juros acumulados."
+  },
+  "workedExamples": [
+    {
+      "title": "Principal de $10,000 a 7% por 10 anos (capitalização anual)",
+      "inputs": [
+        "Principal inicial (P): $10,000",
+        "Taxa de juros anual (r): 7%",
+        "Frequência de capitalização (n): anual (1/ano)",
+        "Prazo (t): 10 anos",
+        "Aporte mensal: $0"
+      ],
+      "steps": [
+        "Fórmula: A = 10,000 × (1 + 0.07/1)^(1 × 10)",
+        null,
+        "Valor futuro total = $19,671.51",
+        "Total de juros ganhos = $19,671.51 − $10,000 = $9,671.51"
+      ],
+      "result": "Saldo final de $19,671.51 ($9,671.51 em juros)"
+    },
+    {
+      "title": "Principal de $5,000 com aportes mensais de $200 a 8% por 5 anos",
+      "inputs": [
+        "Principal inicial: $5,000",
+        "Taxa de juros anual: 8% (capitalização mensal)",
+        "Aporte mensal: $200",
+        "Prazo: 5 anos"
+      ],
+      "steps": [
+        "Crescimento do principal: 5,000 × (1 + 0.08/12)^60 = $7,449.23",
+        "Crescimento dos aportes: 200 × [((1 + 0.08/12)^60 - 1) / (0.08/12)] = $14,695.37",
+        "Valor futuro total = $7,449.23 + $14,695.37 = $22,144.60",
+        "Total depositado = $5,000 + ($200 × 60) = $17,000"
+      ],
+      "result": "Saldo de $22,144.60 ($5,144.60 em juros)"
+    },
+    {
+      "title": "Comparação com capitalização diária ($10,000 a 5% por 1 ano)",
+      "inputs": [
+        "Principal: $10,000",
+        "Taxa: 5%",
+        "Frequência: diária (365 vezes/ano)",
+        "Prazo: 1 ano"
+      ],
+      "steps": [
+        "APY efetivo = (1 + 0.05/365)^365 − 1 ≈ 5.127%",
+        "Valor futuro = 10,000 × (1 + 0.05/365)^365 = $10,512.67",
+        "Rende $12.67 a mais que a capitalização anual simples ($10,500.00)"
+      ],
+      "result": "$10,512.67 (APY de 5.13%)"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Comparar APR diretamente com APY",
+      "description": "Um banco que anuncia 5.00% de APR (taxa nominal) com capitalização diária paga, na verdade, 5.13% de APY (taxa efetiva). Compare sempre APY com APY para uma avaliação justa."
+    },
+    {
+      "title": "Adiar os aportes",
+      "description": "Graças ao crescimento exponencial, investir cedo, aos vinte e poucos anos, acumula muito mais patrimônio do que investir o dobro mais tarde, aos quarenta."
+    },
+    {
+      "title": "Ignorar a inflação e os impostos",
+      "description": "Taxas de juros nominais altas precisam ser ajustadas pela inflação e pelos impostos anuais sobre o rendimento para medir o crescimento real do poder de compra."
+    }
+  ],
+  "sources": [
+    {
+      "label": "U.S. Securities and Exchange Commission (SEC) - calculadora de juros compostos"
+    },
+    {
+      "label": "Consumer Financial Protection Bureau - explicação sobre APY e poupança"
+    },
+    {
+      "label": "Federal Deposit Insurance Corporation (FDIC) - contas de depósito"
+    }
+  ],
+  "howto": {
+    "name": "Como calcular o crescimento com juros compostos",
+    "description": "Instruções passo a passo para simular frequências de capitalização, aportes periódicos e o rendimento percentual anual efetivo (APY).",
+    "steps": [
+      {
+        "name": "Informe o principal inicial",
+        "text": "Digite o valor inicial investido ou o saldo da poupança (pode ser $0 se você for começar só com aportes regulares)."
+      },
+      {
+        "name": "Informe a taxa de juros anual",
+        "text": "Digite a taxa nominal anual (APR) paga pela sua conta de alto rendimento, CDB ou investimento."
+      },
+      {
+        "name": "Escolha a frequência de capitalização",
+        "text": "Escolha com que frequência os juros são incorporados ao principal: diária, mensal, trimestral ou anual."
+      },
+      {
+        "name": "Defina o prazo do investimento",
+        "text": "Informe por quantos anos pretende deixar o dinheiro rendendo sem mexer."
+      },
+      {
+        "name": "Adicione aportes mensais (opcional)",
+        "text": "Se quiser, informe aportes mensais recorrentes para projetar o crescimento exponencial do patrimônio."
+      },
+      {
+        "name": "Confira o gráfico de crescimento e os saldos",
+        "text": "Veja o valor futuro final, o total de juros ganhos, o APY efetivo e o gráfico SVG interativo da evolução."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Qual é a diferença entre juros simples e juros compostos?",
+      "a": "Os juros simples são calculados só sobre o valor principal original. Os juros compostos são calculados sobre o principal inicial e também sobre os juros acumulados dos períodos anteriores, acelerando o crescimento de forma exponencial com o tempo."
+    },
+    {
+      "q": "Qual é a fórmula matemática dos juros compostos?",
+      "a": "Sem aportes periódicos, a fórmula é: A = P × (1 + r/n)^(n×t), em que P é o principal, r a taxa de juros nominal anual em decimal, n o número de capitalizações por ano e t o prazo em anos."
+    },
+    {
+      "q": "Qual é a diferença entre APR e APY?",
+      "a": "A APR (Annual Percentage Rate, taxa nominal anual) é a taxa de juros declarada, sem considerar a capitalização ao longo do ano. O APY (Annual Percentage Yield, rendimento efetivo anual) mostra a taxa anual efetiva real, incluindo o efeito da capitalização: APY = (1 + r/n)^n - 1."
+    },
+    {
+      "q": "Com que frequência os juros devem ser capitalizados para render mais?",
+      "a": "Quanto mais frequente a capitalização, maior o rendimento efetivo. A capitalização diária (365 vezes por ano) rende um pouco mais de juros que a mensal (12 vezes) ou a anual (1 vez) com a mesma taxa nominal."
+    },
+    {
+      "q": "Algum valor de investimento ou saldo pessoal fica armazenado?",
+      "a": "Não. Todos os cálculos de juros compostos e os gráficos SVG são gerados só na memória do seu navegador. Nenhum dado financeiro sai do seu dispositivo."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Formulário da calculadora de juros compostos",
+      "copy-result-btn": "Copiar o resumo do cálculo",
+      "annual-balance-interest-schedule-div1": "Tabela de evolução dos juros compostos (com rolagem)",
+      "annual-balance-interest-schedule-table1": "Tabela anual de crescimento com juros compostos"
+    },
+    "label": {
+      "principal": "Principal inicial <span class=\"text-accent\">*</span>",
+      "interest-rate": "Taxa de juros anual (%) <span class=\"text-accent\">*</span>",
+      "years": "Prazo do investimento (anos) <span class=\"text-accent\">*</span>",
+      "compounding-frequency": "Frequência de capitalização",
+      "regular-contribution": "Aporte mensal opcional <span class=\"label-hint\">(depositado no início do mês)</span>"
+    },
+    "option": {
+      "compounding-frequency": {
+        "daily": "Diária (365 vezes/ano)",
+        "monthly": "Mensal (12 vezes/ano)",
+        "quarterly": "Trimestral (4 vezes/ano)",
+        "annual": "Anual (1 vez/ano)"
+      }
+    },
+    "content": {
+      "tool": {
+        "button1": "Calcular crescimento",
+        "div1": "Valor futuro final",
+        "div2": "Total investido",
+        "div3": "Total de juros compostos",
+        "div4": "APY efetivo"
+      },
+      "balance-growth-over-time": {
+        "heading": "Crescimento do saldo ao longo do tempo",
+        "div1": "<span class=\"legend-item\"><span class=\"legend-dot principal\"></span> Total investido</span>\n              <span class=\"legend-item\"><span class=\"legend-dot balance\"></span> Saldo total</span>"
+      },
+      "annual-balance-interest-schedule": {
+        "heading": "Tabela anual de saldo e juros",
+        "th1": "Ano",
+        "th2": "Aportes no ano",
+        "th3": "Total investido",
+        "th4": "Juros ganhos",
+        "th5": "Saldo final"
+      },
+      "how-when-to-use-the-compound": {
+        "li1": "<strong>Contas de alto rendimento e CDBs:</strong> compare a capitalização diária e a mensal oferecidas por bancos digitais para achar o maior APY real.",
+        "li2": "<strong>Aposentadoria no longo prazo:</strong> calcule como aportes mensais em fundos de índice crescem ao longo de carreiras de 20, 30 ou 40 anos.",
+        "li3": "<strong>Poupança para a faculdade dos filhos e planos 529:</strong> estime o valor futuro de um presente inicial complementado por aportes mensais regulares.",
+        "li4": "<strong>Conferir a regra dos 72:</strong> veja quanto tempo o seu dinheiro leva para dobrar com diferentes taxas de juros e frequências de capitalização."
+      }
+    },
+    "text": {
+      "reset-btn": "Redefinir",
+      "result-header-text": "Projeção do crescimento composto",
+      "copy-result-btn": "<span data-icon=\"copy\"></span> Copiar resumo",
+      "result-primary-text": "Valor futuro: $0.00",
+      "stat-effective-apy": "APY de 0.00%",
+      "how-to-use-heading": "Como e quando usar a calculadora de juros compostos"
+    },
+    "title": {
+      "copy-result-btn": "Copiar o resumo do cálculo"
+    }
+  },
+  "client": {
+    "freq": {
+      "daily": "diária (365/ano)",
+      "monthly": "mensal (12/ano)",
+      "quarterly": "trimestral (4/ano)",
+      "annual": "anual (1/ano)"
+    },
+    "errors": {
+      "frequency": "Frequência de capitalização inválida",
+      "principalMin": "O principal inicial deve ser 0 ou mais.",
+      "rateMin": "A taxa de juros deve ser 0% ou mais.",
+      "horizonMin": "O prazo do investimento deve ser maior que zero.",
+      "horizonMax": "O prazo do investimento não pode passar de 60 anos.",
+      "contributionMin": "O valor do aporte deve ser 0 ou mais.",
+      "principalOrContribution": "Informe um principal inicial ou um valor de aporte regular.",
+      "principalRequired": "Informe um valor principal inicial (0 ou mais).",
+      "principalNegative": "O principal inicial não pode ser negativo.",
+      "rateRequired": "Informe uma taxa de juros anual.",
+      "rateNegative": "A taxa de juros não pode ser negativa.",
+      "yearsRequired": "Informe o prazo do investimento em anos.",
+      "yearsMin": "O prazo deve ser maior que zero.",
+      "principalOrContributionRequired": "Informe um principal inicial ou um valor de aporte regular."
+    },
+    "chart": {
+      "yearTick": "Ano {{year}}",
+      "pointTitle": "Ano {{year}}: saldo {{symbol}}{{balance}}, investido {{symbol}}{{principal}}",
+      "ariaLabel": "Gráfico de projeção do patrimônio com juros compostos",
+      "desc": "Evolução comparando o total investido com o saldo com juros compostos ao longo de {{count}} anos."
+    },
+    "result": {
+      "primary": "Valor futuro: {{value}}",
+      "apy": "APY de {{apy}}%"
+    },
+    "summary": {
+      "title": "Resumo do crescimento com juros compostos:",
+      "principal": "Principal inicial: {{value}}",
+      "rate": "Taxa de juros: {{rate}}% (capitalização {{frequency}})",
+      "apy": "APY efetivo: {{apy}}%",
+      "horizon": "Prazo: {{years}} anos",
+      "contribution": "Aporte mensal: {{value}}",
+      "totalPrincipal": "Total investido: {{value}}",
+      "totalInterest": "Total de juros compostos ganhos: {{value}}",
+      "futureValue": "Valor futuro final: {{value}}"
+    },
+    "table": {
+      "year": "Ano {{year}}"
+    },
+    "toast": {
+      "copied": "Cálculo de juros compostos copiado para a área de transferência!"
+    }
+  }
+}

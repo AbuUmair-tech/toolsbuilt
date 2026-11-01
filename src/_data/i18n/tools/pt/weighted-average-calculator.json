@@ -1,0 +1,258 @@
+{
+  "listing": {
+    "name": "Calculadora de média ponderada",
+    "shortName": "Média ponderada",
+    "description": "Calcule a média ponderada a partir de valores e pesos em porcentagem ou números simples, com a contribuição de cada linha e o passo a passo.",
+    "shortDescription": "Média ponderada com pesos em % ou números simples, contribuições e cálculo.",
+    "keywords": [
+      "calculadora de média ponderada",
+      "média ponderada",
+      "calcular média ponderada de notas",
+      "como calcular média ponderada",
+      "nota ponderada",
+      "somarproduto média",
+      "porcentagem ponderada"
+    ]
+  },
+  "title": "Calculadora de média ponderada (passo a passo)",
+  "description": "Calculadora de média ponderada com pesos em porcentagem ou números simples, mostrando a contribuição de cada linha e o cálculo completo.",
+  "h1": "Calculadora de média ponderada",
+  "quickAnswer": "Na calculadora de média ponderada, cada valor é multiplicado pelo seu peso, os produtos são somados e o resultado é dividido pelo peso total. Notas 90 (30%), 80 (50%) e 70 (20%) dão 27 + 40 + 14 = 81. Com pesos em números simples o método é o mesmo: 90 com peso 2 e 80 com peso 3 dão (180 + 240) ÷ 5 = 84.",
+  "formula": {
+    "title": "Fórmula da média ponderada",
+    "expression": "Média ponderada = Σ(valor × peso) ÷ Σ(peso)",
+    "explanation": "Cada valor conta na proporção do seu peso. Quando os pesos são porcentagens que somam 100, dividir pelo peso total é o mesmo que dividir por 100, então a contribuição de cada linha é simplesmente valor × peso%. Se os pesos em porcentagem somarem outro valor, a calculadora divide pelo total real (normaliza os pesos) e avisa você, o que equivale a ajustar todos os pesos para que somem 100.",
+    "variables": [
+      {
+        "name": "Valor",
+        "description": "A nota, o conceito, o preço ou a medida de cada item."
+      },
+      {
+        "name": "Peso",
+        "description": "Quanto cada valor conta: uma porcentagem, créditos, uma quantidade ou qualquer outro número positivo."
+      },
+      {
+        "name": "Contribuição",
+        "description": "valor × peso ÷ peso total: quantos pontos da média final vêm daquela linha."
+      }
+    ]
+  },
+  "workedExamples": [
+    {
+      "title": "Nota da disciplina com pesos em porcentagem",
+      "inputs": [
+        "Trabalhos: 90, peso 30%",
+        "Prova parcial: 80, peso 50%",
+        "Testes: 70, peso 20%"
+      ],
+      "steps": [
+        null,
+        "Soma dos produtos: 8,100; soma dos pesos: 100"
+      ],
+      "result": "Média ponderada 81"
+    },
+    {
+      "title": "Pesos em números simples",
+      "inputs": [
+        "90 com peso 2",
+        "80 com peso 3"
+      ],
+      "result": "Média ponderada 84"
+    },
+    {
+      "title": "Pesos em porcentagem que não somam 100",
+      "inputs": [
+        "90 com peso 30%",
+        "80 com peso 50%"
+      ],
+      "steps": [
+        "Os pesos somam 80%, então são normalizados"
+      ],
+      "result": "Média ponderada 83.75 (equivale a pesos de 37.5% e 62.5%)"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Tirar uma média simples no lugar",
+      "description": "A média simples de 90, 80 e 70 é 80, mas se o 90 vale 30% e o 70 só 20%, a média ponderada é 81. Use a média simples só quando todos os itens valem o mesmo."
+    },
+    {
+      "title": "Dividir pelo número de itens",
+      "description": "A média ponderada divide pelo peso total, e não pela quantidade de valores. Dividir 420 por 2 itens em vez de 5 unidades de peso dá 210, o que não faz sentido."
+    },
+    {
+      "title": "Esquecer o peso que falta",
+      "description": "Se avaliações que valem 20% ainda não aconteceram, seus pesos somam 80%. O resultado normalizado mostra a sua média até agora; não é a nota final até os 20% restantes entrarem na conta."
+    },
+    {
+      "title": "Misturar tipos de peso",
+      "description": "Use um só tipo de peso em todas as linhas: tudo em porcentagem, tudo em créditos ou tudo em quantidades. Misturar um peso de 30% com um peso de 3 créditos dá uma resposta errada."
+    },
+    {
+      "title": "Usar valores em escalas diferentes",
+      "description": "Confira se todos os valores estão na mesma escala, por exemplo, tudo em porcentagem. Uma nota 18/20 deve ser informada como 90, e não 18, se as outras forem de 0 a 100."
+    }
+  ],
+  "sources": [
+    {
+      "name": "NIST/SEMATECH e-Handbook of Statistical Methods: medidas de posição"
+    },
+    {
+      "name": "Suporte da Microsoft: função SOMARPRODUTO"
+    },
+    {
+      "name": "U.S. Bureau of Labor Statistics: como o CPI usa pesos (importância relativa)"
+    }
+  ],
+  "howto": {
+    "name": "Como calcular uma média ponderada",
+    "description": "Informe valores e pesos para obter a média ponderada com o cálculo completo.",
+    "steps": [
+      {
+        "name": "Escolha o tipo de peso",
+        "text": "Escolha porcentagens se os pesos forem % de um total, ou números simples para créditos, quantidades etc."
+      },
+      {
+        "name": "Informe valores e pesos",
+        "text": "Preencha um valor e um peso em cada linha, adicionando linhas conforme precisar. O nome de cada linha é opcional."
+      },
+      {
+        "name": "Veja o resultado",
+        "text": "Veja a média ponderada, o peso total, a contribuição de cada linha e cada etapa do cálculo."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Como calcular uma média ponderada?",
+      "a": "Multiplique cada valor pelo seu peso, some todos os produtos e divida pela soma dos pesos. Para 90 (30%), 80 (50%) e 70 (20%): (2.700 + 4.000 + 1.400) ÷ 100 = 81."
+    },
+    {
+      "q": "Qual é a diferença entre média ponderada e média simples?",
+      "a": "A média simples (aritmética) dá a mesma importância a todos os valores. A média ponderada deixa alguns valores contarem mais que outros, de acordo com os pesos."
+    },
+    {
+      "q": "Os pesos precisam somar 100?",
+      "a": "Não. Qualquer peso positivo funciona, porque a fórmula divide pelo total. Se você escolher pesos em porcentagem que não somam 100, a calculadora os normaliza e avisa você."
+    },
+    {
+      "q": "Como calcular minha nota com categorias de pesos diferentes?",
+      "a": "Informe a média de cada categoria como valor e a porcentagem dela na disciplina como peso. O resultado é a sua nota geral; a coluna de contribuição mostra quantos pontos cada categoria acrescenta."
+    },
+    {
+      "q": "Como calcular uma média ponderada no Excel?",
+      "a": "Use =SOMARPRODUTO(valores; pesos)/SOMA(pesos) (em inglês, =SUMPRODUCT(values, weights)/SUM(weights)). Para valores em A2:A4 e pesos em B2:B4: =SOMARPRODUTO(A2:A4;B2:B4)/SOMA(B2:B4)."
+    },
+    {
+      "q": "Um peso pode ser zero?",
+      "a": "Sim. Uma linha com peso 0 não afeta o resultado. Se todos os pesos forem zero, não há o que calcular, então a calculadora mostra um erro."
+    },
+    {
+      "q": "Para que serve a média ponderada?",
+      "a": "Notas de disciplinas, GPA por créditos, preço médio de compras de tamanhos diferentes, rendimento de carteiras, resultados de pesquisas e números-índice usam médias ponderadas."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Calculadora de média ponderada",
+      "wavg-rows": "Valores e pesos",
+      "copy-result-btn": "Copiar o resultado para a área de transferência"
+    },
+    "content": {
+      "tool": {
+        "legend1": "Os pesos são",
+        "label1": "<input type=\"radio\" name=\"wt\" value=\"percent\" data-param=\"wt\" checked>\n              <span>Porcentagens (%)</span>",
+        "label2": "<input type=\"radio\" name=\"wt\" value=\"number\" data-param=\"wt\">\n              <span>Números simples</span>",
+        "div1": "<span>Nome (opcional)</span><span>Valor</span><span id=\"weight-head\">Peso (%)</span><span></span>",
+        "button1": "Calcular média ponderada",
+        "caption1": "Participação de cada linha no peso total e contribuição para a média",
+        "th1": "Linha",
+        "th2": "Valor",
+        "th3": "Peso",
+        "th4": "Participação",
+        "th5": "Soma",
+        "summary1": "Passo a passo"
+      },
+      "simple-vs-weighted-average": {
+        "heading": "Média simples x média ponderada",
+        "p1": "A média simples trata todos os números da mesma forma. A média ponderada deixa cada número contar de acordo com a sua importância, e é assim que se calculam a maioria das notas de disciplinas, GPAs e preços médios.",
+        "caption1": "Médias simples e ponderada das mesmas notas",
+        "th1": "Avaliação",
+        "th2": "Nota",
+        "th3": "Peso",
+        "th4": "Contribuição",
+        "td1": "Trabalhos",
+        "td2": "Prova parcial",
+        "td3": "Testes",
+        "td4": "<strong>Total</strong>",
+        "td5": "Média simples 80",
+        "td6": "<strong>Ponderada 81</strong>",
+        "p2": "O resultado ponderado é maior porque a nota mais alta (90) tem mais peso que a mais baixa (70)."
+      },
+      "where-weighted-averages-are-used": {
+        "heading": "Onde a média ponderada é usada",
+        "li1": "<strong>Notas:</strong> pesos de trabalhos, prova parcial e prova final definidos no plano de ensino. Para conceitos por letra, a <a href=\"/tools/grade-calculator/\">calculadora de notas</a> e a <a href=\"/tools/gpa-calculator/\">calculadora de GPA</a> fazem isso com os créditos.",
+        "li2": "<strong>Custo médio:</strong> se você compra 10 unidades a 5 e 30 unidades a 6, o preço médio é (50 + 180) ÷ 40 = 5.75, e não 5.50.",
+        "li3": "<strong>Admissões:</strong> as fórmulas de mérito e nota agregada dão pesos aos resultados escolares e aos exames de admissão; a <a href=\"/tools/merit-calculator/\">calculadora de mérito</a> lida com notas de totais diferentes.",
+        "li4": "<strong>Estatística:</strong> índices de preços, como o Índice de Preços ao Consumidor, dão a cada categoria um peso conforme a sua participação nos gastos das famílias.",
+        "p1": "Todos os cálculos rodam no seu navegador. Você pode compartilhar um link que reabre exatamente as suas linhas."
+      }
+    },
+    "text": {
+      "add-row-btn": "+ Adicionar linha",
+      "reset-btn": "Redefinir",
+      "result-header-text": "Média ponderada",
+      "copy-result-btn": "<span data-icon=\"copy\"></span> Copiar resultado"
+    },
+    "title": {
+      "copy-result-btn": "Copiar o resultado para a área de transferência"
+    },
+    "rowTemplate": {
+      "name": "Nome",
+      "namePlaceholder": "ex.: Prova parcial",
+      "weight": "Peso (%)",
+      "remove": "Remover linha"
+    }
+  },
+  "client": {
+    "rowName": "Linha {{n}}",
+    "errors": {
+      "addRow": "Adicione pelo menos um valor e um peso.",
+      "tooMany": "Use no máximo {{max}} linhas.",
+      "enterValue": "{{name}}: informe um valor para este peso.",
+      "enterWeight": "{{name}}: informe um peso para este valor.",
+      "valueNumber": "{{name}}: o valor deve ser um número.",
+      "weightPositive": "{{name}}: o peso deve ser 0 ou um número positivo.",
+      "allZero": "Todos os pesos são zero, então não há o que calcular. Dê a pelo menos uma linha um peso maior que 0."
+    },
+    "steps": {
+      "multiply": "Multiplique cada valor pelo seu peso: {{products}}",
+      "addProducts": "Some os produtos: {{sum}} = {{total}}",
+      "addWeights": "Some os pesos: {{sum}} = {{total}}",
+      "divide": "Divida: {{sum}} ÷ {{weights}} = {{average}}",
+      "normalised": "Os pesos em porcentagem somam {{total}}%, e não 100%, então cada peso foi tratado como a sua parte de {{total}}."
+    },
+    "defaults": {
+      "assignments": "Trabalhos",
+      "midterm": "Prova parcial",
+      "quizzes": "Testes"
+    },
+    "rows": {
+      "remove": "Remover linha {{n}}",
+      "weightPercent": "Peso (%)",
+      "weight": "Peso"
+    },
+    "result": {
+      "header": {
+        "many": "Média ponderada de {{count}} valores",
+        "one": "Média ponderada de {{count}} valor",
+        "other": "Média ponderada de {{count}} valores"
+      },
+      "normalised": "Os seus pesos em porcentagem somam {{total}}%, e não 100%, então foram normalizados: cada peso conta como a sua parte de {{total}}.",
+      "totalWeight": "Peso total: {{total}}."
+    },
+    "copy": {
+      "average": "Média ponderada: {{average}}"
+    }
+  }
+}

@@ -1,0 +1,260 @@
+{
+  "listing": {
+    "name": "Calculadora de frequência",
+    "shortName": "Calculadora de frequência",
+    "description": "Descubra sua porcentagem de frequência, quantas aulas precisa assistir para chegar a 75% ou quantas pode faltar sem sair da meta.",
+    "shortDescription": "Frequência em %, aulas necessárias para 75% e quantas faltas você ainda pode ter.",
+    "keywords": [
+      "calculadora de frequência",
+      "frequência mínima 75%",
+      "quantas aulas preciso assistir",
+      "quantas faltas posso ter",
+      "porcentagem de frequência",
+      "calculadora de faltas",
+      "frequência na faculdade"
+    ]
+  },
+  "title": "Calculadora de frequência: aulas necessárias e faltas",
+  "description": "Calculadora de frequência: veja sua porcentagem de presença, quantas aulas precisa assistir para chegar a 75% ou quantas faltas ainda pode ter.",
+  "h1": "Calculadora de frequência",
+  "quickAnswer": "Na calculadora de frequência, frequência % = aulas assistidas ÷ aulas dadas × 100, então 30 de 40 dá 75.00%. Para chegar a uma meta, você precisa assistir a n aulas seguidas, onde n = (meta × aulas dadas − assistidas) ÷ (1 − meta): com 30/40, faltam 10 aulas para 80% (40/50). Se estiver acima da meta, pode faltar a (assistidas − meta × aulas dadas) ÷ meta aulas: com 45/50, pode faltar a 10 e ainda ficar com 75% (45/60).",
+  "formula": {
+    "title": "Fórmulas de frequência",
+    "expression": "Frequência % = A ÷ H × 100   ·   Aulas necessárias = ⌈(T·H − A) ÷ (1 − T)⌉   ·   Faltas possíveis = ⌊(A − T·H) ÷ T⌋",
+    "explanation": "A são as aulas assistidas, H as aulas dadas e T a meta em decimal (75% = 0.75). Assistir a mais n aulas muda a frequência para (A + n) ÷ (H + n); faltar a mais m aulas muda para A ÷ (H + m). Resolvendo cada uma para a meta chegamos às fórmulas acima, arredondando para cima nas aulas necessárias e para baixo nas faltas possíveis, para que a recomendação mantenha você sempre na meta ou acima dela. A calculadora trabalha com números inteiros, então exatamente 75% conta como cumprir uma meta de 75%.",
+    "variables": [
+      {
+        "name": "A (assistidas)",
+        "description": "Aulas, palestras ou práticas de laboratório em que você recebeu presença."
+      },
+      {
+        "name": "H (dadas)",
+        "description": "Todas as aulas dadas até agora, incluindo as que você faltou."
+      },
+      {
+        "name": "T (meta)",
+        "description": "A frequência mínima exigida pela sua instituição, muitas vezes 75%, mas às vezes 80% ou 85%."
+      }
+    ]
+  },
+  "workedExamples": [
+    {
+      "title": "Exatamente em 75%",
+      "inputs": [
+        "Assistidas: 30",
+        "Dadas: 40",
+        "Meta: 75%"
+      ],
+      "steps": [
+        null,
+        "Pode faltar: (30 − 0.75 × 40) ÷ 0.75 = 0 aulas"
+      ],
+      "result": "75.00%: na meta, sem nenhuma falta sobrando"
+    },
+    {
+      "title": "Chegar a 80% a partir de 30/40",
+      "inputs": [
+        "Assistidas: 30, dadas: 40",
+        "Meta: 80%"
+      ],
+      "steps": [
+        "Aulas necessárias: (0.80 × 40 − 30) ÷ (1 − 0.80) = 2 ÷ 0.2 = 10",
+        "Conferindo: (30 + 10) ÷ (40 + 10) = 40 ÷ 50 = 80%"
+      ],
+      "result": "Assista às próximas 10 aulas"
+    },
+    {
+      "title": "Quantas aulas posso faltar com 45/50?",
+      "inputs": [
+        "Assistidas: 45, dadas: 50 (90%)",
+        "Meta: 75%"
+      ],
+      "steps": [
+        "Pode faltar: (45 − 0.75 × 50) ÷ 0.75 = 7.5 ÷ 0.75 = 10",
+        "Conferindo: 45 ÷ (50 + 10) = 45 ÷ 60 = 75%"
+      ],
+      "result": "Você pode faltar a 10 aulas e ainda ficar com 75%"
+    },
+    {
+      "title": "Recuperar a partir de 70%",
+      "inputs": [
+        "Assistidas: 70, dadas: 100",
+        "Meta: 75%"
+      ],
+      "steps": [
+        "Aulas necessárias: (0.75 × 100 − 70) ÷ 0.25 = 5 ÷ 0.25 = 20",
+        "Conferindo: 90 ÷ 120 = 75%"
+      ],
+      "result": "Assista às próximas 20 aulas seguidas"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Contar só as aulas futuras",
+      "description": "Cada aula que você assiste também soma um às aulas dadas, então a porcentagem sobe mais devagar do que parece. Com 70/100, assistir a mais 5 dá 75/105 = 71.4%, e não 75%. Você precisa de mais 20."
+    },
+    {
+      "title": "Achar que pode faltar meta × aulas restantes",
+      "description": "Se faltam 40 aulas e a meta é 75%, você não pode simplesmente faltar a 10 delas; quantas pode faltar depende da sua frequência até agora. Informe os seus números reais para ver o valor exato."
+    },
+    {
+      "title": "Misturar disciplinas ou tipos de aula",
+      "description": "Muitas instituições aplicam a regra de frequência por disciplina e, às vezes, separadamente para aulas teóricas e práticas. Calcule cada uma separadamente em vez de juntar tudo."
+    },
+    {
+      "title": "Arredondar 74.6% para 75%",
+      "description": "As instituições costumam comparar o valor exato com a exigência. 74.6% está abaixo de 75%. A calculadora só diz que você cumpriu a meta quando você realmente chega a ela."
+    },
+    {
+      "title": "Ignorar regras sobre atestado médico ou faltas justificadas",
+      "description": "Algumas instituições abonam faltas documentadas ou aceitam um mínimo menor com autorização; outras não. Confira o regulamento de frequência da sua instituição antes de planejar faltas."
+    }
+  ],
+  "sources": [
+    {
+      "name": "CBSE: falta de frequência (Examination Bye-Laws, regras 13 e 14)"
+    },
+    {
+      "name": "CBSE: Examination Bye-Laws"
+    },
+    {
+      "name": "GOV.UK: frequência e faltas escolares"
+    }
+  ],
+  "howto": {
+    "name": "Como calcular a porcentagem de frequência",
+    "description": "Descubra a sua frequência e planeje quantas aulas assistir ou quantas pode faltar.",
+    "steps": [
+      {
+        "name": "Informe as aulas assistidas",
+        "text": "Digite em quantas aulas você esteve presente."
+      },
+      {
+        "name": "Informe as aulas dadas",
+        "text": "Digite quantas aulas foram dadas até agora, incluindo as que você faltou."
+      },
+      {
+        "name": "Escolha a meta",
+        "text": "Escolha 75%, 80% ou 85%, ou digite a exigência da sua instituição."
+      },
+      {
+        "name": "Veja a recomendação",
+        "text": "Veja a sua frequência, as aulas que precisa assistir ou pode faltar e uma tabela para as próximas 10 aulas."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Como calcular a minha porcentagem de frequência?",
+      "a": "Divida as aulas que você assistiu pelo total de aulas dadas e multiplique por 100. 30 assistidas de 40 dadas é 30 ÷ 40 × 100 = 75%."
+    },
+    {
+      "q": "Quantas aulas preciso assistir para ter 75% de frequência?",
+      "a": "Use n = (0.75 × aulas dadas − assistidas) ÷ 0.25 e arredonde para cima. Com 70 de 100, você precisa de (75 − 70) ÷ 0.25 = 20 aulas seguidas, chegando a 90/120 = 75%."
+    },
+    {
+      "q": "Quantas aulas posso faltar e ainda ter 75%?",
+      "a": "Use (assistidas − 0.75 × aulas dadas) ÷ 0.75 e arredonde para baixo. Com 45 de 50, você pode faltar a (45 − 37.5) ÷ 0.75 = 10 aulas, ficando com 45/60 = 75%."
+    },
+    {
+      "q": "A frequência de 75% é obrigatória?",
+      "a": "Muitas escolas, faculdades e universidades definem um mínimo, e 75% é comum, mas o valor e as consequências variam. Confira o regulamento da sua instituição ou do órgão responsável pelos exames para saber a regra exata."
+    },
+    {
+      "q": "O que acontece com a minha frequência se eu faltar a mais uma aula?",
+      "a": "Ela passa a ser assistidas ÷ (aulas dadas + 1). A tabela abaixo do resultado mostra a sua porcentagem depois de faltar ou assistir a cada uma das próximas 1 a 10 aulas."
+    },
+    {
+      "q": "Posso calcular a frequência para uma exigência de 80% ou 85%?",
+      "a": "Sim. Escolha 80% ou 85%, ou digite qualquer meta, como 70% ou 82.5%, e a calculadora mostra as aulas necessárias ou as faltas que você ainda pode ter."
+    },
+    {
+      "q": "Por que nunca consigo voltar a 100% de frequência?",
+      "a": "Depois que você falta a uma aula, as assistidas são sempre menos que as dadas, então assistidas ÷ dadas fica abaixo de 100% não importa quantas aulas você assista depois."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Calculadora de frequência",
+      "copy-result-btn": "Copiar o resultado para a área de transferência"
+    },
+    "label": {
+      "attended": "Aulas assistidas <span class=\"text-accent\">*</span>",
+      "total": "Total de aulas dadas <span class=\"text-accent\">*</span>",
+      "target": "Meta % <span class=\"label-hint\">(ou digite a sua)</span>"
+    },
+    "content": {
+      "tool": {
+        "legend1": "Frequência exigida",
+        "button1": "Calcular frequência",
+        "th1": "Próximas",
+        "th2": "Assistindo a todas",
+        "th3": "Faltando a todas"
+      },
+      "quick-reference-for-a-75-requirement": {
+        "heading": "Referência rápida para a exigência de 75%",
+        "p1": "Com 75%, cada aula que você falta precisa ser compensada por três aulas assistidas. Isso facilita conferir à mão: você está na meta quando assistidas ÷ dadas é pelo menos 3 ÷ 4.",
+        "caption1": "Aulas necessárias ou faltas possíveis com meta de 75%",
+        "th1": "Assistidas / dadas",
+        "th2": "Frequência",
+        "th3": "Com 75%",
+        "td1": "Assista a mais 10 (30/40)",
+        "td2": "Assista a mais 5 (30/40)",
+        "td3": "Na meta, sem faltas sobrando",
+        "td4": "Pode faltar a 3 (36/48)",
+        "td5": "Pode faltar a 10 (45/60)",
+        "td6": "Assista a mais 20 (90/120)"
+      },
+      "planning-the-rest-of-the-term": {
+        "heading": "Planejando o resto do período",
+        "li1": "<strong>Confira cedo:</strong> quanto mais avançado o período, mais aulas são necessárias para mudar a sua porcentagem. Ficar para trás na semana 3 é muito mais fácil de corrigir do que na semana 12.",
+        "li2": "<strong>Use a tabela:</strong> a projeção mostra exatamente onde você vai estar depois de cada uma das próximas dez aulas, assistindo ou faltando.",
+        "li3": "<strong>Conte cada tipo de aula:</strong> se a sua instituição controla aulas teóricas, tutorias e laboratórios separadamente, use a calculadora para cada um.",
+        "li4": "<strong>Mantenha o seu próprio registro:</strong> anote cada aula que assistir. Se a sua contagem for diferente da lista de chamada oficial, fale com o departamento o quanto antes.",
+        "p1": "As regras de frequência vêm da sua instituição, universidade ou órgão responsável pelos exames, e variam quanto à porcentagem mínima, às aulas que contam e ao abono de faltas por motivo médico ou justificadas. Leia o seu regulamento ou o manual do aluno para saber a regra que vale para você. Esta calculadora só faz a conta, no seu navegador."
+      }
+    },
+    "text": {
+      "reset-btn": "Redefinir",
+      "result-header-text": "Sua frequência",
+      "copy-result-btn": "<span data-icon=\"copy\"></span> Copiar resultado",
+      "projection-caption": "Frequência depois das próximas aulas"
+    },
+    "title": {
+      "copy-result-btn": "Copiar o resultado para a área de transferência"
+    }
+  },
+  "client": {
+    "errors": {
+      "enterAttended": "Informe o número de aulas que você assistiu.",
+      "enterTotal": "Informe o total de aulas dadas.",
+      "attendedWhole": "As aulas assistidas devem ser um número inteiro igual ou maior que 0.",
+      "totalWhole": "O total de aulas dadas deve ser um número inteiro igual ou maior que 1.",
+      "attendedOverTotal": "Você não pode ter assistido a mais aulas ({{attended}}) do que as que foram dadas ({{total}}).",
+      "tooMany": "Informe no máximo 100 mil aulas.",
+      "targetRange": "A meta deve ser maior que 0% e no máximo 100%."
+    },
+    "classes": {
+      "many": "{{count}} aulas",
+      "one": "{{count}} aula",
+      "other": "{{count}} aulas"
+    },
+    "projection": {
+      "meets": "{{value}}, cumpre a meta",
+      "below": "{{value}}, abaixo da meta",
+      "caption": "Depois das próximas 1-10 aulas (meta de {{target}}%)"
+    },
+    "result": {
+      "header": "Frequência: {{attended}} de {{total}} aulas"
+    },
+    "advice": {
+      "canMiss": "Você está com {{target}}% ou mais. Pode faltar a {{classes}} e ainda ficar com {{pct}} ({{attended}}/{{total}}).",
+      "exact": "Você está exatamente em {{target}}%, sem faltas sobrando: faltar à próxima aula levaria você a {{pct}}.",
+      "unreachable": "Você já faltou a {{classes}}, então {{target}}% não pode mais ser alcançado: a frequência fica abaixo de 100% não importa quantas aulas você assista.",
+      "needed": "Você está abaixo de {{target}}%. Assista às próximas {{classes}} seguidas para chegar a {{pct}} ({{attended}}/{{total}})."
+    },
+    "copy": {
+      "text": "Frequência {{attended}}/{{total}} = {{pct}}. {{advice}}"
+    }
+  }
+}

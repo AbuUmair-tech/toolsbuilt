@@ -1,0 +1,295 @@
+{
+  "listing": {
+    "name": "Calculadora de mérito e nota agregada",
+    "shortName": "Calculadora de mérito",
+    "description": "Calcule a nota agregada de mérito para admissão a partir das notas de Matric, Intermediate, exame de admissão e entrevista, com pesos próprios ou verificados de NUST e MDCAT.",
+    "shortDescription": "Nota agregada de admissão a partir das notas do conselho e de exames, com pesos próprios ou verificados.",
+    "keywords": [
+      "calculadora de mérito",
+      "calculadora de nota agregada",
+      "calculadora de agregado nust",
+      "calculadora de agregado mdcat",
+      "fórmula de cálculo de mérito",
+      "nota agregada exame de admissão",
+      "calculadora de mérito universitário"
+    ]
+  },
+  "title": "Calculadora de mérito e nota agregada (pesos próprios)",
+  "description": "Calcule a nota agregada de mérito para admissão com as notas de Matric, Intermediate, exame e entrevista, com pesos próprios ou de NUST e MDCAT.",
+  "h1": "Calculadora de mérito e nota agregada",
+  "quickAnswer": "Na calculadora de mérito, nota agregada = Σ (nota obtida ÷ nota total × peso %). Com Matric 900/1100 com peso 10%, Intermediate 950/1100 com 40% e um exame de admissão 300/400 com 50%, a nota agregada é 8.18 + 34.55 + 37.50 = 80.23%. Os pesos precisam somar 100%, e cada universidade define os seus, então confirme-os no edital oficial do seu ano de admissão.",
+  "formula": {
+    "title": "Fórmula da nota agregada de mérito",
+    "expression": "Nota agregada % = Σ (obtida ÷ total × 100 × peso ÷ 100)",
+    "explanation": "Cada componente (Matric/SSC, Intermediate/HSSC, exame de admissão, entrevista etc.) é primeiro transformado em porcentagem do seu próprio total, para que um exame de 200 pontos e uma prova do conselho de 1100 possam ser comparados. Essa porcentagem é multiplicada pelo peso do componente, e as partes ponderadas são somadas. Como os pesos somam 100%, o resultado também é uma porcentagem de 0 a 100. A calculadora mantém a precisão total até o fim e arredonda a nota agregada para 2 casas decimais.",
+    "variables": [
+      {
+        "name": "Obtida / total",
+        "description": "A sua nota naquele componente e a nota máxima possível, exatamente como no seu boletim."
+      },
+      {
+        "name": "Peso",
+        "description": "A parte da nota agregada que a instituição dá àquele componente, em %. Todos os pesos juntos devem somar 100%."
+      },
+      {
+        "name": "Contribuição",
+        "description": "A sua porcentagem no componente × o peso dele ÷ 100: os pontos que ele soma à sua nota agregada."
+      }
+    ]
+  },
+  "workedExamples": [
+    {
+      "title": "Matric, Intermediate e exame de admissão (10 / 40 / 50)",
+      "inputs": [
+        "Matric: 900 / 1100, peso 10%",
+        "Intermediate: 950 / 1100, peso 40%",
+        "Exame de admissão: 300 / 400, peso 50%"
+      ],
+      "steps": [
+        "Matric: 900 ÷ 1100 = 81.818%, × 10% = 8.1818",
+        "Intermediate: 950 ÷ 1100 = 86.364%, × 40% = 34.5455",
+        "Exame de admissão: 300 ÷ 400 = 75%, × 50% = 37.5",
+        "Total: 8.1818 + 34.5455 + 37.5 = 80.2273"
+      ],
+      "result": "Nota agregada 80.23%"
+    },
+    {
+      "title": "Pesos do NET da NUST (10 / 15 / 75)",
+      "inputs": [
+        "SSC: 1000 / 1100, peso 10%",
+        "HSSC Part-1: 480 / 550, peso 15%",
+        "NET: 140 / 200, peso 75%"
+      ],
+      "steps": [
+        "SSC: 90.909% × 10% = 9.0909",
+        "HSSC: 87.273% × 15% = 13.0909",
+        "NET: 70% × 75% = 52.5"
+      ],
+      "result": "Nota agregada 74.68%"
+    },
+    {
+      "title": "Com entrevista (quatro componentes)",
+      "inputs": [
+        "SSC 850/1100 com 10%, HSSC 900/1100 com 30%",
+        "Exame 150/200 com 50%, entrevista 40/50 com 10%"
+      ],
+      "steps": [
+        "SSC 77.273% × 10% = 7.7273; HSSC 81.818% × 30% = 24.5455",
+        "Exame 75% × 50% = 37.5; entrevista 80% × 10% = 8"
+      ],
+      "result": "Nota agregada 77.77%"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Usar os pesos do ano passado",
+      "description": "Universidades e órgãos reguladores mudam as fórmulas de mérito, às vezes todo ano. Confira sempre os pesos no edital oficial ou no aviso de admissão do período em que você vai se candidatar."
+    },
+    {
+      "title": "Somar notas brutas em vez de porcentagens",
+      "description": "Somar 900 pontos do conselho com 150 pontos do exame dá um número sem sentido, porque os totais são diferentes. Cada componente precisa virar porcentagem do seu próprio total antes de receber o peso."
+    },
+    {
+      "title": "Informar o total errado",
+      "description": "Os totais variam entre os sistemas de Matric e entre os conselhos, e algumas fórmulas usam só as notas do HSSC Part-1. Copie o total exatamente do seu boletim e das regras da instituição."
+    },
+    {
+      "title": "Esquecer o bônus de hafiz-e-Quran ou outros acréscimos",
+      "description": "Algumas instituições somam pontos extras ou descontam pontos por tentativas repetidas. Essas regras variam, então aplique-as você mesmo conforme o edital oficial."
+    },
+    {
+      "title": "Arredondar cada componente",
+      "description": "Arredondar cada contribuição antes de somar pode mudar a nota agregada final em alguns centésimos, o que faz diferença em listas de mérito apertadas. A calculadora mantém a precisão total e só arredonda o resultado final."
+    }
+  ],
+  "sources": [
+    {
+      "name": "NUST: critérios de geração do mérito para admissão na graduação pelo NET"
+    },
+    {
+      "name": "PM&DC: leis e regulamentos (Admissions, Curriculum and Conduct Regulations 2026)"
+    },
+    {
+      "name": "IBCC: equivalência de O/A Level e qualificações estrangeiras"
+    }
+  ],
+  "howto": {
+    "name": "Como calcular a nota agregada de mérito",
+    "description": "Combine resultados do conselho de ensino, exames de admissão e entrevistas em uma nota agregada de admissão.",
+    "steps": [
+      {
+        "name": "Escolha pesos próprios ou uma predefinição",
+        "text": "Use Personalizado para digitar qualquer peso, ou escolha uma predefinição verificada para preencher os componentes e os pesos."
+      },
+      {
+        "name": "Informe as suas notas",
+        "text": "Para cada componente, digite a nota obtida e a nota total exatamente como no seu boletim."
+      },
+      {
+        "name": "Confira os pesos",
+        "text": "Verifique se os pesos somam 100% e se correspondem ao edital oficial do seu ano de admissão."
+      },
+      {
+        "name": "Veja a sua nota agregada",
+        "text": "Veja a porcentagem e a contribuição de cada componente e a sua nota agregada com duas casas decimais."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Como calcular a minha nota agregada de mérito?",
+      "a": "Divida a sua nota pela nota total de cada componente, multiplique pelo peso desse componente e some os resultados. Para 900/1100 com 10%, 950/1100 com 40% e 300/400 com 50%, a nota agregada é 80.23%."
+    },
+    {
+      "q": "Qual é a fórmula da nota agregada da NUST?",
+      "a": "Para admissão pelo NET, os critérios publicados pela NUST são NET 75%, HSSC (Part-1 ou completo) 15% e SSC/O Level 10%. Escolha a predefinição da NUST, informe as suas notas e confira a página de critérios de mérito da NUST para o período atual."
+    },
+    {
+      "q": "Qual é a fórmula da nota agregada do MDCAT?",
+      "a": "Pelas PM&DC Admissions, Curriculum and Conduct Regulations 2026, a admissão por mérito aberto em faculdades públicas e privadas de medicina e odontologia usa MDCAT 50%, FSc/HSSC 40% e SSC/Matric 10%. A universidade que faz a admissão publica os critérios finais."
+    },
+    {
+      "q": "Por que a calculadora diz que os pesos precisam somar 100%?",
+      "a": "A nota agregada é uma porcentagem ponderada, então os pesos precisam cobrir os 100% inteiros. Se somarem 90%, falta um componente ou parte de um peso; confira a fórmula da instituição."
+    },
+    {
+      "q": "Posso acrescentar uma entrevista ou um segundo exame?",
+      "a": "Sim. O modo personalizado aceita até cinco componentes. Dê a cada um nome, nota obtida, nota total e peso."
+    },
+    {
+      "q": "Onde estão os pesos do ECAT da UET ou de outras universidades?",
+      "a": "Esta calculadora só inclui predefinições conferidas com uma fonte oficial. Para qualquer outra universidade, use o modo personalizado e copie os pesos do edital atual."
+    },
+    {
+      "q": "A nota agregada calculada é a oficial?",
+      "a": "Não. É uma estimativa feita com as notas e os pesos que você informa. O cálculo e a lista de mérito da própria instituição são os que valem."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Calculadora de mérito e nota agregada",
+      "tool-div1": "Componentes",
+      "copy-result-btn": "Copiar o resultado para a área de transferência"
+    },
+    "label": {
+      "preset": "Pesos",
+      "componentObtained": "Obtida",
+      "componentTotal": "Total",
+      "componentWeight": "Peso %"
+    },
+    "option": {
+      "preset": {
+        "custom": "Personalizado (informe os seus pesos)"
+      }
+    },
+    "text": {
+      "preset-note": "Os pesos variam entre universidades e podem mudar a cada ano. Confirme-os no edital oficial do seu período de admissão.",
+      "reset-btn": "Redefinir",
+      "result-header-text": "Nota agregada",
+      "copy-result-btn": "<span data-icon=\"copy\"></span> Copiar resultado"
+    },
+    "content": {
+      "tool": {
+        "text1": "Fonte:",
+        "text2": "· verificado",
+        "text3": ". Os pesos podem mudar a cada ano; confirme-os no edital oficial.",
+        "div1": "<span>Componente</span><span>Obtida</span><span>Total</span><span>Peso %</span>",
+        "button1": "Calcular nota agregada",
+        "caption1": "Porcentagem e contribuição de cada componente para a nota agregada",
+        "th1": "Componente",
+        "th2": "Notas",
+        "th3": "Peso",
+        "th4": "Soma",
+        "summary1": "Cálculo"
+      },
+      "always-check-the-official-prospectus": {
+        "heading": "Confira sempre o edital oficial",
+        "p1": "As fórmulas de mérito são definidas por cada universidade, órgão regulador da medicina ou autoridade de admissão, e mudam. Os pesos variam entre Matric, Intermediate e exames de admissão; algumas instituições usam só as notas do HSSC Part-1, acrescentam uma entrevista ou tratam a equivalência de O/A Level de outro jeito. Antes de confiar em qualquer nota agregada, abra o edital oficial ou o aviso de admissão do seu período e compare a fórmula com os pesos que você informou.",
+        "p2": "Esta calculadora só inclui predefinições cujos pesos foram conferidos com uma fonte oficial, e cada predefinição mostra essa fonte e a data da conferência:",
+        "caption1": "Predefinições de mérito verificadas",
+        "th1": "Predefinição",
+        "th2": "Pesos",
+        "th3": "Verificada",
+        "p3": "Para qualquer outra universidade, escolha Personalizado e copie os pesos do edital. Se a fórmula incluir algo que esta calculadora não tem, como pontos extras para hafiz-e-Quran ou desconto por tentativa de melhoria, aplique esse ajuste às suas notas primeiro."
+      },
+      "improving-your-aggregate": {
+        "heading": "Como melhorar a sua nota agregada",
+        "li1": "<strong>Observe os pesos:</strong> um componente com peso de 50% ou 75% move a sua nota agregada muito mais que um de 10%. Na fórmula da NUST, cada ponto percentual a mais no NET soma 0.75 à nota agregada.",
+        "li2": "<strong>Saiba o que já está definido:</strong> as notas de Matric normalmente já são finais quando você se candidata; o exame de admissão e, às vezes, as notas de Intermediate ainda não.",
+        "li3": "<strong>Compare com o mérito de anos anteriores:</strong> as instituições costumam publicar a nota de corte dos anos anteriores. Use-a só como referência aproximada; ela muda com o número de candidatos e de vagas."
+      }
+    },
+    "title": {
+      "copy-result-btn": "Copiar o resultado para a área de transferência"
+    },
+    "components": {
+      "label": "Componente {{n}}",
+      "placeholder1": "ex.: Matric",
+      "placeholder2": "ex.: Intermediate",
+      "placeholder3": "ex.: Exame de admissão",
+      "placeholder4": "ex.: Entrevista",
+      "placeholder5": "Opcional"
+    }
+  },
+  "client": {
+    "presets": {
+      "nust-net": {
+        "name": "Graduação NUST (pelo NET)",
+        "institution": "National University of Sciences & Technology (NUST), Islamabad",
+        "components": {
+          "ssc": "SSC / Matric / O Level",
+          "hssc": "HSSC / FSc (Part-1 ou completo) / A Level / DAE",
+          "net": "Exame de admissão da NUST (NET)"
+        },
+        "note": "Critérios gerais para admissão pelo NET. Candidatos que ainda cursam o A Level recebem peso de 25% sobre as notas de equivalência do O Level (IBCC). Candidatos com ACT/SAT para vagas nacionais usam a mesma divisão 75/10/15, com a nota do ACT/SAT no lugar do NET.",
+        "sourceName": "NUST: critérios de geração do mérito"
+      },
+      "pmdc-mdcat": {
+        "name": "MBBS / BDS mérito aberto (PM&DC, MDCAT)",
+        "institution": "Pakistan Medical & Dental Council (faculdades públicas e privadas de medicina e odontologia)",
+        "components": {
+          "ssc": "SSC / Matriculation / equivalente",
+          "hssc": "FSc Pre-Medical / HSSC / equivalente",
+          "mdcat": "MDCAT"
+        },
+        "note": "Definido pela PM&DC (Admissions, Curriculum and Conduct) Policy and Regulations 2026, publicada em 12 de outubro de 2026, para as vagas de mérito aberto em faculdades públicas e privadas. As faculdades administradas pelas Forças Armadas admitem pela NUMS e pelo seu próprio exame de admissão.",
+        "sourceName": "PM&DC Admissions, Curriculum and Conduct Policy and Regulations 2026"
+      }
+    },
+    "defaults": {
+      "matric": "Matric",
+      "intermediate": "Intermediate",
+      "entryTest": "Exame de admissão"
+    },
+    "errors": {
+      "addComponent": "Adicione pelo menos um componente.",
+      "tooMany": "Use no máximo {{max}} componentes.",
+      "enterObtained": "{{name}}: informe a nota obtida.",
+      "enterTotal": "{{name}}: informe a nota total.",
+      "enterWeight": "{{name}}: informe o peso.",
+      "totalPositive": "{{name}}: a nota total deve ser maior que 0.",
+      "obtainedNonNegative": "{{name}}: a nota obtida deve ser 0 ou mais.",
+      "obtainedOverTotal": "{{name}}: a nota obtida ({{obtained}}) não pode ser maior que o total ({{total}}).",
+      "weightRange": "{{name}}: o peso deve ser maior que 0% e no máximo 100%.",
+      "noComponents": "Informe as notas e o peso de pelo menos um componente.",
+      "weightsAddMore": "Os pesos somam {{total}}%, mas precisam totalizar 100%. Acrescente mais {{diff}}% a um ou mais componentes.",
+      "weightsRemove": "Os pesos somam {{total}}%, mas precisam totalizar 100%. Retire {{diff}}% de um ou mais componentes."
+    },
+    "componentName": "Componente {{n}}",
+    "steps": {
+      "component": "{{name}}: {{obtained}} ÷ {{total}} × 100 = {{pct}}%, × {{weight}}% de peso = {{contribution}}",
+      "aggregate": "Nota agregada = {{sum}} = {{exact}} ≈ {{rounded}}%"
+    },
+    "weights": {
+      "ok": "Pesos informados: {{total}}% ✓",
+      "notOk": "Pesos informados: {{total}}% (devem totalizar 100%)"
+    },
+    "result": {
+      "header": "Nota agregada",
+      "headerPreset": "Nota agregada ({{preset}})"
+    },
+    "copy": {
+      "aggregate": "Nota agregada: {{aggregate}}%"
+    }
+  }
+}
