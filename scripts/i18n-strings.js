@@ -38,8 +38,15 @@ function flatten(en, code, prefix = '', out = {}) {
   return out;
 }
 
+// "a.b[2].c" -> ['a', 'b', 2, 'c']; empty segments are kept (keys may contain dots, e.g. "x..")
 function parsePath(p) {
-  return p.match(/[^.[\]]+|\[\d+\]/g).map(part => (part.startsWith('[') ? Number(part.slice(1, -1)) : part));
+  const parts = [];
+  for (const segment of p.split('.')) {
+    const m = segment.match(/^([^[]*)((?:\[\d+\])*)$/);
+    if (m[1] !== '' || !m[2]) parts.push(m[1]);
+    for (const index of m[2].match(/\d+/g) || []) parts.push(Number(index));
+  }
+  return parts;
 }
 
 function lookup(obj, parts) {
@@ -96,7 +103,7 @@ if (cmd === 'export') {
   const en = JSON.parse(fs.readFileSync(enFile, 'utf8'));
   const known = flatten(en, code);
   const flat = JSON.parse(fs.readFileSync(target, 'utf8'));
-  const tr = fs.existsSync(trFile) ? JSON.parse(fs.readFileSync(trFile, 'utf8')) : {};
+  const tr = fs.existsSync(trFile) ? JSON.parse(fs.readFileSync(trFile, 'utf8')) : (Array.isArray(en) ? [] : {});
   const unknown = Object.keys(flat).filter(p => !(p in known));
   if (unknown.length) throw new Error(`keys not in English: ${unknown.slice(0, 5).join(', ')}`);
   for (const [p, value] of Object.entries(flat)) setPath(tr, parsePath(p), value);

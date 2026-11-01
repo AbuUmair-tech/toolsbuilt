@@ -6,7 +6,8 @@
  * (a) English output is unchanged: builds the current tree and a base commit (in a temporary
  *     git worktree) and compares every English page, and every feed/text file byte for byte. Allowed differences: the language picker
  *     (<!-- language-menu --> ... <!-- /language-menu -->), the language banner, the picker
- *     script tag, the <html lang/dir> attributes, hreflang links added for translated pages,
+ *     script tag, the <html lang/dir> attributes, hreflang and og:locale:alternate tags added for
+ *     translated pages, the language versions and xhtml:link alternates added to sitemap.xml,
  *     the content hash in main.<hash>.css and blank lines.
  * (b) Every page has the right <html lang dir>: English at the root, each enabled language
  *     under /<prefix>/.
@@ -106,8 +107,16 @@ function normalize(html, baseLines) {
     .split('\n')
     .map(line => line.trimEnd())
     .filter(line => line.trim() !== '')
-    .filter(line => !baseLines || baseLines.has(line) || !/^\s*<link rel="alternate" hreflang="[^"]+" href="https:\/\/toolsbuilt\.com\/[^"]*">$/.test(line))
+    .filter(line => !baseLines || baseLines.has(line) ||
+      !/^\s*(<link rel="alternate" hreflang="[^"]+" href="https:\/\/toolsbuilt\.com\/[^"]*">|<meta property="og:locale:alternate" content="[a-z]{2,3}_[A-Z]{2}">)$/.test(line))
     .join('\n');
+}
+
+function englishSitemap(xml) {
+  return xml
+    .replace(' xmlns:xhtml="http://www.w3.org/1999/xhtml"', '')
+    .replace(/\n    <xhtml:link [^>]*\/>/g, '')
+    .replace(/  <url>\n    <loc>https:\/\/toolsbuilt\.com\/([a-z]{2,3}(-[a-z]{2})?)\/[\s\S]*?<\/url>\n/g, (m, prefix) => (prefixes.includes(prefix) ? '' : m));
 }
 
 function firstDifference(a, b) {
@@ -163,7 +172,10 @@ const textFiles = walk(baseDir, /\.(xml|txt|webmanifest)$/).map(f => path.relati
 let textChanged = 0;
 for (const rel of textFiles) {
   const currentFile = path.join(currentDir, rel);
-  if (!fs.existsSync(currentFile) || fs.readFileSync(currentFile, 'utf8') !== fs.readFileSync(path.join(baseDir, rel), 'utf8')) {
+  let current = fs.existsSync(currentFile) ? fs.readFileSync(currentFile, 'utf8') : null;
+  // sitemap.xml: drop what translations add (language URLs and xhtml:link alternates)
+  if (current && rel === 'sitemap.xml') current = englishSitemap(current);
+  if (current !== fs.readFileSync(path.join(baseDir, rel), 'utf8')) {
     textChanged++;
     fail(`/${rel} differs from ${sha.slice(0, 7)}`);
   }

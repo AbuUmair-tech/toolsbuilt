@@ -74,17 +74,26 @@ if (!fs.existsSync(path.join(SITE_DIR, 'index.html'))) {
   process.exit(1);
 }
 
-// 1. Header and footer match the homepage
-const home = fs.readFileSync(path.join(SITE_DIR, 'index.html'), 'utf8');
+// 1. Header and footer match the homepage (a translated page: its language's homepage)
 const parts = {
   header: ['<header class="site-header"', '</header>'],
   footer: ['<footer class="site-footer"', '</footer>']
 };
-const reference = {};
-for (const [name, [open, close]] of Object.entries(parts)) {
-  const fragment = extract(home, open, close);
-  if (!fragment) errors.push(`Homepage has no ${name} (${open})`);
-  else reference[name] = normalise(fragment);
+const prefixes = require('./i18n.js').loadLanguages().filter(l => l.prefix).map(l => l.prefix);
+const references = {};
+function referenceFor(rel) {
+  const first = rel.split(path.sep)[0];
+  const dir = prefixes.includes(first) && fs.existsSync(path.join(SITE_DIR, first, 'index.html')) ? first : '';
+  if (!references[dir]) {
+    const home = fs.readFileSync(path.join(SITE_DIR, dir, 'index.html'), 'utf8');
+    references[dir] = {};
+    for (const [name, [open, close]] of Object.entries(parts)) {
+      const fragment = extract(home, open, close);
+      if (!fragment) errors.push(`/${dir ? dir + '/' : ''} homepage has no ${name} (${open})`);
+      else references[dir][name] = normalise(fragment);
+    }
+  }
+  return references[dir];
 }
 
 const pages = walk(SITE_DIR).filter(file => !/^google[0-9a-f]+\.html$/.test(path.basename(file)));
@@ -95,6 +104,7 @@ for (const file of pages) {
   const html = fs.readFileSync(file, 'utf8');
   if (/http-equiv=["']refresh["']/i.test(html)) continue; // redirect stubs
   checked++;
+  const reference = referenceFor(path.relative(SITE_DIR, file));
 
   for (const [name, [open, close]] of Object.entries(parts)) {
     if (!reference[name]) continue;

@@ -1,0 +1,265 @@
+{
+  "listing": {
+    "name": "Calculadora de promedio ponderado",
+    "shortName": "Promedio ponderado",
+    "description": "Calcula un promedio ponderado a partir de valores y pesos en porcentaje o números simples, con la contribución de cada fila y los pasos.",
+    "shortDescription": "Promedio ponderado con pesos en % o números, contribuciones y cálculo.",
+    "keywords": [
+      "calculadora de promedio ponderado",
+      "media ponderada",
+      "calcular nota ponderada",
+      "calcular promedio ponderado",
+      "puntaje ponderado",
+      "promedio con sumaproducto",
+      "porcentaje ponderado"
+    ]
+  },
+  "title": "Calculadora de promedio ponderado (paso a paso)",
+  "description": "Calculadora de promedio ponderado: calcula la media a partir de valores y pesos en porcentaje o números, con la contribución de cada fila y el cálculo.",
+  "h1": "Calculadora de promedio ponderado",
+  "quickAnswer": "Con la calculadora de promedio ponderado, cada valor se multiplica por su peso, se suman los productos y se divide entre el peso total. Las notas 90 (30%), 80 (50%) y 70 (20%) dan 27 + 40 + 14 = 81. Con pesos numéricos el método es el mismo: 90 con peso 2 y 80 con peso 3 dan (180 + 240) ÷ 5 = 84.",
+  "formula": {
+    "title": "Fórmula del promedio ponderado",
+    "expression": "Promedio ponderado = Σ(valor × peso) ÷ Σ(peso)",
+    "explanation": "Cada valor cuenta en proporción a su peso. Cuando los pesos son porcentajes que suman 100, dividir entre el peso total equivale a dividir entre 100, así que la contribución de cada fila es simplemente valor × peso%. Si los pesos en porcentaje suman algo distinto de 100, la calculadora divide entre su total real (los normaliza) y te lo indica, lo que equivale a escalar todos los pesos para que sumen 100.",
+    "variables": [
+      {
+        "name": "Valor",
+        "description": "La nota, calificación, precio o medida de cada elemento."
+      },
+      {
+        "name": "Peso",
+        "description": "Cuánto cuenta cada valor: un porcentaje, créditos, una cantidad o cualquier otro número positivo."
+      },
+      {
+        "name": "Contribución",
+        "description": "valor × peso ÷ peso total: cuántos puntos del promedio final aporta esa fila."
+      }
+    ]
+  },
+  "workedExamples": [
+    {
+      "title": "Nota de un curso con pesos en porcentaje",
+      "inputs": [
+        "Tareas: 90, peso 30%",
+        "Examen parcial: 80, peso 50%",
+        "Pruebas cortas: 70, peso 20%"
+      ],
+      "steps": [
+        "90 × 30 = 2,700; 80 × 50 = 4,000; 70 × 20 = 1,400",
+        "Suma de productos: 8,100; suma de pesos: 100",
+        "8,100 ÷ 100 = 81"
+      ],
+      "result": "Promedio ponderado 81"
+    },
+    {
+      "title": "Pesos con números simples",
+      "inputs": [
+        "90 con peso 2",
+        "80 con peso 3"
+      ],
+      "result": "Promedio ponderado 84",
+      "steps": [
+        "90 × 2 = 180; 80 × 3 = 240",
+        "(180 + 240) ÷ (2 + 3) = 420 ÷ 5"
+      ]
+    },
+    {
+      "title": "Pesos en porcentaje que no suman 100",
+      "inputs": [
+        "90 con peso 30%",
+        "80 con peso 50%"
+      ],
+      "steps": [
+        "Los pesos suman 80%, así que se normalizan",
+        "(90 × 30 + 80 × 50) ÷ 80 = 6,700 ÷ 80"
+      ],
+      "result": "Promedio ponderado 83.75 (equivale a pesos del 37.5% y el 62.5%)"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Hacer un promedio simple",
+      "description": "El promedio simple de 90, 80 y 70 es 80, pero si el 90 cuenta un 30% y el 70 solo un 20%, el promedio ponderado es 81. Usa el promedio simple solo cuando todos los elementos cuentan igual."
+    },
+    {
+      "title": "Dividir entre el número de elementos",
+      "description": "Un promedio ponderado se divide entre el peso total, no entre la cantidad de valores. Dividir 420 entre 2 elementos en lugar de entre 5 unidades de peso da 210, que no tiene sentido."
+    },
+    {
+      "title": "Olvidar el peso que falta",
+      "description": "Si aún no se han hecho evaluaciones que valen un 20%, tus pesos suman 80%. El resultado normalizado muestra tu promedio hasta ahora; no es tu nota final hasta que se añada el 20% restante."
+    },
+    {
+      "title": "Mezclar tipos de peso",
+      "description": "Usa un solo tipo de peso en todas las filas: todo porcentajes, todo créditos o todo cantidades. Mezclar un peso del 30% con uno de 3 créditos da un resultado erróneo."
+    },
+    {
+      "title": "Usar valores en escalas distintas",
+      "description": "Asegúrate de que todos los valores estén en la misma escala, por ejemplo, todo en porcentajes. Una nota de 18/20 debe introducirse como 90, no como 18, si las demás son sobre 100."
+    }
+  ],
+  "sources": [
+    {
+      "name": "NIST/SEMATECH e-Handbook of Statistical Methods: medidas de posición"
+    },
+    {
+      "name": "Soporte de Microsoft: función SUMAPRODUCTO"
+    },
+    {
+      "name": "Oficina de Estadísticas Laborales de EE. UU.: cómo usa el IPC las ponderaciones (importancia relativa)"
+    }
+  ],
+  "howto": {
+    "name": "Cómo calcular un promedio ponderado",
+    "description": "Introduce valores y pesos para obtener un promedio ponderado con el cálculo detallado.",
+    "steps": [
+      {
+        "name": "Elige el tipo de peso",
+        "text": "Elige porcentajes si los pesos son un % de un total, o números simples para créditos, cantidades, etc."
+      },
+      {
+        "name": "Introduce valores y pesos",
+        "text": "Rellena un valor y un peso en cada fila y añade filas si las necesitas. El nombre de cada fila es opcional."
+      },
+      {
+        "name": "Lee el resultado",
+        "text": "Ve el promedio ponderado, el peso total, la contribución de cada fila y cada paso del cálculo."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "¿Cómo se calcula un promedio ponderado?",
+      "a": "Multiplica cada valor por su peso, suma todos los productos y divide entre la suma de los pesos. Para 90 (30%), 80 (50%) y 70 (20%): (2,700 + 4,000 + 1,400) ÷ 100 = 81."
+    },
+    {
+      "q": "¿Qué diferencia hay entre un promedio ponderado y uno normal?",
+      "a": "Un promedio normal (aritmético) da a todos los valores la misma importancia. Un promedio ponderado permite que algunos valores cuenten más que otros según su peso."
+    },
+    {
+      "q": "¿Los pesos tienen que sumar 100?",
+      "a": "No. Sirve cualquier peso positivo, porque la fórmula divide entre su total. Si eliges pesos en porcentaje que no suman 100, la calculadora los normaliza y te lo indica."
+    },
+    {
+      "q": "¿Cómo calculo mi nota con categorías ponderadas?",
+      "a": "Introduce el promedio de cada categoría como valor y su porcentaje del curso como peso. El resultado es tu nota global; la columna de contribución muestra cuántos puntos aporta cada categoría."
+    },
+    {
+      "q": "¿Cómo calculo un promedio ponderado en Excel?",
+      "a": "Usa =SUMAPRODUCTO(valores; pesos)/SUMA(pesos). Para valores en A2:A4 y pesos en B2:B4: =SUMAPRODUCTO(A2:A4;B2:B4)/SUMA(B2:B4) (en Excel en inglés: =SUMPRODUCT(A2:A4,B2:B4)/SUM(B2:B4))."
+    },
+    {
+      "q": "¿Un peso puede ser cero?",
+      "a": "Sí. Una fila con peso 0 no influye en el resultado. Si todos los pesos son cero no hay nada que promediar, así que la calculadora muestra un error."
+    },
+    {
+      "q": "¿Para qué se usa un promedio ponderado?",
+      "a": "Las notas de un curso, el GPA por créditos, el precio medio de compra en pedidos de distinto tamaño, la rentabilidad de una cartera, los resultados de encuestas y los números índice usan promedios ponderados."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Calculadora de promedio ponderado",
+      "wavg-rows": "Valores y pesos",
+      "copy-result-btn": "Copiar el resultado al portapapeles"
+    },
+    "content": {
+      "tool": {
+        "legend1": "Los pesos son",
+        "label1": "<input type=\"radio\" name=\"wt\" value=\"percent\" data-param=\"wt\" checked>\n              <span>Porcentajes (%)</span>",
+        "label2": "<input type=\"radio\" name=\"wt\" value=\"number\" data-param=\"wt\">\n              <span>Números simples</span>",
+        "div1": "<span>Nombre (opcional)</span><span>Valor</span><span id=\"weight-head\">Peso (%)</span><span></span>",
+        "button1": "Calcular promedio ponderado",
+        "caption1": "La parte del peso total de cada fila y su contribución al promedio",
+        "th1": "Fila",
+        "th2": "Valor",
+        "th3": "Peso",
+        "th4": "Parte",
+        "th5": "Aporta",
+        "summary1": "Paso a paso"
+      },
+      "simple-vs-weighted-average": {
+        "heading": "Promedio simple vs ponderado",
+        "p1": "Un promedio simple trata todos los números por igual. Un promedio ponderado deja que cada número cuente según su importancia, que es como se calculan la mayoría de las notas de los cursos, los GPA y los precios medios.",
+        "caption1": "Promedio simple y ponderado de las mismas notas",
+        "th1": "Evaluación",
+        "th2": "Nota",
+        "th3": "Peso",
+        "th4": "Contribución",
+        "td1": "Tareas",
+        "td2": "Examen parcial",
+        "td3": "Pruebas cortas",
+        "td4": "<strong>Totales</strong>",
+        "td5": "Promedio simple 80",
+        "td6": "<strong>Ponderado 81</strong>",
+        "p2": "El resultado ponderado es mayor porque la nota más alta (90) pesa más que la más baja (70)."
+      },
+      "where-weighted-averages-are-used": {
+        "heading": "Dónde se usan los promedios ponderados",
+        "li1": "<strong>Notas:</strong> los pesos de trabajos, parcial y examen final de un programa de estudios. Para notas con letras, la <a href=\"/tools/grade-calculator/\">calculadora de calificaciones</a> y la <a href=\"/tools/gpa-calculator/\">calculadora de GPA</a> lo hacen con créditos.",
+        "li2": "<strong>Costo medio:</strong> si compras 10 unidades a 5 y 30 unidades a 6, el precio medio es (50 + 180) ÷ 40 = 5.75, no 5.50.",
+        "li3": "<strong>Admisiones:</strong> las fórmulas de mérito y agregado ponderan los resultados escolares y las pruebas de acceso; la <a href=\"/tools/merit-calculator/\">calculadora de mérito</a> admite calificaciones sobre totales distintos.",
+        "li4": "<strong>Estadística:</strong> los índices de precios, como el índice de precios al consumidor, ponderan cada categoría según su parte del gasto de los hogares.",
+        "p1": "Todos los cálculos se hacen en tu navegador. Puedes compartir un enlace que vuelve a abrir exactamente tus filas."
+      }
+    },
+    "text": {
+      "add-row-btn": "+ Añadir fila",
+      "reset-btn": "Restablecer",
+      "result-header-text": "Promedio ponderado",
+      "copy-result-btn": "<span data-icon=\"copy\"></span> Copiar resultado"
+    },
+    "title": {
+      "copy-result-btn": "Copiar el resultado al portapapeles"
+    },
+    "rowTemplate": {
+      "name": "Nombre",
+      "namePlaceholder": "p. ej., Parcial",
+      "weight": "Peso (%)",
+      "remove": "Eliminar fila"
+    }
+  },
+  "client": {
+    "rowName": "Fila {{n}}",
+    "errors": {
+      "addRow": "Añade al menos un valor y un peso.",
+      "tooMany": "Usa {{max}} filas o menos.",
+      "enterValue": "{{name}}: introduce un valor para este peso.",
+      "enterWeight": "{{name}}: introduce un peso para este valor.",
+      "valueNumber": "{{name}}: el valor debe ser un número.",
+      "weightPositive": "{{name}}: el peso debe ser 0 o un número positivo.",
+      "allZero": "Todos los pesos son cero, así que no hay nada que promediar. Da a al menos una fila un peso mayor que 0."
+    },
+    "steps": {
+      "multiply": "Multiplica cada valor por su peso: {{products}}",
+      "addProducts": "Suma los productos: {{sum}} = {{total}}",
+      "addWeights": "Suma los pesos: {{sum}} = {{total}}",
+      "divide": "Divide entre el peso total: {{sum}} ÷ {{weights}} = {{average}}",
+      "normalised": "Los pesos en porcentaje suman {{total}}%, no 100%, así que cada peso se trató como su parte de {{total}}."
+    },
+    "defaults": {
+      "assignments": "Tareas",
+      "midterm": "Examen parcial",
+      "quizzes": "Pruebas cortas"
+    },
+    "rows": {
+      "remove": "Eliminar la fila {{n}}",
+      "weightPercent": "Peso (%)",
+      "weight": "Peso"
+    },
+    "result": {
+      "header": {
+        "many": "Promedio ponderado de {{count}} valores",
+        "one": "Promedio ponderado de {{count}} valor",
+        "other": "Promedio ponderado de {{count}} valores"
+      },
+      "normalised": "Tus pesos en porcentaje suman {{total}}%, no 100%, así que se normalizaron: cada peso cuenta como su parte de {{total}}.",
+      "totalWeight": "Peso total: {{total}}."
+    },
+    "copy": {
+      "row": "{{label}}: {{value}} × {{weight}}",
+      "average": "Promedio ponderado: {{average}}"
+    }
+  }
+}
