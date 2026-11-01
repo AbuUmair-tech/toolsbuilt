@@ -24,6 +24,8 @@
   let emptyState = null;
   let noResults = null;
   const RECENT_KEY = 'tb_recent_tools';
+  // Tool pages in the page's language (/es/tools/...) on translated pages
+  const toolUrl = slug => `${document.documentElement.dataset.localePrefix || ''}/tools/${slug}/`;
 
   // --- Initialize on DOMContentLoaded ---
   if (document.readyState === 'loading') {
@@ -437,7 +439,7 @@
     recentSec.removeAttribute('hidden');
     recentList.innerHTML = recents.map((item, idx) => `
       <li>
-        <a href="/tools/${item.slug}/" class="palette-item-link" data-slug="${item.slug}">
+        <a href="${toolUrl(item.slug)}" class="palette-item-link" data-slug="${item.slug}">
           <span class="palette-item-cat">${escapeHtml(item.category)}</span>
           <span class="palette-item-name">${escapeHtml(item.name)}</span>
         </a>
@@ -551,7 +553,7 @@
 
       resultsList.innerHTML = searchResults.map((t, idx) => `
         <li role="option" id="result-opt-${idx}" class="palette-result-item" aria-selected="${idx === 0}">
-          <a href="/tools/${t.slug}/" class="palette-result-link">
+          <a href="${toolUrl(t.slug)}" class="palette-result-link">
             <div class="palette-result-content">
               <div class="palette-result-title-row">
                 <span class="palette-result-name">${highlightMatches(t.name, q)}</span>
@@ -655,7 +657,7 @@
       } else if (e.key === 'Enter') {
         if (optionsCount > 0 && activeIndex >= 0 && activeIndex < optionsCount) {
           e.preventDefault();
-          window.location.href = `/tools/${searchResults[activeIndex].slug}/`;
+          window.location.href = toolUrl(searchResults[activeIndex].slug);
         }
       } else if (e.key === 'Tab') {
         // Simple trap between input and close button

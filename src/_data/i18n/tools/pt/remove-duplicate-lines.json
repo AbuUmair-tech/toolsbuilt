@@ -1,0 +1,257 @@
+{
+  "listing": {
+    "name": "Remover Linhas Duplicadas",
+    "shortName": "Remover Duplicadas",
+    "description": "Remova linhas duplicadas de uma lista mantendo a ordem original, ignorando maiúsculas/minúsculas ou espaços, com ordenação, cópia e download.",
+    "shortDescription": "Apague linhas repetidas de uma lista mantendo a ordem.",
+    "keywords": [
+      "remover linhas duplicadas",
+      "remover duplicatas",
+      "excluir linhas repetidas",
+      "remover duplicados de lista",
+      "remover duplicados online",
+      "linhas únicas",
+      "valores únicos"
+    ]
+  },
+  "title": "Remover Linhas Duplicadas Online (Mantendo a Ordem)",
+  "description": "Remover linhas duplicadas de uma lista mantendo a ordem original. Ignore maiúsculas ou espaços, apague linhas vazias, ordene, copie ou baixe.",
+  "h1": "Remover Linhas Duplicadas",
+  "quickAnswer": "Para remover linhas duplicadas, cole sua lista com um item por linha: todas as linhas repetidas são removidas e a primeira ocorrência de cada uma fica na posição original. Ative Ignorar maiúsculas/minúsculas para tratar 'Maçã' e 'maçã' como iguais, ou Remover espaços para ignorar espaços no início e no fim das linhas. A ferramenta mostra quantas duplicatas foram removidas, e você pode copiar ou baixar o resultado.",
+  "formula": {
+    "title": "Como as duplicatas são encontradas",
+    "expression": "Mantém uma linha se a sua chave de comparação ainda não apareceu   ·   chave = linha (sem espaços nas pontas se Remover espaços) (em minúsculas se Ignorar maiúsculas/minúsculas)",
+    "explanation": "As linhas são lidas de cima para baixo. Cada linha recebe uma chave de comparação: a própria linha, sem os espaços nas pontas se Remover espaços estiver ativado e em minúsculas se Ignorar maiúsculas/minúsculas estiver ativado. A primeira linha com uma determinada chave é mantida exatamente como você digitou; as linhas seguintes com a mesma chave são descartadas. Com Manter a última, a lista é lida de baixo para cima, então a última ocorrência permanece, ainda na posição original. A ordenação, se escolhida, acontece depois da remoção das duplicatas e reconhece números, então item2 vem antes de item10.",
+    "variables": [
+      {
+        "name": "Ignorar maiúsculas/minúsculas",
+        "description": "'Maçã', 'MAÇÃ' e 'maçã' contam como um único valor."
+      },
+      {
+        "name": "Remover espaços",
+        "description": "Espaços e tabulações no início ou no fim de uma linha são ignorados na comparação. Ative Remover espaços do resultado para tirá-los também da saída."
+      },
+      {
+        "name": "Manter a primeira / a última",
+        "description": "Qual cópia de uma linha repetida fica na lista."
+      }
+    ]
+  },
+  "workedExamples": [
+    {
+      "title": "Diferenciando maiúsculas e minúsculas",
+      "inputs": [
+        "Linhas: a, b, a, B"
+      ],
+      "steps": [
+        "O segundo 'a' repete o primeiro e é removido",
+        "'B' é diferente de 'b' quando maiúsculas e minúsculas importam"
+      ],
+      "result": "a, b, B (1 duplicata removida)"
+    },
+    {
+      "title": "Ignorando maiúsculas/minúsculas",
+      "inputs": [
+        "Linhas: a, b, a, B",
+        "Ignorar maiúsculas/minúsculas: ativado"
+      ],
+      "steps": [
+        "'a' se repete, e 'B' equivale a 'b'"
+      ],
+      "result": "a, b (2 duplicatas removidas)"
+    },
+    {
+      "title": "Removendo espaços",
+      "inputs": [
+        "Linhas: ' a' (com um espaço no início), 'a'",
+        "Remover espaços: ativado"
+      ],
+      "steps": [
+        "As duas linhas são comparadas como 'a', então a segunda é removida",
+        "A linha mantida aparece como foi digitada (' a'); com Remover espaços do resultado ativado ela vira 'a'"
+      ],
+      "result": "Uma linha: ' a', ou 'a' com Remover espaços do resultado"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Deixar passar duplicatas que diferem só por espaços",
+      "description": "'maçã' e 'maçã ' com um espaço no fim parecem iguais, mas são textos diferentes. Ative Remover espaços quando a lista tiver sido copiada de uma planilha ou documento."
+    },
+    {
+      "title": "Juntar valores que deveriam ficar separados",
+      "description": "Ignorar maiúsculas/minúsculas é certo para endereços de e-mail e para a maioria das palavras, mas não para dados que diferenciam maiúsculas, como senhas, IDs ou nomes de arquivos no Linux."
+    },
+    {
+      "title": "Esperar que a lista saia ordenada",
+      "description": "Por padrão, a ordem original é mantida. Escolha A a Z ou Z a A se quiser uma lista ordenada."
+    },
+    {
+      "title": "Perder a última entrada, a mais recente",
+      "description": "Se as linhas de baixo forem versões mais novas das de cima (por exemplo, um log ou uma exportação), escolha Manter a última para que a cópia mais recente permaneça."
+    },
+    {
+      "title": "Tratar linhas em branco como dados",
+      "description": "Várias linhas em branco contam como duplicatas umas das outras, então uma linha em branco pode sobrar. Ative Remover linhas vazias para apagar todas."
+    }
+  ],
+  "sources": [
+    {
+      "name": "Unicode Technical Standard #10: Unicode Collation Algorithm"
+    },
+    {
+      "name": "ECMAScript Internationalization API: Intl.Collator"
+    },
+    {
+      "name": "Suporte da Microsoft: Localizar e remover duplicatas (Excel)"
+    },
+    {
+      "name": "Suporte da Microsoft: função ÚNICO"
+    },
+    {
+      "name": "GNU Coreutils: uso do uniq"
+    }
+  ],
+  "howto": {
+    "name": "Como remover linhas duplicadas",
+    "description": "Remova linhas repetidas de uma lista mantendo a ordem original.",
+    "steps": [
+      {
+        "name": "Cole sua lista",
+        "text": "Cole o texto com um item por linha."
+      },
+      {
+        "name": "Escolha como comparar",
+        "text": "Ative Ignorar maiúsculas/minúsculas ou Remover espaços se essas diferenças não devem contar."
+      },
+      {
+        "name": "Escolha o que manter",
+        "text": "Mantenha a primeira ou a última cópia, remova linhas vazias e ordene, se quiser."
+      },
+      {
+        "name": "Copie ou baixe",
+        "text": "Copie a lista limpa ou baixe-a como arquivo de texto."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Como remover linhas duplicadas de uma lista?",
+      "a": "Cole a lista na caixa. As linhas repetidas são removidas na hora, a primeira cópia de cada linha fica no lugar original e o número de duplicatas removidas é exibido."
+    },
+    {
+      "q": "A ordem original é mantida?",
+      "a": "Sim. A menos que você escolha uma ordenação, as linhas mantidas ficam na ordem em que você as colou."
+    },
+    {
+      "q": "Posso remover duplicatas ignorando maiúsculas e minúsculas?",
+      "a": "Sim. Ative Ignorar maiúsculas/minúsculas e as linhas que diferem só nas letras maiúsculas, como 'Paris' e 'paris', contam como iguais."
+    },
+    {
+      "q": "Como manter a última ocorrência em vez da primeira?",
+      "a": "Escolha Manter a última. A última cópia de cada linha é mantida, na posição em que aparece."
+    },
+    {
+      "q": "Posso ordenar as linhas e remover duplicatas ao mesmo tempo?",
+      "a": "Sim. Escolha A a Z ou Z a A. Primeiro as duplicatas são removidas, depois as linhas restantes são ordenadas, com os números em ordem natural."
+    },
+    {
+      "q": "Como remover duplicatas no Excel?",
+      "a": "No Excel, selecione a coluna e use Dados > Remover Duplicatas, ou =ÚNICO(intervalo) no Excel 365. Esta ferramenta é mais rápida para listas copiadas como texto simples."
+    },
+    {
+      "q": "Minha lista é enviada para algum lugar?",
+      "a": "Não. As linhas são processadas no seu navegador e não são enviadas, armazenadas nem adicionadas ao endereço da página."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Removedor de linhas duplicadas"
+    },
+    "label": {
+      "dedupe-input": "Sua lista (um item por linha)",
+      "opt-keep": "Manter",
+      "opt-sort": "Ordenar",
+      "dedupe-output": "Resultado"
+    },
+    "placeholder": {
+      "dedupe-input": "Cole as linhas aqui"
+    },
+    "content": {
+      "tool": {
+        "label1": "<input type=\"checkbox\" id=\"opt-case\"><span>Ignorar maiúsculas/minúsculas</span>",
+        "label2": "<input type=\"checkbox\" id=\"opt-trim\"><span>Remover espaços ao comparar</span>",
+        "label3": "<input type=\"checkbox\" id=\"opt-trim-output\"><span>Remover espaços do resultado</span>",
+        "label4": "<input type=\"checkbox\" id=\"opt-empty\"><span>Remover linhas vazias</span>",
+        "div1": "<span id=\"result-header-text\">Duplicatas removidas</span>"
+      },
+      "which-options-to-use": {
+        "heading": "Quais opções usar",
+        "caption1": "Opções recomendadas para listas comuns",
+        "th1": "Sua lista",
+        "th2": "Opções sugeridas",
+        "td1": "Endereços de e-mail",
+        "td2": "Ignorar maiúsculas/minúsculas, Remover espaços, Remover espaços do resultado, Remover linhas vazias",
+        "td3": "Palavras-chave ou tags",
+        "td4": "Ignorar maiúsculas/minúsculas, Remover espaços, ordenar de A a Z",
+        "td5": "Códigos de produto ou IDs",
+        "td6": "Só Remover espaços (maiúsculas podem importar)",
+        "td7": "Linhas de log ou exportações com as entradas mais novas embaixo",
+        "td8": "Manter a última ocorrência",
+        "td9": "Código ou configuração",
+        "td10": "Nenhuma opção: cada caractere conta",
+        "p1": "O resultado mantém cada linha exatamente como você escreveu, a menos que você ative Remover espaços do resultado. Assim, uma linha recuada ou com espaços finais importantes não é alterada só porque os espaços foram ignorados na comparação."
+      },
+      "other-ways-to-remove-duplicates": {
+        "heading": "Outras formas de remover duplicatas",
+        "li1": "<strong>Linha de comando:</strong> <code>sort -u file.txt</code> remove duplicatas, mas ordena o arquivo; <code>awk '!seen[$0]++' file.txt</code> mantém a ordem original.",
+        "li2": "<strong>Planilhas:</strong> o comando Remover Duplicatas ou a função ÚNICO no Excel, e UNIQUE no Google Planilhas.",
+        "li3": "<strong>Comparar duas listas:</strong> para ver o que mudou entre duas versões, em vez do que se repete, use o <a href=\"/tools/text-diff-checker/\">comparador de textos</a>.",
+        "p1": "Seu texto fica no seu dispositivo: ele é processado no navegador e não é salvo nem enviado para lugar nenhum."
+      }
+    },
+    "option": {
+      "opt-keep": {
+        "first": "Primeira ocorrência",
+        "last": "Última ocorrência"
+      },
+      "opt-sort": {
+        "none": "Manter a ordem original",
+        "asc": "A a Z",
+        "desc": "Z a A"
+      }
+    },
+    "text": {
+      "example-btn": "Ver um exemplo",
+      "clear-btn": "Limpar",
+      "copy-output-btn": "Copiar resultado",
+      "download-btn": "Baixar .txt"
+    }
+  },
+  "client": {
+    "example": "maçã\nBanana\nmaçã\ncereja\n banana\n\nCereja\ntâmara\n\nmaçã",
+    "result": {
+      "removed": {
+        "many": "{{n}} duplicatas removidas",
+        "one": "{{n}} duplicata removida",
+        "other": "{{n}} duplicatas removidas"
+      }
+    },
+    "note": {
+      "lines": {
+        "many": "{{n}} linhas",
+        "one": "{{n}} linha",
+        "other": "{{n}} linhas"
+      },
+      "inOut": "{{in}} na entrada, {{out}} na saída",
+      "emptyRemoved": {
+        "many": "{{n}} linhas vazias removidas",
+        "one": "{{n}} linha vazia removida",
+        "other": "{{n}} linhas vazias removidas"
+      },
+      "emptyLine": "(linha vazia)",
+      "mostRepeated": "Mais repetidas: {{list}}"
+    },
+    "copied": "Resultado copiado"
+  }
+}

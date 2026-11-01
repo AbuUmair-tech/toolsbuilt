@@ -1,0 +1,227 @@
+{
+  "listing": {
+    "name": "Lanzar moneda y tirar dados",
+    "shortName": "Moneda y dados",
+    "description": "Lanza hasta 100 monedas o tira hasta 10 dados (d4 a d20) con azar seguro, totales, recuento de caras y cruces e historial de resultados.",
+    "shortDescription": "Lanza monedas o tira dados d4-d20 con totales e historial.",
+    "keywords": [
+      "lanzar una moneda",
+      "cara o cruz",
+      "tirar dados online",
+      "dados virtuales",
+      "cara o sello",
+      "dado d20",
+      "tirar 2d6"
+    ]
+  },
+  "title": "Lanzar una moneda y tirar dados online",
+  "description": "Lanzar una moneda y tirar dados: hasta 100 monedas o 10 dados (d4, d6, d8, d10, d12, d20) con azar seguro, totales, caras y cruces, e historial.",
+  "h1": "Lanzar una moneda y tirar dados",
+  "quickAnswer": "Para lanzar una moneda y tirar dados, elige Moneda o Dados, indica cuántos y pulsa Lanzar o Tirar. Cada moneda tiene exactamente un 50% de probabilidad de salir cara y cada cara de un dado es igual de probable, porque los resultados salen del generador aleatorio seguro de tu navegador con muestreo por rechazo. Los dados muestran cada cara y el total, y los últimos 20 resultados quedan en el historial.",
+  "formula": {
+    "title": "Probabilidades",
+    "expression": "P(cara) = 1/2   ·   P(cualquier cara de un dN) = 1/N   ·   La suma de k dados va de k a k × N",
+    "explanation": "Cada lanzamiento y cada tirada son independientes: los resultados anteriores no cambian el siguiente. En un solo dado todas las caras son igual de probables, pero las sumas de varios dados no: con 2d6 hay 36 combinaciones igual de probables, seis de las cuales suman 7, así que 7 es el total más frecuente (1 de cada 6) y 2 o 12 los más raros (1 de cada 36). El total medio de k dados de N caras es k × (N + 1) ÷ 2.",
+    "variables": [
+      {
+        "name": "dN",
+        "description": "Un dado con N caras numeradas del 1 al N: d4, d6, d8, d10, d12 o d20."
+      },
+      {
+        "name": "kdN",
+        "description": "Notación de dados para tirar k dados de N caras, por ejemplo 2d6 o 1d20."
+      },
+      {
+        "name": "Independencia",
+        "description": "Cada resultado se obtiene de nuevo; una racha de caras no hace más probable que salga cruz en el siguiente lanzamiento."
+      }
+    ]
+  },
+  "workedExamples": [
+    {
+      "title": "Tirar 2d6",
+      "inputs": [
+        "Dados: 2, tipo d6"
+      ],
+      "steps": [
+        "Cada dado muestra de 1 a 6, por ejemplo 4 y 3",
+        "Total = 4 + 3 = 7; los totales posibles van de 2 a 12"
+      ],
+      "result": "Total 7 (el total más probable con 2d6, probabilidad 6/36)"
+    },
+    {
+      "title": "Tirar un d20",
+      "inputs": [
+        "Dados: 1, tipo d20"
+      ],
+      "steps": [
+        "Un número del 1 al 20, cada uno con probabilidad 1/20 = 5%"
+      ],
+      "result": "Por ejemplo 14; un 20 natural sale el 5% de las veces"
+    },
+    {
+      "title": "Lanzar 100 monedas",
+      "inputs": [
+        "Monedas: 100"
+      ],
+      "steps": [
+        "Cada moneda sale cara o cruz con probabilidad 1/2",
+        "Caras + cruces siempre suman 100"
+      ],
+      "result": "Unas 50 caras; cualquier valor entre 40 y 60 es habitual (alrededor del 96% de las veces)"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "La falacia del jugador",
+      "description": "Después de cinco caras seguidas, la cruz sigue teniendo exactamente un 50%. Las monedas y los dados no tienen memoria, así que los resultados pasados nunca hacen que \"toque\" un resultado concreto."
+    },
+    {
+      "title": "Suponer que todos los totales de los dados son igual de probables",
+      "description": "Con dos dados, el 7 sale seis veces más que el 2 o el 12. Solo los resultados de un único dado se reparten por igual."
+    },
+    {
+      "title": "Esperar exactamente 50 caras en 100 lanzamientos",
+      "description": "Salen exactamente 50 caras solo alrededor del 8% de las veces. Los resultados entre 40 y 60 son normales; hacen falta muchos miles de lanzamientos para que la proporción se acerque al 50%."
+    },
+    {
+      "title": "Usar una fuente aleatoria predecible",
+      "description": "Generadores sencillos como Math.random() sirven para animaciones, pero no para nada en lo que importe la imparcialidad. Esta herramienta usa crypto.getRandomValues con muestreo por rechazo para que ninguna cara salga favorecida."
+    }
+  ],
+  "sources": [
+    {
+      "name": "W3C Web Cryptography API: getRandomValues()"
+    },
+    {
+      "name": "NIST/SEMATECH e-Handbook of Statistical Methods: Binomial distribution"
+    },
+    {
+      "name": "W3C Media Queries Level 5: prefers-reduced-motion"
+    }
+  ],
+  "howto": {
+    "name": "Cómo lanzar una moneda o tirar dados online",
+    "description": "Lanza monedas o tira dados con azar seguro y guarda un historial de resultados.",
+    "steps": [
+      {
+        "name": "Elige moneda o dados",
+        "text": "Elige Moneda para lanzar monedas o Dados para tirar dados."
+      },
+      {
+        "name": "Indica cuántos",
+        "text": "Elige de 1 a 100 monedas, o de 1 a 10 dados y el tipo de dado."
+      },
+      {
+        "name": "Lanza o tira",
+        "text": "Pulsa el botón para ver cada moneda o dado, el recuento de caras y cruces o el total."
+      },
+      {
+        "name": "Consulta el historial",
+        "text": "Tus últimos 20 resultados aparecen debajo del resultado."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "¿Es justo el lanzamiento de moneda online?",
+      "a": "Sí. Cada lanzamiento usa el generador aleatorio criptográficamente seguro de tu navegador, así que cara y cruz tienen cada una exactamente un 50% de probabilidad, y ningún lanzamiento depende del anterior."
+    },
+    {
+      "q": "¿Cómo tiro 2d6 online?",
+      "a": "Elige Dados, pon el número de dados en 2 y el tipo en d6, y pulsa Tirar. Verás los dos dados y su total, que puede ir de 2 a 12."
+    },
+    {
+      "q": "¿Cuál es el total más frecuente con dos dados?",
+      "a": "El 7. Seis de las 36 combinaciones suman 7 (1+6, 2+5, 3+4, 4+3, 5+2, 6+1), así que sale de media 1 vez de cada 6."
+    },
+    {
+      "q": "¿Qué dados puedo tirar?",
+      "a": "d4, d6, d8, d10, d12 y d20, hasta 10 dados a la vez: el juego estándar de los juegos de rol de mesa."
+    },
+    {
+      "q": "¿Cuántas monedas puedo lanzar a la vez?",
+      "a": "Hasta 100. El resultado muestra cada moneda y cuenta las caras y las cruces."
+    },
+    {
+      "q": "¿Puedo ver mis resultados anteriores?",
+      "a": "Sí. El historial guarda tus últimos 20 lanzamientos y tiradas en esta página. Se borra al salir o al pulsar Borrar historial."
+    },
+    {
+      "q": "¿Puedo desactivar la animación?",
+      "a": "La animación de lanzamiento y tirada se omite automáticamente si tu dispositivo está configurado para reducir el movimiento."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Lanzar moneda y tirar dados",
+      "tool-div1": "Moneda o dados",
+      "cd-pieces": "Cada moneda o dado"
+    },
+    "text": {
+      "tab-coin": "Lanzar moneda",
+      "tab-dice": "Tirar dados",
+      "go-btn": "Lanzar",
+      "clear-history-btn": "Borrar historial",
+      "history-title": "Historial (últimos 20)",
+      "history-empty": "Todavía no hay resultados."
+    },
+    "label": {
+      "coin-count": "Número de monedas",
+      "dice-count": "Número de dados",
+      "dice-sides": "Tipo de dado"
+    },
+    "content": {
+      "tool": {
+        "div1": "<span id=\"result-header-text\">Resultado</span>"
+      },
+      "dice-odds-at-a-glance": {
+        "heading": "Probabilidades de los dados de un vistazo",
+        "p1": "Con un solo dado, todas las caras tienen la misma probabilidad. Al añadir más dados, los totales se concentran en el centro; por eso el 7 es el número clave en los juegos de mesa con dos dados de seis caras.",
+        "caption1": "Rangos, medias y probabilidad de cada cara en los dados más comunes",
+        "th1": "Tirada",
+        "th2": "Rango",
+        "th3": "Media",
+        "th4": "Probabilidad de un valor",
+        "td4": "7: 16.67%, 2 o 12: 2.78%"
+      },
+      "when-to-flip-a-coin-or": {
+        "heading": "Cuándo lanzar una moneda o tirar un dado online",
+        "li1": "<strong>Tomar una decisión:</strong> lanzar una moneda es el desempate justo clásico entre dos opciones.",
+        "li2": "<strong>Juegos de mesa y de rol:</strong> sustituye dados que te falten o tira rápidamente varios d6 o un d20 con el total ya calculado.",
+        "li3": "<strong>Enseñar probabilidad:</strong> lanza 100 monedas varias veces para mostrar cómo varía el número de caras, o compara los totales de 2d6 con la tabla de probabilidades de arriba.",
+        "li4": "<strong>Elecciones al azar:</strong> para elegir entre más de seis opciones, usa el <a href=\"/tools/random-number-generator/\">generador de números aleatorios</a> o el <a href=\"/tools/random-name-picker/\">selector de nombres aleatorio</a>.",
+        "p1": "Las monedas y los dados físicos pueden tener un ligero sesgo por su forma y por cómo se lanzan. Un generador de software seguro no tiene ese problema: todos los resultados son exactamente igual de probables. Los resultados se generan en tu navegador y el historial solo se queda en esta página."
+      }
+    }
+  },
+  "client": {
+    "errors": {
+      "noCrypto": "Este navegador no ofrece números aleatorios seguros.",
+      "coins": "Lanza entre 1 y {{max}} monedas.",
+      "dice": "Tira entre 1 y {{max}} dados.",
+      "sides": "Elige un dado d{{dice}}."
+    },
+    "buttons": {
+      "roll": "Tirar",
+      "flip": "Lanzar"
+    },
+    "coin": {
+      "headerOne": "Lanzamiento de moneda",
+      "headerMany": "{{count}} lanzamientos de moneda",
+      "heads": "Cara",
+      "tails": "Cruz",
+      "counts": "{{heads}} caras · {{tails}} cruces",
+      "note": "Cara {{headsPct}}%, cruz {{tailsPct}}%.",
+      "historyOne": "Moneda: {{side}}",
+      "historyMany": "{{count}} monedas: {{heads}} caras, {{tails}} cruces",
+      "summaryMany": "{{heads}} caras, {{tails}} cruces"
+    },
+    "dice": {
+      "header": "Tirada: {{notation}}",
+      "total": "Total {{sum}}",
+      "noteMany": "{{rolls}} = {{sum}} (posible {{min}}–{{max}}).",
+      "noteOne": "Posible 1–{{sides}}."
+    }
+  }
+}

@@ -1,0 +1,265 @@
+{
+  "listing": {
+    "name": "Generador de números aleatorios",
+    "shortName": "Número aleatorio",
+    "description": "Genera números aleatorios seguros en cualquier rango: enteros o decimales, hasta 1,000 a la vez, con o sin repeticiones, ordenados o no.",
+    "shortDescription": "Números aleatorios seguros en cualquier rango, con o sin repeticiones.",
+    "keywords": [
+      "generador de números aleatorios",
+      "número aleatorio del 1 al 100",
+      "elegir un número al azar",
+      "rng",
+      "números aleatorios sin repetir",
+      "generador de números de lotería",
+      "número aleatorio real"
+    ]
+  },
+  "title": "Generador de números aleatorios (rango seguro)",
+  "description": "Generador de números aleatorios con la fuente segura de tu navegador: enteros o decimales, hasta 1,000 a la vez, con o sin repeticiones.",
+  "h1": "Generador de números aleatorios",
+  "quickAnswer": "Este generador de números aleatorios es fácil de usar: introduce un mínimo, un máximo y cuántos números necesitas, y pulsa Generar. Cada número se obtiene con crypto.getRandomValues, el generador criptográficamente seguro del navegador, y con muestreo por rechazo, de modo que todos los valores del rango tienen exactamente la misma probabilidad. Desactiva los duplicados para un sorteo en el que ningún número se repita, como una rifa.",
+  "formula": {
+    "title": "Cómo se obtienen los números",
+    "expression": "n = max − min + 1   ·   se obtiene x uniformemente de [0, 2³²)   ·   se rechaza x ≥ 2³² − (2³² mod n)   ·   resultado = min + (x mod n)",
+    "explanation": "La fuente aleatoria segura del navegador produce números de 32 bits. Calcular x mod n directamente haría que los resultados pequeños fueran un poco más probables cuando n no divide 2³² de forma exacta (sesgo del módulo), así que los valores que caen en la franja superior desigual se descartan y se vuelven a generar. Así, cada valor tiene una probabilidad exacta de 1 ÷ n. Los decimales con N cifras se obtienen igual, como un número entero de pasos de 10^−N entre el mínimo y el máximo. Sin duplicados, cada valor sale como máximo una vez (muestreo sin reemplazo).",
+    "variables": [
+      {
+        "description": "Cuántos valores distintos son posibles: max − min + 1 para números enteros."
+      },
+      {
+        "name": "Muestreo por rechazo",
+        "description": "Descartar los pocos valores brutos que sesgarían el resultado; de media se necesita menos de un intento adicional."
+      },
+      {
+        "name": "Sin duplicados",
+        "description": "Puedes obtener como máximo n números, porque después ya se habrán usado todos los valores."
+      }
+    ]
+  },
+  "workedExamples": [
+    {
+      "title": "Tirar un dado de seis caras",
+      "inputs": [
+        "Mín. 1, máx. 6, cantidad 1"
+      ],
+      "steps": [
+        "n = 6 valores posibles",
+        "2³² mod 6 = 4, así que se rechazan los 4 valores brutos más altos de 4,294,967,296"
+      ],
+      "result": "Un número del 1 al 6, cada uno con probabilidad 1/6"
+    },
+    {
+      "title": "Sorteo tipo lotería: 6 números del 1 al 49",
+      "inputs": [
+        "Mín. 1, máx. 49, cantidad 6",
+        "Permitir duplicados: no, ordenar: sí"
+      ],
+      "steps": [
+        "Cada número se elige entre los que aún no han salido",
+        "Hay 13,983,816 combinaciones posibles de 6"
+      ],
+      "result": "Seis números distintos en orden ascendente"
+    },
+    {
+      "title": "Decimales aleatorios entre 0 y 1",
+      "inputs": [
+        "Mín. 0, máx. 1, cantidad 5",
+        "Cifras decimales: 3"
+      ],
+      "steps": [
+        "Los valores van en pasos de 0.001, así que hay n = 1,001 valores posibles",
+        "Cada resultado es un número entero de pasos, dividido entre 1,000"
+      ],
+      "result": "Cinco números como 0.417, cada uno entre 0.000 y 1.000"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Usar Math.random() para algo importante",
+      "description": "Math.random() es rápido, pero no está diseñado para ser impredecible, y a veces su salida se puede reconstruir. Para sorteos de premios, contraseñas o cualquier cosa relacionada con la seguridad, usa una fuente criptográfica como crypto.getRandomValues, como hace esta herramienta."
+    },
+    {
+      "title": "Aplicar x mod n a un número aleatorio bruto",
+      "description": "Reducir un número aleatorio con % n sin muestreo por rechazo produce un pequeño sesgo hacia los valores bajos cuando n no divide exactamente el rango del generador. El efecto es mínimo para n pequeños, pero existe y es fácil de evitar."
+    },
+    {
+      "title": "Pedir más números únicos de los que caben en el rango",
+      "description": "Del 1 al 10 solo hay 10 números enteros distintos, así que no puedes sacar 11 sin repetir alguno. La herramienta te avisa cuando la cantidad es mayor que el rango."
+    },
+    {
+      "title": "Esperar que los números aleatorios se repartan de forma uniforme",
+      "description": "El azar real produce rachas y agrupaciones. Sacar tres 6 seguidos con un dado justo ocurre aproximadamente una vez cada 216 intentos; no demuestra que el generador falle."
+    },
+    {
+      "title": "Tratar los decimales como si fueran continuos",
+      "description": "Con 2 cifras decimales entre 0 y 1 hay exactamente 101 valores posibles. Si necesitas valores más finos, aumenta las cifras decimales."
+    }
+  ],
+  "sources": [
+    {
+      "name": "W3C Web Cryptography API: getRandomValues()"
+    },
+    {
+      "name": "MDN Web Docs: Crypto.getRandomValues()"
+    },
+    {
+      "name": "NIST SP 800-90A Rev. 1: Recommendation for Random Number Generation Using Deterministic Random Bit Generators"
+    }
+  ],
+  "howto": {
+    "name": "Cómo generar números aleatorios",
+    "description": "Genera números aleatorios seguros en cualquier rango.",
+    "steps": [
+      {
+        "name": "Define el rango",
+        "text": "Introduce el número más pequeño y el más grande permitidos."
+      },
+      {
+        "name": "Elige cuántos",
+        "text": "Introduce cuántos números necesitas, hasta 1,000."
+      },
+      {
+        "name": "Elige las opciones",
+        "text": "Permite o prohíbe los duplicados, ordena los resultados y elige números enteros o hasta 6 cifras decimales."
+      },
+      {
+        "name": "Genera y guarda",
+        "text": "Pulsa Generar y después copia los números o descárgalos como archivo de texto."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "¿Este generador de números aleatorios es realmente aleatorio?",
+      "a": "Usa crypto.getRandomValues, un generador criptográficamente seguro integrado en tu navegador que se alimenta de las fuentes de entropía de tu sistema operativo. Sirve para juegos, sorteos y muestreos, y los números no se pueden predecir a partir de los anteriores."
+    },
+    {
+      "q": "¿Cómo genero un número aleatorio entre 1 y 100?",
+      "a": "Pon el mínimo en 1, el máximo en 100 y la cantidad en 1, y pulsa Generar. Cada número del 1 al 100 tiene exactamente un 1% de probabilidad."
+    },
+    {
+      "q": "¿Cómo elijo números aleatorios sin repetir?",
+      "a": "Desmarca Permitir duplicados. Todos los números del resultado serán distintos, siempre que no pidas más números de los que contiene el rango."
+    },
+    {
+      "q": "¿Puedo generar números decimales aleatorios?",
+      "a": "Sí. Elige de 1 a 6 cifras decimales. Los números se reparten de forma uniforme por el rango en pasos de ese tamaño."
+    },
+    {
+      "q": "¿Cuántos números aleatorios puedo generar a la vez?",
+      "a": "Hasta 1,000 por clic. Cópialos o descárgalos como archivo de texto, con un número por línea."
+    },
+    {
+      "q": "¿Puedo usarlo para una rifa o un sorteo?",
+      "a": "Sí. Numera las participaciones, ajusta el rango para que coincida, desmarca los duplicados y saca tantos ganadores como necesites. Si quieres nombres en lugar de números, usa el selector de nombres aleatorio."
+    },
+    {
+      "q": "¿Se envían mis números a algún sitio?",
+      "a": "No. Los números se generan en tu navegador y no se envían ni se guardan en ningún servidor."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Generador de números aleatorios",
+      "rng-list": "Números generados"
+    },
+    "label": {
+      "rng-min": "Mínimo <span class=\"text-accent\">*</span>",
+      "rng-max": "Máximo <span class=\"text-accent\">*</span>",
+      "rng-count": "Cantidad",
+      "rng-dp": "Tipo de número"
+    },
+    "option": {
+      "rng-dp": {
+        "0": "Números enteros",
+        "1": "1 cifra decimal",
+        "2": "2 cifras decimales",
+        "3": "3 cifras decimales",
+        "4": "4 cifras decimales",
+        "5": "5 cifras decimales",
+        "6": "6 cifras decimales"
+      }
+    },
+    "content": {
+      "tool": {
+        "label1": "<input type=\"checkbox\" id=\"rng-dupes\" checked>\n            <span>Permitir duplicados</span>",
+        "label2": "<input type=\"checkbox\" id=\"rng-sort\" data-param=\"sort\">\n            <span>Ordenar de menor a mayor</span>",
+        "div1": "<span id=\"result-header-text\">Tu número aleatorio</span>"
+      },
+      "why-secure-randomness-and-rejection-sampling": {
+        "heading": "Por qué importan el azar seguro y el muestreo por rechazo",
+        "p1": "Un equipo informático no puede lanzar monedas, así que usa algoritmos. Los generadores corrientes, como Math.random() de JavaScript, producen números que parecen aleatorios pero siguen un patrón oculto. Los generadores criptográficamente seguros, disponibles en los navegadores como crypto.getRandomValues, se alimentan de sucesos impredecibles que recoge el sistema operativo y están diseñados para que ver los resultados anteriores no ayude a predecir el siguiente.",
+        "p2": "Obtener un número dentro de un rango también requiere cuidado. Un generador seguro devuelve valores de 0 a 4,294,967,295. Para obtener un número del 1 al 6 podrías tomar el resto de dividir entre 6, pero 4,294,967,296 no es múltiplo de 6, así que los restos del 0 al 3 saldrían ligeramente más a menudo que el 4 y el 5. Esta herramienta descarta el puñado de valores brutos que causan ese desequilibrio y vuelve a generar, de modo que todas las caras tienen exactamente la misma probabilidad.",
+        "caption1": "Rangos habituales y sus probabilidades",
+        "th1": "Uso",
+        "th2": "Rango",
+        "th3": "Probabilidad de cada valor",
+        "td1": "Lanzar una moneda",
+        "td2": "1 entre 2 (50%)",
+        "td3": "Dado de seis caras",
+        "td4": "1 entre 6 (16.67%)",
+        "td5": "Tirada porcentual",
+        "td6": "1 entre 100 (1%)",
+        "td7": "Día del año",
+        "td8": "1 entre 365 (0.27%)",
+        "td9": "PIN de cuatro dígitos",
+        "td10": "1 entre 10,000 (0.01%)"
+      },
+      "ideas-for-using-random-numbers": {
+        "heading": "Ideas para usar números aleatorios",
+        "li1": "<strong>Sorteos de premios:</strong> numera las participaciones y saca a los ganadores sin duplicados.",
+        "li2": "<strong>Docencia e investigación:</strong> elige estudiantes al azar, participantes de una encuesta o filas de muestra de una hoja de cálculo.",
+        "li3": "<strong>Juegos:</strong> sustituye dados perdidos, decide quién empieza o crea escenarios aleatorios. La herramienta para <a href=\"/tools/coin-flip-dice-roller/\">lanzar una moneda y tirar dados</a> muestra las caras de los dados y guarda un historial.",
+        "li4": "<strong>Pruebas:</strong> genera datos de prueba con decimales o rangos muy grandes y descárgalos como archivo.",
+        "p1": "Todo funciona en tu navegador. Los números se generan en tu dispositivo y nunca se envían a un servidor."
+      }
+    },
+    "text": {
+      "generate-btn": "Generar",
+      "reset-btn": "Restablecer",
+      "copy-numbers-btn": "Copiar números",
+      "download-btn": "Descargar .txt"
+    }
+  },
+  "client": {
+    "errors": {
+      "noCrypto": "Los números aleatorios seguros no están disponibles en este navegador.",
+      "rangeSize": "El tamaño del rango debe estar entre 1 y 2^53.",
+      "minEmpty": "Introduce el valor mínimo.",
+      "maxEmpty": "Introduce el valor máximo.",
+      "minInvalid": "El mínimo debe ser un número.",
+      "maxInvalid": "El máximo debe ser un número.",
+      "minAboveMax": "El mínimo ({{min}}) es mayor que el máximo ({{max}}). Intercámbialos o cambia uno de ellos.",
+      "count": "La cantidad debe ser un número entero del 1 al {{max}}.",
+      "decimals": "Las cifras decimales deben ser un número entero del 0 al {{max}}.",
+      "rangeTooLarge": "Ese rango es demasiado grande. Usa números más pequeños o menos cifras decimales.",
+      "noValue": {
+        "decimal": "No hay ningún número con {{decimals}} cifras decimales entre {{min}} y {{max}}.",
+        "whole": "No hay ningún número entero entre {{min}} y {{max}}."
+      },
+      "tooFewUnique": {
+        "decimal": "Solo existen {{possible}} valores distintos entre {{min}} y {{max}}, así que {{count}} números no pueden ser todos distintos. Reduce la cantidad, amplía el rango o permite duplicados.",
+        "whole": "Solo existen {{possible}} números enteros distintos entre {{min}} y {{max}}, así que {{count}} números no pueden ser todos distintos. Reduce la cantidad, amplía el rango o permite duplicados."
+      }
+    },
+    "result": {
+      "singleDecimal": "Número aleatorio entre {{min}} y {{max}}",
+      "singleWhole": "Número entero aleatorio entre {{min}} y {{max}}",
+      "multiple": "{{count}} números aleatorios entre {{min}} y {{max}}",
+      "summary": {
+        "plain": "{{count}} números",
+        "unique": "{{count}} números, sin repeticiones",
+        "sorted": "{{count}} números, ordenados",
+        "uniqueSorted": "{{count}} números, sin repeticiones, ordenados"
+      },
+      "chanceExact": "1 entre {{n}}",
+      "chanceApprox": "aproximadamente 1 entre {{n}}",
+      "note": {
+        "many": "{{possible}} valores posibles; en cada extracción, cada valor tiene una probabilidad de {{chance}}.",
+        "one": "{{possible}} valor posible; en cada extracción, cada valor tiene una probabilidad de {{chance}}.",
+        "other": "{{possible}} valores posibles; en cada extracción, cada valor tiene una probabilidad de {{chance}}."
+      },
+      "copied": "Números copiados"
+    }
+  }
+}

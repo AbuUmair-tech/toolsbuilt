@@ -31,7 +31,7 @@ const SITE_URL = 'https://toolsbuilt.com';
 const EXCLUDED = [
   /^_/, /^assets\//,
   /^404\.njk$/, /^feed\.xml\.njk$/, /^sitemap\.xml\.njk$/, /^robots\.txt\.njk$/,
-  /^llms\.txt\.njk$/, /^indexnow-key\.njk$/, /^google[0-9a-f]+\.html$/
+/^indexnow-key\.njk$/, /^google[0-9a-f]+\.html$/
 ];
 
 function loadLanguages() {
@@ -274,7 +274,7 @@ module.exports = function i18nPlugin(eleventyConfig) {
     const base = stripPrefix(url, languages);
     const links = enabled
       .filter(l => builtUrls.has(withPrefix(base, l)))
-      .map(l => ({ hreflang: l.hreflang, url: SITE_URL + withPrefix(base, l) }));
+      .map(l => ({ hreflang: l.hreflang, ogLocale: l.ogLocale, url: SITE_URL + withPrefix(base, l) }));
     if (links.length < 2) return [];
     return links.concat({ hreflang: 'x-default', url: SITE_URL + base });
   });
@@ -285,6 +285,76 @@ module.exports = function i18nPlugin(eleventyConfig) {
   // <script>window.I18N = ...</script> body for a non-English page (tool slugs whose scripts it loads)
   eleventyConfig.addFilter('clientStrings', function(slugs) {
     return new nunjucks.runtime.SafeString(i18nClient.json(i18nClient.pageStrings(pageLang(this), slugs || [])));
+  });
+
+  // --- Output of non-English pages: links and structured data point to the same language ---
+  const langOfUrl = url => languages.find(l => l.prefix && (url || '').startsWith(`/${l.prefix}/`));
+  const localPath = (lang, href) => {
+    const m = href.match(/^(\/[^?#]*)([?#].*)?$/);
+    if (!m || m[1].startsWith('/assets/') || m[1].startsWith(`/${lang.prefix}/`)) return null;
+    const target = withPrefix(m[1], lang);
+    return builtUrls.has(target) ? target + (m[2] || '') : null;
+  };
+  const JSON_LD_TYPES = new Set(['WebPage', 'WebSite', 'WebApplication', 'SoftwareApplication', 'CollectionPage',
+    'ItemList', 'FAQPage', 'HowTo', 'BreadcrumbList', 'ProfilePage', 'AboutPage', 'ContactPage', 'Article']);
+
+  function localizeJsonLd(value, lang, top) {
+    if (Array.isArray(value)) return value.map(v => localizeJsonLd(v, lang, top));
+    if (value && typeof value === 'object') {
+      const out = {};
+      for (const [k, v] of Object.entries(value)) out[k] = localizeJsonLd(v, lang, false);
+      if (top && JSON_LD_TYPES.has(out['@type']) && !out.inLanguage) out.inLanguage = lang.hreflang;
+      return out;
+    }
+    if (typeof value === 'string' && value.startsWith(SITE_URL + '/')) {
+      const local = localPath(lang, value.slice(SITE_URL.length));
+      return local ? SITE_URL + local : value;
+    }
+    return value;
+  }
+
+  eleventyConfig.addTransform('i18n-localize-output', function(content) {
+    const lang = langOfUrl(this.page && this.page.url);
+    if (!lang || !(this.page.outputPath || '').endsWith('.html')) return content;
+    return content
+      // <a href="/tools/x/"> -> /<prefix>/tools/x/ (not language links, which carry hreflang)
+      .replace(/<a\b[^>]*>/g, tag => (/\shreflang=/.test(tag) ? tag : tag.replace(/(\shref=")(\/[^"]*)"/, (m, attr, href) => {
+        const local = localPath(lang, href);
+        return local ? `${attr}${local}"` : m;
+      })))
+      .replace(/(<form\b[^>]*\saction=")(\/[^"]*)"/g, (m, attr, href) => {
+        const local = localPath(lang, href);
+        return local ? `${attr}${local}"` : m;
+      })
+      .replace(/(<script type="application\/ld\+json">)([\s\S]*?)(<\/script>)/g, (m, open, json, close) => {
+        try {
+          return `${open}\n${JSON.stringify(localizeJsonLd(JSON.parse(json), lang, true), null, 2)}\n${close}`;
+        } catch (e) {
+          throw new Error(`i18n: invalid JSON-LD on ${this.page.url}: ${e.message}`);
+        }
+      });
+  });
+
+  // sitemap.xml: every language version of each URL, with xhtml:link alternates (once several
+  // languages are enabled; with English only the file is left as it is)
+  eleventyConfig.addTransform('i18n-sitemap', function(content) {
+    if (!this.page || this.page.url !== '/sitemap.xml' || enabled.length < 2) return content;
+    const entries = content.match(/  <url>[\s\S]*?<\/url>\n?/g) || [];
+    const out = entries.map(entry => {
+      const loc = (entry.match(/<loc>([^<]+)<\/loc>/) || [])[1] || '';
+      const base = loc.slice(SITE_URL.length);
+      const versions = enabled.filter(l => builtUrls.has(withPrefix(base, l)));
+      if (versions.length < 2) return entry;
+      const links = versions.map(l => `    <xhtml:link rel="alternate" hreflang="${l.hreflang}" href="${SITE_URL + withPrefix(base, l)}"/>`)
+        .concat(`    <xhtml:link rel="alternate" hreflang="x-default" href="${SITE_URL + base}"/>`).join('\n');
+      return versions.map(l => entry
+        .replace(`<loc>${loc}</loc>`, `<loc>${SITE_URL + withPrefix(base, l)}</loc>`)
+        .replace(/\n  <\/url>/, `\n${links}\n  </url>`)).join(entry.endsWith('\n') ? '' : '\n');
+    });
+    let i = 0;
+    return content
+      .replace('<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">', '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">')
+      .replace(/  <url>[\s\S]*?<\/url>\n?/g, () => out[i++]);
   });
 
   eleventyConfig.addFilter('languageInfo', code => byCode.get(code) || english);

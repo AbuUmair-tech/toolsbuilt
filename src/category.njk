@@ -8,7 +8,7 @@ permalink: "/category/{{ category.slug }}/index.html"
 eleventyComputed:
   title: "{{ (category | localizeCategory).seoTitle | safe }}"
   description: "{{ (category | localizeCategory).seoDescription | safe }}"
-  canonical: "https://toolsbuilt.com/category/{{ category.slug }}/"
+  canonical: "https://toolsbuilt.com{{ page.url }}"
   breadcrumbTitle: "{{ (category | localizeCategory).name | safe }}"
 ---
 {% import "partials/cards.njk" as cards with context %}{% set category = category | localizeCategory %}

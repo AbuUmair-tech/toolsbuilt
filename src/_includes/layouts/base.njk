@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-{% set currentLanguage = lang | languageInfo %}<html lang="{{ currentLanguage.hreflang }}" dir="{{ dir }}">
+{% set currentLanguage = lang | languageInfo %}<html lang="{{ currentLanguage.hreflang }}" dir="{{ dir }}"{% if currentLanguage.prefix %} data-locale-prefix="/{{ currentLanguage.prefix }}"{% endif %}>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -52,7 +52,9 @@
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="{{ ogImageAlt or (title + ' - ToolsBuilt') }}">
-  {% if lang == 'en' %}<meta property="og:locale" content="en_US">{% endif %}{# other languages: add an og:locale (language_TERRITORY) when they are translated #}
+  <meta property="og:locale" content="{{ currentLanguage.ogLocale }}">
+  {%- for alt in page.url | localeAlternates %}{% if alt.ogLocale and alt.ogLocale != currentLanguage.ogLocale %}
+  <meta property="og:locale:alternate" content="{{ alt.ogLocale }}">{% endif %}{% endfor %}
   
   <!-- Twitter Card -->
   <meta name="twitter:card" content="{{ twitterCard or 'summary_large_image' }}">

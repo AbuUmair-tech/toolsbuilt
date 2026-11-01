@@ -1,0 +1,223 @@
+{
+  "listing": {
+    "name": "Rabattrechner",
+    "shortName": "Rabattrechner",
+    "description": "Endpreis im Sale, Gesamtersparnis, kombinierte Doppelrabatte und Endpreis inklusive Umsatzsteuer berechnen.",
+    "shortDescription": "Endpreis im Sale, Gesamtersparnis, kombinierte Doppelrabatte und Endpreis inklusive Umsatzsteuer berechnen.",
+    "keywords": [
+      "rabattrechner",
+      "rabatt berechnen",
+      "prozent rabatt rechner",
+      "ersparnis berechnen",
+      "doppelter rabatt mit steuer"
+    ]
+  },
+  "title": "Rabattrechner: Rabatt, Endpreis & Ersparnis berechnen",
+  "description": "Kostenloser Rabattrechner: Endpreis, gesparten Betrag, kombinierte Doppelrabatte und Umsatzsteuer sofort berechnen.",
+  "h1": "Rabattrechner",
+  "quickAnswer": "Um mit dem Rabattrechner den Endpreis und deine Gesamtersparnis zu ermitteln, gib den Originalpreis und den Rabatt in Prozent ein. Du kannst zusätzlich einen zweiten, kombinierten Gutschein und die örtliche Umsatzsteuer hinzufügen, um zu sehen, was du tatsächlich bezahlst. Gerundet wird kaufmännisch auf den Cent, wie an Ladenkassen und gemäß Verbraucherschutzrichtlinien üblich.",
+  "formula": {
+    "title": "Formel für Rabatt und Steuer",
+    "expression": "Endpreis = [(Originalpreis - (Originalpreis × Rabatt1%)) - kombinierter Rabatt] × (1 + Steuer%)",
+    "explanation": "Zuerst wird der Hauptrabatt auf den Originalpreis angewendet, um die erste Ersparnis zu ermitteln. Danach wird ein eventueller zweiter, kombinierter Gutschein auf die bereits reduzierte Zwischensumme angewendet (multiplikativ, nicht additiv). Zum Schluss wird die Umsatzsteuer auf die rabattierte Zwischensumme berechnet, mit kaufmännischer Rundung auf den Cent."
+  },
+  "workedExamples": [
+    {
+      "title": "Einfacher Rabatt von 25%",
+      "inputs": [
+        "Originalpreis: $100.00",
+        "Hauptrabatt: 25%",
+        "Kombinierter Gutschein: 0%",
+        "Umsatzsteuer: 0%"
+      ],
+      "steps": [
+        "Ersparnis berechnen: $100.00 × 0.25 = $25.00",
+        "Rabatt vom Originalpreis abziehen: $100.00 - $25.00 = $75.00"
+      ],
+      "result": "Endpreis: $75.00 (Gesamtersparnis: $25.00 / 25.00%)"
+    },
+    {
+      "title": "20% Sale + 10% Gutschein kombiniert",
+      "inputs": [
+        "Originalpreis: $80.00",
+        "Hauptrabatt: 20%",
+        "Kombinierter Gutschein: 10%",
+        "Umsatzsteuer: 0%"
+      ],
+      "steps": [
+        "Hauptrabatt von 20% anwenden: $80.00 - $16.00 = $64.00 Zwischensumme",
+        "Zweiten Gutschein von 10% auf die reduzierte Zwischensumme anwenden: $64.00 × 0.10 = $6.40 Ersparnis",
+        "Zweiten Gutschein abziehen: $64.00 - $6.40 = $57.60 Endpreis",
+        "Gesamtersparnis berechnen: $16.00 + $6.40 = $22.40 (effektiver Rabatt: 28.00%, nicht 30%)"
+      ],
+      "result": "Endpreis: $57.60 (Gesamtersparnis: $22.40 / 28.00% effektiver Rabatt)"
+    },
+    {
+      "title": "15% Rabatt mit 8% Umsatzsteuer",
+      "inputs": [
+        "Originalpreis: $50.00",
+        "Hauptrabatt: 15%",
+        "Kombinierter Gutschein: 0%",
+        "Umsatzsteuer: 8%"
+      ],
+      "steps": [
+        "Rabatt von 15% anwenden: $50.00 × 0.15 = $7.50 Ersparnis",
+        "Rabattierte Zwischensumme: $50.00 - $7.50 = $42.50",
+        "8% Umsatzsteuer auf die rabattierte Zwischensumme berechnen: $42.50 × 0.08 = $3.40",
+        "Umsatzsteuer zur Zwischensumme addieren: $42.50 + $3.40 = $45.90"
+      ],
+      "result": "Endpreis: $45.90 (Nettoersparnis: $7.50, Steuer: $3.40)"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Kombinierte Rabatte einfach addieren",
+      "description": "Ein häufiger Irrtum beim Einkaufen ist, Rabattsätze einfach zu addieren (z. B. 20% Rabatt + 10% Gutschein = 30% Rabatt). Der zweite Gutschein gilt aber für die bereits reduzierte Zwischensumme, sodass du insgesamt 28% sparst."
+    },
+    {
+      "title": "Umsatzsteuer vor dem Rabatt berechnen",
+      "description": "In fast allen Steuergebieten von Bundesstaaten und Provinzen wird die Umsatzsteuer ausschließlich auf den nach Gutscheinen tatsächlich gezahlten Nettopreis erhoben, nicht auf den ursprünglichen Preis auf dem Etikett."
+    },
+    {
+      "title": "Unterschiede beim Runden auf Cent",
+      "description": "Kassensysteme runden bei jedem einzelnen Schritt auf den nächsten Cent. Wer erst beim Endbetrag rundet, kann kleine Abweichungen von 1 Cent gegenüber dem Kassenbon bekommen."
+    },
+    {
+      "title": "Prozent Rabatt mit Prozent vom Originalpreis verwechseln",
+      "description": "Ein Rabatt von 25% bedeutet, dass du 75% des Originalpreises zahlst, nicht 25% des Originalpreises."
+    }
+  ],
+  "sources": [
+    {
+      "name": "Federal Trade Commission - Guides Against Deceptive Pricing"
+    },
+    {
+      "name": "NIST Consumer Pricing Mathematics Standards"
+    },
+    {
+      "name": "ISO 80000-2: Mathematische Zeichen und Symbole"
+    }
+  ],
+  "howto": {
+    "name": "So berechnest du Rabattpreis und Ersparnis",
+    "description": "Schritt-für-Schritt-Anleitung zur Berechnung von Rabatten, kombinierten Gutscheinen und Umsatzsteuer.",
+    "steps": [
+      {
+        "name": "Währung und Originalpreis wählen",
+        "text": "Wähle dein Währungssymbol und gib den ursprünglichen Preis des Artikels ein."
+      },
+      {
+        "name": "Hauptrabatt eingeben",
+        "text": "Gib den beworbenen Rabatt in Prozent ein (z. B. 20%)."
+      },
+      {
+        "name": "Gutscheine oder Steuer hinzufügen (optional)",
+        "text": "Füge bei Bedarf einen zusätzlichen Rabattcode und den örtlichen Umsatzsteuersatz hinzu."
+      },
+      {
+        "name": "Endpreis und Gesamtersparnis prüfen",
+        "text": "Sieh dir an, was du am Ende bezahlst, wie viel du insgesamt sparst und die Rechnung Schritt für Schritt."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Wie berechnet man den Endpreis nach Rabatt?",
+      "a": "Multipliziere den Originalpreis mit dem Rabatt in Prozent geteilt durch 100, um die Ersparnis zu erhalten. Ziehe die Ersparnis dann vom Originalpreis ab, um den Endpreis zu ermitteln."
+    },
+    {
+      "q": "Warum ergeben 20% Sale plus 10% Gutschein nicht 30% Rabatt?",
+      "a": "Weil kombinierte Gutscheine auf die bereits reduzierte Zwischensumme angewendet werden und nicht auf den Originalpreis. Ein Artikel für $100 kostet nach 20% Rabatt $80; 10% von $80 sind $8 Ersparnis, sodass der Endpreis $72 beträgt (insgesamt 28% Ersparnis, nicht 30%)."
+    },
+    {
+      "q": "Wird die Umsatzsteuer vor oder nach dem Rabatt berechnet?",
+      "a": "Beim Einkauf im Handel wird die Umsatzsteuer auf die rabattierte Zwischensumme berechnet, nachdem alle Aktionsrabatte und Gutscheine abgezogen wurden."
+    },
+    {
+      "q": "Kann ich mit diesem Tool kombinierte Doppelrabatte berechnen?",
+      "a": "Ja. Gib den Hauptrabatt in Prozent in das erste Feld ein und den zweiten Gutschein in Prozent in das optionale Feld für den kombinierten Rabatt."
+    },
+    {
+      "q": "Werden Finanzdaten an einen Server übertragen?",
+      "a": "Nein. Alle Rabattberechnungen laufen lokal mit JavaScript in deinem Browser. Keine Preise oder sonstigen Eingaben verlassen dein Gerät."
+    },
+    {
+      "q": "Unterstützt der Rechner auch Währungen wie Pfund und Euro?",
+      "a": "Ja. Über die Währungsauswahl kannst du zwischen Dollar ($), Pfund (£), Euro (€), Yen (¥) und Rupien (₹) wechseln."
+    },
+    {
+      "q": "Was ist ein effektiver Rabatt in Prozent?",
+      "a": "Der effektive Rabatt ist deine gesamte Ersparnis geteilt durch den Originalpreis, ausgedrückt als ein einziger gleichwertiger Prozentsatz."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Formular Rabattrechner",
+      "copy-result-btn": "Ergebnis in die Zwischenablage kopieren"
+    },
+    "label": {
+      "original-price": "Originalpreis <span class=\"text-accent\">*</span>",
+      "discount-percent": "Hauptrabatt (%) <span class=\"text-accent\">*</span>",
+      "stacked-discount-percent": "Zweiter Rabatt (%) <span class=\"label-hint\">(optional)</span>",
+      "tax-percent": "Umsatzsteuer (%) <span class=\"label-hint\">(optional)</span>"
+    },
+    "content": {
+      "tool": {
+        "button1": "Ersparnis berechnen",
+        "div1": "Endpreis (was du zahlst)",
+        "div2": "Gesamtersparnis",
+        "div3": "Zwischensumme (vor Steuer)",
+        "div4": "Aufgeschlagene Umsatzsteuer"
+      },
+      "how-when-to-use-the-discount": {
+        "heading": "Wie &amp; wann du den Rabattrechner nutzt",
+        "li1": "<strong>Einkaufen im Laden &amp; Restposten:</strong> Finde schnell heraus, was das Schild „30% auf den Etikettpreis“ an der Kasse tatsächlich bedeutet.",
+        "li2": "<strong>Gutscheine im Onlineshop kombinieren:</strong> Teste, was passiert, wenn du einen Sale von 20% auf alles mit einem zusätzlichen Influencer-Rabattcode von 15% kombinierst.",
+        "li3": "<strong>Großhandel &amp; Margen:</strong> Mengenrabatte von Händlern und Nettopreise berechnen, bevor du eine Rechnung stellst.",
+        "li4": "<strong>Budget mit örtlicher Umsatzsteuer planen:</strong> Sieh den tatsächlichen Gesamtbetrag inklusive Umsatzsteuer des Bundesstaats oder der Region, bevor du mit Karte zahlst."
+      }
+    },
+    "text": {
+      "reset-btn": "Zurücksetzen",
+      "result-header-text": "Ergebnis der Rabattberechnung",
+      "copy-result-btn": "<span data-icon=\"copy\"></span> Ergebnis kopieren",
+      "result-primary-text": "Endpreis: $0.00"
+    },
+    "title": {
+      "copy-result-btn": "Ergebnis in die Zwischenablage kopieren"
+    }
+  },
+  "client": {
+    "errors": {
+      "originalPrice": "Bitte gib einen gültigen Originalpreis ein (0 oder größer).",
+      "primaryDiscount": "Bitte gib einen gültigen Hauptrabatt in Prozent ein (0-100%).",
+      "primaryOver100": "Der Hauptrabatt darf 100% nicht überschreiten.",
+      "stackedNegative": "Der zweite Rabatt muss 0 oder größer sein.",
+      "stackedOver100": "Der zweite Rabatt darf 100% nicht überschreiten.",
+      "taxNegative": "Der Steuersatz muss 0 oder größer sein.",
+      "price": "Bitte gib einen gültigen Originalpreis ein.",
+      "discount": "Bitte gib einen gültigen Rabatt in Prozent ein.",
+      "negative": "Preis, Rabatt und Steuersatz dürfen nicht negativ sein."
+    },
+    "breakdown": {
+      "originalPrice": "Originalpreis",
+      "primaryDiscount": "Hauptrabatt ({{pct}}%)",
+      "stackedCoupon": "Zweiter Gutschein ({{pct}}%)",
+      "salesTax": "Umsatzsteuer ({{pct}}%)"
+    },
+    "result": {
+      "primary": "Endpreis: {{final}}",
+      "totalSaved": "{{saved}} ({{pct}}% insgesamt)",
+      "copy": "Endpreis: {{final}}. Gesamtersparnis: {{saved}} ({{pct}}% Rabatt). Preis vor Steuer: {{beforeTax}}. Umsatzsteuer: {{tax}}.",
+      "copied": "Rabattberechnung in die Zwischenablage kopiert"
+    },
+    "steps": {
+      "heading": "<strong>Rechenweg:</strong><br>",
+      "original": "1. Originalpreis: <code>{{price}}</code><br>",
+      "primary": "2. Hauptrabatt ({{pct}}%): <code>{{saved}}</code> gespart → Zwischensumme: <code>{{subtotal}}</code><br>",
+      "stacked": "3. Zweiter Rabatt ({{pct}}% auf {{base}}): zusätzlich <code>{{saved}}</code> gespart → Zwischensumme: <code>{{subtotal}}</code><br>",
+      "tax": "4. Umsatzsteuer ({{pct}}%): <code>{{tax}}</code> aufgeschlagen<br>",
+      "total": "5. Gesamtbetrag: <strong>{{final}}</strong> (Gesamtersparnis: <strong>{{saved}}</strong>)"
+    }
+  }
+}

@@ -2,21 +2,21 @@
 permalink: /llms.txt
 eleventyExcludeFromCollections: true
 ---
-{{ 'llms.intro' | t }}## {{ 'llms.categories' | t }}
+{% set currentPrefix = (lang | languageInfo).prefix %}{{ 'llms.intro' | t }}## {{ 'llms.categories' | t }}
 {% for cat in categories %}
-- [{{ cat.name | safe }}](https://toolsbuilt.com/category/{{ cat.slug }}/): {{ cat.description | safe }}
+- [{{ cat.name | safe }}](https://toolsbuilt.com{{ ('/category/' + cat.slug + '/') | localeUrl(lang) }}): {{ cat.description | safe }}
 {%- endfor %}
 
 ## {{ 'llms.tools' | t }}
 {% for tool in tools %}
-- [{{ tool.name | safe }}](https://toolsbuilt.com/tools/{{ tool.slug }}/): {{ tool.description | safe }}
+- [{{ tool.name | safe }}](https://toolsbuilt.com{{ ('/tools/' + tool.slug + '/') | localeUrl(lang) }}): {{ tool.description | safe }}
 {%- endfor %}
 
-## {{ 'llms.blog' | t }}
+{% if lang == 'en' %}## {{ 'llms.blog' | t }}
 {% for post in collections.post | reverse %}
   {%- if not (env.isProduction and post.data.draft) %}
 - [{{ post.data.title | safe }}](https://toolsbuilt.com{{ post.url }}): {{ post.data.description | safe }}
   {%- endif %}
 {%- endfor %}
 
-{{ 'llms.links' | t }}
+{{ 'llms.links' | t }}{% else %}{{ 'llms.links' | t | replace('https://toolsbuilt.com/tools/', 'https://toolsbuilt.com/' + currentPrefix + '/tools/') | replace('https://toolsbuilt.com/\n', 'https://toolsbuilt.com/' + currentPrefix + '/\n') | safe }}{% endif %}
