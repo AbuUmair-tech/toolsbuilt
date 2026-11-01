@@ -56,6 +56,9 @@ module.exports = function(eleventyConfig) {
     buildSearchIndex();
   });
 
+  // Languages: lang/dir data, localized page copies and URL filters
+  eleventyConfig.addPlugin(require('./scripts/i18n.js'));
+
   // Shortcode for referencing content-hashed main CSS
   eleventyConfig.addShortcode('mainCss', function() {
     return cssBundle.cssPath;

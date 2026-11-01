@@ -5,7 +5,8 @@
  *
  * Fails (exit 1) if any built page in _site/ drifts from the homepage theme:
  * 1. The site header and footer must be identical to the homepage's, ignoring
- *    the active-navigation markers (aria-current="page" and is-active).
+ *    the active-navigation markers (aria-current="page" and is-active) and the
+ *    language picker's links to the current page in each language.
  * 2. The only stylesheets a page may load are the main bundle
  *    (/assets/css/main.<hash>.css) and, on a tool page, that tool's own
  *    /tools/<slug>/style.css (country variants share their parent's sheet).
@@ -56,6 +57,8 @@ function normalise(fragment) {
   return fragment
     .replace(/\s+aria-current="page"/g, '')
     .replace(/\s+is-active(?=["\s])/g, '')
+    .replace(/(<button[^>]*class="language-menu-option[^>]*data-href=")[^"]*"( data-fallback)?/g, '$1"')
+    .replace(/(<a href=")[^"]*(" hreflang=)/g, '$1$2')
     .replace(/\s+/g, ' ')
     .trim();
 }

@@ -733,6 +733,42 @@ try {
   assert(false, `Theme consistency check failed: ${e.message}\n${e.stdout || ''}${e.stderr || ''}`);
 }
 
+// -----------------------------------------------------------------
+// Test 25: Multilingual safety (English unchanged, lang/dir, no translation services)
+// -----------------------------------------------------------------
+console.log('\n--- 25. Multilingual Safety Check ---');
+try {
+  const i18nOutput = execSync('node scripts/check-i18n.js', {
+    cwd: ROOT,
+    encoding: 'utf8',
+    stdio: 'pipe'
+  });
+  assert(
+    i18nOutput.includes('i18n check PASSED'),
+    'i18n: English pages match the pre-i18n build, every page has the right lang/dir, no translation services'
+  );
+} catch (e) {
+  assert(false, `i18n check failed: ${e.message}\n${e.stdout || ''}${e.stderr || ''}`);
+}
+
+// -----------------------------------------------------------------
+// Test 26: Playwright Language Picker & Banner
+// -----------------------------------------------------------------
+console.log('\n--- 26. Language Picker & Banner Interactions ---');
+try {
+  const langMenuOutput = execSync('node scripts/test-language-menu.js', {
+    cwd: ROOT,
+    encoding: 'utf8',
+    stdio: 'pipe'
+  });
+  assert(
+    langMenuOutput.includes('Language menu tests PASSED'),
+    'Language picker: listbox, search, keyboard, phone sheet, switching and banner'
+  );
+} catch (e) {
+  assert(false, `Language picker tests failed: ${e.message}\n${e.stdout || ''}${e.stderr || ''}`);
+}
+
 console.log('\n========================================================');
 if (failures === 0) {
   console.log('🎉 ALL AUDIT & REGRESSION TESTS PASSED (0 FAILURES)');
