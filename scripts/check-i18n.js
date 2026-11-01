@@ -183,7 +183,7 @@ for (const rel of currentPages) {
     continue;
   }
   const tag = (html.match(/<html[^>]*>/) || [''])[0];
-  const expected = `<html lang="${lang.hreflang}" dir="${lang.dir}">`;
+  const expected = `<html lang="${lang.hreflang}" dir="${lang.dir}"${lang.prefix ? ` data-locale-prefix="/${lang.prefix}"` : ''}>`;
   if (tag !== expected) {
     wrongAttrs++;
     fail(`/${rel}: expected ${expected}, found ${tag || 'no <html> tag'}`);

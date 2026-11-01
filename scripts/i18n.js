@@ -298,11 +298,16 @@ module.exports = function i18nPlugin(eleventyConfig) {
   const JSON_LD_TYPES = new Set(['WebPage', 'WebSite', 'WebApplication', 'SoftwareApplication', 'CollectionPage',
     'ItemList', 'FAQPage', 'HowTo', 'BreadcrumbList', 'ProfilePage', 'AboutPage', 'ContactPage', 'Article']);
 
+  // People and organisations keep their canonical URLs (they identify the entity, not a page)
+  const ENTITY_TYPES = new Set(['Person', 'Organization']);
+
   function localizeJsonLd(value, lang, top) {
     if (Array.isArray(value)) return value.map(v => localizeJsonLd(v, lang, top));
     if (value && typeof value === 'object') {
+      if (ENTITY_TYPES.has(value['@type'])) return value;
       const out = {};
       for (const [k, v] of Object.entries(value)) out[k] = localizeJsonLd(v, lang, false);
+      if (typeof out.inLanguage === 'string' && out.inLanguage.startsWith('en')) out.inLanguage = lang.hreflang;
       if (top && JSON_LD_TYPES.has(out['@type']) && !out.inLanguage) out.inLanguage = lang.hreflang;
       return out;
     }
