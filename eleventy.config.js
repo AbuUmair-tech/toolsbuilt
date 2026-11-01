@@ -256,12 +256,14 @@ module.exports = function(eleventyConfig) {
     return i === -1 ? [content || '', ''] : [content.slice(0, i), content.slice(i + marker.length)];
   });
 
+  const languages = require('./scripts/i18n.js').loadLanguages();
   // In the page language (en-GB style for English)
   eleventyConfig.addFilter('humanDate', function(str) {
     if (!str) return '';
     const d = new Date(str);
     const lang = (this.ctx && this.ctx.lang) || 'en';
-    return isNaN(d.getTime()) ? str : d.toLocaleDateString(lang === 'en' ? 'en-GB' : lang, { day: 'numeric', month: 'long', year: 'numeric' });
+    const locale = lang === 'en' ? 'en-GB' : ((languages.find(l => l.code === lang) || {}).intlLocale || lang);
+    return isNaN(d.getTime()) ? str : d.toLocaleDateString(locale, { day: 'numeric', month: 'long', year: 'numeric' });
   });
 
   // Blog Filters: readingTime, isoDate, readableDate, jsonStr

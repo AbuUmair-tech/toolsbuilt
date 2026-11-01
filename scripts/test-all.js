@@ -780,6 +780,17 @@ try {
   assert(false, `Language picker tests failed: ${e.message}\n${e.stdout || ''}${e.stderr || ''}`);
 }
 
+// -----------------------------------------------------------------
+// Test 27: Translated pages (results, errors, number formats, language switch)
+// -----------------------------------------------------------------
+console.log('\n--- 27. Translated Language Pages ---');
+try {
+  const langOutput = execSync('node scripts/test-i18n-languages.js', { cwd: ROOT, encoding: 'utf8', stdio: 'pipe' });
+  assert(langOutput.includes('Language page tests PASSED'), 'Every enabled language: translated results, errors, number formats and language switching');
+} catch (e) {
+  assert(false, `Language page tests failed: ${e.message}\n${e.stdout || ''}${e.stderr || ''}`);
+}
+
 console.log('\n========================================================');
 if (failures === 0) {
   console.log('🎉 ALL AUDIT & REGRESSION TESTS PASSED (0 FAILURES)');

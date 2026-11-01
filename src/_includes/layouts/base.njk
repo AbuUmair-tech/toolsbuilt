@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-{% set currentLanguage = lang | languageInfo %}<html lang="{{ currentLanguage.hreflang }}" dir="{{ dir }}"{% if currentLanguage.prefix %} data-locale-prefix="/{{ currentLanguage.prefix }}"{% endif %}>
+{% set currentLanguage = lang | languageInfo %}<html lang="{{ currentLanguage.hreflang }}" dir="{{ dir }}"{% if currentLanguage.prefix %} data-locale-prefix="/{{ currentLanguage.prefix }}"{% endif %}{% if currentLanguage.intlLocale %} data-intl-locale="{{ currentLanguage.intlLocale }}"{% endif %}>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">

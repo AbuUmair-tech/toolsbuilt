@@ -127,9 +127,11 @@ window.ToolsBuilt = window.ToolsBuilt || {};
     const forms = lookup(window.I18N, `ui.${key}`) || lookup(window.I18N_DEFAULTS, `ui.${key}`) || {};
     return resolve(`ui.${key}.${form in forms ? form : 'other'}`, { count, ...(vars || {}) });
   }
+  // Locale for Intl on this page; data-intl-locale overrides it (Arabic uses Western digits: ar-u-nu-latn)
   function pageLocale(englishLocale) {
-    const lang = document.documentElement.lang || 'en';
-    return lang === 'en' ? englishLocale : lang;
+    const root = document.documentElement;
+    const lang = root.lang || 'en';
+    return lang === 'en' ? englishLocale : (root.dataset.intlLocale || lang);
   }
   Object.assign(window.ToolsBuilt, { t, tp, scope, pageLocale });
 })();
@@ -321,7 +323,7 @@ ToolsBuilt.resultLink = (function() {
   // English pages: English with the visitor's region (en-GB, en-IN, ...); otherwise the page language
   function dateLocale() {
     const pageLang = document.documentElement.lang || 'en';
-    if (pageLang !== 'en') return pageLang;
+    if (pageLang !== 'en') return document.documentElement.dataset.intlLocale || pageLang;
     const langs = navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || 'en-US'];
     for (const lang of langs) {
       const region = (lang.split('-')[1] || '').toUpperCase();
