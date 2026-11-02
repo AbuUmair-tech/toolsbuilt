@@ -1,0 +1,245 @@
+{
+  "listing": {
+    "name": "Encodeur et décodeur d'URL",
+    "shortName": "Encodeur d'URL",
+    "description": "Encodez et décodez des URL avec les modes encodeURIComponent et encodeURI, et analysez la chaîne de requête sous forme de tableau.",
+    "shortDescription": "Encodez et décodez des URL avec les modes encodeURIComponent et encodeURI, et analysez la chaîne de requête sous forme de tableau.",
+    "keywords": [
+      "encodeur d'url",
+      "décodeur d'url",
+      "encodeuricomponent",
+      "analyser une query string",
+      "encodage pourcentage url"
+    ]
+  },
+  "title": "Encodeur et décodeur d'URL - encodeURIComponent et encodeURI",
+  "description": "Encodeur et décodeur d'URL gratuit : passez d'encodeURIComponent à encodeURI, analysez la chaîne de requête dans un tableau et copiez le résultat.",
+  "h1": "Encodeur et décodeur d'URL",
+  "quickAnswer": "encodeURIComponent() encode tous les caractères sauf A–Z, a–z, 0–9, -, _, ., !, ~, *, ', (, ). Utilisez-le pour chaque valeur de la chaîne de requête. encodeURI() conserve les caractères de structure (:, /, ?, #, &, =) et sert pour les URL complètes. Pour décoder, collez le texte encodé en pourcentage : cet encodeur et décodeur d'URL reconvertit chaque séquence %XX en caractère UTF-8 d'origine.",
+  "workedExamples": [
+    {
+      "title": "Encoder la valeur d'un paramètre de requête",
+      "inputs": [
+        "Mode : encodeURIComponent",
+        "Entrée : hello world & goodbye!"
+      ],
+      "steps": [
+        "Espaces → %20, & → %26, ! → %21",
+        "Résultat : hello%20world%20%26%20goodbye%21"
+      ],
+      "result": "hello%20world%20%26%20goodbye%21"
+    },
+    {
+      "title": "Encoder une URL complète",
+      "inputs": [
+        "Mode : encodeURI",
+        "Entrée : https://example.com/search?q=hello world&lang=en"
+      ],
+      "steps": [
+        "Caractères de structure conservés : ://?&=",
+        "Espace → %20, autres caractères spéciaux encodés",
+        "Résultat : https://example.com/search?q=hello%20world&lang=en"
+      ],
+      "result": "https://example.com/search?q=hello%20world&lang=en"
+    },
+    {
+      "title": "Décoder une chaîne encodée en pourcentage",
+      "inputs": [
+        "Mode : décoder",
+        "Entrée : Caf%C3%A9%20au%20lait"
+      ],
+      "steps": [
+        "%C3%A9 est l'encodage UTF-8 de é (e accent aigu)",
+        "%20 est un caractère espace",
+        "Décodé : Café au lait"
+      ],
+      "result": "Café au lait"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Le double encodage",
+      "description": "Encoder une chaîne déjà encodée en pourcentage transforme les caractères <code>%</code> existants en <code>%25</code> (par ex. <code>%20</code> devient <code>%2520</code>). Vérifiez toujours si les données reçues sont déjà encodées avant de les transformer."
+    },
+    {
+      "title": "Utiliser encodeURI pour des valeurs de requête",
+      "description": "Appliquer <code>encodeURI</code> à la valeur d'un paramètre laisse des caractères comme <code>&amp;</code> et <code>+</code> non encodés, ce qui amène les serveurs à tronquer ou découper les valeurs de façon inattendue."
+    },
+    {
+      "title": "Séquences de pourcentage mal formées",
+      "description": "Décoder une chaîne contenant un signe pourcentage isolé (comme <code>discount=50%</code> au lieu de <code>discount=50%25</code>) déclenche une erreur JavaScript fatale <code>URIError: URI malformed</code>. Un outil fiable intercepte cette erreur et l'affiche clairement."
+    }
+  ],
+  "sources": [
+    {
+      "label": "RFC 3986 : Uniform Resource Identifier (URI): Generic Syntax"
+    },
+    {
+      "label": "MDN Web Docs : encodeURIComponent()"
+    },
+    {
+      "label": "MDN Web Docs : encodeURI()"
+    }
+  ],
+  "howto": {
+    "name": "Comment encoder et décoder des URL en ligne",
+    "description": "Guide pas à pas pour encoder des composants d'URL et des URI complètes, et analyser les paramètres de requête.",
+    "steps": [
+      {
+        "name": "Choisir l'opération et le mode",
+        "text": "Choisissez « Encoder » ou « Décoder », puis le mode Composant (encodeURIComponent) ou URL complète (encodeURI)."
+      },
+      {
+        "name": "Saisir la chaîne ou l'URL",
+        "text": "Tapez ou collez votre paramètre de requête, votre texte ou votre adresse web complète dans la zone de saisie."
+      },
+      {
+        "name": "Examiner et copier le résultat",
+        "text": "Consultez le résultat en direct, examinez les paires clé-valeur des paramètres dans le tableau et copiez le résultat."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Quelle est la différence entre encodeURIComponent et encodeURI ?",
+      "a": "encodeURIComponent encode tous les caractères de ponctuation réservés (dont &, =, ?, /, : et #) en séquences hexadécimales encodées en pourcentage. Il sert à encoder les clés et valeurs individuelles des paramètres de requête. encodeURI, au contraire, conserve les caractères de structure d'une URL valide (;,/?:@&=+$#) et n'encode que les caractères interdits dans les URI, comme les espaces et les caractères Unicode."
+    },
+    {
+      "q": "Quand utiliser encodeURIComponent plutôt qu'encodeURI ?",
+      "a": "Utilisez toujours encodeURIComponent pour préparer des valeurs à ajouter à une chaîne de requête (par ex. ?q=terme+de+recherche ou ?redirect_url=https://example.com). Avec encodeURI, des symboles comme & et = dans votre valeur seraient pris pour des délimiteurs de requête supplémentaires."
+    },
+    {
+      "q": "Comment cet outil gère-t-il les signes « + » dans les chaînes de requête ?",
+      "a": "Dans les chaînes de requête application/x-www-form-urlencoded, le signe plus (+) représente souvent un espace. En mode Composant, lors du décodage, cet outil convertit à la fois « + » et « %20 » en espaces."
+    },
+    {
+      "q": "Mon URL ou mes paramètres de requête privés sont-ils envoyés à un serveur ?",
+      "a": "Non. L'encodage, le décodage et l'analyse de la chaîne de requête s'exécutent à 100% localement dans votre navigateur. Les jetons d'API sensibles et les chaînes de requête ne quittent jamais votre appareil."
+    },
+    {
+      "q": "Quelle est la taille maximale d'URL prise en charge ?",
+      "a": "L'outil accepte des saisies jusqu'à une limite de sécurité de 1 Mo (1,048,576 caractères). Le traitement en direct différé garantit une mise à jour instantanée de l'interface, sans ralentissement."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Formulaire de l'encodeur et décodeur d'URL",
+      "parsed-query-string-parameters-table1": "Paramètres de la chaîne de requête analysés",
+      "url-encoding-specification-mode-comparison-table1": "Comparaison des modes"
+    },
+    "content": {
+      "tool": {
+        "span1": "Sens :",
+        "label1": "<input type=\"radio\" name=\"url-direction\" value=\"encode\" checked class=\"cursor-pointer\">\n            <span>Encoder</span>",
+        "label2": "<input type=\"radio\" name=\"url-direction\" value=\"decode\" class=\"cursor-pointer\">\n            <span>Décoder</span>",
+        "span2": "Mode :",
+        "label3": "<input type=\"radio\" name=\"url-mode\" value=\"component\" checked class=\"cursor-pointer\">\n            <span>Composant (encodeURIComponent)</span>",
+        "label4": "<input type=\"radio\" name=\"url-mode\" value=\"full\" class=\"cursor-pointer\">\n            <span>URL complète (encodeURI)</span>"
+      },
+      "parsed-query-string-parameters": {
+        "heading": "Paramètres de la chaîne de requête",
+        "th1": "Clé du paramètre",
+        "th2": "Valeur brute / encodée",
+        "th3": "Valeur décodée"
+      },
+      "how-when-to-use-the-url": {
+        "li1": "<strong>Transmettre des URL imbriquées dans des redirections :</strong> pour une URL de retour (par ex. <code>?returnTo=https://example.com/dashboard?tab=billing</code>), utilisez <code>encodeURIComponent</code> afin que les paramètres imbriqués ne soient pas interprétés par le serveur externe.",
+        "li2": "<strong>Réparer des liens contenant des espaces :</strong> les navigateurs exigent des URI ASCII valides. Encodez les espaces en <code>%20</code> (ou <code>+</code>) et les caractères Unicode non ASCII avant de partager des liens.",
+        "li3": "<strong>Déboguer des webhooks et des chaînes de requête :</strong> collez des chaînes de requête complexes pour voir chaque paramètre proprement présenté dans un tableau structuré.",
+        "li4": "<strong>Encodage sûr des données de formulaire :</strong> vérifiez comment les données des champs seront transmises dans des requêtes POST <code>application/x-www-form-urlencoded</code>."
+      },
+      "url-encoding-specification-mode-comparison": {
+        "p1": "La RFC 3986 définit l'encodage en pourcentage pour représenter dans les URI les caractères hors du jeu ASCII autorisé. Comprendre la différence entre le mode composant et le mode URI complète évite les routes cassées et les paramètres corrompus.",
+        "th1": "Caractère",
+        "th2": "Mode encodeURI",
+        "th3": "Mode encodeURIComponent",
+        "th4": "Raison",
+        "td1": "<code>Espace ( )</code>",
+        "td2": "Les espaces ne sont jamais autorisés dans une URI valide.",
+        "td3": "<code>Esperluette (&amp;)</code>",
+        "td4": "<code>&amp;</code> (conservé)",
+        "td5": "<code>%26</code> (encodé)",
+        "td6": "Sépare les paramètres de requête ; doit être encodé dans les valeurs.",
+        "td7": "<code>Égal (=)</code>",
+        "td8": "<code>=</code> (conservé)",
+        "td9": "<code>%3D</code> (encodé)",
+        "td10": "Sépare la clé de la valeur ; doit être encodé dans les valeurs.",
+        "td11": "<code>Point d'interrogation (?)</code>",
+        "td12": "<code>?</code> (conservé)",
+        "td13": "<code>%3F</code> (encodé)",
+        "td14": "Commence la chaîne de requête ; doit être encodé dans les valeurs.",
+        "td15": "<code>Barre oblique (/)</code>",
+        "td16": "<code>/</code> (conservé)",
+        "td17": "<code>%2F</code> (encodé)",
+        "td18": "Sépare les segments du chemin ; doit être encodé dans les valeurs.",
+        "td19": "<code>Dièse (#)</code>",
+        "td20": "<code>#</code> (conservé)",
+        "td21": "<code>%23</code> (encodé)",
+        "td22": "Commence l'ancre de fragment ; doit être encodé dans les valeurs."
+      }
+    },
+    "title": {
+      "tool-label1": "Encode tous les délimiteurs (;,/?:@&=+$#). Idéal pour les clés et valeurs de paramètres.",
+      "tool-label2": "Conserve les délimiteurs de structure de l'URL. Idéal pour les adresses web complètes."
+    },
+    "text": {
+      "clear-btn": "Effacer",
+      "size-meter": "0.0 Ko / 1 Mo",
+      "convert-btn": "Encoder l'URL",
+      "swap-btn": "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><polyline points=\"17 1 21 5 17 9\"></polyline><path d=\"M3 11V9a4 4 0 0 1 4-4h14\"></path><polyline points=\"7 23 3 19 7 15\"></polyline><path d=\"M21 13v2a4 4 0 0 1-4 4H3\"></path></svg>\n          Inverser entrée et sortie",
+      "copy-btn": "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"9\" y=\"9\" width=\"13\" height=\"13\" rx=\"2\" ry=\"2\"></rect><path d=\"M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1\"></path></svg>\n          Copier le résultat",
+      "query-count-badge": "0 paramètre",
+      "how-to-use-heading": "Comment et quand utiliser l'encodeur / décodeur d'URL",
+      "article-heading": "Spécification de l'encodage d'URL et comparaison des modes"
+    },
+    "label": {
+      "url-input": "Texte ou URL à encoder (composant) :",
+      "url-output": "URL encodée :"
+    },
+    "placeholder": {
+      "url-input": "Collez un paramètre ou un texte ici... par ex. hello world &amp; symbols=?",
+      "url-output": "Le résultat s'affiche ici en direct pendant la saisie..."
+    }
+  },
+  "client": {
+    "modeName": {
+      "full": "URL complète (encodeURI)",
+      "component": "Composant (encodeURIComponent)"
+    },
+    "labels": {
+      "encode": {
+        "input": "Texte ou URL à encoder ({{mode}}) :",
+        "output": "URL encodée :",
+        "button": "Encoder l'URL",
+        "placeholderFull": "Collez une URL complète ici... par ex. https://example.com/search?q=toolsbuilt & more=yes",
+        "placeholderComponent": "Collez un paramètre ou un texte ici... par ex. hello world & symbols=?"
+      },
+      "decode": {
+        "input": "URL encodée à décoder :",
+        "output": "Texte décodé :",
+        "button": "Décoder l'URL",
+        "placeholder": "Collez ici une URL ou une chaîne encodée... par ex. https%3A%2F%2Fexample.com%3Fq%3Dtoolsbuilt"
+      }
+    },
+    "sizeMeter": "{{kb}} Ko / {{max}} Mo",
+    "params": {
+      "many": "{{n}} paramètres",
+      "one": "{{n}} paramètre",
+      "other": "{{n}} paramètres"
+    },
+    "status": {
+      "encoded": "✓ Encodé avec {{mode}} : {{input}} &rarr; {{output}} caractères",
+      "decoded": "✓ Décodé avec {{mode}} : {{input}} &rarr; {{output}} caractères"
+    },
+    "errors": {
+      "notText": "L'entrée doit être une chaîne de texte valide.",
+      "tooLarge": "L'entrée dépasse la limite de sécurité de 1 Mo (1,048,576 caractères maximum). Taille actuelle : {{size}} caractères.",
+      "encoding": "Erreur d'encodage : {{message}}",
+      "decoding": "Erreur de décodage : séquence encodée en pourcentage non valide ({{message}}). Vérifiez qu'il n'y a pas de paires hexadécimales % incomplètes."
+    },
+    "toast": {
+      "nothingToCopy": "Rien à copier. Saisissez d'abord du texte.",
+      "copied": "Résultat copié dans le presse-papiers"
+    }
+  }
+}

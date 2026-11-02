@@ -1,0 +1,321 @@
+{
+  "listing": {
+    "name": "Calculateur d'heures",
+    "shortName": "Calculateur d'heures",
+    "description": "Calculez les heures entre deux horaires avec pauses et postes de nuit, ou totalisez une feuille de temps hebdomadaire avec salaire et heures supplémentaires.",
+    "shortDescription": "Heures entre deux horaires, heures décimales et feuille de temps hebdomadaire avec salaire et heures sup.",
+    "keywords": [
+      "calculateur d'heures",
+      "calcul de durée entre deux heures",
+      "calcul heures de travail",
+      "calcul feuille de temps",
+      "heures travaillées",
+      "heures décimales",
+      "calcul heures supplémentaires"
+    ]
+  },
+  "title": "Calculateur d'heures : durée et heures de travail",
+  "description": "Calculez les heures entre deux horaires, postes de nuit et pauses non payées compris, ou totalisez une semaine avec taux horaire et heures sup.",
+  "h1": "Calculateur d'heures",
+  "quickAnswer": "Pour calculer les heures travaillées, soustrayez l'heure de début de l'heure de fin, puis retirez la pause non payée. De 9:00 à 17:30 avec une pause de 30 minutes : 8 heures 30 moins 30 minutes = 8:00, soit 8.00 heures décimales. Si l'heure de fin est antérieure à l'heure de début, le poste a passé minuit : ajoutez d'abord 24 heures à l'heure de fin. Ce calculateur d'heures fait tout cela automatiquement.",
+  "formula": {
+    "title": "Formule des heures travaillées",
+    "expression": "Heures travaillées = (Heure de fin − Heure de début [+ 24 h si la fin est plus tôt]) − Pause non payée",
+    "explanation": "Les deux horaires sont convertis en minutes depuis minuit. Si la fin est antérieure au début, le poste a dépassé minuit et 1,440 minutes (24 heures) sont ajoutées à la fin. La pause non payée est retirée, et le résultat est affiché en heures et minutes (h:mm) et en heures décimales (minutes ÷ 60). Pour le salaire, les heures jusqu'au seuil hebdomadaire d'heures supplémentaires sont payées au taux horaire, et les heures au-delà au taux multiplié par le coefficient de majoration.",
+    "variables": [
+      {
+        "name": "Heures décimales",
+        "description": "Minutes ÷ 60. 45 minutes font 0.75 heure : 8 heures 45 font donc 8.75 heures."
+      },
+      {
+        "name": "Salaire normal",
+        "description": "min(total des heures, seuil des heures sup) × taux horaire."
+      },
+      {
+        "name": "Salaire des heures sup",
+        "description": "max(0, total des heures − seuil des heures sup) × taux horaire × coefficient de majoration."
+      }
+    ]
+  },
+  "workedExamples": [
+    {
+      "title": "Poste de jour avec 30 minutes de pause déjeuner",
+      "inputs": [
+        "Début : 09:00",
+        "Fin : 17:30",
+        "Pause non payée : 30 minutes"
+      ],
+      "steps": [
+        "17:30 − 09:00 = 8 heures 30 minutes (510 minutes)",
+        "510 − 30 minutes de pause = 480 minutes",
+        "480 ÷ 60 = 8.00 heures décimales"
+      ],
+      "result": "8:00 (8.00 heures)"
+    },
+    {
+      "title": "Poste de nuit qui passe minuit",
+      "inputs": [
+        "Début : 22:00",
+        "Fin : 06:00 (le lendemain matin)",
+        "Pause non payée : aucune"
+      ],
+      "steps": [
+        "L'heure de fin est antérieure au début : on ajoute 24 heures, 06:00 devient 30:00",
+        "30:00 − 22:00 = 8 heures"
+      ],
+      "result": "8:00 (8.00 heures)"
+    },
+    {
+      "title": "Convertir 8 heures 45 en heures décimales",
+      "inputs": [
+        "Début : 08:15",
+        "Fin : 17:30",
+        "Pause non payée : 30 minutes"
+      ],
+      "steps": [
+        "17:30 − 08:15 = 9 heures 15 minutes (555 minutes)",
+        "555 − 30 = 525 minutes = 8 heures 45 minutes",
+        "45 ÷ 60 = 0.75 : 8:45 = 8.75 heures décimales"
+      ],
+      "result": "8:45 (8.75 heures)"
+    },
+    {
+      "title": "Semaine de 45 heures à 20 de l'heure avec heures sup",
+      "inputs": [
+        "Du lundi au vendredi : de 08:00 à 17:00, sans pause (9 heures par jour)",
+        "Taux horaire : 20",
+        "Heures sup au-delà de 40 heures à 1.5×"
+      ],
+      "steps": [
+        "Total : 5 × 9 = 45 heures",
+        "Heures normales : 40 × 20 = 800",
+        "Heures sup : 5 × 20 × 1.5 = 150"
+      ],
+      "result": "Salaire total 950 (800 normal + 150 heures sup)"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Écrire 8:45 sous la forme 8.45 sur une feuille de temps",
+      "description": "8 heures 45 font 8.75 heures décimales, et non 8.45. Les logiciels de paie multiplient les heures décimales par le taux : 8.45 fait perdre 18 minutes de salaire. Divisez les minutes par 60 : 15 min = 0.25, 30 min = 0.5, 45 min = 0.75."
+    },
+    {
+      "title": "Obtenir un résultat négatif pour un poste de nuit",
+      "description": "Un poste de 22:00 à 06:00 donne −16 heures si l'on soustrait directement. Quand l'heure de fin est antérieure au début, le poste a continué le lendemain : ajoutez 24 heures à l'heure de fin. Ce calculateur le fait automatiquement."
+    },
+    {
+      "title": "Retirer des pauses payées",
+      "description": "Seules les pauses non payées doivent être déduites. Selon les règles fédérales américaines, les courtes pauses de 5 à 20 minutes environ comptent généralement comme du temps de travail payé, contrairement aux vraies pauses repas de 30 minutes ou plus. Vérifiez votre contrat ou la loi locale."
+    },
+    {
+      "title": "Calculer les heures sup par jour quand la règle est hebdomadaire",
+      "description": "Le Fair Labor Standards Act américain fixe les heures supplémentaires à 1.5× le taux normal au-delà de 40 heures par semaine de travail, et non par jour. Certains États (comme la Californie) et de nombreux contrats ajoutent des heures sup journalières : un simple total hebdomadaire peut donc ne pas correspondre à votre fiche de paie."
+    },
+    {
+      "title": "Mélanger formats 12 heures et 24 heures",
+      "description": "5:30 sans AM ni PM est ambigu. Utilisez le format 24 heures (17:30) ou vérifiez le réglage AM/PM du champ horaire, sinon un poste peut être compté 12 heures trop court ou trop long."
+    }
+  ],
+  "sources": [
+    {
+      "name": "U.S. Department of Labor : Overtime Pay (FLSA)"
+    },
+    {
+      "name": "U.S. Department of Labor : Breaks and Meal Periods"
+    },
+    {
+      "name": "U.S. Department of Labor : fiche Hours Worked n° 22"
+    },
+    {
+      "name": "GOV.UK : Maximum weekly working hours"
+    }
+  ],
+  "howto": {
+    "name": "Comment calculer les heures travaillées",
+    "description": "Calculez les heures entre deux horaires, ou totalisez une feuille de temps hebdomadaire avec salaire et heures sup.",
+    "steps": [
+      {
+        "name": "Choisir un mode",
+        "text": "Utilisez Durée pour un seul poste, ou Feuille de temps hebdomadaire pour additionner du lundi au dimanche."
+      },
+      {
+        "name": "Saisir les heures de début et de fin",
+        "text": "Saisissez ou choisissez l'heure de début et de fin. Si la fin est antérieure au début, le poste est considéré comme se terminant après minuit."
+      },
+      {
+        "name": "Saisir la pause non payée",
+        "text": "Ajoutez la pause non payée en minutes. Laissez 0 si les pauses sont payées."
+      },
+      {
+        "name": "Ajouter les informations de salaire (facultatif)",
+        "text": "Dans la feuille de temps, saisissez un taux horaire, le seuil et le coefficient des heures sup pour voir le salaire normal, les heures sup et le total."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Comment calculer les heures travaillées entre deux horaires ?",
+      "a": "Soustrayez l'heure de début de l'heure de fin, puis retirez les pauses non payées. De 8:30 à 17:00 avec 30 minutes de pause déjeuner : 17:00 − 8:30 = 8 heures 30, moins 30 minutes = 8 heures."
+    },
+    {
+      "q": "Comment convertir des heures et minutes en heures décimales ?",
+      "a": "Divisez les minutes par 60 et ajoutez le résultat aux heures. 7 heures 20 = 7 + 20/60 = 7.33 heures ; 8 heures 45 = 8.75 heures ; 6 heures 15 = 6.25 heures."
+    },
+    {
+      "q": "Combien d'heures font 9 h-17 h ?",
+      "a": "De 9:00 à 17:00, cela fait 8 heures. Avec une pause déjeuner non payée de 30 minutes, cela fait 7.5 heures (7:30) ; avec une pause d'une heure, 7 heures."
+    },
+    {
+      "q": "Comment calculer les heures d'un poste qui dépasse minuit ?",
+      "a": "Ajoutez 24 heures à l'heure de fin avant de soustraire. De 22:00 à 6:00 devient de 22:00 à 30:00, soit 8 heures. Le calculateur le détecte quand l'heure de fin est antérieure à l'heure de début."
+    },
+    {
+      "q": "Comment le salaire des heures supplémentaires est-il calculé ?",
+      "a": "Les heures au-delà du seuil (40 par semaine selon le FLSA américain) sont payées au taux normal multiplié par le coefficient, généralement 1.5. Pour 45 heures à 20 de l'heure : 40 × 20 = 800 plus 5 × 30 = 150, soit 950 au total."
+    },
+    {
+      "q": "Combien d'heures compte une semaine de travail à temps plein ?",
+      "a": "Cela dépend du pays et de l'employeur. 40 heures (cinq journées de 8 heures) sont courantes aux États-Unis, 37.5 heures au Royaume-Uni, et 35 heures est la durée légale de référence en France. Saisissez vos propres horaires et votre seuil dans la feuille de temps."
+    },
+    {
+      "q": "Faut-il déduire la pause déjeuner des heures travaillées ?",
+      "a": "Ne déduisez que les pauses non payées. Si votre employeur rémunère la pause, laissez le champ pause à 0 pour qu'elle compte comme du temps de travail."
+    },
+    {
+      "q": "Ce calculateur d'heures enregistre-t-il ma feuille de temps ?",
+      "a": "Vos saisies restent uniquement dans ce navigateur. Elles sont conservées dans l'adresse de la page pour que vous puissiez ajouter un favori ou copier un lien vers le résultat, et rien n'est envoyé à un serveur."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Calculateur d'heures",
+      "tool-div1": "Mode du calculateur",
+      "tool-div2": "Feuille de temps hebdomadaire",
+      "copy-result-btn": "Copier le résultat dans le presse-papiers",
+      "day-total": "Heures du {{day}}"
+    },
+    "text": {
+      "tab-single": "Durée",
+      "tab-week": "Feuille de temps hebdomadaire",
+      "reset-btn": "Réinitialiser",
+      "reset-week-btn": "Réinitialiser",
+      "result-header-text": "Heures travaillées",
+      "copy-result-btn": "<span data-icon=\"copy\"></span> Copier le résultat"
+    },
+    "label": {
+      "start-time": "Heure de début <span class=\"text-accent\">*</span>",
+      "end-time": "Heure de fin <span class=\"text-accent\">*</span>",
+      "break-min": "Pause non payée (minutes)",
+      "hourly-rate": "Taux horaire",
+      "ot-after": "Heures sup au-delà de (heures par semaine)",
+      "ot-mult": "Coefficient de majoration des heures sup",
+      "day-start": "Début",
+      "day-end": "Fin",
+      "day-break": "Pause (min)"
+    },
+    "content": {
+      "tool": {
+        "p1": "Si l'heure de fin est antérieure à l'heure de début, le poste est considéré comme se terminant le lendemain.",
+        "button1": "Calculer les heures",
+        "div1": "<span>Jour</span><span>Début</span><span>Fin</span><span>Pause (min)</span><span>Heures</span>",
+        "p2": "Laissez les deux horaires vides pour un jour de repos.",
+        "legend1": "Salaire et heures sup (facultatif)",
+        "label1": "<input type=\"checkbox\" id=\"ot-enabled\" data-param=\"ot\" checked>\n            <span>Payer les heures sup au-delà du seuil hebdomadaire</span>",
+        "button2": "Totaliser ma semaine"
+      },
+      "hours-and-minutes-vs-decimal-hours": {
+        "heading": "Heures et minutes ou heures décimales",
+        "p1": "Les horloges comptent en base 60 mais la paie compte en base 10 : c'est l'origine de la plupart des erreurs de feuille de temps. Un poste de 7 heures 30 s'écrit <strong>7:30</strong> sur une horloge et <strong>7.5</strong> en heures décimales. Pour convertir, divisez les minutes par 60 :",
+        "caption1": "Minutes en heures décimales",
+        "th1": "Minutes",
+        "th2": "Décimal",
+        "th3": "Minutes",
+        "th4": "Décimal",
+        "p2": "Le calculateur affiche les deux formats côte à côte : vous pouvez copier le format horloge dans une feuille de temps et le format décimal dans un logiciel de paie ou de facturation."
+      },
+      "when-to-use-the-weekly-timesheet": {
+        "heading": "Quand utiliser la feuille de temps hebdomadaire",
+        "li1": "<strong>Salariés payés à l'heure :</strong> vérifiez que votre fiche de paie correspond aux heures travaillées, heures sup au-delà de 40 heures comprises.",
+        "li2": "<strong>Indépendants et prestataires :</strong> totalisez les heures facturables de la semaine et multipliez-les par votre taux pour établir une facture.",
+        "li3": "<strong>Travailleurs postés :</strong> les postes de nuit qui se terminent le lendemain matin sont gérés ligne par ligne : un poste du vendredi 22:00 au samedi 06:00 compte pour 8 heures le vendredi.",
+        "li4": "<strong>Responsables et petites entreprises :</strong> vérifiez les heures du planning avant de lancer la paie.",
+        "p1": "Les règles des heures supplémentaires varient selon les pays. Aux États-Unis, le Fair Labor Standards Act impose 1.5 fois le taux normal au-delà de 40 heures par semaine de travail pour les salariés non exemptés. Au Royaume-Uni, il n'existe pas de majoration légale, mais les Working Time Regulations plafonnent la durée moyenne de travail à 48 heures par semaine, sauf renonciation. Réglez le seuil et le coefficient selon votre contrat, ou décochez les heures sup pour payer toutes les heures au même taux."
+      }
+    },
+    "title": {
+      "copy-result-btn": "Copier le résultat dans le presse-papiers"
+    },
+    "day": {
+      "mon": "Lundi",
+      "tue": "Mardi",
+      "wed": "Mercredi",
+      "thu": "Jeudi",
+      "fri": "Vendredi",
+      "sat": "Samedi",
+      "sun": "Dimanche"
+    }
+  },
+  "client": {
+    "days": {
+      "mon": "Lundi",
+      "tue": "Mardi",
+      "wed": "Mercredi",
+      "thu": "Jeudi",
+      "fri": "Vendredi",
+      "sat": "Samedi",
+      "sun": "Dimanche"
+    },
+    "dayN": "Jour {{n}}",
+    "errors": {
+      "invalidStart": "Saisissez une heure de début valide, par exemple 09:00.",
+      "invalidEnd": "Saisissez une heure de fin valide, par exemple 17:30.",
+      "negativeBreak": "La pause doit être de zéro minute ou plus.",
+      "breakTooLong": "La pause ({{breakMin}} min) est plus longue que le temps entre le début et la fin ({{span}}).",
+      "overtimeAfter": "Le seuil des heures sup doit être de zéro heure ou plus.",
+      "multiplier": "Le coefficient des heures sup doit être de 1 ou plus (par exemple 1.5).",
+      "noRows": "Aucune ligne de feuille de temps n'a été fournie.",
+      "rowIncomplete": "{{day}} : saisissez une heure de début et une heure de fin, ou laissez les deux vides.",
+      "missingStart": "Saisissez une heure de début, par exemple 09:00.",
+      "missingEnd": "Saisissez une heure de fin, par exemple 17:30.",
+      "rate": "Le taux horaire doit être nul ou positif."
+    },
+    "result": {
+      "headerSingle": "Heures travaillées",
+      "headerWeek": {
+        "many": "Total de la semaine ({{count}} jours travaillés)",
+        "one": "Total de la semaine ({{count}} jour travaillé)",
+        "other": "Total de la semaine ({{count}} jours travaillés)"
+      },
+      "hours": "{{hhmm}} heures",
+      "hoursAndPay": "{{hhmm}} heures · {{pay}} de salaire"
+    },
+    "notes": {
+      "crossesMidnight": "L'heure de fin est antérieure au début : le poste est considéré comme se terminant le lendemain.",
+      "sameTime": "Le début et la fin sont à la même heure : la durée est donc de 0. Pour un poste complet de 24 heures, saisissez de 00:00 à 23:59 et ajoutez une minute.",
+      "overnight": "{{days}} : le poste dépasse minuit et est compté le jour où il a commencé.",
+      "addRate": "Ajoutez un taux horaire pour voir le salaire normal, les heures sup et le total."
+    },
+    "stats": {
+      "hoursAndMinutes": "Heures et minutes",
+      "decimalHours": "Heures décimales",
+      "totalMinutes": "Total en minutes",
+      "timeOnSite": "Temps de présence",
+      "unpaidBreak": "Pause non payée",
+      "minutesValue": "{{n}} min",
+      "totalHours": "Total des heures",
+      "regularHours": "Heures normales",
+      "overtimeHours": "Heures sup",
+      "regularPay": "Salaire normal",
+      "overtimePay": "Salaire des heures sup",
+      "totalPay": "Salaire total"
+    },
+    "copy": {
+      "single": "De {{start}} à {{end}}, pause de {{breakMin}} min : {{hhmm}} heures ({{decimal}} heures décimales)",
+      "singleNextDay": "De {{start}} à {{end}} (le lendemain), pause de {{breakMin}} min : {{hhmm}} heures ({{decimal}} heures décimales)",
+      "total": "Total : {{hhmm}} ({{decimal}} h)",
+      "regularPay": "Salaire normal : {{pay}}",
+      "overtimePay": "Salaire des heures sup : {{pay}}",
+      "totalPay": "Salaire total : {{pay}}"
+    }
+  }
+}

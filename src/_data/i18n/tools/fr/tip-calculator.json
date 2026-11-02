@@ -1,0 +1,259 @@
+{
+  "listing": {
+    "name": "Calculateur de pourboire et partage d'addition",
+    "shortName": "Calculateur de pourboire",
+    "description": "Calculez le pourboire et partagez l'addition entre autant de personnes que vous voulez, avec pourboire sur le montant hors taxe et arrondi par personne.",
+    "shortDescription": "Montant du pourboire, total et part de chacun, avec pourcentages prédéfinis ou personnalisés.",
+    "keywords": [
+      "calculateur de pourboire",
+      "partager l'addition",
+      "diviser l'addition",
+      "pourboire par personne",
+      "calcul pourboire",
+      "pourboire restaurant",
+      "combien laisser de pourboire"
+    ]
+  },
+  "title": "Calculateur de pourboire : partager l'addition",
+  "description": "Calculez le pourboire et partagez l'addition entre plusieurs personnes. Pourcentage prédéfini ou libre, pourboire hors taxe et arrondi de chaque part.",
+  "h1": "Calculateur de pourboire et partage d'addition",
+  "quickAnswer": "Pourboire = addition × % de pourboire ÷ 100, total = addition + pourboire, et chaque personne paie total ÷ nombre de personnes. Pour une addition de 85.50 avec 18% de pourboire, le pourboire est de 15.39 et le total de 100.89 : trois personnes paient donc 33.63 chacune. Pour ne laisser un pourboire que sur les plats et boissons, retirez d'abord la taxe de l'addition. Ce calculateur de pourboire fait tout le calcul.",
+  "formula": {
+    "title": "Formule du pourboire et du partage",
+    "expression": "Pourboire = Addition × Pourboire% ÷ 100   ·   Total = Addition + Pourboire   ·   Par personne = Total ÷ Personnes",
+    "explanation": "Le pourboire est arrondi au centime le plus proche, ajouté à l'addition, puis le total est divisé entre les personnes qui partagent. Si le total ne se divise pas exactement, le calculateur indique combien de personnes paient un centime de plus pour que les parts tombent juste. Avec l'option pourboire hors taxe activée, la taxe est d'abord retirée de l'addition : montant hors taxe = addition ÷ (1 + taxe% ÷ 100), et le pourboire est calculé uniquement sur ce montant.",
+    "variables": [
+      {
+        "name": "Addition",
+        "description": "Le total figurant sur le ticket, taxes comprises mais avant pourboire."
+      },
+      {
+        "name": "% de pourboire",
+        "description": "Le pourcentage que vous souhaitez laisser, choisi parmi les préréglages ou saisi librement."
+      },
+      {
+        "name": "Arrondir au-dessus",
+        "description": "Arrondit chaque part à l'unité monétaire entière supérieure. Le surplus va au pourboire, et le calculateur affiche le pourcentage de pourboire qui en résulte."
+      }
+    ]
+  },
+  "workedExamples": [
+    {
+      "title": "Dîner à trois avec 18%",
+      "inputs": [
+        "Addition : 85.50",
+        "Pourboire : 18%",
+        "Personnes : 3"
+      ],
+      "steps": [
+        "Pourboire : 85.50 × 18 ÷ 100 = 15.39",
+        "Total : 85.50 + 15.39 = 100.89",
+        "Par personne : 100.89 ÷ 3 = 33.63"
+      ],
+      "result": "Pourboire 15.39, total 100.89, 33.63 chacun"
+    },
+    {
+      "title": "Même dîner, arrondi au-dessus par personne",
+      "inputs": [
+        "Addition : 85.50, pourboire 18%, 3 personnes",
+        "Arrondir chaque part au-dessus : activé"
+      ],
+      "steps": [
+        "Part exacte : 33.63, arrondie à 34.00",
+        "Montant réuni : 3 × 34.00 = 102.00",
+        "Pourboire réellement laissé : 102.00 − 85.50 = 16.50, soit 19.3% de l'addition"
+      ],
+      "result": "34.00 chacun, pourboire 16.50 (19.3%)"
+    },
+    {
+      "title": "Pourboire sur le montant hors taxe",
+      "inputs": [
+        "Addition : 108.00, taxe de vente de 8% comprise",
+        "Pourboire : 20% sur le montant hors taxe",
+        "Personnes : 2"
+      ],
+      "steps": [
+        "Montant hors taxe : 108.00 ÷ 1.08 = 100.00 (taxe 8.00)",
+        "Pourboire : 100.00 × 20% = 20.00 au lieu de 21.60 sur l'addition complète",
+        "Total : 108.00 + 20.00 = 128.00, soit 64.00 chacun"
+      ],
+      "result": "Pourboire 20.00, total 128.00, 64.00 chacun"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Laisser un pourboire sur un service déjà compris",
+      "description": "Certains restaurants ajoutent des frais de service à l'addition, souvent pour les grands groupes. Vérifiez le ticket avant d'ajouter un pourboire, sinon vous risquez de payer deux fois le service."
+    },
+    {
+      "title": "Partager l'addition avant d'ajouter le pourboire",
+      "description": "Si chacun divise l'addition puis arrondit son propre pourboire, le pourboire total est souvent inférieur à ce qui était prévu. Ajoutez d'abord le pourboire à l'addition complète, puis partagez le total."
+    },
+    {
+      "title": "Arrondir toutes les parts à l'inférieur",
+      "description": "Arrondir 33.63 à 33 pour trois personnes laisse un manque de 1.89. Arrondissez les parts au-dessus, ou payez le montant exact et laissez le calculateur répartir les centimes restants."
+    },
+    {
+      "title": "Supposer que les usages sont les mêmes partout",
+      "description": "Qu'un pourboire soit attendu ou non, et son montant, varient selon le pays, le type d'établissement et même la ville. En voyage, renseignez-vous sur les usages locaux ; dans certains pays, le service est compris dans les prix."
+    },
+    {
+      "title": "Oublier la taxe en calculant le pourboire sur le sous-total",
+      "description": "Si vous voulez laisser un pourboire sur le montant hors taxe, utilisez le sous-total du ticket ou activez l'option hors taxe et saisissez le taux de taxe, plutôt que de calculer le pourboire sur le total de l'addition."
+    }
+  ],
+  "sources": [
+    {
+      "name": "U.S. Department of Labor : Tipped employees under the FLSA (Fact Sheet #15)"
+    },
+    {
+      "name": "IRS : Tip recordkeeping and reporting"
+    },
+    {
+      "name": "GOV.UK : Tips at work"
+    }
+  ],
+  "howto": {
+    "name": "Comment calculer un pourboire et partager l'addition",
+    "description": "Calculez le pourboire, le total et ce que chaque personne doit payer.",
+    "steps": [
+      {
+        "name": "Saisir l'addition",
+        "text": "Saisissez le montant du ticket et choisissez votre devise."
+      },
+      {
+        "name": "Choisir le pourboire",
+        "text": "Choisissez 10, 15, 18, 20 ou 25%, ou saisissez le pourcentage de votre choix."
+      },
+      {
+        "name": "Saisir le nombre de personnes",
+        "text": "Indiquez combien de personnes partagent l'addition."
+      },
+      {
+        "name": "Ajuster les options",
+        "text": "Calculez le pourboire sur le montant hors taxe si vous préférez, et arrondissez chaque part à un montant entier si c'est plus simple à payer."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Comment calculer un pourboire ?",
+      "a": "Multipliez l'addition par le pourcentage de pourboire et divisez par 100. Pour une addition de 60 et un pourboire de 15% : 60 × 15 ÷ 100 = 9, soit un total de 69. Astuce de calcul mental pour 20% : décalez la virgule d'un rang vers la gauche et doublez le résultat."
+    },
+    {
+      "q": "Comment partager une addition avec pourboire entre plusieurs personnes ?",
+      "a": "Ajoutez le pourboire à l'addition pour obtenir le total, puis divisez par le nombre de personnes. Si la division ne tombe pas juste au centime près, certaines personnes paient un centime de plus ; le calculateur vous indique combien."
+    },
+    {
+      "q": "Combien font 18% de 85.50 ?",
+      "a": "18% de 85.50 font 15.39. Le total avec pourboire est de 100.89, soit 33.63 chacun pour trois personnes."
+    },
+    {
+      "q": "Faut-il calculer le pourboire avant ou après taxes ?",
+      "a": "Les guides de savoir-vivre divergent. Beaucoup de personnes calculent le pourboire sur le sous-total hors taxe, car la taxe ne fait pas partie du service. Activez « Pourboire sur le montant hors taxe » et saisissez le taux de taxe pour voir les deux montants."
+    },
+    {
+      "q": "Combien laisser de pourboire ?",
+      "a": "Cela dépend du pays et du type de service. Les usages vont de l'absence totale de pourboire à un pourcentage établi. Choisissez un préréglage ou saisissez votre propre pourcentage ; le calculateur ne suppose aucun pays."
+    },
+    {
+      "q": "À quoi sert l'option d'arrondi par personne ?",
+      "a": "Elle arrondit chaque part à l'unité entière supérieure (par exemple 33.63 à 34.00). Les centimes supplémentaires vont au pourboire, et le résultat indique le pourcentage de pourboire que vous laissez réellement."
+    },
+    {
+      "q": "Les frais de service sont-ils la même chose qu'un pourboire ?",
+      "a": "Pas toujours. Les frais de service sont ajoutés par l'établissement et peuvent être répartis différemment d'un pourboire volontaire. Les règles sur les bénéficiaires des frais de service et des pourboires varient selon les pays : renseignez-vous sur les usages locaux."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Calculateur de pourboire",
+      "copy-result-btn": "Copier le résultat dans le presse-papiers"
+    },
+    "label": {
+      "bill": "Montant de l'addition <span class=\"text-accent\">*</span>",
+      "tip-percent": "% de pourboire <span class=\"label-hint\">(ou saisissez une valeur libre)</span>",
+      "people": "Nombre de personnes",
+      "tax-percent": "Taxe incluse dans l'addition (%)"
+    },
+    "content": {
+      "tool": {
+        "legend1": "Pourcentage de pourboire",
+        "label1": "<input type=\"checkbox\" id=\"pretax\" data-param=\"pretax\" aria-controls=\"tax-group\">\n            <span>Pourboire sur le montant hors taxe</span>",
+        "label2": "<input type=\"checkbox\" id=\"round-up\" data-param=\"round\">\n            <span>Arrondir la part de chacun à un montant entier supérieur</span>",
+        "button1": "Calculer le pourboire"
+      },
+      "quick-tip-percentages": {
+        "heading": "Pourcentages de pourboire rapides",
+        "p1": "Pour une estimation sans calculatrice, partez de 10%, c'est-à-dire l'addition avec la virgule décalée d'un rang vers la gauche. Tout le reste se déduit de ce montant :",
+        "caption1": "Astuces de calcul mental pour les pourcentages de pourboire courants sur une addition de 64.00",
+        "th1": "Pourboire",
+        "th2": "Astuce",
+        "th3": "Sur une addition de 64.00",
+        "td1": "Décaler la virgule d'un rang vers la gauche",
+        "td2": "10% plus sa moitié",
+        "td3": "20% moins 2%",
+        "td4": "10% multiplié par deux",
+        "td5": "Un quart de l'addition"
+      },
+      "tipping-customs-differ": {
+        "heading": "Les usages du pourboire varient",
+        "p1": "Il n'existe pas de règle unique pour le pourboire. Dans certains pays, il représente une grande partie du revenu des serveurs et il est attendu ; dans d'autres, le service est compris dans les prix ou des frais de service figurent sur l'addition, et le pourboire n'est qu'un petit supplément pour un bon service. Hôtels, taxis, livraisons et coiffeurs ont souvent leurs propres usages. Comme ces usages varient et évoluent, ce calculateur ne propose de pourcentage pour aucun pays. Renseignez-vous sur les usages locaux en voyage, et vérifiez la présence de frais de service sur le ticket avant d'ajouter un pourboire.",
+        "p2": "Les règles du droit du travail sur les pourboires varient aussi. Aux États-Unis, le Department of Labor encadre les salariés rémunérés au pourboire et la mise en commun des pourboires, et l'IRS considère les pourboires comme un revenu imposable pour le salarié. Au Royaume-Uni, les employeurs doivent reverser intégralement aux salariés les pourboires, gratifications et frais de service, sans retenue. Les sources ci-dessous renvoient vers ces pages officielles."
+      },
+      "splitting-fairly": {
+        "heading": "Partager équitablement",
+        "li1": "<strong>Partage égal :</strong> idéal quand chacun a commandé des montants similaires. Le calculateur divise au centime près et indique si quelqu'un doit payer un centime de plus.",
+        "li2": "<strong>Partage par commande :</strong> si les commandes diffèrent beaucoup, lancez le calculateur une fois par personne avec son propre sous-total et un nombre de personnes égal à 1, en gardant le même pourcentage de pourboire.",
+        "li3": "<strong>Paiement en espèces :</strong> activez l'arrondi au-dessus pour que chacun donne un montant entier ; le surplus s'ajoute au pourboire."
+      }
+    },
+    "text": {
+      "reset-btn": "Réinitialiser",
+      "result-header-text": "Chaque personne paie",
+      "copy-result-btn": "<span data-icon=\"copy\"></span> Copier le résultat"
+    },
+    "title": {
+      "copy-result-btn": "Copier le résultat dans le presse-papiers"
+    }
+  },
+  "client": {
+    "errors": {
+      "billEmpty": "Saisissez le montant de l'addition.",
+      "billInvalid": "L'addition doit être un nombre supérieur à 0.",
+      "tipEmpty": "Saisissez un pourcentage de pourboire ou choisissez un préréglage.",
+      "tipNegative": "Le pourboire doit être de 0% ou plus.",
+      "tipOver100": "Le pourboire ne peut pas dépasser 100% de l'addition.",
+      "people": "Le nombre de personnes doit être un nombre entier supérieur ou égal à 1.",
+      "peopleMax": "Partagez entre 1,000 personnes au maximum.",
+      "tax": "Le taux de taxe doit être compris entre 0% et 100%."
+    },
+    "result": {
+      "eachPays": "Chacune des {{people}} personnes paie",
+      "totalToPay": "Total à payer"
+    },
+    "stats": {
+      "tipRounded": "Pourboire ({{pct}}% après arrondi)",
+      "tip": "Pourboire ({{pct}}%)",
+      "total": "Total avec pourboire",
+      "perPerson": "Par personne",
+      "tipPerPerson": "Pourboire par personne",
+      "tipBase": "Base du pourboire (hors taxe)",
+      "tax": "Taxe incluse dans l'addition"
+    },
+    "notes": {
+      "uneven": {
+        "many": "{{total}} ne se divise pas exactement : {{count}} personnes paient {{high}} et les autres {{low}}.",
+        "one": "{{total}} ne se divise pas exactement : {{count}} personne paie {{high}} et les autres {{low}}.",
+        "other": "{{total}} ne se divise pas exactement : {{count}} personnes paient {{high}} et les autres {{low}}."
+      },
+      "roundingExtra": "L'arrondi au-dessus ajoute {{amount}} au pourboire."
+    },
+    "copy": {
+      "bill": "Addition : {{amount}}",
+      "tip": "Pourboire : {{amount}}",
+      "total": "Total : {{amount}}",
+      "perPerson": "Par personne ({{people}}) : {{amount}}"
+    }
+  }
+}

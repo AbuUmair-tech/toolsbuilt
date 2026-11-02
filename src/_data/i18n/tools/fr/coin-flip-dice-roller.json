@@ -1,0 +1,227 @@
+{
+  "listing": {
+    "name": "Pile ou face et lancer de dés",
+    "shortName": "Pile ou face et dés",
+    "description": "Lancez jusqu'à 100 pièces ou jusqu'à 10 dés (d4 à d20) avec un aléa sûr, les totaux, le nombre de pile et de face et l'historique des résultats.",
+    "shortDescription": "Jouez à pile ou face ou lancez des dés d4 à d20 avec totaux et historique.",
+    "keywords": [
+      "pile ou face",
+      "lancer une pièce",
+      "lancer de dés",
+      "lancer des dés en ligne",
+      "pile ou face en ligne",
+      "dé 20 faces",
+      "lancer 2d6"
+    ]
+  },
+  "title": "Pile ou face et lancer de dés en ligne",
+  "description": "Lancez jusqu'à 100 pièces à pile ou face ou jusqu'à 10 dés (d4, d6, d8, d10, d12, d20) avec un aléa sûr, totaux, compte pile/face et historique.",
+  "h1": "Pile ou face et lancer de dés",
+  "quickAnswer": "Choisissez Pièce ou Dés, indiquez la quantité, puis cliquez sur Lancer. Chaque pièce a exactement 50% de chances de tomber sur pile, et chaque face d'un dé est également probable, car les résultats proviennent du générateur aléatoire sécurisé de votre navigateur avec échantillonnage par rejet. Pour le pile ou face comme pour le lancer de dés, chaque face et le total sont affichés, et les 20 derniers résultats restent dans l'historique.",
+  "formula": {
+    "title": "Probabilités",
+    "expression": "P(pile) = 1/2   ·   P(une face d'un dN) = 1/N   ·   La somme de k dés va de k à k × N",
+    "explanation": "Chaque lancer est indépendant : les résultats précédents ne changent pas le suivant. Pour un seul dé, toutes les faces sont également probables, mais ce n'est pas le cas des sommes de plusieurs dés : avec 2d6, il y a 36 combinaisons également probables, dont six donnent 7 ; 7 est donc le total le plus fréquent (1 sur 6), et 2 ou 12 les plus rares (1 sur 36). Le total moyen de k dés à N faces vaut k × (N + 1) ÷ 2.",
+    "variables": [
+      {
+        "name": "dN",
+        "description": "Un dé à N faces numérotées de 1 à N : d4, d6, d8, d10, d12 ou d20."
+      },
+      {
+        "name": "kdN",
+        "description": "Notation pour un lancer de k dés à N faces, par ex. 2d6 ou 1d20."
+      },
+      {
+        "name": "Indépendance",
+        "description": "Chaque résultat est tiré à nouveau ; une série de pile ne rend pas face plus probable au lancer suivant."
+      }
+    ]
+  },
+  "workedExamples": [
+    {
+      "title": "Lancer 2d6",
+      "inputs": [
+        "Dés : 2, type d6"
+      ],
+      "steps": [
+        "Chaque dé affiche de 1 à 6, par exemple 4 et 3",
+        "Total = 4 + 3 = 7 ; les totaux possibles vont de 2 à 12"
+      ],
+      "result": "Total 7 (le total le plus probable avec 2d6, probabilité 6/36)"
+    },
+    {
+      "title": "Lancer un d20",
+      "inputs": [
+        "Dés : 1, type d20"
+      ],
+      "steps": [
+        "Un nombre de 1 à 20, chacun avec une probabilité de 1/20 = 5%"
+      ],
+      "result": "Par exemple 14 ; un 20 naturel sort 5% du temps"
+    },
+    {
+      "title": "Lancer 100 pièces",
+      "inputs": [
+        "Pièces : 100"
+      ],
+      "steps": [
+        "Chaque pièce tombe sur pile ou face avec une probabilité de 1/2",
+        "Pile + face font toujours 100"
+      ],
+      "result": "Environ 50 pile ; un résultat entre 40 et 60 est courant (environ 96% du temps)"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "L'erreur du parieur",
+      "description": "Après cinq pile d'affilée, face a toujours exactement 50% de chances. Les pièces et les dés n'ont pas de mémoire : les résultats passés ne rendent jamais un résultat « dû »."
+    },
+    {
+      "title": "Croire que tous les totaux de dés sont également probables",
+      "description": "Avec deux dés, 7 sort six fois plus souvent que 2 ou 12. Seuls les résultats d'un dé unique sont répartis uniformément."
+    },
+    {
+      "title": "S'attendre à exactement 50 pile sur 100 lancers",
+      "description": "Obtenir exactement 50 pile n'arrive qu'environ 8% du temps. Des résultats entre 40 et 60 sont normaux ; il faut des milliers de lancers pour que la proportion se stabilise près de 50%."
+    },
+    {
+      "title": "Utiliser une source aléatoire prévisible",
+      "description": "Les générateurs simples comme Math.random() conviennent aux animations, mais pas quand l'équité compte. Cet outil utilise crypto.getRandomValues avec échantillonnage par rejet pour qu'aucune face ne soit favorisée."
+    }
+  ],
+  "sources": [
+    {
+      "name": "W3C Web Cryptography API : getRandomValues()"
+    },
+    {
+      "name": "NIST/SEMATECH e-Handbook of Statistical Methods : loi binomiale"
+    },
+    {
+      "name": "W3C Media Queries Level 5 : prefers-reduced-motion"
+    }
+  ],
+  "howto": {
+    "name": "Comment jouer à pile ou face ou lancer des dés en ligne",
+    "description": "Lancez des pièces ou des dés avec un aléa sûr et gardez l'historique des résultats.",
+    "steps": [
+      {
+        "name": "Choisir pièce ou dés",
+        "text": "Choisissez Pièce pour jouer à pile ou face, ou Dés pour lancer des dés."
+      },
+      {
+        "name": "Choisir la quantité",
+        "text": "Choisissez de 1 à 100 pièces, ou de 1 à 10 dés et le type de dé."
+      },
+      {
+        "name": "Lancer",
+        "text": "Cliquez sur le bouton pour voir chaque pièce ou chaque dé, le nombre de pile et de face ou le total."
+      },
+      {
+        "name": "Consulter l'historique",
+        "text": "Vos 20 derniers résultats s'affichent sous le résultat."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Le pile ou face en ligne est-il équitable ?",
+      "a": "Oui. Chaque lancer utilise le générateur aléatoire cryptographiquement sûr de votre navigateur : pile et face ont chacun exactement 50% de chances, et aucun lancer ne dépend du précédent."
+    },
+    {
+      "q": "Comment lancer 2d6 en ligne ?",
+      "a": "Choisissez Dés, réglez le nombre de dés sur 2 et le type sur d6, puis cliquez sur Lancer. Vous verrez les deux dés et leur total, compris entre 2 et 12."
+    },
+    {
+      "q": "Quel est le total le plus fréquent avec deux dés ?",
+      "a": "7. Six des 36 combinaisons donnent 7 (1+6, 2+5, 3+4, 4+3, 5+2, 6+1) : il sort donc en moyenne 1 fois sur 6."
+    },
+    {
+      "q": "Quels dés puis-je lancer ?",
+      "a": "d4, d6, d8, d10, d12 et d20, jusqu'à 10 dés à la fois : l'ensemble standard des jeux de rôle sur table."
+    },
+    {
+      "q": "Combien de pièces puis-je lancer à la fois ?",
+      "a": "Jusqu'à 100. Le résultat affiche chaque pièce et compte les pile et les face."
+    },
+    {
+      "q": "Puis-je voir mes résultats précédents ?",
+      "a": "Oui. L'historique conserve vos 20 derniers lancers sur cette page. Il est effacé lorsque vous quittez la page ou cliquez sur Effacer l'historique."
+    },
+    {
+      "q": "Puis-je désactiver l'animation ?",
+      "a": "L'animation des lancers est automatiquement désactivée si votre appareil est réglé pour réduire les animations."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Pile ou face et lancer de dés",
+      "tool-div1": "Pièce ou dés",
+      "cd-pieces": "Chaque pièce ou chaque dé"
+    },
+    "text": {
+      "tab-coin": "Pile ou face",
+      "tab-dice": "Lancer de dés",
+      "go-btn": "Lancer",
+      "clear-history-btn": "Effacer l'historique",
+      "history-title": "Historique (20 derniers)",
+      "history-empty": "Aucun résultat pour l'instant."
+    },
+    "label": {
+      "coin-count": "Nombre de pièces",
+      "dice-count": "Nombre de dés",
+      "dice-sides": "Type de dé"
+    },
+    "content": {
+      "tool": {
+        "div1": "<span id=\"result-header-text\">Résultat</span>"
+      },
+      "dice-odds-at-a-glance": {
+        "heading": "Les probabilités des dés en un coup d'œil",
+        "p1": "Avec un seul dé, chaque face a la même probabilité. Avec plusieurs dés, les totaux se concentrent au milieu : c'est pourquoi le 7 est le nombre à surveiller dans les jeux de société à deux dés à six faces.",
+        "caption1": "Plages, moyennes et probabilité d'une valeur pour les dés courants",
+        "th1": "Lancer",
+        "th2": "Plage",
+        "th3": "Moyenne",
+        "th4": "Probabilité d'une valeur",
+        "td4": "7 : 16.67%, 2 ou 12 : 2.78%"
+      },
+      "when-to-flip-a-coin-or": {
+        "heading": "Quand jouer à pile ou face ou lancer un dé en ligne",
+        "li1": "<strong>Trancher une décision :</strong> le pile ou face est la façon classique et équitable de départager deux options.",
+        "li2": "<strong>Jeux de société et jeux de rôle :</strong> remplacez des dés manquants, ou lancez rapidement plusieurs d6 ou un d20 avec le total calculé.",
+        "li3": "<strong>Enseigner les probabilités :</strong> lancez 100 pièces plusieurs fois pour montrer comment varie le nombre de pile, ou comparez les totaux de 2d6 au tableau des probabilités ci-dessus.",
+        "li4": "<strong>Choix aléatoires :</strong> pour choisir parmi plus de six options, utilisez le <a href=\"/tools/random-number-generator/\">générateur de nombres aléatoires</a> ou le <a href=\"/tools/random-name-picker/\">tirage au sort de noms</a>.",
+        "p1": "Les pièces et les dés physiques peuvent être légèrement biaisés par leur forme et la façon dont on les lance. Un générateur logiciel sûr n'a pas ce problème : chaque résultat a exactement la même probabilité. Les résultats sont générés dans votre navigateur et l'historique reste uniquement sur cette page."
+      }
+    }
+  },
+  "client": {
+    "errors": {
+      "noCrypto": "Les nombres aléatoires sécurisés ne sont pas disponibles dans ce navigateur.",
+      "coins": "Lancez entre 1 et {{max}} pièces.",
+      "dice": "Lancez entre 1 et {{max}} dés.",
+      "sides": "Choisissez un dé d{{dice}}."
+    },
+    "buttons": {
+      "roll": "Lancer",
+      "flip": "Lancer"
+    },
+    "coin": {
+      "headerOne": "Pile ou face",
+      "headerMany": "{{count}} lancers de pièce",
+      "heads": "Pile",
+      "tails": "Face",
+      "counts": "{{heads}} pile · {{tails}} face",
+      "note": "Pile {{headsPct}}%, face {{tailsPct}}%.",
+      "historyOne": "Pièce : {{side}}",
+      "historyMany": "{{count}} pièces : {{heads}} pile, {{tails}} face",
+      "summaryMany": "{{heads}} pile, {{tails}} face"
+    },
+    "dice": {
+      "header": "Lancer de {{notation}}",
+      "total": "Total {{sum}}",
+      "noteMany": "{{rolls}} = {{sum}} (possible : {{min}}–{{max}}).",
+      "noteOne": "Possible : 1–{{sides}}."
+    }
+  }
+}

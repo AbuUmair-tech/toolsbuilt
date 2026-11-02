@@ -1,0 +1,257 @@
+{
+  "listing": {
+    "name": "Supprimer les lignes en double",
+    "shortName": "Supprimer les doublons",
+    "description": "Supprimez les lignes en double d'une liste en conservant l'ordre d'origine, en ignorant la casse ou les espaces, avec tri, copie et téléchargement.",
+    "shortDescription": "Supprimez les lignes répétées d'une liste tout en conservant l'ordre.",
+    "keywords": [
+      "supprimer les lignes en double",
+      "supprimer les doublons",
+      "lignes uniques",
+      "dédoublonner une liste",
+      "supprimer doublons en ligne",
+      "outil suppression doublons",
+      "valeurs uniques"
+    ]
+  },
+  "title": "Supprimer les lignes en double en ligne (ordre conservé)",
+  "description": "Supprimez les lignes en double d'une liste en gardant l'ordre. Ignorez casse ou espaces, retirez les lignes vides, gardez la 1re ou la dernière, triez.",
+  "h1": "Supprimer les lignes en double",
+  "quickAnswer": "Collez votre liste, un élément par ligne : chaque ligne répétée est supprimée et la première occurrence reste à sa place d'origine. Activez Ignorer la casse pour traiter « Apple » et « apple » comme identiques, ou Ignorer les espaces pour ne pas tenir compte des espaces en début et en fin de ligne. L'outil pour supprimer les lignes en double indique combien de doublons ont été retirés, et vous pouvez copier ou télécharger le résultat.",
+  "formula": {
+    "title": "Comment les doublons sont détectés",
+    "expression": "Garder une ligne si sa clé de comparaison n'a pas encore été vue   ·   clé = ligne (sans espaces aux extrémités si Ignorer les espaces) (en minuscules si Ignorer la casse)",
+    "explanation": "Les lignes sont lues de haut en bas. Chaque ligne reçoit une clé de comparaison : la ligne elle-même, sans les espaces aux extrémités si Ignorer les espaces est activé et en minuscules si Ignorer la casse est activé. La première ligne ayant une clé donnée est conservée exactement telle que saisie ; les lignes suivantes avec la même clé sont supprimées. Avec Garder la dernière, la liste est lue à partir du bas : c'est la dernière occurrence qui est conservée, toujours à sa position d'origine. Le tri, s'il est choisi, a lieu après la suppression des doublons et tient compte des nombres : item2 vient avant item10.",
+    "variables": [
+      {
+        "name": "Ignorer la casse",
+        "description": "« Apple », « APPLE » et « apple » comptent comme une seule valeur."
+      },
+      {
+        "name": "Ignorer les espaces",
+        "description": "Les espaces et tabulations en début ou en fin de ligne sont ignorés lors de la comparaison. Activez Nettoyer le résultat pour les retirer aussi du résultat."
+      },
+      {
+        "name": "Garder la première / la dernière",
+        "description": "La copie d'une ligne répétée qui reste dans la liste."
+      }
+    ]
+  },
+  "workedExamples": [
+    {
+      "title": "Sensible à la casse",
+      "inputs": [
+        "Lignes : a, b, a, B"
+      ],
+      "steps": [
+        "Le second « a » répète le premier et est supprimé",
+        "« B » est différent de « b » quand la casse compte"
+      ],
+      "result": "a, b, B (1 doublon supprimé)"
+    },
+    {
+      "title": "Ignorer la casse",
+      "inputs": [
+        "Lignes : a, b, a, B",
+        "Ignorer la casse : activé"
+      ],
+      "steps": [
+        "« a » est répété, et « B » correspond à « b »"
+      ],
+      "result": "a, b (2 doublons supprimés)"
+    },
+    {
+      "title": "Ignorer les espaces",
+      "inputs": [
+        "Lignes : ' a' (avec un espace au début), 'a'",
+        "Ignorer les espaces : activé"
+      ],
+      "steps": [
+        "Les deux lignes se comparent comme « a » : la seconde est supprimée",
+        "La ligne conservée est écrite telle que saisie (' a') ; avec Nettoyer le résultat, elle devient 'a'"
+      ],
+      "result": "Une ligne : ' a', ou 'a' avec Nettoyer le résultat"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Rater des doublons qui ne diffèrent que par des espaces",
+      "description": "« apple » et « apple » suivi d'un espace se ressemblent mais sont des chaînes différentes. Activez Ignorer les espaces si votre liste vient d'un tableur ou d'un document."
+    },
+    {
+      "title": "Fusionner des valeurs qui doivent rester distinctes",
+      "description": "Ignorer la casse convient aux adresses e-mail et à la plupart des mots, mais pas aux données sensibles à la casse comme les mots de passe, les identifiants ou les noms de fichiers sous Linux."
+    },
+    {
+      "title": "S'attendre à une liste triée",
+      "description": "Par défaut, l'ordre d'origine est conservé. Choisissez A à Z ou Z à A si vous voulez une liste triée."
+    },
+    {
+      "title": "Perdre la dernière entrée, la plus récente",
+      "description": "Si les lignes suivantes sont des versions plus récentes des précédentes (par exemple un journal ou un export), choisissez Garder la dernière pour conserver la copie la plus récente."
+    },
+    {
+      "title": "Traiter les lignes vides comme des données",
+      "description": "Plusieurs lignes vides sont des doublons les unes des autres : une ligne vide peut donc subsister. Activez Supprimer les lignes vides pour toutes les retirer."
+    }
+  ],
+  "sources": [
+    {
+      "name": "Unicode Technical Standard #10 : Unicode Collation Algorithm"
+    },
+    {
+      "name": "API d'internationalisation ECMAScript : Intl.Collator"
+    },
+    {
+      "name": "Support Microsoft : rechercher et supprimer des doublons (Excel)"
+    },
+    {
+      "name": "Support Microsoft : fonction UNIQUE"
+    },
+    {
+      "name": "GNU Coreutils : utilisation de uniq"
+    }
+  ],
+  "howto": {
+    "name": "Comment supprimer les lignes en double",
+    "description": "Supprimez les lignes répétées d'une liste en conservant l'ordre d'origine.",
+    "steps": [
+      {
+        "name": "Coller votre liste",
+        "text": "Collez le texte avec un élément par ligne."
+      },
+      {
+        "name": "Choisir le mode de comparaison",
+        "text": "Activez Ignorer la casse ou Ignorer les espaces si ces différences ne doivent pas compter."
+      },
+      {
+        "name": "Choisir ce qui est conservé",
+        "text": "Gardez la première ou la dernière copie, supprimez les lignes vides et triez si vous le souhaitez."
+      },
+      {
+        "name": "Copier ou télécharger",
+        "text": "Copiez la liste nettoyée ou téléchargez-la dans un fichier texte."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Comment supprimer les lignes en double d'une liste ?",
+      "a": "Collez la liste dans le champ. Les lignes répétées sont supprimées immédiatement, la première copie de chaque ligne reste à sa place, et le nombre de doublons supprimés s'affiche."
+    },
+    {
+      "q": "L'ordre d'origine est-il conservé ?",
+      "a": "Oui. Sauf si vous choisissez un tri, les lignes conservées restent dans l'ordre où vous les avez collées."
+    },
+    {
+      "q": "Puis-je supprimer les doublons sans tenir compte de la casse ?",
+      "a": "Oui. Activez Ignorer la casse : les lignes qui ne diffèrent que par les majuscules, comme « Paris » et « paris », comptent comme identiques."
+    },
+    {
+      "q": "Comment garder la dernière occurrence plutôt que la première ?",
+      "a": "Choisissez Garder la dernière. La dernière copie de chaque ligne est conservée, à la position où elle apparaît."
+    },
+    {
+      "q": "Puis-je trier les lignes et supprimer les doublons en même temps ?",
+      "a": "Oui. Choisissez A à Z ou Z à A. Les doublons sont d'abord supprimés, puis les lignes restantes sont triées, avec les nombres dans l'ordre naturel."
+    },
+    {
+      "q": "Comment supprimer les doublons dans Excel ?",
+      "a": "Dans Excel, sélectionnez la colonne et utilisez Données > Supprimer les doublons, ou =UNIQUE(plage) dans Excel 365. Cet outil est plus rapide pour des listes copiées en texte brut."
+    },
+    {
+      "q": "Ma liste est-elle envoyée quelque part ?",
+      "a": "Non. Les lignes sont traitées dans votre navigateur et ne sont ni envoyées, ni stockées, ni ajoutées à l'adresse de la page."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Outil de suppression des lignes en double"
+    },
+    "label": {
+      "dedupe-input": "Votre liste (un élément par ligne)",
+      "opt-keep": "Garder",
+      "opt-sort": "Trier",
+      "dedupe-output": "Résultat"
+    },
+    "placeholder": {
+      "dedupe-input": "Collez les lignes ici"
+    },
+    "content": {
+      "tool": {
+        "label1": "<input type=\"checkbox\" id=\"opt-case\"><span>Ignorer la casse</span>",
+        "label2": "<input type=\"checkbox\" id=\"opt-trim\"><span>Ignorer les espaces lors de la comparaison</span>",
+        "label3": "<input type=\"checkbox\" id=\"opt-trim-output\"><span>Nettoyer le résultat</span>",
+        "label4": "<input type=\"checkbox\" id=\"opt-empty\"><span>Supprimer les lignes vides</span>",
+        "div1": "<span id=\"result-header-text\">Doublons supprimés</span>"
+      },
+      "which-options-to-use": {
+        "heading": "Quelles options utiliser",
+        "caption1": "Options recommandées pour les listes courantes",
+        "th1": "Votre liste",
+        "th2": "Options suggérées",
+        "td1": "Adresses e-mail",
+        "td2": "Ignorer la casse, Ignorer les espaces, Nettoyer le résultat, Supprimer les lignes vides",
+        "td3": "Mots-clés ou tags",
+        "td4": "Ignorer la casse, Ignorer les espaces, tri de A à Z",
+        "td5": "Codes produits ou identifiants",
+        "td6": "Ignorer les espaces uniquement (la casse peut compter)",
+        "td7": "Lignes de journal ou exports avec les entrées récentes en bas",
+        "td8": "Garder la dernière occurrence",
+        "td9": "Code ou configuration",
+        "td10": "Aucune option : chaque caractère compte",
+        "p1": "Le résultat conserve chaque ligne exactement telle que vous l'avez écrite, sauf si vous activez Nettoyer le résultat. Ainsi, une ligne indentée ou une ligne avec des espaces finaux significatifs n'est pas modifiée simplement parce que les espaces ont été ignorés lors de la comparaison."
+      },
+      "other-ways-to-remove-duplicates": {
+        "heading": "Autres façons de supprimer les doublons",
+        "li1": "<strong>Ligne de commande :</strong> <code>sort -u file.txt</code> supprime les doublons mais trie le fichier ; <code>awk '!seen[$0]++' file.txt</code> conserve l'ordre d'origine.",
+        "li2": "<strong>Tableurs :</strong> la commande Supprimer les doublons ou la fonction UNIQUE d'Excel, et UNIQUE dans Google Sheets.",
+        "li3": "<strong>Comparer deux listes :</strong> pour voir ce qui a changé entre deux versions plutôt que ce qui se répète, utilisez le <a href=\"/tools/text-diff-checker/\">comparateur de texte</a>.",
+        "p1": "Votre texte reste sur votre appareil : il est traité dans le navigateur et n'est ni enregistré ni envoyé nulle part."
+      }
+    },
+    "option": {
+      "opt-keep": {
+        "first": "Première occurrence",
+        "last": "Dernière occurrence"
+      },
+      "opt-sort": {
+        "none": "Conserver l'ordre d'origine",
+        "asc": "A à Z",
+        "desc": "Z à A"
+      }
+    },
+    "text": {
+      "example-btn": "Essayer un exemple",
+      "clear-btn": "Effacer",
+      "copy-output-btn": "Copier le résultat",
+      "download-btn": "Télécharger en .txt"
+    }
+  },
+  "client": {
+    "example": "pomme\nBanane\npomme\ncerise\n banane\n\nCerise\ndatte\n\npomme",
+    "result": {
+      "removed": {
+        "many": "{{n}} doublons supprimés",
+        "one": "{{n}} doublon supprimé",
+        "other": "{{n}} doublons supprimés"
+      }
+    },
+    "note": {
+      "lines": {
+        "many": "{{n}} lignes",
+        "one": "{{n}} ligne",
+        "other": "{{n}} lignes"
+      },
+      "inOut": "{{in}} en entrée, {{out}} en sortie",
+      "emptyRemoved": {
+        "many": "{{n}} lignes vides supprimées",
+        "one": "{{n}} ligne vide supprimée",
+        "other": "{{n}} lignes vides supprimées"
+      },
+      "emptyLine": "(ligne vide)",
+      "mostRepeated": "Les plus répétées : {{list}}"
+    },
+    "copied": "Résultat copié"
+  }
+}

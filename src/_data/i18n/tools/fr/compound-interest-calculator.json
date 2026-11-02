@@ -1,0 +1,262 @@
+{
+  "listing": {
+    "name": "Calculateur d'intérêts composés",
+    "shortName": "Calculateur d'intérêts composés",
+    "description": "Calculez des intérêts composés avec capitalisation quotidienne, mensuelle, trimestrielle ou annuelle, des versements réguliers en option et des graphiques de croissance.",
+    "shortDescription": "Calculez la croissance des intérêts composés avec capitalisation quotidienne, mensuelle ou annuelle et versements réguliers.",
+    "keywords": [
+      "calculateur d'intérêts composés",
+      "intérêts composés quotidiens",
+      "intérêts composés mensuels",
+      "simulateur de placement",
+      "calcul intérêts épargne"
+    ]
+  },
+  "title": "Calculateur d'intérêts composés et versements réguliers",
+  "description": "Calculez des intérêts composés avec capitalisation quotidienne, mensuelle, trimestrielle ou annuelle et versements réguliers en option, avec graphique.",
+  "h1": "Calculateur d'intérêts composés",
+  "quickAnswer": "Les intérêts composés se calculent avec la formule A = P(1 + r/n)^(nt), où P est le capital, r le taux d'intérêt annuel (en décimal), n le nombre de capitalisations par an et t la durée en années. Avec des versements mensuels réguliers PMT, la valeur future se capitalise aussi selon la formule de l'annuité : PMT × [((1 + r/n)^(nt) - 1) / (r/n)]. Ce calculateur d'intérêts composés fait tous les calculs et graphiques dans votre navigateur.",
+  "formula": {
+    "title": "Formule des intérêts composés",
+    "explanation": "Sans versements, la valeur future A croît à partir du capital P au taux annuel r, capitalisé n fois par an pendant t années : les intérêts produisent eux-mêmes des intérêts."
+  },
+  "workedExamples": [
+    {
+      "title": "Capital initial de $10,000 à 7% pendant 10 ans (capitalisation annuelle)",
+      "inputs": [
+        "Capital initial (P) : $10,000",
+        "Taux d'intérêt annuel (r) : 7%",
+        "Fréquence de capitalisation (n) : annuelle (1/an)",
+        "Durée (t) : 10 ans",
+        "Versement mensuel : $0"
+      ],
+      "steps": [
+        "Formule : A = 10,000 × (1 + 0.07/1)^(1 × 10)",
+        null,
+        "Valeur future totale = $19,671.51",
+        "Total des intérêts = $19,671.51 − $10,000 = $9,671.51"
+      ],
+      "result": "Solde final de $19,671.51 ($9,671.51 d'intérêts)"
+    },
+    {
+      "title": "Capital de $5,000 et versements de $200 par mois à 8% pendant 5 ans",
+      "inputs": [
+        "Capital initial : $5,000",
+        "Taux d'intérêt annuel : 8% (capitalisation mensuelle)",
+        "Versement mensuel : $200",
+        "Durée : 5 ans"
+      ],
+      "steps": [
+        "Croissance du capital : 5,000 × (1 + 0.08/12)^60 = $7,449.23",
+        "Croissance des versements : 200 × [((1 + 0.08/12)^60 - 1) / (0.08/12)] = $14,695.37",
+        "Valeur future totale = $7,449.23 + $14,695.37 = $22,144.60",
+        "Total des dépôts = $5,000 + ($200 × 60) = $17,000"
+      ],
+      "result": "Solde de $22,144.60 ($5,144.60 d'intérêts)"
+    },
+    {
+      "title": "Comparaison avec capitalisation quotidienne ($10,000 à 5% pendant 1 an)",
+      "inputs": [
+        "Capital : $10,000",
+        "Taux : 5%",
+        "Fréquence : quotidienne (365 fois/an)",
+        "Durée : 1 an"
+      ],
+      "steps": [
+        "Rendement effectif (APY) = (1 + 0.05/365)^365 − 1 ≈ 5.127%",
+        "Valeur future = 10,000 × (1 + 0.05/365)^365 = $10,512.67",
+        "Rapporte $12.67 de plus qu'une capitalisation annuelle simple ($10,500.00)"
+      ],
+      "result": "$10,512.67 (rendement effectif de 5.13%)"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Comparer directement taux nominal (APR) et rendement effectif (APY)",
+      "description": "Une banque qui annonce un taux nominal de 5.00% avec capitalisation quotidienne verse en réalité un rendement effectif de 5.13%. Comparez toujours des rendements effectifs entre eux."
+    },
+    {
+      "title": "Retarder ses versements",
+      "description": "Grâce à la croissance exponentielle, épargner tôt, dès la vingtaine, constitue bien plus de patrimoine que d'épargner deux fois plus tard, vers la quarantaine."
+    },
+    {
+      "title": "Ignorer l'inflation et les impôts",
+      "description": "Les taux d'intérêt nominaux élevés doivent être corrigés de l'inflation et de l'imposition annuelle des intérêts pour mesurer la croissance réelle du pouvoir d'achat."
+    }
+  ],
+  "sources": [
+    {
+      "label": "U.S. Securities and Exchange Commission (SEC) - calculateur d'intérêts composés"
+    },
+    {
+      "label": "Consumer Financial Protection Bureau - explications sur l'APY et l'épargne"
+    },
+    {
+      "label": "Federal Deposit Insurance Corporation (FDIC) - comptes de dépôt"
+    }
+  ],
+  "howto": {
+    "name": "Comment calculer la croissance des intérêts composés",
+    "description": "Instructions pas à pas pour simuler la fréquence de capitalisation, les versements périodiques et le rendement annuel effectif (APY).",
+    "steps": [
+      {
+        "name": "Saisir le capital de départ",
+        "text": "Saisissez votre placement initial ou le solde de votre épargne (il peut être de $0 si vous ne faites que des versements réguliers)."
+      },
+      {
+        "name": "Saisir le taux d'intérêt annuel",
+        "text": "Saisissez le taux annuel nominal de votre compte d'épargne, de votre dépôt à terme ou de votre placement."
+      },
+      {
+        "name": "Choisir la fréquence de capitalisation",
+        "text": "Choisissez la fréquence à laquelle les intérêts s'ajoutent au capital : quotidienne, mensuelle, trimestrielle ou annuelle."
+      },
+      {
+        "name": "Définir la durée du placement",
+        "text": "Indiquez pendant combien d'années vous laissez votre argent fructifier sans y toucher."
+      },
+      {
+        "name": "Ajouter des versements mensuels (facultatif)",
+        "text": "Saisissez si vous le souhaitez des versements mensuels réguliers pour projeter la croissance de votre épargne."
+      },
+      {
+        "name": "Consulter le graphique et les soldes",
+        "text": "Consultez la valeur future finale, le total des intérêts, le rendement effectif et le graphique interactif de croissance."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Quelle est la différence entre intérêts simples et intérêts composés ?",
+      "a": "Les intérêts simples se calculent uniquement sur le capital de départ. Les intérêts composés se calculent sur le capital initial et sur les intérêts accumulés des périodes précédentes, ce qui accélère la croissance de façon exponentielle au fil du temps."
+    },
+    {
+      "q": "Quelle est la formule mathématique des intérêts composés ?",
+      "a": "Sans versements périodiques, la formule est : A = P × (1 + r/n)^(n×t), où P est le capital, r le taux annuel nominal en décimal, n le nombre de capitalisations par an et t la durée en années."
+    },
+    {
+      "q": "Quelle est la différence entre APR et APY ?",
+      "a": "L'APR (taux annuel nominal) est le taux annoncé, sans tenir compte de la capitalisation en cours d'année. L'APY (rendement annuel effectif) reflète le vrai taux annuel en incluant l'effet de la capitalisation : APY = (1 + r/n)^n - 1."
+    },
+    {
+      "q": "À quelle fréquence les intérêts doivent-ils être capitalisés pour une croissance maximale ?",
+      "a": "Plus la capitalisation est fréquente, plus le rendement effectif est élevé. Une capitalisation quotidienne (365 fois par an) rapporte un peu plus d'intérêts qu'une capitalisation mensuelle (12 fois) ou annuelle (1 fois) pour le même taux nominal."
+    },
+    {
+      "q": "Mes montants de placement ou soldes personnels sont-ils enregistrés ?",
+      "a": "Non. Tous les calculs et graphiques s'exécutent uniquement en mémoire dans votre navigateur. Aucun solde financier privé ne quitte votre appareil."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Formulaire du calculateur d'intérêts composés",
+      "copy-result-btn": "Copier le récapitulatif du calcul",
+      "annual-balance-interest-schedule-div1": "Tableau détaillé des intérêts composés (défilant)",
+      "annual-balance-interest-schedule-table1": "Tableau de croissance des intérêts composés année par année"
+    },
+    "label": {
+      "principal": "Capital initial <span class=\"text-accent\">*</span>",
+      "interest-rate": "Taux d'intérêt annuel (%) <span class=\"text-accent\">*</span>",
+      "years": "Durée du placement (années) <span class=\"text-accent\">*</span>",
+      "compounding-frequency": "Fréquence de capitalisation",
+      "regular-contribution": "Versement mensuel facultatif <span class=\"label-hint\">(effectué en début de mois)</span>"
+    },
+    "option": {
+      "compounding-frequency": {
+        "daily": "Quotidienne (365 fois/an)",
+        "monthly": "Mensuelle (12 fois/an)",
+        "quarterly": "Trimestrielle (4 fois/an)",
+        "annual": "Annuelle (1 fois/an)"
+      }
+    },
+    "content": {
+      "tool": {
+        "button1": "Calculer la croissance",
+        "div1": "Valeur future finale",
+        "div2": "Capital total investi",
+        "div3": "Total des intérêts composés",
+        "div4": "Rendement effectif (APY)"
+      },
+      "balance-growth-over-time": {
+        "heading": "Évolution du solde dans le temps",
+        "div1": "<span class=\"legend-item\"><span class=\"legend-dot principal\"></span> Capital total</span>\n              <span class=\"legend-item\"><span class=\"legend-dot balance\"></span> Solde total</span>"
+      },
+      "annual-balance-interest-schedule": {
+        "heading": "Tableau annuel des soldes et des intérêts",
+        "th1": "Année",
+        "th2": "Versements annuels",
+        "th3": "Capital total",
+        "th4": "Intérêts gagnés",
+        "th5": "Solde final"
+      },
+      "how-when-to-use-the-compound": {
+        "li1": "<strong>Épargne à haut rendement et dépôts à terme :</strong> comparez la capitalisation quotidienne et mensuelle proposée par les banques en ligne pour trouver le meilleur rendement effectif.",
+        "li2": "<strong>Retraite à long terme :</strong> calculez comment des versements mensuels dans des fonds indiciels se capitalisent sur une carrière de 20, 30 ou 40 ans.",
+        "li3": "<strong>Épargne pour les études des enfants :</strong> estimez la valeur future d'un don initial complété par des versements mensuels réguliers.",
+        "li4": "<strong>Vérifier la règle de 72 :</strong> contrôlez en combien de temps votre argent double selon différents taux et fréquences de capitalisation."
+      }
+    },
+    "text": {
+      "reset-btn": "Réinitialiser",
+      "result-header-text": "Projection de la croissance composée",
+      "copy-result-btn": "<span data-icon=\"copy\"></span> Copier le récapitulatif",
+      "result-primary-text": "Valeur future : $0.00",
+      "stat-effective-apy": "0.00% APY",
+      "how-to-use-heading": "Comment et quand utiliser le calculateur d'intérêts composés"
+    },
+    "title": {
+      "copy-result-btn": "Copier le récapitulatif du calcul"
+    }
+  },
+  "client": {
+    "freq": {
+      "daily": "Quotidienne (365/an)",
+      "monthly": "Mensuelle (12/an)",
+      "quarterly": "Trimestrielle (4/an)",
+      "annual": "Annuelle (1/an)"
+    },
+    "errors": {
+      "frequency": "Fréquence de capitalisation non valide",
+      "principalMin": "Le capital initial doit être de 0 ou plus.",
+      "rateMin": "Le taux d'intérêt doit être de 0% ou plus.",
+      "horizonMin": "La durée du placement doit être supérieure à zéro.",
+      "horizonMax": "La durée du placement ne peut pas dépasser 60 ans.",
+      "contributionMin": "Le montant du versement doit être de 0 ou plus.",
+      "principalOrContribution": "Veuillez saisir un capital initial ou un montant de versement régulier.",
+      "principalRequired": "Veuillez saisir un capital initial (0 ou plus).",
+      "principalNegative": "Le capital initial ne peut pas être négatif.",
+      "rateRequired": "Veuillez saisir un taux d'intérêt annuel.",
+      "rateNegative": "Le taux d'intérêt ne peut pas être négatif.",
+      "yearsRequired": "Veuillez saisir la durée du placement en années.",
+      "yearsMin": "La durée doit être supérieure à zéro.",
+      "principalOrContributionRequired": "Veuillez saisir un capital initial ou un montant de versement régulier."
+    },
+    "chart": {
+      "yearTick": "An {{year}}",
+      "pointTitle": "Année {{year}} : solde {{symbol}}{{balance}}, capital {{symbol}}{{principal}}",
+      "ariaLabel": "Graphique de projection de la croissance des intérêts composés",
+      "desc": "Évolution comparée du capital total investi et du solde avec intérêts composés sur {{count}} ans."
+    },
+    "result": {
+      "primary": "Valeur future : {{value}}",
+      "apy": "{{apy}}% APY"
+    },
+    "summary": {
+      "title": "Récapitulatif de la croissance des intérêts composés :",
+      "principal": "Capital initial : {{value}}",
+      "rate": "Taux d'intérêt : {{rate}}% (capitalisation {{frequency}})",
+      "apy": "Rendement effectif (APY) : {{apy}}%",
+      "horizon": "Durée : {{years}} ans",
+      "contribution": "Versement mensuel : {{value}}",
+      "totalPrincipal": "Capital total investi : {{value}}",
+      "totalInterest": "Total des intérêts composés : {{value}}",
+      "futureValue": "Valeur future finale : {{value}}"
+    },
+    "table": {
+      "year": "Année {{year}}"
+    },
+    "toast": {
+      "copied": "Calcul des intérêts composés copié dans le presse-papiers !"
+    }
+  }
+}

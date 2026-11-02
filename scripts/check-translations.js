@@ -52,6 +52,11 @@ function readJson(file) {
   return fs.existsSync(file) ? JSON.parse(fs.readFileSync(file, 'utf8')) : undefined;
 }
 
+// Plain-text fields (templates escape them): HTML entities there would show up double-escaped
+const PLAIN_TEXT_KEYS = /^(title|description|h1|subtitle|breadcrumbTitle|quickAnswer|formula|workedExamples|exampleSections|commonMistakes|sources|howto|faqs|listing)([.[]|$)/;
+const PLAIN_TEXT_FILES = /^pages\/(categories|countries|grading-scales)\.json$/;
+const ENTITY = /&(amp|quot|#39|#x27|lt|gt|nbsp|apos);/;
+
 // Search-result limits, in characters (not bytes)
 const LIMITS = { title: 60, description: 155 };
 
@@ -110,6 +115,8 @@ function checkString(en, tr, at, keyPath, code) {
   if (typeof tr !== 'string') { errors.push(`[${code}] ${at}: should be text`); return; }
   if (placeholders(en) !== placeholders(tr)) errors.push(`[${code}] ${at}: placeholders differ (English: ${placeholders(en) || 'none'}; ${code}: ${placeholders(tr) || 'none'})`);
   if (tags(en) !== tags(tr)) errors.push(`[${code}] ${at}: HTML tags differ (English: ${tags(en) || 'none'}; ${code}: ${tags(tr) || 'none'})`);
+  const plain = PLAIN_TEXT_FILES.test(at.split(' ')[0]) || PLAIN_TEXT_KEYS.test(keyPath);
+  if (plain && ENTITY.test(tr) && !ENTITY.test(en)) errors.push(`[${code}] ${at}: HTML entity in a plain-text field (write the character itself, e.g. & not &amp;)`);
   const limit = LIMITS[keyPath];
   if (limit && [...tr].length > limit) errors.push(`[${code}] ${at}: ${[...tr].length} characters, limit ${limit}`);
   if (tr === en && needsTranslation(en) && !SAME_OK_PATH.test(keyPath)) warnings.push(`[${code}] ${at}: same as English (untranslated?)`);

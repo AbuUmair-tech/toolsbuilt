@@ -1,0 +1,258 @@
+{
+  "listing": {
+    "name": "Calculateur de moyenne pondérée",
+    "shortName": "Moyenne pondérée",
+    "description": "Calculez une moyenne pondérée à partir de valeurs et de coefficients en pourcentage ou en nombres simples, avec la contribution de chaque ligne et les étapes.",
+    "shortDescription": "Moyenne pondérée avec coefficients en % ou en nombres, contributions et détail du calcul.",
+    "keywords": [
+      "calculateur de moyenne pondérée",
+      "moyenne pondérée",
+      "calcul moyenne avec coefficients",
+      "calculer une moyenne pondérée",
+      "note pondérée",
+      "moyenne sommeprod",
+      "pourcentage pondéré"
+    ]
+  },
+  "title": "Calculateur de moyenne pondérée (étape par étape)",
+  "description": "Calculez une moyenne pondérée à partir de valeurs et de coefficients en pourcentage ou en nombres, avec la contribution de chaque ligne et le détail.",
+  "h1": "Calculateur de moyenne pondérée",
+  "quickAnswer": "Une moyenne pondérée multiplie chaque valeur par son coefficient, additionne les produits, puis divise par la somme des coefficients. Des notes de 90 (30%), 80 (50%) et 70 (20%) donnent 27 + 40 + 14 = 81. Avec des coefficients en nombres simples, la méthode est la même : 90 avec un coefficient 2 et 80 avec un coefficient 3 donnent (180 + 240) ÷ 5 = 84. Ce calculateur de moyenne pondérée affiche chaque étape.",
+  "formula": {
+    "title": "Formule de la moyenne pondérée",
+    "expression": "Moyenne pondérée = Σ(valeur × coefficient) ÷ Σ(coefficient)",
+    "explanation": "Chaque valeur compte proportionnellement à son coefficient. Quand les coefficients sont des pourcentages dont la somme fait 100, diviser par la somme des coefficients revient à diviser par 100 : la contribution de chaque ligne est donc simplement valeur × coefficient %. Si les coefficients en pourcentage ne totalisent pas 100, le calculateur divise par leur somme réelle (il les normalise) et vous le signale, ce qui revient à les ramener proportionnellement à un total de 100.",
+    "variables": [
+      {
+        "name": "Valeur",
+        "description": "La note, le score, le prix ou la mesure de chaque élément."
+      },
+      {
+        "name": "Coefficient",
+        "description": "Le poids de chaque valeur : un pourcentage, des crédits, une quantité ou tout autre nombre positif."
+      },
+      {
+        "name": "Contribution",
+        "description": "valeur × coefficient ÷ somme des coefficients : le nombre de points de la moyenne finale qui provient de cette ligne."
+      }
+    ]
+  },
+  "workedExamples": [
+    {
+      "title": "Note de cours avec des coefficients en pourcentage",
+      "inputs": [
+        "Devoirs : 90, coefficient 30%",
+        "Partiel : 80, coefficient 50%",
+        "Interrogations : 70, coefficient 20%"
+      ],
+      "steps": [
+        null,
+        "Somme des produits : 8,100 ; somme des coefficients : 100"
+      ],
+      "result": "Moyenne pondérée 81"
+    },
+    {
+      "title": "Coefficients en nombres simples",
+      "inputs": [
+        "90 avec un coefficient 2",
+        "80 avec un coefficient 3"
+      ],
+      "result": "Moyenne pondérée 84"
+    },
+    {
+      "title": "Coefficients en pourcentage dont la somme ne fait pas 100",
+      "inputs": [
+        "90 avec un coefficient de 30%",
+        "80 avec un coefficient de 50%"
+      ],
+      "steps": [
+        "Les coefficients totalisent 80% : ils sont donc normalisés"
+      ],
+      "result": "Moyenne pondérée 83.75 (équivaut à des coefficients de 37.5% et 62.5%)"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Calculer une moyenne simple à la place",
+      "description": "La moyenne simple de 90, 80 et 70 est 80, mais si le 90 compte pour 30% et le 70 pour seulement 20%, la moyenne pondérée est 81. N'utilisez la moyenne simple que si tous les éléments comptent autant."
+    },
+    {
+      "title": "Diviser par le nombre d'éléments",
+      "description": "Une moyenne pondérée se divise par la somme des coefficients, et non par le nombre de valeurs. Diviser 420 par 2 éléments au lieu de 5 unités de coefficient donne 210, ce qui n'a aucun sens."
+    },
+    {
+      "title": "Oublier les coefficients manquants",
+      "description": "Si des évaluations valant 20% n'ont pas encore eu lieu, vos coefficients totalisent 80%. Le résultat normalisé indique votre moyenne actuelle ; ce n'est pas votre note finale tant que les 20% restants n'ont pas été ajoutés."
+    },
+    {
+      "title": "Mélanger les types de coefficients",
+      "description": "Utilisez le même type de coefficient pour chaque ligne : uniquement des pourcentages, uniquement des crédits ou uniquement des quantités. Mélanger un coefficient de 30% et un coefficient de 3 crédits donne un résultat faux."
+    },
+    {
+      "title": "Utiliser des valeurs sur des échelles différentes",
+      "description": "Vérifiez que toutes les valeurs sont sur la même échelle, par exemple toutes en pourcentage. Une note de 18/20 doit être saisie comme 90, et non 18, si les autres sont sur 100."
+    }
+  ],
+  "sources": [
+    {
+      "name": "NIST/SEMATECH e-Handbook of Statistical Methods : mesures de position"
+    },
+    {
+      "name": "Support Microsoft : fonction SOMMEPROD"
+    },
+    {
+      "name": "U.S. Bureau of Labor Statistics : utilisation des pondérations dans le CPI (importance relative)"
+    }
+  ],
+  "howto": {
+    "name": "Comment calculer une moyenne pondérée",
+    "description": "Saisissez les valeurs et les coefficients pour obtenir une moyenne pondérée avec le détail du calcul.",
+    "steps": [
+      {
+        "name": "Choisir le type de coefficient",
+        "text": "Choisissez Pourcentages si les coefficients sont des % d'un total, ou Nombres simples pour des crédits, des quantités, etc."
+      },
+      {
+        "name": "Saisir les valeurs et les coefficients",
+        "text": "Saisissez une valeur et un coefficient sur chaque ligne, en ajoutant des lignes si besoin. Le nom de chaque ligne est facultatif."
+      },
+      {
+        "name": "Lire le résultat",
+        "text": "Consultez la moyenne pondérée, la somme des coefficients, la contribution de chaque ligne et chaque étape du calcul."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Comment calculer une moyenne pondérée ?",
+      "a": "Multipliez chaque valeur par son coefficient, additionnez tous les produits, puis divisez par la somme des coefficients. Pour 90 (30%), 80 (50%) et 70 (20%) : (2,700 + 4,000 + 1,400) ÷ 100 = 81."
+    },
+    {
+      "q": "Quelle est la différence entre une moyenne pondérée et une moyenne simple ?",
+      "a": "Une moyenne simple (arithmétique) donne la même importance à chaque valeur. Une moyenne pondérée permet à certaines valeurs de compter plus que d'autres, selon leur coefficient."
+    },
+    {
+      "q": "La somme des coefficients doit-elle faire 100 ?",
+      "a": "Non. N'importe quels coefficients positifs conviennent, car la formule divise par leur somme. Si vous choisissez des coefficients en pourcentage qui ne totalisent pas 100, le calculateur les normalise et vous le signale."
+    },
+    {
+      "q": "Comment calculer ma note avec des catégories pondérées ?",
+      "a": "Saisissez la moyenne de chaque catégorie comme valeur et son pourcentage du cours comme coefficient. Le résultat est votre note globale ; la colonne de contribution indique combien de points apporte chaque catégorie."
+    },
+    {
+      "q": "Comment calculer une moyenne pondérée dans Excel ?",
+      "a": "Utilisez =SOMMEPROD(valeurs; coefficients)/SOMME(coefficients). Pour des valeurs en A2:A4 et des coefficients en B2:B4 : =SOMMEPROD(A2:A4;B2:B4)/SOMME(B2:B4). Dans la version anglaise d'Excel : =SUMPRODUCT(A2:A4,B2:B4)/SUM(B2:B4)."
+    },
+    {
+      "q": "Un coefficient peut-il être nul ?",
+      "a": "Oui. Une ligne avec un coefficient 0 n'a aucun effet sur le résultat. Si tous les coefficients sont nuls, il n'y a rien à moyenner : le calculateur affiche alors une erreur."
+    },
+    {
+      "q": "À quoi sert une moyenne pondérée ?",
+      "a": "Notes de cours, GPA par crédits, prix d'achat moyen sur des commandes de tailles différentes, rendement d'un portefeuille, résultats de sondages et indices : tous utilisent des moyennes pondérées."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Calculateur de moyenne pondérée",
+      "wavg-rows": "Valeurs et coefficients",
+      "copy-result-btn": "Copier le résultat dans le presse-papiers"
+    },
+    "content": {
+      "tool": {
+        "legend1": "Les coefficients sont",
+        "label1": "<input type=\"radio\" name=\"wt\" value=\"percent\" data-param=\"wt\" checked>\n              <span>Des pourcentages (%)</span>",
+        "label2": "<input type=\"radio\" name=\"wt\" value=\"number\" data-param=\"wt\">\n              <span>Des nombres simples</span>",
+        "div1": "<span>Nom (facultatif)</span><span>Valeur</span><span id=\"weight-head\">Coefficient (%)</span><span></span>",
+        "button1": "Calculer la moyenne pondérée",
+        "caption1": "Part de chaque ligne dans la somme des coefficients et contribution à la moyenne",
+        "th1": "Ligne",
+        "th2": "Valeur",
+        "th3": "Coefficient",
+        "th4": "Part",
+        "th5": "Apporte",
+        "summary1": "Étape par étape"
+      },
+      "simple-vs-weighted-average": {
+        "heading": "Moyenne simple ou moyenne pondérée",
+        "p1": "Une moyenne simple traite tous les nombres de la même façon. Une moyenne pondérée fait compter chaque nombre selon son importance : c'est ainsi que sont calculées la plupart des notes de cours, des GPA et des moyennes de prix.",
+        "caption1": "Moyenne simple et moyenne pondérée des mêmes notes",
+        "th1": "Évaluation",
+        "th2": "Note",
+        "th3": "Coefficient",
+        "th4": "Contribution",
+        "td1": "Devoirs",
+        "td2": "Partiel",
+        "td3": "Interrogations",
+        "td4": "<strong>Total</strong>",
+        "td5": "Moyenne simple 80",
+        "td6": "<strong>Pondérée 81</strong>",
+        "p2": "Le résultat pondéré est plus élevé, car la meilleure note (90) a un coefficient plus fort que la plus faible (70)."
+      },
+      "where-weighted-averages-are-used": {
+        "heading": "Où utilise-t-on des moyennes pondérées ?",
+        "li1": "<strong>Notes :</strong> coefficients du contrôle continu, du partiel et de l'examen final indiqués dans le programme. Pour les notes en lettres, le <a href=\"/tools/grade-calculator/\">calculateur de notes</a> et le <a href=\"/tools/gpa-calculator/\">calculateur de GPA</a> font ce calcul avec les crédits.",
+        "li2": "<strong>Coût moyen :</strong> si vous achetez 10 unités à 5 et 30 unités à 6, le prix moyen est (50 + 180) ÷ 40 = 5.75, et non 5.50.",
+        "li3": "<strong>Admissions :</strong> les formules de mérite et d'agrégat pondèrent les résultats scolaires et les tests d'entrée ; le <a href=\"/tools/merit-calculator/\">calculateur de mérite</a> gère des notes sur des totaux différents.",
+        "li4": "<strong>Statistiques :</strong> les indices de prix comme l'indice des prix à la consommation pondèrent chaque catégorie selon sa part dans les dépenses des ménages.",
+        "p1": "Tous les calculs s'exécutent dans votre navigateur. Vous pouvez partager un lien qui rouvre exactement vos lignes."
+      }
+    },
+    "text": {
+      "add-row-btn": "+ Ajouter une ligne",
+      "reset-btn": "Réinitialiser",
+      "result-header-text": "Moyenne pondérée",
+      "copy-result-btn": "<span data-icon=\"copy\"></span> Copier le résultat"
+    },
+    "title": {
+      "copy-result-btn": "Copier le résultat dans le presse-papiers"
+    },
+    "rowTemplate": {
+      "name": "Nom",
+      "namePlaceholder": "ex. Partiel",
+      "weight": "Coefficient (%)",
+      "remove": "Supprimer la ligne"
+    }
+  },
+  "client": {
+    "rowName": "Ligne {{n}}",
+    "errors": {
+      "addRow": "Ajoutez au moins une valeur et un coefficient.",
+      "tooMany": "Utilisez {{max}} lignes au maximum.",
+      "enterValue": "{{name}} : saisissez une valeur pour ce coefficient.",
+      "enterWeight": "{{name}} : saisissez un coefficient pour cette valeur.",
+      "valueNumber": "{{name}} : la valeur doit être un nombre.",
+      "weightPositive": "{{name}} : le coefficient doit être 0 ou un nombre positif.",
+      "allZero": "Tous les coefficients sont nuls : il n'y a rien à moyenner. Donnez à au moins une ligne un coefficient supérieur à 0."
+    },
+    "steps": {
+      "multiply": "Multiplier chaque valeur par son coefficient : {{products}}",
+      "addProducts": "Additionner les produits : {{sum}} = {{total}}",
+      "addWeights": "Additionner les coefficients : {{sum}} = {{total}}",
+      "divide": "Diviser : {{sum}} ÷ {{weights}} = {{average}}",
+      "normalised": "Les coefficients en pourcentage totalisent {{total}}%, et non 100% : chaque coefficient a donc été considéré comme sa part de {{total}}."
+    },
+    "defaults": {
+      "assignments": "Devoirs",
+      "midterm": "Partiel",
+      "quizzes": "Interrogations"
+    },
+    "rows": {
+      "remove": "Supprimer la ligne {{n}}",
+      "weightPercent": "Coefficient (%)",
+      "weight": "Coefficient"
+    },
+    "result": {
+      "header": {
+        "many": "Moyenne pondérée de {{count}} valeurs",
+        "one": "Moyenne pondérée de {{count}} valeur",
+        "other": "Moyenne pondérée de {{count}} valeurs"
+      },
+      "normalised": "Vos coefficients en pourcentage totalisent {{total}}%, et non 100% : ils ont été normalisés, chaque coefficient compte pour sa part de {{total}}.",
+      "totalWeight": "Somme des coefficients : {{total}}."
+    },
+    "copy": {
+      "average": "Moyenne pondérée : {{average}}"
+    }
+  }
+}

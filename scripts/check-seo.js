@@ -26,6 +26,12 @@ const path = require('path');
 // keep the same maximums (what search results show) with lower minimums, since many languages
 // say the same thing in fewer characters.
 const LANGUAGE_PREFIXES = require('./i18n.js').loadLanguages().filter(l => l.prefix).map(l => l.prefix);
+// Lengths count what readers see: &#39; is one character
+function decodeEntities(str) {
+  return String(str).replace(/&#(\d+);/g, (m, n) => String.fromCodePoint(Number(n))).replace(/&#x([0-9a-f]+);/gi, (m, n) => String.fromCodePoint(parseInt(n, 16)))
+    .replace(/&quot;/g, '"').replace(/&apos;/g, "'").replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
+}
+
 function seoLimits(url) {
   const translated = LANGUAGE_PREFIXES.includes((url || '').split('/')[1]);
   return translated ? { title: [15, 60], description: [70, 160] } : { title: [30, 60], description: [120, 160] };
@@ -328,7 +334,7 @@ function checkSeo() {
       errors.push(`${url}: Missing <title>`);
     } else {
       const limits = seoLimits(url);
-      const titleLen = [...data.title].length;
+      const titleLen = [...decodeEntities(data.title)].length;
       if (titleLen < limits.title[0] || titleLen > limits.title[1]) {
         errors.push(`${url}: <title> length ${titleLen} is outside allowed range [${limits.title.join(', ')}] ("${data.title}")`);
       }
@@ -344,7 +350,7 @@ function checkSeo() {
       errors.push(`${url}: Missing meta description`);
     } else {
       const limits = seoLimits(url);
-      const descLen = [...data.description].length;
+      const descLen = [...decodeEntities(data.description)].length;
       if (descLen < limits.description[0] || descLen > limits.description[1]) {
         errors.push(`${url}: Meta description length ${descLen} is outside allowed range [${limits.description.join(', ')}] ("${data.description.slice(0, 50)}...")`);
       }

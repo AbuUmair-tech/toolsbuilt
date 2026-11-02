@@ -1,0 +1,180 @@
+{
+  "listing": {
+    "name": "Formateur Java",
+    "shortName": "Formateur Java",
+    "description": "Formatez du code Java en ligne avec Prettier et prettier-plugin-java. Indentation de 2 ou 4 espaces et largeur de ligne au choix ; fonctionne en privé dans votre navigateur.",
+    "shortDescription": "Formatez du code Java avec Prettier et prettier-plugin-java, en privé dans votre navigateur.",
+    "keywords": [
+      "formateur java",
+      "formater du code java en ligne",
+      "embellisseur de code java",
+      "prettier java",
+      "indenter du code java",
+      "formateur google java style",
+      "corriger l'indentation java"
+    ]
+  },
+  "title": "Formateur Java : formater du code Java en ligne (Prettier)",
+  "description": "Formatez du code Java en ligne avec Prettier et prettier-plugin-java. Indentation de 2 ou 4 espaces, largeur de ligne. Votre code n'est jamais envoyé.",
+  "h1": "Formateur Java",
+  "quickAnswer": "Collez une classe Java et cliquez sur Formater. Ce formateur Java utilise Prettier avec prettier-plugin-java : les accolades ouvrantes restent sur la même ligne, chaque bloc est indenté de 4 espaces (ou 2 pour le style Google), des espaces sont ajoutés autour des opérateurs et après les virgules, et les expressions longues sont coupées à la largeur de ligne choisie. Si le code ne peut pas être analysé, par exemple à cause d'un point-virgule ou d'une accolade manquants, la ligne et la colonne de l'erreur sont indiquées.",
+  "workedExamples": [
+    {
+      "title": "Une classe écrite sur une seule ligne",
+      "before": "public class  OrderTotal{private final List<Integer> prices;public OrderTotal(List<Integer> prices){this.prices=prices;}public int total(){int sum=0;for(int p:prices){sum+=p;}return sum;}}",
+      "after": "public class OrderTotal {\n\n    private final List<Integer> prices;\n\n    public OrderTotal(List<Integer> prices) {\n        this.prices = prices;\n    }\n\n    public int total() {\n        int sum = 0;\n        for (int p : prices) {\n            sum += p;\n        }\n        return sum;\n    }\n}",
+      "result": "Chaque membre passe sur sa propre ligne, les accolades s'ouvrent sur la ligne de la déclaration, les blocs sont indentés de 4 espaces et une ligne vide sépare les membres."
+    },
+    {
+      "title": "Une boucle for contenant un if",
+      "before": "class Report{void print(List<String> items){for(int i=0;i<items.size();i++){if(items.get(i).isEmpty()){continue;}System.out.println(i+\": \"+items.get(i));}}}",
+      "after": "class Report {\n\n    void print(List<String> items) {\n        for (int i = 0; i < items.size(); i++) {\n            if (items.get(i).isEmpty()) {\n                continue;\n            }\n            System.out.println(i + \": \" + items.get(i));\n        }\n    }\n}",
+      "result": "L'en-tête de boucle reçoit des espaces après chaque point-virgule et autour des opérateurs, et le corps est développé sur des lignes séparées et indentées."
+    },
+    {
+      "title": "Un stream avec des lambdas",
+      "before": "class Adults{List<String> names(List<Person> people){return people.stream().filter(p->p.getAge()>=18).map(p->p.getName().toUpperCase()).sorted().collect(Collectors.toList());}}",
+      "after": "class Adults {\n\n    List<String> names(List<Person> people) {\n        return people\n            .stream()\n            .filter(p -> p.getAge() >= 18)\n            .map(p -> p.getName().toUpperCase())\n            .sorted()\n            .collect(Collectors.toList());\n    }\n}",
+      "result": "La chaîne est trop longue pour une seule ligne : chaque appel passe sur sa propre ligne, et chaque lambda reçoit des espaces autour de la flèche et de la comparaison."
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Point-virgule ou accolade manquant",
+      "description": "Le Java ne peut pas être analysé sans ses points-virgules et des accolades équilibrées : le formateur s'arrête et indique où l'analyseur en attendait un. Une accolade fermante manquante est souvent signalée à la fin du fichier, là où l'analyseur arrive au bout du code."
+    },
+    {
+      "title": "Coller un fragment au lieu d'une classe",
+      "description": "Prettier formate du code source Java complet. Si vous ne collez que quelques instructions, placez-les dans une classe et une méthode (par exemple class Example { void run() { ... } }) pour qu'elles puissent être analysées."
+    },
+    {
+      "title": "Mélanger des projets à 2 et à 4 espaces",
+      "description": "Les conventions d'Oracle utilisent 4 espaces et le Google Java Style 2. Choisissez l'indentation déjà utilisée par votre projet, sinon chaque fichier formaté affichera des modifications d'espaces lors des revues."
+    },
+    {
+      "title": "S'attendre à ce que les imports soient triés ou supprimés",
+      "description": "Le formateur conserve les imports dans l'ordre où vous les avez écrits et ne supprime pas ceux qui sont inutilisés. Utilisez pour cela l'organisation des imports de votre IDE ou un linter."
+    },
+    {
+      "title": "S'attendre à ce que les noms soient corrigés",
+      "description": "Le formatage ne renomme jamais les classes, méthodes ou variables. Les conventions de nommage Java, comme UpperCamelCase pour les classes et lowerCamelCase pour les méthodes, relèvent de vous et de votre linter."
+    }
+  ],
+  "sources": [
+    {
+      "name": "Code Conventions for the Java Programming Language (Oracle, archivé)"
+    },
+    {
+      "name": "Google Java Style Guide"
+    }
+  ],
+  "howto": {
+    "name": "Comment formater du code Java en ligne",
+    "description": "Formatez du code source Java avec Prettier et prettier-plugin-java, dans votre navigateur.",
+    "steps": [
+      {
+        "name": "Coller votre code",
+        "text": "Collez une classe ou un fichier Java dans la zone de saisie, ou chargez l'exemple."
+      },
+      {
+        "name": "Choisir les options",
+        "text": "Choisissez une indentation de 4 espaces (Oracle) ou 2 espaces (Google) et une largeur d'impression de 80, 100 ou 120."
+      },
+      {
+        "name": "Formater",
+        "text": "Cliquez sur Formater ou appuyez sur Ctrl+Entrée. Si le code ne peut pas être analysé, corrigez-le à la ligne et à la colonne indiquées."
+      },
+      {
+        "name": "Copier le résultat",
+        "text": "Copiez le code formaté depuis la zone de sortie."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Comment formater du code Java en ligne ?",
+      "a": "Collez votre classe Java dans le champ, choisissez une indentation et une largeur de ligne, puis cliquez sur Formater ou appuyez sur Ctrl+Entrée. Le code formaté apparaît en dessous, prêt à copier. Tout fonctionne dans votre navigateur : votre code n'est pas envoyé."
+    },
+    {
+      "q": "Faut-il indenter le Java avec 2 ou 4 espaces ?",
+      "a": "Les deux sont courants. Les conventions Java d'origine d'Oracle utilisent 4 espaces, et le Google Java Style Guide 2 espaces avec une limite de 100 colonnes. Utilisez ce que votre projet utilise déjà."
+    },
+    {
+      "q": "Quelle est la longueur de ligne du Google Java Style Guide ?",
+      "a": "Le Google Java Style fixe une limite de 100 caractères par ligne. Choisissez ici 2 espaces et une largeur d'impression de 100 pour le respecter."
+    },
+    {
+      "q": "Où placer les accolades ouvrantes en Java ?",
+      "a": "Sur la même ligne que la classe, la méthode ou l'instruction qui ouvre le bloc, avec l'accolade fermante sur sa propre ligne. Les conventions d'Oracle comme le Google Java Style utilisent cette disposition, et le formateur l'applique."
+    },
+    {
+      "q": "Pourquoi le formateur indique-t-il que le code n'a pas pu être analysé ?",
+      "a": "Le code n'est pas du Java valide, souvent à cause d'un point-virgule manquant, d'une accolade ou parenthèse non équilibrée, ou d'un fragment qui n'est pas dans une classe. L'erreur indique la ligne et la colonne où l'analyse a échoué."
+    },
+    {
+      "q": "Le formateur trie-t-il mes imports ?",
+      "a": "Non. Les imports gardent l'ordre dans lequel vous les avez écrits. La plupart des IDE peuvent organiser les imports pour vous, et le Google Java Style place les imports statiques dans un groupe et les autres dans un second, chacun dans l'ordre ASCII."
+    },
+    {
+      "q": "Mon code est-il envoyé à un serveur ?",
+      "a": "Non. Prettier, son plugin Java et la grammaire Java sont servis par ce site et s'exécutent dans votre navigateur après leur téléchargement lors du premier formatage."
+    }
+  ],
+  "body": {
+    "label": {
+      "opt-indent": "Indentation",
+      "opt-print-width": "Largeur d'impression"
+    },
+    "option": {
+      "opt-indent": {
+        "2": "2 espaces (Google)",
+        "4": "4 espaces (Oracle)"
+      },
+      "opt-print-width": {
+        "100": "100 (Google)"
+      }
+    },
+    "text": {
+      "conventions-heading": "Conventions de formatage Java",
+      "naming-heading": "Conventions de nommage et imports",
+      "java-errors-heading": "Quand le code ne se formate pas",
+      "java-privacy-heading": "Confidentiel par conception"
+    },
+    "content": {
+      "java-formatting-conventions": {
+        "p1": "Le Java dispose de deux références de style très utilisées. Les <em>Code Conventions for the Java Programming Language</em> d'Oracle datent de 1999 et sont aujourd'hui archivées, mais la plupart du code Java suit encore leur mise en page. Le <em>Google Java Style Guide</em> est une norme plus récente et plus stricte, utilisée par de nombreuses équipes et projets open source. Les deux s'accordent sur les bases que ce formateur applique :",
+        "li1": "<strong>Accolades sur la même ligne.</strong> L'accolade ouvrante se place à la fin de la ligne qui commence la classe, la méthode, le <code>if</code>, le <code>for</code> ou le <code>try</code> ; l'accolade fermante est sur sa propre ligne, alignée avec le début de l'instruction.",
+        "li2": "<strong>Indentation cohérente.</strong> Les conventions d'Oracle utilisent 4 espaces par niveau et des lignes de moins de 80 caractères. Le Google Java Style utilise 2 espaces par bloc et une limite de 100 colonnes.",
+        "li3": "<strong>Une instruction par ligne,</strong> avec des espaces autour des opérateurs binaires, après les virgules et après les mots-clés comme <code>if</code> et <code>for</code>.",
+        "li4": "<strong>Expressions longues coupées.</strong> Les chaînes d'appels comme les streams sont coupées à raison d'un appel par ligne, pour que chaque étape soit facile à lire.",
+        "p2": "Le style Java de Prettier est proche des deux, mais c'est un style propre et cohérent : il choisit automatiquement les retours à la ligne et ne cherche pas à reproduire chaque détail de l'un ou l'autre guide. Utilisez 4 espaces et 80 colonnes pour une mise en page proche d'Oracle, ou 2 espaces et 100 colonnes pour une mise en page proche de Google."
+      },
+      "naming-conventions-and-imports": {
+        "p1": "Un formateur ne modifie que la mise en page : le nommage reste à votre charge. Les conventions Java habituelles sont <code>UpperCamelCase</code> pour les classes et interfaces (<code>OrderTotal</code>), <code>lowerCamelCase</code> pour les méthodes et variables (<code>calculateTotal</code>, <code>itemCount</code>), <code>UPPER_SNAKE_CASE</code> pour les constantes (<code>MAX_RETRIES</code>), et des noms de packages entièrement en minuscules (<code>com.example.billing</code>).",
+        "p2": "Les imports restent dans l'ordre où vous les avez écrits, et les imports inutilisés ne sont pas supprimés. Le Google Java Style regroupe tous les imports statiques dans un bloc et tous les autres dans un second, chacun dans l'ordre ASCII, sans import générique (wildcard). La plupart des IDE peuvent organiser les imports ainsi pour vous."
+      },
+      "when-the-code-will-not-format": {
+        "p1": "Prettier doit analyser votre code avant de pouvoir le réimprimer. Si l'analyseur ne parvient pas à le comprendre, le formateur ne devine pas : il indique la ligne et la colonne du premier élément manquant ou inattendu, et le curseur s'y place dans la zone de saisie. Les causes habituelles sont :",
+        "li1": "<strong>Un point-virgule manquant</strong> à la fin d'une instruction, signalé comme un <code>;</code> manquant juste après.",
+        "li2": "<strong>Une accolade ou une parenthèse non équilibrée.</strong> Une accolade fermante manquante est souvent signalée à la fin du code, là où l'analyseur arrive au bout de l'entrée.",
+        "li3": "<strong>Un fragment hors d'une classe.</strong> Les instructions doivent se trouver dans une méthode, et les méthodes dans une classe."
+      },
+      "private-by-design": {
+        "p1": "Cette page exécute Prettier avec prettier-plugin-java, qui analyse le Java avec une grammaire tree-sitter compilée en WebAssembly. Tout est servi par ce site et téléchargé uniquement lors de votre premier formatage sur cette page ; ensuite, tout fonctionne dans votre navigateur et votre code source ne quitte jamais votre appareil. Pour le Python, utilisez le <a href=\"/tools/python-formatter/\">formateur Python</a>."
+      }
+    },
+    "value": {
+      "engine": "Prettier {{prettier}} avec prettier-plugin-java {{plugin}}"
+    }
+  },
+  "client": {
+    "errors": {
+      "empty": "Collez du code Java à formater.",
+      "missing": "« {{token}} » manquant",
+      "unexpected": "code inattendu",
+      "at": "Ligne {{line}}, colonne {{column}} : {{reason}}. Le code n'a pas pu être analysé comme du Java.",
+      "unparsed": "Le code n'a pas pu être analysé comme du Java. Vérifiez qu'il ne manque pas de point-virgule, d'accolade ou de parenthèse.",
+      "unsupportedOption": "{{key}} non pris en charge : {{value}}. Choisissez parmi {{choices}}."
+    }
+  }
+}

@@ -1,0 +1,245 @@
+{
+  "listing": {
+    "name": "Ajouter ou soustraire des jours à une date",
+    "shortName": "Ajouter ou soustraire des jours",
+    "description": "Ajoutez ou soustrayez des jours, semaines, mois ou années à n'importe quelle date de départ. Mode jours ouvrés en option.",
+    "shortDescription": "Ajoutez ou soustrayez des jours, semaines, mois ou années à n'importe quelle date de départ. Mode jours ouvrés en option.",
+    "keywords": [
+      "ajouter des jours à une date",
+      "soustraire des jours à une date",
+      "date plus nombre de jours",
+      "ajouter des jours ouvrés",
+      "calcul date future"
+    ]
+  },
+  "title": "Ajouter ou soustraire des jours à une date | ToolsBuilt",
+  "description": "Calculateur gratuit pour ajouter ou soustraire des jours, semaines, mois ou années à une date de départ, avec option jours ouvrés uniquement.",
+  "h1": "Ajouter ou soustraire des jours à une date",
+  "quickAnswer": "Pour ajouter ou soustraire des jours à une date, saisissez la date de départ, indiquez le nombre de jours, semaines, mois ou années, puis choisissez l'addition ou la soustraction. Activez les jours ouvrés pour sauter les samedis et dimanches. L'outil calcule instantanément la date obtenue, le jour de la semaine et le nombre de jours calendaires écoulés, localement dans votre navigateur.",
+  "formula": {
+    "title": "Formule de calcul sur les dates et d'ajustement en fin de mois",
+    "expression": "Date cible = Date de départ ± (Quantité × Unité)",
+    "explanation": "Les jours et les semaines avancent par pas successifs de 24 heures UTC. Les calculs en mois et en années modifient le numéro du mois en ramenant tout jour en dépassement au dernier jour du mois cible. Le mode jours ouvrés avance jour par jour en sautant les samedis et dimanches."
+  },
+  "workedExamples": [
+    {
+      "title": "Ajouter 10 jours ouvrés",
+      "inputs": [
+        "Date de départ : vendredi 16 octobre 2026",
+        "Opération : ajouter 10 jours ouvrés"
+      ],
+      "steps": [
+        "Sauter le week-end : 17-18 oct. (samedi-dimanche)",
+        "Compter 5 jours ouvrés : du 19 oct. au 23 oct.",
+        "Sauter le week-end : 24-25 oct. (samedi-dimanche)",
+        "Compter les 5 jours ouvrés restants : du 26 oct. au 30 oct."
+      ],
+      "result": "Vendredi 30 octobre 2026 (14 jours calendaires écoulés : 10 ouvrés, 4 de week-end)"
+    },
+    {
+      "title": "Ajouter 1 mois à une fin de mois (ajustée)",
+      "inputs": [
+        "Date de départ : dimanche 31 janvier 2027",
+        "Opération : ajouter 1 mois"
+      ],
+      "steps": [
+        "Passer du mois de janvier à février 2027",
+        "2027 est une année ordinaire (non bissextile) : février compte 28 jours",
+        "Ramener le jour 31 au dernier jour du mois, le 28"
+      ],
+      "result": "Dimanche 28 février 2027 (28 jours calendaires écoulés)"
+    },
+    {
+      "title": "Soustraire 90 jours calendaires",
+      "inputs": [
+        "Date de départ : samedi 17 octobre 2026",
+        "Opération : soustraire 90 jours calendaires"
+      ],
+      "steps": [
+        "Reculer de 90 jours calendaires consécutifs",
+        "Traverser octobre, septembre, août et juillet"
+      ],
+      "result": "Dimanche 19 juillet 2026 (90 jours calendaires écoulés)"
+    },
+    {
+      "title": "Ajouter 3 semaines",
+      "inputs": [
+        "Date de départ : dimanche 1er mars 2026",
+        "Opération : ajouter 3 semaines"
+      ],
+      "steps": [
+        "Convertir 3 semaines en 21 jours calendaires (3 × 7)",
+        "Avancer de 21 jours calendaires à partir du 1er mars 2026"
+      ],
+      "result": "Dimanche 22 mars 2026 (21 jours calendaires écoulés)"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Assimiler 30 jours à 1 mois",
+      "description": "Les mois comptent entre 28 et 31 jours. Ajouter 30 jours au 1er janvier mène au 31 janvier, alors qu'ajouter 1 mois mène au 1er février."
+    },
+    {
+      "title": "Croire que 5 jours ouvrés font 5 jours calendaires",
+      "description": "Les jours ouvrés sautent les samedis et dimanches. Ajouter 5 jours ouvrés couvre toujours au moins 7 jours calendaires."
+    },
+    {
+      "title": "Dépassements de fin de mois non ajustés",
+      "description": "Ajouter 1 mois au 31 janvier doit donner le 28 février (ou le 29 les années bissextiles). Un calcul naïf peut basculer par erreur en mars."
+    },
+    {
+      "title": "Ignorer les effets du changement d'heure",
+      "description": "Ajouter des tranches de 24 heures en heure locale peut décaler d'une heure les jours de changement d'heure. Ramener les dates à minuit UTC garantit un alignement exact sur le calendrier."
+    }
+  ],
+  "sources": [
+    {
+      "name": "ISO 8601 : normes de calcul calendaire"
+    },
+    {
+      "name": "US Naval Observatory : calendrier astronomique et années bissextiles"
+    },
+    {
+      "name": "Note W3C sur les formats de date et d'heure"
+    }
+  ],
+  "howto": {
+    "name": "Comment ajouter ou soustraire des jours à une date",
+    "description": "Instructions pas à pas pour calculer une date cible en jours calendaires ou en jours ouvrés.",
+    "steps": [
+      {
+        "name": "Choisir la date de départ",
+        "text": "Choisissez la date de départ ou cliquez sur « Aujourd'hui » pour utiliser la date du jour."
+      },
+      {
+        "name": "Choisir l'opération",
+        "text": "Choisissez Ajouter (+) pour aller vers le futur ou Soustraire (-) pour remonter dans le passé."
+      },
+      {
+        "name": "Saisir la quantité et l'unité",
+        "text": "Saisissez le nombre et choisissez jours, semaines, mois ou années dans la liste."
+      },
+      {
+        "name": "Filtrer les jours ouvrés (facultatif)",
+        "text": "Cochez « Compter uniquement les jours ouvrés » pour sauter les samedis et dimanches."
+      },
+      {
+        "name": "Vérifier la date cible et le détail",
+        "text": "Consultez la date obtenue, le jour de la semaine et la durée totale écoulée."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Comment le calcul en jours ouvrés exclut-il les week-ends ?",
+      "a": "Lorsque l'option jours ouvrés est cochée, le calculateur saute les samedis et dimanches pendant le décompte. Si vous ajoutez 5 jours ouvrés à partir d'un vendredi, l'outil avance du lundi au vendredi suivant et donne la date ouvrée exacte."
+    },
+    {
+      "q": "Comment les années bissextiles sont-elles gérées quand on ajoute des années ou des mois ?",
+      "a": "L'outil tient compte automatiquement des années bissextiles. Ajouter 365 jours calendaires sur une année bissextile intègre bien le 29 février, ce qui garantit un alignement exact sans correction manuelle."
+    },
+    {
+      "q": "Puis-je calculer des dates passées en soustrayant des jours ?",
+      "a": "Oui, choisissez simplement Soustraire dans la liste des opérations. Vous pouvez reculer en jours, semaines, mois ou années pour retrouver la date exacte de début d'un contrat, d'un préavis ou pour une recherche historique."
+    },
+    {
+      "q": "Que se passe-t-il si j'ajoute un mois au 31 janvier ?",
+      "a": "Le calcul calendaire standard ramène les dépassements de fin de mois au dernier jour valide du mois cible. Par exemple, ajouter un mois au 31 janvier donne le 28 février (ou le 29 février les années bissextiles)."
+    },
+    {
+      "q": "Mes dates sont-elles stockées sur des serveurs externes ?",
+      "a": "Non. Tous les calculs de dates s'effectuent localement dans votre navigateur, en JavaScript côté client. Aucune date saisie ni aucun résultat n'est transmis à des serveurs externes ou enregistré dans une base de données."
+    },
+    {
+      "q": "Comment le calculateur gère-t-il la soustraction de dates ?",
+      "a": "L'option Soustraire recule dans le temps en jours, semaines, mois ou années. L'algorithme respecte de façon symétrique les limites de mois et les 29 février en sens inverse."
+    },
+    {
+      "q": "Le compteur de jours ouvrés exclut-il les jours fériés ?",
+      "a": "L'outil exclut automatiquement les jours de week-end (samedi et dimanche). Les jours fériés légaux varient selon les pays et les régions et ne sont pas déduits automatiquement."
+    }
+  ],
+  "body": {
+    "label": {
+      "startDate": "Date de départ",
+      "operation": "Opération",
+      "amount": "Quantité",
+      "unit": "Unité"
+    },
+    "text": {
+      "todayBtn": "Aujourd'hui",
+      "businessDaysLabel": "<input type=\"checkbox\" id=\"businessDaysOnly\" data-param=\"biz\" autocomplete=\"off\">\n      <span>Compter uniquement les jours ouvrés (sans samedis ni dimanches)</span>",
+      "businessDaysNote": "Les jours ouvrés s'appliquent aux jours et aux semaines. Les mois et les années utilisent toujours les dates du calendrier.",
+      "calcBtn": "Calculer",
+      "resetBtn": "Réinitialiser",
+      "copyResultBtn": "<span data-icon=\"copy\"></span> Copier le résultat",
+      "primaryResult": "Choisissez les options pour calculer..."
+    },
+    "option": {
+      "operation": {
+        "add": "Ajouter (+)",
+        "subtract": "Soustraire (-)"
+      },
+      "unit": {
+        "days": "Jours",
+        "weeks": "Semaines",
+        "months": "Mois",
+        "years": "Années"
+      }
+    },
+    "content": {
+      "tool": {
+        "span1": "Date cible obtenue"
+      },
+      "why-is-accurate-date-arithmetic-essential": {
+        "heading": "Pourquoi des calculs de dates exacts sont-ils essentiels ?",
+        "p1": "Des calculs de dates exacts sont indispensables pour la gestion de projet, les contrats, les prévisions financières et l'organisation personnelle. Compter les jours à la main sur un calendrier mène souvent à des erreurs à cause des longueurs de mois variables, des week-ends et des années bissextiles. Un calcul automatisé côté client place la date exacte à chaque fois."
+      },
+      "how-business-day-filtering-works": {
+        "heading": "Comment fonctionne le filtre des jours ouvrés",
+        "p1": "Dans le monde professionnel, les jours calendaires ne reflètent pas toujours les délais de travail réels. Les livrables de projet, les conditions de paiement et les préavis légaux sont souvent exprimés en jours ouvrés. Lorsque le filtre des jours ouvrés est activé, le calculateur saute les samedis et dimanches pour que les échéances correspondent aux jours réellement travaillés."
+      }
+    },
+    "title": {
+      "copyResultBtn": "Copier le résultat dans le presse-papiers"
+    },
+    "ariaLabel": {
+      "copyResultBtn": "Copier le résultat dans le presse-papiers"
+    }
+  },
+  "client": {
+    "units": {
+      "days": "jours",
+      "weeks": "semaines",
+      "months": "mois",
+      "years": "années"
+    },
+    "errors": {
+      "invalidStart": "Veuillez saisir une date de départ valide (AAAA-MM-JJ).",
+      "invalidAmount": "Quantité « {{amount}} » non valide. Veuillez saisir un nombre entier positif ou nul (par ex. 5, et non « 5abc » ou « 1.9 »).",
+      "nonNegative": "Veuillez saisir un nombre entier positif ou nul valide.",
+      "tooLarge": "La quantité {{amount}} {{unit}} dépasse la plage maximale prise en charge, d'environ 10,000 ans. Veuillez saisir une valeur plus petite.",
+      "unsupportedUnit": "Unité de calendrier non prise en charge : « {{unit}} ».",
+      "missingStart": "Veuillez saisir une date de départ valide.",
+      "missingAmount": "Veuillez saisir une quantité positive ou nulle valide."
+    },
+    "stats": {
+      "operationLabel": "Opération",
+      "operation": {
+        "add": "Ajout de {{amount}} {{unit}}",
+        "subtract": "Retrait de {{amount}} {{unit}}",
+        "addBusiness": "Ajout de {{amount}} {{unit}} (jours ouvrés uniquement)",
+        "subtractBusiness": "Retrait de {{amount}} {{unit}} (jours ouvrés uniquement)"
+      },
+      "isoDate": "Date ISO 8601",
+      "elapsedDays": "Jours calendaires écoulés",
+      "businessDays": "Jours ouvrés",
+      "daysValue": "{{n}} jours",
+      "businessDaysValue": "{{n}} jours ({{weekend}} de week-end)"
+    },
+    "copy": {
+      "result": "Date obtenue : {{date}} ({{iso}}). Jours calendaires écoulés : {{elapsed}}. Jours ouvrés : {{business}}.",
+      "toast": "Date cible copiée dans le presse-papiers"
+    }
+  }
+}

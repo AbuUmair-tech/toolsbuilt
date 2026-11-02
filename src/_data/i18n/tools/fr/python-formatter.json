@@ -1,0 +1,194 @@
+{
+  "listing": {
+    "name": "Formateur Python",
+    "shortName": "Formateur Python",
+    "description": "Formatez du code Python en ligne avec le formateur Ruff, dans un style compatible Black. Longueur de ligne, indentation et guillemets au choix ; fonctionne en privé dans votre navigateur.",
+    "shortDescription": "Formatez du code Python avec le formateur Ruff (compatible Black), en privé dans votre navigateur.",
+    "keywords": [
+      "formateur python",
+      "formater du code python en ligne",
+      "embellisseur de code python",
+      "black formatter en ligne",
+      "formateur ruff",
+      "formateur pep 8",
+      "indenter du code python"
+    ]
+  },
+  "title": "Formateur Python : formater du code Python en ligne (Ruff)",
+  "description": "Formatez du code Python en ligne avec le formateur Ruff, compatible Black. Longueur de ligne, indentation et guillemets au choix. Votre code reste privé.",
+  "h1": "Formateur Python",
+  "quickAnswer": "Collez votre code et cliquez sur Formater. Ce formateur Python utilise le formateur Ruff, qui réécrit le code dans un style compatible Black : indentation de 4 espaces, espaces autour des opérateurs, deux lignes vides entre les fonctions et classes de premier niveau, guillemets doubles et lignes coupées à 88 caractères (ou 79 pour un respect strict de la PEP 8). Il ne modifie que la mise en page, pas le comportement, et signale les erreurs de syntaxe avec leur numéro de ligne au lieu de deviner une correction.",
+  "workedExamples": [
+    {
+      "title": "Une fonction trop serrée",
+      "before": "def  calculate_total( items,tax_rate = 0.18 ) :\n  subtotal=sum( item['price']*item['qty'] for item in items )\n  return subtotal*( 1+tax_rate )",
+      "after": "def calculate_total(items, tax_rate=0.18):\n    subtotal = sum(item[\"price\"] * item[\"qty\"] for item in items)\n    return subtotal * (1 + tax_rate)",
+      "result": "Les espaces autour de = et * sont normalisés, l'argument par défaut perd ses espaces, le corps est indenté de 4 espaces et les guillemets simples deviennent doubles."
+    },
+    {
+      "title": "Un long dictionnaire",
+      "before": "config = {'host':'localhost','port':5432,'database':'inventory','user':'admin','options':{'sslmode':'require','connect_timeout':10}}",
+      "after": "config = {\n    \"host\": \"localhost\",\n    \"port\": 5432,\n    \"database\": \"inventory\",\n    \"user\": \"admin\",\n    \"options\": {\"sslmode\": \"require\", \"connect_timeout\": 10},\n}",
+      "result": "La ligne dépasse 88 caractères : chaque clé passe sur sa propre ligne avec une virgule finale. Le dictionnaire imbriqué tient encore sur une ligne, il y reste donc."
+    },
+    {
+      "title": "Une classe aux méthodes trop serrées",
+      "before": "class   Account :\n    def __init__(self,owner,balance=0):\n        self.owner=owner;self.balance=balance\n    def deposit(self,amount):\n        if amount<=0: raise ValueError('Deposit must be positive')\n        self.balance+=amount\n        return self.balance",
+      "after": "class Account:\n    def __init__(self, owner, balance=0):\n        self.owner = owner\n        self.balance = balance\n\n    def deposit(self, amount):\n        if amount <= 0:\n            raise ValueError(\"Deposit must be positive\")\n        self.balance += amount\n        return self.balance",
+      "result": "Les deux instructions reliées par un point-virgule sont séparées sur deux lignes, le corps du if sur une ligne est développé et une ligne vide sépare les méthodes."
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Mélanger tabulations et espaces",
+      "description": "Python considère une tabulation et des espaces comme des indentations différentes : un bloc qui les mélange déclenche une IndentationError ou une TabError. Le formateur ne peut pas analyser ce code et signale « Unexpected indentation » avec un numéro de ligne. Réindentez ce bloc uniquement avec des espaces, puis formatez à nouveau."
+    },
+    {
+      "title": "Attendre du formateur qu'il corrige les erreurs de syntaxe",
+      "description": "Un deux-points, une parenthèse ou un guillemet manquant rend le fichier impossible à analyser. Le formateur ne fait que réorganiser du code valide : corrigez d'abord l'erreur à la ligne indiquée. La ligne signalée peut se trouver juste après la vraie erreur, par exemple la ligne qui suit une parenthèse non fermée."
+    },
+    {
+      "title": "S'attendre à ce que les imports soient triés ou séparés",
+      "description": "Le formatage conserve import os, sys tel quel. Séparer un import par ligne et trier les imports relèvent d'un linter (règles de lint de Ruff ou isort), pas du formateur."
+    },
+    {
+      "title": "Ne pas se mettre d'accord sur une longueur de ligne",
+      "description": "Si une personne formate à 79 colonnes et une autre à 88, chaque fichier change dans un sens puis dans l'autre. Choisissez une valeur pour le projet et gardez-la dans une configuration partagée, comme line-length dans pyproject.toml."
+    },
+    {
+      "title": "Laisser une virgule finale non souhaitée",
+      "description": "Une virgule après le dernier élément indique au formateur de garder un appel ou une collection développés à raison d'un élément par ligne, même s'ils tiendraient sur une ligne. Supprimez la virgule si vous voulez qu'ils soient regroupés."
+    }
+  ],
+  "sources": [
+    {
+      "name": "PEP 8 : Style Guide for Python Code"
+    },
+    {
+      "name": "Le formateur Ruff (documentation Astral)"
+    }
+  ],
+  "howto": {
+    "name": "Comment formater du code Python en ligne",
+    "description": "Formatez du code Python dans un style compatible Black avec le formateur Ruff, dans votre navigateur.",
+    "steps": [
+      {
+        "name": "Coller votre code",
+        "text": "Collez un extrait ou un fichier Python complet dans la zone de saisie, ou chargez l'exemple."
+      },
+      {
+        "name": "Choisir les options",
+        "text": "Choisissez une longueur de ligne (88 par défaut), une largeur d'indentation et un style de guillemets."
+      },
+      {
+        "name": "Formater",
+        "text": "Cliquez sur Formater ou appuyez sur Ctrl+Entrée. Corrigez toute erreur de syntaxe à la ligne indiquée, puis formatez à nouveau."
+      },
+      {
+        "name": "Copier le résultat",
+        "text": "Copiez le code formaté depuis la zone de sortie."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Comment formater du code Python en ligne ?",
+      "a": "Collez votre code dans le champ, choisissez une longueur de ligne, une indentation et un style de guillemets, puis cliquez sur Formater ou appuyez sur Ctrl+Entrée. Le code formaté apparaît en dessous, prêt à copier. Le formateur fonctionne dans votre navigateur : votre code n'est pas envoyé."
+    },
+    {
+      "q": "Est-ce la même chose que Black ?",
+      "a": "Il utilise le formateur Ruff, conçu pour remplacer directement Black et qui produit un résultat quasi identique sur du code déjà formaté avec Black. Contrairement à Black, Ruff permet de choisir le style de guillemets."
+    },
+    {
+      "q": "Quelle longueur de ligne la PEP 8 recommande-t-elle ?",
+      "a": "La PEP 8 recommande au maximum 79 caractères pour le code et 72 pour les commentaires et docstrings, et autorise les équipes à convenir d'une limite allant jusqu'à 99. Black et Ruff utilisent 88 par défaut, d'où cette valeur par défaut ici."
+    },
+    {
+      "q": "Pourquoi le formateur indique-t-il « Unexpected indentation » ?",
+      "a": "Une ligne est plus indentée que le bloc auquel elle appartient, souvent parce que tabulations et espaces sont mélangés ou qu'une ligne a été collée avec une indentation en trop. Corrigez l'indentation à la ligne indiquée pour que chaque bloc utilise le même nombre d'espaces."
+    },
+    {
+      "q": "Le formateur remplace-t-il les guillemets simples par des doubles ?",
+      "a": "Oui, par défaut, comme Black. Choisissez Simples pour préférer les guillemets simples, ou Conserver pour garder les guillemets existants de chaque chaîne. Les guillemets ne sont échangés que si cela n'impose pas d'échappement supplémentaire."
+    },
+    {
+      "q": "Le formatage modifie-t-il le fonctionnement de mon code ?",
+      "a": "Non. Le formateur ne modifie que les espaces, les retours à la ligne, les guillemets et les parenthèses sans effet sur le sens. Si le code ne peut pas être analysé, il s'arrête sur une erreur au lieu de modifier quoi que ce soit."
+    },
+    {
+      "q": "Quelle est la différence entre un formateur et un linter ?",
+      "a": "Un formateur réécrit automatiquement la mise en page. Un linter signale des problèmes comme des imports inutilisés, des noms non définis ou des constructions risquées, dont seule une partie peut être corrigée automatiquement. La plupart des projets utilisent les deux."
+    },
+    {
+      "q": "Mon code est-il envoyé à un serveur ?",
+      "a": "Non. Le formateur Ruff est compilé en WebAssembly et servi par ce site ; il est téléchargé lors de votre premier formatage puis s'exécute dans votre navigateur."
+    }
+  ],
+  "body": {
+    "label": {
+      "opt-line-length": "Longueur de ligne",
+      "opt-indent": "Indentation",
+      "opt-quotes": "Style de guillemets"
+    },
+    "option": {
+      "opt-line-length": {
+        "79": "79 (PEP 8)",
+        "88": "88 (par défaut Black / Ruff)"
+      },
+      "opt-indent": {
+        "2": "2 espaces",
+        "4": "4 espaces"
+      },
+      "opt-quotes": {
+        "double": "Doubles",
+        "single": "Simples",
+        "preserve": "Conserver"
+      }
+    },
+    "text": {
+      "pep8-heading": "Les bases de la PEP 8",
+      "ruff-style-heading": "En quoi le style Ruff et Black diffère de la PEP 8 seule",
+      "cannot-fix-heading": "Les erreurs que le formateur ne peut pas corriger",
+      "privacy-heading": "Confidentiel par conception"
+    },
+    "content": {
+      "pep-8-basics": {
+        "p1": "La PEP 8 est le guide de style officiel de Python. Un formateur en applique pour vous les règles mécaniques, pour que vous consacriez les revues de code à ce que fait le code plutôt qu'à sa mise en page. Les règles qu'il applique le plus souvent sont :",
+        "li1": "<strong>Quatre espaces par niveau d'indentation.</strong> Des espaces, pas de tabulations, et jamais un mélange des deux dans un même bloc.",
+        "li2": "<strong>Une longueur de ligne limitée.</strong> La PEP 8 recommande 79 caractères pour le code et 72 pour les commentaires et docstrings, pour que deux fichiers tiennent côte à côte et que les diffs restent lisibles.",
+        "li3": "<strong>Des lignes vides qui ont un sens.</strong> Deux lignes vides autour des fonctions et classes de premier niveau, une ligne vide entre les méthodes d'une classe.",
+        "li4": "<strong>Des espaces autour des opérateurs.</strong> Un espace de chaque côté des opérateurs d'affectation et de comparaison (<code>x = y + 1</code>, <code>if total &gt;= limit</code>), mais pas d'espaces autour du <code>=</code> des arguments nommés et valeurs par défaut (<code>def f(rate=0.18)</code>).",
+        "li5": "<strong>Pas d'espaces superflus dans les parenthèses</strong> et une instruction par ligne : <code>a = 1; b = 2</code> devient deux lignes.",
+        "p2": "Les conventions de nommage, comme le <code>snake_case</code> pour les fonctions et variables et le <code>CapWords</code> pour les classes, font aussi partie de la PEP 8, mais un formateur ne renomme jamais rien. C'est le rôle d'un linter et de la revue de code."
+      },
+      "how-ruff-and-black-style-differs": {
+        "p1": "La PEP 8 laisse de nombreux choix ouverts, et deux personnes qui la suivent peuvent disposer différemment le même code. Black, et le formateur Ruff qui reprend son style, suppriment ces choix pour que tous les fichiers d'un projet se ressemblent :",
+        "li1": "<strong>88 colonnes au lieu de 79.</strong> Black a choisi 88 car cela produit des fichiers sensiblement plus courts qu'à 79 tout en tenant confortablement à l'écran. Choisissez 79 ici si votre projet suit strictement la limite de la PEP 8.",
+        "li2": "<strong>Guillemets doubles par défaut.</strong> La PEP 8 autorise les deux styles de guillemets tant que l'on reste cohérent ; Black standardise sur les guillemets doubles. Ruff ajoute l'option de préférer les guillemets simples ou de conserver ceux existants.",
+        "li3": "<strong>Des coupures prévisibles.</strong> Quand un appel, une liste ou un dictionnaire est trop long, il est découpé à raison d'un élément par ligne avec une virgule finale : ajouter un élément plus tard ne modifie qu'une ligne dans le diff.",
+        "li4": "<strong>La virgule finale « magique ».</strong> Si vous laissez une virgule après le dernier élément, le formateur garde l'expression développée même si elle tiendrait sur une ligne.",
+        "p2": "Comme le résultat est le même quel que soit l'utilisateur, les équipes formatent généralement à l'enregistrement ou dans un hook pre-commit, et cessent de débattre de la mise en page en revue."
+      },
+      "errors-the-formatter-cannot-fix": {
+        "p1": "Le formateur analyse d'abord votre code en arbre syntaxique, et seulement ensuite le réimprime dans un style cohérent. Si l'analyse échoue, il n'y a rien à formater : il signale une erreur avec la ligne et la colonne au lieu de deviner votre intention :",
+        "li1": "<strong>IndentationError et TabError.</strong> Mélanger tabulations et espaces, ou indenter une ligne plus que son bloc, rend la structure ambiguë. Le formateur signale « Unexpected indentation » à la première ligne concernée.",
+        "li2": "<strong>Erreurs de syntaxe.</strong> Un deux-points manquant après <code>def</code> ou <code>if</code>, une parenthèse non fermée ou une chaîne non terminée arrêtent l'analyse. Une parenthèse non fermée est souvent signalée à la ligne suivante, là où Python se rend compte que l'expression n'est pas terminée.",
+        "li3": "<strong>Les problèmes détectés par un linter.</strong> Les imports inutilisés, les noms non définis ou une variable masquée sont syntaxiquement valides : le formateur n'y touche pas.",
+        "p2": "Lorsque le formateur signale une erreur, le curseur se place à cet endroit de la saisie pour que vous puissiez la corriger et formater à nouveau."
+      },
+      "private-by-design": {
+        "p1": "Cette page exécute le formateur Ruff compilé en WebAssembly. Le moteur est servi par ce site et téléchargé uniquement lors de votre premier formatage sur cette page ; ensuite, il fonctionne entièrement dans votre navigateur : votre code propriétaire ou non publié ne quitte jamais votre appareil. Pour d'autres langages, voyez le <a href=\"/tools/java-formatter/\">formateur Java</a>, ou le <a href=\"/tools/json-formatter/\">formateur JSON</a> pour les fichiers de données."
+      }
+    },
+    "value": {
+      "engine": "Formateur Ruff ({{name}} {{version}})"
+    }
+  },
+  "client": {
+    "errors": {
+      "empty": "Collez du code Python à formater.",
+      "at": "Ligne {{line}}, colonne {{column}} : {{reason}}",
+      "unsupportedOption": "{{key}} non pris en charge : {{value}}. Choisissez parmi {{choices}}."
+    }
+  }
+}

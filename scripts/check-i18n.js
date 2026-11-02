@@ -79,7 +79,8 @@ function build(cwd, output) {
 }
 
 function buildBase(sha) {
-  const output = path.join(CACHE_DIR, `base-${sha}`);
+  // Per day: pages and the sitemap carry the build date
+  const output = path.join(CACHE_DIR, `base-${sha}-${new Date().toISOString().slice(0, 10)}`);
   if (!fresh && fs.existsSync(path.join(output, 'index.html'))) {
     console.log(`Using cached base build of ${sha.slice(0, 7)}`);
     return output;

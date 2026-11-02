@@ -1,0 +1,221 @@
+{
+  "listing": {
+    "name": "Calcul de la différence entre deux dates",
+    "shortName": "Différence entre dates",
+    "description": "Calculez le nombre total de jours, de jours ouvrés (lun-ven) et la durée entre deux dates du calendrier.",
+    "shortDescription": "Calculez le nombre total de jours, de jours ouvrés (lun-ven) et la durée entre deux dates du calendrier.",
+    "keywords": [
+      "différence entre deux dates",
+      "nombre de jours entre deux dates",
+      "jours ouvrés entre deux dates",
+      "calcul de durée entre dates",
+      "compteur de jours ouvrés"
+    ]
+  },
+  "title": "Calcul du nombre de jours entre deux dates",
+  "description": "Calculez le nombre exact de jours, jours ouvrés, semaines, mois et années entre deux dates. Calculateur de durée en ligne gratuit.",
+  "h1": "Calcul de la différence entre deux dates",
+  "quickAnswer": "Pour calculer la différence entre deux dates, choisissez la date de début et la date de fin, puis indiquez si le dernier jour doit être compté. Le calculateur donne le nombre total de jours calendaires, de jours ouvrés, de jours de week-end, de semaines et de mois. Tous les calculs s'exécutent localement en UTC, ce qui évite les erreurs liées au changement d'heure.",
+  "formula": {
+    "title": "Formule de calcul de durée entre dates",
+    "expression": "Durée = (Date de fin UTC ms - Date de début UTC ms) / 86,400,000 ms [± 1 jour si inclusif]",
+    "explanation": "La durée calendaire mesure le nombre d'intervalles complets de 24 heures UTC entre deux dates. En mode inclusif, 1 jour est ajouté pour compter les deux jours limites. Les jours ouvrés sont obtenus en examinant chaque jour de la période et en comptant les jours du lundi au vendredi, sans les week-ends."
+  },
+  "workedExamples": [
+    {
+      "title": "Un mois de travail standard (exclusif)",
+      "inputs": [
+        "Date de début : 1er octobre 2026 (jeudi)",
+        "Date de fin : 31 octobre 2026 (samedi)",
+        "Inclusif : non"
+      ],
+      "steps": [
+        "Calculer l'intervalle en jours calendaires : 30 jours",
+        "Compter les jours ouvrés du lundi au vendredi : 22 jours",
+        "Compter les jours de week-end : 8 jours (4 week-ends complets)"
+      ],
+      "result": "30 jours au total (22 jours ouvrés, 8 jours de week-end, 4 semaines et 2 jours)"
+    },
+    {
+      "title": "Durée d'un événement en mode inclusif (conférence / location)",
+      "inputs": [
+        "Date de début : 1er novembre 2026 (dimanche)",
+        "Date de fin : 5 novembre 2026 (jeudi)",
+        "Inclusif : oui"
+      ],
+      "steps": [
+        "Calculer l'intervalle brut : 4 jours",
+        "Ajouter 1 jour pour la limite incluse : 5 jours",
+        "Compter les jours ouvrés (lun-jeu) : 4 jours ouvrés, 1 jour de week-end (dimanche)"
+      ],
+      "result": "5 jours au total (4 jours ouvrés, 1 jour de week-end, 120 heures)"
+    },
+    {
+      "title": "Durée à cheval sur deux trimestres et deux années",
+      "inputs": [
+        "Date de début : 15 décembre 2025 (lundi)",
+        "Date de fin : 15 mars 2026 (dimanche)",
+        "Inclusif : non"
+      ],
+      "steps": [
+        "Calculer les jours calendaires sur le changement d'année : 90 jours",
+        "Décomposer en mois : exactement 3 mois (0 jour restant)",
+        "Compter les jours ouvrés : 65 jours ouvrés, 25 jours de week-end"
+      ],
+      "result": "90 jours au total (3 mois, 12 semaines et 6 jours, 2,160 heures)"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Le problème des piquets de clôture (inclusif ou exclusif)",
+      "description": "Un séjour à l'hôtel du vendredi au dimanche représente 2 nuits (exclusif), mais s'étend sur 3 jours calendaires (inclusif). Ne pas préciser les limites entraîne des erreurs de réservation."
+    },
+    {
+      "title": "Estimer les jours ouvrés à 5/7 des jours calendaires",
+      "description": "Les jours ouvrés ne peuvent pas être estimés à 5/7 des jours calendaires, car la position des week-ends modifie fortement le décompte sur de courtes périodes."
+    },
+    {
+      "title": "Supposer que les jours fériés sont exclus",
+      "description": "Le compteur de jours ouvrés exclut les samedis et dimanches. Les jours fériés nationaux et régionaux varient selon les pays et ne sont pas retirés automatiquement."
+    },
+    {
+      "title": "Changements d'heure du fuseau local",
+      "description": "Calculer des écarts de jours à partir de minuits locaux peut introduire des erreurs de 23 ou 25 heures lors des passages à l'heure d'été ou d'hiver."
+    }
+  ],
+  "sources": [
+    {
+      "name": "ISO 8601 : normes de dates et d'heures"
+    },
+    {
+      "name": "US Naval Observatory : arithmétique du calendrier grégorien"
+    },
+    {
+      "name": "Note W3C sur les formats de date et d'heure"
+    }
+  ],
+  "howto": {
+    "name": "Comment calculer la différence entre deux dates",
+    "description": "Instructions pas à pas pour calculer la durée et les jours ouvrés entre deux dates.",
+    "steps": [
+      {
+        "name": "Saisir les dates de début et de fin",
+        "text": "Choisissez la date de début et la date de fin dans les champs de calendrier."
+      },
+      {
+        "name": "Choisir l'option inclusive",
+        "text": "Cochez si besoin « Inclure la date de fin dans le décompte » si votre calcul doit compter les deux jours limites."
+      },
+      {
+        "name": "Consulter le détail",
+        "text": "Consultez le nombre total de jours calendaires, de jours ouvrés (lun–ven), de jours de week-end, et la décomposition en années, mois et semaines."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Quelle est la différence entre jours calendaires et jours ouvrés ?",
+      "a": "Les jours calendaires incluent les 7 jours de chaque semaine (du lundi au dimanche), alors que les jours ouvrés ne comptent que les jours de travail habituels du lundi au vendredi, week-ends exclus."
+    },
+    {
+      "q": "Quand cocher « Inclure la date de fin dans le décompte » ?",
+      "a": "Cochez cette option si votre activité ou votre location inclut les deux jours limites. Par exemple, une conférence du lundi au mercredi dure 3 jours d'événement (inclusif), mais représente une durée de 2 jours si l'on mesure le temps écoulé (exclusif)."
+    },
+    {
+      "q": "Que se passe-t-il si la date de fin est antérieure à la date de début ?",
+      "a": "Le calculateur détecte les dates inversées, les permute pour calculer une durée positive et affiche un message indiquant que les dates ont été réordonnées automatiquement."
+    },
+    {
+      "q": "Comment les années bissextiles sont-elles gérées sur plusieurs années ?",
+      "a": "Les calculs reposent sur des horodatages à minuit UTC et prennent en compte chaque 29 février de la période, pour que les années de 366 jours soient comptées avec une précision totale. Si un jour n'existe pas dans un mois (par exemple le 31), c'est le dernier jour de ce mois qui est utilisé."
+    },
+    {
+      "q": "Mes dates sont-elles envoyées à un serveur externe ?",
+      "a": "Non. Tous les calculs de dates s'exécutent entièrement dans votre navigateur. Aucune date n'est transmise ni stockée à distance."
+    },
+    {
+      "q": "Puis-je utiliser cet outil pour calculer des jours ouvrés de facturation ?",
+      "a": "Oui. Le décompte des jours ouvrés donne le nombre exact de jours hors week-end entre la date de début et la date de fin, idéal pour un paiement à 30 jours ou le suivi d'un SLA."
+    },
+    {
+      "q": "Comment l'outil décompose-t-il les jours en mois et en semaines ?",
+      "a": "Il calcule d'abord les mois calendaires entiers écoulés, puis exprime le reste en semaines et jours, et fournit aussi le total absolu de jours et d'heures."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Formulaire de calcul de la différence entre deux dates",
+      "copy-result-btn": "Copier le résultat dans le presse-papiers"
+    },
+    "label": {
+      "start-date": "Date de début <span class=\"text-accent\">*</span>",
+      "end-date": "Date de fin <span class=\"text-accent\">*</span>"
+    },
+    "content": {
+      "tool": {
+        "label1": "<input type=\"checkbox\" id=\"include-end-date\" data-param=\"inc\">\n            <span>Inclure la date de fin dans le décompte (calcul inclusif)</span>",
+        "button1": "Calculer la différence",
+        "div1": "Total de jours calendaires",
+        "div2": "Jours ouvrés",
+        "div3": "Années, mois et jours",
+        "div4": "Semaines et jours",
+        "div5": "Total d'heures écoulées"
+      },
+      "how-when-to-use-the-date": {
+        "heading": "Comment et quand calculer la différence entre deux dates",
+        "p1": "Connaître la durée exacte entre deux dates est utile pour :",
+        "li1": "<strong>Paie et feuilles de temps :</strong> déterminez les jours ouvrés facturables entre le début et la fin d'un projet.",
+        "li2": "<strong>Immobilier et baux :</strong> calculez la durée exacte d'une location, un loyer au prorata ou le délai de restitution d'un dépôt de garantie.",
+        "li3": "<strong>Délais juridiques et réglementaires :</strong> suivez les délais de réponse légaux, les dates limites de dépôt au tribunal ou les délais de prescription.",
+        "li4": "<strong>Voyages et hébergement :</strong> vérifiez le nombre de nuits d'hôtel (exclusif) par rapport au nombre total de jours de voyage (inclusif)."
+      }
+    },
+    "text": {
+      "reset-btn": "Réinitialiser",
+      "result-header-text": "Résultat de la différence entre les dates",
+      "copy-result-btn": "<span data-icon=\"copy\"></span> Copier le résultat",
+      "result-primary-text": "-- jours"
+    },
+    "title": {
+      "copy-result-btn": "Copier le résultat dans le presse-papiers"
+    }
+  },
+  "client": {
+    "errors": {
+      "invalidStart": "Veuillez choisir une date de début valide (AAAA-MM-JJ).",
+      "invalidEnd": "Veuillez choisir une date de fin valide (AAAA-MM-JJ).",
+      "missingStart": "Veuillez choisir une date de début valide.",
+      "missingEnd": "Veuillez choisir une date de fin valide."
+    },
+    "result": {
+      "days": {
+        "many": "{{n}} jours",
+        "one": "{{n}} jour",
+        "other": "{{n}} jours"
+      },
+      "header": "Écart entre les dates",
+      "headerSwapped": "Écart entre les dates (dates réordonnées automatiquement du début à la fin)"
+    },
+    "stats": {
+      "totalDays": "{{n}} jours",
+      "businessDays": "{{n}} jours ouvrés ({{weekend}} jours de week-end)",
+      "ymd": "{{years}} ans, {{months}} mois, {{days}} jours",
+      "weeks": {
+        "many": "{{n}} semaines",
+        "one": "{{n}} semaine",
+        "other": "{{n}} semaines"
+      },
+      "days": {
+        "many": "{{n}} jours",
+        "one": "{{n}} jour",
+        "other": "{{n}} jours"
+      },
+      "totalHours": "{{n}} heures au total"
+    },
+    "copy": {
+      "result": "Durée totale : {{total}}. Jours ouvrés : {{business}} jours. Équivalent : {{weeks}} sem. {{weekDays}} j ({{years}} a {{months}} m {{days}} j).",
+      "resultSwapped": "Durée totale : {{total}} (dates réordonnées automatiquement du début à la fin). Jours ouvrés : {{business}} jours. Équivalent : {{weeks}} sem. {{weekDays}} j ({{years}} a {{months}} m {{days}} j).",
+      "toast": "Différence entre les dates copiée dans le presse-papiers"
+    }
+  }
+}
