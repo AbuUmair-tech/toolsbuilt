@@ -1,0 +1,264 @@
+{
+  "listing": {
+    "name": "Zufallszahlen-Generator",
+    "shortName": "Zufallszahlen",
+    "description": "Erzeuge sichere Zufallszahlen in jedem Bereich: ganze Zahlen oder Dezimalzahlen, bis zu 1,000 auf einmal, mit oder ohne Wiederholungen, sortiert oder nicht.",
+    "shortDescription": "Sichere Zufallszahlen in jedem Bereich, mit oder ohne Wiederholungen.",
+    "keywords": [
+      "zufallszahlen generator",
+      "zufallszahl zwischen 1 und 100",
+      "zahl zufällig auswählen",
+      "zufallsgenerator",
+      "zufallszahlen ohne wiederholung",
+      "lottozahlen generator",
+      "echte zufallszahl"
+    ]
+  },
+  "title": "Zufallszahlen-Generator - sichere Zufallszahl im Bereich",
+  "description": "Zufallszahlen-Generator: Erzeuge Zufallszahlen in jedem Bereich mit dem sicheren Zufall deines Browsers, ganz oder dezimal, bis 1,000 auf einmal.",
+  "h1": "Zufallszahlen-Generator",
+  "quickAnswer": "Gib im Zufallszahlen-Generator Minimum, Maximum und die gewünschte Anzahl ein und drücke Erzeugen. Jede Zahl wird mit crypto.getRandomValues, dem kryptografisch sicheren Generator des Browsers, und Rejection Sampling gezogen, sodass jeder Wert im Bereich exakt gleich wahrscheinlich ist. Schalte Wiederholungen aus, wenn sich keine Zahl wiederholen soll, etwa bei einer Verlosung.",
+  "formula": {
+    "title": "So werden die Zahlen gezogen",
+    "expression": "n = max − min + 1   ·   x gleichverteilt aus [0, 2³²) ziehen   ·   x ≥ 2³² − (2³² mod n) verwerfen   ·   Ergebnis = min + (x mod n)",
+    "explanation": "Die sichere Zufallsquelle des Browsers liefert 32-Bit-Zahlen. Würde man direkt x mod n nehmen, wären kleine Ergebnisse etwas wahrscheinlicher, wann immer n die Zahl 2³² nicht glatt teilt (Modulo-Bias). Deshalb werden Ziehungen im ungleichen obersten Bereich verworfen und neu gezogen. Jeder Wert hat dann genau die Wahrscheinlichkeit 1 ÷ n. Dezimalzahlen mit N Stellen werden genauso als ganze Zahl von Schritten der Größe 10^−N zwischen Minimum und Maximum gezogen. Ohne Wiederholungen wird jeder Wert höchstens einmal gezogen (Ziehen ohne Zurücklegen).",
+    "variables": [
+      {
+        "description": "Wie viele verschiedene Werte möglich sind: max − min + 1 bei ganzen Zahlen."
+      },
+      {
+        "name": "Rejection Sampling",
+        "description": "Die wenigen Rohziehungen werden verworfen, die das Ergebnis verzerren würden; im Schnitt ist weniger als eine zusätzliche Ziehung nötig."
+      },
+      {
+        "name": "Ohne Wiederholungen",
+        "description": "Du kannst höchstens n Zahlen ziehen, weil danach jeder Wert verbraucht ist."
+      }
+    ]
+  },
+  "workedExamples": [
+    {
+      "title": "Einen sechsseitigen Würfel werfen",
+      "inputs": [
+        "Min 1, Max 6, Anzahl 1"
+      ],
+      "steps": [
+        "n = 6 mögliche Werte",
+        "2³² mod 6 = 4, also werden die obersten 4 von 4,294,967,296 Rohwerten verworfen"
+      ],
+      "result": "Eine Zahl von 1 bis 6, jede mit Wahrscheinlichkeit 1/6"
+    },
+    {
+      "title": "Ziehung wie im Lotto: 6 Zahlen aus 1 bis 49",
+      "inputs": [
+        "Min 1, Max 49, Anzahl 6",
+        "Wiederholungen erlauben: aus, sortieren: an"
+      ],
+      "steps": [
+        "Jede Zahl wird aus den noch nicht gezogenen gezogen",
+        "Es gibt 13,983,816 mögliche Kombinationen aus 6 Zahlen"
+      ],
+      "result": "Sechs verschiedene Zahlen in aufsteigender Reihenfolge"
+    },
+    {
+      "title": "Zufällige Dezimalzahlen zwischen 0 und 1",
+      "inputs": [
+        "Min 0, Max 1, Anzahl 5",
+        "Nachkommastellen: 3"
+      ],
+      "steps": [
+        "Die Werte sind Schritte von 0.001, also n = 1,001 mögliche Werte",
+        "Jede Ziehung ist eine ganze Zahl von Schritten, geteilt durch 1,000"
+      ],
+      "result": "Fünf Zahlen wie 0.417, jeweils von 0.000 bis 1.000"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Math.random() für Wichtiges verwenden",
+      "description": "Math.random() ist schnell, aber nicht darauf ausgelegt, unvorhersagbar zu sein, und seine Ausgabe lässt sich manchmal rekonstruieren. Für Verlosungen, Passwörter oder alles Sicherheitsrelevante nutze eine kryptografische Quelle wie crypto.getRandomValues, so wie dieses Tool."
+    },
+    {
+      "title": "x mod n direkt auf eine rohe Zufallszahl anwenden",
+      "description": "Wird eine Zufallszahl ohne Rejection Sampling mit % n reduziert, entsteht eine leichte Verzerrung zu kleineren Werten, wenn n den Bereich des Generators nicht glatt teilt. Bei kleinem n ist der Effekt winzig, aber real und leicht zu vermeiden."
+    },
+    {
+      "title": "Mehr eindeutige Zahlen verlangen, als der Bereich hat",
+      "description": "Von 1 bis 10 gibt es nur 10 verschiedene ganze Zahlen, du kannst also nicht 11 ohne Wiederholung ziehen. Das Tool weist dich darauf hin, wenn die Anzahl größer als der Bereich ist."
+    },
+    {
+      "title": "Gleichmäßig verteilte Zufallszahlen erwarten",
+      "description": "Echter Zufall erzeugt Serien und Häufungen. Dreimal hintereinander eine 6 mit einem fairen Würfel kommt etwa einmal in 216 Versuchen vor; das ist kein Beweis, dass der Generator kaputt ist."
+    },
+    {
+      "title": "Dezimalzahlen als stufenlos betrachten",
+      "description": "Mit 2 Nachkommastellen zwischen 0 und 1 gibt es genau 101 mögliche Werte. Brauchst du feinere Werte, erhöhe die Nachkommastellen."
+    }
+  ],
+  "sources": [
+    {
+      "name": "W3C Web Cryptography API: getRandomValues()"
+    },
+    {
+      "name": "MDN Web Docs: Crypto.getRandomValues()"
+    },
+    {
+      "name": "NIST SP 800-90A Rev. 1: Empfehlung zur Erzeugung von Zufallszahlen mit deterministischen Zufallsbitgeneratoren"
+    }
+  ],
+  "howto": {
+    "name": "So erzeugst du Zufallszahlen",
+    "description": "Sichere Zufallszahlen in jedem Bereich erzeugen.",
+    "steps": [
+      {
+        "name": "Bereich festlegen",
+        "text": "Gib die kleinste und die größte erlaubte Zahl ein."
+      },
+      {
+        "name": "Anzahl wählen",
+        "text": "Gib ein, wie viele Zahlen du brauchst, bis zu 1,000."
+      },
+      {
+        "name": "Optionen wählen",
+        "text": "Erlaube oder verbiete Wiederholungen, sortiere die Ergebnisse und wähle ganze Zahlen oder bis zu 6 Nachkommastellen."
+      },
+      {
+        "name": "Erzeugen und speichern",
+        "text": "Drücke Erzeugen und kopiere die Zahlen oder lade sie als Textdatei herunter."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Ist dieser Zufallszahlen-Generator wirklich zufällig?",
+      "a": "Er nutzt crypto.getRandomValues, einen kryptografisch sicheren Generator in deinem Browser, der aus Entropiequellen deines Betriebssystems gespeist wird. Er eignet sich für Spiele, Verlosungen und Stichproben, und die Zahlen lassen sich nicht aus früheren vorhersagen."
+    },
+    {
+      "q": "Wie erzeuge ich eine Zufallszahl zwischen 1 und 100?",
+      "a": "Setze das Minimum auf 1, das Maximum auf 100 und die Anzahl auf 1 und drücke Erzeugen. Jede Zahl von 1 bis 100 hat genau 1% Chance."
+    },
+    {
+      "q": "Wie ziehe ich Zufallszahlen ohne Wiederholungen?",
+      "a": "Entferne das Häkchen bei „Wiederholungen erlauben“. Jede Zahl im Ergebnis ist dann verschieden, solange du nicht mehr Zahlen verlangst, als der Bereich enthält."
+    },
+    {
+      "q": "Kann ich zufällige Dezimalzahlen erzeugen?",
+      "a": "Ja. Wähle 1 bis 6 Nachkommastellen. Die Zahlen verteilen sich gleichmäßig über den Bereich in Schritten dieser Größe."
+    },
+    {
+      "q": "Wie viele Zufallszahlen kann ich auf einmal erzeugen?",
+      "a": "Bis zu 1,000 pro Klick. Kopiere sie oder lade sie als Textdatei herunter, eine Zahl pro Zeile."
+    },
+    {
+      "q": "Kann ich das für eine Verlosung oder ein Gewinnspiel nutzen?",
+      "a": "Ja. Nummeriere die Teilnahmen, setze den Bereich passend, schalte Wiederholungen aus und ziehe so viele Gewinner, wie du brauchst. Für Namen statt Zahlen nutze den Zufallsnamen-Generator."
+    },
+    {
+      "q": "Werden meine Zahlen irgendwohin gesendet?",
+      "a": "Nein. Die Zahlen werden in deinem Browser erzeugt und weder an einen Server gesendet noch dort gespeichert."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Zufallszahlen-Generator",
+      "rng-list": "Erzeugte Zahlen"
+    },
+    "label": {
+      "rng-min": "Minimum <span class=\"text-accent\">*</span>",
+      "rng-max": "Maximum <span class=\"text-accent\">*</span>",
+      "rng-count": "Anzahl",
+      "rng-dp": "Zahlentyp"
+    },
+    "option": {
+      "rng-dp": {
+        "0": "Ganze Zahlen",
+        "1": "1 Nachkommastelle",
+        "2": "2 Nachkommastellen",
+        "3": "3 Nachkommastellen",
+        "4": "4 Nachkommastellen",
+        "5": "5 Nachkommastellen",
+        "6": "6 Nachkommastellen"
+      }
+    },
+    "content": {
+      "tool": {
+        "label1": "<input type=\"checkbox\" id=\"rng-dupes\" checked>\n            <span>Wiederholungen erlauben</span>",
+        "label2": "<input type=\"checkbox\" id=\"rng-sort\" data-param=\"sort\">\n            <span>Aufsteigend sortieren</span>",
+        "div1": "<span id=\"result-header-text\">Deine Zufallszahl</span>"
+      },
+      "why-secure-randomness-and-rejection-sampling": {
+        "heading": "Warum sicherer Zufall und Rejection Sampling wichtig sind",
+        "p1": "Computer können keine Münzen werfen, also nutzen sie Algorithmen. Gewöhnliche Generatoren wie Math.random() in JavaScript liefern Zahlen, die zufällig aussehen, aber einem verborgenen Muster folgen. Kryptografisch sichere Generatoren, im Browser als crypto.getRandomValues verfügbar, werden aus unvorhersagbaren Ereignissen gespeist, die das Betriebssystem sammelt, und sind so gebaut, dass frühere Ausgaben nicht helfen, die nächste vorherzusagen.",
+        "p2": "Auch eine Zahl in einem Bereich zu erhalten braucht Sorgfalt. Ein sicherer Generator liefert Werte von 0 bis 4,294,967,295. Für eine Zahl von 1 bis 6 könnte man den Rest bei Division durch 6 nehmen, aber 4,294,967,296 ist kein Vielfaches von 6, sodass die Reste 0 bis 3 minimal häufiger vorkämen als 4 und 5. Dieses Tool verwirft die wenigen Rohwerte, die dieses Ungleichgewicht verursachen, und zieht neu, sodass jede Seite exakt gleich wahrscheinlich ist.",
+        "caption1": "Übliche Bereiche und ihre Chancen",
+        "th1": "Einsatz",
+        "th2": "Bereich",
+        "th3": "Chance je Wert",
+        "td1": "Münzwurf",
+        "td2": "1 zu 2 (50%)",
+        "td3": "Sechsseitiger Würfel",
+        "td4": "1 zu 6 (16.67%)",
+        "td5": "Prozentwurf",
+        "td6": "1 zu 100 (1%)",
+        "td7": "Tag des Jahres",
+        "td8": "1 zu 365 (0.27%)",
+        "td9": "Vierstellige PIN",
+        "td10": "1 zu 10,000 (0.01%)"
+      },
+      "ideas-for-using-random-numbers": {
+        "heading": "Ideen für Zufallszahlen",
+        "li1": "<strong>Verlosungen:</strong> Nummeriere die Teilnahmen und ziehe Gewinner ohne Wiederholungen.",
+        "li2": "<strong>Unterricht und Forschung:</strong> Wähle zufällig Schüler, Umfrageteilnehmer oder Stichprobenzeilen aus einer Tabelle.",
+        "li3": "<strong>Spiele:</strong> Ersetze verlorene Würfel, entscheide, wer anfängt, oder lege zufällige Szenarien fest. <a href=\"/tools/coin-flip-dice-roller/\">Münzwurf & Würfel</a> zeigt Würfelseiten und führt einen Verlauf.",
+        "li4": "<strong>Testen:</strong> Erzeuge Testdaten mit Dezimalzahlen oder sehr großen Bereichen und lade sie als Datei herunter.",
+        "p1": "Alles läuft in deinem Browser. Die Zahlen entstehen auf deinem Gerät und werden nie an einen Server gesendet."
+      }
+    },
+    "text": {
+      "generate-btn": "Erzeugen",
+      "reset-btn": "Zurücksetzen",
+      "copy-numbers-btn": "Zahlen kopieren",
+      "download-btn": ".txt herunterladen"
+    }
+  },
+  "client": {
+    "errors": {
+      "noCrypto": "Sichere Zufallszahlen sind in diesem Browser nicht verfügbar.",
+      "rangeSize": "Die Größe des Bereichs muss zwischen 1 und 2^53 liegen.",
+      "minEmpty": "Gib das Minimum ein.",
+      "maxEmpty": "Gib das Maximum ein.",
+      "minInvalid": "Das Minimum muss eine Zahl sein.",
+      "maxInvalid": "Das Maximum muss eine Zahl sein.",
+      "minAboveMax": "Das Minimum ({{min}}) ist größer als das Maximum ({{max}}). Tausche sie oder ändere einen Wert.",
+      "count": "Die Anzahl muss eine ganze Zahl von 1 bis {{max}} sein.",
+      "decimals": "Die Nachkommastellen müssen eine ganze Zahl von 0 bis {{max}} sein.",
+      "rangeTooLarge": "Dieser Bereich ist zu groß. Nutze kleinere Zahlen oder weniger Nachkommastellen.",
+      "noValue": {
+        "decimal": "Zwischen {{min}} und {{max}} gibt es keine Zahl mit {{decimals}} Nachkommastellen.",
+        "whole": "Zwischen {{min}} und {{max}} gibt es keine ganze Zahl."
+      },
+      "tooFewUnique": {
+        "decimal": "Von {{min}} bis {{max}} gibt es nur {{possible}} verschiedene Werte, daher können nicht alle {{count}} Zahlen verschieden sein. Verringere die Anzahl, erweitere den Bereich oder erlaube Wiederholungen.",
+        "whole": "Von {{min}} bis {{max}} gibt es nur {{possible}} verschiedene ganze Zahlen, daher können nicht alle {{count}} Zahlen verschieden sein. Verringere die Anzahl, erweitere den Bereich oder erlaube Wiederholungen."
+      }
+    },
+    "result": {
+      "singleDecimal": "Zufallszahl von {{min}} bis {{max}}",
+      "singleWhole": "Zufällige ganze Zahl von {{min}} bis {{max}}",
+      "multiple": "{{count}} Zufallszahlen von {{min}} bis {{max}}",
+      "summary": {
+        "plain": "{{count}} Zahlen",
+        "unique": "{{count}} Zahlen, ohne Wiederholungen",
+        "sorted": "{{count}} Zahlen, sortiert",
+        "uniqueSorted": "{{count}} Zahlen, ohne Wiederholungen, sortiert"
+      },
+      "chanceExact": "1 zu {{n}}",
+      "chanceApprox": "etwa 1 zu {{n}}",
+      "note": {
+        "one": "{{possible}} möglicher Wert; bei jeder Ziehung hat jeder Wert eine Chance von {{chance}}.",
+        "other": "{{possible}} mögliche Werte; bei jeder Ziehung hat jeder Wert eine Chance von {{chance}}."
+      },
+      "copied": "Zahlen kopiert"
+    }
+  }
+}

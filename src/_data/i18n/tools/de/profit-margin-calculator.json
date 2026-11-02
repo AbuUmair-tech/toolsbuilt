@@ -1,0 +1,254 @@
+{
+  "listing": {
+    "name": "Gewinnmargen- & Aufschlagsrechner",
+    "shortName": "Gewinnmarge",
+    "description": "Berechne Gewinn, Marge und Aufschlag aus Kosten und Preis, oder den Verkaufspreis für eine Zielmarge oder einen Aufschlag.",
+    "shortDescription": "Gewinn, Marge und Aufschlag aus Kosten und Preis, oder einen Preis aus einer Zielmarge.",
+    "keywords": [
+      "gewinnmarge berechnen",
+      "aufschlag berechnen",
+      "marge vs aufschlag",
+      "bruttomarge",
+      "verkaufspreis berechnen",
+      "aufschlag in marge umrechnen",
+      "preiskalkulation"
+    ]
+  },
+  "title": "Gewinnmarge berechnen: Marge vs. Aufschlag",
+  "description": "Gewinnmargen-Rechner: Gewinn, Marge und Aufschlag aus Kosten und Preis berechnen, oder den Verkaufspreis für eine Zielmarge. Mit Vergleichstabelle.",
+  "h1": "Gewinnmargen- & Aufschlagsrechner",
+  "quickAnswer": "Die Gewinnmarge ist der Gewinn in Prozent des Verkaufspreises; der Aufschlag ist der Gewinn in Prozent der Kosten. Ein Artikel mit Kosten von 60 und einem Preis von 100 bringt 40 Gewinn, also 40% Marge und 66.67% Aufschlag. Für eine Zielmarge gilt Preis = Kosten ÷ (1 − Marge), 25% Marge bei Kosten von 75 erfordern also einen Preis von 100.",
+  "formula": {
+    "title": "Formeln für Marge und Aufschlag",
+    "expression": "Gewinn = Preis − Kosten   ·   Marge % = Gewinn ÷ Preis × 100   ·   Aufschlag % = Gewinn ÷ Kosten × 100",
+    "explanation": "Marge und Aufschlag nutzen denselben Gewinn, teilen ihn aber durch verschiedene Zahlen, daher ist der Aufschlag immer der größere Prozentsatz. Den Preis aus einer Zielmarge erhältst du, indem du die Kosten durch (1 − Marge ÷ 100) teilst. Den Preis aus einem Aufschlag erhältst du, indem du die Kosten mit (1 + Aufschlag ÷ 100) multiplizierst. Beide lassen sich direkt umrechnen: Aufschlag = Marge ÷ (1 − Marge) und Marge = Aufschlag ÷ (1 + Aufschlag), jeweils als Dezimalzahl.",
+    "variables": [
+      {
+        "name": "Kosten",
+        "description": "Was dich der Artikel kostet: Einkaufspreis oder Material und Arbeit bei Selbstgemachtem."
+      },
+      {
+        "name": "Preis",
+        "description": "Der Verkaufspreis vor Umsatzsteuer oder Mehrwertsteuer."
+      },
+      {
+        "name": "Marge",
+        "description": "Der Anteil des Verkaufspreises, den du als Rohgewinn behältst. Immer unter 100%."
+      },
+      {
+        "name": "Aufschlag",
+        "description": "Wie viel du auf die Kosten aufschlägst, in Prozent der Kosten. Kann über 100% liegen."
+      }
+    ]
+  },
+  "workedExamples": [
+    {
+      "title": "Kosten 60, Preis 100",
+      "inputs": [
+        "Kosten: 60",
+        "Verkaufspreis: 100"
+      ],
+      "steps": [
+        "Gewinn: 100 − 60 = 40",
+        "Marge: 40 ÷ 100 = 40%",
+        "Aufschlag: 40 ÷ 60 = 66.67%"
+      ],
+      "result": "Gewinn 40, Marge 40%, Aufschlag 66.67%"
+    },
+    {
+      "title": "Preis für 25% Marge bei Kosten von 75",
+      "inputs": [
+        "Kosten: 75",
+        "Zielmarge: 25%"
+      ],
+      "steps": [
+        "Preis = 75 ÷ (1 − 0.25) = 75 ÷ 0.75 = 100",
+        "Probe: Gewinn 25 ÷ Preis 100 = 25% Marge"
+      ],
+      "result": "Verkaufspreis 100 (33.33% Aufschlag)"
+    },
+    {
+      "title": "Preis für 25% Aufschlag bei Kosten von 80",
+      "inputs": [
+        "Kosten: 80",
+        "Aufschlag: 25%"
+      ],
+      "steps": [
+        "Preis = 80 × (1 + 0.25) = 100",
+        "Marge: Gewinn 20 ÷ Preis 100 = 20%"
+      ],
+      "result": "Verkaufspreis 100 (20% Marge)"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Den Margenprozentsatz auf die Kosten aufschlagen",
+      "description": "25% auf Kosten von 75 ergeben 93.75 – das ist ein <em>Aufschlag</em> von 25% und nur 20% Marge. Für 25% Marge musst du teilen: 75 ÷ 0.75 = 100."
+    },
+    {
+      "title": "Marge und Aufschlag gleichsetzen",
+      "description": "50% Aufschlag sind 33.3% Marge, und 50% Marge sind 100% Aufschlag. Sag in Preislisten, Lieferantenverhandlungen und Provisionsmodellen klar, welches du meinst."
+    },
+    {
+      "title": "Eine Marge über 100% erwarten",
+      "description": "Die Marge ist ein Anteil am Verkaufspreis und kann daher nie 100% erreichen, außer die Kosten sind null. Taucht ein Wert über 100% auf, ist es ein Aufschlag."
+    },
+    {
+      "title": "Kosten vergessen",
+      "description": "Die Bruttomarge nutzt die direkten Kosten des Artikels. Versand, Zahlungsgebühren, Verpackung und Retouren sind aber ebenfalls echte Kosten; rechne sie in die Kosten ein, wenn du die Marge willst, die dir wirklich bleibt."
+    },
+    {
+      "title": "Umsatzsteuer oder Mehrwertsteuer im Preis lassen",
+      "description": "Für den Staat eingenommene Steuer ist kein Umsatz. Nutze den Verkaufspreis vor Steuern, sonst wirkt die Marge höher, als sie ist."
+    }
+  ],
+  "sources": [
+    {
+      "name": "IRS Publication 334: Tax Guide for Small Business (Rohgewinn und Wareneinsatz)"
+    },
+    {
+      "name": "U.S. SEC: Einsteigerleitfaden zu Jahresabschlüssen (Rohgewinn und Margen)"
+    },
+    {
+      "name": "GOV.UK: Mehrwertsteuersätze (Steuer aus Verkaufspreisen herausrechnen)"
+    }
+  ],
+  "howto": {
+    "name": "So berechnest du Gewinnmarge und Aufschlag",
+    "description": "Finde Marge und Aufschlag aus Kosten und Preis oder einen Preis aus einer Zielmarge oder einem Aufschlag.",
+    "steps": [
+      {
+        "name": "Wählen, was du kennst",
+        "text": "Wähle Preis, um Marge und Aufschlag eines Verkaufspreises zu erhalten, oder Marge bzw. Aufschlag, um den Preis für eine Zielmarge oder einen Aufschlag zu erhalten."
+      },
+      {
+        "name": "Kosten eingeben",
+        "text": "Gib ein, was dich der Artikel kostet, einschließlich aller direkten Kosten, die du decken willst."
+      },
+      {
+        "name": "Preis, Marge oder Aufschlag eingeben",
+        "text": "Gib den Verkaufspreis vor Steuern ein oder die gewünschte Marge bzw. den Aufschlag."
+      },
+      {
+        "name": "Ergebnisse ablesen",
+        "text": "Sieh Gewinn, Marge, Aufschlag und Verkaufspreis nebeneinander."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Was ist der Unterschied zwischen Marge und Aufschlag?",
+      "a": "Beide gehen vom selben Gewinn aus (Preis − Kosten). Die Marge teilt ihn durch den Verkaufspreis, der Aufschlag durch die Kosten. Kosten 60 und Preis 100 ergeben 40% Marge, aber 66.67% Aufschlag."
+    },
+    {
+      "q": "Wie berechne ich die Gewinnmarge?",
+      "a": "Zieh die Kosten vom Verkaufspreis ab, um den Gewinn zu erhalten, teile den Gewinn durch den Verkaufspreis und multipliziere mit 100. Preis 100 und Kosten 60: (100 − 60) ÷ 100 = 40%."
+    },
+    {
+      "q": "Wie berechne ich einen Verkaufspreis aus einer gewünschten Marge?",
+      "a": "Teile die Kosten durch (1 − Marge als Dezimalzahl). Für 25% Marge bei Kosten von 75: 75 ÷ 0.75 = 100."
+    },
+    {
+      "q": "Wie rechne ich einen Aufschlag in eine Marge um?",
+      "a": "Marge = Aufschlag ÷ (1 + Aufschlag), mit Dezimalzahlen. 25% Aufschlag sind 0.25 ÷ 1.25 = 20% Marge; 100% Aufschlag sind 50% Marge."
+    },
+    {
+      "q": "Welcher Marge entspricht ein Aufschlag von 50%?",
+      "a": "50% Aufschlag entsprechen 33.33% Marge. Kosten von 100 plus 50% Aufschlag ergeben einen Preis von 150, und 50 Gewinn ÷ 150 Preis = 33.33%."
+    },
+    {
+      "q": "Kann die Gewinnmarge negativ sein?",
+      "a": "Ja. Verkaufst du unter den Kosten, ist der Gewinn negativ, ebenso Marge und Aufschlag. Der Rechner zeigt das als Verlust an."
+    },
+    {
+      "q": "Was ist eine gute Gewinnmarge?",
+      "a": "Das hängt von Branche, Geschäftsmodell und davon ab, ob du die Brutto- oder Nettomarge meinst. Vergleiche dich mit ähnlichen Unternehmen und berücksichtige alle Kosten, bevor du ein Ziel festlegst."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Gewinnmargen-Rechner",
+      "tool-div1": "Marge aus einem Preis oder Preis aus einer Marge bzw. einem Aufschlag berechnen",
+      "copy-result-btn": "Ergebnis in die Zwischenablage kopieren"
+    },
+    "text": {
+      "tab-price": "Preis",
+      "tab-margin": "Marge",
+      "tab-markup": "Aufschlag",
+      "reset-btn": "Zurücksetzen",
+      "result-header-text": "Gewinnmarge",
+      "copy-result-btn": "<span data-icon=\"copy\"></span> Ergebnis kopieren"
+    },
+    "label": {
+      "cost": "Kosten <span class=\"text-accent\">*</span>",
+      "price": "Verkaufspreis <span class=\"text-accent\">*</span>",
+      "margin": "Zielmarge (%) <span class=\"text-accent\">*</span>",
+      "markup": "Aufschlag (%) <span class=\"text-accent\">*</span>"
+    },
+    "content": {
+      "tool": {
+        "button1": "Berechnen",
+        "summary1": "Schritt für Schritt"
+      },
+      "margin-vs-markup-at-a-glance": {
+        "heading": "Marge und Aufschlag auf einen Blick",
+        "p1": "Marge und Aufschlag beschreiben denselben Gewinn aus zwei Richtungen. Die Marge beantwortet \"Wie viel von jedem Verkauf behalte ich?\", der Aufschlag \"Wie viel habe ich auf meine Kosten aufgeschlagen?\". Weil der Verkaufspreis bei Gewinn immer größer ist als die Kosten, ist der Margenprozentsatz immer der kleinere von beiden.",
+        "caption1": "Marge und Aufschlag für einen Artikel mit Kosten von 100",
+        "th1": "Verkaufspreis",
+        "th2": "Gewinn",
+        "th3": "Marge (vom Preis)",
+        "th4": "Aufschlag (auf Kosten)",
+        "p2": "Lies eine Zeile von links nach rechts, um umzurechnen: 25% Aufschlag sind 20% Marge, und 50% Marge brauchen 100% Aufschlag. Nähert sich die Marge 100%, wächst der Aufschlag unbegrenzt – deshalb sind Margen über 100% unmöglich, während Aufschläge von 200% oder 300% bei günstigen Artikeln üblich sind."
+      },
+      "which-one-should-you-use": {
+        "heading": "Was solltest du verwenden?",
+        "li1": "<strong>Preise aus Kosten festlegen:</strong> Der Aufschlag ist für eine Preisliste schnell (\"Kosten plus 40%\"), prüfe aber immer die Marge, die sich daraus ergibt.",
+        "li2": "<strong>Planung und Berichte:</strong> Die Marge entspricht der Darstellung des Rohgewinns in Jahresabschlüssen und macht Produkte mit sehr unterschiedlichen Preisen vergleichbar.",
+        "li3": "<strong>Rabatte:</strong> Ein Rabatt geht vom Verkaufspreis ab und frisst damit direkt die Marge. 20% Rabatt auf ein Produkt mit 20% Marge vernichten den ganzen Gewinn.",
+        "li4": "<strong>Gespräche mit Lieferanten und Mitarbeitenden:</strong> Sag ausdrücklich „Marge“ oder „Aufschlag“; \"40% Gewinn\" ist mehrdeutig.",
+        "p1": "Dieser Rechner berechnet die Bruttomarge eines einzelnen Artikels: Verkaufspreis minus direkte Kosten dieses Artikels. Die Nettomarge zieht zusätzlich Gemeinkosten wie Miete, Löhne, Marketing und Steuern ab und ist daher immer niedriger als die Bruttomarge."
+      }
+    },
+    "title": {
+      "copy-result-btn": "Ergebnis in die Zwischenablage kopieren"
+    }
+  },
+  "client": {
+    "errors": {
+      "costEmpty": "Gib die Kosten ein.",
+      "costInvalid": "Die Kosten müssen 0 oder eine positive Zahl sein.",
+      "priceEmpty": "Gib den Verkaufspreis ein.",
+      "priceInvalid": "Der Verkaufspreis muss größer als 0 sein.",
+      "marginEmpty": "Gib die Zielmarge ein.",
+      "marginInvalid": "Die Marge muss eine Zahl sein.",
+      "marginMax": "Eine Marge muss unter 100% liegen: Bei 100% wäre der Gewinn der ganze Preis, was Kosten von 0 erfordert.",
+      "markupEmpty": "Gib den Aufschlag ein.",
+      "markupInvalid": "Der Aufschlag muss eine Zahl sein.",
+      "markupMin": "Ein Aufschlag von −100% oder weniger würde den Preis auf 0 oder darunter setzen."
+    },
+    "result": {
+      "loss": "Verlust bei diesem Verkauf",
+      "margin": "Gewinnmarge",
+      "marginAndMarkup": "{{margin}} Marge · {{markup}} Aufschlag",
+      "sellingPrice": "Verkaufspreis",
+      "lossNote": "Der Verkaufspreis liegt unter den Kosten, dieser Verkauf bringt also Verlust.",
+      "copy": "Kosten {{cost}}, Preis {{price}}: Gewinn {{profit}}, Marge {{margin}}, Aufschlag {{markup}}"
+    },
+    "stats": {
+      "sellingPrice": "Verkaufspreis",
+      "cost": "Kosten",
+      "loss": "Verlust",
+      "profit": "Gewinn",
+      "margin": "Marge (vom Preis)",
+      "markup": "Aufschlag (auf Kosten)",
+      "markupUndefined": "Nicht definiert (Kosten sind 0)"
+    },
+    "steps": {
+      "priceFromMargin": "Preis = Kosten ÷ (1 − Marge) = {{cost}} ÷ (1 − {{margin}}) = {{price}}",
+      "priceFromMarkup": "Preis = Kosten × (1 + Aufschlag) = {{cost}} × (1 + {{markup}}) = {{price}}",
+      "profit": "Gewinn = Preis − Kosten = {{price}} − {{cost}} = {{profit}}",
+      "margin": "Marge = Gewinn ÷ Preis = {{profit}} ÷ {{price}} = {{margin}}",
+      "markup": "Aufschlag = Gewinn ÷ Kosten = {{profit}} ÷ {{cost}} = {{markup}}"
+    }
+  }
+}

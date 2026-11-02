@@ -1,0 +1,270 @@
+{
+  "listing": {
+    "name": "Kalenderwochen-Rechner",
+    "shortName": "Kalenderwoche",
+    "description": "Sieh die heutige Kalenderwoche nach ISO 8601, finde die KW zu jedem Datum und liste die Tage von Montag bis Sonntag jeder Woche auf.",
+    "shortDescription": "ISO-Kalenderwoche zu jedem Datum, Datumsbereiche von Wochen und 52 oder 53 Wochen pro Jahr.",
+    "keywords": [
+      "kalenderwoche",
+      "welche kw haben wir",
+      "kw heute",
+      "kalenderwochen rechner",
+      "aktuelle kalenderwoche",
+      "wochen im jahr",
+      "kw 53"
+    ]
+  },
+  "title": "Kalenderwoche: Welche KW haben wir? (ISO 8601)",
+  "description": "Welche Kalenderwoche ist heute? Finde die KW nach ISO 8601 zu jedem Datum, die Tage von Montag bis Sonntag und ob ein Jahr 52 oder 53 Wochen hat.",
+  "h1": "Kalenderwochen-Rechner",
+  "quickAnswer": "Kalenderwochen nach ISO 8601 beginnen am Montag, und KW 1 ist die Woche mit dem ersten Donnerstag des Jahres (gleichbedeutend: die Woche mit dem 4. Januar). Der 1. Januar 2026 liegt also in 2026-W01, der 1. Januar 2027 aber noch in 2026-W53, und der 30. Dezember 2024 gehört schon zu 2025-W01. Die meisten Jahre haben 52 Kalenderwochen; 2026 hat 53.",
+  "formula": {
+    "title": "Regel für die Kalenderwoche nach ISO 8601",
+    "expression": "ISO-Woche = ⌊(Tag im Jahr des Donnerstags dieser Woche − 1) ÷ 7⌋ + 1, im Jahr, in dem dieser Donnerstag liegt",
+    "explanation": "Bestimme den Donnerstag der Woche (Montag bis Sonntag), in der das Datum liegt (addiere 4 minus ISO-Wochentag, wobei Montag 1 und Sonntag 7 ist). Das Jahr dieses Donnerstags ist das ISO-Wochenjahr, und die ganzen Wochen ab dem 1. Januar dieses Jahres ergeben die Wochennummer. Ein Jahr hat 53 ISO-Wochen, wenn es an einem Donnerstag beginnt oder ein Schaltjahr ist, das an einem Mittwoch beginnt; der 28. Dezember liegt immer in der letzten Woche.",
+    "variables": [
+      {
+        "name": "ISO-Wochentag",
+        "description": "Montag = 1, Dienstag = 2 … Sonntag = 7. Wird hinter die Woche geschrieben, etwa 2026-W44-6 für einen Samstag."
+      },
+      {
+        "name": "ISO-Wochenjahr",
+        "description": "Das Jahr, zu dem die Woche gehört. Es weicht an wenigen Tagen um den 1. Januar vom Kalenderjahr ab."
+      },
+      {
+        "name": "US-Wochennummer",
+        "description": "Eine andere Konvention: Wochen beginnen am Sonntag und Woche 1 ist die Woche mit dem 1. Januar, die Nummern können also um eins von ISO abweichen."
+      }
+    ]
+  },
+  "workedExamples": [
+    {
+      "title": "1. Januar 2026 (ein Donnerstag)",
+      "inputs": [
+        "Datum: 2026-01-01"
+      ],
+      "steps": [
+        "Das Datum ist selbst ein Donnerstag, der Donnerstag seiner Woche liegt also in 2026",
+        "Dieser Donnerstag ist der erste des Jahres"
+      ],
+      "result": "2026-W01 (Montag, 29. Dezember 2025 bis Sonntag, 4. Januar 2026)"
+    },
+    {
+      "title": "1. Januar 2027 (ein Freitag)",
+      "inputs": [
+        "Datum: 2027-01-01"
+      ],
+      "steps": [
+        "Der Donnerstag dieser Woche ist der 31. Dezember 2026",
+        "Die Woche gehört also zum ISO-Jahr 2026 und ist dessen letzte Woche"
+      ]
+    },
+    {
+      "title": "30. Dezember 2024 (ein Montag)",
+      "inputs": [
+        "Datum: 2024-12-30"
+      ],
+      "steps": [
+        "Der Donnerstag dieser Woche ist der 2. Januar 2025",
+        "Die Woche ist also die erste Woche des ISO-Jahres 2025"
+      ]
+    },
+    {
+      "title": "Tage der KW 53 im Jahr 2026",
+      "inputs": [
+        "Jahr: 2026",
+        "Woche: 53"
+      ],
+      "steps": [
+        "2026 beginnt an einem Donnerstag und hat daher 53 ISO-Wochen",
+        "Woche 1 beginnt am Montag, 29. Dezember 2025; 52 × 7 Tage addieren"
+      ],
+      "result": "Montag, 28. Dezember 2026 bis Sonntag, 3. Januar 2027"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Annehmen, dass KW 1 am 1. Januar beginnt",
+      "description": "Nach ISO 8601 kann KW 1 schon am 29. Dezember oder erst am 4. Januar beginnen. Tage ganz am Anfang oder Ende eines Jahres gehören oft zur Woche des Nachbarjahres."
+    },
+    {
+      "title": "Das Kalenderjahr mit der ISO-Woche kombinieren",
+      "description": "Der 1. Januar 2027 liegt in KW 53 von 2026, nicht in KW 53 von 2027. Schreib zur Woche immer das ISO-Wochenjahr (2026-W53). Im Code nutze das Format für das Wochenjahr (<code>%G</code> mit <code>%V</code> in strftime oder <code>IYYY</code> mit <code>IW</code> in PostgreSQL und Oracle) statt des Kalenderjahres."
+    },
+    {
+      "title": "US- und ISO-Wochennummern mischen",
+      "description": "US-Kalender und manche Tabellenkalkulationen beginnen Wochen am Sonntag und zählen die Woche mit dem 1. Januar als Woche 1. Dasselbe Datum kann dann in beiden Systemen eine Woche auseinanderliegen. Excels <code>WEEKNUM</code> (KALENDERWOCHE) nutzt standardmäßig die US-Regel, <code>ISOWEEKNUM</code> (ISOKALENDERWOCHE) nutzt ISO 8601."
+    },
+    {
+      "title": "Annehmen, dass jedes Jahr 52 Wochen hat",
+      "description": "52 × 7 = 364 Tage, also summieren sich die übrigen ein, zwei Tage alle fünf bis sechs Jahre zu einer 53. ISO-Woche. 2020, 2026 und 2032 haben 53 Wochen, was für wöchentliche Lohnabrechnung, Berichte und Geschäftsjahre wichtig ist."
+    },
+    {
+      "title": "Mit Ortszeit kurz vor Mitternacht rechnen",
+      "description": "Berechnet Code Wochen aus einem UTC-Zeitstempel, während der Nutzer in einer anderen Zeitzone ist, können Sonntagabend oder Montagmorgen in der falschen Woche landen. Wandle zuerst in das lokale Datum des Nutzers um und bestimme dann die Wochennummer."
+    }
+  ],
+  "sources": [
+    {
+      "name": "ISO 8601: Datums- und Zeitformat (ISO)"
+    },
+    {
+      "name": "W3C HTML Standard: Wochen (gültige Wochenangabe)"
+    },
+    {
+      "name": "Microsoft Support: Funktion ISOKALENDERWOCHE"
+    },
+    {
+      "name": "Microsoft Support: Funktion KALENDERWOCHE"
+    }
+  ],
+  "howto": {
+    "name": "So findest du die Kalenderwoche eines Datums",
+    "description": "Schlage die ISO-8601-Woche zu jedem Datum nach oder die Tage einer beliebigen Woche.",
+    "steps": [
+      {
+        "name": "Aktuelle Woche ansehen",
+        "text": "Oben im Tool siehst du die aktuelle ISO-Kalenderwoche mit ihren Tagen von Montag bis Sonntag."
+      },
+      {
+        "name": "Datum eingeben",
+        "text": "Wähle ein Datum, um ISO-Woche, ISO-Wochenjahr, Nummer des Wochentags und die US-Wochennummer zu sehen."
+      },
+      {
+        "name": "Tage einer Woche nachschlagen",
+        "text": "Gib Jahr und Wochennummer ein, um die Tage von Montag bis Sonntag dieser ISO-Woche zu sehen und ob das Jahr 52 oder 53 Wochen hat."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Welche Kalenderwoche ist heute?",
+      "a": "Das Feld oben im Rechner zeigt die heutige Kalenderwoche nach ISO 8601 anhand des Datums deines Geräts, zusammen mit ihrem Montag und Sonntag."
+    },
+    {
+      "q": "Wie werden Kalenderwochen berechnet?",
+      "a": "Nach ISO 8601 laufen Wochen von Montag bis Sonntag, und KW 1 ist die Woche mit dem ersten Donnerstag des Jahres. Jede Woche gehört zu dem Jahr, in dem ihr Donnerstag liegt."
+    },
+    {
+      "q": "Welche Jahre haben 53 Wochen?",
+      "a": "Ein Jahr hat 53 ISO-Wochen, wenn der 1. Januar ein Donnerstag ist oder wenn es ein Schaltjahr ist und der 1. Januar ein Mittwoch ist. Beispiele aus jüngerer Zeit und der nahen Zukunft sind 2015, 2020, 2026, 2032 und 2037."
+    },
+    {
+      "q": "Beginnt die Woche am Montag oder Sonntag?",
+      "a": "ISO 8601, in Europa und weiten Teilen Asiens üblich (auch in Deutschland, DIN 1355), beginnt die Woche am Montag. In den USA, Kanada und einigen anderen Ländern beginnen Kalender die Woche meist am Sonntag. Der Rechner zeigt die ISO-Nummer und, getrennt gekennzeichnet, die US-Nummer."
+    },
+    {
+      "q": "Welche Tage liegen in KW 1 von 2026?",
+      "a": "Die ISO-Woche 1 von 2026 reicht von Montag, 29. Dezember 2025 bis Sonntag, 4. Januar 2026."
+    },
+    {
+      "q": "Was ist der Unterschied zwischen ISOKALENDERWOCHE und KALENDERWOCHE in Excel?",
+      "a": "ISOKALENDERWOCHE (ISOWEEKNUM) liefert die Woche nach ISO 8601 (Start Montag, Regel des ersten Donnerstags). KALENDERWOCHE (WEEKNUM) mit dem Standard-Rückgabetyp zählt Wochen ab Sonntag, mit der Woche des 1. Januar als Woche 1, passend zur US-Nummer hier."
+    },
+    {
+      "q": "Wie schreibe ich ein ISO-Wochendatum?",
+      "a": "Schreib das ISO-Wochenjahr, W, die zweistellige Wochennummer und optional den Wochentag: 2026-W44 für die Woche oder 2026-W44-6 für ihren Samstag. Die Kurzform ist 2026W446."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Kalenderwochen-Rechner",
+      "copy-result-btn": "Ergebnis in die Zwischenablage kopieren"
+    },
+    "text": {
+      "week-today": "<span class=\"week-today-label\">Diese Woche (ISO 8601)</span>\n        <span class=\"week-today-value\" id=\"today-week\">–</span>\n        <span class=\"week-today-range\" id=\"today-range\"></span>",
+      "today-btn": "Heute",
+      "reset-btn": "Zurücksetzen",
+      "result-header-text": "ISO-Woche",
+      "copy-result-btn": "<span data-icon=\"copy\"></span> Ergebnis kopieren"
+    },
+    "content": {
+      "week-number-of-a-date": {
+        "heading": "Kalenderwoche eines Datums",
+        "button1": "Kalenderwoche finden"
+      },
+      "dates-in-a-week": {
+        "heading": "Tage einer Woche"
+      },
+      "how-many-weeks-are-in-a": {
+        "heading": "Wie viele Wochen hat ein Jahr?",
+        "p1": "Die meisten Jahre haben 52 ISO-Wochen. Eine 53. Woche gibt es, wenn das Jahr an einem Donnerstag beginnt oder ein Schaltjahr an einem Mittwoch beginnt, weil das Jahr dann 53 Donnerstage hat. Das kommt in 400 Jahren 71-mal vor, also etwa alle fünf bis sechs Jahre.",
+        "caption1": "ISO-Wochen pro Jahr, 2024 bis 2032",
+        "th1": "ISO-Jahr",
+        "th2": "Wochen",
+        "th3": "Woche 1 beginnt",
+        "th4": "Der 1. Januar ist ein",
+        "td1": "Mo 1. Jan. 2024",
+        "td2": "Montag",
+        "td3": "Mo 30. Dez. 2024",
+        "td4": "Mittwoch",
+        "td5": "Mo 29. Dez. 2025",
+        "td6": "Donnerstag",
+        "td7": "Mo 4. Jan. 2027",
+        "td8": "Freitag",
+        "td9": "Mo 3. Jan. 2028",
+        "td10": "Samstag",
+        "td11": "Mo 1. Jan. 2029",
+        "td12": "Montag",
+        "td13": "Mo 31. Dez. 2029",
+        "td14": "Dienstag",
+        "td15": "Mo 30. Dez. 2030",
+        "td16": "Mittwoch",
+        "td17": "Mo 29. Dez. 2031",
+        "td18": "Donnerstag"
+      },
+      "iso-vs-us-week-numbers": {
+        "heading": "ISO- und US-Wochennummern im Vergleich",
+        "p1": "Das ISO-System wird in Europa und weiten Teilen der Welt für Geschäftsplanung, Produktion, Logistik und amtliche Statistik genutzt. Jede Woche hat genau sieben Tage und gehört genau zu einem Jahr, sodass wochenbasierte Berichte aufgehen. Die US-Konvention lässt sich leichter vom Wandkalender ablesen, erzeugt aber angebrochene Wochen: Woche 1 kann ein einzelner Samstag sein, und ein Jahr kann 53 oder sogar 54 nummerierte Wochen haben.",
+        "li1": "<strong>Planung über Ländergrenzen:</strong> Schreib in E-Mails und Verträgen „ISO-Woche“ und nenne das Wochenjahr (2026-W53), um Missverständnisse zum Jahresende zu vermeiden.",
+        "li2": "<strong>Tabellenkalkulation:</strong> Nutze <code>ISOWEEKNUM</code> (ISOKALENDERWOCHE) in Excel und Google Sheets für ISO-Wochen oder <code>WEEKNUM(date, 21)</code>, das ebenfalls ISO 8601 folgt.",
+        "li3": "<strong>Code:</strong> JavaScript hat keine eingebaute Wochennummer, Python bietet <code>date.isocalendar()</code> und PostgreSQL <code>extract(week from date)</code> mit <code>isoyear</code> für das Wochenjahr.",
+        "li4": "<strong>HTML-Formulare:</strong> Das Feld <code>&lt;input type=\"week\"&gt;</code> nutzt das ISO-Format, etwa 2026-W44."
+      }
+    },
+    "label": {
+      "week-date": "Datum <span class=\"text-accent\">*</span>",
+      "range-year": "ISO-Jahr <span class=\"text-accent\">*</span>",
+      "range-week": "Wochennummer <span class=\"text-accent\">*</span>"
+    },
+    "title": {
+      "copy-result-btn": "Ergebnis in die Zwischenablage kopieren"
+    }
+  },
+  "client": {
+    "errors": {
+      "yearRange": "Gib ein Jahr zwischen 1 und 9999 ein.",
+      "weekRange": "{{year}} hat {{max}} ISO-Wochen. Gib eine Wochennummer von 1 bis {{max}} ein.",
+      "invalidDate": "Gib ein gültiges Datum ein (JJJJ-MM-TT).",
+      "pickDate": "Wähle ein Datum, um seine Kalenderwoche zu finden.",
+      "year": "Gib eine vierstellige Jahreszahl ein, zum Beispiel 2026.",
+      "week": "Gib eine Wochennummer von 1 bis 53 ein."
+    },
+    "today": {
+      "week": "KW {{week}}",
+      "range": "{{label}} · {{start}} – {{end}} · heute ist {{weekday}} (Tag {{day}})"
+    },
+    "result": {
+      "header": "{{date}} liegt in ISO-Woche {{week}}",
+      "weekYearDiffers": "Dieses Datum liegt in {{year}}, seine Woche gehört aber zum ISO-Jahr {{weekYear}}, weil der Donnerstag dieser Woche in {{weekYear}} liegt."
+    },
+    "stats": {
+      "week": "Woche (Mo – So)",
+      "isoWeekDate": "ISO-Wochendatum",
+      "isoWeekYear": "ISO-Wochenjahr",
+      "isoWeekYearValue": "{{year}} ({{weeks}} Wochen)",
+      "weekday": "Wochentag",
+      "weekdayValue": "{{weekday}} (ISO-Tag {{day}})",
+      "usWeek": "US-Woche (Start Sonntag, Woche 1 enthält 1. Jan.)",
+      "usWeekValue": "Woche {{week}} von {{year}}",
+      "dayOfYear": "Tag im Jahr",
+      "dayOfYearValue": "{{day}} von {{total}}"
+    },
+    "copy": {
+      "result": "{{date}} liegt in ISO-Woche {{label}} ({{start}} bis {{end}}). US-Woche: {{usWeek}}."
+    },
+    "range": {
+      "summary": "{{label}}: {{start}} bis {{end}} · {{year}} hat {{weeks}} ISO-Wochen"
+    }
+  }
+}

@@ -1,0 +1,360 @@
+{
+  "listing": {
+    "name": "Goldrechner",
+    "shortName": "Goldrechner",
+    "description": "Berechne den Goldpreis nach tola, Gramm, Masha oder Ratti für 24K, 22K, 21K oder 18K aus dem Tageskurs, mit Verarbeitungskosten und Preisen pro tola und pro Gramm.",
+    "shortDescription": "Goldpreis nach tola, Gramm, Masha oder Ratti und Karat aus dem Tageskurs, mit Verarbeitungskosten.",
+    "keywords": [
+      "goldrechner",
+      "goldpreis rechner tola",
+      "tola in gramm",
+      "goldpreis pro tola",
+      "22 karat gold preis rechner",
+      "21 karat gold preis",
+      "gold verarbeitungskosten rechner",
+      "masha ratti in gramm"
+    ]
+  },
+  "title": "Goldrechner: Goldpreis nach tola, Gramm & Karat",
+  "description": "Goldrechner: Berechne den Goldpreis nach tola, Gramm, Masha oder Ratti für 24K, 22K, 21K oder 18K aus dem Tageskurs, mit Verarbeitungskosten.",
+  "h1": "Goldrechner: Preis nach tola, Gramm & Karat",
+  "quickAnswer": "Mit dem Goldrechner gilt: Goldpreis = Gewicht in Gramm × (Karat ÷ 24) × Preis für reines Gold pro Gramm. Bei Rs 400,000 pro tola für 24K sind 2 tola 22K-Gold Rs 733,333.33 wert und 10 Gramm 24K Rs 342,941.30, jeweils vor Verarbeitungskosten. Ein tola entspricht 11.6638038 Gramm.",
+  "formula": {
+    "title": "Formel für den Goldpreis",
+    "expression": "Goldwert = Gewicht (g) × (Karat des Stücks ÷ 24) × Preis für reines Gold pro Gramm",
+    "explanation": "Rechne zuerst den genannten Kurs in den Preis für ein Gramm reines (24K) Gold um: Teile durch die Gramm in der Einheit des Kurses (11.6638038 für ein tola, 10 für 10 Gramm) und durch die Reinheit des Karats, für das der Kurs gilt. Multipliziere dann mit dem Gewicht des Stücks in Gramm und seiner Reinheit. Verarbeitungskosten kommen obendrauf, entweder als Prozentsatz des Goldwerts oder als fester Betrag pro Gramm.",
+    "variables": [
+      {
+        "name": "Gewicht (g)",
+        "description": "Das Gewicht des Stücks in Gramm: 1 tola = 11.6638038 g, 1 Masha = 1/12 tola, 1 Ratti = 1/8 Masha."
+      },
+      {
+        "name": "Karat ÷ 24",
+        "description": "Reinheit als Bruch: 22K = 22/24 = 91.7%, 21K = 87.5%, 18K = 75%."
+      },
+      {
+        "name": "Preis für reines Gold pro Gramm",
+        "description": "Der 24K-Preis eines Gramms, berechnet aus dem eingegebenen Kurs."
+      }
+    ]
+  },
+  "workedExamples": [
+    {
+      "title": "2 tola 22K bei Rs 400,000 pro tola (24K)",
+      "inputs": [
+        "Kurs: Rs 400,000 pro tola für 24K",
+        "Gewicht: 2 tola",
+        "Karat des Stücks: 22K"
+      ],
+      "steps": [
+        "Reinheit 22K: 22 ÷ 24 = 0.916667",
+        "Goldwert: 2 × 400,000 × 0.916667 = 733,333.33"
+      ],
+      "result": "Rs 733,333.33 (22K-Kurs: Rs 366,666.67 pro tola)"
+    },
+    {
+      "title": "10 Gramm 24K und 21K",
+      "inputs": [
+        "Kurs: Rs 400,000 pro tola für 24K",
+        "Gewicht: 10 g"
+      ],
+      "steps": [
+        "24K-Preis pro Gramm: 400,000 ÷ 11.6638038 = 34,294.13",
+        "10 g 24K: 10 × 34,294.13 = Rs 342,941.30",
+        "10 g 21K: 10 × (21 ÷ 24) × 34,294.13 = Rs 300,073.63"
+      ],
+      "result": "Rs 342,941.30 für 24K, Rs 300,073.63 für 21K"
+    },
+    {
+      "title": "1 Masha 24K",
+      "inputs": [
+        "Kurs: Rs 400,000 pro tola für 24K",
+        "Gewicht: 1 Masha (1/12 tola)"
+      ],
+      "steps": [
+        "1 Masha = 11.6638038 ÷ 12 = 0.9719836 g",
+        "Wert: 400,000 ÷ 12 = 33,333.33"
+      ],
+      "result": "Rs 33,333.33"
+    },
+    {
+      "title": "10 Gramm 22K mit Rs 500 Verarbeitung pro Gramm",
+      "inputs": [
+        "Kurs: Rs 400,000 pro tola für 24K",
+        "Gewicht: 10 g, 22K",
+        "Verarbeitungskosten: Rs 500 pro Gramm"
+      ],
+      "steps": [
+        "Goldwert: 10 × (22 ÷ 24) × 34,294.13 = Rs 314,362.86",
+        "Verarbeitungskosten: 10 × 500 = Rs 5,000",
+        "Gesamt: 314,362.86 + 5,000 = Rs 319,362.86"
+      ],
+      "result": "Rs 319,362.86 inklusive Verarbeitungskosten"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Einen 24K-Kurs für 22K- oder 21K-Schmuck verwenden",
+      "description": "Schmuck ist selten 24K. Gilt dein Kurs für 24K und das Stück ist 22K, besteht nur 22/24 seines Gewichts aus Gold. Zahlst du den 24K-Kurs für 22K-Schmuck, zahlst du etwa 9% zu viel."
+    },
+    {
+      "title": "Ein tola als 10 Gramm behandeln",
+      "description": "Ein tola hat 11.6638038 Gramm, nicht 10. Kurse pro tola und pro 10 Gramm sind verschiedene Zahlen, prüfe also, welchen du hast, bevor du Geschäfte vergleichst."
+    },
+    {
+      "title": "Das Karat des Kurses verwechseln",
+      "description": "Manche Geschäfte nennen einen 22K-Kurs, andere einen 24K-Kurs. Wähle das Karat, für das der Kurs gilt, und dann das Karat des Stücks; der Rechner rechnet zwischen beiden um."
+    },
+    {
+      "title": "Verarbeitungskosten und Kaat ignorieren",
+      "description": "Der Preis für Schmuck enthält Verarbeitungskosten, und beim Verkauf oder Tausch kann ein Juwelier Kaat abziehen (einen Abzug für Verlust oder Unreinheit). Der Wert des reinen Goldes ist nur ein Teil des Ladenpreises."
+    },
+    {
+      "title": "Steingewicht als Gold zählen",
+      "description": "Hat ein Stück Steine, Perlen oder Lack, ist deren Gewicht kein Gold. Frag nach dem Nettogewicht des Goldes, bevor du den Wert berechnest."
+    }
+  ],
+  "sources": [
+    {
+      "name": "NIST Office of Weights and Measures (Definition des Grain)"
+    },
+    {
+      "name": "Bureau of Indian Standards: Überblick über Punzierung"
+    }
+  ],
+  "howto": {
+    "name": "So berechnest du den Goldpreis",
+    "description": "Berechne den Wert von Gold aus Tageskurs, Gewicht und Karat.",
+    "steps": [
+      {
+        "name": "Tageskurs eingeben",
+        "text": "Gib den genannten Kurs ein und wähle, ob er pro tola, pro 10 Gramm oder pro Gramm gilt und für welches Karat."
+      },
+      {
+        "name": "Gewicht eingeben",
+        "text": "Gib das Gewicht in tola, Gramm, Masha oder Ratti ein."
+      },
+      {
+        "name": "Karat des Stücks wählen",
+        "text": "Wähle 24K, 22K, 21K oder 18K für das Stück, das du bewertest."
+      },
+      {
+        "name": "Verarbeitungskosten hinzufügen",
+        "text": "Wähle einen Prozentsatz des Goldwerts oder einen festen Betrag pro Gramm und lies Goldwert, Verarbeitungskosten und Gesamtpreis ab."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Wie berechne ich den Goldpreis pro tola?",
+      "a": "Multipliziere die Anzahl der tola mit dem Kurs pro tola für das gewünschte Karat. Gilt dein Kurs für 24K und das Stück ist 22K, multipliziere zusätzlich mit 22 ÷ 24. Bei Rs 400,000 pro tola für 24K sind 2 tola 22K also 2 × 400,000 × 22/24 = Rs 733,333.33."
+    },
+    {
+      "q": "Wie viele Gramm hat ein tola?",
+      "a": "Ein tola hat 11.6638038 Gramm. Es ist als 180 Grain definiert, und ein Grain sind 64.79891 Milligramm."
+    },
+    {
+      "q": "Wie viele Masha und Ratti hat ein tola?",
+      "a": "Ein tola hat 12 Masha und ein Masha 8 Ratti, ein tola sind also 96 Ratti. Ein Masha sind etwa 0.972 Gramm, ein Ratti etwa 0.1215 Gramm."
+    },
+    {
+      "q": "Wie berechne ich den 22K-Goldpreis aus dem 24K-Kurs?",
+      "a": "Multipliziere den 24K-Kurs mit 22 ÷ 24, also etwa 0.9167. Ein 24K-Kurs von Rs 400,000 pro tola entspricht Rs 366,666.67 pro tola für 22K. Für 21K multiplizierst du mit 21 ÷ 24 (0.875), für 18K mit 18 ÷ 24 (0.75)."
+    },
+    {
+      "q": "Was ist der Unterschied zwischen 22K- und 21K-Gold?",
+      "a": "22K-Gold besteht zu etwa 91.7% aus reinem Gold, 21K zu 87.5%. 21K enthält also weniger Gold pro Gramm und ist bei gleichem Gewicht weniger wert. Der Rest sind andere Metalle, die den Schmuck härter machen."
+    },
+    {
+      "q": "Warum ist der Preis beim Juwelier höher als in diesem Rechner?",
+      "a": "Geschäfte schlagen Verarbeitungskosten für die Arbeit auf, berechnen eventuell Verlust und runden den Kurs. Der Rechner zeigt Goldwert und Verarbeitungskosten getrennt, damit du siehst, welcher Teil eines Angebots auf das Gold selbst entfällt."
+    },
+    {
+      "q": "Was ist Kaat beim Gold?",
+      "a": "Kaat ist ein Abzug, den ein Juwelier beim Rückkauf oder Tausch von Gold vornimmt, für Unreinheit, Verlust oder Lot im Stück. Die Höhe unterscheidet sich zwischen Geschäften, frag also vor dem Verkauf, wie viel Kaat abgezogen wird."
+    },
+    {
+      "q": "Wo finde ich den heutigen Goldkurs?",
+      "a": "Nimm den Tageskurs deines örtlichen Sarafa-Verbands oder deines Juweliers. Dieser Rechner ruft keine Live-Preise ab; gib den genannten Kurs ein und wähle seine Einheit und sein Karat."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Formular des Goldrechners",
+      "copy-result-btn": "Ergebnis in die Zwischenablage kopieren",
+      "gold-weight-units-div1": "Umrechnung von Goldgewichtseinheiten (scrollbar)"
+    },
+    "content": {
+      "tool": {
+        "legend1": "Heutiger Goldkurs",
+        "legend2": "Dein Gold",
+        "legend3": "Verarbeitungskosten <span class=\"label-hint\">(optional)</span>",
+        "button1": "Preis berechnen",
+        "div1": "Reiner Goldanteil",
+        "div2": "Goldwert",
+        "div3": "Verarbeitungskosten",
+        "div4": "Gesamtpreis"
+      },
+      "equivalent-rates-for-22k": {
+        "dt1": "Pro tola",
+        "dt2": "Pro 10 Gramm",
+        "dt3": "Pro Gramm"
+      },
+      "gold-weight-units": {
+        "heading": "Gewichtseinheiten für Gold",
+        "caption1": "Umrechnung von Goldgewichtseinheiten",
+        "th1": "Einheit",
+        "th2": "Tola",
+        "th3": "Gramm",
+        "th4": "Masha",
+        "th5": "Ratti",
+        "p1": "Feinunze (Troy Ounce): 31.1034768 g, aus <a href=\"https://www.nist.gov/document/nist-hb-44-2024-appendix-c-general-tables-units-measurement\" target=\"_blank\" rel=\"noopener noreferrer\">NIST Handbook 44, Anhang C</a>. Hongkong-Tael: das gesetzliche „tael troy“ mit 37.429 g für Edelmetalle, aus der <a href=\"https://www.elegislation.gov.hk/hk/cap68\" target=\"_blank\" rel=\"noopener noreferrer\">Weights and Measures Ordinance (Cap. 68)</a>, nicht das gewöhnliche Tael von 1/16 Catty."
+      },
+      "tola-and-gram-which-unit-is": {
+        "p1": "In Pakistan und weiten Teilen Südasiens wird Gold traditionell nach tola gewogen und bepreist, während viele Geschäfte, Banken und internationale Märkte Preise pro Gramm oder pro 10 Gramm nennen. Ein tola sind nicht 10 Gramm, sondern 11.6638038 Gramm, definiert als 180 Grain, wobei ein Grain 64.79891 Milligramm entspricht. Kleinerer Schmuck wird oft in Masha und Ratti gewogen: 12 Masha ergeben ein tola und 8 Ratti ein Masha, ein tola sind also 96 Ratti.",
+        "p2": "Weil sich die Einheiten unterscheiden, kann derselbe Tageskurs von Geschäft zu Geschäft ganz anders aussehen. Wähle die Einheit, in der dein Kurs angegeben ist; der Rechner rechnet alles in Gramm um, bevor er den Wert berechnet. Das Ergebnis zeigt auch den entsprechenden Kurs pro tola, pro 10 Gramm und pro Gramm, damit du Angebote in verschiedenen Einheiten vergleichen kannst."
+      },
+      "karat-and-purity": {
+        "p1": "Das Karat gibt an, wie viel eines Stücks reines Gold ist, gemessen in 24 Teilen. Der Rechner nutzt Reinheit = Karat ÷ 24:",
+        "li1": "<strong>24K:</strong> reines Gold. Als 24K verkauftes Gold ist normalerweise mit 999 punziert, also 99.9% Gold.",
+        "li2": "<strong>22K:</strong> 22/24 = 91.7% Gold, die häufigste Reinheit für Schmuck in Pakistan und Indien, oft mit 916 gestempelt.",
+        "li3": "<strong>21K:</strong> 21/24 = 87.5% Gold, verbreitet in den Golfstaaten und bei manchem einheimischen Schmuck.",
+        "li4": "<strong>18K:</strong> 18/24 = 75% Gold, üblich für Schmuck mit Steinen.",
+        "p2": "Der Rest des Metalls ist meist Silber, Kupfer oder Zink, was den Schmuck härter macht. Gilt dein Kurs für ein Karat und das Stück hat ein anderes, rechnet der Rechner den Preis im Verhältnis der beiden Reinheiten um. Ein 22K-Stück, bewertet nach einem 24K-Kurs, ist bei gleichem Gewicht also 22/24 des 24K-Betrags wert."
+      },
+      "why-shop-prices-differ-from-the": {
+        "p1": "Der Goldwert im Rechner ist der Wert des Metalls im Stück zum eingegebenen Kurs. Das Angebot eines Juweliers liegt meist höher, aus mehreren Gründen:",
+        "li1": "<strong>Verarbeitungskosten:</strong> die Kosten, um aus Gold Schmuck zu machen, berechnet als Prozentsatz des Goldwerts oder als fester Betrag pro Gramm oder pro tola. Aufwendige Designs kosten meist mehr.",
+        "li2": "<strong>Verlust:</strong> Manche Geschäfte berechnen einen Aufschlag für Metall, das bei der Herstellung verloren ging.",
+        "li3": "<strong>Kaat:</strong> Verkaufst oder tauschst du Gold, kann ein Juwelier Kaat für Unreinheit, Lot oder Verlust abziehen, sodass du weniger als den Goldwert erhältst.",
+        "li4": "<strong>Steine und andere Materialien:</strong> Ihr Gewicht ist kein Gold, frag also nach dem Nettogewicht des Goldes.",
+        "p2": "Gib die Verarbeitungskosten ein, die ein Geschäft nennt, um den Gesamtpreis zu sehen, und vergleiche die Zeile Goldwert zwischen Geschäften: Haben zwei Angebote denselben Goldwert, liegt der Unterschied in den Kosten."
+      },
+      "use-today-s-rate-from-your": {
+        "p1": "Goldpreise ändern sich im Lauf des Tages und unterscheiden sich zwischen Städten und Ländern. Dieser Rechner zeigt keine Live-Preise und ruft keine ab. Nimm den Tageskurs deines örtlichen Sarafa-Verbands oder Juweliers, notiere Einheit und Karat und gib ihn hier ein. Kurs und Gewichte bleiben in deinem Browser."
+      }
+    },
+    "label": {
+      "gold-rate": "Kurs <span class=\"text-accent\">*</span>",
+      "rate-unit": "Kurs gilt",
+      "rate-karat": "Kurs gilt für",
+      "gold-weight": "Gewicht <span class=\"text-accent\">*</span>",
+      "weight-unit": "Einheit",
+      "item-karat": "Karat",
+      "making-type": "Berechnet als",
+      "making-value": "Verarbeitungskosten (%)"
+    },
+    "option": {
+      "rate-unit": {
+        "tola": "pro tola",
+        "10g": "pro 10 Gramm",
+        "gram": "pro Gramm",
+        "troyOunce": "pro Feinunze (31.1035 g)",
+        "taelTroy": "pro Tael, Hongkong (37.429 g)",
+        "kilogram": "pro Kilogramm"
+      },
+      "weight-unit": {
+        "tola": "Tola",
+        "gram": "Gramm",
+        "masha": "Masha",
+        "ratti": "Ratti",
+        "troyOunce": "Feinunze",
+        "taelTroy": "Tael (Hongkong, troy)",
+        "kilogram": "Kilogramm"
+      },
+      "making-type": {
+        "none": "Keine Verarbeitungskosten",
+        "percent": "% des Goldwerts",
+        "perGram": "Fester Betrag pro Gramm"
+      }
+    },
+    "text": {
+      "rate-hint": "Nimm den Tageskurs deines örtlichen Sarafa-Verbands oder Juweliers. Dieser Rechner ruft keine Live-Preise ab.",
+      "reset-btn": "Zurücksetzen",
+      "result-header-text": "Gesamtpreis",
+      "copy-result-btn": "<span data-icon=\"copy\"></span> Ergebnis kopieren",
+      "result-primary-text": "Rs 0.00",
+      "stat-gold-value": "Rs 0.00",
+      "stat-making": "Rs 0.00",
+      "stat-total": "Rs 0.00",
+      "rates-title": "Entsprechende Kurse für 22K",
+      "tola-gram-heading": "Tola und Gramm: In welcher Einheit ist dein Kurs?",
+      "karat-heading": "Karat und Reinheit",
+      "shop-price-heading": "Warum Ladenpreise vom Goldwert abweichen",
+      "todays-rate-heading": "Nutze den Tageskurs deines Sarafa-Verbands oder Juweliers"
+    },
+    "title": {
+      "copy-result-btn": "Ergebnis in die Zwischenablage kopieren"
+    },
+    "units": {
+      "gram": "1 Gramm",
+      "masha": "1 Masha",
+      "ratti": "1 Ratti",
+      "troyOunce": "1 Feinunze",
+      "taelTroy": "1 Tael (Hongkong, troy)",
+      "kilogram": "1 Kilogramm"
+    }
+  },
+  "client": {
+    "units": {
+      "tola": "Tola",
+      "gram": "Gramm",
+      "masha": "Masha",
+      "ratti": "Ratti",
+      "troyOunce": "Feinunze",
+      "taelTroy": "Tael (Hongkong, troy)",
+      "kilogram": "Kilogramm"
+    },
+    "rateUnits": {
+      "tola": "pro tola",
+      "10g": "pro 10 Gramm",
+      "gram": "pro Gramm",
+      "troyOunce": "pro Feinunze",
+      "taelTroy": "pro Tael (Hongkong, troy)",
+      "kilogram": "pro Kilogramm"
+    },
+    "errors": {
+      "rateRequired": "Bitte gib den heutigen Goldkurs ein.",
+      "weightRequired": "Bitte gib das Gewicht ein.",
+      "makingRequired": "Bitte gib die Verarbeitungskosten ein.",
+      "weightUnit": "Wähle eine Gewichtseinheit aus der Liste.",
+      "ratePositive": "Der Goldkurs muss über 0 liegen.",
+      "weightPositive": "Das Gewicht muss über 0 liegen.",
+      "rateUnit": "Wähle die Gewichtseinheit, für die der Kurs gilt.",
+      "karat": "Wähle ein Karat: {{karats}}.",
+      "makingNegative": "Die Verarbeitungskosten dürfen nicht negativ sein.",
+      "makingType": "Wähle, wie die Verarbeitungskosten angegeben sind."
+    },
+    "making": {
+      "labelPercent": "Verarbeitungskosten (%)",
+      "labelPerGram": "Verarbeitungskosten ({{symbol}} pro Gramm)"
+    },
+    "result": {
+      "header": "Gesamtpreis, {{weight}} {{karat}}K",
+      "ratesTitle": "Entsprechende Kurse für {{karat}}K",
+      "copy": "{{weight}} {{karat}}K-Gold ({{pure}} g rein): Goldwert {{value}}, Verarbeitung {{making}}, gesamt {{total}}. {{karat}}K-Kurs: {{perTola}} pro tola, {{perGram}} pro Gramm."
+    },
+    "steps": {
+      "weight": "1. Gewicht des Stücks: <code>{{grams}} g</code><br>",
+      "purity": "2. Reinheit: {{karat}} ÷ 24 = <code>{{purity}}%</code>, also reines Gold = <code>{{pure}} g</code><br>",
+      "makingPercent": "4. Verarbeitungskosten: {{percent}}% des Goldwerts = <code>{{value}}</code><br>",
+      "makingPerGram": "4. Verarbeitungskosten: {{grams}} g × {{rate}} = <code>{{value}}</code><br>",
+      "total": "Gesamt: <strong>{{total}}</strong>"
+    },
+    "toast": {
+      "copied": "Goldpreis in die Zwischenablage kopiert"
+    },
+    "weightAmount": {
+      "masha": "{{value}} Masha",
+      "ratti": "{{value}} Ratti"
+    },
+    "weightText": {
+      "gram": "{{value}} Gramm",
+      "masha": "{{value}} Masha",
+      "ratti": "{{value}} Ratti",
+      "troyOunce": "{{value}} Feinunze",
+      "taelTroy": "{{value}} Tael (Hongkong, troy)",
+      "kilogram": "{{value}} Kilogramm"
+    }
+  }
+}

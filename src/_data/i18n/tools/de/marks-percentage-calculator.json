@@ -1,0 +1,331 @@
+{
+  "listing": {
+    "name": "Punkte-Prozentrechner",
+    "shortName": "Punkte in Prozent",
+    "description": "Berechne den Prozentsatz aus erreichten und möglichen Punkten, insgesamt oder pro Fach mit Gesamtsumme, für Matric, Inter oder jede Prüfung, mit typischer BISE-Note.",
+    "shortDescription": "Erreichte und mögliche Punkte in Prozent umrechnen, insgesamt oder pro Fach, mit typischer BISE-Note.",
+    "keywords": [
+      "punkte in prozent rechner",
+      "prozent aus punkten berechnen",
+      "matric prozent rechner",
+      "inter prozent rechner",
+      "wie berechne ich prozent aus punkten",
+      "bise notenstufen",
+      "prozent pro fach"
+    ]
+  },
+  "title": "Punkte-Prozentrechner (Matric, Inter, jede Prüfung)",
+  "description": "Punkte-Prozentrechner: Prozentsatz aus erreichten und möglichen Punkten, insgesamt oder pro Fach mit Gesamtsumme, für Matric, Inter oder jede Prüfung.",
+  "h1": "Punkte-Prozentrechner",
+  "quickAnswer": "Mit dem Punkte-Prozentrechner gilt: Prozentsatz = erreichte Punkte ÷ mögliche Punkte × 100. 870 von 1100 sind zum Beispiel 79.09%, nach typischer BISE-Bewertung ein A, und 990 von 1200 sind 82.5%, ein A+. Bei mehreren Fächern addierst du zuerst alle erreichten und alle möglichen Punkte und teilst dann.",
+  "formula": {
+    "title": "Formel für den Prozentsatz aus Punkten",
+    "expression": "Prozentsatz = (Erreichte Punkte ÷ Mögliche Punkte) × 100",
+    "explanation": "Teile die erreichten Punkte durch die Höchstpunktzahl und multipliziere mit 100. Für ein Gesamtergebnis aus mehreren Fächern nutze die Gesamtsummen: Addiere die erreichten Punkte aller Fächer, addiere die möglichen Punkte aller Fächer und teile die erste Summe durch die zweite. Der Rechner rundet den Prozentsatz auf 2 Nachkommastellen und bestimmt die Note aus dem genauen Wert.",
+    "variables": [
+      {
+        "name": "Erreichte Punkte",
+        "description": "Die Punkte, die du erzielt hast, laut Zeugnis oder Notenblatt."
+      },
+      {
+        "name": "Mögliche Punkte",
+        "description": "Die Höchstpunktzahl der Arbeit, des Fachs oder der gesamten Prüfung."
+      }
+    ]
+  },
+  "workedExamples": [
+    {
+      "title": "870 von 1100",
+      "inputs": [
+        "Erreichte Punkte: 870",
+        "Mögliche Punkte: 1100"
+      ],
+      "steps": [
+        "Teilen: 870 ÷ 1100 = 0.790909…",
+        "Mit 100 multiplizieren: 79.0909…",
+        "Auf 2 Nachkommastellen runden: 79.09%",
+        "79.09% liegen zwischen 70% und 79.99%, die Note ist also A"
+      ],
+      "result": "79.09%, Note A (typische BISE-Bewertung)"
+    },
+    {
+      "title": "990 von 1200",
+      "inputs": [
+        "Erreichte Punkte: 990",
+        "Mögliche Punkte: 1200"
+      ],
+      "steps": [
+        "Teilen: 990 ÷ 1200 = 0.825",
+        "Mit 100 multiplizieren: 82.5%",
+        "82.5% sind 80% oder mehr, die Note ist also A+"
+      ],
+      "result": "82.5%, Note A+ (typische BISE-Bewertung)"
+    },
+    {
+      "title": "Drei Fächer mit unterschiedlichen Höchstpunktzahlen",
+      "inputs": [
+        "Fach 1: 75 von 100 (75%)",
+        "Fach 2: 60 von 75 (80%)",
+        "Fach 3: 40 von 50 (80%)"
+      ],
+      "steps": [
+        "Erreichte Punkte gesamt: 75 + 60 + 40 = 175",
+        "Mögliche Punkte gesamt: 100 + 75 + 50 = 225",
+        "Gesamtprozentsatz: 175 ÷ 225 × 100 = 77.78%",
+        "Der Durchschnitt der drei Fachprozente ergäbe 78.33%, was falsch ist, weil die Fächer unterschiedlich viele Punkte haben"
+      ],
+      "result": "175 / 225 = 77.78%, Note A (typische BISE-Bewertung)"
+    },
+    {
+      "title": "30 von 100",
+      "inputs": [
+        "Erreichte Punkte: 30",
+        "Mögliche Punkte: 100"
+      ],
+      "steps": [
+        "Teilen und mit 100 multiplizieren: 30 ÷ 100 × 100 = 30%",
+        "30% liegen unter 33%, die Note ist also F"
+      ],
+      "result": "30%, Note F (typische BISE-Bewertung)"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Fachprozente mitteln",
+      "description": "Haben Fächer unterschiedliche Höchstpunktzahlen, ist der Durchschnitt der Fachprozente nicht dein Gesamtprozentsatz. Addiere zuerst erreichte und mögliche Punkte: 175 von 225 sind 77.78%, der Durchschnitt aus 75%, 80% und 80% ergibt dagegen 78.33%."
+    },
+    {
+      "title": "Ein Fach oder Praktikum weglassen",
+      "description": "Dein Gesamtprozentsatz muss jedes Fach und jedes Praktikum enthalten, das auf dem Zeugnis zählt. Lässt du eine schwächere Arbeit weg, wird der Wert zu hoch und passt nicht zu deinem offiziellen Ergebnis."
+    },
+    {
+      "title": "Durch die falsche Gesamtpunktzahl teilen",
+      "description": "Nutze die auf deinem Zeugnis für diese Prüfung angegebene Höchstpunktzahl. Die Gesamtpunktzahlen unterscheiden sich je nach Board, Jahr und Prüfungsordnung, übernimm also keine Zahl aus dem Ergebnis von jemand anderem."
+    },
+    {
+      "title": "In die nächste Note aufrunden",
+      "description": "Die Note ergibt sich aus deinem genauen Prozentsatz: 79.6% sind in den typischen BISE-Stufen weiterhin ein A, kein A+. Wie Ergebnisse gerundet und benotet werden, entscheidet allein dein Board."
+    },
+    {
+      "title": "Prozentsatz mit Perzentil verwechseln",
+      "description": "Der Prozentsatz misst deine Punkte an der Höchstpunktzahl. Ein Perzentil ordnet dich im Vergleich zu anderen Kandidaten ein; 80% und das 80. Perzentil sind also verschiedene Dinge."
+    }
+  ],
+  "sources": [
+    {
+      "name": "Inter Boards Coordination Commission (IBCC), Pakistan"
+    }
+  ],
+  "howto": {
+    "name": "So berechnest du den Prozentsatz deiner Punkte",
+    "description": "Erreichte und mögliche Punkte in einen Prozentsatz und eine Referenznote umrechnen.",
+    "steps": [
+      {
+        "name": "Gesamt oder pro Fach wählen",
+        "text": "Nutze Gesamt, wenn du deine Gesamtsumme kennst, oder Pro Fach, um die Punkte jedes Fachs einzugeben."
+      },
+      {
+        "name": "Punkte eingeben",
+        "text": "Gib erreichte und mögliche Punkte ein. Im Modus Pro Fach fügst du bei Bedarf Zeilen hinzu oder entfernst sie."
+      },
+      {
+        "name": "Prozentsatz und Note ablesen",
+        "text": "Sieh den Prozentsatz auf 2 Nachkommastellen, deine Gesamtsumme und die typische BISE-Note, markiert in der Notentabelle."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Wie berechne ich den Prozentsatz meiner Punkte?",
+      "a": "Teile deine erreichten Punkte durch die möglichen Punkte und multipliziere mit 100. Zum Beispiel 870 ÷ 1100 × 100 = 79.09%."
+    },
+    {
+      "q": "Wie berechne ich meinen Matric-Prozentsatz?",
+      "a": "Addiere die erreichten Punkte aller Fächer auf deinem Matric-Zeugnis, teile durch die dort angegebene Gesamtpunktzahl und multipliziere mit 100. Nutze die Gesamtpunktzahl auf deinem eigenen Zeugnis, weil sie sich je nach Board und Jahr unterscheiden kann."
+    },
+    {
+      "q": "Wie berechne ich meinen Inter-Prozentsatz (FSc, ICS, FA)?",
+      "a": "Genauso: Teile deine erreichten Punkte durch die Gesamtpunktzahl auf deinem Intermediate-Zeugnis und multipliziere mit 100. Hast du nur Punkte pro Fach, gib sie im Modus Pro Fach ein, und der Rechner addiert sie für dich."
+    },
+    {
+      "q": "Welche Note sind 75% in Matric?",
+      "a": "Nach typischer BISE-Bewertung sind 75% ein A, denn A reicht von 70% bis 79%. Maßgeblich für deine Note ist das Zeugnis deines Boards."
+    },
+    {
+      "q": "Ist mein Gesamtprozentsatz der Durchschnitt meiner Fachprozente?",
+      "a": "Nur wenn jedes Fach dieselbe Höchstpunktzahl hat. Sonst addierst du alle erreichten und alle möglichen Punkte und teilst dann. So ergibt sich der Gesamtprozentsatz, den dein Board nutzt."
+    },
+    {
+      "q": "Ab welchem Prozentsatz gibt es bei BISE ein F?",
+      "a": "In der typischen BISE-Bewertung auf dieser Seite ist unter 33% ein F und 33% bis 39% ein E. Prüfe auf dem Zeugnis deines Boards, welche Regeln für dich gelten."
+    },
+    {
+      "q": "Wie rechne ich meinen Prozentsatz in CGPA um?",
+      "a": "Nutze den CGPA-in-Prozent-Rechner in Richtung Prozent → CGPA. Druckt deine Universität eine eigene Umrechnungsformel ab, gib diese dort ein, um den offiziellen Wert zu erhalten."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Formular des Punkte-Prozentrechners",
+      "tool-button1": "Note 1 entfernen",
+      "copy-result-btn": "Ergebnis in die Zwischenablage kopieren",
+      "grading-reference-div1": "Notentabelle (scrollbar)",
+      "custom-grade1": "Name von Note 1",
+      "custom-min1": "Mindestprozentsatz von Note 1"
+    },
+    "content": {
+      "tool": {
+        "legend1": "Berechnen aus",
+        "label1": "<input type=\"radio\" name=\"marks-mode\" id=\"mode-total\" value=\"total\" data-param=\"mode\" checked>\n              <span>Gesamtpunkten</span>",
+        "label2": "<input type=\"radio\" name=\"marks-mode\" id=\"mode-subjects\" value=\"subjects\" data-param=\"mode\">\n              <span>Punkten pro Fach</span>",
+        "caption1": "Punkte pro Fach",
+        "th1": "Fach <span class=\"label-hint\">(optional)</span>",
+        "th2": "Erreicht",
+        "th3": "Möglich",
+        "th4": "<span class=\"visually-hidden\">Entfernen</span>",
+        "caption2": "Dein eigener Notenschlüssel",
+        "th5": "Note",
+        "th6": "Ab (%)",
+        "th7": "<span class=\"visually-hidden\">Entfernen</span>",
+        "p1": "Jede Note beginnt bei ihrem Mindestprozentsatz und reicht bis zum Mindestwert der nächsten Note.",
+        "button1": "Prozentsatz berechnen",
+        "div1": "Punkte",
+        "div2": "Prozentsatz"
+      },
+      "grading-reference": {
+        "heading": "Notentabelle",
+        "th1": "Note",
+        "th2": "Prozentsatz",
+        "span1": "· deine Note"
+      },
+      "how-to-calculate-the-percentage-of": {
+        "p1": "Der Prozentsatz deiner Punkte zeigt, welchen Anteil der möglichen Punkte du erreicht hast. Die Methode ist dieselbe für einen einzelnen Test, eine Board-Prüfung, ein ganzes Matric- oder Intermediate-Ergebnis oder einen Aufnahmetest an der Uni:",
+        "li1": "<strong>Finde deine erreichten Punkte</strong> und die <strong>möglichen Punkte</strong> derselben Prüfung auf dem Zeugnis oder Notenblatt.",
+        "li2": "<strong>Teile</strong> die erreichten Punkte durch die möglichen Punkte.",
+        "li3": "<strong>Multipliziere mit 100</strong> und runde auf zwei Nachkommastellen.",
+        "p2": "870 von 1100 sind also 870 ÷ 1100 × 100 = 79.09%. Willst du außerhalb einer Prüfung nur wissen, welchen Anteil eine Zahl an einer anderen hat, rechnet der allgemeine <a href=\"/tools/percentage-calculator/\">Prozentrechner</a> dasselbe für beliebige Werte."
+      },
+      "matric-and-inter-percentage-with-subject-wise": {
+        "p1": "Matric- (SSC) und Intermediate-Zeugnisse (HSSC, darunter FSc, ICS und FA) führen jedes Fach mit eigener Höchstpunktzahl auf, und selten haben alle Fächer dieselbe. Dein Gesamtprozentsatz ergibt sich aus den Gesamtsummen, nicht aus dem Durchschnitt der Fachprozente. Gib im Modus Pro Fach jedes Fach deines Zeugnisses ein, auch separat gezählte Praktika, und der Rechner addiert die Spalten für erreichte und mögliche Punkte für dich.",
+        "p2": "Der Unterschied ist wichtig. Wer 75 von 100, 60 von 75 und 40 von 50 erreicht hat, kommt auf 175 von 225, also 77.78%. Der Durchschnitt der drei Fachprozente (75%, 80% und 80%) ergäbe 78.33%, ein Wert, der nie zum Zeugnis passt. Der Rechner zeigt in der Tabelle den Prozentsatz jedes Fachs, damit du siehst, woher deine Punkte kommen, der Gesamtwert nutzt aber immer die Gesamtsumme.",
+        "p3": "Nutze immer die Gesamtpunktzahlen auf deinem eigenen Zeugnis. Höchstpunktzahlen unterscheiden sich je nach Board, Jahr und Prüfungsordnung, eine aus einem fremden Ergebnis übernommene Zahl kann deinen Prozentsatz also verfälschen."
+      },
+      "typical-bise-grading-in-pakistan": {
+        "p1": "Die Note bei deinem Ergebnis folgt der typischen Bewertung der pakistanischen Boards of Intermediate and Secondary Education (BISE): A+ ab 80%, A für 70–79%, B für 60–69%, C für 50–59%, D für 40–49%, E für 33–39% und F unter 33%. Die Note wird aus deinem genauen Prozentsatz bestimmt, 79.6% sind also ein A, kein A+.",
+        "p2": "Boards können ihre Bewertung ändern, und manche nutzen für bestimmte Prüfungsordnungen andere Bezeichnungen oder Stufen. Die Tabelle auf dieser Seite dient nur zur Orientierung: Maßgeblich für deine Note ist das Zeugnis deines Boards.",
+        "p3": "Wähle unter dem Rechner einen anderen Notenschlüssel, um deine Note anders zu sehen. Die von der FBISE im Oktober 2025 bekannt gegebene überarbeitete IBCC-Bewertung (A++ ab 96% bis U unter 40%) gilt ab den Prüfungen 2026 für Klasse 9 und 11 und ab 2027 für Klasse 10 und 12. Die indische CBSE vergibt Noten nicht nach festen Prozentsätzen: Sie bildet eine Rangfolge der Kandidaten und gibt jedem Achtel eine Note, für die CBSE zeigt der Rechner daher nur, ob du die Bestehensgrenze von 33% erreicht hast. Ein typischer US-Buchstabennotenschlüssel ist ebenfalls enthalten, und du kannst die Stufen deiner eigenen Schule als eigenen Schlüssel eingeben."
+      },
+      "percentages-cgpa-and-admissions": {
+        "p1": "Bewerbungsformulare und Merit-Rechner fragen deine Matric- und Intermediate-Prozentsätze oft getrennt ab, berechne also jeden aus seinem eigenen Zeugnis. An Universitäten werden Ergebnisse meist als CGPA angegeben. Zum Umrechnen nutze den <a href=\"/tools/cgpa-to-percentage-calculator/\">CGPA-in-Prozent-Rechner</a>; druckt deine Universität eine eigene Formel ab, gib diese dort für den offiziellen Wert ein."
+      }
+    },
+    "label": {
+      "obtained-marks": "Erreichte Punkte <span class=\"text-accent\">*</span>",
+      "total-marks": "Mögliche Punkte <span class=\"text-accent\">*</span>",
+      "grading-scale": "Notenschlüssel"
+    },
+    "text": {
+      "add-subject-btn": "Fach hinzufügen",
+      "add-grade-btn": "Note hinzufügen",
+      "reset-btn": "Zurücksetzen",
+      "result-header-text": "Dein Prozentsatz",
+      "copy-result-btn": "<span data-icon=\"copy\"></span> Ergebnis kopieren",
+      "stat-grade-label": "Note (typisch BISE)",
+      "how-to-calc-heading": "So berechnest du den Prozentsatz deiner Punkte",
+      "matric-inter-heading": "Matric- und Inter-Prozentsatz aus Punkten pro Fach",
+      "grading-heading": "Typische BISE-Bewertung in Pakistan",
+      "next-steps-heading": "Prozentsätze, CGPA und Zulassung"
+    },
+    "option": {
+      "grading-scale": {
+        "custom": "Eigener Schlüssel (selbst eingeben)"
+      }
+    },
+    "title": {
+      "copy-result-btn": "Ergebnis in die Zwischenablage kopieren"
+    },
+    "subjects": {
+      "placeholder": "Fach {{n}}",
+      "nameLabel": "Name von Fach {{n}}",
+      "obtainedLabel": "Erreichte Punkte in Fach {{n}}",
+      "totalLabel": "Mögliche Punkte in Fach {{n}}",
+      "removeLabel": "Fach {{n}} entfernen"
+    },
+    "grading": {
+      "andAbove": "ab {{min}}%"
+    }
+  },
+  "client": {
+    "grading": {
+      "label": "Typische BISE-Bewertung",
+      "note": "Typische BISE-Bewertung; maßgeblich ist das Zeugnis deines Boards.",
+      "lowestBandLabel": "Unter 33%"
+    },
+    "grade": {
+      "pass": "Bestanden",
+      "belowPass": "Unter der Bestehensgrenze",
+      "belowLowest": "Unter der niedrigsten Note"
+    },
+    "errors": {
+      "customEmpty": "Füge deinem eigenen Schlüssel mindestens eine Note hinzu.",
+      "customGradeName": "Eigener Schlüssel, Zeile {{row}}: Gib einen Notennamen ein.",
+      "customMinMissing": "Bitte gib den Mindestprozentsatz für Note {{grade}} ein.",
+      "customMinRange": "Eigener Schlüssel: Der Mindestwert für Note {{grade}} muss zwischen 0 und 100 liegen.",
+      "customDuplicate": "Eigener Schlüssel: Die Noten {{a}} und {{b}} haben denselben Mindestwert.",
+      "totalPositive": "Die möglichen Punkte müssen über 0 liegen.",
+      "obtainedNegative": "Die erreichten Punkte dürfen nicht negativ sein.",
+      "obtainedOverTotal": "Die erreichten Punkte ({{obtained}}) dürfen nicht höher sein als die möglichen Punkte ({{total}}).",
+      "enterObtained": "Bitte gib deine erreichten Punkte ein.",
+      "enterTotal": "Bitte gib die möglichen Punkte ein.",
+      "addSubject": "Bitte füge mindestens ein Fach hinzu.",
+      "enterSubjectObtained": "Bitte gib die erreichten Punkte für {{label}} ein.",
+      "enterSubjectTotal": "Bitte gib die möglichen Punkte für {{label}} ein.",
+      "noSubjectMarks": "Bitte gib für mindestens ein Fach Punkte ein."
+    },
+    "subjects": {
+      "defaultName": "Fach {{n}}",
+      "nameLabel": "Name von Fach {{n}}",
+      "obtainedLabel": "Erreichte Punkte in Fach {{n}}",
+      "totalLabel": "Mögliche Punkte in Fach {{n}}",
+      "removeLabel": "Fach {{n}} entfernen"
+    },
+    "custom": {
+      "gradeLabel": "Name von Note {{n}}",
+      "minLabel": "Mindestprozentsatz von Note {{n}}",
+      "removeLabel": "Note {{n}} entfernen",
+      "name": "Eigener Schlüssel",
+      "note": "Dein eigener Notenschlüssel.",
+      "incomplete": "Vervollständige deinen eigenen Schlüssel, um ihn hier zu sehen."
+    },
+    "range": {
+      "andAbove": "ab {{min}}%",
+      "below": "Unter {{min}}%",
+      "toBelow": "{{min}}% bis unter {{next}}%",
+      "orMore": "{{min}}% oder mehr",
+      "yourGrade": " · deine Note"
+    },
+    "source": {
+      "text": " Quelle: {{link}}, geprüft am {{date}}."
+    },
+    "result": {
+      "resultLabel": "Ergebnis",
+      "gradeLabel": "Note",
+      "yourPercentage": "Dein Prozentsatz",
+      "overall": {
+        "one": "Gesamtprozentsatz ({{count}} Fach)",
+        "other": "Gesamtprozentsatz ({{count}} Fächer)"
+      }
+    },
+    "steps": {
+      "grandObtained": "Erreichte Punkte gesamt: {{sum}} = <code>{{total}}</code><br>",
+      "grandTotal": "Mögliche Punkte gesamt: {{sum}} = <code>{{total}}</code><br>",
+      "percentage": "Prozentsatz: {{obtained}} ÷ {{total}} × 100 = <strong>{{pct}}</strong><br>",
+      "grade": "Note: <strong>{{grade}}</strong> ({{scale}})",
+      "result": "Ergebnis: <strong>{{grade}}</strong> ({{scale}})"
+    },
+    "copy": {
+      "subjects": "{{subjects}}. Gesamt {{marks}} = {{pct}}, {{grade}} ({{scale}}).",
+      "toast": "Prozentsatz der Punkte in die Zwischenablage kopiert"
+    }
+  }
+}

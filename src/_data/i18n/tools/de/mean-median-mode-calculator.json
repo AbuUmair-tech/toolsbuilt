@@ -1,0 +1,286 @@
+{
+  "listing": {
+    "name": "Mittelwert, Median, Modus & Standardabweichung",
+    "shortName": "Mittelwert & Median",
+    "description": "Berechne Mittelwert, Median, Modus, Spannweite, Quartile, Varianz und Standardabweichung einer Zahlenliste, mit Rechenweg.",
+    "shortDescription": "Mittelwert, Median, Modus, Quartile und Standardabweichung mit Rechenweg.",
+    "keywords": [
+      "mittelwert median modus rechner",
+      "standardabweichung berechnen",
+      "durchschnitt berechnen",
+      "varianz berechnen",
+      "quartile berechnen",
+      "statistik rechner",
+      "stichprobenstandardabweichung"
+    ]
+  },
+  "title": "Mittelwert, Median, Modus & Standardabweichung berechnen",
+  "description": "Füge eine Zahlenliste ein und erhalte Mittelwert, Median, Modus, Spannweite, Quartile, Varianz und Standardabweichung (Population und Stichprobe).",
+  "h1": "Mittelwert, Median, Modus & Standardabweichung berechnen",
+  "quickAnswer": "Der Mittelwert ist die Summe geteilt durch die Anzahl, der Median der mittlere Wert der sortierten Zahlen und der Modus der häufigste Wert. Für 2, 4, 4, 4, 5, 5, 7, 9 ist der Mittelwert 40 ÷ 8 = 5, der Median (4 + 5) ÷ 2 = 4.5 und der Modus 4. Die Standardabweichung der Grundgesamtheit ist 2, die der Stichprobe (Division durch n − 1) ist 2.1381.",
+  "formula": {
+    "title": "Statistik-Formeln",
+    "expression": "Mittelwert x̄ = Σx ÷ n   ·   Standardabweichung der Grundgesamtheit σ = √(Σ(x − x̄)² ÷ n)   ·   Stichprobe s = √(Σ(x − x̄)² ÷ (n − 1))",
+    "explanation": "Der Median ist der mittlere Wert der sortierten Liste oder bei gerader Anzahl der Durchschnitt der beiden mittleren Werte. Der Modus ist der häufigste Wert; teilen sich mehrere Werte die höchste Häufigkeit, sind alle Modi, und kommt jeder Wert gleich oft vor, gibt es keinen Modus. Quartile werden nach der Methode der Hälften-Mediane bestimmt: Q1 ist der Median der unteren Hälfte, Q3 der Median der oberen Hälfte, wobei der Gesamtmedian bei ungerader Anzahl weggelassen wird. Die Varianz ist die mittlere quadrierte Abweichung vom Mittelwert, die Standardabweichung ihre Quadratwurzel.",
+    "variables": [
+      {
+        "name": "Grundgesamtheit (σ, durch n teilen)",
+        "description": "Nutze sie, wenn deine Zahlen die gesamte betrachtete Gruppe sind, etwa alle Testergebnisse einer Klasse."
+      },
+      {
+        "name": "Stichprobe (s, durch n − 1 teilen)",
+        "description": "Nutze sie, wenn deine Zahlen eine Stichprobe aus einer größeren Gruppe sind und du deren Streuung schätzen willst (Bessel-Korrektur)."
+      },
+      {
+        "name": "IQR",
+        "description": "Interquartilsabstand, Q3 − Q1: die Streuung der mittleren Hälfte der Daten."
+      }
+    ]
+  },
+  "workedExamples": [
+    {
+      "inputs": [
+        "8 Werte"
+      ],
+      "steps": [
+        "Mittelwert: (2 + 4 + 4 + 4 + 5 + 5 + 7 + 9) ÷ 8 = 40 ÷ 8 = 5",
+        "Median: 8 Werte, also Durchschnitt des 4. und 5.: (4 + 5) ÷ 2 = 4.5",
+        "Modus: 4 kommt 3-mal vor, öfter als jeder andere Wert",
+        "Quadrierte Abweichungen: 9, 1, 1, 1, 0, 0, 4, 16; Summe = 32",
+        "Standardabweichung der Grundgesamtheit: √(32 ÷ 8) = √4 = 2; der Stichprobe: √(32 ÷ 7) = 2.1381"
+      ],
+      "result": "Mittelwert 5, Median 4.5, Modus 4, σ = 2, s = 2.1381"
+    },
+    {
+      "title": "1, 2, 3 (kein Modus)",
+      "inputs": [
+        "3 Werte"
+      ],
+      "steps": [
+        "Mittelwert: 6 ÷ 3 = 2; Median: der mittlere Wert, 2",
+        "Jeder Wert kommt einmal vor, es gibt also keinen Modus",
+        "Standardabweichung der Grundgesamtheit: √(2 ÷ 3) = 0.8165; der Stichprobe: √(2 ÷ 2) = 1"
+      ],
+      "result": "Mittelwert 2, Median 2, kein Modus"
+    },
+    {
+      "title": "Quartile von 1, 3, 5, 7, 9",
+      "inputs": [
+        "5 Werte (ungerade Anzahl)"
+      ],
+      "steps": [
+        "Median: 5 (der 3. Wert)",
+        "Untere Hälfte ohne Median: 1, 3, also Q1 = 2",
+        "Obere Hälfte ohne Median: 7, 9, also Q3 = 8"
+      ],
+      "result": "Q1 = 2, Q3 = 8, IQR = 6"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Vor dem Median nicht sortieren",
+      "description": "Der Median ist die Mitte der <em>sortierten</em> Liste. Die Mitte von 9, 2, 5 in Eingabereihenfolge ist 2, der Median aber 5."
+    },
+    {
+      "title": "Die Formel der Grundgesamtheit für eine Stichprobe nutzen",
+      "description": "Die Division durch n unterschätzt die Streuung, wenn deine Daten eine Stichprobe aus einer größeren Gruppe sind. Nutze für Umfragen, Experimente und Messungen einer Teilmenge die Standardabweichung der Stichprobe (n − 1)."
+    },
+    {
+      "title": "Genau einen Modus erwarten",
+      "description": "Daten können einen Modus, mehrere Modi oder keinen haben. 1, 1, 2, 2, 3 hat zwei Modi (1 und 2); 1, 2, 3 hat keinen."
+    },
+    {
+      "title": "Quartile verschiedener Tools vergleichen",
+      "description": "Es gibt mehrere anerkannte Methoden zur Berechnung von Quartilen, die für dieselben Daten leicht abweichende Ergebnisse liefern können. Tabellenkalkulationen interpolieren oft (Excels QUARTILE.INKL); dieser Rechner nutzt die in vielen Kursen gelehrte Methode der Hälften-Mediane."
+    },
+    {
+      "title": "Kommas als Dezimaltrennzeichen tippen",
+      "description": "Kommas trennen hier Werte, 2,5 wird also als zwei Zahlen gelesen, 2 und 5. Nutze für Dezimalzahlen einen Punkt: 2.5."
+    }
+  ],
+  "sources": [
+    {
+      "name": "NIST/SEMATECH e-Handbook of Statistical Methods: Lagemaße"
+    },
+    {
+      "name": "NIST/SEMATECH e-Handbook of Statistical Methods: Streuungsmaße"
+    },
+    {
+      "name": "Microsoft Support: Funktionen STABW.N und STABW.S"
+    },
+    {
+      "name": "Microsoft Support: Funktion QUARTILE.INKL (eine interpolierende Quartilsmethode)"
+    }
+  ],
+  "howto": {
+    "name": "So berechnest du Mittelwert, Median, Modus und Standardabweichung",
+    "description": "Füge deine Zahlen ein und erhalte alle Kennzahlen mit Rechenweg.",
+    "steps": [
+      {
+        "name": "Zahlen eingeben",
+        "text": "Tippe oder füge Werte ein, getrennt durch Kommas, Leerzeichen oder Zeilenumbrüche."
+      },
+      {
+        "name": "Nachkommastellen wählen",
+        "text": "Wähle, wie viele Nachkommastellen die Ergebnisse zeigen sollen."
+      },
+      {
+        "name": "Kennzahlen ablesen",
+        "text": "Sieh Anzahl, Summe, Mittelwert, Median, Modus, Spannweite, Quartile, Varianz und Standardabweichung."
+      },
+      {
+        "name": "Rechenweg prüfen",
+        "text": "Verfolge die Schritte für Mittelwert, Median und Standardabweichung sowie die sortierten Daten."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Wie bestimmt man Mittelwert, Median und Modus?",
+      "a": "Mittelwert: alle Werte addieren und durch ihre Anzahl teilen. Median: die Werte sortieren und den mittleren nehmen oder den Durchschnitt der beiden mittleren. Modus: der Wert, der am häufigsten vorkommt."
+    },
+    {
+      "q": "Was ist der Unterschied zwischen der Standardabweichung der Grundgesamtheit und der Stichprobe?",
+      "a": "Die Standardabweichung der Grundgesamtheit teilt die Summe der quadrierten Abweichungen durch n und beschreibt eine vollständige Gruppe. Die Standardabweichung der Stichprobe teilt durch n − 1 und schätzt aus einer Stichprobe die Streuung einer größeren Gesamtheit, sie ist daher etwas größer."
+    },
+    {
+      "q": "Wie berechne ich die Standardabweichung von Hand?",
+      "a": "Bestimme den Mittelwert, zieh ihn von jedem Wert ab und quadriere das Ergebnis, addiere diese Quadrate, teile durch n (Grundgesamtheit) oder n − 1 (Stichprobe) und zieh dann die Quadratwurzel. Der Rechner zeigt jeden dieser Schritte."
+    },
+    {
+      "q": "Was, wenn es keinen Modus gibt?",
+      "a": "Kommt jeder Wert gleich oft vor, ist kein Wert häufiger als die anderen und die Daten haben keinen Modus. 1, 2, 3 hat keinen Modus."
+    },
+    {
+      "q": "Kann eine Datenreihe mehr als einen Modus haben?",
+      "a": "Ja. Teilen sich zwei oder mehr Werte die höchste Häufigkeit, sind alle Modi. 1, 1, 2, 2, 3 ist bimodal mit den Modi 1 und 2."
+    },
+    {
+      "q": "Wie werden die Quartile berechnet?",
+      "a": "Dieser Rechner nutzt die Methode der Hälften-Mediane: Die sortierten Daten werden in eine untere und obere Hälfte geteilt (bei ungerader Anzahl ohne den Median), und der Median jeder Hälfte ergibt Q1 und Q3."
+    },
+    {
+      "q": "Wie gebe ich meine Zahlen ein?",
+      "a": "Trenne Zahlen durch Kommas, Leerzeichen, Semikolons oder Zeilenumbrüche und nutze für Dezimalzahlen einen Punkt. Du kannst eine Spalte direkt aus einer Tabelle einfügen."
+    },
+    {
+      "q": "Ist der Median oder der Mittelwert besser?",
+      "a": "Der Mittelwert nutzt alle Werte, wird aber von Ausreißern verzerrt; der Median ist der mittlere Wert und bleibt von wenigen Extremwerten unbeeinflusst. Bei schiefen Daten wie Einkommen oder Immobilienpreisen ist der Median meist aussagekräftiger."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Statistik-Rechner",
+      "copy-result-btn": "Ergebnis in die Zwischenablage kopieren"
+    },
+    "label": {
+      "data": "Zahlen <span class=\"text-accent\">*</span>",
+      "dp": "Nachkommastellen"
+    },
+    "text": {
+      "data-hint": "Trenne Werte durch Kommas, Leerzeichen oder Zeilenumbrüche. Nutze für Dezimalzahlen einen Punkt (2.5).",
+      "reset-btn": "Zurücksetzen",
+      "result-header-text": "Übersicht",
+      "copy-result-btn": "<span data-icon=\"copy\"></span> Ergebnis kopieren"
+    },
+    "content": {
+      "tool": {
+        "button1": "Berechnen",
+        "summary1": "Sortierte Daten und Rechenweg",
+        "p1": "Sortierte Daten",
+        "p2": "Mittelwert",
+        "p3": "Median",
+        "p4": "Standardabweichung"
+      },
+      "mean-median-or-mode-which-average": {
+        "heading": "Mittelwert, Median oder Modus: Welcher Durchschnitt passt?",
+        "caption1": "Wann du Mittelwert, Median und Modus nutzt",
+        "th1": "Kennzahl",
+        "th2": "Was sie aussagt",
+        "th3": "Ideal für",
+        "td1": "Mittelwert",
+        "td2": "Der Schwerpunkt aller Werte",
+        "td3": "Symmetrische Daten ohne extreme Ausreißer, etwa Körpergrößen oder Testergebnisse",
+        "td4": "Median",
+        "td5": "Der mittlere Wert; die Hälfte liegt darüber, die Hälfte darunter",
+        "td6": "Schiefe Daten oder Daten mit Ausreißern, etwa Einkommen und Immobilienpreise",
+        "td7": "Modus",
+        "td8": "Der häufigste Wert",
+        "td9": "Kategorien und wiederkehrende Werte, etwa Schuhgrößen oder Antworten in Umfragen",
+        "p1": "Ein Ausreißer kann den Mittelwert stark verschieben, während der Median fast unverändert bleibt. Für die Werte 30, 32, 35, 38 und 40 sind Mittelwert und Median beide 35. Ersetzt du 40 durch 400, bleibt der Median bei 35, der Mittelwert springt aber auf 107. Deshalb weisen amtliche Einkommensstatistiken meist den Median aus."
+      },
+      "reading-the-standard-deviation": {
+        "heading": "So liest du die Standardabweichung",
+        "p1": "Die Standardabweichung misst, wie weit Werte typischerweise vom Mittelwert entfernt liegen, in derselben Einheit wie die Daten. Eine kleine Standardabweichung heißt, die Werte liegen eng beieinander; eine große, sie sind weit gestreut. Bei glockenförmig verteilten Daten liegen etwa 68% der Werte innerhalb einer Standardabweichung um den Mittelwert und etwa 95% innerhalb von zwei.",
+        "li1": "<strong>Varianz</strong> ist die quadrierte Standardabweichung. Sie wird in weiteren Berechnungen genutzt, hat aber quadrierte Einheiten und ist daher schwerer direkt zu deuten.",
+        "li2": "<strong>Spannweite</strong> (Max − Min) ist schnell berechnet, hängt aber nur von den beiden Extremwerten ab.",
+        "li3": "<strong>Interquartilsabstand</strong> (Q3 − Q1) umfasst die mittlere Hälfte der Daten und ignoriert Ausreißer. Eine gängige Regel markiert Werte, die mehr als 1.5 × IQR unter Q1 oder über Q3 liegen, als mögliche Ausreißer.",
+        "p2": "In Tabellenkalkulationen entsprechen STABW.N und VAR.P (englisch STDEV.P und VAR.P) den Werten der Grundgesamtheit hier, STABW.S und VAR.S (STDEV.S und VAR.S) den Werten der Stichprobe. Alle Berechnungen laufen in deinem Browser, du kannst also auch private Daten bedenkenlos einfügen."
+      }
+    },
+    "title": {
+      "copy-result-btn": "Ergebnis in die Zwischenablage kopieren"
+    }
+  },
+  "client": {
+    "errors": {
+      "empty": "Gib mindestens eine Zahl ein. Trenne Werte durch Kommas, Leerzeichen oder Zeilenumbrüche.",
+      "notNumber": {
+        "one": "{{shown}} ist keine Zahl. Nutze Ziffern mit Punkt für Dezimalzahlen (2.5), getrennt durch Kommas, Leerzeichen oder Zeilenumbrüche.",
+        "other": "{{shown}} sind keine Zahlen. Nutze Ziffern mit Punkt für Dezimalzahlen (2.5), getrennt durch Kommas, Leerzeichen oder Zeilenumbrüche.",
+        "more": "{{shown}} und {{more}} weitere sind keine Zahlen. Nutze Ziffern mit Punkt für Dezimalzahlen (2.5), getrennt durch Kommas, Leerzeichen oder Zeilenumbrüche."
+      },
+      "tooMany": "Gib höchstens {{max}} Werte ein.",
+      "tooLarge": "Einer der Werte ist zu groß, um damit zu rechnen.",
+      "noNumbers": "Gib mindestens eine Zahl ein.",
+      "notAllNumbers": "Jeder Wert muss eine Zahl sein."
+    },
+    "quartileMethod": "Hälften-Mediane: Q1 ist der Median der unteren Hälfte und Q3 der Median der oberen Hälfte, wobei der Gesamtmedian bei ungerader Anzahl weggelassen wird.",
+    "quartileNote": "Quartilsmethode: {{method}}",
+    "more": "… ({{count}} weitere)",
+    "steps": {
+      "add": {
+        "one": "Den {{count}} Wert addieren: {{values}} = {{sum}}",
+        "other": "Die {{count}} Werte addieren: {{values}} = {{sum}}"
+      },
+      "divide": "Durch die Anzahl teilen: {{sum}} ÷ {{count}} = {{mean}}",
+      "sort": "Werte sortieren: {{values}}",
+      "odd": "{{count}} ist ungerade, der Median ist also der mittlere Wert, Nummer {{position}}: {{median}}",
+      "even": "{{count}} ist gerade, der Median ist also der Durchschnitt der Werte {{first}} und {{second}}: ({{a}} + {{b}}) ÷ 2 = {{median}}",
+      "deviations": "Mittelwert von jedem Wert abziehen und quadrieren: {{deviations}}",
+      "sumOfSquares": "Quadrierte Abweichungen addieren: Quadratsumme = {{ss}}",
+      "populationVariance": "Varianz der Grundgesamtheit σ² = {{ss}} ÷ {{count}} = {{variance}}, also σ = √{{variance}} = {{sd}}",
+      "sampleVariance": "Varianz der Stichprobe s² = {{ss}} ÷ ({{count}} − 1) = {{variance}}, also s = √{{variance}} = {{sd}}",
+      "sampleNeedsTwo": "Die Standardabweichung der Stichprobe braucht mindestens 2 Werte (sie teilt durch n − 1)."
+    },
+    "stats": {
+      "modeValue": "{{modes}} (kommt {{count}}-mal vor)",
+      "noMode": "Kein Modus",
+      "needsTwo": "Braucht 2+ Werte",
+      "count": "Anzahl (n)",
+      "sum": "Summe",
+      "mean": "Mittelwert",
+      "median": "Median",
+      "mode": "Modus",
+      "modes": "Modi",
+      "min": "Minimum",
+      "max": "Maximum",
+      "range": "Spannweite",
+      "populationSD": "Standardabweichung Grundgesamtheit (σ)",
+      "sampleSD": "Standardabweichung Stichprobe (s)",
+      "populationVariance": "Varianz Grundgesamtheit (σ²)",
+      "sampleVariance": "Varianz Stichprobe (s²)",
+      "q1": "Q1 (unteres Quartil)",
+      "q3": "Q3 (oberes Quartil)",
+      "iqr": "Interquartilsabstand"
+    },
+    "result": {
+      "header": {
+        "one": "Übersicht über {{count}} Wert",
+        "other": "Übersicht über {{count}} Werte"
+      },
+      "primary": "Mittelwert {{mean}} · Median {{median}} · {{mode}}",
+      "mode": "Modus {{modes}}"
+    }
+  }
+}

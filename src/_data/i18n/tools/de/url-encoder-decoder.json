@@ -1,0 +1,244 @@
+{
+  "listing": {
+    "name": "URL Encoder & Decoder",
+    "shortName": "URL Encoder",
+    "description": "Kodiere und dekodiere URLs mit den Modi encodeURIComponent und encodeURI und zerlege Query-Strings in eine Tabelle.",
+    "shortDescription": "Kodiere und dekodiere URLs mit den Modi encodeURIComponent und encodeURI und zerlege Query-Strings in eine Tabelle.",
+    "keywords": [
+      "url kodieren",
+      "url dekodieren",
+      "url encoder online",
+      "query string zerlegen",
+      "prozentkodierung"
+    ]
+  },
+  "title": "URL kodieren & dekodieren - URL Encoder / Decoder",
+  "description": "Kostenloser URL Encoder & Decoder: URLs kodieren und dekodieren mit encodeURIComponent oder encodeURI, Query-Strings als Tabelle ansehen und kopieren.",
+  "h1": "URL Encoder & Decoder",
+  "quickAnswer": "Mit dem URL Encoder & Decoder kodierst du Text per encodeURIComponent(): Es kodiert jedes Zeichen außer A–Z, a–z, 0–9, -, _, ., !, ~, *, ', (, ) und eignet sich für einzelne Werte im Query-String. encodeURI() behält Strukturzeichen (:, /, ?, #, &, =) bei und wird für vollständige URLs genutzt. Zum Dekodieren fügst du prozentkodierten Text ein, und das Tool wandelt jede %XX-Folge zurück in das ursprüngliche UTF-8-Zeichen.",
+  "workedExamples": [
+    {
+      "title": "Wert eines Query-Parameters kodieren",
+      "inputs": [
+        "Modus: encodeURIComponent",
+        "Eingabe: hello world & goodbye!"
+      ],
+      "steps": [
+        "Leerzeichen → %20, & → %26, ! → %21",
+        "Ausgabe: hello%20world%20%26%20goodbye%21"
+      ],
+      "result": "hello%20world%20%26%20goodbye%21"
+    },
+    {
+      "title": "Eine vollständige URL kodieren",
+      "inputs": [
+        "Modus: encodeURI",
+        "Eingabe: https://example.com/search?q=hello world&lang=en"
+      ],
+      "steps": [
+        "Strukturzeichen bleiben erhalten: ://?&=",
+        "Leerzeichen → %20, andere Sonderzeichen werden kodiert",
+        "Ausgabe: https://example.com/search?q=hello%20world&lang=en"
+      ],
+      "result": "https://example.com/search?q=hello%20world&lang=en"
+    },
+    {
+      "title": "Prozentkodierte Zeichenkette dekodieren",
+      "inputs": [
+        "Modus: Dekodieren",
+        "Eingabe: Caf%C3%A9%20au%20lait"
+      ],
+      "steps": [
+        "%C3%A9 ist die UTF-8-Kodierung für é (e mit Akut)",
+        "%20 ist ein Leerzeichen",
+        "Dekodiert: Café au lait"
+      ],
+      "result": "Café au lait"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Doppelt kodieren",
+      "description": "Wird eine bereits prozentkodierte Zeichenkette erneut kodiert, werden vorhandene <code>%</code>-Zeichen zu <code>%25</code> (aus <code>%20</code> wird <code>%2520</code>). Prüfe immer, ob eingehende Daten schon kodiert sind, bevor du sie umwandelst."
+    },
+    {
+      "title": "encodeURI für Query-Werte verwenden",
+      "description": "Mit <code>encodeURI</code> auf einen Parameterwert bleiben Zeichen wie <code>&amp;</code> und <code>+</code> unkodiert, sodass Server-Parser Werte unerwartet abschneiden oder aufteilen."
+    },
+    {
+      "title": "Fehlerhafte Prozentfolgen",
+      "description": "Das Dekodieren einer Zeichenkette mit einem einzelnen Prozentzeichen (etwa <code>discount=50%</code> statt <code>discount=50%25</code>) löst in JavaScript einen fatalen <code>URIError: URI malformed</code> aus. Sichere Tools fangen diesen Fehler ab und zeigen ihn klar an."
+    }
+  ],
+  "sources": [
+    {
+      "label": "RFC 3986: Uniform Resource Identifier (URI): Generic Syntax"
+    },
+    {
+      "label": "MDN Web Docs: encodeURIComponent()"
+    },
+    {
+      "label": "MDN Web Docs: encodeURI()"
+    }
+  ],
+  "howto": {
+    "name": "So kodierst und dekodierst du URLs online",
+    "description": "Schritt-für-Schritt-Anleitung, um URL-Bestandteile und vollständige URIs zu kodieren und Query-Parameter zu zerlegen.",
+    "steps": [
+      {
+        "name": "Richtung & Modus wählen",
+        "text": "Wähle „Kodieren“ oder „Dekodieren“ und den Komponentenmodus (encodeURIComponent) oder den Modus für vollständige URLs (encodeURI)."
+      },
+      {
+        "name": "Zeichenkette oder URL eingeben",
+        "text": "Tippe oder füge deinen Query-Parameter, Textausschnitt oder die vollständige Webadresse in das Eingabefeld ein."
+      },
+      {
+        "name": "Ergebnis prüfen & kopieren",
+        "text": "Sieh dir das Ergebnis live an, prüfe die zerlegten Schlüssel-Wert-Paare der Query-Parameter in der Tabelle und kopiere das Ergebnis."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Was ist der Unterschied zwischen encodeURIComponent und encodeURI?",
+      "a": "encodeURIComponent kodiert alle reservierten Satzzeichen (darunter &, =, ?, /, : und #) als prozentkodierte Hex-Folgen. Es ist für einzelne Schlüssel und Werte von Query-Parametern gedacht. encodeURI dagegen behält gültige Strukturzeichen einer URL (;,/?:@&=+$#) bei und kodiert nur Zeichen, die in URIs verboten sind, etwa Leerzeichen und Unicode-Zeichen."
+    },
+    {
+      "q": "Wann sollte ich encodeURIComponent statt encodeURI verwenden?",
+      "a": "Nutze immer encodeURIComponent, wenn du Werte für einen Query-String vorbereitest (z. B. ?q=search+term oder ?redirect_url=https://example.com). Mit encodeURI würden Zeichen wie & und = in deinem Wert als zusätzliche Trennzeichen missverstanden."
+    },
+    {
+      "q": "Wie behandelt das Tool Pluszeichen '+' in Query-Strings?",
+      "a": "In Query-Strings vom Typ application/x-www-form-urlencoded stehen Pluszeichen (+) meist für Leerzeichen. Beim Dekodieren im Komponentenmodus wandelt dieses Tool sowohl '+' als auch '%20' in normale Leerzeichen um."
+    },
+    {
+      "q": "Werden meine URL oder private Query-Parameter an einen Server gesendet?",
+      "a": "Nein. Kodieren, Dekodieren und das Zerlegen von Query-Strings laufen zu 100 % lokal in deinem Webbrowser. Sensible API-Tokens und Query-Strings verlassen nie dein Gerät."
+    },
+    {
+      "q": "Wie groß darf eine URL maximal sein?",
+      "a": "Das Tool verarbeitet Eingaben bis zu einer Sicherheitsgrenze von 1 MB (1,048,576 Zeichen). Die verzögerte Live-Verarbeitung sorgt für sofortige Aktualisierung ohne Ruckeln."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Formular des URL Encoders &amp; Decoders",
+      "parsed-query-string-parameters-table1": "Zerlegte Query-Parameter",
+      "url-encoding-specification-mode-comparison-table1": "Vergleich der Modi"
+    },
+    "content": {
+      "tool": {
+        "span1": "Richtung:",
+        "label1": "<input type=\"radio\" name=\"url-direction\" value=\"encode\" checked class=\"cursor-pointer\">\n            <span>Kodieren</span>",
+        "label2": "<input type=\"radio\" name=\"url-direction\" value=\"decode\" class=\"cursor-pointer\">\n            <span>Dekodieren</span>",
+        "span2": "Modus:",
+        "label3": "<input type=\"radio\" name=\"url-mode\" value=\"component\" checked class=\"cursor-pointer\">\n            <span>Komponente (encodeURIComponent)</span>",
+        "label4": "<input type=\"radio\" name=\"url-mode\" value=\"full\" class=\"cursor-pointer\">\n            <span>Vollständige URL (encodeURI)</span>"
+      },
+      "parsed-query-string-parameters": {
+        "heading": "Zerlegte Query-Parameter",
+        "th1": "Parameterschlüssel",
+        "th2": "Roher / kodierter Wert",
+        "th3": "Dekodierter Wert"
+      },
+      "how-when-to-use-the-url": {
+        "li1": "<strong>Verschachtelte URLs in Weiterleitungen:</strong> Wenn du eine Rücksprung-URL übergibst (z. B. <code>?returnTo=https://example.com/dashboard?tab=billing</code>), nutze <code>encodeURIComponent</code>, damit der äußere Server die verschachtelten Parameter nicht auswertet.",
+        "li2": "<strong>Links mit Leerzeichen reparieren:</strong> Browser brauchen gültige ASCII-URIs. Kodiere Leerzeichen als <code>%20</code> (oder <code>+</code>) und Unicode-Zeichen, bevor du Links teilst.",
+        "li3": "<strong>Webhook-Payloads &amp; Query-Strings debuggen:</strong> Füge komplexe Query-Strings ein und sieh jeden Parameter übersichtlich in einer Tabelle.",
+        "li4": "<strong>Formulardaten sicher kodieren:</strong> Prüfe, wie Eingaben in POST-Anfragen vom Typ <code>application/x-www-form-urlencoded</code> übertragen werden."
+      },
+      "url-encoding-specification-mode-comparison": {
+        "p1": "RFC 3986 legt die Prozentkodierung fest, um Zeichen außerhalb des erlaubten ASCII-Zeichensatzes in URIs darzustellen. Wer den Unterschied zwischen Komponentenmodus und vollständigem URI-Modus kennt, vermeidet kaputte Routen und beschädigte Parameter.",
+        "th1": "Zeichen",
+        "th2": "Modus encodeURI",
+        "th3": "Modus encodeURIComponent",
+        "th4": "Grund",
+        "td1": "<code>Leerzeichen ( )</code>",
+        "td2": "Leerzeichen sind in gültigen URIs nie erlaubt.",
+        "td3": "<code>Und-Zeichen (&amp;)</code>",
+        "td4": "<code>&amp;</code> (bleibt)",
+        "td5": "<code>%26</code> (kodiert)",
+        "td6": "Trennt Query-Parameter; muss innerhalb von Werten kodiert werden.",
+        "td7": "<code>Gleichheitszeichen (=)</code>",
+        "td8": "<code>=</code> (bleibt)",
+        "td9": "<code>%3D</code> (kodiert)",
+        "td10": "Trennt Schlüssel und Wert; muss innerhalb von Werten kodiert werden.",
+        "td11": "<code>Fragezeichen (?)</code>",
+        "td12": "<code>?</code> (bleibt)",
+        "td13": "<code>%3F</code> (kodiert)",
+        "td14": "Leitet den Query-String ein; muss innerhalb von Werten kodiert werden.",
+        "td15": "<code>Schrägstrich (/)</code>",
+        "td16": "<code>/</code> (bleibt)",
+        "td17": "<code>%2F</code> (kodiert)",
+        "td18": "Trennt Pfadsegmente; muss innerhalb von Werten kodiert werden.",
+        "td19": "<code>Raute (#)</code>",
+        "td20": "<code>#</code> (bleibt)",
+        "td21": "<code>%23</code> (kodiert)",
+        "td22": "Leitet den Fragment-Anker ein; muss innerhalb von Werten kodiert werden."
+      }
+    },
+    "title": {
+      "tool-label1": "Kodiert alle Trennzeichen (;,/?:@&=+$#). Ideal für Parameterschlüssel & -werte.",
+      "tool-label2": "Behält die Strukturzeichen einer URL bei. Ideal für vollständige Webadressen."
+    },
+    "text": {
+      "clear-btn": "Leeren",
+      "size-meter": "0.0 KB / 1 MB",
+      "convert-btn": "URL kodieren",
+      "swap-btn": "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><polyline points=\"17 1 21 5 17 9\"></polyline><path d=\"M3 11V9a4 4 0 0 1 4-4h14\"></path><polyline points=\"7 23 3 19 7 15\"></polyline><path d=\"M21 13v2a4 4 0 0 1-4 4H3\"></path></svg>\n          Eingabe &amp; Ausgabe tauschen",
+      "copy-btn": "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"9\" y=\"9\" width=\"13\" height=\"13\" rx=\"2\" ry=\"2\"></rect><path d=\"M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1\"></path></svg>\n          Ergebnis kopieren",
+      "query-count-badge": "0 Parameter",
+      "how-to-use-heading": "Wie &amp; wann du den URL Encoder / Decoder nutzt",
+      "article-heading": "Spezifikation der URL-Kodierung &amp; Vergleich der Modi"
+    },
+    "label": {
+      "url-input": "Zu kodierender Text oder URL (Komponente):",
+      "url-output": "Kodierte URL:"
+    },
+    "placeholder": {
+      "url-input": "Parameter oder Text hier einfügen ... z. B. hello world &amp; symbols=?",
+      "url-output": "Das Ergebnis erscheint hier live beim Tippen ..."
+    }
+  },
+  "client": {
+    "modeName": {
+      "full": "Vollständige URL (encodeURI)",
+      "component": "Komponente (encodeURIComponent)"
+    },
+    "labels": {
+      "encode": {
+        "input": "Zu kodierender Text oder URL ({{mode}}):",
+        "output": "Kodierte URL:",
+        "button": "URL kodieren",
+        "placeholderFull": "Vollständige URL hier einfügen ... z. B. https://example.com/search?q=toolsbuilt & more=yes",
+        "placeholderComponent": "Parameter oder Text hier einfügen ... z. B. hello world & symbols=?"
+      },
+      "decode": {
+        "input": "Zu dekodierende URL:",
+        "output": "Dekodierter Klartext:",
+        "button": "URL dekodieren",
+        "placeholder": "Kodierte URL oder Zeichenkette hier einfügen ... z. B. https%3A%2F%2Fexample.com%3Fq%3Dtoolsbuilt"
+      }
+    },
+    "sizeMeter": "{{kb}} KB / {{max}} MB",
+    "params": {
+      "one": "{{n}} Parameter",
+      "other": "{{n}} Parameter"
+    },
+    "status": {
+      "encoded": "✓ Kodiert mit {{mode}}: {{input}} &rarr; {{output}} Zeichen",
+      "decoded": "✓ Dekodiert mit {{mode}}: {{input}} &rarr; {{output}} Zeichen"
+    },
+    "errors": {
+      "notText": "Die Eingabe muss eine gültige Zeichenkette sein.",
+      "tooLarge": "Die Eingabe überschreitet die Sicherheitsgrenze von 1 MB (max. 1,048,576 Zeichen). Aktuelle Größe: {{size}} Zeichen.",
+      "encoding": "Fehler beim Kodieren: {{message}}",
+      "decoding": "Fehler beim Dekodieren: ungültige prozentkodierte Folge ({{message}}). Prüfe auf unvollständige %-Hex-Paare."
+    },
+    "toast": {
+      "nothingToCopy": "Nichts zu kopieren. Gib zuerst Text ein.",
+      "copied": "Ergebnis in die Zwischenablage kopiert"
+    }
+  }
+}

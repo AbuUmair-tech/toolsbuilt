@@ -1,0 +1,750 @@
+{
+  "listing": {
+    "name": "Umsatzsteuer-, MwSt- & GST-Rechner",
+    "shortName": "Umsatzsteuer, MwSt & GST",
+    "description": "Schlage Umsatzsteuer, Mehrwertsteuer (MwSt) oder GST zum Satz deines Landes oder einem eigenen Satz auf oder rechne sie heraus, mit Menge und Formel.",
+    "shortDescription": "Steuer auf einen Preis aufschlagen oder aus einem Bruttopreis herausrechnen, zu jedem Satz, mit Formel.",
+    "keywords": [
+      "mehrwertsteuer rechner",
+      "gst rechner",
+      "mwst herausrechnen",
+      "gst aus preis herausrechnen",
+      "18% gst aufschlagen",
+      "umsatzsteuer rechner",
+      "sales tax pakistan 18%",
+      "brutto netto rechner"
+    ]
+  },
+  "title": "Mehrwertsteuer-Rechner: MwSt, GST & Sales Tax berechnen",
+  "description": "MwSt-Rechner: Umsatzsteuer oder GST aufschlagen oder herausrechnen, zum Satz deines Landes (DE, UK, EU, Indien, Pakistan) oder eigenem Satz.",
+  "h1": "Umsatzsteuer-, MwSt- & GST-Rechner",
+  "quickAnswer": "Mit dem Mehrwertsteuer-Rechner schlägst du Steuer auf, indem du den Preis mit (1 + Satz) multiplizierst: 1,000 plus 18% sind 1,000 × 1.18 = 1,180, davon 180 Steuer. Um die Steuer aus einem Bruttopreis herauszurechnen, teilst du durch (1 + Satz): 1,180 ÷ 1.18 = 1,000. Zieh nie einfach 18% ab: 5,000 inklusive 18% Steuer sind netto 4,237.29, nicht 4,100.",
+  "formula": {
+    "title": "Formeln für die Umsatzsteuer",
+    "expression": "Brutto = Netto × (1 + Satz) · Netto = Brutto ÷ (1 + Satz)",
+    "explanation": "Schreib den Satz als Dezimalzahl (18% = 0.18). Um Steuer auf einen Nettopreis aufzuschlagen, ist die Steuer Preis × Satz und der Bruttobetrag Preis × (1 + Satz). Um den Nettopreis in einem Bruttobetrag zu finden, teilst du den Bruttobetrag durch (1 + Satz); die Steuer ist Brutto minus Netto. Bei einer Menge multiplizierst du zuerst den Stückpreis mit der Menge.",
+    "variables": [
+      {
+        "name": "Preis",
+        "description": "Der Preis ohne Steuer (Aufschlagen) oder inklusive Steuer (Herausrechnen), für einen Artikel."
+      },
+      {
+        "name": "Satz",
+        "description": "Der Steuersatz als Dezimalzahl, z. B. 0.18 für 18%."
+      }
+    ]
+  },
+  "workedExamples": [
+    {
+      "title": "18% auf 1,000 aufschlagen",
+      "inputs": [
+        "Nettopreis: 1,000",
+        "Satz: 18%"
+      ],
+      "steps": [
+        "Steuer: 1,000 × 0.18 = 180",
+        "Brutto: 1,000 + 180 = 1,180"
+      ],
+      "result": "Steuer 180, brutto 1,180"
+    },
+    {
+      "title": "18% aus 1,180 herausrechnen",
+      "inputs": [
+        "Bruttopreis: 1,180",
+        "Satz: 18%"
+      ],
+      "steps": [
+        "Nettopreis: 1,180 ÷ 1.18 = 1,000",
+        "Enthaltene Steuer: 1,180 − 1,000 = 180"
+      ],
+      "result": "Nettopreis 1,000, Steuer 180"
+    },
+    {
+      "title": "18% aus 5,000 herausrechnen",
+      "inputs": [
+        "Bruttopreis: 5,000",
+        "Satz: 18%"
+      ],
+      "steps": [
+        "Nettopreis: 5,000 ÷ 1.18 = 4,237.29",
+        "Enthaltene Steuer: 5,000 − 4,237.29 = 762.71",
+        "Einfach 18% abzuziehen (5,000 − 900 = 4,100) wäre um 137.29 falsch"
+      ],
+      "result": "Nettopreis 4,237.29, Steuer 762.71"
+    },
+    {
+      "title": "3 Artikel zu je 1,000 plus 18%",
+      "inputs": [
+        "Nettopreis: 1,000 pro Artikel",
+        "Menge: 3",
+        "Satz: 18%"
+      ],
+      "steps": [
+        "Zwischensumme: 3 × 1,000 = 3,000",
+        "Steuer: 3,000 × 0.18 = 540",
+        "Brutto: 3,000 + 540 = 3,540"
+      ],
+      "result": "Brutto 3,540 inklusive 540 Steuer"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Den Satz vom Bruttopreis abziehen",
+      "description": "18% eines Bruttopreises sind nicht die darin enthaltene Steuer, weil die Steuer auf den kleineren Nettopreis erhoben wurde. 1,180 minus 18% sind 967.60, der echte Nettopreis ist aber 1,180 ÷ 1.18 = 1,000. Teile immer durch (1 + Satz)."
+    },
+    {
+      "title": "Nicht wissen, ob ein Preis Steuer enthält",
+      "description": "Ladenpreise enthalten in vielen Ländern bereits die Steuer, Angebote an Unternehmen und Preisschilder in den USA oft nicht. Prüfe Rechnung oder Preisschild, bevor du Aufschlagen oder Herausrechnen wählst."
+    },
+    {
+      "title": "Den falschen Satz verwenden",
+      "description": "Die Sätze unterscheiden sich zwischen Ländern, Bundesstaaten und Provinzen sowie zwischen Waren und Dienstleistungen. Ermäßigte Sätze, Befreiungen und Steuern von Provinzen oder Bundesstaaten auf Dienstleistungen ändern das Ergebnis, prüfe also den Satz für deinen Artikel."
+    },
+    {
+      "title": "Jeden Artikel vor dem Multiplizieren runden",
+      "description": "Bei mehreren gleichen Artikeln multiplizierst du zuerst den Stückpreis mit der Menge und berechnest die Steuer auf die Zwischensumme. Rundest du die Steuer jedes Artikels einzeln, kann die Summe um ein paar Cent oder Paisa abweichen."
+    },
+    {
+      "title": "Den Bruttopreis für die Kosten halten",
+      "description": "Bist du umsatzsteuerpflichtig und kannst die Vorsteuer zurückfordern, sind deine echten Kosten der Nettopreis. Nutze Herausrechnen, um ihn zu finden."
+    }
+  ],
+  "sources": [
+    {
+      "name": "Federal Board of Revenue (FBR), Regierung von Pakistan"
+    }
+  ],
+  "howto": {
+    "name": "So schlägst du Umsatzsteuer auf oder rechnest sie heraus",
+    "description": "GST oder Umsatzsteuer auf einen Preis aufschlagen oder den Nettopreis in einem Bruttobetrag finden.",
+    "steps": [
+      {
+        "name": "Aufschlagen oder herausrechnen wählen",
+        "text": "Wähle Steuer aufschlagen, wenn dein Preis netto ist, oder Steuer herausrechnen, wenn er die Steuer schon enthält."
+      },
+      {
+        "name": "Preis und Menge eingeben",
+        "text": "Gib den Preis eines Artikels ein und bei Bedarf die Anzahl."
+      },
+      {
+        "name": "Satz wählen",
+        "text": "Wähle 18%, 5%, 10% oder 15% oder gib einen eigenen Satz ein."
+      },
+      {
+        "name": "Ergebnis ablesen",
+        "text": "Sieh Nettopreis, Steuerbetrag und Bruttobetrag mit der verwendeten Formel."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Wie schlage ich 18% Umsatzsteuer auf einen Preis auf?",
+      "a": "Multipliziere den Preis mit 1.18. Die Steuer ist Preis × 0.18. Zum Beispiel 1,000 × 0.18 = 180 Steuer, und der Bruttobetrag ist 1,180."
+    },
+    {
+      "q": "Wie rechne ich 18% GST aus einem Preis heraus?",
+      "a": "Teile den Bruttopreis durch 1.18, um den Nettopreis zu erhalten, und zieh diesen vom Bruttobetrag ab, um die Steuer zu erhalten. 1,180 ÷ 1.18 = 1,000, die Steuer ist also 180."
+    },
+    {
+      "q": "Warum kann ich nicht einfach 18% von einem Bruttopreis abziehen?",
+      "a": "Weil die 18% auf den Nettopreis erhoben wurden, nicht auf den Bruttobetrag. Ziehst du 18% des Bruttobetrags ab, nimmst du zu viel weg: 5,000 − 18% sind 4,100, der tatsächliche Nettopreis ist aber 5,000 ÷ 1.18 = 4,237.29."
+    },
+    {
+      "q": "Wie viel sind 18% von 1,000?",
+      "a": "18% von 1,000 sind 180. Ist 1,000 der Nettopreis, beträgt der Bruttopreis mit 18% Steuer 1,180. Enthält 1,000 bereits 18% Steuer, ist der Nettopreis 1,000 ÷ 1.18 = 847.46 und die Steuer 152.54."
+    },
+    {
+      "q": "Wie hoch ist die Umsatzsteuer in Pakistan?",
+      "a": "Der Normalsatz der Umsatzsteuer auf Waren in Pakistan beträgt 18%, für manche Waren gelten aber ermäßigte, besondere oder Nullsätze, und die Umsatzsteuer auf Dienstleistungen legen die Provinzen fest. Prüfe den aktuellen Satz für deinen Artikel bei der FBR oder der Steuerbehörde deiner Provinz."
+    },
+    {
+      "q": "Was ist der Unterschied zwischen GST, Mehrwertsteuer und Sales Tax?",
+      "a": "GST und Mehrwertsteuer (VAT) werden auf jeder Lieferstufe erhoben, wobei registrierte Unternehmen die auf Vorleistungen gezahlte Steuer zurückfordern, und Endkunden sehen meist Preise inklusive Steuer. Die US-Sales-Tax wird einmal beim Endverkauf erhoben, von Bundesstaaten und Gemeinden festgelegt und meist erst an der Kasse aufgeschlagen. Die Rechnung zum Aufschlagen oder Herausrechnen eines Prozentsatzes ist bei allen dreien gleich."
+    },
+    {
+      "q": "Wie berechne ich die Steuer für mehrere Artikel?",
+      "a": "Gib den Preis eines Artikels und die Menge ein. Der Rechner multipliziert beides zur Zwischensumme und berechnet die Steuer darauf. Drei Artikel zu 1,000 plus 18% Steuer ergeben 3,540."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Formular des Umsatzsteuer-, MwSt- und GST-Rechners",
+      "copy-result-btn": "Ergebnis in die Zwischenablage kopieren",
+      "vat-and-gst-rates-by-country-div1": "Mehrwertsteuer- und GST-Sätze nach Land (scrollbar)"
+    },
+    "content": {
+      "tool": {
+        "legend1": "Ich möchte",
+        "label1": "<input type=\"radio\" name=\"tax-mode\" id=\"mode-add\" value=\"add\" data-param=\"mode\" checked>\n              <span>Steuer aufschlagen</span>",
+        "label2": "<input type=\"radio\" name=\"tax-mode\" id=\"mode-remove\" value=\"remove\" data-param=\"mode\">\n              <span>Steuer herausrechnen</span>",
+        "button1": "Berechnen",
+        "div1": "Nettopreis",
+        "div2": "Brutto inklusive Steuer"
+      },
+      "check-the-official-rate": {
+        "heading": "Prüfe den offiziellen Satz",
+        "p1": "Die Sätze unterscheiden sich je nach Land, Bundesstaat oder Provinz und nach Ware oder Dienstleistung. Für Pakistan prüfe den Satz bei der <a href=\"https://www.fbr.gov.pk/\" rel=\"noopener\" target=\"_blank\">FBR</a> oder der Steuerbehörde deiner Provinz."
+      },
+      "vat-and-gst-rates-by-country": {
+        "p1": "Die Ländervorlagen im Rechner nutzen die Sätze unten. Jeder wurde am angegebenen Datum mit der in der Tabelle verlinkten Steuerbehörde oder offiziellen Quelle abgeglichen. Ermäßigte Sätze gelten nur für die gesetzlich genannten Waren und Dienstleistungen, nutze also den Normalsatz, außer du weißt, dass dein Artikel darunter fällt. In den USA gibt es keine landesweite Sales Tax: Bundesstaaten, Countys und Städte legen ihre eigenen Sätze fest, gib also den kombinierten Satz für deine Gegend als eigenen Satz ein.",
+        "caption1": "Normal- und ermäßigte Sätze für Mehrwertsteuer, GST und Sales Tax im Rechner",
+        "th1": "Land",
+        "th2": "Steuer",
+        "th3": "Normalsatz",
+        "th4": "Weitere Sätze",
+        "th5": "Quelle (geprüft)"
+      },
+      "tax-exclusive-and-tax-inclusive-prices": {
+        "p1": "Jede Frage zur Umsatzsteuer beginnt mit einer Prüfung: Enthält dein Preis die Steuer schon? Ein <strong>Nettopreis</strong> ist der Betrag vor Steuer, die Zahl auf den meisten Angeboten an Unternehmen und auf US-Preisschildern. Ein <strong>Bruttopreis</strong> enthält die Steuer bereits, so werden die meisten Ladenpreise in Deutschland, Pakistan, Großbritannien, der EU und den Golfstaaten angezeigt.",
+        "li1": "Ist dein Preis <strong>netto</strong>, wähle <strong>Steuer aufschlagen</strong>. Der Rechner multipliziert mit dem Satz, um die Steuer zu finden, und schlägt sie auf.",
+        "li2": "Ist dein Preis <strong>brutto</strong>, wähle <strong>Steuer herausrechnen</strong>. Der Rechner teilt durch (1 + Satz), um den Nettopreis zu finden, und die Differenz ist die gezahlte Steuer.",
+        "p2": "Rechnungen zeigen meist beides: einen Nettobetrag, die Steuer und einen Bruttobetrag. Mit diesem Rechner prüfst du, ob die drei Zahlen zusammenpassen."
+      },
+      "why-you-divide-by-1-rate": {
+        "p1": "Schlägt ein Verkäufer 18% Steuer auf, multipliziert er den Nettopreis mit 1.18. Um das rückgängig zu machen, teilst du den Bruttobetrag durch 1.18. Die Formel lautet <code>Nettopreis = Brutto ÷ (1 + Satz)</code>, mit dem Satz als Dezimalzahl.",
+        "p2": "Der häufigste Fehler ist, stattdessen 18% vom Bruttobetrag abzuziehen. Damit gilt die Steuer als 18% des Bruttobetrags, obwohl sie 18% des kleineren Nettopreises war. Bei 5,000 brutto ergibt das Abziehen von 18% 4,100, der echte Nettopreis ist aber 5,000 ÷ 1.18 = 4,237.29, und die enthaltene Steuer beträgt 762.71, nicht 900. Je höher der Satz, desto größer der Fehler, nutze also Herausrechnen, wann immer der Preis die Steuer schon enthält. Für andere Prozentfragen, etwa welchen Anteil eine Zahl an einer anderen hat, nutze den <a href=\"/tools/percentage-calculator/\">Prozentrechner</a>."
+      },
+      "gst-vat-and-us-sales-tax": {
+        "p1": "GST (Goods and Services Tax) und Mehrwertsteuer (VAT) werden auf jeder Lieferstufe erhoben, wobei registrierte Unternehmen die auf ihre Vorleistungen gezahlte Steuer zurückfordern, und Endkunden sehen meist Preise inklusive Steuer. Die US-Sales-Tax wird einmal beim Endverkauf an den Kunden erhoben, zu Sätzen von Bundesstaaten und Gemeinden, und meist erst an der Kasse aufgeschlagen statt auf dem Preisschild angezeigt. Die Umsatzsteuer auf Waren in Pakistan funktioniert wie eine Mehrwertsteuer, während die Umsatzsteuer auf Dienstleistungen von den Provinzen erhoben wird. Die Rechnung zum Aufschlagen oder Herausrechnen ist in jedem Fall gleich; nur der Satz und die Frage, ob Preise ihn enthalten, ändern sich."
+      },
+      "rates-vary-check-the-official-rate": {
+        "p1": "Die Vorlagen hier sind gängige Sätze, keine Aussage darüber, was für deinen Kauf gilt. Die Sätze unterscheiden sich zwischen Ländern, Bundesstaaten und Provinzen sowie zwischen Waren und Dienstleistungen, und viele Artikel sind ermäßigt, mit null besteuert oder befreit. In Pakistan beträgt der Normalsatz der Umsatzsteuer auf Waren 18%, prüfe aber den aktuellen Satz für deinen Artikel bei der <a href=\"https://www.fbr.gov.pk/\" rel=\"noopener\" target=\"_blank\">FBR</a> oder der Steuerbehörde deiner Provinz und nutze den eigenen Satz, wenn er abweicht. Hat ein Preis sowohl einen Rabatt als auch Steuer, berechne zuerst den Rabatt mit dem <a href=\"/tools/discount-calculator/\">Rabattrechner</a>, der auch Umsatzsteuer auf den rabattierten Preis aufschlagen kann."
+      }
+    },
+    "label": {
+      "tax-price": "Nettopreis <span class=\"text-accent\">*</span>",
+      "tax-qty": "Menge",
+      "tax-country": "Land",
+      "tax-rate-preset": "Steuersatz",
+      "tax-rate-custom": "Eigener Satz (%)"
+    },
+    "option": {
+      "tax-rate-preset": {
+        "18": "18% – Pakistan, Normalsatz Umsatzsteuer auf Waren",
+        "custom": "Eigener Satz"
+      }
+    },
+    "text": {
+      "reset-btn": "Zurücksetzen",
+      "result-header-text": "Brutto inklusive Steuer",
+      "copy-result-btn": "<span data-icon=\"copy\"></span> Ergebnis kopieren",
+      "result-primary-text": "Rs 0.00",
+      "stat-net": "Rs 0.00",
+      "stat-tax-label": "Steuer (18%)",
+      "stat-tax": "Rs 0.00",
+      "stat-gross": "Rs 0.00",
+      "vat-rates-heading": "Mehrwertsteuer- und GST-Sätze nach Land",
+      "inclusive-heading": "Netto- und Bruttopreise",
+      "reverse-heading": "Warum du zum Herausrechnen durch (1 + Satz) teilst",
+      "gst-vat-heading": "GST, Mehrwertsteuer und US-Sales-Tax",
+      "rates-heading": "Sätze unterscheiden sich: Prüfe den offiziellen Satz"
+    },
+    "title": {
+      "copy-result-btn": "Ergebnis in die Zwischenablage kopieren"
+    },
+    "vat": {
+      "optionVaries": "{{name}} ({{taxName}} unterschiedlich)",
+      "countryNote": "{{notes}} Quelle: <a href=\"{{url}}\" target=\"_blank\" rel=\"noopener noreferrer\">{{source}}</a>, geprüft am {{date}}.",
+      "noPresetRate": "Von Bundesstaat und Stadt festgelegt"
+    }
+  },
+  "client": {
+    "presets": {
+      "pk18": "18% (Pakistan, Normalsatz Umsatzsteuer)"
+    },
+    "vat": {
+      "AT": {
+        "name": "Österreich",
+        "rates": [
+          "Normalsatz",
+          "ermäßigter Satz",
+          "ermäßigter Satz",
+          "Zwischensatz (Parking Rate)"
+        ],
+        "notes": "EU-Mitgliedstaat. Ermäßigte Sätze gelten nur für die im nationalen Recht genannten Waren und Dienstleistungen.",
+        "source": "Ihr Europa (Europäische Union): Mehrwertsteuersätze in den EU-Ländern, zuletzt geprüft am 13/07/2026"
+      },
+      "BE": {
+        "name": "Belgien",
+        "rates": [
+          "Normalsatz",
+          "ermäßigter Satz",
+          "ermäßigter Satz",
+          "Zwischensatz (Parking Rate)"
+        ],
+        "notes": "EU-Mitgliedstaat. Ermäßigte Sätze gelten nur für die im nationalen Recht genannten Waren und Dienstleistungen.",
+        "source": "Ihr Europa (Europäische Union): Mehrwertsteuersätze in den EU-Ländern, zuletzt geprüft am 13/07/2026"
+      },
+      "BG": {
+        "name": "Bulgarien",
+        "rates": [
+          "Normalsatz",
+          "ermäßigter Satz"
+        ],
+        "notes": "EU-Mitgliedstaat. Ermäßigte Sätze gelten nur für die im nationalen Recht genannten Waren und Dienstleistungen.",
+        "source": "Ihr Europa (Europäische Union): Mehrwertsteuersätze in den EU-Ländern, zuletzt geprüft am 13/07/2026"
+      },
+      "HR": {
+        "name": "Kroatien",
+        "rates": [
+          "Normalsatz",
+          "ermäßigter Satz",
+          "ermäßigter Satz"
+        ],
+        "notes": "EU-Mitgliedstaat. Ermäßigte Sätze gelten nur für die im nationalen Recht genannten Waren und Dienstleistungen.",
+        "source": "Ihr Europa (Europäische Union): Mehrwertsteuersätze in den EU-Ländern, zuletzt geprüft am 13/07/2026"
+      },
+      "CY": {
+        "name": "Zypern",
+        "rates": [
+          "Normalsatz",
+          "ermäßigter Satz",
+          "ermäßigter Satz",
+          "stark ermäßigter Satz"
+        ],
+        "notes": "EU-Mitgliedstaat. Ermäßigte Sätze gelten nur für die im nationalen Recht genannten Waren und Dienstleistungen.",
+        "source": "Ihr Europa (Europäische Union): Mehrwertsteuersätze in den EU-Ländern, zuletzt geprüft am 13/07/2026"
+      },
+      "CZ": {
+        "name": "Tschechien",
+        "rates": [
+          "Normalsatz",
+          "ermäßigter Satz"
+        ],
+        "notes": "EU-Mitgliedstaat. Ermäßigte Sätze gelten nur für die im nationalen Recht genannten Waren und Dienstleistungen.",
+        "source": "Ihr Europa (Europäische Union): Mehrwertsteuersätze in den EU-Ländern, zuletzt geprüft am 13/07/2026"
+      },
+      "DK": {
+        "name": "Dänemark",
+        "rates": [
+          "Normalsatz"
+        ],
+        "notes": "EU-Mitgliedstaat. Ermäßigte Sätze gelten nur für die im nationalen Recht genannten Waren und Dienstleistungen.",
+        "source": "Ihr Europa (Europäische Union): Mehrwertsteuersätze in den EU-Ländern, zuletzt geprüft am 13/07/2026"
+      },
+      "EE": {
+        "name": "Estland",
+        "rates": [
+          "Normalsatz",
+          "ermäßigter Satz"
+        ],
+        "notes": "EU-Mitgliedstaat. Ermäßigte Sätze gelten nur für die im nationalen Recht genannten Waren und Dienstleistungen.",
+        "source": "Ihr Europa (Europäische Union): Mehrwertsteuersätze in den EU-Ländern, zuletzt geprüft am 13/07/2026"
+      },
+      "FI": {
+        "name": "Finnland",
+        "rates": [
+          "Normalsatz",
+          "ermäßigter Satz",
+          "ermäßigter Satz"
+        ],
+        "notes": "EU-Mitgliedstaat. Ermäßigte Sätze gelten nur für die im nationalen Recht genannten Waren und Dienstleistungen.",
+        "source": "Ihr Europa (Europäische Union): Mehrwertsteuersätze in den EU-Ländern, zuletzt geprüft am 13/07/2026"
+      },
+      "FR": {
+        "name": "Frankreich",
+        "rates": [
+          "Normalsatz",
+          "ermäßigter Satz",
+          "ermäßigter Satz",
+          "stark ermäßigter Satz"
+        ],
+        "notes": "EU-Mitgliedstaat. Ermäßigte Sätze gelten nur für die im nationalen Recht genannten Waren und Dienstleistungen.",
+        "source": "Ihr Europa (Europäische Union): Mehrwertsteuersätze in den EU-Ländern, zuletzt geprüft am 13/07/2026"
+      },
+      "DE": {
+        "name": "Deutschland",
+        "rates": [
+          "Normalsatz",
+          "ermäßigter Satz"
+        ],
+        "notes": "EU-Mitgliedstaat. Ermäßigte Sätze gelten nur für die im nationalen Recht genannten Waren und Dienstleistungen.",
+        "source": "Ihr Europa (Europäische Union): Mehrwertsteuersätze in den EU-Ländern, zuletzt geprüft am 13/07/2026"
+      },
+      "GR": {
+        "name": "Griechenland",
+        "rates": [
+          "Normalsatz",
+          "ermäßigter Satz",
+          "ermäßigter Satz",
+          "ermäßigter Satz",
+          "stark ermäßigter Satz"
+        ],
+        "notes": "EU-Mitgliedstaat. Ermäßigte Sätze gelten nur für die im nationalen Recht genannten Waren und Dienstleistungen.",
+        "source": "Ihr Europa (Europäische Union): Mehrwertsteuersätze in den EU-Ländern, zuletzt geprüft am 13/07/2026"
+      },
+      "HU": {
+        "name": "Ungarn",
+        "rates": [
+          "Normalsatz",
+          "ermäßigter Satz",
+          "ermäßigter Satz"
+        ],
+        "notes": "EU-Mitgliedstaat. Ermäßigte Sätze gelten nur für die im nationalen Recht genannten Waren und Dienstleistungen.",
+        "source": "Ihr Europa (Europäische Union): Mehrwertsteuersätze in den EU-Ländern, zuletzt geprüft am 13/07/2026"
+      },
+      "IN": {
+        "name": "Indien",
+        "rates": [
+          "Normalsatz",
+          "Merit-Satz",
+          "Sondersatz auf wenige Luxus- und Genussgüter"
+        ],
+        "notes": "Seit dem 22. September 2025 hat die GST zwei Hauptstufen, 18% und 5%, plus einen Sondersatz von 40% auf wenige ausgewählte Waren und Dienstleistungen. Manche Artikel sind mit null besteuert.",
+        "source": "GST Council / PIB-Pressemitteilung, 3. September 2025"
+      },
+      "IE": {
+        "name": "Irland",
+        "rates": [
+          "Normalsatz",
+          "ermäßigter Satz",
+          "ermäßigter Satz"
+        ],
+        "notes": "EU-Mitgliedstaat. Ermäßigte Sätze gelten nur für die im nationalen Recht genannten Waren und Dienstleistungen.",
+        "source": "Ihr Europa (Europäische Union): Mehrwertsteuersätze in den EU-Ländern, zuletzt geprüft am 13/07/2026"
+      },
+      "IT": {
+        "name": "Italien",
+        "rates": [
+          "Normalsatz",
+          "ermäßigter Satz",
+          "ermäßigter Satz",
+          "stark ermäßigter Satz"
+        ],
+        "notes": "EU-Mitgliedstaat. Ermäßigte Sätze gelten nur für die im nationalen Recht genannten Waren und Dienstleistungen.",
+        "source": "Ihr Europa (Europäische Union): Mehrwertsteuersätze in den EU-Ländern, zuletzt geprüft am 13/07/2026"
+      },
+      "LV": {
+        "name": "Lettland",
+        "rates": [
+          "Normalsatz",
+          "ermäßigter Satz",
+          "ermäßigter Satz"
+        ],
+        "notes": "EU-Mitgliedstaat. Ermäßigte Sätze gelten nur für die im nationalen Recht genannten Waren und Dienstleistungen.",
+        "source": "Ihr Europa (Europäische Union): Mehrwertsteuersätze in den EU-Ländern, zuletzt geprüft am 13/07/2026"
+      },
+      "LT": {
+        "name": "Litauen",
+        "rates": [
+          "Normalsatz",
+          "ermäßigter Satz",
+          "ermäßigter Satz"
+        ],
+        "notes": "EU-Mitgliedstaat. Ermäßigte Sätze gelten nur für die im nationalen Recht genannten Waren und Dienstleistungen.",
+        "source": "Ihr Europa (Europäische Union): Mehrwertsteuersätze in den EU-Ländern, zuletzt geprüft am 13/07/2026"
+      },
+      "LU": {
+        "name": "Luxemburg",
+        "rates": [
+          "Normalsatz",
+          "ermäßigter Satz",
+          "stark ermäßigter Satz",
+          "Zwischensatz (Parking Rate)"
+        ],
+        "notes": "EU-Mitgliedstaat. Ermäßigte Sätze gelten nur für die im nationalen Recht genannten Waren und Dienstleistungen.",
+        "source": "Ihr Europa (Europäische Union): Mehrwertsteuersätze in den EU-Ländern, zuletzt geprüft am 13/07/2026"
+      },
+      "MT": {
+        "name": "Malta",
+        "rates": [
+          "Normalsatz",
+          "ermäßigter Satz",
+          "ermäßigter Satz",
+          "Zwischensatz (Parking Rate)"
+        ],
+        "notes": "EU-Mitgliedstaat. Ermäßigte Sätze gelten nur für die im nationalen Recht genannten Waren und Dienstleistungen.",
+        "source": "Ihr Europa (Europäische Union): Mehrwertsteuersätze in den EU-Ländern, zuletzt geprüft am 13/07/2026"
+      },
+      "NL": {
+        "name": "Niederlande",
+        "rates": [
+          "Normalsatz",
+          "ermäßigter Satz"
+        ],
+        "notes": "EU-Mitgliedstaat. Ermäßigte Sätze gelten nur für die im nationalen Recht genannten Waren und Dienstleistungen.",
+        "source": "Ihr Europa (Europäische Union): Mehrwertsteuersätze in den EU-Ländern, zuletzt geprüft am 13/07/2026"
+      },
+      "NZ": {
+        "name": "Neuseeland",
+        "rates": [
+          "Normalsatz"
+        ],
+        "source": "Inland Revenue (IRD): GST"
+      },
+      "PK": {
+        "name": "Pakistan",
+        "taxName": "Umsatzsteuer (Sales Tax)",
+        "rates": [
+          "Normalsatz der Umsatzsteuer auf Waren"
+        ],
+        "notes": "Bundesumsatzsteuer auf Waren nach Section 3 des Sales Tax Act, 1990. Dienstleistungen besteuern die Provinzen zu eigenen Sätzen.",
+        "source": "FBR: Sales Tax Act, 1990 (geändert bis 30. Juni 2025), Section 3"
+      },
+      "PL": {
+        "name": "Polen",
+        "rates": [
+          "Normalsatz",
+          "ermäßigter Satz",
+          "ermäßigter Satz"
+        ],
+        "notes": "EU-Mitgliedstaat. Ermäßigte Sätze gelten nur für die im nationalen Recht genannten Waren und Dienstleistungen.",
+        "source": "Ihr Europa (Europäische Union): Mehrwertsteuersätze in den EU-Ländern, zuletzt geprüft am 13/07/2026"
+      },
+      "PT": {
+        "name": "Portugal",
+        "rates": [
+          "Normalsatz",
+          "ermäßigter Satz",
+          "ermäßigter Satz",
+          "Zwischensatz (Parking Rate)"
+        ],
+        "notes": "EU-Mitgliedstaat. Ermäßigte Sätze gelten nur für die im nationalen Recht genannten Waren und Dienstleistungen.",
+        "source": "Ihr Europa (Europäische Union): Mehrwertsteuersätze in den EU-Ländern, zuletzt geprüft am 13/07/2026"
+      },
+      "RO": {
+        "name": "Rumänien",
+        "rates": [
+          "Normalsatz",
+          "ermäßigter Satz"
+        ],
+        "notes": "EU-Mitgliedstaat. Ermäßigte Sätze gelten nur für die im nationalen Recht genannten Waren und Dienstleistungen.",
+        "source": "Ihr Europa (Europäische Union): Mehrwertsteuersätze in den EU-Ländern, zuletzt geprüft am 13/07/2026"
+      },
+      "SA": {
+        "name": "Saudi-Arabien",
+        "rates": [
+          "Normalsatz"
+        ],
+        "source": "ZATCA: Leitfaden zu Änderungen der Durchführungsverordnung zur Mehrwertsteuer (April 2025)"
+      },
+      "SG": {
+        "name": "Singapur",
+        "rates": [
+          "Normalsatz (seit 1. Januar 2024)"
+        ],
+        "notes": "Manche Lieferungen sind mit null besteuert oder steuerfrei.",
+        "source": "IRAS: Aktuelle GST-Sätze"
+      },
+      "SK": {
+        "name": "Slowakei",
+        "rates": [
+          "Normalsatz",
+          "ermäßigter Satz",
+          "ermäßigter Satz"
+        ],
+        "notes": "EU-Mitgliedstaat. Ermäßigte Sätze gelten nur für die im nationalen Recht genannten Waren und Dienstleistungen.",
+        "source": "Ihr Europa (Europäische Union): Mehrwertsteuersätze in den EU-Ländern, zuletzt geprüft am 13/07/2026"
+      },
+      "SI": {
+        "name": "Slowenien",
+        "rates": [
+          "Normalsatz",
+          "ermäßigter Satz",
+          "ermäßigter Satz"
+        ],
+        "notes": "EU-Mitgliedstaat. Ermäßigte Sätze gelten nur für die im nationalen Recht genannten Waren und Dienstleistungen.",
+        "source": "Ihr Europa (Europäische Union): Mehrwertsteuersätze in den EU-Ländern, zuletzt geprüft am 13/07/2026"
+      },
+      "ZA": {
+        "name": "Südafrika",
+        "rates": [
+          "Normalsatz"
+        ],
+        "notes": "Manche Lieferungen sind mit null besteuert oder steuerfrei.",
+        "source": "SARS: Value-Added Tax"
+      },
+      "ES": {
+        "name": "Spanien",
+        "rates": [
+          "Normalsatz",
+          "ermäßigter Satz",
+          "stark ermäßigter Satz"
+        ],
+        "notes": "EU-Mitgliedstaat. Ermäßigte Sätze gelten nur für die im nationalen Recht genannten Waren und Dienstleistungen.",
+        "source": "Ihr Europa (Europäische Union): Mehrwertsteuersätze in den EU-Ländern, zuletzt geprüft am 13/07/2026"
+      },
+      "SE": {
+        "name": "Schweden",
+        "rates": [
+          "Normalsatz",
+          "ermäßigter Satz",
+          "ermäßigter Satz"
+        ],
+        "notes": "EU-Mitgliedstaat. Ermäßigte Sätze gelten nur für die im nationalen Recht genannten Waren und Dienstleistungen.",
+        "source": "Ihr Europa (Europäische Union): Mehrwertsteuersätze in den EU-Ländern, zuletzt geprüft am 13/07/2026"
+      },
+      "AE": {
+        "name": "Vereinigte Arabische Emirate",
+        "rates": [
+          "Normalsatz"
+        ],
+        "notes": "Manche Lieferungen sind nach dem Mehrwertsteuergesetz mit null besteuert oder befreit.",
+        "source": "UAE Federal Tax Authority: Federal Decree-Law Nr. 8 von 2017 über die Mehrwertsteuer, Artikel 3"
+      },
+      "GB": {
+        "name": "Vereinigtes Königreich",
+        "rates": [
+          "Normalsatz",
+          "ermäßigter Satz (z. B. Kindersitze, Haushaltsenergie)"
+        ],
+        "notes": "Manche Waren und Dienstleistungen sind mit null besteuert (0%), etwa die meisten Lebensmittel und Kinderkleidung.",
+        "source": "GOV.UK: Mehrwertsteuersätze"
+      },
+      "US": {
+        "name": "Vereinigte Staaten",
+        "taxName": "Umsatzsteuer (Sales Tax)",
+        "notes": "Es gibt keine bundesweite Sales Tax. Jeder Bundesstaat und oft auch County und Stadt legen ihren eigenen Satz fest, gib also den kombinierten Satz für deinen Ort ein."
+      },
+      "CA-AB": {
+        "name": "Kanada – Alberta",
+        "rates": [
+          "GST (Bund)"
+        ],
+        "notes": "Keine Umsatzsteuer der Provinz.",
+        "source": "Canada Revenue Agency: GST/HST-Rechner und -Sätze (Sätze ab 1. April 2025)"
+      },
+      "CA-BC": {
+        "name": "Kanada – British Columbia",
+        "rates": [
+          "GST (Bund)",
+          "GST + PST kombiniert"
+        ],
+        "notes": "Die Provinz erhebt zusätzlich 7% PST auf den Preis vor GST; die kombinierte Option addiert beide.",
+        "source": "Canada Revenue Agency: GST/HST-Rechner und -Sätze (Sätze ab 1. April 2025)"
+      },
+      "CA-MB": {
+        "name": "Kanada – Manitoba",
+        "rates": [
+          "GST (Bund)",
+          "GST + PST kombiniert"
+        ],
+        "notes": "Die Provinz erhebt zusätzlich 7% PST auf den Preis vor GST; die kombinierte Option addiert beide.",
+        "source": "Canada Revenue Agency: GST/HST-Rechner und -Sätze (Sätze ab 1. April 2025)"
+      },
+      "CA-NB": {
+        "name": "Kanada – New Brunswick",
+        "taxName": "HST",
+        "rates": [
+          "HST (Bund + Provinz)"
+        ],
+        "notes": "Eine harmonisierte Umsatzsteuer (HST) deckt Bundes- und Provinzanteil ab.",
+        "source": "Canada Revenue Agency: GST/HST-Rechner und -Sätze (Sätze ab 1. April 2025)"
+      },
+      "CA-NL": {
+        "name": "Kanada – Neufundland und Labrador",
+        "taxName": "HST",
+        "rates": [
+          "HST (Bund + Provinz)"
+        ],
+        "notes": "Eine harmonisierte Umsatzsteuer (HST) deckt Bundes- und Provinzanteil ab.",
+        "source": "Canada Revenue Agency: GST/HST-Rechner und -Sätze (Sätze ab 1. April 2025)"
+      },
+      "CA-NT": {
+        "name": "Kanada – Nordwest-Territorien",
+        "rates": [
+          "GST (Bund)"
+        ],
+        "notes": "Keine Umsatzsteuer der Provinz.",
+        "source": "Canada Revenue Agency: GST/HST-Rechner und -Sätze (Sätze ab 1. April 2025)"
+      },
+      "CA-NS": {
+        "name": "Kanada – Nova Scotia",
+        "taxName": "HST",
+        "rates": [
+          "HST (Bund + Provinz)"
+        ],
+        "notes": "Eine harmonisierte Umsatzsteuer (HST) deckt Bundes- und Provinzanteil ab.",
+        "source": "Canada Revenue Agency: GST/HST-Rechner und -Sätze (Sätze ab 1. April 2025)"
+      },
+      "CA-NU": {
+        "name": "Kanada – Nunavut",
+        "rates": [
+          "GST (Bund)"
+        ],
+        "notes": "Keine Umsatzsteuer der Provinz.",
+        "source": "Canada Revenue Agency: GST/HST-Rechner und -Sätze (Sätze ab 1. April 2025)"
+      },
+      "CA-ON": {
+        "name": "Kanada – Ontario",
+        "taxName": "HST",
+        "rates": [
+          "HST (Bund + Provinz)"
+        ],
+        "notes": "Eine harmonisierte Umsatzsteuer (HST) deckt Bundes- und Provinzanteil ab.",
+        "source": "Canada Revenue Agency: GST/HST-Rechner und -Sätze (Sätze ab 1. April 2025)"
+      },
+      "CA-PE": {
+        "name": "Kanada – Prince Edward Island",
+        "taxName": "HST",
+        "rates": [
+          "HST (Bund + Provinz)"
+        ],
+        "notes": "Eine harmonisierte Umsatzsteuer (HST) deckt Bundes- und Provinzanteil ab.",
+        "source": "Canada Revenue Agency: GST/HST-Rechner und -Sätze (Sätze ab 1. April 2025)"
+      },
+      "CA-QC": {
+        "name": "Kanada – Québec",
+        "rates": [
+          "GST (Bund)",
+          "GST + QST kombiniert"
+        ],
+        "notes": "Die Provinz erhebt zusätzlich 9.975% QST auf den Preis vor GST; die kombinierte Option addiert beide.",
+        "source": "Canada Revenue Agency: GST/HST-Rechner und -Sätze (Sätze ab 1. April 2025)"
+      },
+      "CA-SK": {
+        "name": "Kanada – Saskatchewan",
+        "rates": [
+          "GST (Bund)",
+          "GST + PST kombiniert"
+        ],
+        "notes": "Die Provinz erhebt zusätzlich 6% PST auf den Preis vor GST; die kombinierte Option addiert beide.",
+        "source": "Canada Revenue Agency: GST/HST-Rechner und -Sätze (Sätze ab 1. April 2025)"
+      },
+      "CA-YT": {
+        "name": "Kanada – Yukon",
+        "rates": [
+          "GST (Bund)"
+        ],
+        "notes": "Keine Umsatzsteuer der Provinz.",
+        "source": "Canada Revenue Agency: GST/HST-Rechner und -Sätze (Sätze ab 1. April 2025)"
+      }
+    },
+    "customRate": "Eigener Satz",
+    "countryNote": "{{notes}} Quelle: <a href=\"{{url}}\" target=\"_blank\" rel=\"noopener noreferrer\">{{source}}</a>, geprüft am {{date}}.",
+    "priceLabel": {
+      "add": "Nettopreis ",
+      "remove": "Bruttopreis "
+    },
+    "errors": {
+      "priceRequired": "Bitte gib einen Preis ein.",
+      "rateRequired": "Bitte gib einen Steuersatz ein.",
+      "quantityRequired": "Bitte gib eine Menge ein.",
+      "priceNegative": "Der Preis darf nicht negativ sein.",
+      "rateRange": "Der Steuersatz muss zwischen 0% und 100% liegen.",
+      "quantityPositive": "Die Menge muss über 0 liegen.",
+      "customRequired": "Bitte gib deinen eigenen Steuersatz ein."
+    },
+    "result": {
+      "headerAdd": "Brutto inklusive Steuer",
+      "headerRemove": "Nettopreis",
+      "taxLabel": "Steuer ({{rate}})",
+      "perItem": "Pro Artikel: {{net}} netto, {{tax}} Steuer, {{gross}} brutto.",
+      "copyAdd": "{{net}} + {{rate}} Steuer ({{tax}}) = {{gross}}.",
+      "copyRemove": "{{gross}} inklusive {{rate}} Steuer = {{net}} netto + {{tax}} Steuer."
+    },
+    "steps": {
+      "addFormula": "<strong>Steuer aufschlagen:</strong> <code>Brutto = Preis × (1 + Satz)</code><br>",
+      "addNet": "Nettopreis: {{qty}}<code>{{net}}</code><br>",
+      "addTax": "Steuer: {{net}} × {{rate}} = <code>{{tax}}</code><br>",
+      "addTotal": "Brutto: {{net}} + {{tax}} = <strong>{{gross}}</strong>",
+      "removeFormula": "<strong>Steuer herausrechnen:</strong> <code>Nettopreis = Brutto ÷ (1 + Satz)</code><br>",
+      "removeGross": "Brutto inklusive Steuer: {{qty}}<code>{{gross}}</code><br>",
+      "removeNet": "Nettopreis: {{gross}} ÷ {{factor}} = <strong>{{net}}</strong><br>",
+      "removeTax": "Enthaltene Steuer: {{gross}} − {{net}} = <code>{{tax}}</code>"
+    },
+    "toast": {
+      "copied": "Steuerberechnung in die Zwischenablage kopiert"
+    }
+  }
+}

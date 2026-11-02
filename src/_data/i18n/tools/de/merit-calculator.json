@@ -1,0 +1,295 @@
+{
+  "listing": {
+    "name": "Merit- & Aggregat-Rechner",
+    "shortName": "Merit-Rechner",
+    "description": "Berechne ein Zulassungs-Aggregat (Merit) aus Matric-, Intermediate-, Aufnahmetest- und Interviewpunkten, mit eigenen oder geprüften NUST- und MDCAT-Gewichten.",
+    "shortDescription": "Zulassungs-Aggregat aus Board- und Testpunkten mit eigenen oder geprüften Gewichten.",
+    "keywords": [
+      "merit rechner",
+      "aggregat rechner",
+      "nust aggregate rechner",
+      "mdcat aggregate rechner",
+      "merit berechnung formel",
+      "aufnahmetest aggregat",
+      "zulassungspunktzahl berechnen"
+    ]
+  },
+  "title": "Merit- & Aggregat-Rechner (eigene Gewichte)",
+  "description": "Merit-Rechner: Berechne dein Zulassungs-Aggregat aus Matric-, Intermediate-, Aufnahmetest- und Interviewpunkten, mit eigenen Gewichten oder NUST/MDCAT.",
+  "h1": "Merit- & Aggregat-Rechner",
+  "quickAnswer": "Mit dem Merit-Rechner gilt: Aggregat = Σ (erreichte Punkte ÷ mögliche Punkte × Gewicht %). Mit Matric 900/1100 zu 10%, Intermediate 950/1100 zu 40% und Aufnahmetest 300/400 zu 50% ergibt sich 8.18 + 34.55 + 37.50 = 80.23%. Die Gewichte müssen zusammen 100% ergeben, und jede Universität legt ihre eigenen fest; prüfe sie daher im offiziellen Prospekt für dein Zulassungsjahr.",
+  "formula": {
+    "title": "Formel für das Merit-Aggregat",
+    "expression": "Aggregat % = Σ (Erreicht ÷ Möglich × 100 × Gewicht ÷ 100)",
+    "explanation": "Jeder Bestandteil (Matric/SSC, Intermediate/HSSC, Aufnahmetest, Interview usw.) wird zuerst in einen Prozentsatz seiner eigenen Höchstpunktzahl umgerechnet, damit ein Test mit 200 Punkten und eine Board-Prüfung mit 1100 vergleichbar sind. Dieser Prozentsatz wird mit dem Gewicht des Bestandteils multipliziert, und die gewichteten Teile werden addiert. Da die Gewichte zusammen 100% ergeben, ist das Ergebnis selbst ein Prozentsatz von 0 bis 100. Der Rechner rechnet bis zum Schluss mit voller Genauigkeit und rundet das Aggregat auf 2 Nachkommastellen.",
+    "variables": [
+      {
+        "name": "Erreicht / Möglich",
+        "description": "Deine Punkte in diesem Bestandteil und die Höchstpunktzahl, genau wie auf deinem Zeugnis."
+      },
+      {
+        "name": "Gewicht",
+        "description": "Der Anteil, den die Einrichtung diesem Bestandteil am Aggregat gibt, in %. Alle Gewichte zusammen müssen 100% ergeben."
+      },
+      {
+        "name": "Beitrag",
+        "description": "Dein Prozentsatz im Bestandteil × sein Gewicht ÷ 100: die Punkte, die er zu deinem Aggregat beiträgt."
+      }
+    ]
+  },
+  "workedExamples": [
+    {
+      "title": "Matric, Intermediate und Aufnahmetest (10 / 40 / 50)",
+      "inputs": [
+        "Matric: 900 / 1100, Gewicht 10%",
+        "Intermediate: 950 / 1100, Gewicht 40%",
+        "Aufnahmetest: 300 / 400, Gewicht 50%"
+      ],
+      "steps": [
+        "Matric: 900 ÷ 1100 = 81.818%, × 10% = 8.1818",
+        "Intermediate: 950 ÷ 1100 = 86.364%, × 40% = 34.5455",
+        "Aufnahmetest: 300 ÷ 400 = 75%, × 50% = 37.5",
+        "Summe: 8.1818 + 34.5455 + 37.5 = 80.2273"
+      ],
+      "result": "Aggregat 80.23%"
+    },
+    {
+      "title": "NUST-NET-Gewichte (10 / 15 / 75)",
+      "inputs": [
+        "SSC: 1000 / 1100, Gewicht 10%",
+        "HSSC Teil 1: 480 / 550, Gewicht 15%",
+        "NET: 140 / 200, Gewicht 75%"
+      ],
+      "steps": [
+        "SSC: 90.909% × 10% = 9.0909",
+        "HSSC: 87.273% × 15% = 13.0909",
+        "NET: 70% × 75% = 52.5"
+      ],
+      "result": "Aggregat 74.68%"
+    },
+    {
+      "title": "Mit Interview (vier Bestandteile)",
+      "inputs": [
+        "SSC 850/1100 zu 10%, HSSC 900/1100 zu 30%",
+        "Test 150/200 zu 50%, Interview 40/50 zu 10%"
+      ],
+      "steps": [
+        "SSC 77.273% × 10% = 7.7273; HSSC 81.818% × 30% = 24.5455",
+        "Test 75% × 50% = 37.5; Interview 80% × 10% = 8"
+      ],
+      "result": "Aggregat 77.77%"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Die Gewichte vom Vorjahr verwenden",
+      "description": "Universitäten und Aufsichtsbehörden ändern ihre Merit-Formeln, manchmal jedes Jahr. Prüfe die Gewichte immer im offiziellen Prospekt oder in der Zulassungsbekanntmachung für das Semester, für das du dich bewirbst."
+    },
+    {
+      "title": "Rohpunkte statt Prozente addieren",
+      "description": "900 Board-Punkte plus 150 Testpunkte ergeben eine bedeutungslose Zahl, weil die Höchstpunktzahlen verschieden sind. Jeder Bestandteil muss vor dem Gewichten in einen Prozentsatz seiner eigenen Höchstpunktzahl umgerechnet werden."
+    },
+    {
+      "title": "Die falsche Höchstpunktzahl eingeben",
+      "description": "Die Gesamtpunktzahlen unterscheiden sich je nach Matric-Ordnung und Board, und manche Formeln nutzen nur die Punkte von HSSC Teil 1. Übernimm die Höchstpunktzahl genau von deinem Zeugnis und aus den Regeln der Einrichtung."
+    },
+    {
+      "title": "Hafiz-e-Quran oder andere Zuschläge vergessen",
+      "description": "Manche Einrichtungen geben Zusatzpunkte oder ziehen bei Wiederholungsversuchen Punkte ab. Diese Regeln unterscheiden sich, berücksichtige sie also selbst gemäß dem offiziellen Prospekt."
+    },
+    {
+      "title": "Jeden Bestandteil runden",
+      "description": "Rundest du jeden Beitrag vor dem Addieren, kann sich das Aggregat um einige Hundertstel verschieben, was bei knappen Merit-Listen wichtig ist. Der Rechner rechnet mit voller Genauigkeit und rundet nur das Endergebnis."
+    }
+  ],
+  "sources": [
+    {
+      "name": "NUST: Kriterien für die Merit-Berechnung bei der Bachelor-Zulassung auf NET-Basis"
+    },
+    {
+      "name": "PM&DC: Gesetze und Verordnungen (Admissions, Curriculum and Conduct Regulations 2026)"
+    },
+    {
+      "name": "IBCC: Gleichwertigkeit von O/A Level und ausländischen Abschlüssen"
+    }
+  ],
+  "howto": {
+    "name": "So berechnest du ein Merit-Aggregat",
+    "description": "Board-Ergebnisse, Aufnahmetests und Interviews zu einem Zulassungs-Aggregat zusammenführen.",
+    "steps": [
+      {
+        "name": "Eigene Gewichte oder Vorlage wählen",
+        "text": "Nutze Eigene, um beliebige Gewichte einzugeben, oder wähle eine geprüfte Vorlage, die Bestandteile und Gewichte ausfüllt."
+      },
+      {
+        "name": "Punkte eingeben",
+        "text": "Gib für jeden Bestandteil erreichte und mögliche Punkte genau wie auf deinem Zeugnis ein."
+      },
+      {
+        "name": "Gewichte prüfen",
+        "text": "Achte darauf, dass die Gewichte 100% ergeben und zum offiziellen Prospekt für dein Zulassungsjahr passen."
+      },
+      {
+        "name": "Aggregat ablesen",
+        "text": "Sieh Prozentsatz und Beitrag jedes Bestandteils und dein Aggregat auf zwei Nachkommastellen."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Wie berechne ich mein Merit-Aggregat?",
+      "a": "Teile für jeden Bestandteil deine Punkte durch die Höchstpunktzahl, multipliziere mit dem Gewicht des Bestandteils und addiere die Ergebnisse. Für 900/1100 zu 10%, 950/1100 zu 40% und 300/400 zu 50% ergibt sich ein Aggregat von 80.23%."
+    },
+    {
+      "q": "Wie lautet die NUST-Aggregat-Formel?",
+      "a": "Für die Zulassung auf NET-Basis nennen die veröffentlichten NUST-Kriterien NET 75%, HSSC (Teil 1 oder komplett) 15% und SSC/O Level 10%. Wähle die NUST-Vorlage, gib deine Punkte ein und prüfe die Merit-Kriterien von NUST für das aktuelle Semester."
+    },
+    {
+      "q": "Wie lautet die MDCAT-Aggregat-Formel?",
+      "a": "Nach den PM&DC Admissions, Curriculum and Conduct Regulations 2026 gilt für die Open-Merit-Zulassung an staatlichen und privaten Medizin- und Zahnmedizin-Colleges: MDCAT 50%, FSc/HSSC 40% und SSC/Matric 10%. Die endgültigen Kriterien veröffentlicht die aufnehmende Universität."
+    },
+    {
+      "q": "Warum sagt der Rechner, dass meine Gewichte 100% ergeben müssen?",
+      "a": "Ein Aggregat ist ein gewichteter Prozentsatz, die Gewichte müssen also die vollen 100% abdecken. Ergeben sie 90%, fehlt ein Bestandteil oder ein Teil eines Gewichts; prüfe die Formel der Einrichtung."
+    },
+    {
+      "q": "Kann ich ein Interview oder einen zweiten Test hinzufügen?",
+      "a": "Ja. Der Modus Eigene erlaubt bis zu fünf Bestandteile. Gib jedem einen Namen, erreichte und mögliche Punkte sowie ein Gewicht."
+    },
+    {
+      "q": "Wo finde ich die Gewichte für UET ECAT oder andere Universitäten?",
+      "a": "Dieser Rechner enthält nur Vorlagen, die mit einer offiziellen Quelle abgeglichen wurden. Für jede andere Universität nutze den Modus Eigene und übernimm die Gewichte aus ihrem aktuellen Prospekt."
+    },
+    {
+      "q": "Ist mein berechnetes Aggregat das offizielle?",
+      "a": "Nein. Es ist eine Schätzung aus den Punkten und Gewichten, die du eingibst. Maßgeblich sind die Berechnung und die Merit-Liste der aufnehmenden Einrichtung."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Merit- und Aggregat-Rechner",
+      "tool-div1": "Bestandteile",
+      "copy-result-btn": "Ergebnis in die Zwischenablage kopieren"
+    },
+    "label": {
+      "preset": "Gewichte",
+      "componentObtained": "Erreicht",
+      "componentTotal": "Möglich",
+      "componentWeight": "Gewicht %"
+    },
+    "option": {
+      "preset": {
+        "custom": "Eigene (Gewichte selbst eingeben)"
+      }
+    },
+    "text": {
+      "preset-note": "Die Gewichte unterscheiden sich je nach Universität und können sich jedes Jahr ändern. Prüfe sie im offiziellen Prospekt für dein Zulassungssemester.",
+      "reset-btn": "Zurücksetzen",
+      "result-header-text": "Aggregat",
+      "copy-result-btn": "<span data-icon=\"copy\"></span> Ergebnis kopieren"
+    },
+    "content": {
+      "tool": {
+        "text1": "Quelle:",
+        "text2": "· geprüft",
+        "text3": ". Gewichte können sich jedes Jahr ändern; prüfe sie im offiziellen Prospekt.",
+        "div1": "<span>Bestandteil</span><span>Erreicht</span><span>Möglich</span><span>Gewicht %</span>",
+        "button1": "Aggregat berechnen",
+        "caption1": "Prozentsatz und Beitrag jedes Bestandteils zum Aggregat",
+        "th1": "Bestandteil",
+        "th2": "Punkte",
+        "th3": "Gewicht",
+        "th4": "Beitrag",
+        "summary1": "Rechenweg"
+      },
+      "always-check-the-official-prospectus": {
+        "heading": "Prüfe immer den offiziellen Prospekt",
+        "p1": "Merit-Formeln legt jede Universität, medizinische Aufsichtsbehörde oder Zulassungsstelle selbst fest, und sie ändern sich. Die Gewichte zwischen Matric, Intermediate und Aufnahmetest verschieben sich; manche Einrichtungen nutzen nur die Punkte von HSSC Teil 1, ergänzen ein Interview oder behandeln die Gleichwertigkeit von O/A Level anders. Bevor du dich auf ein Aggregat verlässt, öffne den offiziellen Prospekt oder die Zulassungsbekanntmachung für dein Semester und vergleiche die Formel mit den eingegebenen Gewichten.",
+        "p2": "Dieser Rechner enthält Vorlagen nur dort, wo die Gewichte mit einer offiziellen Quelle abgeglichen wurden, und jede Vorlage zeigt diese Quelle und das Prüfdatum:",
+        "caption1": "Geprüfte Merit-Vorlagen",
+        "th1": "Vorlage",
+        "th2": "Gewichte",
+        "th3": "Geprüft",
+        "p3": "Für jede andere Universität wähle Eigene und übernimm die Gewichte aus ihrem Prospekt. Enthält die Formel etwas, das dieser Rechner nicht abbildet, etwa Zusatzpunkte für Hafiz-e-Quran oder einen Abzug für einen Verbesserungsversuch, passe deine Punkte zuerst entsprechend an."
+      },
+      "improving-your-aggregate": {
+        "heading": "Dein Aggregat verbessern",
+        "li1": "<strong>Achte auf die Gewichte:</strong> Ein Bestandteil mit 50% oder 75% Gewicht bewegt dein Aggregat viel stärker als einer mit 10%. Nach der NUST-Formel bringt jeder zusätzliche Prozentpunkt im NET 0.75 Punkte im Aggregat.",
+        "li2": "<strong>Wisse, was feststeht:</strong> Deine Matric-Punkte stehen bei der Bewerbung meist fest; Aufnahmetest und manchmal Intermediate-Punkte noch nicht.",
+        "li3": "<strong>Mit früheren Merit-Grenzen vergleichen:</strong> Einrichtungen veröffentlichen oft die Merit-Grenzen der Vorjahre. Nutze sie nur als grobe Orientierung; sie ändern sich mit der Zahl der Bewerber und Plätze."
+      }
+    },
+    "title": {
+      "copy-result-btn": "Ergebnis in die Zwischenablage kopieren"
+    },
+    "components": {
+      "label": "Bestandteil {{n}}",
+      "placeholder1": "z. B. Matric",
+      "placeholder2": "z. B. Intermediate",
+      "placeholder3": "z. B. Aufnahmetest",
+      "placeholder4": "z. B. Interview",
+      "placeholder5": "Optional"
+    }
+  },
+  "client": {
+    "presets": {
+      "nust-net": {
+        "name": "NUST Bachelor (NET-Basis)",
+        "institution": "National University of Sciences & Technology (NUST), Islamabad",
+        "components": {
+          "ssc": "SSC / Matric / O Level",
+          "hssc": "HSSC / FSc (Teil 1 oder komplett) / A Level / DAE",
+          "net": "NUST-Aufnahmetest (NET)"
+        },
+        "note": "Allgemeine Kriterien für die Zulassung auf NET-Basis. Kandidaten, die noch im A Level sind, erhalten 25% Gewicht auf die Gleichwertigkeitspunkte ihres O Level (IBCC). ACT/SAT-Bewerber für nationale Plätze nutzen dieselbe Aufteilung 75/10/15 mit dem ACT/SAT-Ergebnis anstelle des NET.",
+        "sourceName": "NUST: Merit Generation Criteria"
+      },
+      "pmdc-mdcat": {
+        "name": "MBBS / BDS Open Merit (PM&DC, MDCAT)",
+        "institution": "Pakistan Medical & Dental Council (staatliche und private Medizin- und Zahnmedizin-Colleges)",
+        "components": {
+          "ssc": "SSC / Matriculation / gleichwertig",
+          "hssc": "FSc Pre-Medical / HSSC / gleichwertig",
+          "mdcat": "MDCAT"
+        },
+        "note": "Festgelegt durch die PM&DC (Admissions, Curriculum and Conduct) Policy and Regulations 2026, bekannt gegeben am 12. Oktober 2026, für Open-Merit-Plätze an staatlichen und privaten Colleges. Von den Streitkräften verwaltete Colleges lassen über NUMS und deren eigenen Aufnahmetest zu.",
+        "sourceName": "PM&DC Admissions, Curriculum and Conduct Policy and Regulations 2026"
+      }
+    },
+    "defaults": {
+      "matric": "Matric",
+      "intermediate": "Intermediate",
+      "entryTest": "Aufnahmetest"
+    },
+    "errors": {
+      "addComponent": "Füge mindestens einen Bestandteil hinzu.",
+      "tooMany": "Nutze höchstens {{max}} Bestandteile.",
+      "enterObtained": "{{name}}: Gib die erreichten Punkte ein.",
+      "enterTotal": "{{name}}: Gib die möglichen Punkte ein.",
+      "enterWeight": "{{name}}: Gib das Gewicht ein.",
+      "totalPositive": "{{name}}: Die möglichen Punkte müssen über 0 liegen.",
+      "obtainedNonNegative": "{{name}}: Die erreichten Punkte müssen 0 oder mehr sein.",
+      "obtainedOverTotal": "{{name}}: Die erreichten Punkte ({{obtained}}) dürfen nicht höher sein als die möglichen ({{total}}).",
+      "weightRange": "{{name}}: Das Gewicht muss über 0% und höchstens 100% betragen.",
+      "noComponents": "Gib für mindestens einen Bestandteil Punkte und ein Gewicht ein.",
+      "weightsAddMore": "Die Gewichte ergeben {{total}}%, müssen aber 100% ergeben. Füge einem oder mehreren Bestandteilen {{diff}}% hinzu.",
+      "weightsRemove": "Die Gewichte ergeben {{total}}%, müssen aber 100% ergeben. Nimm einem oder mehreren Bestandteilen {{diff}}% weg."
+    },
+    "componentName": "Bestandteil {{n}}",
+    "steps": {
+      "component": "{{name}}: {{obtained}} ÷ {{total}} × 100 = {{pct}}%, × {{weight}}% Gewicht = {{contribution}}",
+      "aggregate": "Aggregat = {{sum}} = {{exact}} ≈ {{rounded}}%"
+    },
+    "weights": {
+      "ok": "Eingegebene Gewichte: {{total}}% ✓",
+      "notOk": "Eingegebene Gewichte: {{total}}% (müssen 100% ergeben)"
+    },
+    "result": {
+      "header": "Aggregat",
+      "headerPreset": "Aggregat ({{preset}})"
+    },
+    "copy": {
+      "aggregate": "Aggregat: {{aggregate}}%"
+    }
+  }
+}

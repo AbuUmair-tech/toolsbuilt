@@ -1,0 +1,595 @@
+{
+  "listing": {
+    "name": "Gehaltssteuerrechner nach Land",
+    "shortName": "Gehaltssteuer nach Land",
+    "description": "Wähle dein Land und berechne die Einkommensteuer auf dein Gehalt: Rechner für UK, US (Bund), Indien und Pakistan mit offiziellen Sätzen, dazu die Golfstaaten.",
+    "shortDescription": "Wähle dein Land und öffne einen Gehaltssteuerrechner mit den offiziellen Sätzen.",
+    "keywords": [
+      "gehaltssteuer rechner",
+      "einkommensteuer rechner nach land",
+      "nettogehalt rechner",
+      "steuer auf gehalt"
+    ]
+  },
+  "title": "Gehaltssteuerrechner nach Land: UK, USA, Indien, Pakistan",
+  "description": "Gehaltssteuerrechner: Wähle dein Land und berechne die Einkommensteuer auf dein Gehalt, für UK, USA (Bund), Indien und Pakistan, plus Golfstaaten.",
+  "h1": "Gehaltssteuerrechner nach Land",
+  "quickAnswer": "Wähle im Gehaltssteuerrechner dein Land, um einen Rechner mit den offiziellen Steuersätzen dieses Landes zu öffnen. Jedes Land besteuert Gehälter anders: Großbritannien und Indien gewähren zuerst einen Freibetrag oder Abzug, die USA nutzen Stufen nach Veranlagungsstatus, und Pakistan nutzt Stufen aus festem Betrag plus Satz. Die VAE, Saudi-Arabien und Katar besteuern Gehälter von Privatpersonen gar nicht.",
+  "faqs": [
+    {
+      "q": "Welche Länder deckt der Gehaltssteuerrechner ab?",
+      "a": "Das Vereinigte Königreich (einschließlich schottischer Sätze), die USA (Einkommensteuer des Bundes), Indien (neues Steuersystem) und Pakistan. Jede Seite nutzt die Sätze der Steuerbehörde des jeweiligen Landes und zeigt die Quelle und das Datum unserer Prüfung."
+    },
+    {
+      "q": "Zahle ich in den VAE, Saudi-Arabien oder Katar Steuern auf mein Gehalt?",
+      "a": "Nein. Laut den auf dieser Seite verlinkten offiziellen Regierungsquellen wird in diesen Ländern keine Einkommensteuer auf Gehälter erhoben."
+    },
+    {
+      "q": "Warum fehlt mein Land?",
+      "a": "Wir nehmen ein Land erst auf, nachdem wir seine Sätze mit einer offiziellen Quelle abgeglichen haben, etwa der Website der Steuerbehörde oder dem Finanzgesetz. Weitere Länder kommen hinzu, sobald sie geprüft sind."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Wähle dein Land"
+    },
+    "label": {
+      "hub-country": "Dein Land"
+    },
+    "option": {
+      "hub-country": {
+        "PK": "Pakistan"
+      }
+    },
+    "text": {
+      "hub-open-btn": "Rechner öffnen",
+      "no-tax-heading": "Länder ohne Einkommensteuer auf Gehälter",
+      "compare-heading": "Wie Länder Gehälter unterschiedlich besteuern"
+    },
+    "content": {
+      "tool": {
+        "span1": "Pakistan"
+      },
+      "countries-with-no-income-tax-on": {
+        "p1": "Manche Länder besteuern Einkommen aus nichtselbstständiger Arbeit nicht, es gibt also nichts zu berechnen. Jede Aussage unten stammt aus einer offiziellen Regierungsquelle."
+      },
+      "how-countries-tax-salaries-differently": {
+        "p1": "Die meisten Länder besteuern Gehälter progressiv: Das Einkommen wird in Bänder geteilt, und jedes Band hat seinen eigenen Satz, sodass ein höherer Satz nur für den Teil deines Gehalts in diesem Band gilt. Von Land zu Land unterscheidet sich, was vor den Bändern abgezogen und was obendrauf gerechnet wird.",
+        "li1": "<strong>Freibetrag:</strong> Großbritannien gewährt allen einen Personal Allowance von £12,570, der über £100,000 abschmilzt.",
+        "li2": "<strong>Standardabzug:</strong> Die USA ziehen einen vom Veranlagungsstatus abhängigen Standardabzug ab, und Indien gewährt Angestellten im neuen System ₹75,000.",
+        "li3": "<strong>Ermäßigungen und Zuschläge:</strong> Indien erlässt die Steuer per Ermäßigung bis zu einem Gesamteinkommen von ₹12 Lakh vollständig und schlägt eine Abgabe (Cess) von 4% auf; Pakistan erhob bis 2025-26 einen Zuschlag für Spitzenverdiener.",
+        "li4": "<strong>Wer entscheidet:</strong> Schottland legt eigene Bänder für Löhne fest, und in den USA erhebt jeder Bundesstaat zusätzlich zur hier gezeigten Bundessteuer eine eigene Einkommensteuer.",
+        "p2": "Jeder Rechner nennt das verwendete Steuerjahr, die offizielle Quelle seiner Sätze und das Datum unserer letzten Prüfung."
+      }
+    },
+    "hub": {
+      "pkMeta": "Steuerjahr {{year}} · FBR-Stufen für Angestellte",
+      "noTaxItem": "<strong>{{name}}:</strong> {{statement}} Quelle: <a href=\"{{url}}\" target=\"_blank\" rel=\"noopener noreferrer\">{{source}}</a> (geprüft am {{date}})."
+    },
+    "country": {
+      "formLabel": "Formular des Gehaltssteuerrechners {{country}}",
+      "salaryLabel": "Bruttogehalt ({{currency}}) <span class=\"text-accent\">*</span>",
+      "periodLegend": "Gehalt ist",
+      "monthly": "Monatlich",
+      "annual": "Jährlich",
+      "statusLabel": "Veranlagungsstatus",
+      "taxYear": "Steuerjahr",
+      "calculate": "Steuer berechnen",
+      "reset": "Zurücksetzen",
+      "resultHeader": "Deine Einkommensteuer",
+      "copyTitle": "Ergebnis in die Zwischenablage kopieren",
+      "copy": "<span data-icon=\"copy\"></span> Ergebnis kopieren",
+      "stats": {
+        "monthlyTax": "Monatliche Steuer",
+        "monthlyTakeHome": "Monatlich netto (nach Einkommensteuer)",
+        "taxable": "Zu versteuerndes Einkommen",
+        "annualTax": "Jährliche Einkommensteuer",
+        "effectiveRate": "Effektiver Steuersatz",
+        "topRate": "Dein Spitzensatz"
+      },
+      "table": {
+        "ariaLabel": "{{title}} (scrollbar)",
+        "ariaLabelWithStatus": "{{title}} {{status}} (scrollbar)",
+        "rate": "Satz",
+        "over": "Über {{from}}",
+        "upTo": "Bis {{to}}",
+        "range": "{{from}} bis {{to}}",
+        "yourBand": " · dein Band"
+      },
+      "estimateTitle": "Dies ist eine Schätzung",
+      "others": {
+        "heading": "Gehaltssteuer in anderen Ländern",
+        "intro": "Steuerregeln unterscheiden sich stark von Land zu Land. Vergleiche mit unseren Rechnern für andere Länder oder sieh alle Länder auf einer Seite.",
+        "pakistan": "Gehaltssteuerrechner Pakistan",
+        "hub": "Gehaltssteuerrechner für alle Länder"
+      }
+    }
+  },
+  "client": {
+    "countries": {
+      "GB": {
+        "label": "Steuerjahr 2026 bis 2027",
+        "deductions": {
+          "allowance": "Personal Allowance (Freibetrag)"
+        }
+      },
+      "IN": {
+        "label": "GJ 2025-26 (AY 2026-27), neues Steuersystem",
+        "deductions": {
+          "standard": "Standardabzug für Angestellte"
+        },
+        "rebate": "Ermäßigung nach Section 87A",
+        "cess": "Gesundheits- und Bildungsabgabe (Cess)"
+      },
+      "US": {
+        "label": "Steuerjahr 2026",
+        "deductions": {
+          "standard": "Standardabzug"
+        }
+      }
+    },
+    "engine": {
+      "standardDeduction": "Standardabzug",
+      "personalAllowance": "Personal Allowance (Freibetrag)",
+      "errors": {
+        "noData": "Keine Steuerdaten geladen.",
+        "unknownStatus": "Unbekannter Veranlagungsstatus \"{{status}}\".",
+        "salaryMin": "Bitte gib ein Gehalt von 0 oder mehr ein.",
+        "period": "Wähle, ob das Gehalt monatlich oder jährlich ist."
+      }
+    },
+    "hub": {
+      "noTaxNote": "{{name}} besteuert Gehälter von Privatpersonen nicht. Siehe Hinweis unten."
+    },
+    "errors": {
+      "salaryRequired": "Bitte gib dein Gehalt ein."
+    },
+    "result": {
+      "primary": "{{tax}} im Jahr",
+      "copy": "Einkommensteuer {{country}} ({{label}}) auf {{income}} im Jahr: {{tax}} im Jahr ({{monthlyTax}} im Monat), netto {{takeHome}} im Monat, effektiver Satz {{effective}}%."
+    },
+    "steps": {
+      "gross": "Jährliches Bruttogehalt: <code>{{amount}}</code>",
+      "less": "Abzüglich {{label}}: <code>{{amount}}</code>",
+      "taxable": "Zu versteuerndes Einkommen: <strong>{{amount}}</strong>",
+      "band": "{{rate}} auf {{amount}} ({{from}} bis {{to}}): <code>{{tax}}</code>",
+      "bandsTotal": "Steuer aus den Bändern: <code>{{amount}}</code>",
+      "surcharge": "Plus Zuschlag: <code>{{amount}}</code>",
+      "cess": "Plus {{label}} ({{rate}}): <code>{{amount}}</code>",
+      "total": "Jährliche Einkommensteuer: <strong>{{annual}}</strong>, also {{monthly}} im Monat",
+      "defaultRebate": "Ermäßigung",
+      "defaultCess": "Abgabe (Cess)"
+    },
+    "toast": {
+      "copied": "Steuerberechnung in die Zwischenablage kopiert"
+    }
+  },
+  "countryPages": {
+    "GB": {
+      "label": "Steuerjahr 2026 bis 2027",
+      "title": "Gehaltssteuerrechner UK 2026/27 (Income Tax)",
+      "h1": "Gehaltssteuerrechner UK 2026/27",
+      "description": "Berechne die britische Einkommensteuer (Income Tax) auf dein Gehalt 2026/27, mit Abschmelzen des Freibetrags ab £100,000 und schottischen Sätzen.",
+      "salaryHint": "Dein Bruttolohn vor Steuern. Rentenbeiträge, die vor Steuern abgezogen werden (Salary Sacrifice), solltest du herauslassen.",
+      "tableTitle": "Income-Tax-Bänder 2026/27 (Einkommen nach dem Personal Allowance)",
+      "tableIncomeHeading": "Einkommen nach Freibeträgen",
+      "tableNotes": [
+        "Mit dem üblichen Personal Allowance von £12,570 reicht das Basic-Rate-Band in England, Wales und Nordirland von £12,571 bis £50,270 Gehalt.",
+        "Der Personal Allowance sinkt um £1 je £2 Einkommen über £100,000 und ist ab £125,140 null."
+      ],
+      "disclaimer": "Sie schätzt die Income Tax auf Einkommen aus Beschäftigung mit dem üblichen Personal Allowance und Tax Code. National Insurance, Rückzahlungen von Studienkrediten, Rentenbeiträge, Marriage Allowance und Blind Person's Allowance sind nicht enthalten. Prüfe deinen Tax Code und deine Lohnabrechnungen in deinem HMRC-Onlinekonto.",
+      "quickAnswer": "Für 2026/27 sind die ersten £12,570 Einkommen steuerfrei. In England, Wales und Nordirland zahlst du dann 20% auf die nächsten £37,700, 40% bis £125,140 und 45% darüber. Schottland hat sechs Bänder von 19% bis 48%. Über £100,000 schmilzt dein Freibetrag um £1 je £2 Verdienst ab, was zwischen £100,000 und £125,140 einen effektiven Satz von 60% ergibt.",
+      "howto": {
+        "name": "So berechnest du die britische Income Tax auf ein Gehalt",
+        "description": "Schätze die jährliche und monatliche Income Tax auf ein britisches Gehalt für 2026/27.",
+        "steps": [
+          {
+            "name": "Gehalt eingeben",
+            "text": "Gib deinen Bruttolohn ein und wähle monatlich oder jährlich."
+          },
+          {
+            "name": "Wohnort wählen",
+            "text": "Steuerpflichtige in Schottland nutzen die schottischen Bänder, alle anderen die Bänder für das übrige Vereinigte Königreich."
+          },
+          {
+            "name": "Steuer ablesen",
+            "text": "Sieh deinen Personal Allowance, die Steuer pro Band und dein monatliches Nettogehalt nach Income Tax."
+          }
+        ]
+      },
+      "workedExamples": [
+        {
+          "title": "Gehalt von £36,000 in England",
+          "inputs": [
+            "Gehalt: £36,000 im Jahr",
+            "Wohnort England"
+          ],
+          "steps": [
+            "Personal Allowance: £12,570",
+            "Einkommen nach Freibeträgen: £36,000 − £12,570 = £23,430",
+            "20% Basic Rate auf £23,430 = £4,686"
+          ],
+          "result": "£4,686 Income Tax im Jahr (£390.50 im Monat)."
+        },
+        {
+          "title": "Gehalt von £110,000: das Abschmelzen des Freibetrags",
+          "inputs": [
+            "Gehalt: £110,000 im Jahr",
+            "Wohnort England"
+          ],
+          "steps": [
+            "Das Einkommen liegt £10,000 über £100,000, der Freibetrag sinkt also um £5,000 auf £7,570",
+            "Einkommen nach Freibeträgen: £110,000 − £7,570 = £102,430",
+            "20% auf £37,700 = £7,540; 40% auf £64,730 = £25,892"
+          ],
+          "result": "£33,432 Income Tax im Jahr (£2,786 im Monat)."
+        },
+        {
+          "title": "Gehalt von £36,000 in Schottland",
+          "inputs": [
+            "Gehalt: £36,000 im Jahr",
+            "Wohnort Schottland"
+          ],
+          "steps": [
+            "Einkommen nach Freibeträgen: £23,430",
+            "19% auf £3,967 = £753.73; 20% auf £12,989 = £2,597.80; 21% auf £6,474 = £1,359.54"
+          ],
+          "result": "£4,711.07 Income Tax im Jahr, etwa £25 mehr als in England."
+        }
+      ],
+      "commonMistakes": [
+        {
+          "title": "Die Bänder als Gehaltsbänder lesen",
+          "description": "Die Bänder von HMRC gelten für das Einkommen nach deinem Personal Allowance. Die Basic Rate umfasst die ersten £37,700 über dem Freibetrag, für die meisten also £12,571 bis £50,270 Gehalt."
+        },
+        {
+          "title": "Das Abschmelzen ab £100,000 ignorieren",
+          "description": "Zwischen £100,000 und £125,140 entfernt jedes zusätzliche £2 Einkommen £1 Freibetrag, sodass dieser Teil in England, Wales und Nordirland effektiv mit 60% besteuert wird."
+        },
+        {
+          "title": "Income Tax und National Insurance verwechseln",
+          "description": "National Insurance ist ein separater Abzug auf deiner Lohnabrechnung mit eigenen Grenzen und hier nicht enthalten."
+        }
+      ],
+      "faqs": [
+        {
+          "q": "Wie viel darf ich 2026/27 verdienen, bevor Income Tax anfällt?",
+          "a": "£12,570, den üblichen Personal Allowance, wenn dein Einkommen £100,000 oder weniger beträgt. Über £100,000 sinkt der Freibetrag um £1 je £2 Einkommen und entfällt ab £125,140 ganz."
+        },
+        {
+          "q": "Was ist die 60-%-Steuerfalle?",
+          "a": "Zwischen £100,000 und £125,140 wird jedes zusätzliche £1 Einkommen mit 40% besteuert und entfernt außerdem 50p Freibetrag, die dann ebenfalls mit 40% besteuert werden. Zusammen ergibt das einen effektiven Grenzsteuersatz von 60%, plus National Insurance."
+        },
+        {
+          "q": "Gelten in Schottland andere Steuersätze?",
+          "a": "Ja. Wohnst du in Schottland, wird dein Gehalt mit schottischen Sätzen besteuert: 19%, 20%, 21%, 42%, 45% und 48% in sechs Bändern. Zins- und Dividendeneinkünfte nutzen die britischen Sätze."
+        },
+        {
+          "q": "Warum weicht die Steuer auf meiner Lohnabrechnung ab?",
+          "a": "PAYE nutzt deinen Tax Code, der Sachbezüge, zu wenig gezahlte Steuer aus Vorjahren oder einen anderen Freibetrag enthalten kann. Prüfe deinen Tax Code in deinem HMRC-Onlinekonto."
+        }
+      ],
+      "sections": [
+        {
+          "heading": "So funktioniert die Income Tax auf ein britisches Gehalt",
+          "paragraphs": [
+            "Das britische Steuerjahr läuft vom 6. April bis zum 5. April. Arbeitgeber ziehen die Income Tax an jedem Zahltag über PAYE anhand deines Tax Codes ab; für die meisten ist das 1257L (S1257L in Schottland), der Code für den Personal Allowance von £12,570.",
+            "Die Income Tax wird in Bändern auf das Einkommen über deinem Personal Allowance erhoben. HMRC veröffentlicht die Bänder als Einkommen nach Freibeträgen: In England, Wales und Nordirland werden die ersten £37,700 mit 20% besteuert, Einkommen bis £125,140 mit 40% und alles darüber mit 45%."
+          ],
+          "list": [
+            "<strong>Abschmelzen des Personal Allowance:</strong> Über £100,000 sinkt der Freibetrag um £1 je £2 bereinigtes Nettoeinkommen.",
+            "<strong>Schottland:</strong> Sechs vom schottischen Parlament festgelegte Bänder gelten für Löhne und Renten schottischer Steuerpflichtiger.",
+            "<strong>Nicht enthalten:</strong> National Insurance, Studienkredite und Rentenbeiträge, die ebenfalls von deiner Lohnabrechnung abgehen."
+          ]
+        },
+        {
+          "heading": "Von der Income Tax zum Nettogehalt",
+          "paragraphs": [
+            "Das Nettogehalt hier ist dein Gehalt nur abzüglich Income Tax. Deine echte Lohnabrechnung zeigt zusätzlich die National Insurance der Beschäftigten und, falls zutreffend, Rückzahlungen von Studienkrediten und Beiträge zur betrieblichen Rente.",
+            "Zahlst du per Salary Sacrifice in eine Rente ein oder leistest Bruttorentenbeiträge, sinkt dein bereinigtes Nettoeinkommen. In der Nähe von £100,000 kann das einen Teil deines Personal Allowance wiederherstellen; deshalb erhöhen viele im Abschmelzbereich ihre Rentenbeiträge."
+          ]
+        }
+      ],
+      "statusLabel": "Wohnort",
+      "statuses": {
+        "rUK": {
+          "label": "England, Wales oder Nordirland",
+          "slabNames": [
+            "Basic Rate",
+            "Higher Rate",
+            "Additional Rate"
+          ]
+        },
+        "scotland": {
+          "label": "Schottland",
+          "slabNames": [
+            "Starter Rate",
+            "Basic Rate",
+            "Intermediate Rate",
+            "Higher Rate",
+            "Advanced Rate",
+            "Top Rate"
+          ]
+        }
+      },
+      "sources": [
+        "GOV.UK: Income-Tax-Sätze und Personal Allowances (2026 bis 2027)",
+        "HMRC: Income-Tax-Sätze und Freibeträge für das laufende und frühere Steuerjahre (Einkommen nach Freibeträgen, England, Wales, Nordirland und Schottland)",
+        "GOV.UK: Schottische Income-Tax-Sätze 2026 bis 2027"
+      ]
+    },
+    "IN": {
+      "label": "GJ 2025-26 (AY 2026-27), neues Steuersystem",
+      "title": "Gehaltssteuerrechner Indien 2025-26 (neues System)",
+      "h1": "Gehaltssteuerrechner Indien 2025-26",
+      "description": "Berechne die Einkommensteuer auf ein indisches Gehalt für GJ 2025-26 im neuen System: ₹75,000 Standardabzug, Ermäßigung 87A bis ₹12 Lakh, Zuschlag und 4% Cess.",
+      "salaryHint": "Dein Bruttogehalt vor Steuern. Steuerfreie Zulagen solltest du herauslassen.",
+      "tableTitle": "Stufen im neuen System, GJ 2025-26",
+      "tableIncomeHeading": "Gesamteinkommen (nach Standardabzug)",
+      "tableNotes": [
+        "Ermäßigung nach Section 87A: keine Steuer bei einem Gesamteinkommen von ₹12,00,000 oder weniger (Ermäßigung bis ₹60,000), mit Grenzentlastung knapp über ₹12 Lakh.",
+        "Zuschlag auf die Steuer: 10% über ₹50 Lakh, 15% über ₹1 Crore, 25% über ₹2 Crore, jeweils mit Grenzentlastung. Danach 4% Gesundheits- und Bildungsabgabe auf Steuer plus Zuschlag."
+      ],
+      "disclaimer": "Sie gilt nur für das Gehalt einer ansässigen Einzelperson im standardmäßigen neuen Steuersystem. Das alte System, Einkünfte mit Sondersätzen wie Kapitalgewinne und die in manchen Bundesstaaten erhobene Professional Tax sind nicht enthalten. Prüfe deinen Steuerabzug (TDS) mit deinem Arbeitgeber oder einem Steuerberater.",
+      "quickAnswer": "Im neuen Steuersystem für GJ 2025-26 ziehst du ₹75,000 als Standardabzug von deinem Jahresgehalt ab und wendest dann die Stufen an: null bis ₹4 Lakh, dann 5%, 10%, 15%, 20% und 25% in Schritten von ₹4 Lakh und 30% über ₹24 Lakh. Bleiben ₹12 Lakh oder weniger übrig, hebt die Ermäßigung nach Section 87A die Steuer auf, ein Gehalt bis ₹12.75 Lakh ist also einkommensteuerfrei. Auf jede fällige Steuer kommen 4% Cess.",
+      "howto": {
+        "name": "So berechnest du die Einkommensteuer auf ein Gehalt in Indien (neues System)",
+        "description": "Schätze die jährliche und monatliche Einkommensteuer auf ein Gehalt für GJ 2025-26 im neuen Steuersystem.",
+        "steps": [
+          {
+            "name": "Gehalt eingeben",
+            "text": "Gib dein Bruttogehalt ein und wähle, ob es ein Monats- oder Jahresbetrag ist."
+          },
+          {
+            "name": "Steuer ablesen",
+            "text": "Sieh die jährliche und monatliche Steuer, die Ermäßigung, einen eventuellen Zuschlag und die 4% Cess sowie dein monatliches Nettogehalt nach Einkommensteuer."
+          },
+          {
+            "name": "Stufe prüfen",
+            "text": "Die Stufentabelle markiert das Band, in das deine letzte Rupie Einkommen fällt."
+          }
+        ]
+      },
+      "workedExamples": [
+        {
+          "title": "Gehalt von ₹12.75 Lakh: keine Steuer",
+          "inputs": [
+            "Jahresgehalt: ₹12,75,000"
+          ],
+          "steps": [
+            "Standardabzug: ₹12,75,000 − ₹75,000 = ₹12,00,000 Gesamteinkommen",
+            "Steuer nach Stufen: 5% von ₹4 Lakh + 10% von ₹4 Lakh = ₹60,000",
+            "Ermäßigung nach Section 87A von ₹60,000 (Gesamteinkommen nicht über ₹12 Lakh)"
+          ],
+          "result": "Keine Einkommensteuer. Die Tabelle der Haushaltsrede 2025-26 zeigt dasselbe: ₹12 Lakh Gesamteinkommen, Steuer nach Ermäßigung null."
+        },
+        {
+          "title": "Gehalt von ₹16.75 Lakh",
+          "inputs": [
+            "Jahresgehalt: ₹16,75,000"
+          ],
+          "steps": [
+            "Gesamteinkommen nach Standardabzug: ₹16,00,000",
+            "Steuer nach Stufen: ₹20,000 + ₹40,000 + 15% von ₹4 Lakh (₹60,000) = ₹1,20,000",
+            "Keine Ermäßigung über ₹12 Lakh; 4% Cess: ₹4,800"
+          ],
+          "result": "₹1,24,800 im Jahr (₹10,400 im Monat). Die Tabelle der Haushaltsrede zeigt ₹1,20,000 vor Cess für ₹16 Lakh Gesamteinkommen."
+        },
+        {
+          "title": "Gehalt von ₹50.75 Lakh",
+          "inputs": [
+            "Jahresgehalt: ₹50,75,000"
+          ],
+          "steps": [
+            "Gesamteinkommen: ₹50,00,000, nicht über ₹50 Lakh, also kein Zuschlag",
+            "Steuer nach Stufen: ₹3,00,000 bis ₹24 Lakh + 30% von ₹26 Lakh (₹7,80,000) = ₹10,80,000",
+            "4% Cess: ₹43,200"
+          ],
+          "result": "₹11,23,200 im Jahr. Die Tabelle der Haushaltsrede zeigt ₹10,80,000 vor Cess für ₹50 Lakh Gesamteinkommen."
+        }
+      ],
+      "commonMistakes": [
+        {
+          "title": "Den Standardabzug vergessen",
+          "description": "Angestellte erhalten im neuen System ₹75,000 Abzug, bevor die Stufen greifen; die Grenze ohne Steuer liegt also bei ₹12.75 Lakh Gehalt, nicht bei ₹12 Lakh."
+        },
+        {
+          "title": "₹12 Lakh für eine Stufe halten",
+          "description": "Die Grenze von ₹12 Lakh gilt für die Ermäßigung, nicht für eine steuerfreie Stufe. Knapp darüber fällt die volle Steuer nach Stufen an, nur abgemildert durch die Grenzentlastung."
+        },
+        {
+          "title": "Die Cess weglassen",
+          "description": "Die Gesundheits- und Bildungsabgabe von 4% wird auf Einkommensteuer plus Zuschlag erhoben und erhöht damit jede Steuer über null."
+        }
+      ],
+      "faqs": [
+        {
+          "q": "Wie viel Gehalt ist in Indien im neuen System steuerfrei?",
+          "a": "Für GJ 2025-26 zahlt eine ansässige angestellte Person ohne weitere Einkünfte keine Einkommensteuer auf ein Gehalt bis ₹12,75,000: Der Standardabzug von ₹75,000 senkt das Gesamteinkommen auf ₹12 Lakh, und die Ermäßigung nach Section 87A von bis zu ₹60,000 hebt die Steuer nach Stufen auf."
+        },
+        {
+          "q": "Was ist die Grenzentlastung bei der Ermäßigung bis ₹12 Lakh?",
+          "a": "Liegt dein Gesamteinkommen knapp über ₹12 Lakh, sorgt die Grenzentlastung dafür, dass deine Steuer nicht höher ist als der Betrag, um den dein Einkommen ₹12 Lakh übersteigt. Ohne sie würde ₹1 Einkommen über ₹12 Lakh über ₹60,000 Steuer kosten."
+        },
+        {
+          "q": "Nutzt dieser Rechner das alte System?",
+          "a": "Nein. Er nutzt das neue Steuersystem, das der Standard ist. Das alte System hat andere Stufen und erlaubt Abzüge wie nach Section 80C und HRA; vergleiche beide mit deinem Arbeitgeber oder einem Steuerberater, bevor du wählst."
+        },
+        {
+          "q": "Wann wird ein Zuschlag erhoben?",
+          "a": "Ein Zuschlag fällt an, wenn das Gesamteinkommen ₹50 Lakh übersteigt: im neuen System 10% der Steuer über ₹50 Lakh, 15% über ₹1 Crore und 25% über ₹2 Crore, mit Grenzentlastung an jeder Schwelle."
+        },
+        {
+          "q": "Was gilt für das Steuerjahr 2026-27?",
+          "a": "Ab dem 1. April 2026 gilt der Income-tax Act, 2025. Das Memorandum zur Finance Bill 2026 behält für das Steuerjahr 2026-27 dieselben Stufen, denselben Zuschlag und 4% Cess bei. Wir ergänzen dieses Jahr, sobald wir Standardabzug und Ermäßigung im neuen Gesetz selbst geprüft haben."
+        }
+      ],
+      "sections": [
+        {
+          "heading": "So wird Gehalt in Indien besteuert",
+          "paragraphs": [
+            "Indien besteuert Gehalt nach Geschäftsjahr, vom 1. April bis zum 31. März. Dein Arbeitgeber zieht die Steuer an der Quelle (TDS) monatlich anhand deines geschätzten Jahreseinkommens ab, und Differenzen gleichst du mit deiner Steuererklärung im folgenden Veranlagungsjahr aus.",
+            "Seit GJ 2023-24 ist das neue Steuersystem der Standard. Es hat niedrigere Sätze, streicht aber die meisten Abzüge und Befreiungen, etwa Investitionen nach Section 80C und den Mietzuschuss (HRA). Angestellte behalten einen Standardabzug, im neuen System ₹75,000."
+          ],
+          "list": [
+            "<strong>Gesamteinkommen:</strong> Bruttogehalt minus Standardabzug von ₹75,000 (plus eventuelle weitere Einkünfte).",
+            "<strong>Stufen:</strong> null bis ₹4 Lakh, dann 5%, 10%, 15%, 20% und 25% in Schritten von ₹4 Lakh und 30% über ₹24 Lakh.",
+            "<strong>Ermäßigung:</strong> bis ₹60,000 bei einem Gesamteinkommen von ₹12 Lakh oder weniger, mit Grenzentlastung knapp darüber.",
+            "<strong>Zuschlag und Cess:</strong> Zuschlag erst über ₹50 Lakh; 4% Cess auf jede Steuer."
+          ]
+        },
+        {
+          "heading": "Was das für dein monatliches Nettogehalt bedeutet",
+          "paragraphs": [
+            "Die monatliche Steuer im Rechner ist ein Zwölftel der Jahressteuer, also ungefähr das, was der TDS bei gleichbleibendem Gehalt von jeder Lohnabrechnung abzieht. Dein tatsächliches Nettogehalt wird zusätzlich durch deinen Beitrag zum Provident Fund und in manchen Bundesstaaten durch die Professional Tax gemindert, die dieser Rechner nicht berücksichtigt.",
+            "Ändert sich dein Gehalt im Lauf des Jahres oder erhältst du einen Bonus, berechnet dein Arbeitgeber den TDS für die restlichen Monate neu, sodass einzelne Lohnabrechnungen vom hier gezeigten Durchschnitt abweichen können."
+          ]
+        }
+      ],
+      "sources": [
+        "Memorandum zur Finance Bill, 2025: Stufen nach Section 115BAC(1A) und Ermäßigung nach Section 87A (₹60,000 bis ₹12,00,000) ab AY 2026-27",
+        "Haushaltsrede 2025-26, Abs. 156 (Standardabzug ₹75,000) und Beispieltabelle im Anhang zu Teil B",
+        "Memorandum zur Finance Bill, 2026: Zuschlag und 4% Gesundheits- und Bildungsabgabe für AY 2026-27"
+      ]
+    },
+    "US": {
+      "label": "Steuerjahr 2026",
+      "title": "US-Einkommensteuerrechner 2026 (Bund, Gehalt)",
+      "h1": "Gehaltssteuerrechner USA 2026 (Bund)",
+      "description": "Schätze die US-Bundeseinkommensteuer 2026 auf ein Gehalt für Alleinstehende und gemeinsam veranlagte Ehepaare, mit Standardabzug und IRS-Stufen 2026.",
+      "salaryHint": "Dein Bruttolohn vor Steuern. Beiträge vor Steuern zu 401(k) oder Krankenversicherung senken den steuerpflichtigen Lohn; lass sie heraus, wenn du sie kennst.",
+      "tableTitle": "Bundessteuerstufen 2026",
+      "tableIncomeHeading": "Zu versteuerndes Einkommen (nach Standardabzug)",
+      "tableNotes": [
+        "Standardabzug 2026: $16,100 für Alleinstehende, $32,200 bei gemeinsamer Veranlagung.",
+        "Nur Bundeseinkommensteuer. Einkommensteuer von Bundesstaaten und Gemeinden, Social Security und Medicare sind nicht enthalten."
+      ],
+      "disclaimer": "Sie schätzt nur die Bundeseinkommensteuer auf Löhne, mit Standardabzug und ohne Steuergutschriften. Einkommensteuern von Bundesstaaten und Gemeinden, Social Security und Medicare (FICA), Einzelabzüge und Gutschriften wie der Child Tax Credit sind nicht enthalten. Prüfe deinen Steuerabzug mit dem IRS Tax Withholding Estimator oder einem Steuerprofi.",
+      "quickAnswer": "Für 2026 ziehst du den Standardabzug ($16,100 für Alleinstehende, $32,200 bei gemeinsamer Veranlagung) von deinem Jahreslohn ab und wendest auf den Rest die Bundesstufen von 10% bis 37% an. Jeder Satz gilt nur für den Teil des Einkommens innerhalb seiner Stufe; eine alleinstehende Person mit $72,000 zahlt also etwa $7,000 Bundeseinkommensteuer, nicht 22% auf alles.",
+      "howto": {
+        "name": "So schätzt du die US-Bundeseinkommensteuer 2026 auf ein Gehalt",
+        "description": "Schätze die jährliche und monatliche Bundeseinkommensteuer auf Löhne für 2026.",
+        "steps": [
+          {
+            "name": "Lohn eingeben",
+            "text": "Gib deinen Bruttolohn ein und wähle, ob er monatlich oder jährlich ist."
+          },
+          {
+            "name": "Veranlagungsstatus wählen",
+            "text": "Wähle alleinstehend oder gemeinsam veranlagt; jeder Status hat eigene Stufen und einen eigenen Standardabzug."
+          },
+          {
+            "name": "Steuer ablesen",
+            "text": "Sieh die Bundessteuer pro Jahr und Monat, deinen effektiven Satz und deine höchste Stufe."
+          }
+        ]
+      },
+      "workedExamples": [
+        {
+          "title": "Alleinstehend, Gehalt $72,000",
+          "inputs": [
+            "Veranlagungsstatus: alleinstehend",
+            "Lohn: $72,000 im Jahr"
+          ],
+          "steps": [
+            "Zu versteuerndes Einkommen: $72,000 − $16,100 = $55,900",
+            "Rev. Proc. 2025-32 Tabelle 3: $5,800 plus 22% des Betrags über $50,400"
+          ],
+          "result": "$7,010 Bundeseinkommensteuer (etwa $584 im Monat), effektiver Satz 9.74%."
+        },
+        {
+          "title": "Gemeinsam veranlagt, $150,000 gemeinsamer Lohn",
+          "inputs": [
+            "Veranlagungsstatus: gemeinsam veranlagt",
+            "Lohn: $150,000 im Jahr"
+          ],
+          "steps": [
+            "Zu versteuerndes Einkommen: $150,000 − $32,200 = $117,800",
+            "Rev. Proc. 2025-32 Tabelle 1: $11,600 plus 22% des Betrags über $100,800"
+          ],
+          "result": "$15,340 Bundeseinkommensteuer (etwa $1,278 im Monat), effektiver Satz 10.23%."
+        }
+      ],
+      "commonMistakes": [
+        {
+          "title": "Den Spitzensatz auf das ganze Einkommen anwenden",
+          "description": "In der 22%-Stufe zu liegen heißt nicht, dass 22% deines Lohns an Bundessteuer gehen: Untere Teile werden mit 10% und 12% besteuert, und der Standardabzug gar nicht."
+        },
+        {
+          "title": "Bundesstaatsteuer und FICA vergessen",
+          "description": "Von deinem Lohn gehen außerdem Social Security und Medicare ab und in den meisten Bundesstaaten eine eigene Einkommensteuer. Diese Seite zeigt nur die Bundeseinkommensteuer."
+        },
+        {
+          "title": "Die Zahlen vom Vorjahr verwenden",
+          "description": "Stufen und Standardabzug ändern sich jedes Jahr mit der Inflation. Dies sind die Werte für 2026 aus IRS Rev. Proc. 2025-32."
+        }
+      ],
+      "faqs": [
+        {
+          "q": "Welche Bundessteuerstufen gelten 2026?",
+          "a": "Für Alleinstehende: 10% bis $12,400 zu versteuerndes Einkommen, 12% bis $50,400, 22% bis $105,700, 24% bis $201,775, 32% bis $256,225, 35% bis $640,600 und 37% darüber. Gemeinsam veranlagte Ehepaare haben etwa doppelt so breite Stufen, beginnend mit 10% bis $24,800."
+        },
+        {
+          "q": "Wie hoch ist der Standardabzug 2026?",
+          "a": "$16,100 für Alleinstehende und $32,200 für gemeinsam veranlagte Ehepaare, laut IRS Rev. Proc. 2025-32."
+        },
+        {
+          "q": "Ist die Einkommensteuer der Bundesstaaten enthalten?",
+          "a": "Nein. Die Bundesstaaten legen ihre eigenen Einkommensteuern fest, manche haben keine. Dieser Rechner deckt nur die Bundeseinkommensteuer ab."
+        },
+        {
+          "q": "Warum weicht der Steuerabzug auf meiner Lohnabrechnung ab?",
+          "a": "Der Abzug richtet sich nach deinem Formular W-4, der Zahlungshäufigkeit und Abzügen vor Steuern und umfasst auch Social Security und Medicare. Nutze den IRS Tax Withholding Estimator, um ihn anzupassen."
+        }
+      ],
+      "sections": [
+        {
+          "heading": "So funktioniert die Bundeseinkommensteuer auf Löhne",
+          "paragraphs": [
+            "Die USA besteuern Einkommen nach Kalenderjahr. Dein Arbeitgeber behält die Bundeseinkommensteuer anhand deines Formulars W-4 von jedem Gehalt ein, und du gleichst die Summe im folgenden Frühjahr mit deiner Steuererklärung ab.",
+            "Die Bundeseinkommensteuer ist progressiv: Die Steuertabellen teilen das zu versteuernde Einkommen in Stufen, und jeder Satz gilt nur für das Einkommen in seiner Stufe. Das zu versteuernde Einkommen ist dein Lohn minus Abzüge vor Steuern und entweder der Standardabzug oder deine Einzelabzüge."
+          ],
+          "list": [
+            "<strong>Der Veranlagungsstatus</strong> bestimmt, welche Stufen und welcher Standardabzug gelten. Dieser Rechner deckt Alleinstehende und gemeinsam Veranlagte ab; Head of Household und getrennt Veranlagte haben eigene Tabellen.",
+            "<strong>Der Standardabzug</strong> beträgt 2026 $16,100 (alleinstehend) oder $32,200 (gemeinsam veranlagt).",
+            "<strong>Steuergutschriften</strong> wie der Child Tax Credit mindern die Steuer selbst und sind hier nicht enthalten."
+          ]
+        },
+        {
+          "heading": "Was diese Schätzung nicht berücksichtigt",
+          "paragraphs": [
+            "Dein Nettolohn wird außerdem durch Social Security und Medicare (FICA) sowie durch Einkommensteuern des Bundesstaats und manchmal der Stadt gemindert. Jeder Bundesstaat hat eigene Regeln, daher versucht diese Seite nicht, sie zu schätzen.",
+            "Zahlst du über die Lohnabrechnung in einen traditionellen 401(k), ein HSA oder die Krankenversicherung des Arbeitgebers ein, gehen diese Beträge meist vor der Bundeseinkommensteuer ab. Gib deinen Lohn nach diesen Abzügen ein, um eine genauere Schätzung zu erhalten."
+          ]
+        }
+      ],
+      "statusLabel": "Veranlagungsstatus",
+      "statuses": {
+        "single": {
+          "label": "Alleinstehend"
+        },
+        "married_joint": {
+          "label": "Verheiratet, gemeinsam veranlagt"
+        }
+      },
+      "sources": [
+        "IRS Revenue Procedure 2025-32 (Inflationsanpassungen 2026): Steuertabellen und Standardabzug",
+        "IRS-Newsroom: Inflationsanpassungen für das Steuerjahr 2026"
+      ]
+    }
+  },
+  "noTax": {
+    "AE": {
+      "statement": "Die VAE erheben keine Einkommensteuer auf Privatpersonen, Gehälter werden also nicht besteuert.",
+      "source": "Regierungsportal der VAE (u.ae): Besteuerung"
+    },
+    "SA": {
+      "statement": "In Saudi-Arabien Ansässige unterliegen keiner persönlichen Einkommensteuer, Gehälter werden also nicht besteuert. Die saudische Einkommensteuer gilt für nicht-saudische Ansässige, die im Königreich eine Geschäftstätigkeit ausüben, nicht für Beschäftigungsverhältnisse.",
+      "source": "Investitionsministerium Saudi-Arabiens (MISA): Programm für regionale Hauptsitze"
+    },
+    "QA": {
+      "statement": "Privatpersonen in Katar zahlen keine persönliche Einkommensteuer auf Gehälter oder Löhne.",
+      "source": "Qatar General Tax Authority: Investoren"
+    }
+  }
+}

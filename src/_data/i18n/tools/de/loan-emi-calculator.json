@@ -1,0 +1,269 @@
+{
+  "listing": {
+    "name": "Kreditrechner (EMI)",
+    "shortName": "Kreditrechner",
+    "description": "Berechne die monatliche Kreditrate (EMI), die Gesamtzinsen, den vollständigen Tilgungsplan und die Ersparnis durch monatliche Sondertilgungen.",
+    "shortDescription": "Berechne monatliche Kreditrate (EMI), Gesamtzinsen, Tilgungsplan und Ersparnis durch Sondertilgungen.",
+    "keywords": [
+      "kreditrechner",
+      "emi rechner",
+      "tilgungsplan erstellen",
+      "annuitätenrechner",
+      "autokredit rechner",
+      "sondertilgung rechner"
+    ]
+  },
+  "title": "Kreditrechner (EMI) - Monatliche Rate & Tilgungsplan",
+  "description": "Kreditrechner: Berechne die monatliche Rate (EMI), Gesamtzinsen, den vollständigen Tilgungsplan und die Ersparnis durch Sondertilgungen. Kostenlos.",
+  "h1": "Kreditrechner (EMI)",
+  "quickAnswer": "Der Kreditrechner berechnet die EMI (Equated Monthly Installment, gleichbleibende Monatsrate) mit der Annuitätenformel: EMI = P × r × (1 + r)^n ÷ ((1 + r)^n − 1), wobei P der Kreditbetrag, r der Monatszins (Jahreszins ÷ 1200) und n die Laufzeit in Monaten ist. Die Gesamtzinsen sind (EMI × n) − P. Monatliche Sondertilgungen verringern direkt die Restschuld und senken so Gesamtzinsen und Laufzeit.",
+  "formula": {
+    "title": "Formel für die Kreditrate (EMI)",
+    "explanation": "P ist der Kreditbetrag, r der Monatszins (Jahreszins ÷ 1200) und n die Laufzeit in Monaten."
+  },
+  "workedExamples": [
+    {
+      "title": "Hypothek über $200,000 zu 6.5% für 30 Jahre (360 Monate)",
+      "inputs": [
+        "Kreditbetrag (P): $200,000",
+        "Jahreszins: 6.5%",
+        "Laufzeit: 30 Jahre (360 Monate)",
+        "Monatliche Sondertilgung: $0"
+      ],
+      "steps": [
+        "Monatszins r = 6.5 ÷ 1200 ≈ 0.0054167",
+        "Monatsrate = 200,000 × 0.0054167 × (1.0054167)^360 ÷ ((1.0054167)^360 − 1)",
+        "Monatsrate = $1,264.14",
+        "Gesamtrückzahlung = $1,264.14 × 360 = $455,088.94",
+        "Gesamtzinsen = $455,088.94 − $200,000 = $255,088.94"
+      ],
+      "result": "$1,264.14 Monatsrate ($255,088.94 Gesamtzinsen)"
+    },
+    {
+      "title": "Autokredit über $25,000 zu 5.0% für 5 Jahre (60 Monate)",
+      "inputs": [
+        "Kreditbetrag: $25,000",
+        "Jahreszins: 5.0%",
+        "Laufzeit: 5 Jahre (60 Monate)"
+      ],
+      "steps": [
+        "Monatszins r = 5.0 ÷ 1200 ≈ 0.0041667",
+        "Monatsrate = $471.78",
+        "Gesamtzahlung = $471.78 × 60 = $28,306.86",
+        "Gesamtzinsen = $3,306.86"
+      ],
+      "result": "$471.78 Monatsrate ($3,306.86 Gesamtzinsen)"
+    },
+    {
+      "title": "Schneller schuldenfrei mit $100 Sondertilgung pro Monat",
+      "inputs": [
+        "Grundkredit: $200,000 zu 6.5% für 30 Jahre ($1,264.14 Grundrate)",
+        "Monatliche Sondertilgung: $100 ($1,364.14 insgesamt pro Monat)"
+      ],
+      "steps": [
+        "Die zusätzlichen $100 senken jeden Monat direkt die Restschuld",
+        "Kredit in 304 Monaten (25.3 Jahre) statt 360 Monaten (30 Jahre) getilgt",
+        "Laufzeit um 56 Monate (4.7 Jahre) verkürzt",
+        "Gesparte Zinsen = $46,419.00"
+      ],
+      "result": "4.7 Jahre früher getilgt ($46,419.00 Zinsen gespart)"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Nur auf die Monatsrate schauen",
+      "description": "Eine längere Laufzeit senkt die Monatsrate, treibt aber die Zinskosten über die gesamte Laufzeit stark in die Höhe. Bewerte immer die Gesamtkosten des Kredits zusammen mit der monatlichen Belastung."
+    },
+    {
+      "title": "Effektivzins mit Sollzins verwechseln",
+      "description": "Der effektive Jahreszins (APR) enthält Gebühren, Disagio und Abschlusskosten, während der nominale Sollzins die genaue monatliche Tilgungsberechnung bestimmt."
+    },
+    {
+      "title": "Gleichmäßige Tilgung annehmen",
+      "description": "In den ersten Jahren eines Kredits fließt der Großteil jeder Rate in die Zinsen. Die Tilgung beschleunigt sich erst in der zweiten Hälfte des Tilgungsplans."
+    }
+  ],
+  "sources": [
+    {
+      "label": "Consumer Financial Protection Bureau (CFPB) – Grundlagen zu Krediten"
+    },
+    {
+      "label": "Federal Reserve Board – Verbraucherleitfaden zu Hypotheken"
+    },
+    {
+      "label": "Bank für Internationalen Zahlungsausgleich – Kreditstandards"
+    }
+  ],
+  "howto": {
+    "name": "So berechnest du Kreditrate (EMI) und Tilgungsplan",
+    "description": "Schritt-für-Schritt-Anleitung, um monatliche Kreditraten, Zinskosten und beschleunigte Tilgungspläne zu berechnen.",
+    "steps": [
+      {
+        "name": "Währung & Kreditbetrag wählen",
+        "text": "Wähle dein Währungssymbol und gib den geliehenen Gesamtbetrag ein."
+      },
+      {
+        "name": "Jahreszins eingeben",
+        "text": "Gib den Jahreszins ein, den dein Kreditgeber berechnet."
+      },
+      {
+        "name": "Laufzeit angeben",
+        "text": "Gib die Rückzahlungsdauer ein und wechsle zwischen Jahren und Monaten."
+      },
+      {
+        "name": "Optional Sondertilgung hinzufügen",
+        "text": "Gib optional eine zusätzliche monatliche Tilgung ein, um zu sehen, wie viele Monate und Zinsen du sparst."
+      },
+      {
+        "name": "Monatsrate ansehen & Plan herunterladen",
+        "text": "Sieh dir deine Monatsrate, die Gesamtzinsen und den interaktiven Tilgungsplan an und exportiere die Tabelle als CSV."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Was ist eine EMI (Equated Monthly Installment)?",
+      "a": "Eine Equated Monthly Installment (EMI) ist eine gleichbleibende Monatsrate, die ein Kreditnehmer an einem festen Kalendertag an den Kreditgeber zahlt. Jede Rate deckt die Zinsen des Monats und einen Teil der Restschuld. Im deutschen Sprachraum spricht man von einer Annuität."
+    },
+    {
+      "q": "Mit welcher Formel wird die Kreditrate (EMI) berechnet?",
+      "a": "Die übliche EMI-Formel lautet: EMI = P × r × (1 + r)^n / ((1 + r)^n - 1), wobei P der Kreditbetrag, r der Monatszins (Jahreszins geteilt durch 1200) und n die Gesamtzahl der Monatsraten ist."
+    },
+    {
+      "q": "Wie verkürzt eine monatliche Sondertilgung die Laufzeit?",
+      "a": "Jede Zahlung über der vereinbarten Rate wird vollständig auf die Restschuld angerechnet. Bei geringerer Restschuld sinken die künftigen Monatszinsen, die Rückzahlung beschleunigt sich und du sparst erheblich Zinsen."
+    },
+    {
+      "q": "Unterstützt dieser Kreditrechner mehrere internationale Währungen?",
+      "a": "Ja. Du kannst zwischen PKR, INR, USD, EUR, GBP, AED und SAR wechseln, ohne dass sich die Annuitätenformel ändert."
+    },
+    {
+      "q": "Kann ich meinen vollständigen Tilgungsplan exportieren?",
+      "a": "Ja. Klicke auf „Tilgungsplan herunterladen (CSV)“, um deinen kompletten Plan mit Zahlung, Zinsen, Tilgung und Restschuld pro Monat als CSV-Tabelle zu exportieren."
+    },
+    {
+      "q": "Werden meine Kreditdaten auf einen Server hochgeladen?",
+      "a": "Nein. Alle Kreditberechnungen laufen zu 100 % lokal in deinem Webbrowser. Keine Finanzzahlen oder Kreditbeträge werden übertragen oder gespeichert."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Formular des Kreditrechners",
+      "tenure-unit": "Einheit der Laufzeit",
+      "copy-result-btn": "Zusammenfassung kopieren",
+      "full-loan-amortization-schedule-div1": "Tilgungsplan (scrollbar)",
+      "full-loan-amortization-schedule-table1": "Tabelle des Tilgungsplans"
+    },
+    "label": {
+      "loan-amount": "Kreditbetrag <span class=\"text-accent\">*</span>",
+      "interest-rate": "Jahreszins (%) <span class=\"text-accent\">*</span>",
+      "tenure-value": "Laufzeit <span class=\"text-accent\">*</span>",
+      "extra-payment": "Optionale monatliche Sondertilgung <span class=\"label-hint\">(beschleunigt die Tilgung)</span>"
+    },
+    "option": {
+      "tenure-unit": {
+        "years": "Jahre",
+        "months": "Monate"
+      }
+    },
+    "content": {
+      "tool": {
+        "button1": "Rate berechnen",
+        "div1": "Monatliche Rate (EMI)",
+        "div2": "Gesamtzinsen",
+        "div3": "Gesamtrückzahlung",
+        "div4": "Laufzeit"
+      },
+      "extra-payment-payoff-accelerator": {
+        "heading": "Schneller tilgen mit Sondertilgung",
+        "span1": "<svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><polyline points=\"20 6 9 17 4 12\"></polyline></svg>\n              Schneller getilgt",
+        "div1": "Gesparte Zinsen insgesamt",
+        "div2": "Gesparte Laufzeit",
+        "div3": "Neue Laufzeit"
+      },
+      "full-loan-amortization-schedule": {
+        "heading": "Vollständiger Tilgungsplan",
+        "p1": "Tilgung und Zinsen Monat für Monat.",
+        "th1": "Monat",
+        "th2": "Rate <span class=\"table-currency-symbol\">($)</span>",
+        "th3": "Tilgung <span class=\"table-currency-symbol\">($)</span>",
+        "th4": "Zinsen <span class=\"table-currency-symbol\">($)</span>",
+        "th5": "Zinsen gesamt <span class=\"table-currency-symbol\">($)</span>",
+        "th6": "Restschuld <span class=\"table-currency-symbol\">($)</span>"
+      },
+      "how-when-to-use-the-loan": {
+        "li1": "<strong>Baufinanzierung &amp; Immobilien:</strong> Vergleiche Darlehen mit 15 und 30 Jahren Zinsbindung, um monatliche Belastung und Gesamtzinskosten abzuwägen.",
+        "li2": "<strong>Auto- &amp; Fahrzeugfinanzierung:</strong> Schätze Autokreditraten bei verschiedenen Händlerzinsen und Anzahlungen, bevor du zum Autohaus gehst.",
+        "li3": "<strong>Ratenkredite &amp; Umschuldung:</strong> Ermittle die genaue Monatsrate, um teurere Kreditkartenschulden zusammenzufassen.",
+        "li4": "<strong>Schneller schuldenfrei:</strong> Simuliere Sondertilgungen (etwa $50, $100 oder $200 pro Monat) und sieh, wie viele Jahre Schulden du einsparst."
+      }
+    },
+    "text": {
+      "reset-btn": "Zurücksetzen",
+      "result-header-text": "Zusammenfassung der Rückzahlung",
+      "copy-result-btn": "<span data-icon=\"copy\"></span> Zusammenfassung kopieren",
+      "result-primary-text": "Monatsrate: $0.00",
+      "stat-tenure": "0 Monate",
+      "stat-months-saved": "0 Monate",
+      "stat-new-tenure": "0 Monate",
+      "download-csv-btn": "<svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4\"></path><polyline points=\"7 10 12 15 17 10\"></polyline><line x1=\"12\" y1=\"15\" x2=\"12\" y2=\"3\"></line></svg>\n                Tilgungsplan herunterladen (CSV)",
+      "how-to-use-heading": "Wie &amp; wann du den Kreditrechner nutzt"
+    },
+    "title": {
+      "copy-result-btn": "Zusammenfassung kopieren"
+    }
+  },
+  "client": {
+    "currencies": {
+      "USD": "US-Dollar ($)",
+      "PKR": "Pakistanische Rupie (₨)",
+      "INR": "Indische Rupie (₹)",
+      "EUR": "Euro (€)",
+      "GBP": "Britisches Pfund (£)",
+      "AED": "VAE-Dirham (AED)",
+      "SAR": "Saudi-Riyal (SAR)"
+    },
+    "errors": {
+      "amountMin": "Bitte gib einen gültigen Kreditbetrag über null ein.",
+      "rateMin": "Bitte gib einen gültigen Jahreszins ein (0% oder mehr).",
+      "tenureMin": "Bitte gib eine gültige Laufzeit über null ein.",
+      "extraMin": "Die monatliche Sondertilgung muss 0 oder mehr betragen.",
+      "tenureRange": "Die Laufzeit muss zwischen 1 Monat und 50 Jahren (600 Monaten) liegen.",
+      "amountRequired": "Bitte gib einen gültigen Kreditbetrag ein.",
+      "amountPositive": "Der Kreditbetrag muss größer als null sein.",
+      "rateRequired": "Bitte gib einen Jahreszins ein.",
+      "rateNegative": "Der Zinssatz darf nicht negativ sein.",
+      "tenureRequired": "Bitte gib die Laufzeit ein.",
+      "tenurePositive": "Die Laufzeit muss größer als null sein."
+    },
+    "csv": {
+      "month": "Monat",
+      "payment": "Rate ({{symbol}})",
+      "principal": "Tilgung ({{symbol}})",
+      "interest": "Zinsen ({{symbol}})",
+      "totalInterest": "Zinsen bisher gesamt ({{symbol}})",
+      "balance": "Restschuld ({{symbol}})"
+    },
+    "result": {
+      "primary": "Monatsrate: {{value}}",
+      "tenure": "{{months}} Monate ({{years}} Jahre)",
+      "newTenure": "{{months}} Monate (statt {{from}})"
+    },
+    "summary": {
+      "title": "Zusammenfassung der Kreditberechnung:",
+      "principal": "Kreditbetrag: {{value}}",
+      "rate": "Zinssatz: {{rate}}%",
+      "tenure": "Laufzeit: {{months}} Monate ({{years}} Jahre)",
+      "emi": "Monatsrate: {{value}}",
+      "totalInterest": "Gesamtzinsen: {{value}}",
+      "totalPayment": "Gesamtzahlung: {{value}}",
+      "extra": "Monatliche Sondertilgung: {{value}}",
+      "monthsSaved": "Gesparte Monate: {{months}} Monate",
+      "interestSaved": "Gesparte Zinsen: {{value}}",
+      "newPayoff": "Neue Laufzeit: {{months}} Monate"
+    },
+    "toast": {
+      "copied": "Kreditberechnung in die Zwischenablage kopiert!"
+    }
+  }
+}

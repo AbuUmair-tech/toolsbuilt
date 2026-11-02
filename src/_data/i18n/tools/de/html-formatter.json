@@ -1,0 +1,226 @@
+{
+  "listing": {
+    "name": "HTML-Formatierer",
+    "shortName": "HTML-Formatierer",
+    "description": "Formatiere und verschönere HTML mit Prettier, inklusive eingebettetem CSS und JavaScript, mit Parse-Fehlern samt Zeile und einem behutsamen Minimier-Modus.",
+    "shortDescription": "HTML verschönern oder minimieren, mit sauberer Einrückung und Fehlerzeilen.",
+    "keywords": [
+      "html formatierer",
+      "html beautifier",
+      "html online formatieren",
+      "html verschönern",
+      "html minifier",
+      "html einrücken",
+      "html schön formatieren"
+    ]
+  },
+  "title": "HTML-Formatierer & Beautifier online",
+  "description": "HTML-Formatierer: Unordentliches HTML mit Prettier formatieren, saubere Einrückung, auch eingebettetes CSS und JavaScript, Fehler mit Zeilennummer.",
+  "h1": "HTML-Formatierer",
+  "quickAnswer": "Füge im HTML-Formatierer dein HTML ein und drücke Formatieren. Prettier setzt jedes Blockelement in eine eigene Zeile, rückt verschachtelte Elemente um 2 Leerzeichen ein (oder 4 oder Tabs), formatiert das CSS in style-Tags und das JavaScript in script-Tags und lässt Inline-Elemente wie span und a nach Möglichkeit in derselben Zeile. Lässt sich das Markup nicht parsen, etwa wegen eines nicht passenden schließenden Tags, bekommst du stattdessen Zeile und Spalte.",
+  "formula": {
+    "title": "So wird das HTML formatiert",
+    "expression": "HTML parsen → Baum aus Elementen → mit Einrückung und Zeilenbreite ausgeben, Leerraum bleibt dort, wo der Browser ihn darstellen würde",
+    "explanation": "Die Seite nutzt den HTML-Drucker von Prettier, der beim ersten Formatieren von dieser Website geladen wird. Er parst das Markup in einen Baum und gibt Blockelemente (div, p, ul, section …) in eigenen Zeilen aus, mit einer Einrückungsebene pro Verschachtelung, und bricht lange Zeilen bei der gewählten Zeilenbreite um. Inline-Elemente (span, a, strong, em …) sind leerraumempfindlich: Ein Zeilenumbruch zwischen ihnen erscheint auf der Seite als Leerzeichen, daher fügt Prettier standardmäßig nur dort Umbrüche ein, wo der CSS-display-Wert das erlaubt. CSS in <style> wird mit dem CSS-Drucker von Prettier formatiert, JavaScript in <script> mit dem JavaScript-Drucker. Nie geschlossene Elemente schließt der Parser und meldet sie als Warnung mit Zeilennummer.",
+    "variables": [
+      {
+        "name": "Einrückung",
+        "description": "2 Leerzeichen (die häufigste Wahl für HTML), 4 Leerzeichen oder Tabs."
+      },
+      {
+        "name": "Zeilenbreite",
+        "description": "Die Zeilenlänge, die Prettier anstrebt, bevor Attribute oder Inhalt umbrochen werden."
+      },
+      {
+        "name": "Leerraum-Empfindlichkeit",
+        "description": "css beachtet das Standard-display jedes Elements; strict behandelt allen Leerraum als bedeutsam; ignore behandelt keinen als bedeutsam."
+      }
+    ]
+  },
+  "workedExamples": [
+    {
+      "title": "Verschachtelte Elemente in einer Zeile",
+      "before": "<div><p>Hi<span>there</span></p></div>",
+      "after": "<div>\n  <p>Hi<span>there</span></p>\n</div>",
+      "steps": [
+        "div und p sind Blockelemente, also beginnt jedes eine neue Zeile und das p wird eingerückt",
+        "span ist inline und grenzt an den Text, ein Zeilenumbruch würde ein sichtbares Leerzeichen erzeugen; es bleibt, wo es ist"
+      ]
+    },
+    {
+      "title": "Eingebettetes CSS und JavaScript",
+      "before": "<style>body{margin:0;color:#222}</style><script>function hi(name){return 'Hi '+name}</script>",
+      "after": "<style>\n  body {\n    margin: 0;\n    color: #222;\n  }\n</style>\n<script>\n  function hi(name) {\n    return \"Hi \" + name;\n  }\n</script>",
+      "steps": [
+        "Der Inhalt von style und script wird an die CSS- und JavaScript-Drucker von Prettier übergeben"
+      ]
+    },
+    {
+      "title": "Ein div in einem Absatz",
+      "before": "<p>Intro\n<div>Block</div>\n</p>",
+      "steps": [
+        "Ein p darf kein div enthalten: Der Parser schließt das p, sobald das div beginnt",
+        "Das abschließende </p> hat dann kein offenes p mehr, das es schließen könnte"
+      ],
+      "result": "Zeile 3, Spalte 1: Unexpected closing tag \"p\""
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Ein Blockelement in einen Absatz setzen",
+      "description": "<code>&lt;p&gt;</code> darf nur Fließtextinhalt enthalten. Ein <code>&lt;div&gt;</code>, <code>&lt;ul&gt;</code> oder <code>&lt;table&gt;</code> darin beendet den Absatz vorzeitig, sodass Styles und Skripte für den Absatz den Rest des Inhalts verfehlen. Nutze stattdessen ein <code>&lt;div&gt;</code> als Hülle."
+    },
+    {
+      "title": "Elemente nicht schließen",
+      "description": "Browser ergänzen fehlende End-Tags, aber nicht immer dort, wo du es erwartest, und so kann späterer Inhalt im falschen Element landen. Nur wenige Elemente wie <code>&lt;li&gt;</code>, <code>&lt;p&gt;</code> und <code>&lt;td&gt;</code> haben optionale End-Tags."
+    },
+    {
+      "title": "Zeilenumbrüche zwischen Inline-Elementen einfügen",
+      "description": "<code>&lt;a&gt;Home&lt;/a&gt;&lt;a&gt;About&lt;/a&gt;</code> und dieselben Links auf zwei Zeilen werden unterschiedlich dargestellt: Der Zeilenumbruch wird zum Leerzeichen. Deshalb hält der Formatierer Inline-Elemente manchmal zusammen oder setzt das ungewohnte <code>&gt;</code> an den Anfang der nächsten Zeile."
+    },
+    {
+      "title": "Erwarten, dass Minimieren alles optimiert",
+      "description": "Minimieren entfernt hier nur Kommentare und den Leerraum zwischen Tags. Es kürzt kein eingebettetes CSS oder JavaScript, entfernt keine optionalen Tags oder Anführungszeichen und schreibt keine Attribute um. Nutze für die Produktion ein Build-Tool."
+    },
+    {
+      "title": "Templates als reines HTML formatieren",
+      "description": "Template-Syntax wie <code>{{ }}</code>, <code>{% %}</code> oder JSX ist kein HTML. Der Formatierer kann sie verschieben oder zerstören. Formatiere Templates mit einem Tool, das die jeweilige Template-Sprache versteht."
+    }
+  ],
+  "sources": [
+    {
+      "name": "WHATWG HTML Living Standard: Optionale Tags"
+    },
+    {
+      "name": "WHATWG HTML Living Standard: Das p-Element (Inhaltsmodell)"
+    },
+    {
+      "name": "MDN Web Docs: Wie Leerraum von HTML, CSS und im DOM behandelt wird"
+    },
+    {
+      "name": "MDN Web Docs: Inhalte auf Inline-Ebene"
+    },
+    {
+      "name": "Prettier-Dokumentation: HTML whitespace sensitivity"
+    }
+  ],
+  "howto": {
+    "name": "So formatierst du HTML",
+    "description": "Unordentliches HTML mit einheitlicher Einrückung aufräumen.",
+    "steps": [
+      {
+        "name": "HTML einfügen",
+        "text": "Füge eine Seite oder ein Fragment in das Eingabefeld ein oder lade das Beispiel."
+      },
+      {
+        "name": "Optionen wählen",
+        "text": "Wähle Formatieren oder Minimieren, die Einrückung, die Zeilenbreite und die Leerraum-Empfindlichkeit."
+      },
+      {
+        "name": "Formatieren",
+        "text": "Drücke „Code formatieren“ oder Strg+Enter. Fehler zeigen Zeile und Spalte; Warnungen listen Elemente, die nie geschlossen werden."
+      },
+      {
+        "name": "Ergebnis kopieren",
+        "text": "Kopiere das formatierte HTML aus dem Ausgabefeld."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Wie formatiere ich HTML online?",
+      "a": "Füge das HTML in das Feld ein und drücke Formatieren oder Strg+Enter. Wähle vorher Einrückung, Zeilenbreite und Leerraum-Empfindlichkeit, wenn du einen bestimmten Stil brauchst."
+    },
+    {
+      "q": "Warum hat der Formatierer nicht jedes Tag in eine eigene Zeile gesetzt?",
+      "a": "Inline-Elemente wie span, a und strong sind leerraumempfindlich: Ein Zeilenumbruch zwischen ihnen kann als sichtbares Leerzeichen erscheinen. Mit der Standardeinstellung css bricht Prettier Zeilen nur dort um, wo sich das Aussehen der Seite nicht ändern kann. Wähle ignore, wenn dich kleine Abstandsänderungen nicht stören."
+    },
+    {
+      "q": "Formatiert er auch CSS und JavaScript im HTML?",
+      "a": "Ja. Der Inhalt von style-Tags wird als CSS formatiert, der Inhalt von script-Tags als JavaScript. Hat dieser Code einen Syntaxfehler, bleibt er unverändert."
+    },
+    {
+      "q": "Was bedeutet 'Unexpected closing tag'?",
+      "a": "Der Parser hat ein schließendes Tag ohne passendes offenes Element gefunden, meist weil Elemente in falscher Reihenfolge geschlossen wurden oder ein Blockelement wie ein div in einem p steht, was das p vorzeitig schließt. Der Fehler nennt Zeile und Spalte."
+    },
+    {
+      "q": "Kann ich HTML hier minimieren?",
+      "a": "Ja, wähle Minimieren. Es entfernt Kommentare und den Leerraum zwischen Tags, lässt ein Leerzeichen zwischen Inline-Elementen und rührt pre, textarea, script und style nicht an. Eingebettetes CSS oder JavaScript wird nicht komprimiert."
+    },
+    {
+      "q": "Sind 2 oder 4 Leerzeichen besser für HTML?",
+      "a": "Beides ist verbreitet. 2 Leerzeichen sind für HTML am üblichsten, weil Markup tief verschachtelt ist; auch Googles HTML-Styleguide nutzt 2 Leerzeichen. Wähle eins und bleib dabei."
+    },
+    {
+      "q": "Wird mein HTML hochgeladen?",
+      "a": "Nein. Der Formatierer wird von dieser Website geladen und läuft in deinem Browser. Dein Code wird weder gesendet noch gespeichert noch in die Seitenadresse übernommen; nur deine gewählten Optionen werden auf diesem Gerät gespeichert."
+    }
+  ],
+  "body": {
+    "label": {
+      "opt-mode": "Modus",
+      "opt-indent": "Einrückung",
+      "opt-print-width": "Zeilenbreite",
+      "opt-whitespace": "Leerraum"
+    },
+    "option": {
+      "opt-mode": {
+        "format": "Formatieren (verschönern)",
+        "minify": "Minimieren"
+      },
+      "opt-indent": {
+        "2": "2 Leerzeichen",
+        "4": "4 Leerzeichen",
+        "tab": "Tabs"
+      },
+      "opt-whitespace": {
+        "css": "css (sicherer Standard)",
+        "strict": "strict (streng)",
+        "ignore": "ignore (ignorieren)"
+      }
+    },
+    "text": {
+      "conventions-heading": "Konventionen für die HTML-Formatierung",
+      "whitespace-heading": "Warum Inline-Elemente leerraumempfindlich sind",
+      "minify-heading": "Was Minimieren macht und was nicht",
+      "related-heading": "Weitere Code-Tools"
+    },
+    "content": {
+      "html-formatting-conventions": {
+        "p1": "Für HTML gibt es keinen einzigen offiziellen Styleguide, aber die meisten Teams und Leitfäden, darunter Googles HTML/CSS-Styleguide, sind sich bei ein paar Gewohnheiten einig, die Markup gut lesbar und prüfbar machen:",
+        "li1": "<strong>Ein Blockelement pro Zeile,</strong> mit um eine Ebene eingerückten Kindern. Kurze Elemente, deren Inhalt in die Zeile passt, wie <code>&lt;li&gt;Notebook&lt;/li&gt;</code>, bleiben in einer Zeile.",
+        "li2": "<strong>Einheitliche Einrückung,</strong> meist 2 Leerzeichen, weil HTML tief verschachtelt ist. Mische nie Tabs und Leerzeichen in einer Datei.",
+        "li3": "<strong>Element- und Attributnamen in Kleinbuchstaben</strong> und Attributwerte in doppelten Anführungszeichen, etwa <code>&lt;a href=\"/contact/\"&gt;</code>.",
+        "li4": "<strong>Lange Tags mit einem Attribut pro Zeile umbrochen,</strong> wenn sie die Zeilenbreite überschreiten, mit dem schließenden <code>&gt;</code> in einer eigenen Zeile.",
+        "li5": "<strong>Eingebettetes CSS und JavaScript</strong> innerhalb ihrer <code>&lt;style&gt;</code>- und <code>&lt;script&gt;</code>-Tags eingerückt und wie jede andere CSS- oder JavaScript-Datei formatiert.",
+        "p2": "Der Formatierer ändert nur das Layout. Er benennt keine Klassen um, ordnet keine Attribute neu und korrigiert keine ungültige Verschachtelung, und die Seite sieht danach gleich aus, außer du wählst die Leerraum-Einstellung ignore."
+      },
+      "why-inline-elements-are-whitespace-sensitive": {
+        "p1": "Browser fassen Folgen von Leerzeichen, Tabs und Zeilenumbrüchen im Text zu einem Leerzeichen zusammen, entfernen dieses aber nicht ganz. So wird <code>&lt;b&gt;Price:&lt;/b&gt;&lt;span&gt;$5&lt;/span&gt;</code> als \"Price:$5\" angezeigt, dieselben Elemente auf getrennten Zeilen dagegen als \"Price: $5\". Bei Blockelementen wie <code>&lt;div&gt;</code> und <code>&lt;p&gt;</code> ist das Leerzeichen unsichtbar, Zeilenumbrüche um sie herum sind also immer sicher.",
+        "p2": "Die Einstellung <strong>css</strong> von Prettier nutzt den Standard-display-Wert jedes Elements, um zu entscheiden, wo Umbrüche sicher sind. Deshalb siehst du manchmal ein schließendes <code>&gt;</code> am Anfang der nächsten Zeile: So liegt der Zeilenumbruch innerhalb des Tags, wo er kein Leerzeichen werden kann. <strong>strict</strong> behandelt jedes Element als inline, am sichersten für Seiten, die display per CSS ändern. <strong>ignore</strong> formatiert frei und passt für Markup, bei dem kleine Abstandsänderungen egal sind."
+      },
+      "what-minify-does-and-what-it": {
+        "p1": "Der Minimier-Modus ist bewusst vorsichtig, damit sich das Aussehen einer Seite nie ändert:",
+        "li1": "Er entfernt HTML-Kommentare, außer bedingte Kommentare wie <code>&lt;!--[if IE]&gt;</code>.",
+        "li2": "Er entfernt Leerraum neben Blockelementen und fasst Leerraum zwischen Inline-Elementen und Text zu einem Leerzeichen zusammen.",
+        "li3": "Er lässt <code>&lt;pre&gt;</code>, <code>&lt;textarea&gt;</code>, <code>&lt;script&gt;</code> und <code>&lt;style&gt;</code> genau so, wie sie geschrieben sind.",
+        "li4": "Er minimiert kein eingebettetes CSS oder JavaScript, entfernt keine optionalen Tags oder Anführungszeichen und kürzt keine URLs. Build-Tools wie html-minifier-terser erledigen das im Produktions-Build.",
+        "p2": "Server komprimieren HTML ohnehin meist mit gzip oder Brotli, was den Nutzen entfernten Leerraums größtenteils aufhebt. Manuelles Minimieren lohnt sich vor allem für kleine Schnipsel wie eine E-Mail-Vorlage oder Einbettungscode."
+      },
+      "other-code-tools": {
+        "p1": "Formatiere JSON mit dem <a href=\"/tools/json-formatter/\">JSON-Formatierer</a>, Python mit dem <a href=\"/tools/python-formatter/\">Python-Formatierer</a> und Java mit dem <a href=\"/tools/java-formatter/\">Java-Formatierer</a>. Um zwei Fassungen einer Datei zu vergleichen, nutze den <a href=\"/tools/text-diff-checker/\">Textvergleich</a>."
+      }
+    }
+  },
+  "client": {
+    "errors": {
+      "empty": "Füge HTML zum Formatieren ein.",
+      "at": "Zeile {{line}}, Spalte {{column}}: {{reason}}",
+      "unparsed": "Das HTML konnte nicht geparst werden. {{reason}}",
+      "unsupportedOption": "Nicht unterstützt: {{key}} = {{value}}. Wähle eines von {{choices}}."
+    },
+    "warnings": {
+      "unclosed": "Zeile {{line}}: <{{tag}}> wird nie geschlossen. Browser schließen es am Ende seines Elternelements, was vielleicht nicht deine Absicht ist."
+    }
+  }
+}

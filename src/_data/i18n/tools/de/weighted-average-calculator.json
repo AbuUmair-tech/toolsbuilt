@@ -1,0 +1,257 @@
+{
+  "listing": {
+    "name": "Rechner für gewichteten Durchschnitt",
+    "shortName": "Gewichteter Durchschnitt",
+    "description": "Berechne einen gewichteten Durchschnitt aus Werten und Gewichten in Prozent oder als einfache Zahlen, mit dem Anteil jeder Zeile und dem Rechenweg.",
+    "shortDescription": "Gewichteter Durchschnitt mit %- oder Zahlengewichten, Anteilen und Rechenweg.",
+    "keywords": [
+      "gewichteter durchschnitt rechner",
+      "gewichtetes mittel",
+      "gewichtete note berechnen",
+      "gewichteten durchschnitt berechnen",
+      "gewichtete punktzahl",
+      "summenprodukt durchschnitt",
+      "gewichtete prozente"
+    ]
+  },
+  "title": "Gewichteten Durchschnitt berechnen (mit Rechenweg)",
+  "description": "Gewichteter Durchschnitt: Berechne ihn aus Werten und Gewichten in Prozent oder als einfache Zahlen, mit dem Anteil jeder Zeile und dem Rechenweg.",
+  "h1": "Rechner für gewichteten Durchschnitt",
+  "quickAnswer": "Ein gewichteter Durchschnitt multipliziert jeden Wert mit seinem Gewicht, addiert die Produkte und teilt durch die Summe der Gewichte. Ergebnisse von 90 (30%), 80 (50%) und 70 (20%) ergeben 27 + 40 + 14 = 81. Mit einfachen Zahlen als Gewichten funktioniert es genauso: 90 mit Gewicht 2 und 80 mit Gewicht 3 ergeben (180 + 240) ÷ 5 = 84.",
+  "formula": {
+    "title": "Formel für den gewichteten Durchschnitt",
+    "expression": "Gewichteter Durchschnitt = Σ(Wert × Gewicht) ÷ Σ(Gewicht)",
+    "explanation": "Jeder Wert zählt im Verhältnis zu seinem Gewicht. Sind die Gewichte Prozentsätze mit der Summe 100, entspricht die Division durch das Gesamtgewicht einer Division durch 100, und der Beitrag jeder Zeile ist einfach Wert × Gewicht%. Ergeben Prozentgewichte zusammen nicht 100, teilt der Rechner stattdessen durch ihre tatsächliche Summe (normalisiert sie) und weist dich darauf hin; das entspricht einer Skalierung aller Gewichte auf die Summe 100.",
+    "variables": [
+      {
+        "name": "Wert",
+        "description": "Punktzahl, Note, Preis oder Messwert für jeden Eintrag."
+      },
+      {
+        "name": "Gewicht",
+        "description": "Wie stark jeder Wert zählt: ein Prozentsatz, Credits, eine Menge oder eine andere positive Zahl."
+      },
+      {
+        "name": "Beitrag",
+        "description": "Wert × Gewicht ÷ Gesamtgewicht: wie viele Punkte des Ergebnisses aus dieser Zeile stammen."
+      }
+    ]
+  },
+  "workedExamples": [
+    {
+      "title": "Kursnote aus Prozentgewichten",
+      "inputs": [
+        "Hausaufgaben: 90, Gewicht 30%",
+        "Zwischenprüfung: 80, Gewicht 50%",
+        "Tests: 70, Gewicht 20%"
+      ],
+      "steps": [
+        null,
+        "Summe der Produkte: 8,100; Summe der Gewichte: 100"
+      ],
+      "result": "Gewichteter Durchschnitt 81"
+    },
+    {
+      "title": "Einfache Zahlen als Gewichte",
+      "inputs": [
+        "90 mit Gewicht 2",
+        "80 mit Gewicht 3"
+      ],
+      "result": "Gewichteter Durchschnitt 84"
+    },
+    {
+      "title": "Prozentgewichte, die nicht 100 ergeben",
+      "inputs": [
+        "90 mit Gewicht 30%",
+        "80 mit Gewicht 50%"
+      ],
+      "steps": [
+        "Die Gewichte ergeben 80%, also werden sie normalisiert"
+      ],
+      "result": "Gewichteter Durchschnitt 83.75 (entspricht Gewichten von 37.5% und 62.5%)"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Stattdessen einen einfachen Durchschnitt nehmen",
+      "description": "Der einfache Durchschnitt von 90, 80 und 70 ist 80. Zählt die 90 aber 30% und die 70 nur 20%, ist der gewichtete Durchschnitt 81. Nimm den einfachen Durchschnitt nur, wenn alle Einträge gleich zählen."
+    },
+    {
+      "title": "Durch die Anzahl der Einträge teilen",
+      "description": "Ein gewichteter Durchschnitt teilt durch das Gesamtgewicht, nicht durch die Anzahl der Werte. 420 durch 2 Einträge statt durch 5 Gewichtseinheiten ergibt 210, was sinnlos ist."
+    },
+    {
+      "title": "Fehlendes Gewicht vergessen",
+      "description": "Stehen Prüfungen mit 20% Gewicht noch aus, ergeben deine Gewichte 80%. Das normalisierte Ergebnis zeigt deinen bisherigen Durchschnitt; deine Endnote ist es erst, wenn die restlichen 20% hinzukommen."
+    },
+    {
+      "title": "Gewichtsarten mischen",
+      "description": "Nutze für alle Zeilen dieselbe Art von Gewicht: nur Prozente oder nur Credits oder nur Mengen. Ein Gewicht von 30% mit einem von 3 Credits zu mischen ergibt ein falsches Ergebnis."
+    },
+    {
+      "title": "Werte auf unterschiedlichen Skalen gewichten",
+      "description": "Achte darauf, dass alle Werte auf derselben Skala liegen, zum Beispiel alle in Prozent. 18 von 20 Punkten solltest du als 90 eingeben, nicht als 18, wenn die anderen von 100 sind."
+    }
+  ],
+  "sources": [
+    {
+      "name": "NIST/SEMATECH e-Handbook of Statistical Methods: Lagemaße"
+    },
+    {
+      "name": "Microsoft Support: Funktion SUMMENPRODUKT"
+    },
+    {
+      "name": "U.S. Bureau of Labor Statistics: Wie der CPI Gewichte nutzt (relative Bedeutung)"
+    }
+  ],
+  "howto": {
+    "name": "So berechnest du einen gewichteten Durchschnitt",
+    "description": "Gib Werte und Gewichte ein, um einen gewichteten Durchschnitt mit Rechenweg zu erhalten.",
+    "steps": [
+      {
+        "name": "Gewichtsart wählen",
+        "text": "Wähle Prozente, wenn die Gewichte % eines Ganzen sind, oder einfache Zahlen für Credits, Mengen usw."
+      },
+      {
+        "name": "Werte und Gewichte eingeben",
+        "text": "Trag in jede Zeile einen Wert und ein Gewicht ein und füge bei Bedarf Zeilen hinzu. Ein Name pro Zeile ist optional."
+      },
+      {
+        "name": "Ergebnis ablesen",
+        "text": "Sieh den gewichteten Durchschnitt, das Gesamtgewicht, den Beitrag jeder Zeile und jeden Rechenschritt."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Wie berechnet man einen gewichteten Durchschnitt?",
+      "a": "Multipliziere jeden Wert mit seinem Gewicht, addiere alle Produkte und teile durch die Summe der Gewichte. Für 90 (30%), 80 (50%) und 70 (20%): (2,700 + 4,000 + 1,400) ÷ 100 = 81."
+    },
+    {
+      "q": "Was ist der Unterschied zwischen gewichtetem und normalem Durchschnitt?",
+      "a": "Ein normaler (arithmetischer) Durchschnitt gibt jedem Wert die gleiche Bedeutung. Ein gewichteter Durchschnitt lässt manche Werte entsprechend ihrem Gewicht stärker zählen als andere."
+    },
+    {
+      "q": "Müssen die Gewichte 100 ergeben?",
+      "a": "Nein. Beliebige positive Gewichte funktionieren, weil die Formel durch ihre Summe teilt. Wählst du Prozentgewichte, die nicht 100 ergeben, normalisiert der Rechner sie und weist dich darauf hin."
+    },
+    {
+      "q": "Wie berechne ich meine Note mit gewichteten Kategorien?",
+      "a": "Gib den Durchschnitt jeder Kategorie als Wert und ihren Anteil am Kurs in Prozent als Gewicht ein. Das Ergebnis ist deine Gesamtnote; die Spalte Beitrag zeigt, wie viele Punkte jede Kategorie beisteuert."
+    },
+    {
+      "q": "Wie berechne ich einen gewichteten Durchschnitt in Excel?",
+      "a": "Nutze =SUMMENPRODUKT(Werte; Gewichte)/SUMME(Gewichte) (englisch SUMPRODUCT). Für Werte in A2:A4 und Gewichte in B2:B4: =SUMMENPRODUKT(A2:A4;B2:B4)/SUMME(B2:B4)."
+    },
+    {
+      "q": "Darf ein Gewicht null sein?",
+      "a": "Ja. Eine Zeile mit Gewicht 0 hat keinen Einfluss auf das Ergebnis. Sind alle Gewichte null, gibt es nichts zu mitteln, und der Rechner zeigt einen Fehler."
+    },
+    {
+      "q": "Wofür wird ein gewichteter Durchschnitt verwendet?",
+      "a": "Kursnoten, GPA nach Credits, Durchschnittspreise über unterschiedlich große Bestellungen, Portfoliorenditen, Umfrageergebnisse und Indexzahlen nutzen alle gewichtete Durchschnitte."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Rechner für gewichteten Durchschnitt",
+      "wavg-rows": "Werte und Gewichte",
+      "copy-result-btn": "Ergebnis in die Zwischenablage kopieren"
+    },
+    "content": {
+      "tool": {
+        "legend1": "Gewichte sind",
+        "label1": "<input type=\"radio\" name=\"wt\" value=\"percent\" data-param=\"wt\" checked>\n              <span>Prozente (%)</span>",
+        "label2": "<input type=\"radio\" name=\"wt\" value=\"number\" data-param=\"wt\">\n              <span>Einfache Zahlen</span>",
+        "div1": "<span>Name (optional)</span><span>Wert</span><span id=\"weight-head\">Gewicht (%)</span><span></span>",
+        "button1": "Gewichteten Durchschnitt berechnen",
+        "caption1": "Anteil jeder Zeile am Gesamtgewicht und Beitrag zum Durchschnitt",
+        "th1": "Zeile",
+        "th2": "Wert",
+        "th3": "Gewicht",
+        "th4": "Anteil",
+        "th5": "Beitrag",
+        "summary1": "Schritt für Schritt"
+      },
+      "simple-vs-weighted-average": {
+        "heading": "Einfacher und gewichteter Durchschnitt",
+        "p1": "Ein einfacher Durchschnitt behandelt jede Zahl gleich. Ein gewichteter Durchschnitt lässt jede Zahl entsprechend ihrer Bedeutung zählen – so werden die meisten Kursnoten, GPAs und Durchschnittspreise berechnet.",
+        "caption1": "Einfacher und gewichteter Durchschnitt derselben Ergebnisse",
+        "th1": "Leistung",
+        "th2": "Ergebnis",
+        "th3": "Gewicht",
+        "th4": "Beitrag",
+        "td1": "Hausaufgaben",
+        "td2": "Zwischenprüfung",
+        "td3": "Tests",
+        "td4": "<strong>Gesamt</strong>",
+        "td5": "Einfacher Durchschnitt 80",
+        "td6": "<strong>Gewichtet 81</strong>",
+        "p2": "Das gewichtete Ergebnis ist höher, weil das beste Ergebnis (90) mehr Gewicht hat als das schwächste (70)."
+      },
+      "where-weighted-averages-are-used": {
+        "heading": "Wo gewichtete Durchschnitte verwendet werden",
+        "li1": "<strong>Noten:</strong> Gewichte für Kursarbeit, Zwischen- und Abschlussprüfung laut Lehrplan. Für Buchstabennoten erledigen das der <a href=\"/tools/grade-calculator/\">Notenrechner</a> und der <a href=\"/tools/gpa-calculator/\">GPA-Rechner</a> mit Credits.",
+        "li2": "<strong>Durchschnittskosten:</strong> Kaufst du 10 Stück zu 5 und 30 Stück zu 6, ist der Durchschnittspreis (50 + 180) ÷ 40 = 5.75, nicht 5.50.",
+        "li3": "<strong>Zulassung:</strong> Merit- und Aggregat-Formeln gewichten Schulnoten und Aufnahmetests; der <a href=\"/tools/merit-calculator/\">Merit-Rechner</a> verarbeitet Punkte mit unterschiedlichen Höchstwerten.",
+        "li4": "<strong>Statistik:</strong> Preisindizes wie der Verbraucherpreisindex gewichten jede Kategorie nach ihrem Anteil an den Ausgaben der Haushalte.",
+        "p1": "Alle Berechnungen laufen in deinem Browser. Du kannst einen Link teilen, der genau deine Zeilen wieder öffnet."
+      }
+    },
+    "text": {
+      "add-row-btn": "+ Zeile hinzufügen",
+      "reset-btn": "Zurücksetzen",
+      "result-header-text": "Gewichteter Durchschnitt",
+      "copy-result-btn": "<span data-icon=\"copy\"></span> Ergebnis kopieren"
+    },
+    "title": {
+      "copy-result-btn": "Ergebnis in die Zwischenablage kopieren"
+    },
+    "rowTemplate": {
+      "name": "Name",
+      "namePlaceholder": "z. B. Zwischenprüfung",
+      "weight": "Gewicht (%)",
+      "remove": "Zeile entfernen"
+    }
+  },
+  "client": {
+    "rowName": "Zeile {{n}}",
+    "errors": {
+      "addRow": "Füge mindestens einen Wert mit Gewicht hinzu.",
+      "tooMany": "Nutze höchstens {{max}} Zeilen.",
+      "enterValue": "{{name}}: Gib einen Wert für dieses Gewicht ein.",
+      "enterWeight": "{{name}}: Gib ein Gewicht für diesen Wert ein.",
+      "valueNumber": "{{name}}: Der Wert muss eine Zahl sein.",
+      "weightPositive": "{{name}}: Das Gewicht muss 0 oder eine positive Zahl sein.",
+      "allZero": "Alle Gewichte sind null, es gibt also nichts zu mitteln. Gib mindestens einer Zeile ein Gewicht über 0."
+    },
+    "steps": {
+      "multiply": "Jeden Wert mit seinem Gewicht multiplizieren: {{products}}",
+      "addProducts": "Produkte addieren: {{sum}} = {{total}}",
+      "addWeights": "Gewichte addieren: {{sum}} = {{total}}",
+      "divide": "Teilen: {{sum}} ÷ {{weights}} = {{average}}",
+      "normalised": "Die Prozentgewichte ergeben {{total}}% statt 100%, daher zählt jedes Gewicht als sein Anteil an {{total}}."
+    },
+    "defaults": {
+      "assignments": "Hausaufgaben",
+      "midterm": "Zwischenprüfung",
+      "quizzes": "Tests"
+    },
+    "rows": {
+      "remove": "Zeile {{n}} entfernen",
+      "weightPercent": "Gewicht (%)",
+      "weight": "Gewicht"
+    },
+    "result": {
+      "header": {
+        "one": "Gewichteter Durchschnitt von {{count}} Wert",
+        "other": "Gewichteter Durchschnitt von {{count}} Werten"
+      },
+      "normalised": "Deine Prozentgewichte ergeben {{total}}% statt 100%, daher wurden sie normalisiert: Jedes Gewicht zählt als sein Anteil an {{total}}.",
+      "totalWeight": "Gesamtgewicht: {{total}}."
+    },
+    "copy": {
+      "average": "Gewichteter Durchschnitt: {{average}}"
+    }
+  }
+}

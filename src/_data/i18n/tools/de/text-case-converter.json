@@ -1,0 +1,242 @@
+{
+  "listing": {
+    "name": "Groß-/Kleinschreibung umwandeln",
+    "shortName": "Groß-/Kleinschreibung",
+    "description": "Wandle Text sofort um in GROSSBUCHSTABEN, kleinbuchstaben, Title Case, Satzschreibung, camelCase, snake_case und kebab-case.",
+    "shortDescription": "Wandle Text sofort um in GROSSBUCHSTABEN, kleinbuchstaben, Title Case, Satzschreibung, camelCase, snake_case und kebab-case.",
+    "keywords": [
+      "groß kleinschreibung umwandeln",
+      "großbuchstaben in kleinbuchstaben",
+      "title case konverter",
+      "camelcase konverter",
+      "snake case umwandeln"
+    ]
+  },
+  "title": "Groß-/Kleinschreibung umwandeln - Text-Case-Konverter",
+  "description": "Groß- und Kleinschreibung umwandeln: Text in GROSSBUCHSTABEN, kleinbuchstaben, Title Case, Satzschreibung, camelCase, snake_case oder kebab-case.",
+  "h1": "Groß-/Kleinschreibung umwandeln",
+  "quickAnswer": "Um die Groß- und Kleinschreibung umzuwandeln, fügst du deinen Text in das Eingabefeld ein und wählst eine Schreibweise. Das Tool wandelt Text sofort in GROSSBUCHSTABEN, kleinbuchstaben, Title Case, Satzschreibung, camelCase, PascalCase, snake_case, kebab-case und mehr um. Satzzeichen und Unicode-Zeichen bleiben erhalten, alles läuft in deinem Browser.",
+  "formula": {
+    "title": "Regeln für Umwandlung & Wortzerlegung",
+    "expression": "Umgewandelter Text = ApplyCaseTransform(TokenizeWords(InputString, UnicodeRegex), StyleRule)",
+    "explanation": "Der Eingabetext wird mit Unicode-Eigenschaften für Buchstaben (\\p{L}) in Wörter zerlegt. Danach werden die Wörter nach den Regeln der gewählten Schreibweise neu zusammengesetzt: Regeln des Chicago Manual of Style für kleine Wörter im Title Case oder Unterstriche/Bindestriche als Trenner für Bezeichner im Code."
+  },
+  "workedExamples": [
+    {
+      "title": "Überschrift in Title Case nach Chicago",
+      "inputs": [
+        "Eingabe: 'the quick brown fox jumps over the lazy dog'",
+        "Ziel: Title Case"
+      ],
+      "steps": [
+        "Wörter an Unicode-Leerraum trennen",
+        "Erstes und letztes Wort großschreiben ('The', 'Dog')",
+        "Wichtige Wörter großschreiben ('Quick', 'Brown', 'Fox', 'Jumps', 'Lazy')",
+        "Kurze Präpositionen und Artikel kleinschreiben ('over', 'the')"
+      ],
+      "result": "'The Quick Brown Fox Jumps Over the Lazy Dog'"
+    },
+    {
+      "title": "Titel in camelCase (JavaScript-Bezeichner)",
+      "inputs": [
+        "Eingabe: 'user profile setting'",
+        "Ziel: camelCase"
+      ],
+      "steps": [
+        "Alphanumerische Wörter extrahieren: ['user', 'profile', 'setting']",
+        "Erstes Wort kleinschreiben: 'user'",
+        "Ersten Buchstaben der folgenden Wörter großschreiben: 'Profile', 'Setting'",
+        "Ohne Leerzeichen zusammenfügen"
+      ],
+      "result": "'userProfileSetting'"
+    },
+    {
+      "title": "Titel in kebab-case (URL-Slug)",
+      "inputs": [
+        "Eingabe: 'Annual Financial Report 2026'",
+        "Ziel: kebab-case"
+      ],
+      "steps": [
+        "Wörter zerlegen: ['Annual', 'Financial', 'Report', '2026']",
+        "Alle Zeichen kleinschreiben",
+        "Wörter mit Bindestrichen (-) verbinden"
+      ],
+      "result": "'annual-financial-report-2026'"
+    },
+    {
+      "title": "Satzschreibung",
+      "inputs": [
+        "Eingabe: 'hello world! this is a test. here is another one.'",
+        "Ziel: Satzschreibung"
+      ],
+      "steps": [
+        "Satzenden erkennen (. ! ?)",
+        "Ersten Buchstaben jedes Satzes großschreiben",
+        "Übrige Zeichen des Satzes kleinschreiben"
+      ],
+      "result": "'Hello world! This is a test. Here is another one.'"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Kurze Präpositionen im Title Case großschreiben",
+      "description": "Im Chicago- und AP-Stil bleiben kurze Präpositionen, Artikel und Konjunktionen unter vier Buchstaben (z. B. 'in', 'on', 'the', 'and', 'for') klein, außer am Satzanfang."
+    },
+    {
+      "title": "Unicode- & Akzentzeichen kaputt machen",
+      "description": "Naive Umwandlung mit einfachen ASCII-Regex scheitert an Buchstaben mit Akzent wie 'é' oder nicht-lateinischen Alphabeten; nötig sind Unicode-Eigenschaften (\\p{L})."
+    },
+    {
+      "title": "Trennzeichen beim Umwandeln von Code verlieren",
+      "description": "Wird camelCase- oder snake_case-Code in Satzschreibung umgewandelt, gehen die Trennzeichen verloren. Behalte eine Sicherung oder nutze die Schaltfläche Rückgängig."
+    },
+    {
+      "title": "Title Case auf Text in Großbuchstaben",
+      "description": "Wird Text in Großbuchstaben ohne vorheriges Kleinschreiben in Title Case umgewandelt, bleiben kurze Präpositionen groß. Unser Algorithmus normalisiert die Wörter zuerst."
+    }
+  ],
+  "sources": [
+    {
+      "name": "The Chicago Manual of Style: Regeln für Überschriften und Titel"
+    },
+    {
+      "name": "Unicode Standard Annex #29: Unicode-Textsegmentierung"
+    },
+    {
+      "name": "W3C Internationalization (i18n): Standards für Groß-/Kleinschreibung"
+    }
+  ],
+  "howto": {
+    "name": "So wandelst du die Groß- und Kleinschreibung online um",
+    "description": "Schritt-für-Schritt-Anleitung, um Text mit ToolsBuilt in 12 verschiedene Schreibweisen umzuwandeln.",
+    "steps": [
+      {
+        "name": "Text einfügen",
+        "text": "Füge deinen unformatierten Text in das Textfeld ein oder tippe ihn."
+      },
+      {
+        "name": "Schreibweise wählen",
+        "text": "Klicke auf eine der 12 Schaltflächen (z. B. Title Case, GROSSBUCHSTABEN, camelCase oder CONSTANT_CASE)."
+      },
+      {
+        "name": "Kopieren oder rückgängig machen",
+        "text": "Klicke auf „Text kopieren“, um das Ergebnis in die Zwischenablage zu kopieren, oder auf „Rückgängig“, um zurückzukehren."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Wie wandle ich die Groß- und Kleinschreibung online um?",
+      "a": "Füge deinen Text in das Feld ein und klicke auf eine Schaltfläche wie GROSSBUCHSTABEN, kleinbuchstaben, Title Case oder Satzschreibung. Der Text ändert sich sofort in deinem Browser."
+    },
+    {
+      "q": "Was ist der Unterschied zwischen Title Case und „Jedes Wort groß“?",
+      "a": "Title Case schreibt die wichtigen Wörter groß, lässt aber kurze Artikel und Präpositionen (etwa 'in', 'the', 'of', 'and', 'for') klein, außer sie stehen am Anfang oder Ende. „Jedes Wort groß“ schreibt ausnahmslos den ersten Buchstaben jedes Wortes groß. Title Case ist eine Konvention für englische Überschriften."
+    },
+    {
+      "q": "Was ist der Unterschied zwischen camelCase, PascalCase, snake_case und kebab-case?",
+      "a": "camelCase beginnt klein und schreibt folgende Wörter groß, ohne Leerzeichen (z. B. 'myVariable'). PascalCase schreibt alle Wörter groß, auch das erste ('MyVariable'). snake_case trennt kleingeschriebene Wörter mit Unterstrichen ('my_variable'). kebab-case trennt Wörter mit Bindestrichen ('my-variable')."
+    },
+    {
+      "q": "Kann ich eine Umwandlung rückgängig machen, wenn mir das Ergebnis nicht gefällt?",
+      "a": "Ja. Mit der Schaltfläche Rückgängig kehrst du jederzeit zum vorherigen Text zurück."
+    },
+    {
+      "q": "Bleibt mein Text beim Umwandeln privat?",
+      "a": "Ja. Die gesamte Umwandlung läuft per clientseitigem JavaScript im lokalen Arbeitsspeicher deines Browsers. Dein Text wird nie in URLs oder Cookies gespeichert und nie an Server gesendet."
+    },
+    {
+      "q": "Unterstützt der Konverter andere Sprachen und Akzentzeichen?",
+      "a": "Ja. Die Text-Engine nutzt Unicode-Eigenschaften (\\p{L}) und verarbeitet Akzente, Umlaute und internationale Alphabete wie Spanisch, Französisch und Deutsch problemlos."
+    },
+    {
+      "q": "Wofür wird CONSTANT_CASE verwendet?",
+      "a": "CONSTANT_CASE wandelt Text in Großbuchstaben mit Unterstrichen um – die übliche Namenskonvention für globale Variablen, unveränderliche Konstanten und Umgebungsvariablen beim Programmieren."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Formular zur Umwandlung der Groß-/Kleinschreibung"
+    },
+    "label": {
+      "text-input": "<span>Tippe oder füge deinen Text unten ein:</span>"
+    },
+    "placeholder": {
+      "text-input": "Text hier eingeben oder einfügen und dann unten eine Schreibweise anklicken ..."
+    },
+    "text": {
+      "char-stats": "0 Zeichen (0 ohne Leerzeichen) | 0 Wörter | 0 Zeilen",
+      "copy-btn": "<span data-icon=\"copy\"></span> Text kopieren",
+      "undo-btn": "Rückgängig",
+      "clear-btn": "Text leeren"
+    },
+    "content": {
+      "tool": {
+        "label1": "Schreibweise wählen (12 verfügbar):",
+        "button1": "GROSSBUCHSTABEN",
+        "button2": "kleinbuchstaben",
+        "button3": "Title Case",
+        "button4": "Satzschreibung",
+        "button5": "Jedes Wort Groß",
+        "button6": "camelCase",
+        "button7": "PascalCase",
+        "button8": "snake_case",
+        "button9": "kebab-case",
+        "button10": "CONSTANT_CASE",
+        "button11": "dot.case",
+        "button12": "aBwEcHsElNd"
+      },
+      "how-when-to-use-the-text": {
+        "heading": "Wie &amp; wann du die Groß-/Kleinschreibung umwandelst",
+        "li1": "<strong>Softwareentwicklung &amp; Programmieren:</strong> Wandle Eingaben oder Schema-Definitionen in einheitliche Code-Konventionen um (z. B. `camelCase` für JavaScript-Variablen, `snake_case` für Python- oder Datenbankspalten oder `CONSTANT_CASE` für globale Umgebungsvariablen).",
+        "li2": "<strong>Überschriften für Blogs &amp; Artikel:</strong> Mach aus unordentlichen Entwurfstiteln saubere englische Überschriften im Title Case nach Chicago, bei denen kurze Präpositionen klein bleiben.",
+        "li3": "<strong>Versehentliches CAPS LOCK korrigieren:</strong> Stelle Sätze wieder her, die mit eingeschalteter Feststelltaste getippt wurden, ohne ganze Absätze neu zu schreiben.",
+        "li4": "<strong>SEO-URL-Slugs formatieren:</strong> Mach aus Artikelüberschriften suchmaschinenfreundliche `kebab-case`-Slugs für Website-URLs."
+      },
+      "case-style-reference-developer-conventions": {
+        "heading": "Schreibweisen im Überblick &amp; Konventionen für Entwickler",
+        "th1": "Schreibweise",
+        "th2": "Beispielausgabe",
+        "th3": "Typische Verwendung",
+        "td1": "GROSSBUCHSTABEN",
+        "td2": "<code>HELLO WORLD</code>",
+        "td3": "Überschriften, Warnungen, Akronyme",
+        "td4": "kleinbuchstaben",
+        "td5": "<code>hello world</code>",
+        "td6": "E-Mail-Adressen, Normalisierung für die Suche",
+        "td7": "Title Case",
+        "td8": "<code>The Return of the King</code>",
+        "td9": "Englische Buchtitel, redaktionelle Artikel",
+        "td10": "Satzschreibung",
+        "td11": "<code>Hello world. Good morning.</code>",
+        "td12": "Fließtext, Benutzerdokumentation",
+        "td13": "camelCase",
+        "td14": "<code>helloWorld</code>",
+        "td15": "Variablen- &amp; Methodennamen in JavaScript und Java",
+        "td16": "PascalCase",
+        "td17": "<code>HelloWorld</code>",
+        "td18": "Klassen in C#, Java, Python, TypeScript",
+        "td19": "snake_case",
+        "td20": "<code>hello_world</code>",
+        "td21": "Python-Variablen, SQL-Datenbankspalten",
+        "td22": "kebab-case",
+        "td23": "<code>hello-world</code>",
+        "td24": "URL-Slugs, CSS-Klassen, HTML-Attribute",
+        "td25": "CONSTANT_CASE",
+        "td26": "<code>HELLO_WORLD</code>",
+        "td27": "Umgebungsvariablen, unveränderliche Konstanten",
+        "td28": "dot.case",
+        "td29": "<code>hello.world</code>",
+        "td30": "Eigenschaftspfade, Konfigurationsschlüssel"
+      }
+    }
+  },
+  "client": {
+    "stats": "{{characters}} Zeichen ({{noSpaces}} ohne Leerzeichen) | {{words}} Wörter | {{lines}} Zeilen",
+    "toast": {
+      "converted": "Umgewandelt in {{style}}",
+      "restored": "Vorherigen Text wiederhergestellt",
+      "copied": "Umgewandelter Text in die Zwischenablage kopiert"
+    }
+  }
+}

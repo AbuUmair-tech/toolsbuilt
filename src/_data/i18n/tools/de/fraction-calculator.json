@@ -1,0 +1,303 @@
+{
+  "listing": {
+    "name": "Bruchrechner",
+    "shortName": "Bruchrechner",
+    "description": "Addiere, subtrahiere, multipliziere und dividiere Brüche und gemischte Zahlen mit Rechenweg, kürze Brüche und wandle Dezimalzahlen um.",
+    "shortDescription": "Brüche und gemischte Zahlen mit Rechenweg, Kürzen und Dezimalzahl in Bruch.",
+    "keywords": [
+      "bruchrechner",
+      "brüche addieren",
+      "gemischte zahlen rechner",
+      "brüche kürzen",
+      "dezimalzahl in bruch",
+      "brüche dividieren",
+      "brüche multiplizieren"
+    ]
+  },
+  "title": "Bruchrechner: Brüche addieren, subtrahieren, multiplizieren",
+  "description": "Bruchrechner: Addiere, subtrahiere, multipliziere und dividiere Brüche und gemischte Zahlen mit Rechenweg. Brüche kürzen und Dezimalzahlen umwandeln.",
+  "h1": "Bruchrechner",
+  "quickAnswer": "Mit dem Bruchrechner addierst oder subtrahierst du Brüche, indem du sie auf einen gemeinsamen Nenner bringst und die Zähler verrechnest: 1/2 + 1/3 = 3/6 + 2/6 = 5/6. Beim Multiplizieren multiplizierst du Zähler mit Zähler und Nenner mit Nenner; beim Dividieren multiplizierst du mit dem Kehrwert: 3/4 ÷ 1/2 = 3/4 × 2/1 = 6/4 = 3/2 = 1 1/2. Kürze am Ende immer durch den größten gemeinsamen Teiler.",
+  "formula": {
+    "title": "Regeln der Bruchrechnung",
+    "explanation": "Beim Addieren und Subtrahieren nutzt der Rechner das kleinste gemeinsame Vielfache der Nenner, damit die Zahlen klein bleiben, und verrechnet dann die erweiterten Zähler. Beim Multiplizieren wird einfach gerade durchmultipliziert. Beim Dividieren wird mit dem Kehrwert des zweiten Bruchs multipliziert, was unmöglich ist, wenn dieser Bruch null ist. Das Ergebnis wird durch den größten gemeinsamen Teiler (mit dem euklidischen Algorithmus bestimmt) gekürzt und zusätzlich als gemischte Zahl und Dezimalzahl angezeigt, mit periodischen Ziffern in Klammern.",
+    "variables": [
+      {
+        "name": "Gemischte Zahl",
+        "description": "Eine ganze Zahl plus ein Bruch, etwa 2 1/3. Sie wird zuerst in einen unechten Bruch umgewandelt: (2 × 3 + 1)/3 = 7/3."
+      },
+      {
+        "name": "kgV (LCM)",
+        "description": "Kleinstes gemeinsames Vielfaches: die kleinste Zahl, die durch beide Nenner teilbar ist; sie dient als gemeinsamer Nenner."
+      },
+      {
+        "name": "ggT (GCD)",
+        "description": "Größter gemeinsamer Teiler: die größte Zahl, die Zähler und Nenner teilt; mit ihr wird gekürzt."
+      }
+    ]
+  },
+  "workedExamples": [
+    {
+      "steps": [
+        "kgV(2, 3) = 6",
+        "1/2 = 3/6 und 1/3 = 2/6",
+        "3/6 + 2/6 = 5/6, bereits vollständig gekürzt"
+      ]
+    },
+    {
+      "steps": [
+        "Mit dem Kehrwert multiplizieren: 3/4 × 2/1",
+        null,
+        "ggT(6, 4) = 2, also 6/4 = 3/2"
+      ]
+    },
+    {
+      "steps": [
+        null,
+        null,
+        "ggT(21, 21) = 21, das Ergebnis ist also 1"
+      ]
+    },
+    {
+      "title": "6/8 kürzen und 0.375 umwandeln",
+      "inputs": [
+        "Kürzen: 6/8",
+        "Dezimalzahl in Bruch: 0.375"
+      ],
+      "steps": [
+        "ggT(6, 8) = 2, also 6/8 = 3/4",
+        "0.375 = 375/1000; ggT(375, 1000) = 125, also 375/1000 = 3/8"
+      ],
+      "result": "6/8 = 3/4 und 0.375 = 3/8"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Nenner addieren",
+      "description": "1/2 + 1/3 ist nicht 2/5. Nenner geben an, wie groß die Stücke sind, sie müssen also vor dem Addieren gleich sein: 3/6 + 2/6 = 5/6."
+    },
+    {
+      "title": "Dividieren, ohne den zweiten Bruch umzudrehen",
+      "description": "Um durch einen Bruch zu teilen, multiplizierst du mit seinem Kehrwert (nur den zweiten Bruch umdrehen). 3/4 ÷ 1/2 = 3/4 × 2/1 = 3/2, nicht 3/8."
+    },
+    {
+      "title": "Die ganze Zahl einer gemischten Zahl getrennt multiplizieren",
+      "description": "2 1/3 × 3/7 ist weder (2 × 3/7) plus (1/3) noch 2 × 1/3 × 3/7. Wandle 2 1/3 zuerst in 7/3 um und multipliziere dann."
+    },
+    {
+      "title": "Aufhören, bevor der Bruch gekürzt ist",
+      "description": "6/4 ist richtig, aber nicht fertig. Teile Zähler und Nenner durch ihren größten gemeinsamen Teiler (2), um 3/2 zu erhalten, oder 1 1/2 als gemischte Zahl."
+    },
+    {
+      "title": "Das Minuszeichen einer gemischten Zahl verlieren",
+      "description": "−1 1/2 bedeutet −(1 + 1/2) = −3/2, nicht −1 + 1/2 = −1/2. Das Vorzeichen gilt für die ganze gemischte Zahl."
+    }
+  ],
+  "sources": [
+    {
+      "name": "Common Core State Standards for Mathematics: Number and Operations—Fractions"
+    },
+    {
+      "name": "Euklids Elemente, Buch VII, Proposition 2 (größtes gemeinsames Maß)"
+    },
+    {
+      "name": "NIST Digital Library of Mathematical Functions: §27.1 Zahlentheorie, ggT"
+    }
+  ],
+  "howto": {
+    "name": "So nutzt du den Bruchrechner",
+    "description": "Rechne mit Brüchen und gemischten Zahlen, kürze Brüche und wandle Dezimalzahlen in Brüche um.",
+    "steps": [
+      {
+        "name": "Modus wählen",
+        "text": "Rechne mit zwei Brüchen, kürze einen Bruch oder wandle eine Dezimalzahl in einen Bruch um."
+      },
+      {
+        "name": "Zahlen eingeben",
+        "text": "Gib Brüche wie 3/4, gemischte Zahlen wie 2 1/3, ganze Zahlen oder Dezimalzahlen ein."
+      },
+      {
+        "name": "Rechenart wählen",
+        "text": "Wähle Addieren, Subtrahieren, Multiplizieren oder Dividieren."
+      },
+      {
+        "name": "Ergebnis und Rechenweg ansehen",
+        "text": "Sieh den gekürzten Bruch, die gemischte Zahl, die Dezimalzahl und jeden Schritt des Rechenwegs."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Wie addiert man Brüche mit verschiedenen Nennern?",
+      "a": "Bestimme einen gemeinsamen Nenner (das kleinste gemeinsame Vielfache der Nenner), erweitere jeden Bruch darauf und addiere dann die Zähler. 1/2 + 1/3 = 3/6 + 2/6 = 5/6."
+    },
+    {
+      "q": "Wie dividiert man Brüche?",
+      "a": "Behalte den ersten Bruch, mach aus ÷ ein × und dreh den zweiten Bruch um. 3/4 ÷ 1/2 = 3/4 × 2/1 = 6/4 = 3/2."
+    },
+    {
+      "q": "Wie multipliziert man gemischte Zahlen?",
+      "a": "Wandle jede gemischte Zahl in einen unechten Bruch um, multipliziere Zähler und Nenner und kürze dann. 2 1/3 × 3/7 = 7/3 × 3/7 = 21/21 = 1."
+    },
+    {
+      "q": "Wie kürze ich einen Bruch?",
+      "a": "Teile Zähler und Nenner durch ihren größten gemeinsamen Teiler. Bei 6/8 ist der ggT 2, also 6/8 = 3/4."
+    },
+    {
+      "q": "Wie wandelt man eine Dezimalzahl in einen Bruch um?",
+      "a": "Schreib die Nachkommastellen über 10, 100, 1000 usw. und kürze dann. 0.375 = 375/1000, und durch 125 gekürzt ergibt das 3/8."
+    },
+    {
+      "q": "Wie gebe ich eine gemischte Zahl ein?",
+      "a": "Tippe die ganze Zahl, ein Leerzeichen und dann den Bruch: 2 1/3. Negative gemischte Zahlen schreibst du -2 1/3. Ganze Zahlen (5) und Dezimalzahlen (0.75) funktionieren ebenfalls; nutze einen Punkt als Dezimaltrennzeichen."
+    },
+    {
+      "q": "Was bedeutet eine Zahl in Klammern bei der Dezimalzahl?",
+      "a": "Die Ziffern in Klammern wiederholen sich endlos (Periode). 5/6 = 0.8(3) bedeutet 0.8333…, und 1/7 = 0.(142857) bedeutet 0.142857142857…."
+    },
+    {
+      "q": "Warum kann ich nicht durch null teilen?",
+      "a": "Durch einen Bruch zu teilen heißt, mit seinem Kehrwert zu multiplizieren, und 0 hat keinen Kehrwert. Keine Zahl mal 0 ergibt ein Ergebnis ungleich null, daher ist die Division durch null nicht definiert."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Bruchrechner",
+      "tool-div1": "Modus des Rechners",
+      "copy-result-btn": "Ergebnis in die Zwischenablage kopieren"
+    },
+    "text": {
+      "tab-calc": "Rechnen",
+      "tab-simplify": "Kürzen",
+      "tab-dec": "Dezimalzahl",
+      "frac-hint": "Gib Brüche (3/4), gemischte Zahlen mit Leerzeichen (2 1/3), ganze Zahlen (5) oder Dezimalzahlen mit Punkt (0.75) ein.",
+      "reset-btn": "Zurücksetzen",
+      "result-header-text": "Ergebnis",
+      "copy-result-btn": "<span data-icon=\"copy\"></span> Ergebnis kopieren"
+    },
+    "label": {
+      "frac-a": "Erste Zahl",
+      "frac-op": "Rechenart",
+      "frac-b": "Zweite Zahl",
+      "frac-s": "Zu kürzender Bruch",
+      "frac-dec": "Dezimalzahl"
+    },
+    "option": {
+      "frac-op": {
+        "add": "+ addieren",
+        "subtract": "− subtrahieren",
+        "multiply": "× multiplizieren",
+        "divide": "÷ dividieren"
+      }
+    },
+    "content": {
+      "tool": {
+        "p1": "Nur abbrechende Dezimalzahlen, etwa 0.375 oder 2.5.",
+        "button1": "Berechnen",
+        "summary1": "Schritt für Schritt"
+      },
+      "fraction-rules-in-one-table": {
+        "heading": "Bruchrechenregeln in einer Tabelle",
+        "caption1": "So addierst, subtrahierst, multiplizierst und dividierst du Brüche",
+        "th1": "Rechenart",
+        "th2": "Vorgehen",
+        "th3": "Beispiel",
+        "td1": "Addieren",
+        "td2": "Gemeinsamer Nenner, Zähler addieren",
+        "td3": "Subtrahieren",
+        "td4": "Gemeinsamer Nenner, Zähler subtrahieren",
+        "td5": "Multiplizieren",
+        "td6": "Zähler × Zähler, Nenner × Nenner",
+        "td7": "Dividieren",
+        "td8": "Mit dem Kehrwert des zweiten Bruchs multiplizieren",
+        "td9": "Kürzen",
+        "td10": "Zähler und Nenner durch ihren ggT teilen",
+        "td11": "18/24: ggT(18, 24) = 6, also 18/24 = 3/4"
+      },
+      "mixed-numbers-improper-fractions-and-decimals": {
+        "heading": "Gemischte Zahlen, unechte Brüche und Dezimalzahlen",
+        "p1": "Ein unechter Bruch hat einen Zähler, der mindestens so groß ist wie der Nenner, etwa 7/3. Eine gemischte Zahl schreibt denselben Wert als ganze Zahl plus echten Bruch: 7 ÷ 3 = 2 Rest 1, also 7/3 = 2 1/3. Am einfachsten rechnet es sich mit unechten Brüchen; deshalb wandelt der Rechner gemischte Zahlen zuerst um und am Ende wieder zurück.",
+        "p2": "Jeder Bruch ist auch eine Dezimalzahl. Hat der gekürzte Nenner nur die Primfaktoren 2 und 5, bricht die Dezimalzahl ab (3/8 = 0.375). Sonst ist sie periodisch, und der Rechner setzt die Periode in Klammern: 1/3 = 0.(3), 5/6 = 0.8(3), 1/7 = 0.(142857). Umgekehrt lassen sich nur abbrechende Dezimalzahlen exakt eingeben, 0.333 wird also zu 333/1000, nicht zu 1/3."
+      },
+      "how-euclid-s-algorithm-finds-the": {
+        "heading": "So findet der euklidische Algorithmus den ggT",
+        "p1": "Um 84/126 zu kürzen, teilst du die größere Zahl durch die kleinere und behältst den Rest: 126 = 1 × 84 + 42, dann 84 = 2 × 42 + 0. Ist der Rest 0, ist der letzte Teiler (42) der größte gemeinsame Teiler, also 84/126 = 2/3. Der Modus Kürzen zeigt jede dieser Zeilen, praktisch zum Kontrollieren von Hausaufgaben.",
+        "p2": "Alle Rechnungen nutzen exakte Ganzzahlarithmetik in deinem Browser, sodass auch sehr große Zähler und Nenner nie gerundet werden."
+      }
+    },
+    "title": {
+      "copy-result-btn": "Ergebnis in die Zwischenablage kopieren"
+    }
+  },
+  "client": {
+    "errors": {
+      "empty": "Gib eine Zahl oder einen Bruch ein, zum Beispiel 3/4 oder 2 1/3.",
+      "tooLong": "Diese Zahl ist zu lang, um hier damit zu rechnen.",
+      "zeroDenominator": "\"{{raw}}\" hat den Nenner 0 und ist damit nicht definiert.",
+      "notUnderstood": "\"{{raw}}\" ist keine Zahl, die dieser Rechner versteht. Nutze Formen wie 3/4, 2 1/3, 5 oder 0.75.",
+      "chooseOperation": "Wähle eine Rechenart: +, −, × oder ÷.",
+      "firstNumber": "Erste Zahl: {{error}}",
+      "secondNumber": "Zweite Zahl: {{error}}",
+      "divideByZero": "Du kannst nicht durch null teilen: Die zweite Zahl ist 0, und die Division durch 0 ist nicht definiert.",
+      "decimalEmpty": "Gib eine Dezimalzahl wie 0.375 ein.",
+      "notTerminating": "\"{{raw}}\" ist keine abbrechende Dezimalzahl. Gib Ziffern mit optionalem Dezimalpunkt ein, etwa 0.375 oder 2.5. Periodische Dezimalzahlen wie 0.333… lassen sich nicht exakt eingeben.",
+      "decimalTooLong": "Diese Dezimalzahl ist zu lang, um hier damit zu rechnen."
+    },
+    "steps": {
+      "convert": {
+        "mixed": {
+          "first": "Die erste Zahl {{text}} als unechten Bruch schreiben: {{sign}}({{whole}} × {{d}} + {{partN}}) / {{d}} = {{n}}/{{d}}",
+          "second": "Die zweite Zahl {{text}} als unechten Bruch schreiben: {{sign}}({{whole}} × {{d}} + {{partN}}) / {{d}} = {{n}}/{{d}}",
+          "single": "Die Zahl {{text}} als unechten Bruch schreiben: {{sign}}({{whole}} × {{d}} + {{partN}}) / {{d}} = {{n}}/{{d}}"
+        },
+        "whole": {
+          "first": "Die erste Zahl {{text}} als Bruch schreiben: {{n}}/1",
+          "second": "Die zweite Zahl {{text}} als Bruch schreiben: {{n}}/1",
+          "single": "Die Zahl {{text}} als Bruch schreiben: {{n}}/1"
+        },
+        "decimal": {
+          "first": "Die erste Zahl {{text}} als Bruch schreiben: {{n}}/{{d}}",
+          "second": "Die zweite Zahl {{text}} als Bruch schreiben: {{n}}/{{d}}",
+          "single": "Die Zahl {{text}} als Bruch schreiben: {{n}}/{{d}}"
+        }
+      },
+      "simplify": "Kürzen: ggT({{absN}}, {{d}}) = {{g}}, also {{n}}/{{d}} = {{simplified}}",
+      "lowestTerms": "{{n}}/{{d}} ist bereits vollständig gekürzt (ggT = 1)",
+      "sameDenominator": {
+        "add": "Die Nenner sind bereits gleich ({{d}}), also die Zähler addieren: {{a}} {{sym}} {{b}} = {{result}}",
+        "subtract": "Die Nenner sind bereits gleich ({{d}}), also die Zähler subtrahieren: {{a}} {{sym}} {{b}} = {{result}}"
+      },
+      "commonDenominator": "Gemeinsamen Nenner finden: kgV({{da}}, {{db}}) = {{lcd}}",
+      "rewrite": "Beide Brüche erweitern: {{fx}} = {{na}}/{{lcd}} und {{fy}} = {{nb}}/{{lcd}}",
+      "numerators": {
+        "add": "Zähler addieren: {{a}} {{sym}} {{b}} = {{n}}, ergibt {{n}}/{{d}}",
+        "subtract": "Zähler subtrahieren: {{a}} {{sym}} {{b}} = {{n}}, ergibt {{n}}/{{d}}"
+      },
+      "multiplyBoth": "Zähler und Nenner multiplizieren: ({{xn}} × {{yn}}) / ({{xd}} × {{yd}}) = {{n}}/{{d}}",
+      "reciprocal": "Durch {{fy}} zu teilen ist dasselbe wie mit dem Kehrwert {{yd}}/{{yn}} zu multiplizieren",
+      "multiply": "Multiplizieren: ({{xn}} × {{yd}}) / ({{xd}} × {{yn}}) = {{n}}/{{d}}",
+      "asMixed": "Als gemischte Zahl: {{mixed}}",
+      "zero": "0 geteilt durch eine beliebige Zahl ungleich null ist 0",
+      "findGcd": "Größten gemeinsamen Teiler von {{a}} und {{b}} mit dem euklidischen Algorithmus bestimmen:",
+      "gcd": "ggT = {{gcd}}",
+      "divideBoth": "Beide durch {{g}} teilen: {{n}} ÷ {{g}} = {{nq}}, {{d}} ÷ {{g}} = {{dq}}",
+      "gcdOne": "Der ggT ist 1, der Bruch ist also bereits vollständig gekürzt",
+      "decimalPlaces": {
+        "one": "{{raw}} hat {{places}} Nachkommastelle, also über 10^{{places}} = {{d}} schreiben: {{n}}/{{d}}",
+        "other": "{{raw}} hat {{places}} Nachkommastellen, also über 10^{{places}} = {{d}} schreiben: {{n}}/{{d}}"
+      },
+      "wholeNumber": "{{raw}} ist eine ganze Zahl: {{n}}/1",
+      "gcdOf": "ggT({{a}}, {{d}}) = {{g}}",
+      "divideBothShort": "Beide durch {{g}} teilen: {{n}}/{{d}}"
+    },
+    "result": {
+      "lowestTerms": "{{input}} vollständig gekürzt",
+      "asFraction": "{{input}} als Bruch"
+    },
+    "stats": {
+      "simplified": "Gekürzter Bruch",
+      "mixed": "Gemischte Zahl",
+      "decimal": "Dezimalzahl"
+    }
+  }
+}

@@ -1,0 +1,258 @@
+{
+  "listing": {
+    "name": "Trinkgeldrechner & Rechnung teilen",
+    "shortName": "Trinkgeldrechner",
+    "description": "Berechne das Trinkgeld und teile die Rechnung auf beliebig viele Personen auf, mit Trinkgeld auf den Nettobetrag und Aufrunden pro Person.",
+    "shortDescription": "Trinkgeld, Gesamtbetrag und Anteil pro Person, mit festen oder eigenen Trinkgeldsätzen.",
+    "keywords": [
+      "trinkgeldrechner",
+      "rechnung teilen",
+      "rechnung aufteilen",
+      "trinkgeld pro person",
+      "trinkgeld berechnen",
+      "trinkgeld restaurant",
+      "wie viel trinkgeld"
+    ]
+  },
+  "title": "Trinkgeldrechner: Rechnung teilen & Trinkgeld pro Person",
+  "description": "Trinkgeldrechner: Berechne das Trinkgeld und teile die Rechnung auf beliebig viele Personen auf. Feste oder eigene Prozentsätze, Aufrunden pro Person.",
+  "h1": "Trinkgeldrechner & Rechnung teilen",
+  "quickAnswer": "Mit dem Trinkgeldrechner gilt: Trinkgeld = Rechnung × Trinkgeld-% ÷ 100, Gesamtbetrag = Rechnung + Trinkgeld, und jede Person zahlt Gesamtbetrag ÷ Personenzahl. Bei einer Rechnung von 85.50 und 18% Trinkgeld sind das 15.39 Trinkgeld und 100.89 insgesamt, drei Personen zahlen also je 33.63. Willst du nur auf Essen und Getränke Trinkgeld geben, rechne zuerst die Steuer aus der Rechnung heraus.",
+  "formula": {
+    "title": "Formel für Trinkgeld und Aufteilung",
+    "expression": "Trinkgeld = Rechnung × Trinkgeld% ÷ 100   ·   Gesamt = Rechnung + Trinkgeld   ·   Pro Person = Gesamt ÷ Personen",
+    "explanation": "Das Trinkgeld wird auf den nächsten Cent gerundet, zur Rechnung addiert und der Gesamtbetrag auf die Personen aufgeteilt. Geht der Betrag nicht glatt auf, zeigt der Rechner, wie viele Personen einen Cent mehr zahlen, damit die Anteile exakt aufgehen. Ist „Trinkgeld auf den Nettobetrag“ aktiv, wird die Steuer zuerst herausgerechnet: Nettobetrag = Rechnung ÷ (1 + Steuer% ÷ 100), und das Trinkgeld wird nur auf diesen Betrag berechnet.",
+    "variables": [
+      {
+        "name": "Rechnung",
+        "description": "Der Betrag auf dem Beleg, inklusive Steuer, aber vor dem Trinkgeld."
+      },
+      {
+        "name": "Trinkgeld %",
+        "description": "Der Prozentsatz, den du geben willst, als Vorgabe oder selbst eingetippt."
+      },
+      {
+        "name": "Aufrunden",
+        "description": "Rundet jeden Anteil auf die nächste ganze Währungseinheit auf. Der Mehrbetrag geht ins Trinkgeld, und der Rechner zeigt den sich ergebenden Trinkgeldsatz."
+      }
+    ]
+  },
+  "workedExamples": [
+    {
+      "title": "Abendessen zu dritt mit 18%",
+      "inputs": [
+        "Rechnung: 85.50",
+        "Trinkgeld: 18%",
+        "Personen: 3"
+      ],
+      "steps": [
+        "Trinkgeld: 85.50 × 18 ÷ 100 = 15.39",
+        "Gesamt: 85.50 + 15.39 = 100.89",
+        "Pro Person: 100.89 ÷ 3 = 33.63"
+      ],
+      "result": "Trinkgeld 15.39, gesamt 100.89, je 33.63"
+    },
+    {
+      "title": "Dasselbe Essen, pro Person aufgerundet",
+      "inputs": [
+        "Rechnung: 85.50, Trinkgeld 18%, 3 Personen",
+        "Pro Person aufrunden: an"
+      ],
+      "steps": [
+        "Genauer Anteil: 33.63, aufgerundet auf 34.00",
+        "Eingesammelt: 3 × 34.00 = 102.00",
+        "Tatsächliches Trinkgeld: 102.00 − 85.50 = 16.50, also 19.3% der Rechnung"
+      ],
+      "result": "Je 34.00, Trinkgeld 16.50 (19.3%)"
+    },
+    {
+      "title": "Trinkgeld auf den Betrag vor Steuern",
+      "inputs": [
+        "Rechnung: 108.00 inklusive 8% Umsatzsteuer",
+        "Trinkgeld: 20% auf den Nettobetrag",
+        "Personen: 2"
+      ],
+      "steps": [
+        "Nettobetrag: 108.00 ÷ 1.08 = 100.00 (Steuer 8.00)",
+        "Trinkgeld: 100.00 × 20% = 20.00 statt 21.60 auf die ganze Rechnung",
+        "Gesamt: 108.00 + 20.00 = 128.00, also je 64.00"
+      ],
+      "result": "Trinkgeld 20.00, gesamt 128.00, je 64.00"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Trinkgeld auf einen bereits enthaltenen Servicezuschlag",
+      "description": "Manche Restaurants schlagen einen Servicezuschlag oder ein Trinkgeld auf die Rechnung, oft bei größeren Gruppen. Prüfe den Beleg, bevor du noch Trinkgeld obendrauf gibst, sonst zahlst du es doppelt."
+    },
+    {
+      "title": "Die Rechnung vor dem Trinkgeld aufteilen",
+      "description": "Teilt jeder die Rechnung für das Essen und rundet dann sein eigenes Trinkgeld, ist das Trinkgeld insgesamt oft kleiner als gedacht. Addiere das Trinkgeld zuerst zur ganzen Rechnung und teile dann den Gesamtbetrag."
+    },
+    {
+      "title": "Jeden Anteil abrunden",
+      "description": "Rundet ihr bei drei Personen 33.63 auf 33 ab, fehlen am Tisch 1.89. Runde Anteile auf oder nutze den genauen Betrag und lass den Rechner die übrigen Cents verteilen."
+    },
+    {
+      "title": "Überall dieselbe Trinkgeldkultur annehmen",
+      "description": "Ob Trinkgeld erwartet wird und wie viel, unterscheidet sich je nach Land, Branche und sogar Stadt. Informiere dich auf Reisen vor Ort oder frag nach; in manchen Ländern ist der Service in den Preisen enthalten."
+    },
+    {
+      "title": "Die Steuer beim Trinkgeld auf die Zwischensumme vergessen",
+      "description": "Willst du Trinkgeld auf den Nettobetrag geben, nutze die Zwischensumme vom Beleg oder aktiviere die Netto-Option und gib den Steuersatz ein, statt auf den Gesamtbetrag zu rechnen."
+    }
+  ],
+  "sources": [
+    {
+      "name": "U.S. Department of Labor: Tipped employees under the FLSA (Fact Sheet #15)"
+    },
+    {
+      "name": "IRS: Aufzeichnung und Meldung von Trinkgeldern"
+    },
+    {
+      "name": "GOV.UK: Trinkgeld am Arbeitsplatz"
+    }
+  ],
+  "howto": {
+    "name": "So berechnest du Trinkgeld und teilst die Rechnung",
+    "description": "Berechne Trinkgeld, Gesamtbetrag und was jede Person zahlt.",
+    "steps": [
+      {
+        "name": "Rechnungsbetrag eingeben",
+        "text": "Tippe den Betrag vom Beleg ein und wähle deine Währung."
+      },
+      {
+        "name": "Trinkgeld wählen",
+        "text": "Wähle 10, 15, 18, 20 oder 25% oder tippe einen beliebigen Prozentsatz ein."
+      },
+      {
+        "name": "Personenzahl eingeben",
+        "text": "Gib ein, wie viele Personen sich die Rechnung teilen."
+      },
+      {
+        "name": "Optionen anpassen",
+        "text": "Gib Trinkgeld auf den Nettobetrag, wenn du willst, und runde jeden Anteil auf einen ganzen Betrag auf, wenn das Bezahlen einfacher ist."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Wie berechne ich Trinkgeld?",
+      "a": "Multipliziere die Rechnung mit dem Trinkgeldsatz und teile durch 100. Bei 60 und 15% Trinkgeld: 60 × 15 ÷ 100 = 9, der Gesamtbetrag ist also 69. Ein schneller Kopfrechentrick für 20%: Komma um eine Stelle nach links verschieben und verdoppeln."
+    },
+    {
+      "q": "Wie teilt man eine Rechnung samt Trinkgeld auf mehrere Personen auf?",
+      "a": "Addiere das Trinkgeld zur Rechnung und teile den Gesamtbetrag durch die Personenzahl. Geht es nicht auf den Cent genau auf, zahlen einige einen Cent mehr; der Rechner sagt dir, wie viele."
+    },
+    {
+      "q": "Wie viel sind 18% von 85.50?",
+      "a": "18% von 85.50 sind 15.39. Der Gesamtbetrag mit Trinkgeld ist 100.89, bei drei Personen also je 33.63."
+    },
+    {
+      "q": "Gebe ich Trinkgeld auf den Betrag vor oder nach Steuern?",
+      "a": "Benimmratgeber sind sich da nicht einig. Viele geben Trinkgeld auf die Zwischensumme vor Steuern, weil die Steuer nicht Teil der Leistung ist. Aktiviere „Trinkgeld auf den Nettobetrag“ und gib den Steuersatz ein, um beide Werte zu sehen."
+    },
+    {
+      "q": "Wie viel Trinkgeld sollte ich geben?",
+      "a": "Das hängt davon ab, wo du bist und um welche Leistung es geht. Die Bräuche reichen von gar keinem Trinkgeld bis zu einem festen Prozentsatz. Wähle eine Vorgabe oder tippe deinen eigenen Prozentsatz ein; der Rechner geht von keinem bestimmten Land aus."
+    },
+    {
+      "q": "Was bewirkt „Pro Person aufrunden“?",
+      "a": "Es rundet jeden Anteil auf die nächste ganze Einheit auf (zum Beispiel 33.63 auf 34.00). Die zusätzlichen Cents gehen ins Trinkgeld, und das Ergebnis zeigt, welchen Trinkgeldsatz du tatsächlich gibst."
+    },
+    {
+      "q": "Ist ein Servicezuschlag dasselbe wie Trinkgeld?",
+      "a": "Nicht immer. Ein Servicezuschlag wird vom Betrieb erhoben und kann anders verteilt werden als ein freiwilliges Trinkgeld. Wer Servicezuschläge und Trinkgelder erhält, regelt jedes Land anders, informiere dich also vor Ort."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Trinkgeldrechner",
+      "copy-result-btn": "Ergebnis in die Zwischenablage kopieren"
+    },
+    "label": {
+      "bill": "Rechnungsbetrag <span class=\"text-accent\">*</span>",
+      "tip-percent": "Trinkgeld % <span class=\"label-hint\">(oder eigenen Wert eingeben)</span>",
+      "people": "Anzahl der Personen",
+      "tax-percent": "In der Rechnung enthaltene Steuer (%)"
+    },
+    "content": {
+      "tool": {
+        "legend1": "Trinkgeldsatz",
+        "label1": "<input type=\"checkbox\" id=\"pretax\" data-param=\"pretax\" aria-controls=\"tax-group\">\n            <span>Trinkgeld auf den Nettobetrag</span>",
+        "label2": "<input type=\"checkbox\" id=\"round-up\" data-param=\"round\">\n            <span>Anteil jeder Person auf einen ganzen Betrag aufrunden</span>",
+        "button1": "Trinkgeld berechnen"
+      },
+      "quick-tip-percentages": {
+        "heading": "Trinkgeld schnell im Kopf",
+        "p1": "Für einen groben Wert ohne Rechner fang bei 10% an: Das ist die Rechnung mit dem Komma eine Stelle weiter links. Alles andere lässt sich daraus ableiten:",
+        "caption1": "Kopfrechen-Abkürzungen für gängige Trinkgeldsätze bei einer Rechnung von 64.00",
+        "th1": "Trinkgeld",
+        "th2": "Abkürzung",
+        "th3": "Bei einer Rechnung von 64.00",
+        "td1": "Komma eine Stelle nach links verschieben",
+        "td2": "10% plus die Hälfte davon",
+        "td3": "20% minus 2%",
+        "td4": "10% verdoppelt",
+        "td5": "Ein Viertel der Rechnung"
+      },
+      "tipping-customs-differ": {
+        "heading": "Trinkgeldbräuche sind verschieden",
+        "p1": "Es gibt keine einheitliche Regel für Trinkgeld. In manchen Ländern ist Trinkgeld ein großer Teil des Einkommens im Service und wird erwartet; in anderen ist der Service in den Preisen enthalten oder ein Servicezuschlag steht auf der Rechnung, und Trinkgeld ist nur ein kleines Extra für guten Service. Hotels, Taxis, Lieferdienste und Friseure haben oft eigene Bräuche. Weil diese Bräuche sich unterscheiden und ändern, schlägt dieser Rechner für kein Land einen Prozentsatz vor. Informiere dich auf Reisen vor Ort und prüfe den Beleg auf einen Servicezuschlag, bevor du Trinkgeld gibst.",
+        "p2": "Auch die arbeitsrechtlichen Regeln zu Trinkgeld sind verschieden. In den USA legt das Department of Labor Regeln für Beschäftigte mit Trinkgeld und Trinkgeldpools fest, und der IRS behandelt Trinkgeld als steuerpflichtiges Einkommen der Beschäftigten. Im Vereinigten Königreich müssen Arbeitgeber alle Trinkgelder und Servicezuschläge ohne Abzüge an die Beschäftigten weitergeben. Die Quellen unten verlinken auf diese offiziellen Seiten."
+      },
+      "splitting-fairly": {
+        "heading": "Fair aufteilen",
+        "li1": "<strong>Gleichmäßig aufteilen:</strong> am besten, wenn alle ähnlich viel bestellt haben. Der Rechner teilt auf den Cent genau und sagt dir, ob jemand einen Cent mehr zahlen muss.",
+        "li2": "<strong>Nach Bestellung aufteilen:</strong> Unterscheiden sich die Bestellungen stark, rechne für jede Person einzeln mit ihrer eigenen Zwischensumme und einer Person, mit demselben Trinkgeldsatz.",
+        "li3": "<strong>Bar bezahlen:</strong> Aktiviere das Aufrunden, damit jeder einen ganzen Betrag gibt; der Mehrbetrag kommt zum Trinkgeld."
+      }
+    },
+    "text": {
+      "reset-btn": "Zurücksetzen",
+      "result-header-text": "Jede Person zahlt",
+      "copy-result-btn": "<span data-icon=\"copy\"></span> Ergebnis kopieren"
+    },
+    "title": {
+      "copy-result-btn": "Ergebnis in die Zwischenablage kopieren"
+    }
+  },
+  "client": {
+    "errors": {
+      "billEmpty": "Gib den Rechnungsbetrag ein.",
+      "billInvalid": "Die Rechnung muss eine Zahl größer als 0 sein.",
+      "tipEmpty": "Gib einen Trinkgeldsatz ein oder wähle eine Vorgabe.",
+      "tipNegative": "Das Trinkgeld muss 0% oder mehr betragen.",
+      "tipOver100": "Das Trinkgeld darf nicht mehr als 100% der Rechnung betragen.",
+      "people": "Die Personenzahl muss eine ganze Zahl ab 1 sein.",
+      "peopleMax": "Teile auf höchstens 1,000 Personen auf.",
+      "tax": "Der Steuersatz muss zwischen 0% und 100% liegen."
+    },
+    "result": {
+      "eachPays": "Jede der {{people}} Personen zahlt",
+      "totalToPay": "Zu zahlender Gesamtbetrag"
+    },
+    "stats": {
+      "tipRounded": "Trinkgeld ({{pct}}% nach Rundung)",
+      "tip": "Trinkgeld ({{pct}}%)",
+      "total": "Gesamt mit Trinkgeld",
+      "perPerson": "Pro Person",
+      "tipPerPerson": "Trinkgeld pro Person",
+      "tipBase": "Trinkgeld berechnet auf (vor Steuern)",
+      "tax": "Steuer in der Rechnung"
+    },
+    "notes": {
+      "uneven": {
+        "one": "{{total}} lässt sich nicht glatt teilen: {{count}} Person zahlt {{high}}, die übrigen zahlen {{low}}.",
+        "other": "{{total}} lässt sich nicht glatt teilen: {{count}} Personen zahlen {{high}}, die übrigen zahlen {{low}}."
+      },
+      "roundingExtra": "Durch das Aufrunden kommen {{amount}} zum Trinkgeld dazu."
+    },
+    "copy": {
+      "bill": "Rechnung: {{amount}}",
+      "tip": "Trinkgeld: {{amount}}",
+      "total": "Gesamt: {{amount}}",
+      "perPerson": "Pro Person ({{people}}): {{amount}}"
+    }
+  }
+}
