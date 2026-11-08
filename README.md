@@ -120,7 +120,6 @@ docs/                # Documentation
 ├── TOOLS_BACKLOG.md
 ├── TOOLS_CHANGELOG.md
 ├── MIGRATION_REPORT.md
-└── screenshots/redesign/  # Before/after screenshots of the redesign
 _site/               # Build output (git-ignored)
 ```
 
