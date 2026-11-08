@@ -1,0 +1,275 @@
+{
+  "country": "GB",
+  "taxYear": "2026-27",
+  "label": "Tax year 2026/27",
+  "period": "6 April 2026 to 5 April 2027",
+  "currency": "GBP",
+  "current": true,
+  "statusLabel": "Where you live",
+  "defaultStatus": "rUK",
+  "personalAllowance": {
+    "amount": 12570,
+    "taperAbove": 100000,
+    "taperRate": 0.5,
+    "label": "Personal Allowance"
+  },
+  "statuses": {
+    "rUK": {
+      "label": "England, Wales or Northern Ireland",
+      "slabs": [
+        {
+          "over": 0,
+          "upTo": 37700,
+          "rate": 0.2,
+          "name": "basic rate"
+        },
+        {
+          "over": 37700,
+          "upTo": 125140,
+          "rate": 0.4,
+          "name": "higher rate"
+        },
+        {
+          "over": 125140,
+          "upTo": null,
+          "rate": 0.45,
+          "name": "additional rate"
+        }
+      ]
+    },
+    "scotland": {
+      "label": "Scotland",
+      "slabs": [
+        {
+          "over": 0,
+          "upTo": 3967,
+          "rate": 0.19,
+          "name": "starter rate"
+        },
+        {
+          "over": 3967,
+          "upTo": 16956,
+          "rate": 0.2,
+          "name": "basic rate"
+        },
+        {
+          "over": 16956,
+          "upTo": 31092,
+          "rate": 0.21,
+          "name": "intermediate rate"
+        },
+        {
+          "over": 31092,
+          "upTo": 62430,
+          "rate": 0.42,
+          "name": "higher rate"
+        },
+        {
+          "over": 62430,
+          "upTo": 125140,
+          "rate": 0.45,
+          "name": "advanced rate"
+        },
+        {
+          "over": 125140,
+          "upTo": null,
+          "rate": 0.48,
+          "name": "top rate"
+        }
+      ]
+    }
+  },
+  "notes": [
+    "Bands are 'income after allowances' from HMRC's rates and allowances publication for 2026 to 2027. The Personal Allowance of £12,570 falls by £1 for every £2 of adjusted net income above £100,000.",
+    "Employee Class 1 National Insurance (category A: 8% between the Primary Threshold £12,570 and the Upper Earnings Limit £50,270, 2% above) and student loan repayments (Plan 1 £26,900, Plan 2 £29,385, Plan 4 £33,795, Plan 5 £25,000 at 9%; Postgraduate Loan £21,000 at 6%) are worked out on an annual basis from HMRC's employer rates for 2026 to 2027. Pension contributions are treated as a net pay arrangement: taken off pay before Income Tax, not before National Insurance."
+  ],
+  "sources": [
+    {
+      "url": "https://www.gov.uk/income-tax-rates"
+    },
+    {
+      "url": "https://www.gov.uk/government/publications/rates-and-allowances-income-tax/income-tax-rates-and-allowances-current-and-past"
+    },
+    {
+      "url": "https://www.gov.uk/scottish-income-tax"
+    },
+    {
+      "url": "https://www.gov.uk/guidance/rates-and-thresholds-for-employers-2026-to-2027"
+    }
+  ],
+  "verifiedOn": "2026-11-08",
+  "officialExamples": [
+    {
+      "note": "GOV.UK: standard Personal Allowance £12,570, so income of £12,570 pays no Income Tax",
+      "status": "rUK",
+      "income": 12570,
+      "tax": 0
+    },
+    {
+      "note": "GOV.UK: the allowance is zero if income is £125,140 or above",
+      "status": "rUK",
+      "income": 125140,
+      "allowance": 0
+    },
+    {
+      "note": "GOV.UK: allowance goes down by £1 for every £2 above £100,000 (income £110,000 -> £7,570)",
+      "status": "rUK",
+      "income": 110000,
+      "allowance": 7570
+    },
+    {
+      "note": "GOV.UK: basic rate up to £50,270 of income with the standard allowance, i.e. £37,700 after allowances at 20%",
+      "status": "rUK",
+      "income": 50270,
+      "tax": 7540
+    },
+    {
+      "note": "GOV.UK employer rates 2026 to 2027: no employee NI up to the Primary Threshold £12,570",
+      "status": "rUK",
+      "income": 12570,
+      "nationalInsurance": 0
+    }
+  ],
+  "page": {
+    "slug": "uk-salary-tax-calculator",
+    "placeholder": "3000",
+    "defaultSalary": 3000,
+    "defaultPeriod": "monthly"
+  },
+  "options": [
+    {
+      "id": "studentLoan",
+      "label": "Student loan",
+      "type": "select",
+      "default": "none",
+      "choices": [
+        "none",
+        "plan1",
+        "plan2",
+        "plan4",
+        "plan5"
+      ],
+      "choiceLabels": {
+        "none": "None",
+        "plan1": "Plan 1",
+        "plan2": "Plan 2",
+        "plan4": "Plan 4 (Scotland)",
+        "plan5": "Plan 5"
+      }
+    },
+    {
+      "id": "postgraduateLoan",
+      "label": "Postgraduate Loan",
+      "type": "checkbox",
+      "default": false
+    },
+    {
+      "id": "pension",
+      "label": "Pension contribution (% of salary)",
+      "type": "percent",
+      "default": 0,
+      "deduction": {
+        "fromPay": true
+      }
+    }
+  ],
+  "contributions": [
+    {
+      "id": "nationalInsurance",
+      "label": "National Insurance",
+      "base": "gross",
+      "bands": [
+        {
+          "over": 12570,
+          "upTo": 50270,
+          "rate": 0.08
+        },
+        {
+          "over": 50270,
+          "upTo": null,
+          "rate": 0.02
+        }
+      ]
+    },
+    {
+      "id": "plan1",
+      "label": "Student loan (Plan 1)",
+      "base": "gross",
+      "when": {
+        "option": "studentLoan",
+        "is": "plan1"
+      },
+      "bands": [
+        {
+          "over": 26900,
+          "upTo": null,
+          "rate": 0.09
+        }
+      ]
+    },
+    {
+      "id": "plan2",
+      "label": "Student loan (Plan 2)",
+      "base": "gross",
+      "when": {
+        "option": "studentLoan",
+        "is": "plan2"
+      },
+      "bands": [
+        {
+          "over": 29385,
+          "upTo": null,
+          "rate": 0.09
+        }
+      ]
+    },
+    {
+      "id": "plan4",
+      "label": "Student loan (Plan 4)",
+      "base": "gross",
+      "when": {
+        "option": "studentLoan",
+        "is": "plan4"
+      },
+      "bands": [
+        {
+          "over": 33795,
+          "upTo": null,
+          "rate": 0.09
+        }
+      ]
+    },
+    {
+      "id": "plan5",
+      "label": "Student loan (Plan 5)",
+      "base": "gross",
+      "when": {
+        "option": "studentLoan",
+        "is": "plan5"
+      },
+      "bands": [
+        {
+          "over": 25000,
+          "upTo": null,
+          "rate": 0.09
+        }
+      ]
+    },
+    {
+      "id": "postgraduateLoan",
+      "label": "Postgraduate Loan",
+      "base": "gross",
+      "when": {
+        "option": "postgraduateLoan",
+        "is": true
+      },
+      "bands": [
+        {
+          "over": 21000,
+          "upTo": null,
+          "rate": 0.06
+        }
+      ]
+    }
+  ]
+}

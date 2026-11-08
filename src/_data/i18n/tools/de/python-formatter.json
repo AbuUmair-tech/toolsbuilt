@@ -1,0 +1,194 @@
+{
+  "listing": {
+    "name": "Python-Formatierer",
+    "shortName": "Python-Formatierer",
+    "description": "Formatiere Python-Code online mit dem Ruff-Formatter im Black-kompatiblen Stil. Wähle Zeilenlänge, Einrückung und Anführungszeichen; läuft privat in deinem Browser.",
+    "shortDescription": "Formatiere Python-Code mit dem Ruff-Formatter (Black-kompatibel), privat in deinem Browser.",
+    "keywords": [
+      "python formatierer",
+      "python code online formatieren",
+      "python code beautifier",
+      "black formatter online",
+      "ruff formatter",
+      "pep 8 formatierer",
+      "python code schön formatieren"
+    ]
+  },
+  "title": "Python-Formatierer: Python-Code online formatieren",
+  "description": "Python-Formatierer: Formatiere Python-Code online mit dem Ruff-Formatter, kompatibel zu Black. Zeilenlänge, Einrückung, Anführungszeichen wählbar.",
+  "h1": "Python-Formatierer",
+  "quickAnswer": "Füge im Python-Formatierer deinen Code ein und drücke Formatieren. Der Ruff-Formatter schreibt ihn im Black-kompatiblen Stil neu: 4 Leerzeichen Einrückung, Leerzeichen um Operatoren, zwei Leerzeilen zwischen Funktionen und Klassen auf oberster Ebene, doppelte Anführungszeichen und Zeilenumbruch bei 88 Zeichen (oder 79 für strenges PEP 8). Er ändert nur das Layout, nicht das Verhalten, und meldet Syntaxfehler mit Zeilennummer, statt eine Korrektur zu raten.",
+  "workedExamples": [
+    {
+      "title": "Eine gedrängte Funktion",
+      "before": "def  calculate_total( items,tax_rate = 0.18 ) :\n  subtotal=sum( item['price']*item['qty'] for item in items )\n  return subtotal*( 1+tax_rate )",
+      "after": "def calculate_total(items, tax_rate=0.18):\n    subtotal = sum(item[\"price\"] * item[\"qty\"] for item in items)\n    return subtotal * (1 + tax_rate)",
+      "result": "Leerzeichen um = und * werden vereinheitlicht, das Standardargument verliert seine Leerzeichen, der Rumpf wird mit 4 Leerzeichen eingerückt und einfache werden zu doppelten Anführungszeichen."
+    },
+    {
+      "title": "Ein langes Dictionary",
+      "before": "config = {'host':'localhost','port':5432,'database':'inventory','user':'admin','options':{'sslmode':'require','connect_timeout':10}}",
+      "after": "config = {\n    \"host\": \"localhost\",\n    \"port\": 5432,\n    \"database\": \"inventory\",\n    \"user\": \"admin\",\n    \"options\": {\"sslmode\": \"require\", \"connect_timeout\": 10},\n}",
+      "result": "Die Zeile ist länger als 88 Zeichen, also kommt jeder Schlüssel mit abschließendem Komma in eine eigene Zeile. Das verschachtelte Dictionary passt noch in eine Zeile und bleibt dort."
+    },
+    {
+      "title": "Eine Klasse mit gedrängten Methoden",
+      "before": "class   Account :\n    def __init__(self,owner,balance=0):\n        self.owner=owner;self.balance=balance\n    def deposit(self,amount):\n        if amount<=0: raise ValueError('Deposit must be positive')\n        self.balance+=amount\n        return self.balance",
+      "after": "class Account:\n    def __init__(self, owner, balance=0):\n        self.owner = owner\n        self.balance = balance\n\n    def deposit(self, amount):\n        if amount <= 0:\n            raise ValueError(\"Deposit must be positive\")\n        self.balance += amount\n        return self.balance",
+      "result": "Die beiden durch ein Semikolon verbundenen Anweisungen werden auf getrennte Zeilen verteilt, der einzeilige if-Rumpf wird ausgeklappt und eine Leerzeile trennt die Methoden."
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Tabs und Leerzeichen mischen",
+      "description": "Python behandelt Tab und Leerzeichen als unterschiedliche Einrückung, ein gemischter Block löst also IndentationError oder TabError aus. Der Formatierer kann solchen Code nicht parsen und meldet \"Unexpected indentation\" mit Zeilennummer. Rücke den Block nur mit Leerzeichen neu ein und formatiere erneut."
+    },
+    {
+      "title": "Erwarten, dass der Formatierer Syntaxfehler behebt",
+      "description": "Ein fehlender Doppelpunkt, eine fehlende Klammer oder ein fehlendes Anführungszeichen macht die Datei unparsebar. Der Formatierer ordnet nur gültigen Code neu an, behebe also zuerst den Fehler in der gemeldeten Zeile. Die gemeldete Zeile kann direkt nach dem eigentlichen Fehler liegen, etwa die Zeile nach einer nicht geschlossenen Klammer."
+    },
+    {
+      "title": "Erwarten, dass Importe sortiert oder aufgeteilt werden",
+      "description": "Formatieren lässt import os, sys so, wie es geschrieben ist. Einen Import pro Zeile und das Sortieren von Importen übernehmen Linter wie die Lint-Regeln von Ruff oder isort, nicht der Formatierer."
+    },
+    {
+      "title": "Sich nicht auf eine Zeilenlänge einigen",
+      "description": "Formatiert eine Person mit 79 Spalten und eine andere mit 88, ändert sich jede Datei hin und her. Lege einen Wert für das Projekt fest und halte ihn in einer gemeinsamen Konfiguration fest, etwa line-length in pyproject.toml."
+    },
+    {
+      "title": "Ein ungewolltes abschließendes Komma stehen lassen",
+      "description": "Ein Komma nach dem letzten Element sagt dem Formatierer, einen Aufruf oder eine Sammlung mit einem Element pro Zeile ausgeklappt zu lassen, auch wenn sie in eine Zeile passen würde. Entferne das Komma, wenn sie eingeklappt werden soll."
+    }
+  ],
+  "sources": [
+    {
+      "name": "PEP 8: Style Guide for Python Code"
+    },
+    {
+      "name": "Der Ruff-Formatter (Dokumentation von Astral)"
+    }
+  ],
+  "howto": {
+    "name": "So formatierst du Python-Code online",
+    "description": "Python-Code mit dem Ruff-Formatter im Black-kompatiblen Stil in deinem Browser formatieren.",
+    "steps": [
+      {
+        "name": "Code einfügen",
+        "text": "Füge einen Python-Ausschnitt oder eine ganze Datei in das Eingabefeld ein oder lade das Beispiel."
+      },
+      {
+        "name": "Optionen wählen",
+        "text": "Wähle Zeilenlänge (standardmäßig 88), Einrückungsbreite und Stil der Anführungszeichen."
+      },
+      {
+        "name": "Formatieren",
+        "text": "Drücke Formatieren oder Strg+Enter. Behebe Syntaxfehler in der gemeldeten Zeile und formatiere erneut."
+      },
+      {
+        "name": "Ergebnis kopieren",
+        "text": "Kopiere den formatierten Code aus dem Ausgabefeld."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Wie formatiere ich Python-Code online?",
+      "a": "Füge deinen Code in das Feld ein, wähle Zeilenlänge, Einrückung und Anführungszeichen und drücke Formatieren oder Strg+Enter. Der formatierte Code erscheint darunter, bereit zum Kopieren. Der Formatierer läuft in deinem Browser, dein Code wird nicht hochgeladen."
+    },
+    {
+      "q": "Ist das dasselbe wie Black?",
+      "a": "Er nutzt den Ruff-Formatter, der als direkter Ersatz für Black entwickelt wurde und bei mit Black formatiertem Code eine nahezu identische Ausgabe liefert. Anders als bei Black kannst du bei Ruff den Stil der Anführungszeichen wählen."
+    },
+    {
+      "q": "Welche Zeilenlänge empfiehlt PEP 8?",
+      "a": "PEP 8 empfiehlt höchstens 79 Zeichen für Code und 72 für Kommentare und Docstrings und erlaubt Teams, sich auf bis zu 99 zu einigen. Black und Ruff nutzen standardmäßig 88, deshalb ist 88 hier voreingestellt."
+    },
+    {
+      "q": "Warum meldet der Formatierer \"Unexpected indentation\"?",
+      "a": "Eine Zeile ist weiter eingerückt als der Block, zu dem sie gehört, oft weil Tabs und Leerzeichen gemischt sind oder eine Zeile mit zusätzlicher Einrückung eingefügt wurde. Korrigiere die Einrückung in der gemeldeten Zeile, sodass jeder Block dieselbe Zahl an Leerzeichen nutzt."
+    },
+    {
+      "q": "Macht der Formatierer aus einfachen doppelte Anführungszeichen?",
+      "a": "Ja, standardmäßig, passend zu Black. Wähle Einfach, um einfache Anführungszeichen zu bevorzugen, oder Beibehalten, um die vorhandenen Anführungszeichen jedes Strings zu behalten. Getauscht wird nur, wenn dafür kein zusätzliches Escaping nötig ist."
+    },
+    {
+      "q": "Ändert das Formatieren, wie mein Code läuft?",
+      "a": "Nein. Der Formatierer ändert nur Leerraum, Zeilenumbrüche, Anführungszeichen und Klammern, die die Bedeutung nicht beeinflussen. Lässt sich der Code nicht parsen, bricht er mit einem Fehler ab, statt etwas zu ändern."
+    },
+    {
+      "q": "Was ist der Unterschied zwischen Formatierer und Linter?",
+      "a": "Ein Formatierer schreibt das Layout automatisch um. Ein Linter meldet Probleme wie ungenutzte Importe, undefinierte Namen oder riskante Muster, von denen sich nur manche automatisch beheben lassen. Die meisten Projekte nutzen beides."
+    },
+    {
+      "q": "Wird mein Code auf einen Server hochgeladen?",
+      "a": "Nein. Der Ruff-Formatter ist zu WebAssembly kompiliert und kommt von dieser Website; er wird beim ersten Formatieren geladen und läuft dann in deinem Browser."
+    }
+  ],
+  "body": {
+    "label": {
+      "opt-line-length": "Zeilenlänge",
+      "opt-indent": "Einrückung",
+      "opt-quotes": "Anführungszeichen"
+    },
+    "option": {
+      "opt-line-length": {
+        "79": "79 (PEP 8)",
+        "88": "88 (Standard bei Black / Ruff)"
+      },
+      "opt-indent": {
+        "2": "2 Leerzeichen",
+        "4": "4 Leerzeichen"
+      },
+      "opt-quotes": {
+        "double": "Doppelt",
+        "single": "Einfach",
+        "preserve": "Beibehalten"
+      }
+    },
+    "text": {
+      "pep8-heading": "PEP-8-Grundlagen",
+      "ruff-style-heading": "Wie sich der Stil von Ruff und Black von reinem PEP 8 unterscheidet",
+      "cannot-fix-heading": "Fehler, die der Formatierer nicht beheben kann",
+      "privacy-heading": "Datenschutz durch Technik"
+    },
+    "content": {
+      "pep-8-basics": {
+        "p1": "PEP 8 ist der offizielle Styleguide von Python. Ein Formatierer übernimmt die mechanischen Teile davon für dich, sodass du dich im Review darauf konzentrieren kannst, was der Code tut, statt wie er aussieht. Die am häufigsten durchgesetzten Regeln sind:",
+        "li1": "<strong>Vier Leerzeichen pro Einrückungsebene.</strong> Leerzeichen, keine Tabs, und nie beides gemischt in einem Block.",
+        "li2": "<strong>Begrenzte Zeilenlänge.</strong> PEP 8 empfiehlt 79 Zeichen für Code und 72 für Kommentare und Docstrings, damit zwei Dateien nebeneinander passen und Diffs lesbar bleiben.",
+        "li3": "<strong>Leerzeilen mit Bedeutung.</strong> Zwei Leerzeilen um Funktionen und Klassen auf oberster Ebene, eine Leerzeile zwischen Methoden innerhalb einer Klasse.",
+        "li4": "<strong>Leerzeichen um Operatoren.</strong> Je ein Leerzeichen um Zuweisungs- und Vergleichsoperatoren (<code>x = y + 1</code>, <code>if total &gt;= limit</code>), aber keine Leerzeichen um <code>=</code> bei Schlüsselwortargumenten und Standardwerten (<code>def f(rate=0.18)</code>).",
+        "li5": "<strong>Keine zusätzlichen Leerzeichen in Klammern</strong> und eine Anweisung pro Zeile, aus <code>a = 1; b = 2</code> werden also zwei Zeilen.",
+        "p2": "Namenskonventionen wie <code>snake_case</code> für Funktionen und Variablen und <code>CapWords</code> für Klassen gehören ebenfalls zu PEP 8, aber ein Formatierer benennt nie etwas um. Das ist Aufgabe eines Linters und des Code-Reviews."
+      },
+      "how-ruff-and-black-style-differs": {
+        "p1": "PEP 8 lässt viele Entscheidungen offen, und zwei Personen, die sich daran halten, können denselben Code trotzdem unterschiedlich gestalten. Black und der Ruff-Formatter, der dessen Stil übernimmt, nehmen diese Entscheidungen ab, sodass jede Datei eines Projekts gleich aussieht:",
+        "li1": "<strong>88 statt 79 Spalten.</strong> Black hat 88 gewählt, weil das merklich kürzere Dateien ergibt als 79 und trotzdem bequem auf den Bildschirm passt. Wähle hier 79, wenn dein Projekt das Limit von PEP 8 streng einhält.",
+        "li2": "<strong>Standardmäßig doppelte Anführungszeichen.</strong> PEP 8 erlaubt beide Stile, solange du einheitlich bleibst; Black legt sich auf doppelte fest. Ruff bietet zusätzlich die Option, einfache zu bevorzugen oder vorhandene beizubehalten.",
+        "li3": "<strong>Vorhersagbare Umbrüche.</strong> Ist ein Aufruf, eine Liste oder ein Dictionary zu lang, wird es mit einem Element pro Zeile und abschließendem Komma umbrochen, sodass ein später hinzugefügtes Element im Diff nur eine Zeile ändert.",
+        "li4": "<strong>Das magische abschließende Komma.</strong> Lässt du nach dem letzten Element ein Komma stehen, hält der Formatierer den Ausdruck ausgeklappt, auch wenn er in eine Zeile passen würde.",
+        "p2": "Weil die Ausgabe gleich ist, egal wer formatiert, formatieren Teams meist beim Speichern oder in einem Pre-Commit-Hook und diskutieren im Review nicht mehr über Layout."
+      },
+      "errors-the-formatter-cannot-fix": {
+        "p1": "Der Formatierer parst deinen Code zuerst in einen Syntaxbaum und gibt ihn erst dann in einheitlichem Stil wieder aus. Scheitert das Parsen, gibt es nichts zu formatieren; er meldet dann einen Fehler mit Zeile und Spalte, statt zu raten, was du gemeint hast:",
+        "li1": "<strong>IndentationError und TabError.</strong> Gemischte Tabs und Leerzeichen oder eine Zeile, die weiter eingerückt ist als ihr Block, machen die Struktur mehrdeutig. Der Formatierer meldet \"Unexpected indentation\" bei der ersten solchen Zeile.",
+        "li2": "<strong>Syntaxfehler.</strong> Ein fehlender Doppelpunkt nach <code>def</code> oder <code>if</code>, eine nicht geschlossene Klammer oder ein nicht beendeter String stoppt das Parsen. Eine nicht geschlossene Klammer wird oft in der nächsten Zeile gemeldet, weil Python erst dort merkt, dass der Ausdruck nicht beendet wurde.",
+        "li3": "<strong>Probleme, die ein Linter findet.</strong> Ungenutzte Importe, undefinierte Namen oder eine überdeckte Variable sind gültige Syntax, der Formatierer lässt sie also in Ruhe.",
+        "p2": "Meldet der Formatierer einen Fehler, springt der Cursor an diese Stelle im Eingabefeld, damit du ihn beheben und erneut formatieren kannst."
+      },
+      "private-by-design": {
+        "p1": "Diese Seite führt den zu WebAssembly kompilierten Ruff-Formatter aus. Die Engine kommt von dieser Website und wird erst geladen, wenn du auf dieser Seite zum ersten Mal Code formatierst; danach läuft sie komplett in deinem Browser, sodass proprietärer oder unveröffentlichter Code nie dein Gerät verlässt. Für andere Sprachen gibt es den <a href=\"/tools/java-formatter/\">Java-Formatierer</a> oder für Datendateien den <a href=\"/tools/json-formatter/\">JSON-Formatierer</a>."
+      }
+    },
+    "value": {
+      "engine": "Ruff-Formatter ({{name}} {{version}})"
+    }
+  },
+  "client": {
+    "errors": {
+      "empty": "Füge Python-Code zum Formatieren ein.",
+      "at": "Zeile {{line}}, Spalte {{column}}: {{reason}}",
+      "unsupportedOption": "Nicht unterstützt: {{key}} = {{value}}. Wähle eines von {{choices}}."
+    }
+  }
+}

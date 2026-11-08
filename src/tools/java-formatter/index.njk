@@ -1,0 +1,60 @@
+---
+layout: layouts/tool.njk
+toolSlug: java-formatter
+permalink: /tools/java-formatter/
+lastReviewed: "2026-10-31"
+---
+{% from "partials/code-formatter.njk" import codeFormatter with context %}
+
+    {% call codeFormatter({ language: "Java", importMap: vendor.importMaps.java, grammarUrl: vendor.packages.prettierJava.base + "tree-sitter-java_orchard.wasm", engine: 'value.engine' | pt({ prettier: vendor.packages.prettier.version, plugin: vendor.packages.prettierJava.version }), sample: "import java.util.List;import java.util.stream.Collectors;\npublic class  OrderTotal{private final List<Integer> prices;public OrderTotal(List<Integer> prices){this.prices=prices;}public int total(){int sum=0;for(int p:prices){sum+=p;}return sum;}}\nclass Adults{List<String> names(List<Person> people){return people.stream().filter(p->p.getAge()>=18).map(p->p.getName().toUpperCase()).sorted().collect(Collectors.toList());}}\n" }) %}
+      <div class="form-group">
+        <label for="opt-indent">{{ 'label.opt-indent' | pt }}</label>
+        <select id="opt-indent" class="form-control" data-option="indentWidth">
+          <option value="4" selected>{{ 'option.opt-indent.4' | pt }}</option>
+          <option value="2">{{ 'option.opt-indent.2' | pt }}</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="opt-print-width">{{ 'label.opt-print-width' | pt }}</label>
+        <select id="opt-print-width" class="form-control" data-option="printWidth">
+          <option value="80" selected>80</option>
+          <option value="100">{{ 'option.opt-print-width.100' | pt }}</option>
+          <option value="120">120</option>
+        </select>
+      </div>
+    {% endcall %}
+
+    <!-- tool-end -->
+
+    <section class="content-section" aria-labelledby="conventions-heading">
+      <h2 id="conventions-heading">{{ 'text.conventions-heading' | pt }}</h2>
+      <p>{{ 'content.java-formatting-conventions.p1' | pt }}</p>
+      <ul class="content-list">
+        <li>{{ 'content.java-formatting-conventions.li1' | pt }}</li>
+        <li>{{ 'content.java-formatting-conventions.li2' | pt }}</li>
+        <li>{{ 'content.java-formatting-conventions.li3' | pt }}</li>
+        <li>{{ 'content.java-formatting-conventions.li4' | pt }}</li>
+      </ul>
+      <p>{{ 'content.java-formatting-conventions.p2' | pt }}</p>
+    </section>
+
+    <section class="content-section" aria-labelledby="naming-heading">
+      <h2 id="naming-heading">{{ 'text.naming-heading' | pt }}</h2>
+      <p>{{ 'content.naming-conventions-and-imports.p1' | pt }}</p>
+      <p>{{ 'content.naming-conventions-and-imports.p2' | pt }}</p>
+    </section>
+
+    <section class="content-section" aria-labelledby="java-errors-heading">
+      <h2 id="java-errors-heading">{{ 'text.java-errors-heading' | pt }}</h2>
+      <p>{{ 'content.when-the-code-will-not-format.p1' | pt }}</p>
+      <ul class="content-list">
+        <li>{{ 'content.when-the-code-will-not-format.li1' | pt }}</li>
+        <li>{{ 'content.when-the-code-will-not-format.li2' | pt }}</li>
+        <li>{{ 'content.when-the-code-will-not-format.li3' | pt }}</li>
+      </ul>
+    </section>
+
+    <section class="content-section" aria-labelledby="java-privacy-heading">
+      <h2 id="java-privacy-heading">{{ 'text.java-privacy-heading' | pt }}</h2>
+      <p>{{ 'content.private-by-design.p1' | pt }}</p>
+    </section>

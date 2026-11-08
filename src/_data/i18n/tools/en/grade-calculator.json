@@ -1,0 +1,271 @@
+{
+  "listing": {
+    "name": "Grade Calculator",
+    "shortName": "Grade Calculator",
+    "description": "Calculate current weighted class grades and find the exact score needed on your final exam to achieve your target grade.",
+    "shortDescription": "Calculate current weighted class grades and find the exact score needed on your final exam to achieve your target grade.",
+    "keywords": [
+      "grade calculator",
+      "weighted grade calculator",
+      "final grade calculator",
+      "class grade calculator",
+      "calculate final exam score"
+    ]
+  },
+  "title": "Grade Calculator - Weighted Grades & Final Exam Target",
+  "description": "Calculate current weighted course grades across assignments and determine the exact score needed on your final exam to hit your target grade.",
+  "h1": "Grade Calculator",
+  "quickAnswer": "To calculate your weighted grade, multiply each assignment score by its syllabus weight percentage, sum the weighted scores, and divide by the total weight completed: Weighted Grade = Σ(Score × Weight) ÷ Σ(Weight). To find the score needed on a final exam, use: Required Final = (Target Grade − Current Grade Points) ÷ Final Weight. All calculations run client-side.",
+  "formula": {
+    "title": "Weighted Grade Formula",
+    "expression": "Weighted Grade = Σ(Score × Weight) ÷ Σ(Weight)",
+    "explanation": "Multiply each score by its syllabus percentage weight, sum the points, and divide by the total completed weight. To find the grade needed on the final exam: Required Final = [Target Grade × 100 − Current Weighted Points] ÷ Final Weight."
+  },
+  "workedExamples": [
+    {
+      "title": "Standard Weighted Course Average",
+      "inputs": [
+        "Homework (20% weight): 95%",
+        "Midterm 1 (25% weight): 84%",
+        "Midterm 2 (25% weight): 88%"
+      ],
+      "steps": [
+        "Homework points: 95 × 0.20 = 19.0",
+        "Midterm 1 points: 84 × 0.25 = 21.0",
+        "Midterm 2 points: 88 × 0.25 = 22.0",
+        "Current points: 19.0 + 21.0 + 22.0 = 62.0 out of 70% completed",
+        "Current normalized grade: 62.0 ÷ 0.70 = 88.57% (B+)"
+      ],
+      "result": "88.57% Current Weighted Grade (B+)"
+    },
+    {
+      "title": "Calculate Needed Score on Final Exam for an 'A'",
+      "inputs": [
+        "Target Course Grade: 90.0% (A)",
+        "Current Weighted Points: 62.0 points earned out of 70% completed",
+        "Final Exam Weight: 30%"
+      ],
+      "steps": [
+        "Target points needed: 90.0 total points",
+        "Remaining points required from final: 90.0 − 62.0 = 28.0 points",
+        "Required score on final: 28.0 ÷ 0.30 = 93.33%"
+      ],
+      "result": "93.33% needed on final exam to secure an A"
+    },
+    {
+      "title": "Guaranteed Passing Grade (0% Needed)",
+      "inputs": [
+        "Target Course Grade: 70.0% (C)",
+        "Current Weighted Points: 72.5 points earned out of 80% completed",
+        "Final Exam Weight: 20%"
+      ],
+      "steps": [
+        "Points needed: 70.0 − 72.5 = −2.5 points",
+        "Because current points exceed target, required final score is ≤ 0%"
+      ],
+      "result": "0.0% needed (Passing grade already locked in)"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Simple Averaging Instead of Weighting",
+      "description": "Taking a simple mathematical average of test scores ignores that a 20-minute quiz and a comprehensive midterm exam carry vastly different weight percentages in your syllabus."
+    },
+    {
+      "title": "Failing to Normalize Incomplete Semesters",
+      "description": "If only 50% of coursework is completed, having 42 total accumulated points does not mean you have a 42% (F). You must divide by 0.50, revealing an 84% (B)."
+    },
+    {
+      "title": "Assuming 100% Weight Sum Before Finals",
+      "description": "Your completed assignments will rarely sum to 100% until the final exam is graded. Always account for remaining final exam weight when calculating current standing."
+    }
+  ],
+  "sources": [
+    {
+      "label": "AACRAO: Grading Practices and Academic Record Standards",
+      "url": "https://www.aacrao.org"
+    },
+    {
+      "label": "Carnegie Mellon Eberly Center: Grading and Assessment Strategies",
+      "url": "https://www.cmu.edu/teaching/assessment"
+    },
+    {
+      "label": "Indiana University Bloomington: Weighted Grading Calculations",
+      "url": "https://teaching.iu.edu"
+    }
+  ],
+  "howto": {
+    "name": "How to Calculate Weighted Course Grades and Final Exam Targets",
+    "description": "Step-by-step instructions to calculate weighted class averages and required final test scores.",
+    "steps": [
+      {
+        "name": "Enter Completed Coursework",
+        "text": "Input each assignment category name, your earned percentage grade, and its syllabus weight percentage."
+      },
+      {
+        "name": "Set Target Course Grade",
+        "text": "Enter your desired final overall grade (e.g. 90% for an A) and final exam weight percentage."
+      },
+      {
+        "name": "Inspect Required Final Score",
+        "text": "Instantly view your current weighted average, letter grade, and the required final exam score."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "How is a weighted grade calculated?",
+      "a": "To calculate a weighted grade, multiply each assignment score by its percentage weight, add all the resulting points together, and divide by the total completed weight percentage. Mathematically: Weighted Grade = Σ(Score × Weight) ÷ Σ(Weight)."
+    },
+    {
+      "q": "How do you calculate what score you need on the final exam?",
+      "a": "Subtract your current weighted points contribution from your total required points, then divide by the final exam's weight percentage: Required Score = (Target Points - Current Points) ÷ Final Weight. For example, if you need 30 points and the final is worth 30% of the class, you need 30 ÷ 0.30 = 100% on the final."
+    },
+    {
+      "q": "What happens if total assignment weights do not add up to 100%?",
+      "a": "Our calculator automatically divides your accumulated points by the sum of completed weights. This normalizes your score to accurately represent your true current standing at any point in the semester."
+    },
+    {
+      "q": "What should I do if my syllabus uses total points instead of percentages?",
+      "a": "If your syllabus uses points (e.g. Homework 200 pts, Midterm 300 pts, Final 500 pts out of 1000), divide each category's points by the total course points to find the percentage weight: 200 ÷ 1000 = 20% weight."
+    },
+    {
+      "q": "What does it mean if the calculator says I need over 100% on the final?",
+      "a": "If the required score exceeds 100%, it means mathematical perfection on the final exam alone will fall short of your target grade. You would need extra credit points or a curved grading scale to reach that target."
+    },
+    {
+      "q": "What does it mean if the calculator says I need 0% or negative on the final?",
+      "a": "This means you have already accumulated enough weighted points throughout the term that you are mathematically guaranteed to achieve your target grade, even with a zero on the final test."
+    },
+    {
+      "q": "Does this grade calculator save my private coursework grades?",
+      "a": "No. All grade arithmetic runs purely client-side in your local browser window. No assignment names, test scores, or personal academic records are transmitted or saved."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Grade Calculator Form",
+      "tool-table1": "Weighted Coursework Table",
+      "tool-button1": "Remove Homework assignment row",
+      "tool-button3": "Remove Midterm Exam row",
+      "tool-button5": "Remove Class Project row",
+      "tool-button7": "Remove Quizzes row",
+      "copy-result-btn": "Copy result to clipboard"
+    },
+    "content": {
+      "tool": {
+        "th1": "Assignment / Category",
+        "th2": "Grade (%)",
+        "th3": "Weight (%)",
+        "th4": "Action"
+      },
+      "final-exam-target-setting": {
+        "heading": "Final Exam Target Setting",
+        "button1": "Calculate Grade"
+      },
+      "how-when-to-use-the-grade": {
+        "li1": "<strong>Midterm Status Checks:</strong> Audit your true course percentage halfway through the term when only homework and quizzes have been graded.",
+        "li2": "<strong>Finals Week Strategy:</strong> Determine exactly what percentage score you need on the final exam to maintain an A or prevent dropping below a passing threshold.",
+        "li3": "<strong>Syllabus Weight Planning:</strong> Plan study schedules by identifying which high-weight assignments (like 30% group projects or 25% exams) carry the greatest impact.",
+        "li4": "<strong>Cumulative College GPAs:</strong> Tracking overall degree performance across terms? Pair this tool with our <a href=\"/tools/gpa-calculator/\">GPA Calculator</a>."
+      }
+    },
+    "title": {
+      "tool-button2": "Remove assignment row",
+      "tool-button4": "Remove assignment row",
+      "tool-button6": "Remove assignment row",
+      "tool-button8": "Remove assignment row",
+      "copy-result-btn": "Copy result to clipboard"
+    },
+    "text": {
+      "add-assignment-btn": "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><line x1=\"12\" y1=\"5\" x2=\"12\" y2=\"19\"></line><line x1=\"5\" y1=\"12\" x2=\"19\" y2=\"12\"></line></svg>\n          Add Assignment Row",
+      "reset-grade-form": "Reset All",
+      "result-header-text": "Current Grade &amp; Final Target",
+      "copy-result-btn": "<svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"9\" y=\"9\" width=\"13\" height=\"13\" rx=\"2\" ry=\"2\"></rect><path d=\"M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1\"></path></svg>\n            <span>Copy</span>",
+      "result-primary-text": "88.14% (B+)",
+      "how-to-use-heading": "How &amp; When to Use the Grade Calculator"
+    },
+    "label": {
+      "target-grade-val": "Desired Overall Course Grade (%) <span class=\"text-accent\">*</span>",
+      "final-weight-val": "Final Exam Weight (%) <span class=\"text-accent\">*</span>"
+    },
+    "placeholder": {
+      "target-grade-val": "e.g. 90",
+      "final-weight-val": "e.g. 30"
+    },
+    "assignments": {
+      "nameLabel": "Assignment Name",
+      "scoreLabel": "Grade Percentage",
+      "weightLabel": "Weight Percentage",
+      "homework": {
+        "name": "Homework",
+        "placeholder": "e.g. Homework"
+      },
+      "midterm": {
+        "name": "Midterm Exam",
+        "placeholder": "e.g. Midterm Exam"
+      },
+      "project": {
+        "name": "Class Project",
+        "placeholder": "e.g. Class Project"
+      },
+      "quizzes": {
+        "name": "Quizzes",
+        "placeholder": "e.g. Quizzes"
+      }
+    }
+  },
+  "client": {
+    "grade": {
+      "na": "N/A"
+    },
+    "assignmentName": "Assignment {{n}}",
+    "itemName": "Item {{n}}",
+    "errors": {
+      "noAssignments": "Please provide at least one assignment.",
+      "negativeWeight": "Assignment weight cannot be negative.",
+      "noValidGrades": "No valid numeric grades entered.",
+      "zeroWeight": "Total completed weight cannot be 0%.",
+      "invalidTarget": "Please enter valid numbers for target, current grade, and weights.",
+      "finalWeight": "Final exam weight must be greater than 0%.",
+      "keepOneRow": "You must keep at least one assignment row."
+    },
+    "final": {
+      "achievable": "You need a score of {{needed}}% on the final exam to secure a {{target}}% in this course.",
+      "alreadyAchieved": "You have already secured a {{target}}% course grade even with a 0% on the final exam!",
+      "extraCredit": "You need a {{needed}}% on the final exam. This target requires extra credit beyond 100%."
+    },
+    "copy": {
+      "text": "Current Grade: {{current}}% ({{letter}}) across {{weight}}% completed course weight. Target Grade: {{target}}%. Needed on Final ({{finalWeight}}% weight): {{needed}}%.",
+      "copied": "<span>Copied!</span>"
+    },
+    "result": {
+      "header": "Current Grade & Final Target",
+      "grade": "{{grade}}% ({{letter}})"
+    },
+    "stats": {
+      "currentGrade": "Current Grade",
+      "weightCompleted": "Weight Completed",
+      "targetGrade": "Target Overall Grade",
+      "neededOnFinal": "Score Needed on Final"
+    },
+    "formula": {
+      "guidance": "<strong>Final Exam Guidance:</strong>",
+      "formula": "Formula: Required Final = [Target × (Completed W + Final W) - Current Points] ÷ Final W",
+      "calculation": "Calculation: [{{target}} × {{weight}}% - {{points}}] ÷ {{finalWeight}}% = <strong>{{needed}}%</strong>"
+    },
+    "rows": {
+      "placeholder": "e.g. Project 1",
+      "nameLabel": "Assignment Name",
+      "scoreLabel": "Grade Percentage",
+      "weightLabel": "Weight Percentage",
+      "remove": "Remove assignment row"
+    },
+    "defaults": {
+      "homework": "Homework",
+      "midterm": "Midterm Exam",
+      "project": "Class Project",
+      "quizzes": "Quizzes"
+    }
+  }
+}

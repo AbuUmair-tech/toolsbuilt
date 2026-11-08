@@ -1,0 +1,274 @@
+/* salary-tax-calculator: layout only. Colours, borders and type live in assets/css/tools.css. */
+
+.formula-box {
+  margin-top: var(--space-6);
+}
+
+.slab-table-block {
+  margin-top: var(--space-8);
+}
+
+.slab-table td:first-child {
+  white-space: nowrap;
+}
+
+.slab-you {
+  display: none;
+}
+
+.slab-table tr.is-current .slab-you {
+  display: inline;
+}
+
+.slab-table-note {
+  margin: var(--space-2) 0 0;
+}
+
+@media (max-width: 599px) {
+  .slab-table td:first-child {
+    white-space: normal;
+  }
+}
+
+.country-picker {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: var(--space-3);
+}
+
+.country-picker .form-group {
+  flex: 1 1 240px;
+  margin: 0;
+}
+
+.country-list {
+  list-style: none;
+  margin: var(--space-6) 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr));
+  gap: var(--space-3);
+}
+
+.country-list a {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  min-height: var(--touch-target-min);
+  padding: var(--space-4);
+}
+
+/* Unified calculator (partials/salary-tax-calculator.njk) */
+.stc-combo {
+  position: relative;
+}
+
+.stc-combo-list {
+  position: absolute;
+  inset-inline: 0;
+  top: calc(100% + var(--space-1));
+  z-index: var(--z-dropdown);
+  max-height: 320px;
+  overflow-y: auto;
+  margin: 0;
+  padding: var(--space-1) 0;
+  list-style: none;
+}
+
+.stc-combo-list [role="option"],
+.stc-opt-empty {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: var(--touch-target-min);
+  padding: var(--space-2) var(--space-3);
+}
+
+.stc-opt-name {
+  flex: 1 1 auto;
+}
+
+.stc-note:empty {
+  display: none;
+}
+
+.stc-note {
+  margin: 0 0 var(--space-4);
+}
+
+.stc-note[data-mode="custom"],
+.stc-note[data-mode="noTax"] {
+  padding: var(--space-3) var(--space-4);
+}
+
+.stc-note p {
+  margin: 0 0 var(--space-2);
+}
+
+.stc-note p:last-child {
+  margin-bottom: 0;
+}
+
+.stc-options:empty {
+  display: none;
+}
+
+.stc-custom {
+  margin-top: var(--space-4);
+  padding-top: var(--space-4);
+}
+
+.stc-fieldset {
+  min-width: 0;
+  padding: 0;
+  margin: var(--space-4) 0;
+}
+
+.stc-inline {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.stc-inline select {
+  flex: 1 1 200px;
+}
+
+.stc-edit-table {
+  width: 100%;
+}
+
+.stc-edit-table input {
+  width: 100%;
+  min-width: 4.5em;
+  padding-inline: var(--space-2);
+}
+
+/* Keeps the visually hidden header text inside the scrolling wrapper */
+.stc-edit-table th {
+  position: relative;
+}
+
+.stc-edit-table th,
+.stc-edit-table td {
+  padding-inline: var(--space-1);
+}
+
+.stc-edit-table td:last-child {
+  width: 1%;
+  white-space: nowrap;
+}
+
+.stc-levies {
+  display: grid;
+  gap: var(--space-2);
+  margin-bottom: var(--space-2);
+}
+
+.stc-levy {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(70px, 1fr) minmax(0, 2fr) auto;
+  gap: var(--space-2);
+  align-items: center;
+}
+
+.stc-compare:empty,
+.stc-taxable:empty,
+.stc-source:empty {
+  display: none;
+}
+
+.stc-chart {
+  margin: var(--space-6) 0 var(--space-4);
+}
+
+.stc-chart-title {
+  margin-bottom: var(--space-2);
+}
+
+.stc-chart-bar {
+  display: block;
+  width: 100%;
+  height: 28px;
+}
+
+.stc-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-4);
+  margin: var(--space-3) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.stc-legend li {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.stc-swatch {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+}
+
+.stc-breakdown,
+.stc-bands {
+  margin-top: var(--space-4);
+}
+
+.stc-breakdown caption,
+.stc-bands caption {
+  text-align: start;
+  padding-bottom: var(--space-2);
+}
+
+.stc-breakdown td,
+.stc-bands td:not(:first-child) {
+  text-align: end;
+  white-space: nowrap;
+}
+
+.stc-rate-tables .slab-table-block:first-child {
+  margin-top: 0;
+}
+
+@media (max-width: 599px) {
+  .stc-levy {
+    grid-template-columns: minmax(0, 1fr) minmax(70px, 0.6fr);
+  }
+}
+
+@media print {
+  .stc form,
+  .stc .stc-note,
+  .stc #copy-result-btn {
+    display: none;
+  }
+}
+
+/* Links between the hub and the country pages (partials/salary-tax-links.njk) */
+.stc-country-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-2) var(--space-3);
+  margin: var(--space-6) 0;
+}
+
+.stc-country-links ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.stc-country-links a {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--touch-target-min);
+}

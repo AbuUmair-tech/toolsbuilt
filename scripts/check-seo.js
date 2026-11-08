@@ -15,16 +15,33 @@
  *    - Description: 70..170 chars, unique
  *    - Canonical: absolute URL matching page URL
  *    - og:image: present, exists in _site/, <= 100 KB
- * 8. Generates docs/SEO_PAGE_REPORT.md
+ * 8. Writes docs/SEO_PAGE_REPORT.md when run with SAVE_SEO_REPORT=1, so a normal
+ *    check does not rewrite a tracked file
  */
 
 const fs = require('fs');
 const path = require('path');
+
+// Title / description limits in characters. English keeps its stricter minimums; translations
+// keep the same maximums (what search results show) with lower minimums, since many languages
+// say the same thing in fewer characters.
+const LANGUAGE_PREFIXES = require('./i18n.js').loadLanguages().filter(l => l.prefix).map(l => l.prefix);
+// Lengths count what readers see: &#39; is one character
+function decodeEntities(str) {
+  return String(str).replace(/&#(\d+);/g, (m, n) => String.fromCodePoint(Number(n))).replace(/&#x([0-9a-f]+);/gi, (m, n) => String.fromCodePoint(parseInt(n, 16)))
+    .replace(/&quot;/g, '"').replace(/&apos;/g, "'").replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
+}
+
+function seoLimits(url) {
+  const translated = LANGUAGE_PREFIXES.includes((url || '').split('/')[1]);
+  return translated ? { title: [15, 60], description: [70, 160] } : { title: [30, 60], description: [120, 160] };
+}
 const yaml = require('js-yaml');
 
 const ROOT = path.resolve(__dirname, '..');
 const SITE_DIR = path.join(ROOT, '_site');
 const REPORT_FILE = path.join(ROOT, 'docs', 'SEO_PAGE_REPORT.md');
+const SAVE_SEO_REPORT = process.env.SAVE_SEO_REPORT === '1';
 
 const BASE_URL = 'https://toolsbuilt.com';
 
@@ -218,7 +235,8 @@ function checkSeo() {
         cleanHref = cleanHref.slice(BASE_URL.length);
       }
 
-      const [pathPart, hashPart] = cleanHref.split('#');
+      // Query strings (e.g. shareable result links) do not change the target page
+      const [pathPart, hashPart] = cleanHref.replace(/\?[^#]*/, '').split('#');
 
       // Trailing slash check on internal page paths
       if (pathPart && pathPart.startsWith('/') && !path.extname(pathPart)) {
@@ -315,8 +333,10 @@ function checkSeo() {
     if (!data.title) {
       errors.push(`${url}: Missing <title>`);
     } else {
-      if (data.title.length < 30 || data.title.length > 60) {
-        errors.push(`${url}: <title> length ${data.title.length} is outside allowed range [30, 60] ("${data.title}")`);
+      const limits = seoLimits(url);
+      const titleLen = [...decodeEntities(data.title)].length;
+      if (titleLen < limits.title[0] || titleLen > limits.title[1]) {
+        errors.push(`${url}: <title> length ${titleLen} is outside allowed range [${limits.title.join(', ')}] ("${data.title}")`);
       }
       if (titles.has(data.title)) {
         errors.push(`${url}: Duplicate <title> shared with ${titles.get(data.title)} ("${data.title}")`);
@@ -329,8 +349,10 @@ function checkSeo() {
     if (!data.description) {
       errors.push(`${url}: Missing meta description`);
     } else {
-      if (data.description.length < 120 || data.description.length > 160) {
-        errors.push(`${url}: Meta description length ${data.description.length} is outside allowed range [120, 160] ("${data.description.slice(0, 50)}...")`);
+      const limits = seoLimits(url);
+      const descLen = [...decodeEntities(data.description)].length;
+      if (descLen < limits.description[0] || descLen > limits.description[1]) {
+        errors.push(`${url}: Meta description length ${descLen} is outside allowed range [${limits.description.join(', ')}] ("${data.description.slice(0, 50)}...")`);
       }
       if (descriptions.has(data.description)) {
         errors.push(`${url}: Duplicate meta description shared with ${descriptions.get(data.description)}`);
@@ -436,8 +458,8 @@ function checkSeo() {
   }
   console.log('========================================================================================\n');
 
-  // Generate docs/SEO_PAGE_REPORT.md
-  generateReport(sortedPages, errors, warnings);
+  // Write docs/SEO_PAGE_REPORT.md only when asked: SAVE_SEO_REPORT=1 node scripts/check-seo.js
+  if (SAVE_SEO_REPORT) generateReport(sortedPages, errors, warnings);
 
   if (errors.length > 0) {
     console.error(`❌ SEO & Accessibility audit failed with ${errors.length} errors:`);
@@ -446,7 +468,7 @@ function checkSeo() {
   }
 
   console.log(`✅ Technical SEO & Accessibility audit PASSED (${sortedPages.length} pages audited, 0 errors).`);
-  console.log(`📄 Generated comprehensive report at: ${REPORT_FILE}`);
+  if (SAVE_SEO_REPORT) console.log(`📄 Generated comprehensive report at: ${REPORT_FILE}`);
 }
 
 function generateReport(pages, errors, warnings) {

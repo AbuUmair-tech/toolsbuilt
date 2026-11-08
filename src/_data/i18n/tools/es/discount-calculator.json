@@ -1,0 +1,223 @@
+{
+  "listing": {
+    "name": "Calculadora de descuentos",
+    "shortName": "Calculadora de descuentos",
+    "description": "Calcula el precio final con descuento, el ahorro total, descuentos dobles acumulados y el precio final con impuesto sobre las ventas.",
+    "shortDescription": "Calcula el precio final con descuento, el ahorro total, descuentos dobles acumulados y el precio final con impuesto sobre las ventas.",
+    "keywords": [
+      "calculadora de descuentos",
+      "calcular precio con descuento",
+      "calcular porcentaje de descuento",
+      "calculadora de ahorro",
+      "doble descuento con impuesto"
+    ]
+  },
+  "title": "Calculadora de descuentos: precio final y ahorro",
+  "description": "Calculadora de descuentos gratis: calcula al instante el precio final, el dinero ahorrado, descuentos dobles acumulados y el impuesto sobre las ventas.",
+  "h1": "Calculadora de descuentos",
+  "quickAnswer": "Con la calculadora de descuentos, introduce el precio original y el porcentaje de descuento para ver el precio final y el ahorro total. Puedes añadir un segundo cupón acumulado y el impuesto sobre las ventas local para ver lo que pagarás exactamente. Los cálculos redondean los céntimos hacia arriba desde la mitad, como las cajas registradoras y las normas de protección al consumidor.",
+  "formula": {
+    "title": "Fórmula de descuento e impuesto",
+    "expression": "Precio final = [(Precio original - (Precio original × Descuento1%)) - Descuento acumulado] × (1 + Impuesto%)",
+    "explanation": "Primero, aplica el descuento principal al precio original para obtener el ahorro inicial. Después, aplica el segundo cupón acumulado sobre el subtotal ya rebajado (se multiplica, no se suma). Por último, calcula el impuesto sobre las ventas del subtotal con descuento, redondeando los céntimos hacia arriba desde la mitad."
+  },
+  "workedExamples": [
+    {
+      "title": "Rebaja simple del 25%",
+      "inputs": [
+        "Precio original: $100.00",
+        "Descuento principal: 25%",
+        "Cupón acumulado: 0%",
+        "Impuesto sobre las ventas: 0%"
+      ],
+      "steps": [
+        "Calcular el ahorro: $100.00 × 0.25 = $25.00",
+        "Restar el descuento al precio original: $100.00 - $25.00 = $75.00"
+      ],
+      "result": "Precio final: $75.00 (ahorro total: $25.00 / 25.00%)"
+    },
+    {
+      "title": "Rebaja del 20% + cupón de tienda del 10% acumulados",
+      "inputs": [
+        "Precio original: $80.00",
+        "Descuento principal: 20%",
+        "Cupón acumulado: 10%",
+        "Impuesto sobre las ventas: 0%"
+      ],
+      "steps": [
+        "Aplicar el descuento principal del 20%: $80.00 - $16.00 = $64.00 de subtotal",
+        "Aplicar el cupón del 10% al subtotal rebajado: $64.00 × 0.10 = $6.40 de ahorro",
+        "Restar el segundo cupón: $64.00 - $6.40 = $57.60 de precio final",
+        "Calcular el ahorro total: $16.00 + $6.40 = $22.40 (descuento efectivo: 28.00%, no 30%)"
+      ],
+      "result": "Precio final: $57.60 (ahorro total: $22.40 / 28.00% de descuento efectivo)"
+    },
+    {
+      "title": "Descuento del 15% con un 8% de impuesto sobre las ventas",
+      "inputs": [
+        "Precio original: $50.00",
+        "Descuento principal: 15%",
+        "Cupón acumulado: 0%",
+        "Impuesto sobre las ventas: 8%"
+      ],
+      "steps": [
+        "Aplicar el descuento del 15%: $50.00 × 0.15 = $7.50 de ahorro",
+        "Subtotal neto con descuento: $50.00 - $7.50 = $42.50",
+        "Calcular el 8% de impuesto sobre el subtotal con descuento: $42.50 × 0.08 = $3.40",
+        "Sumar el impuesto al subtotal: $42.50 + $3.40 = $45.90"
+      ],
+      "result": "Precio final: $45.90 (ahorro neto: $7.50, impuesto añadido: $3.40)"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Sumar directamente los descuentos acumulados",
+      "description": "Un error habitual es sumar los porcentajes de descuento (p. ej., 20% de rebaja + cupón del 10% = 30%). El segundo cupón se aplica al subtotal ya rebajado, por lo que el ahorro total es del 28%."
+    },
+    {
+      "title": "Aplicar el impuesto antes de los descuentos",
+      "description": "En casi todas las jurisdicciones fiscales, el impuesto sobre las ventas se aplica sobre el precio neto pagado después de los cupones, no sobre el precio de etiqueta original."
+    },
+    {
+      "title": "Diferencias de redondeo en céntimos",
+      "description": "Los sistemas de las tiendas redondean al céntimo más cercano en cada paso. Redondear solo el total final puede dar pequeñas diferencias de 1 céntimo con el ticket de compra."
+    },
+    {
+      "title": "Confundir el porcentaje de descuento con el porcentaje del precio original",
+      "description": "Un descuento del 25% significa que pagas el 75% del precio original, no el 25% del precio original."
+    }
+  ],
+  "sources": [
+    {
+      "name": "Comisión Federal de Comercio (FTC): guías contra los precios engañosos"
+    },
+    {
+      "name": "NIST: normas matemáticas de precios al consumidor"
+    },
+    {
+      "name": "ISO 80000-2: signos y símbolos matemáticos"
+    }
+  ],
+  "howto": {
+    "name": "Cómo calcular el precio con descuento y el ahorro",
+    "description": "Instrucciones paso a paso para calcular descuentos, cupones acumulados e impuesto sobre las ventas.",
+    "steps": [
+      {
+        "name": "Elige la moneda y el precio original",
+        "text": "Elige el símbolo de tu moneda e introduce el precio de etiqueta original del artículo."
+      },
+      {
+        "name": "Introduce el descuento principal",
+        "text": "Escribe el porcentaje de descuento anunciado (p. ej., 20%)."
+      },
+      {
+        "name": "Añade cupones acumulados o impuestos (opcional)",
+        "text": "Si quieres, añade el descuento de un código promocional extra y el impuesto sobre las ventas local."
+      },
+      {
+        "name": "Revisa el coste final y el ahorro total",
+        "text": "Ve el precio final que pagarás, el dinero total ahorrado y el desglose paso a paso del cálculo."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "¿Cómo se calcula el precio final con descuento de un artículo?",
+      "a": "Multiplica el precio original por el porcentaje de descuento dividido entre 100 para obtener el ahorro y luego réstalo del precio original para obtener el precio final."
+    },
+    {
+      "q": "¿Por qué una rebaja del 20% más un cupón del 10% no da un 30% de descuento total?",
+      "a": "Porque los cupones acumulados se aplican al subtotal ya rebajado y no al precio original. Un artículo de $100 rebajado un 20% queda en $80; aplicar un 10% a $80 ahorra $8 y deja el precio final en $72 (un 28% de ahorro total, no un 30%)."
+    },
+    {
+      "q": "¿El impuesto sobre las ventas se calcula antes o después de los descuentos?",
+      "a": "En las compras en tiendas, el impuesto sobre las ventas se calcula sobre el subtotal neto con descuento, después de aplicar todas las promociones y cupones."
+    },
+    {
+      "q": "¿Puedo calcular descuentos dobles acumulados con esta herramienta?",
+      "a": "Sí. Introduce el porcentaje de la rebaja principal en el primer campo y el porcentaje del segundo cupón en el campo opcional de descuento acumulado."
+    },
+    {
+      "q": "¿Se envía algún dato financiero a un servidor?",
+      "a": "No. Todos los cálculos de descuento se hacen localmente en tu navegador con JavaScript. Ningún precio ni dato financiero sale de tu dispositivo."
+    },
+    {
+      "q": "¿Esta calculadora admite monedas internacionales como libras y euros?",
+      "a": "Sí. Usa el selector de moneda para cambiar entre dólares ($), libras (£), euros (€), yenes (¥) y rupias (₹)."
+    },
+    {
+      "q": "¿Qué es el porcentaje de descuento efectivo?",
+      "a": "El porcentaje de descuento efectivo es el ahorro total dividido entre el precio original, expresado como un único porcentaje equivalente."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Formulario de la calculadora de descuentos",
+      "copy-result-btn": "Copiar el resultado al portapapeles"
+    },
+    "label": {
+      "original-price": "Precio original <span class=\"text-accent\">*</span>",
+      "discount-percent": "Descuento principal (%) <span class=\"text-accent\">*</span>",
+      "stacked-discount-percent": "2.º descuento acumulado (%) <span class=\"label-hint\">(opcional)</span>",
+      "tax-percent": "Impuesto sobre las ventas (%) <span class=\"label-hint\">(opcional)</span>"
+    },
+    "content": {
+      "tool": {
+        "button1": "Calcular ahorro",
+        "div1": "Coste final a pagar",
+        "div2": "Ahorro total",
+        "div3": "Subtotal (antes de impuestos)",
+        "div4": "Impuesto sobre las ventas añadido"
+      },
+      "how-when-to-use-the-discount": {
+        "heading": "Cómo y cuándo usar la calculadora de descuentos",
+        "li1": "<strong>Compras en tienda y liquidaciones:</strong> averigua rápido cuánto cuesta en caja ese artículo con la etiqueta \"30% de descuento\".",
+        "li2": "<strong>Cupones acumulados al pagar en línea:</strong> comprueba qué pasa al combinar una rebaja general del 20% con un código promocional extra del 15%.",
+        "li3": "<strong>Venta al por mayor y márgenes:</strong> calcula descuentos por volumen de distribuidores y precios netos antes de emitir la factura.",
+        "li4": "<strong>Presupuesto con impuesto local:</strong> ve el total real a pagar, incluido el impuesto sobre las ventas estatal o regional, antes de pasar la tarjeta."
+      }
+    },
+    "text": {
+      "reset-btn": "Restablecer",
+      "result-header-text": "Resultado del cálculo de descuento",
+      "copy-result-btn": "<span data-icon=\"copy\"></span> Copiar resultado",
+      "result-primary-text": "Precio final: $0.00"
+    },
+    "title": {
+      "copy-result-btn": "Copiar el resultado al portapapeles"
+    }
+  },
+  "client": {
+    "errors": {
+      "originalPrice": "Introduce un precio original válido (debe ser 0 o mayor).",
+      "primaryDiscount": "Introduce un porcentaje de descuento principal válido (0-100%).",
+      "primaryOver100": "El descuento principal no puede superar el 100%.",
+      "stackedNegative": "El segundo descuento acumulado debe ser 0 o mayor.",
+      "stackedOver100": "El segundo descuento acumulado no puede superar el 100%.",
+      "taxNegative": "El porcentaje de impuesto debe ser 0 o mayor.",
+      "price": "Introduce un precio original válido.",
+      "discount": "Introduce un porcentaje de descuento válido.",
+      "negative": "El precio, el descuento y el impuesto no pueden ser negativos."
+    },
+    "breakdown": {
+      "originalPrice": "Precio original",
+      "primaryDiscount": "Descuento principal ({{pct}}%)",
+      "stackedCoupon": "Cupón acumulado ({{pct}}%)",
+      "salesTax": "Impuesto sobre las ventas ({{pct}}%)"
+    },
+    "result": {
+      "primary": "Precio final: {{final}}",
+      "totalSaved": "{{saved}} ({{pct}}% en total)",
+      "copy": "Precio final: {{final}}. Ahorro total: {{saved}} ({{pct}}% de descuento). Precio antes de impuestos: {{beforeTax}}. Impuesto sobre las ventas: {{tax}}.",
+      "copied": "Cálculo de descuento copiado al portapapeles"
+    },
+    "steps": {
+      "heading": "<strong>Desglose del cálculo:</strong><br>",
+      "original": "1. Precio original: <code>{{price}}</code><br>",
+      "primary": "2. Descuento principal ({{pct}}%): ahorro de <code>{{saved}}</code> → Subtotal: <code>{{subtotal}}</code><br>",
+      "stacked": "3. 2.º descuento acumulado ({{pct}}% sobre {{base}}): ahorro adicional de <code>{{saved}}</code> → Subtotal: <code>{{subtotal}}</code><br>",
+      "tax": "4. Impuesto sobre las ventas ({{pct}}%): se añaden <code>{{tax}}</code><br>",
+      "total": "5. Total a pagar: <strong>{{final}}</strong> (ahorro total: <strong>{{saved}}</strong>)"
+    }
+  }
+}

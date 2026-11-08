@@ -1,0 +1,226 @@
+{
+  "listing": {
+    "name": "Formateur HTML",
+    "shortName": "Formateur HTML",
+    "description": "Formatez et embellissez du HTML avec Prettier, y compris le CSS et le JavaScript intégrés, avec erreurs d'analyse par ligne et un mode de minification prudent.",
+    "shortDescription": "Embellissez ou minifiez du HTML avec une indentation propre et les lignes d'erreur.",
+    "keywords": [
+      "formateur html",
+      "embellisseur html",
+      "formater du html en ligne",
+      "indenter html",
+      "minifier html",
+      "indentation html",
+      "beautify html"
+    ]
+  },
+  "title": "Formateur HTML et embellisseur en ligne",
+  "description": "Formatez du HTML désordonné avec Prettier : indentation propre, CSS et JavaScript intégrés formatés, erreurs avec numéro de ligne et minification prudente.",
+  "h1": "Formateur HTML",
+  "quickAnswer": "Collez votre HTML et cliquez sur Formater. Ce formateur HTML s'appuie sur Prettier, qui place chaque élément de bloc sur sa propre ligne, indente les éléments imbriqués de 2 espaces (ou 4, ou des tabulations), formate le CSS des balises style et le JavaScript des balises script, et garde si possible sur la même ligne les éléments en ligne comme span et a. Si le balisage ne peut pas être analysé, par exemple à cause d'une balise fermante qui ne correspond pas, vous obtenez la ligne et la colonne de l'erreur.",
+  "formula": {
+    "title": "Comment le HTML est formaté",
+    "expression": "Analyser le HTML → arbre d'éléments → impression avec indentation et largeur de ligne, en conservant les espaces là où le navigateur les afficherait",
+    "explanation": "La page utilise l'imprimante HTML de Prettier, chargée depuis ce site lors du premier formatage. Elle analyse le balisage en arbre, puis imprime les éléments de bloc (div, p, ul, section …) sur leur propre ligne avec un niveau d'indentation par niveau d'imbrication, et coupe les lignes longues à la largeur choisie. Les éléments en ligne (span, a, strong, em …) sont sensibles aux espaces : un retour à la ligne entre eux apparaît comme un espace sur la page ; par défaut, Prettier n'ajoute donc des retours que là où la valeur CSS display indique que c'est sans risque. Le CSS dans <style> est formaté avec l'imprimante CSS de Prettier et le JavaScript dans <script> avec son imprimante JavaScript. Les éléments jamais fermés sont fermés par l'analyseur et signalés comme avertissements avec leur numéro de ligne.",
+    "variables": [
+      {
+        "name": "Indentation",
+        "description": "2 espaces (le choix le plus courant pour le HTML), 4 espaces ou tabulations."
+      },
+      {
+        "name": "Largeur d'impression",
+        "description": "La longueur de ligne visée par Prettier avant de renvoyer à la ligne les attributs ou le contenu."
+      },
+      {
+        "name": "Sensibilité aux espaces",
+        "description": "css respecte le display par défaut de chaque élément ; strict considère tous les espaces comme significatifs ; ignore n'en considère aucun comme significatif."
+      }
+    ]
+  },
+  "workedExamples": [
+    {
+      "title": "Éléments imbriqués sur une seule ligne",
+      "before": "<div><p>Hi<span>there</span></p></div>",
+      "after": "<div>\n  <p>Hi<span>there</span></p>\n</div>",
+      "steps": [
+        "div et p sont des blocs : chacun commence une nouvelle ligne et le p est indenté",
+        "span est en ligne et collé au texte : ajouter un retour à la ligne ajouterait un espace visible, il reste donc en place"
+      ]
+    },
+    {
+      "title": "CSS et JavaScript intégrés",
+      "before": "<style>body{margin:0;color:#222}</style><script>function hi(name){return 'Hi '+name}</script>",
+      "after": "<style>\n  body {\n    margin: 0;\n    color: #222;\n  }\n</style>\n<script>\n  function hi(name) {\n    return \"Hi \" + name;\n  }\n</script>",
+      "steps": [
+        "Le contenu des balises style et script est confié aux imprimantes CSS et JavaScript de Prettier"
+      ]
+    },
+    {
+      "title": "Une div dans un paragraphe",
+      "before": "<p>Intro\n<div>Block</div>\n</p>",
+      "steps": [
+        "Un p ne peut pas contenir de div : l'analyseur ferme le p au début de la div",
+        "Le </p> final n'a alors plus de p ouvert à fermer"
+      ],
+      "result": "Ligne 3, colonne 1 : Unexpected closing tag \"p\""
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Placer un élément de bloc dans un paragraphe",
+      "description": "<code>&lt;p&gt;</code> ne peut contenir que du contenu phrastique. Une <code>&lt;div&gt;</code>, une <code>&lt;ul&gt;</code> ou une <code>&lt;table&gt;</code> à l'intérieur termine le paragraphe prématurément : les styles et scripts visant le paragraphe manquent alors le reste de son contenu. Utilisez plutôt une <code>&lt;div&gt;</code> comme conteneur."
+    },
+    {
+      "title": "Laisser des éléments non fermés",
+      "description": "Les navigateurs réparent les balises de fin manquantes, mais pas toujours là où vous l'attendez, ce qui peut placer du contenu dans le mauvais élément. Seuls quelques éléments, comme <code>&lt;li&gt;</code>, <code>&lt;p&gt;</code> et <code>&lt;td&gt;</code>, ont une balise de fin facultative."
+    },
+    {
+      "title": "Ajouter des retours à la ligne entre éléments en ligne",
+      "description": "<code>&lt;a&gt;Home&lt;/a&gt;&lt;a&gt;About&lt;/a&gt;</code> et les mêmes liens sur deux lignes ne s'affichent pas pareil : le retour à la ligne devient un espace. C'est pourquoi le formateur garde parfois des éléments en ligne ensemble ou place le <code>&gt;</code> de façon inhabituelle au début de la ligne suivante."
+    },
+    {
+      "title": "Attendre de la minification qu'elle optimise tout",
+      "description": "La minification ne supprime ici que les commentaires et les espaces entre les balises. Elle ne raccourcit pas le CSS ou le JavaScript intégrés, ne retire pas les balises ou guillemets facultatifs et ne réécrit pas les attributs. Utilisez un outil de build pour la minification de production."
+    },
+    {
+      "title": "Formater des templates comme du HTML brut",
+      "description": "Une syntaxe de template comme <code>{{ }}</code>, <code>{% %}</code> ou le JSX n'est pas du HTML. Le formateur peut la déplacer ou la casser. Formatez les templates avec un outil qui comprend ce langage."
+    }
+  ],
+  "sources": [
+    {
+      "name": "WHATWG HTML Living Standard : balises facultatives"
+    },
+    {
+      "name": "WHATWG HTML Living Standard : l'élément p (modèle de contenu)"
+    },
+    {
+      "name": "MDN Web Docs : gestion des espaces en HTML, en CSS et dans le DOM"
+    },
+    {
+      "name": "MDN Web Docs : contenu de niveau en ligne"
+    },
+    {
+      "name": "Documentation Prettier : sensibilité aux espaces en HTML"
+    }
+  ],
+  "howto": {
+    "name": "Comment formater du HTML",
+    "description": "Nettoyez du HTML désordonné avec une indentation cohérente.",
+    "steps": [
+      {
+        "name": "Coller votre HTML",
+        "text": "Collez une page ou un fragment dans la zone de saisie, ou chargez l'exemple."
+      },
+      {
+        "name": "Choisir les options",
+        "text": "Choisissez Formater ou Minifier, l'indentation, la largeur d'impression et la sensibilité aux espaces."
+      },
+      {
+        "name": "Formater",
+        "text": "Cliquez sur Formater le code ou appuyez sur Ctrl+Entrée. Les erreurs indiquent la ligne et la colonne ; les avertissements listent les éléments jamais fermés."
+      },
+      {
+        "name": "Copier le résultat",
+        "text": "Copiez le HTML formaté depuis la zone de sortie."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Comment formater du HTML en ligne ?",
+      "a": "Collez le HTML dans le champ et cliquez sur Formater, ou appuyez sur Ctrl+Entrée. Choisissez d'abord l'indentation, la largeur d'impression et la sensibilité aux espaces si vous voulez un style particulier."
+    },
+    {
+      "q": "Pourquoi le formateur n'a-t-il pas mis chaque balise sur sa propre ligne ?",
+      "a": "Les éléments en ligne comme span, a et strong sont sensibles aux espaces : un retour à la ligne entre eux peut apparaître comme un espace visible. Avec la sensibilité css par défaut, Prettier ne coupe les lignes que là où cela ne peut pas modifier l'apparence de la page. Choisissez ignore si de légers changements d'espacement ne vous gênent pas."
+    },
+    {
+      "q": "Le CSS et le JavaScript intégrés au HTML sont-ils formatés ?",
+      "a": "Oui. Le contenu des balises style est formaté comme du CSS et celui des balises script comme du JavaScript. Si ce code contient une erreur de syntaxe, il est laissé tel quel."
+    },
+    {
+      "q": "Que signifie « Unexpected closing tag » ?",
+      "a": "L'analyseur a trouvé une balise fermante sans élément ouvert correspondant, généralement parce qu'un élément a été fermé dans le mauvais ordre ou qu'un élément de bloc comme une div a été placé dans un p, ce qui ferme le p prématurément. L'erreur indique la ligne et la colonne."
+    },
+    {
+      "q": "Puis-je minifier du HTML ici ?",
+      "a": "Oui, choisissez Minifier. Les commentaires et les espaces entre les balises sont supprimés, un espace est conservé entre les éléments en ligne, et pre, textarea, script et style restent intacts. Le CSS et le JavaScript intégrés ne sont pas compressés."
+    },
+    {
+      "q": "Vaut-il mieux 2 ou 4 espaces pour le HTML ?",
+      "a": "Les deux sont courants. 2 espaces est le plus répandu pour le HTML, car le balisage s'imbrique profondément ; le guide de style HTML de Google utilise 2 espaces. Choisissez-en un et utilisez-le de façon cohérente."
+    },
+    {
+      "q": "Mon HTML est-il envoyé quelque part ?",
+      "a": "Non. Le formateur est téléchargé depuis ce site et s'exécute dans votre navigateur. Votre code n'est ni envoyé, ni stocké, ni ajouté à l'adresse de la page ; seuls vos choix d'options sont mémorisés sur cet appareil."
+    }
+  ],
+  "body": {
+    "label": {
+      "opt-mode": "Mode",
+      "opt-indent": "Indentation",
+      "opt-print-width": "Largeur d'impression",
+      "opt-whitespace": "Espaces"
+    },
+    "option": {
+      "opt-mode": {
+        "format": "Formater (embellir)",
+        "minify": "Minifier"
+      },
+      "opt-indent": {
+        "2": "2 espaces",
+        "4": "4 espaces",
+        "tab": "Tabulations"
+      },
+      "opt-whitespace": {
+        "css": "css (par défaut, sûr)",
+        "strict": "strict",
+        "ignore": "ignore"
+      }
+    },
+    "text": {
+      "conventions-heading": "Conventions de formatage du HTML",
+      "whitespace-heading": "Pourquoi les éléments en ligne sont sensibles aux espaces",
+      "minify-heading": "Ce que fait la minification, et ce qu'elle ne fait pas",
+      "related-heading": "Autres outils pour le code"
+    },
+    "content": {
+      "html-formatting-conventions": {
+        "p1": "Le HTML n'a pas de guide de style officiel unique, mais la plupart des équipes et des guides de style, dont le guide HTML/CSS de Google, s'accordent sur quelques habitudes qui rendent le balisage facile à lire et à relire :",
+        "li1": "<strong>Un élément de bloc par ligne,</strong> avec ses enfants indentés d'un niveau. Les éléments courts dont le contenu tient sur la ligne, comme <code>&lt;li&gt;Notebook&lt;/li&gt;</code>, restent sur une seule ligne.",
+        "li2": "<strong>Une indentation cohérente,</strong> généralement de 2 espaces car le HTML s'imbrique profondément. Ne mélangez jamais tabulations et espaces dans un même fichier.",
+        "li3": "<strong>Des noms d'éléments et d'attributs en minuscules</strong> et des valeurs d'attributs entre guillemets doubles, comme <code>&lt;a href=\"/contact/\"&gt;</code>.",
+        "li4": "<strong>Les balises longues coupées avec un attribut par ligne</strong> quand elles dépassent la largeur de ligne, avec le <code>&gt;</code> fermant sur sa propre ligne.",
+        "li5": "<strong>Le CSS et le JavaScript intégrés</strong> indentés dans leurs balises <code>&lt;style&gt;</code> et <code>&lt;script&gt;</code> et formatés comme n'importe quel fichier CSS ou JavaScript.",
+        "p2": "Le formateur ne modifie que la mise en page. Il ne renomme pas les classes, ne réordonne pas les attributs et ne corrige pas les imbrications invalides, et la page conserve la même apparence, sauf si vous choisissez le réglage d'espaces ignore."
+      },
+      "why-inline-elements-are-whitespace-sensitive": {
+        "p1": "Les navigateurs fusionnent les suites d'espaces, tabulations et retours à la ligne d'un texte en un seul espace, mais ne suppriment pas complètement cet espace. Ainsi, <code>&lt;b&gt;Price:&lt;/b&gt;&lt;span&gt;$5&lt;/span&gt;</code> s'affiche « Price:$5 », tandis que les deux mêmes éléments sur des lignes séparées s'affichent « Price: $5 ». Pour les éléments de bloc comme <code>&lt;div&gt;</code> et <code>&lt;p&gt;</code>, l'espace est invisible : ajouter des retours à la ligne autour d'eux est toujours sans risque.",
+        "p2": "Le réglage <strong>css</strong> de Prettier utilise la valeur CSS display par défaut de chaque élément pour décider où les retours sont sans risque. C'est pourquoi vous verrez parfois un <code>&gt;</code> fermant déplacé au début de la ligne suivante : le retour à la ligne se trouve alors dans la balise, où il ne peut pas devenir un espace. <strong>strict</strong> traite chaque élément comme en ligne, le plus sûr pour des pages qui modifient le display en CSS. <strong>ignore</strong> formate librement et convient au balisage où de légers changements d'espacement n'ont pas d'importance."
+      },
+      "what-minify-does-and-what-it": {
+        "p1": "Le mode Minifier est volontairement prudent pour ne jamais modifier l'apparence d'une page :",
+        "li1": "Il supprime les commentaires HTML, sauf les commentaires conditionnels comme <code>&lt;!--[if IE]&gt;</code>.",
+        "li2": "Il supprime les espaces à côté des éléments de bloc et réduit à un seul espace ceux situés entre éléments en ligne et texte.",
+        "li3": "Il laisse <code>&lt;pre&gt;</code>, <code>&lt;textarea&gt;</code>, <code>&lt;script&gt;</code> et <code>&lt;style&gt;</code> exactement tels qu'ils sont écrits.",
+        "li4": "Il ne minifie pas le CSS ou le JavaScript intégrés, ne retire pas les balises ou guillemets facultatifs et ne raccourcit pas les URL. Des outils de build comme html-minifier-terser le font lors d'un build de production.",
+        "p2": "Les serveurs compressent de toute façon généralement le HTML avec gzip ou Brotli, ce qui annule l'essentiel du gain de la suppression des espaces. La minification manuelle est surtout utile pour de petits extraits, comme un modèle d'e-mail ou un code d'intégration."
+      },
+      "other-code-tools": {
+        "p1": "Formatez du JSON avec le <a href=\"/tools/json-formatter/\">formateur JSON</a>, du Python avec le <a href=\"/tools/python-formatter/\">formateur Python</a> et du Java avec le <a href=\"/tools/java-formatter/\">formateur Java</a>. Pour comparer deux versions d'un fichier, utilisez le <a href=\"/tools/text-diff-checker/\">comparateur de texte</a>."
+      }
+    }
+  },
+  "client": {
+    "errors": {
+      "empty": "Collez du HTML à formater.",
+      "at": "Ligne {{line}}, colonne {{column}} : {{reason}}",
+      "unparsed": "Le HTML n'a pas pu être analysé. {{reason}}",
+      "unsupportedOption": "{{key}} non pris en charge : {{value}}. Choisissez parmi {{choices}}."
+    },
+    "warnings": {
+      "unclosed": "Ligne {{line}} : <{{tag}}> n'est jamais fermé. Les navigateurs le ferment à la fin de son parent, ce qui n'est peut-être pas ce que vous vouliez."
+    }
+  }
+}

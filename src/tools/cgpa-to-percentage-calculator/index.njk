@@ -1,0 +1,137 @@
+---
+layout: layouts/tool.njk
+toolSlug: cgpa-to-percentage-calculator
+permalink: /tools/cgpa-to-percentage-calculator/
+extraCss: "/tools/cgpa-to-percentage-calculator/style.css"
+lastReviewed: "2026-10-31"
+---
+
+    <!-- Tool Form Container -->
+    <section class="tool-container" aria-label="{{ 'ariaLabel.tool-section1' | pt }}">
+      <form id="calculator-form" novalidate>
+        <fieldset class="form-group choice-toggle">
+          <legend>{{ 'content.tool.legend1' | pt }}</legend>
+          <div class="segmented-control choice-toggle-options">
+            <label class="choice-toggle-option">
+              {{ 'content.tool.label1' | pt }}
+            </label>
+            <label class="choice-toggle-option">
+              {{ 'content.tool.label2' | pt }}
+            </label>
+          </div>
+        </fieldset>
+
+        <div class="form-grid two-col">
+          <div class="form-group">
+            <label for="cgpa-value" id="value-label">{{ 'label.cgpa-value' | pt }}</label>
+            <input type="number" inputmode="decimal" step="any" min="0" id="cgpa-value" data-param="value" class="form-control" placeholder="{{ 'placeholder.cgpa-value' | pt }}" required aria-required="true">
+          </div>
+
+          <div class="form-group">
+            <label for="cgpa-scale">{{ 'label.cgpa-scale' | pt }}</label>
+            <select id="cgpa-scale" data-param="scale" class="form-control">
+              <option value="4" selected>4.0</option>
+              <option value="5">5.0</option>
+              <option value="10">10.0</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="cgpa-formula">{{ 'label.cgpa-formula' | pt }}</label>
+          <select id="cgpa-formula" data-param="formula" class="form-control" aria-describedby="formula-hint">
+            <option value="simple" selected>{{ 'option.cgpa-formula.simple' | pt }}</option>
+            <option value="cbse">{{ 'option.cgpa-formula.cbse' | pt }}</option>
+            <option value="custom">{{ 'option.cgpa-formula.custom' | pt }}</option>
+          </select>
+          <p class="form-hint" id="formula-hint">{{ 'text.formula-hint' | pt }}</p>
+        </div>
+
+        <fieldset class="custom-formula" id="custom-formula-fields" hidden>
+          <legend>{{ 'content.tool.legend2' | pt }}</legend>
+          <p class="form-hint">{{ 'content.tool.p1' | pt }}</p>
+          <div class="form-grid two-col">
+            <div class="form-group">
+              <label for="custom-m">{{ 'label.custom-m' | pt }}</label>
+              <input type="number" inputmode="decimal" step="any" id="custom-m" data-param="m" class="form-control" placeholder="{{ 'placeholder.custom-m' | pt }}">
+            </div>
+            <div class="form-group">
+              <label for="custom-c">{{ 'label.custom-c' | pt }}</label>
+              <input type="number" inputmode="decimal" step="any" id="custom-c" data-param="c" class="form-control" placeholder="{{ 'placeholder.custom-c' | pt }}" value="0">
+            </div>
+          </div>
+        </fieldset>
+
+        <div class="button-group mt-6">
+          <button type="submit" class="btn btn-primary">{{ 'content.tool.button1' | pt }}</button>
+          <button type="button" class="btn btn-secondary" id="reset-btn">{{ 'text.reset-btn' | pt }}</button>
+        </div>
+      </form>
+
+      <div id="error-box" class="hidden form-error" role="alert"></div>
+
+      <!-- Result Box -->
+      <div id="result-box" class="result-box" aria-live="polite">
+        <div class="result-header">
+          <span id="result-header-text">{{ 'text.result-header-text' | pt }}</span>
+          <button type="button" class="btn btn-sm btn-ghost" id="copy-result-btn" title="{{ 'title.copy-result-btn' | pt }}" aria-label="{{ 'ariaLabel.copy-result-btn' | pt }}">
+            {{ 'text.copy-result-btn' | pt }}
+          </button>
+        </div>
+        <div class="result-primary" id="result-primary-text">0%</div>
+
+        <div class="result-grid">
+          <div class="result-stat-card">
+            <div class="result-stat-label" id="stat-input-label">{{ 'text.stat-input-label' | pt }}</div>
+            <div class="result-stat-value" id="stat-input">0</div>
+          </div>
+          <div class="result-stat-card">
+            <div class="result-stat-label">{{ 'content.tool.div1' | pt }}</div>
+            <div class="result-stat-value" id="stat-scale">4.0</div>
+          </div>
+          <div class="result-stat-card">
+            <div class="result-stat-label">{{ 'content.tool.div2' | pt }}</div>
+            <div class="result-stat-value result-stat-value-sm" id="stat-formula">{{ 'text.stat-formula' | pt }}</div>
+          </div>
+        </div>
+
+        <div class="formula-box content-panel" id="formula-breakdown-box">
+          <!-- Step-by-step breakdown inserted by script.js -->
+        </div>
+      </div>
+
+      <div class="tool-note">
+        <h3 class="tool-note-title">{{ 'content.use-your-institution-s-official-conversion.heading' | pt }}</h3>
+        <p>{{ 'content.use-your-institution-s-official-conversion.p1' | pt }}</p>
+      </div>
+    </section>
+
+    <!-- tool-end -->
+
+    <section class="content-section" aria-labelledby="which-formula-heading">
+      <h2 id="which-formula-heading">{{ 'text.which-formula-heading' | pt }}</h2>
+      <p>{{ 'content.which-conversion-formula-should-i-use.p1' | pt }}</p>
+      <ul class="content-list">
+        <li>{{ 'content.which-conversion-formula-should-i-use.li1' | pt }}</li>
+        <li>{{ 'content.which-conversion-formula-should-i-use.li2' | pt }}</li>
+        <li>{{ 'content.which-conversion-formula-should-i-use.li3' | pt }}</li>
+      </ul>
+      <p>{{ 'content.which-conversion-formula-should-i-use.p2' | pt }}</p>
+    </section>
+
+    <section class="content-section" aria-labelledby="university-formula-heading">
+      <h2 id="university-formula-heading">{{ 'text.university-formula-heading' | pt }}</h2>
+      <p>{{ 'content.finding-your-university-s-formula.p1' | pt }}</p>
+      <p>{{ 'content.finding-your-university-s-formula.p2' | pt }}</p>
+    </section>
+
+    <section class="content-section" aria-labelledby="hec-heading">
+      <h2 id="hec-heading">{{ 'text.hec-heading' | pt }}</h2>
+      <p>{{ 'content.hec-and-cgpa-conversion-in-pakistan.p1' | pt }}</p>
+      <p>{{ 'content.hec-and-cgpa-conversion-in-pakistan.p2' | pt }}</p>
+    </section>
+
+    <section class="content-section" aria-labelledby="scales-heading">
+      <h2 id="scales-heading">{{ 'text.scales-heading' | pt }}</h2>
+      <p>{{ 'content.4-0-5-0-and-10.p1' | pt }}</p>
+    </section>

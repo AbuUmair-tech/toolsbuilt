@@ -7,6 +7,8 @@
  * Usage:
  *   node scripts/indexnow.js
  *   node scripts/indexnow.js --dry-run
+ *   node scripts/indexnow.js --urls=/tools/hours-calculator/,/category/date-time/
+ *     submits only those paths (or full URLs); each must be in the built sitemap
  */
 
 const fs = require('fs');
@@ -105,6 +107,19 @@ function submitToIndexNow(key, urls, dryRun = false) {
 const args = process.argv.slice(2);
 const isDryRun = args.includes('--dry-run');
 const key = getIndexNowKey();
-const urls = extractUrlsFromSitemap();
+let urls = extractUrlsFromSitemap();
+
+// --urls=/a/,/b/ limits the submission to those pages; anything not in the sitemap is an error
+const onlyArg = args.find(a => a.startsWith('--urls='));
+if (onlyArg) {
+  const wanted = onlyArg.slice('--urls='.length).split(',').map(u => u.trim()).filter(Boolean)
+    .map(u => (u.startsWith('http') ? u : `https://${HOST}${u.startsWith('/') ? '' : '/'}${u}`));
+  const unknown = wanted.filter(u => !urls.includes(u));
+  if (unknown.length) {
+    console.error(`❌ Not in the sitemap (check the path and its trailing slash): ${unknown.join(', ')}`);
+    process.exit(1);
+  }
+  urls = [...new Set(wanted)];
+}
 
 submitToIndexNow(key, urls, isDryRun);

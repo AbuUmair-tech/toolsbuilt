@@ -1,0 +1,206 @@
+{
+  "listing": {
+    "name": "Ruleta selector de nombres aleatorio",
+    "shortName": "Selector de nombres aleatorio",
+    "description": "Gira una ruleta interactiva para elegir ganadores al azar de una lista de nombres. Usa aleatoriedad criptográficamente segura.",
+    "shortDescription": "Gira una ruleta interactiva para elegir ganadores al azar de una lista de nombres. Usa aleatoriedad criptográficamente segura.",
+    "keywords": [
+      "selector de nombres aleatorio",
+      "ruleta de nombres",
+      "sorteo de nombres",
+      "elegir al azar",
+      "ruleta aleatoria"
+    ]
+  },
+  "title": "Selector de nombres aleatorio: ruleta y sorteo | ToolsBuilt",
+  "description": "Selector de nombres aleatorio: escribe los nombres y gira la ruleta para elegir ganadores imparciales en sorteos, clases y concursos, con Web Crypto.",
+  "h1": "Ruleta selector de nombres aleatorio",
+  "quickAnswer": "Para elegir un nombre o un ganador al azar de una lista con este selector de nombres aleatorio, pega o escribe los participantes, decide si quieres eliminar duplicados y haz clic en girar. La herramienta usa aleatoriedad por hardware criptográficamente segura para que todos tengan la misma probabilidad de ganar, sin sesgos. Admite sorteos de un solo ganador y sorteos de varios premios sin reposición.",
+  "formula": {
+    "title": "Fórmula de selección justa y probabilidad",
+    "expression": "P(selección) = 1 / tamaño total del grupo de participantes  |  Índice = CryptoRandomUint() % PoolSize",
+    "explanation": "Cada participante tiene exactamente la misma probabilidad matemática de ser elegido. El sorteo usa la entropía por hardware de la Web Crypto API nativa del navegador con muestreo por rechazo para eliminar el sesgo del módulo. En los sorteos de varios premios sin reposición, los ganadores elegidos se retiran del grupo uno tras otro."
+  },
+  "workedExamples": [
+    {
+      "title": "Sorteo de un ganador entre 5 participantes",
+      "inputs": [
+        "Participantes: Alice, Bob, Charlie, David, Emma (5 participantes)",
+        "Modo: un solo ganador"
+      ],
+      "steps": [
+        "Separar los nombres en 5 entradas distintas",
+        "Asignar una probabilidad uniforme P = 1/5 (20.00%) a cada participante",
+        "Sacar un índice aleatorio uniforme en el rango [0, 4] con crypto.getRandomValues"
+      ],
+      "result": "Ganador elegido con una probabilidad exacta del 20.0%"
+    },
+    {
+      "title": "Sorteo de varios premios sin reposición",
+      "inputs": [
+        "Participantes: Alice, Bob, Charlie, David (4 participantes)",
+        "Premios a entregar: 2 ganadores sin reposición"
+      ],
+      "steps": [
+        "Ronda 1: elegir el 1.er ganador entre 4 participantes (P = 1/4 = 25.0%)",
+        "Retirar al 1.er ganador del grupo activo (quedan 3 participantes)",
+        "Ronda 2: elegir el 2.º ganador entre los 3 participantes restantes (P = 1/3 = 33.3%)"
+      ],
+      "result": "2 ganadores distintos premiados, quedan 2 participantes"
+    },
+    {
+      "title": "Eliminar duplicados de entradas de una hoja de cálculo",
+      "inputs": [
+        "Entrada sin procesar: Alice, Bob, Alice, Charlie (4 entradas)",
+        "Opciones: eliminar duplicados = sí"
+      ],
+      "steps": [
+        "Separar las entradas por comas y saltos de línea",
+        "Filtrar el 'Alice' duplicado mediante deduplicación con Set",
+        "Formar un grupo limpio de 3 nombres únicos (Alice, Bob, Charlie)"
+      ],
+      "result": "3 participantes únicos válidos (P = 33.3% cada uno)"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Usar el predecible Math.random() en concursos reales",
+      "description": "El pseudoaleatorio estándar Math.random() puede mostrar patrones estadísticos. Los sorteos requieren aleatoriedad criptográfica por hardware mediante crypto.getRandomValues."
+    },
+    {
+      "title": "Permitir entradas duplicadas por error",
+      "description": "Al pegar entradas desde hojas de cálculo, los nombres duplicados duplican las probabilidades de ganar de un participante. Usa siempre el botón Eliminar duplicados antes de girar."
+    },
+    {
+      "title": "Sortear con reposición en sorteos con varios premios",
+      "description": "Si no retiras a los ganadores anteriores en los sorteos de varios premios, el mismo participante puede ganar varios premios."
+    },
+    {
+      "title": "Sesgo del módulo al elegir el índice",
+      "description": "Las operaciones de módulo simples sobre enteros aleatorios introducen un ligero sesgo matemático hacia los índices más bajos. El muestreo por rechazo garantiza una equidad uniforme exacta."
+    }
+  ],
+  "sources": [
+    {
+      "name": "Especificación de la Web Cryptography API del W3C"
+    },
+    {
+      "name": "NIST SP 800-90A: Recommendation for Random Number Generation"
+    },
+    {
+      "name": "RFC 7929: pautas para la generación criptográfica de números aleatorios"
+    }
+  ],
+  "howto": {
+    "name": "Cómo elegir un nombre al azar con la ruleta",
+    "description": "Instrucciones paso a paso para elegir ganadores al azar con giros de ruleta criptográficamente imparciales.",
+    "steps": [
+      {
+        "name": "Introduce los nombres de los participantes",
+        "text": "Escribe o pega tu lista de nombres en el cuadro de texto (un nombre por línea o separados por comas)."
+      },
+      {
+        "name": "Configura las opciones",
+        "text": "Si quieres, haz clic en Eliminar duplicados para quitar entradas repetidas, o marca 'Eliminar al ganador automáticamente tras girar' para sorteos de varias rondas."
+      },
+      {
+        "name": "Gira la ruleta para elegir al ganador",
+        "text": "Haz clic en Girar la ruleta para iniciar la animación, o para una selección instantánea si tienes activado el movimiento reducido."
+      },
+      {
+        "name": "Anuncia y copia al ganador",
+        "text": "Mira el nombre ganador en la ventana de anuncio y copia el nombre al portapapeles."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "¿Cómo garantiza el selector de nombres aleatorio una elección justa e imparcial?",
+      "a": "La herramienta usa la Web Crypto API nativa de tu navegador mediante crypto.getRandomValues con muestreo por rechazo para eliminar el sesgo del módulo. A diferencia de los algoritmos estándar de Math.random, la entropía del sistema operativo a nivel de hardware asegura una distribución de probabilidad uniforme entre todas las entradas. Cada nombre tiene la misma probabilidad matemática de salir en cada giro."
+    },
+    {
+      "q": "¿Puedo eliminar automáticamente a los ganadores después de cada giro?",
+      "a": "Sí. Activa la casilla 'Eliminar al ganador automáticamente tras girar' o haz clic en 'Eliminar ganador y cerrar' en la ventana de anuncio. La herramienta quita la entrada elegida al instante y vuelve a dibujar la ruleta para las rondas siguientes."
+    },
+    {
+      "q": "¿La ruleta tiene en cuenta a las personas sensibles al movimiento o con trastornos vestibulares?",
+      "a": "Sí. El selector de nombres aleatorio respeta las preferencias de accesibilidad del sistema de tu dispositivo. Cuando 'prefers-reduced-motion' está activo, se omiten por completo las animaciones de giro. La herramienta calcula al instante la porción ganadora y abre de inmediato la ventana del ganador."
+    },
+    {
+      "q": "¿Hay un límite de nombres que puedo pegar en la ruleta?",
+      "a": "Puedes introducir cientos de nombres en el cuadro de texto. El generador calcula automáticamente los ángulos de las porciones y ajusta las etiquetas en la ruleta. Cada porción sigue siendo matemáticamente distinta durante todo el proceso de selección criptográfica."
+    },
+    {
+      "q": "¿Se guardan o rastrean los nombres de mis participantes en servidores remotos?",
+      "a": "No. Todas las listas de nombres, los cálculos de los giros y la elección de ganadores se hacen exclusivamente en la memoria local del navegador. Ninguno de los nombres que introduces se envía a servidores externos, se registra en bases de datos ni se guarda en URL."
+    },
+    {
+      "q": "¿Puedo pegar nombres separados por comas o por punto y coma?",
+      "a": "Sí. El analizador de entrada separa automáticamente las entradas por saltos de línea, comas y punto y coma, y quita los espacios sobrantes alrededor de cada nombre."
+    },
+    {
+      "q": "¿Cómo aseguro probabilidades justas si se permiten varios boletos por persona?",
+      "a": "Deja sin marcar la opción Eliminar duplicados para que los participantes que compraron varios boletos conserven todas sus entradas en el grupo."
+    }
+  ],
+  "body": {
+    "label": {
+      "namesInput": "Lista de nombres (uno por línea):"
+    },
+    "text": {
+      "nameCount": "8 entradas",
+      "spinBtn": "¡Girar la ruleta!",
+      "shuffleBtn": "Mezclar",
+      "dedupeBtn": "Eliminar duplicados",
+      "clearBtn": "Borrar",
+      "winnerTitle": "🎉 ¡Tenemos un ganador!",
+      "copyWinnerBtn": "<span data-icon=\"copy\"></span> Copiar ganador",
+      "removeWinnerBtn": "Eliminar ganador y cerrar",
+      "closeModalBtn": "Mantener en la lista y cerrar",
+      "when-to-use-heading": "Cuándo usar la ruleta selector de nombres aleatorio"
+    },
+    "placeholder": {
+      "namesInput": "Escribe los nombres aquí..."
+    },
+    "content": {
+      "tool": {
+        "p1": "Los nombres se separan por <strong>saltos de línea</strong>, <strong>comas</strong> o <strong>punto y coma</strong>, así que <code>Smith, John</code> se convierte en dos nombres: <em>Smith</em> y <em>John</em>.",
+        "label1": "<input type=\"checkbox\" id=\"removeWinner\">\n          <span>Eliminar al ganador automáticamente tras girar</span>"
+      },
+      "when-to-use-the-random-name": {
+        "li1": "<strong>Clases y participación de los estudiantes:</strong> elige a los estudiantes de forma equitativa y sin tensiones dejando que una ruleta neutral decida quién habla.",
+        "li2": "<strong>Rifas y sorteos en redes sociales:</strong> haz sorteos en directo en los que los participantes puedan comprobar visualmente que son justos.",
+        "li3": "<strong>Reuniones diarias de equipo y retrospectivas ágiles:</strong> decide al azar el orden de palabra en las reuniones diarias o las asignaciones de revisión de código.",
+        "li4": "<strong>Decisiones justas:</strong> elige entre proyectos, restaurantes o tareas con una aleatoriedad totalmente imparcial."
+      },
+      "why-use-a-digital-random-name": {
+        "heading": "¿Por qué usar una ruleta digital para elegir nombres al azar?",
+        "p1": "Tanto si organizas un sorteo en redes sociales, eliges estudiantes para participar en clase, preparas un amigo invisible con tu equipo o decides quién paga el café, elegir de forma justa es fundamental. Los sorteos físicos con papelitos llevan tiempo y pueden levantar sospechas de parcialidad. Las ruletas digitales ofrecen un método transparente, ameno y verificablemente justo para elegir ganadores en tiempo real."
+      },
+      "cryptographically-secure-randomness": {
+        "heading": "Aleatoriedad criptográficamente segura",
+        "p1": "Muchas ruletas en línea dependen de generadores de números pseudoaleatorios estándar como <code>Math.random()</code>, que sirven para juegos sencillos pero muestran patrones matemáticos predecibles tras muchas ejecuciones. Nuestra herramienta usa la <strong>Web Crypto API (<code>crypto.getRandomValues</code>)</strong> nativa del navegador. Esto aporta entropía a nivel de hardware y una aleatoriedad criptográficamente robusta, lo que garantiza que cada giro sea totalmente independiente e imparcial."
+      }
+    },
+    "ariaLabel": {
+      "wheelCanvas": "Ruleta de nombres aleatoria"
+    }
+  },
+  "client": {
+    "count": {
+      "many": "{{count}} entradas",
+      "one": "{{count}} entrada",
+      "other": "{{count}} entradas"
+    },
+    "wheel": {
+      "empty": "Introduce nombres para crear la ruleta",
+      "spin": "GIRAR"
+    },
+    "toast": {
+      "winner": "Ganador: ¡{{name}}!",
+      "deduplicated": "Nombres duplicados eliminados",
+      "copied": "Nombre del ganador copiado al portapapeles"
+    },
+    "defaultNames": "Sofía\nMateo\nValentina\nSantiago\nLucía\nDiego\nCamila\nMartín"
+  }
+}

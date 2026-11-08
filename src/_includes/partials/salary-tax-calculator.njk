@@ -1,0 +1,224 @@
+{#
+  Unified salary tax calculator: one form, one engine (/tools/salary-tax-calculator/logic.js) and
+  one script (/tools/salary-tax-calculator/calculator.js) for every country.
+    {% from "partials/salary-tax-calculator.njk" import salaryTaxCalculator with context %}
+    {{ salaryTaxCalculator({ country: "GB", year: "2026-27" }) }}
+  `country` and `year` are the preselected choice (the hub passes none: the visitor's country is
+  guessed). Rates come from src/_data/tax/*.json, the country list from salaryTaxCountries.js.
+  Text: body.calc.* (server) and client.calc.* (browser) in tools/<lang>/salary-tax-calculator.json.
+#}
+{% macro salaryTaxCalculator(cfg) %}
+{%- set S = 'salary-tax-calculator' -%}
+{%- set preset = salaryTaxCountries | byCode(cfg.country or 'PK') -%}
+{%- set presetYear = cfg.year or preset.currentYear -%}
+{%- set presetData = tax[(preset.code | lower) + '-' + presetYear] -%}
+<script type="application/json" id="stc-data">{{ salaryTaxCountries | salaryCalcData(tax, noSalaryTax.countries, lang) | dump | safe }}</script>
+
+    <section class="tool-container stc" aria-label="{{ 'calc.formLabel' | ts(S) }}" data-preset-country="{{ cfg.country or '' }}" data-preset-year="{{ cfg.year or '' }}" data-request-email="{{ site.contactEmail }}">
+      <form id="calculator-form" novalidate>
+        <div class="form-grid two-col">
+          <div class="form-group stc-country">
+            <label for="stc-country-input" id="stc-country-label">{{ 'calc.country' | ts(S) }}</label>
+            <div class="stc-combo">
+              <input type="text" id="stc-country-input" class="form-control" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="stc-country-list" autocomplete="off" spellcheck="false" value="{{ preset.name }}" aria-describedby="stc-country-hint">
+              <input type="hidden" id="stc-country" data-param="country" value="{{ preset.code }}">
+              <ul id="stc-country-list" class="stc-combo-list" role="listbox" aria-labelledby="stc-country-label" hidden></ul>
+            </div>
+            <p class="form-hint" id="stc-country-hint">{{ 'calc.countryHint' | ts(S) }}</p>
+          </div>
+
+          <div class="form-group" id="stc-year-group">
+            <label for="stc-year">{{ 'calc.taxYear' | ts(S) }}</label>
+            <select id="stc-year" data-param="year" class="form-control">
+              {% for y in preset.years or [] %}<option value="{{ y }}"{% if y == presetYear %} selected{% endif %}>{{ tax[(preset.code | lower) + '-' + y].label }}</option>{% endfor %}
+            </select>
+          </div>
+        </div>
+
+        <div class="stc-note" id="stc-mode-note" aria-live="polite"></div>
+
+        <div class="form-group">
+          <label for="salary-amount">{{ 'calc.salary' | ts(S) }} (<span id="stc-currency-code">{{ presetData.currency if presetData else preset.currency }}</span>)</label>
+          <input type="number" inputmode="decimal" min="0" step="any" id="salary-amount" data-param="salary" class="form-control" required aria-required="true" aria-describedby="salary-hint">
+          <p class="form-hint" id="salary-hint">{{ 'calc.salaryHint' | ts(S) }}</p>
+        </div>
+
+        <div class="form-grid two-col">
+          <fieldset class="form-group choice-toggle">
+            <legend>{{ 'calc.period' | ts(S) }}</legend>
+            <div class="segmented-control choice-toggle-options">
+              {% for p in ['monthly', 'annual', 'hourly'] %}
+              <label class="choice-toggle-option">
+                <input type="radio" name="salary-period" id="period-{{ p }}" value="{{ p }}" data-param="period"{% if p == 'monthly' %} checked{% endif %}>
+                <span>{{ ('calc.periods.' + p) | ts(S) }}</span>
+              </label>
+              {% endfor %}
+            </div>
+          </fieldset>
+
+          <div class="form-group" id="stc-hours-group" hidden>
+            <label for="stc-hours">{{ 'calc.hours' | ts(S) }}</label>
+            <input type="number" inputmode="decimal" min="1" max="168" step="any" id="stc-hours" data-param="hours" class="form-control" value="40">
+          </div>
+        </div>
+
+        <div class="form-group" id="stc-status-group" hidden>
+          <label for="stc-status" id="stc-status-label">{{ 'calc.status' | ts(S) }}</label>
+          <select id="stc-status" data-param="status" class="form-control"></select>
+        </div>
+
+        <!-- Country-specific options (student loan, pension, 80C, ...), built from the dataset -->
+        <div class="form-grid two-col stc-options" id="stc-options"></div>
+
+        <!-- Custom Tax Mode: countries without built-in rules -->
+        <div class="stc-custom" id="stc-custom" hidden>
+          <div class="form-grid two-col">
+            <div class="form-group">
+              <label for="stc-currency">{{ 'calc.custom.currency' | ts(S) }}</label>
+              <select id="stc-currency" class="form-control"></select>
+            </div>
+            <div class="form-group">
+              <label for="stc-template">{{ 'calc.custom.template' | ts(S) }}</label>
+              <div class="stc-inline">
+                <select id="stc-template" class="form-control">
+                  <option value="progressive">{{ 'calc.custom.templates.progressive' | ts(S) }}</option>
+                  <option value="flat">{{ 'calc.custom.templates.flat' | ts(S) }}</option>
+                </select>
+                <button type="button" class="btn btn-secondary" id="stc-template-apply">{{ 'calc.custom.apply' | ts(S) }}</button>
+              </div>
+            </div>
+          </div>
+
+          <fieldset class="form-group stc-fieldset">
+            <legend>{{ 'calc.custom.brackets' | ts(S) }}</legend>
+            <p class="form-hint">{{ 'calc.custom.bracketsHint' | ts(S) }}</p>
+            <div class="table-wrapper">
+              <table class="table stc-edit-table">
+                <thead>
+                  <tr>
+                    <th scope="col">{{ 'calc.custom.from' | ts(S) }}</th>
+                    <th scope="col">{{ 'calc.custom.to' | ts(S) }}</th>
+                    <th scope="col">{{ 'calc.custom.rate' | ts(S) }}</th>
+                    <th scope="col"><span class="visually-hidden">{{ 'calc.custom.actions' | ts(S) }}</span></th>
+                  </tr>
+                </thead>
+                <tbody id="stc-bracket-rows"></tbody>
+              </table>
+            </div>
+            <button type="button" class="btn btn-sm btn-secondary" id="stc-add-bracket">{{ 'calc.custom.addBracket' | ts(S) }}</button>
+          </fieldset>
+
+          <div class="form-grid two-col">
+            <div class="form-group">
+              <label for="stc-allowance">{{ 'calc.custom.allowance' | ts(S) }}</label>
+              <input type="number" inputmode="decimal" min="0" step="any" id="stc-allowance" class="form-control" data-custom="allowance">
+            </div>
+            <div class="form-group">
+              <label for="stc-deduction">{{ 'calc.custom.deduction' | ts(S) }}</label>
+              <input type="number" inputmode="decimal" min="0" step="any" id="stc-deduction" class="form-control" data-custom="deduction">
+            </div>
+            <div class="form-group">
+              <label for="stc-social">{{ 'calc.custom.social' | ts(S) }}</label>
+              <input type="number" inputmode="decimal" min="0" max="100" step="any" id="stc-social" class="form-control" data-custom="social">
+            </div>
+            <div class="form-group">
+              <label for="stc-social-cap">{{ 'calc.custom.socialCap' | ts(S) }}</label>
+              <input type="number" inputmode="decimal" min="0" step="any" id="stc-social-cap" class="form-control" data-custom="socialCap">
+            </div>
+            <div class="form-group">
+              <label for="stc-pension">{{ 'calc.custom.pension' | ts(S) }}</label>
+              <input type="number" inputmode="decimal" min="0" max="100" step="any" id="stc-pension" class="form-control" data-custom="pension">
+            </div>
+          </div>
+
+          <fieldset class="form-group stc-fieldset">
+            <legend>{{ 'calc.custom.levies' | ts(S) }}</legend>
+            <p class="form-hint">{{ 'calc.custom.leviesHint' | ts(S) }}</p>
+            <div id="stc-levy-rows" class="stc-levies"></div>
+            <button type="button" class="btn btn-sm btn-secondary" id="stc-add-levy">{{ 'calc.custom.addLevy' | ts(S) }}</button>
+          </fieldset>
+          <input type="hidden" id="stc-custom-state" data-param="custom">
+        </div>
+
+        <div class="button-group mt-6">
+          <button type="submit" class="btn btn-primary">{{ 'calc.calculate' | ts(S) }}</button>
+          <button type="button" class="btn btn-secondary" id="reset-btn">{{ 'calc.reset' | ts(S) }}</button>
+        </div>
+      </form>
+
+      <div id="error-box" class="hidden form-error" role="alert"></div>
+
+      <div id="result-box" class="result-box" aria-live="polite">
+        <div class="result-header">
+          <span id="result-header-text">{{ 'calc.result.header' | ts(S) }}</span>
+          <button type="button" class="btn btn-sm btn-ghost" id="copy-result-btn" title="{{ 'calc.result.copy' | ts(S) }}" aria-label="{{ 'calc.result.copy' | ts(S) }}">{{ 'calc.result.copy' | ts(S) }}</button>
+        </div>
+        <div class="result-primary" id="result-primary-text">–</div>
+        <p class="stc-compare" id="stc-compare"></p>
+
+        <div class="result-grid">
+          <div class="result-stat-card">
+            <div class="result-stat-label">{{ 'calc.result.netAnnual' | ts(S) }}</div>
+            <div class="result-stat-value" id="stat-net-annual">–</div>
+          </div>
+          <div class="result-stat-card">
+            <div class="result-stat-label">{{ 'calc.result.totalTax' | ts(S) }}</div>
+            <div class="result-stat-value" id="stat-total-tax">–</div>
+          </div>
+          <div class="result-stat-card">
+            <div class="result-stat-label">{{ 'calc.result.effectiveRate' | ts(S) }}</div>
+            <div class="result-stat-value" id="stat-effective-rate">–</div>
+          </div>
+          <div class="result-stat-card">
+            <div class="result-stat-label">{{ 'calc.result.marginalRate' | ts(S) }}</div>
+            <div class="result-stat-value" id="stat-marginal-rate">–</div>
+          </div>
+        </div>
+
+        <figure class="stc-chart">
+          <figcaption class="stc-chart-title">{{ 'calc.result.chartTitle' | ts(S) }}</figcaption>
+          <svg id="stc-chart" class="stc-chart-bar" viewBox="0 0 100 10" preserveAspectRatio="none" role="img" aria-labelledby="stc-chart-desc"><title id="stc-chart-desc"></title></svg>
+          <ul class="stc-legend" id="stc-legend"></ul>
+        </figure>
+
+        <div class="table-wrapper" tabindex="0" role="region" aria-label="{{ 'calc.result.breakdown' | ts(S) }}">
+          <table class="table stc-breakdown">
+            <caption>{{ 'calc.result.breakdown' | ts(S) }}</caption>
+            <thead>
+              <tr>
+                <th scope="col"><span class="visually-hidden">{{ 'calc.result.item' | ts(S) }}</span></th>
+                <th scope="col">{{ 'calc.views.annual' | ts(S) }}</th>
+                <th scope="col">{{ 'calc.views.monthly' | ts(S) }}</th>
+                <th scope="col">{{ 'calc.views.weekly' | ts(S) }}</th>
+              </tr>
+            </thead>
+            <tbody id="stc-breakdown-rows"></tbody>
+          </table>
+        </div>
+
+        <p class="stc-taxable" id="stc-taxable"></p>
+
+        <div class="table-wrapper" tabindex="0" role="region" aria-label="{{ 'calc.result.bands' | ts(S) }}">
+          <table class="table stc-bands">
+            <caption>{{ 'calc.result.bands' | ts(S) }}</caption>
+            <thead>
+              <tr>
+                <th scope="col">{{ 'calc.result.band' | ts(S) }}</th>
+                <th scope="col">{{ 'calc.result.rate' | ts(S) }}</th>
+                <th scope="col">{{ 'calc.result.inBand' | ts(S) }}</th>
+                <th scope="col">{{ 'calc.result.bandTax' | ts(S) }}</th>
+              </tr>
+            </thead>
+            <tbody id="stc-band-rows"></tbody>
+          </table>
+        </div>
+
+        <p class="stc-source" id="stc-source"></p>
+      </div>
+
+      <div class="tool-note">
+        <h3 class="tool-note-title">{{ 'calc.disclaimerTitle' | ts(S) }}</h3>
+        <p>{{ 'calc.disclaimer' | ts(S) }}</p>
+      </div>
+    </section>
+{% endmacro %}

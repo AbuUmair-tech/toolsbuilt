@@ -1,0 +1,98 @@
+---
+layout: layouts/tool.njk
+toolSlug: random-number-generator
+permalink: /tools/random-number-generator/
+extraCss: "/tools/random-number-generator/style.css"
+lastReviewed: "2026-10-31"
+---
+
+    <!-- Tool Form Container -->
+    <section class="tool-container" aria-label="{{ 'ariaLabel.tool-section1' | pt }}">
+      <form id="calculator-form" novalidate>
+        <div class="form-grid rng-grid">
+          <div class="form-group">
+            <label for="rng-min">{{ 'label.rng-min' | pt }}</label>
+            <input type="number" inputmode="decimal" step="any" id="rng-min" data-param="min" class="form-control" value="1" required aria-required="true">
+          </div>
+          <div class="form-group">
+            <label for="rng-max">{{ 'label.rng-max' | pt }}</label>
+            <input type="number" inputmode="decimal" step="any" id="rng-max" data-param="max" class="form-control" value="100" required aria-required="true">
+          </div>
+          <div class="form-group">
+            <label for="rng-count">{{ 'label.rng-count' | pt }}</label>
+            <input type="number" inputmode="numeric" step="1" min="1" max="1000" id="rng-count" data-param="count" class="form-control" value="1">
+          </div>
+          <div class="form-group">
+            <label for="rng-dp">{{ 'label.rng-dp' | pt }}</label>
+            <select id="rng-dp" data-param="dp" class="form-control">
+              <option value="0" selected>{{ 'option.rng-dp.0' | pt }}</option>
+              <option value="1">{{ 'option.rng-dp.1' | pt }}</option>
+              <option value="2">{{ 'option.rng-dp.2' | pt }}</option>
+              <option value="3">{{ 'option.rng-dp.3' | pt }}</option>
+              <option value="4">{{ 'option.rng-dp.4' | pt }}</option>
+              <option value="5">{{ 'option.rng-dp.5' | pt }}</option>
+              <option value="6">{{ 'option.rng-dp.6' | pt }}</option>
+            </select>
+          </div>
+        </div>
+        <div class="rng-options">
+          <label class="checkbox-label">
+            {{ 'content.tool.label1' | pt }}
+          </label>
+          <input type="hidden" id="rng-unique" data-param="uniq" value="">
+          <label class="checkbox-label">
+            {{ 'content.tool.label2' | pt }}
+          </label>
+        </div>
+
+        <div class="button-group mt-6">
+          <button type="submit" class="btn btn-primary" id="generate-btn">{{ 'text.generate-btn' | pt }}</button>
+          <button type="button" class="btn btn-secondary" id="reset-btn">{{ 'text.reset-btn' | pt }}</button>
+        </div>
+      </form>
+
+      <div id="error-box" class="hidden form-error" role="alert"></div>
+
+      <div id="result-box" class="result-box is-visible" aria-live="polite">
+        <div class="result-header">
+          {{ 'content.tool.div1' | pt }}
+        </div>
+        <div class="result-primary rng-primary" id="result-primary-text">--</div>
+        <ul class="rng-list" id="rng-list" aria-label="{{ 'ariaLabel.rng-list' | pt }}"></ul>
+        <p class="form-hint" id="rng-note"></p>
+        <div class="button-group mt-4">
+          <button type="button" class="btn btn-sm btn-secondary" id="copy-numbers-btn">{{ 'text.copy-numbers-btn' | pt }}</button>
+          <button type="button" class="btn btn-sm btn-secondary" id="download-btn">{{ 'text.download-btn' | pt }}</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- tool-end -->
+
+    <section class="content-section">
+      <h2>{{ 'content.why-secure-randomness-and-rejection-sampling.heading' | pt }}</h2>
+      <p>{{ 'content.why-secure-randomness-and-rejection-sampling.p1' | pt }}</p>
+      <p>{{ 'content.why-secure-randomness-and-rejection-sampling.p2' | pt }}</p>
+      <div class="table-wrapper">
+        <table class="table">
+          <caption class="visually-hidden">{{ 'content.why-secure-randomness-and-rejection-sampling.caption1' | pt }}</caption>
+          <thead><tr><th scope="col">{{ 'content.why-secure-randomness-and-rejection-sampling.th1' | pt }}</th><th scope="col">{{ 'content.why-secure-randomness-and-rejection-sampling.th2' | pt }}</th><th scope="col">{{ 'content.why-secure-randomness-and-rejection-sampling.th3' | pt }}</th></tr></thead>
+          <tbody>
+            <tr><td>{{ 'content.why-secure-randomness-and-rejection-sampling.td1' | pt }}</td><td>1–2</td><td>{{ 'content.why-secure-randomness-and-rejection-sampling.td2' | pt }}</td></tr>
+            <tr><td>{{ 'content.why-secure-randomness-and-rejection-sampling.td3' | pt }}</td><td>1–6</td><td>{{ 'content.why-secure-randomness-and-rejection-sampling.td4' | pt }}</td></tr>
+            <tr><td>{{ 'content.why-secure-randomness-and-rejection-sampling.td5' | pt }}</td><td>1–100</td><td>{{ 'content.why-secure-randomness-and-rejection-sampling.td6' | pt }}</td></tr>
+            <tr><td>{{ 'content.why-secure-randomness-and-rejection-sampling.td7' | pt }}</td><td>1–365</td><td>{{ 'content.why-secure-randomness-and-rejection-sampling.td8' | pt }}</td></tr>
+            <tr><td>{{ 'content.why-secure-randomness-and-rejection-sampling.td9' | pt }}</td><td>0–9999</td><td>{{ 'content.why-secure-randomness-and-rejection-sampling.td10' | pt }}</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>{{ 'content.ideas-for-using-random-numbers.heading' | pt }}</h2>
+      <ul class="content-list">
+        <li>{{ 'content.ideas-for-using-random-numbers.li1' | pt }}</li>
+        <li>{{ 'content.ideas-for-using-random-numbers.li2' | pt }}</li>
+        <li>{{ 'content.ideas-for-using-random-numbers.li3' | pt }}</li>
+        <li>{{ 'content.ideas-for-using-random-numbers.li4' | pt }}</li>
+      </ul>
+      <p>{{ 'content.ideas-for-using-random-numbers.p1' | pt }}</p>
+    </section>

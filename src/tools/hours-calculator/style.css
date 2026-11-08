@@ -1,0 +1,112 @@
+/* hours-calculator: layout only. Colours, borders and type live in assets/css/tools.css. */
+
+@media (min-width: 640px) {
+  .hours-single-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .hours-pay-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.hours-single-grid {
+  margin-bottom: var(--space-2);
+}
+
+.hours-fieldset {
+  margin: var(--space-6) 0 0;
+  padding: 0;
+  min-width: 0;
+}
+
+.hours-fieldset legend {
+  margin-bottom: var(--space-3);
+  padding: 0;
+}
+
+.hours-fieldset .form-grid {
+  margin-bottom: var(--space-2);
+}
+
+.timesheet {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.timesheet-head {
+  display: none;
+}
+
+.timesheet-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-2);
+  padding: var(--space-3);
+}
+
+.timesheet-day {
+  grid-column: 1;
+  align-self: center;
+}
+
+.timesheet-total {
+  grid-column: 2;
+  grid-row: 1;
+  align-self: center;
+  justify-self: end;
+}
+
+.timesheet-cell {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  min-width: 0;
+}
+
+.timesheet-cell .form-control {
+  min-width: 0;
+  width: 100%;
+  padding-inline-start: var(--space-2);
+  padding-inline-end: var(--space-2);
+}
+
+@media (min-width: 640px) {
+  .timesheet {
+    gap: var(--space-2);
+  }
+
+  .timesheet-head,
+    .timesheet-row {
+    display: grid;
+    grid-template-columns: 7rem repeat(2, minmax(0, 1fr)) minmax(0, 0.8fr) 4.5rem;
+    gap: var(--space-3);
+    align-items: center;
+  }
+
+  .timesheet-head span:last-child {
+    text-align: end;
+  }
+
+  .timesheet-row {
+    padding: 0;
+  }
+
+  .timesheet-day {
+    grid-column: auto;
+  }
+
+  .timesheet-total {
+    grid-column: auto;
+    grid-row: auto;
+  }
+
+  .timesheet-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+}

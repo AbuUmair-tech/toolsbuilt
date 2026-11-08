@@ -1,0 +1,218 @@
+{
+  "listing": {
+    "name": "Datumsrechner: Tage zwischen zwei Daten",
+    "shortName": "Tage zwischen Daten",
+    "description": "Berechne die Tage insgesamt, die Werktage (Mo–Fr) und die Zeitspanne zwischen zwei beliebigen Kalenderdaten.",
+    "shortDescription": "Berechne die Tage insgesamt, die Werktage (Mo–Fr) und die Zeitspanne zwischen zwei beliebigen Kalenderdaten.",
+    "keywords": [
+      "tage zwischen zwei daten",
+      "datumsrechner",
+      "werktage berechnen",
+      "zeitraum berechnen",
+      "arbeitstage zählen"
+    ]
+  },
+  "title": "Datumsrechner - Tage zwischen zwei Daten berechnen",
+  "description": "Datumsrechner: Berechne die genaue Zahl der Tage, Werktage, Wochen, Monate und Jahre zwischen zwei Daten. Kostenlos online, ohne Anmeldung.",
+  "h1": "Datumsrechner: Tage zwischen zwei Daten",
+  "quickAnswer": "Um die Tage zwischen zwei Daten zu berechnen, wählst du im Datumsrechner Start- und Enddatum und legst fest, ob der letzte Tag mitgezählt wird. Der Rechner liefert Kalendertage, Werktage, Wochenendtage, Wochen und Monate. Alle Berechnungen laufen clientseitig in UTC, damit die Zeitumstellung keine Fehler verursacht.",
+  "formula": {
+    "title": "Formel für Zeitspanne & Dauer",
+    "expression": "Dauer = (Enddatum UTC ms - Startdatum UTC ms) / 86,400,000 ms [± 1 Tag, wenn inklusiv]",
+    "explanation": "Die Kalenderdauer misst ganze 24-Stunden-Tage in UTC zwischen zwei Daten. Im inklusiven Modus wird 1 Tag addiert, damit beide Randtage zählen. Für die Werktage wird jeder einzelne Tag der Spanne geprüft: Montag bis Freitag werden gezählt, Wochenendtage übersprungen."
+  },
+  "workedExamples": [
+    {
+      "title": "Normaler Arbeitsmonat (exklusiv)",
+      "inputs": [
+        "Startdatum: 1. Oktober 2026 (Donnerstag)",
+        "Enddatum: 31. Oktober 2026 (Samstag)",
+        "Inklusiv: Nein"
+      ],
+      "steps": [
+        "Abstand in Kalendertagen berechnen: 30 Tage",
+        "Werktage von Montag bis Freitag zählen: 22 Tage",
+        "Wochenendtage zählen: 8 Tage (4 volle Wochenenden)"
+      ],
+      "result": "30 Tage insgesamt (22 Werktage, 8 Wochenendtage, 4 Wochen und 2 Tage)"
+    },
+    {
+      "title": "Inklusive Dauer eines Events (Konferenz / Miete)",
+      "inputs": [
+        "Startdatum: 1. November 2026 (Sonntag)",
+        "Enddatum: 5. November 2026 (Donnerstag)",
+        "Inklusiv: Ja"
+      ],
+      "steps": [
+        "Reinen Abstand berechnen: 4 Tage",
+        "1 Tag für den inklusiven Randtag addieren: 5 Tage",
+        "Werktage zählen (Mo–Do): 4 Werktage, 1 Wochenendtag (Sonntag)"
+      ],
+      "result": "5 Tage insgesamt (4 Werktage, 1 Wochenendtag, 120 Stunden)"
+    },
+    {
+      "title": "Quartalsübergreifende Dauer über den Jahreswechsel",
+      "inputs": [
+        "Startdatum: 15. Dezember 2025 (Montag)",
+        "Enddatum: 15. März 2026 (Sonntag)",
+        "Inklusiv: Nein"
+      ],
+      "steps": [
+        "Kalendertage über den Jahreswechsel berechnen: 90 Tage",
+        "In Kalendermonate zerlegen: genau 3 Monate (0 Resttage)",
+        "Werktage zählen: 65 Werktage, 25 Wochenendtage"
+      ],
+      "result": "90 Tage insgesamt (3 Monate, 12 Wochen und 6 Tage, 2,160 Stunden)"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Das Zaunpfahlproblem (inklusiv vs. exklusiv)",
+      "description": "Ein Hotelaufenthalt von Freitag bis Sonntag umfasst 2 Nächte (exklusiv), aber 3 Kalendertage (inklusiv). Ohne klare Festlegung der Randtage kommt es bei Buchungen zu Abweichungen."
+    },
+    {
+      "title": "Werktage grob als 5/7 der Tage schätzen",
+      "description": "Werktage lassen sich nicht als 5/7 der Kalendertage schätzen, weil die Lage der Wochenenden die Zahl der Werktage bei kurzen Zeiträumen stark verschiebt."
+    },
+    {
+      "title": "Annehmen, dass Feiertage ausgeschlossen sind",
+      "description": "Der Werktagszähler filtert Samstage und Sonntage heraus. Gesetzliche Feiertage unterscheiden sich je nach Land und Region und werden nicht automatisch abgezogen."
+    },
+    {
+      "title": "Zeitumstellung in der lokalen Zeitzone",
+      "description": "Wer Tagesdifferenzen mit lokalen Mitternachts-Zeitstempeln berechnet, kann bei der Umstellung auf Sommer- oder Winterzeit Fehler von 23 oder 25 Stunden erhalten."
+    }
+  ],
+  "sources": [
+    {
+      "name": "ISO 8601: Normen für Datum und Uhrzeit"
+    },
+    {
+      "name": "US Naval Observatory: Rechnen mit dem gregorianischen Kalender"
+    },
+    {
+      "name": "W3C Note zu Datums- und Zeitformaten"
+    }
+  ],
+  "howto": {
+    "name": "So berechnest du die Differenz zwischen zwei Daten",
+    "description": "Schritt-für-Schritt-Anleitung, um die Dauer und die Werktage zwischen zwei Daten zu berechnen.",
+    "steps": [
+      {
+        "name": "Start- und Enddatum eingeben",
+        "text": "Wähle dein Start- und dein Enddatum in den Kalenderfeldern."
+      },
+      {
+        "name": "Inklusive Option wählen",
+        "text": "Aktiviere optional „Enddatum mitzählen“, wenn beide Randtage gezählt werden sollen."
+      },
+      {
+        "name": "Detaillierte Aufschlüsselung ansehen",
+        "text": "Sieh dir die Kalendertage, Werktage (Mo–Fr), Wochenendtage und die Aufteilung in Jahre, Monate und Wochen an."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Was ist der Unterschied zwischen Kalendertagen und Werktagen?",
+      "a": "Kalendertage umfassen alle 7 Tage der Woche (Montag bis Sonntag), Werktage dagegen nur die üblichen Arbeitstage von Montag bis Freitag, ohne Wochenendtage."
+    },
+    {
+      "q": "Wann sollte ich „Enddatum mitzählen“ aktivieren?",
+      "a": "Aktiviere diese Option, wenn deine Aktivität oder Miete beide Randtage umfasst. Eine Konferenz von Montag bis Mittwoch dauert zum Beispiel 3 volle Veranstaltungstage (inklusiv), aber 2 Tage, wenn du die verstrichene Zeit misst (exklusiv)."
+    },
+    {
+      "q": "Was passiert, wenn das Enddatum vor dem Startdatum liegt?",
+      "a": "Der Rechner erkennt vertauschte Daten, tauscht sie, um eine positive Spanne zu berechnen, und zeigt einen Hinweis, dass die Daten automatisch sortiert wurden."
+    },
+    {
+      "q": "Wie werden Schaltjahre bei mehrjährigen Zeiträumen behandelt?",
+      "a": "Die Berechnungen nutzen Zeitstempel zur UTC-Mitternacht und berücksichtigen jeden Schalttag (29. Februar) im Zeitraum, sodass Jahre mit 366 Tagen exakt gezählt werden. Gibt es einen Tag in einem Monat nicht (etwa den 31.), wird der letzte Tag dieses Monats verwendet."
+    },
+    {
+      "q": "Werden meine Daten an einen externen Server gesendet?",
+      "a": "Nein. Die gesamte Datumsrechnung läuft in deinem Webbrowser. Es werden keine Daten übertragen oder extern gespeichert."
+    },
+    {
+      "q": "Kann ich mit dem Tool Werktage für Rechnungen berechnen?",
+      "a": "Ja. Die Werktagszählung liefert die genaue Zahl der Tage ohne Wochenende zwischen Start- und Enddatum, ideal für Zahlungsziele von 30 Tagen oder SLA-Fristen."
+    },
+    {
+      "q": "Wie teilt das Tool Tage in Monate und Wochen auf?",
+      "a": "Es berechnet zuerst die vollständig vergangenen Kalendermonate und drückt den Rest in Wochen und übrigen Tagen aus; zusätzlich zeigt es die Tage und Stunden insgesamt."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Formular des Datumsrechners",
+      "copy-result-btn": "Ergebnis in die Zwischenablage kopieren"
+    },
+    "label": {
+      "start-date": "Startdatum <span class=\"text-accent\">*</span>",
+      "end-date": "Enddatum <span class=\"text-accent\">*</span>"
+    },
+    "content": {
+      "tool": {
+        "label1": "<input type=\"checkbox\" id=\"include-end-date\" data-param=\"inc\">\n            <span>Enddatum mitzählen (inklusive Berechnung)</span>",
+        "button1": "Differenz berechnen",
+        "div1": "Kalendertage insgesamt",
+        "div2": "Werktage",
+        "div3": "Jahre, Monate &amp; Tage",
+        "div4": "Wochen &amp; Tage",
+        "div5": "Vergangene Stunden insgesamt"
+      },
+      "how-when-to-use-the-date": {
+        "heading": "Wie &amp; wann du den Datumsrechner nutzt",
+        "p1": "Die genaue Dauer zwischen zwei Kalenderdaten zu kennen hilft bei:",
+        "li1": "<strong>Lohnabrechnung &amp; Stundenzetteln:</strong> Ermittle abrechenbare Arbeitstage zwischen Projektstart und -abschluss.",
+        "li2": "<strong>Gewerbeimmobilien &amp; Mietverträgen:</strong> Berechne genaue Mietdauern, anteilige Mieten oder Fristen für die Rückzahlung der Kaution.",
+        "li3": "<strong>Rechtlichen Fristen &amp; Compliance:</strong> Behalte gesetzliche Antwortfristen, Fristen bei Gericht oder Verjährungsfristen im Blick.",
+        "li4": "<strong>Reiseplanung &amp; Unterkunft:</strong> Prüfe die Zahl der Hotelnächte (exklusiv) und die Reisetage insgesamt (inklusiv)."
+      }
+    },
+    "text": {
+      "reset-btn": "Zurücksetzen",
+      "result-header-text": "Ergebnis der Datumsdifferenz",
+      "copy-result-btn": "<span data-icon=\"copy\"></span> Ergebnis kopieren",
+      "result-primary-text": "-- Tage"
+    },
+    "title": {
+      "copy-result-btn": "Ergebnis in die Zwischenablage kopieren"
+    }
+  },
+  "client": {
+    "errors": {
+      "invalidStart": "Bitte wähle ein gültiges Startdatum (JJJJ-MM-TT).",
+      "invalidEnd": "Bitte wähle ein gültiges Enddatum (JJJJ-MM-TT).",
+      "missingStart": "Bitte wähle ein gültiges Startdatum.",
+      "missingEnd": "Bitte wähle ein gültiges Enddatum."
+    },
+    "result": {
+      "days": {
+        "one": "{{n}} Tag",
+        "other": "{{n}} Tage"
+      },
+      "header": "Differenz der Zeitspanne",
+      "headerSwapped": "Differenz der Zeitspanne (Daten automatisch von Start bis Ende sortiert)"
+    },
+    "stats": {
+      "totalDays": "{{n}} Tage",
+      "businessDays": "{{n}} Werktage ({{weekend}} Wochenendtage)",
+      "ymd": "{{years}} Jahre, {{months}} Monate, {{days}} Tage",
+      "weeks": {
+        "one": "{{n}} Woche",
+        "other": "{{n}} Wochen"
+      },
+      "days": {
+        "one": "{{n}} Tag",
+        "other": "{{n}} Tage"
+      },
+      "totalHours": "{{n}} Stunden insgesamt"
+    },
+    "copy": {
+      "result": "Gesamtdauer: {{total}}. Werktage: {{business}} Tage. Entspricht: {{weeks}} W. {{weekDays}} T. ({{years}} J. {{months}} M. {{days}} T.).",
+      "resultSwapped": "Gesamtdauer: {{total}} (Daten automatisch von Start bis Ende sortiert). Werktage: {{business}} Tage. Entspricht: {{weeks}} W. {{weekDays}} T. ({{years}} J. {{months}} M. {{days}} T.).",
+      "toast": "Datumsdifferenz in die Zwischenablage kopiert"
+    }
+  }
+}

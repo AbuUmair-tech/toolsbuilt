@@ -5,6 +5,7 @@
  */
 document.addEventListener('DOMContentLoaded', () => {
   const logic = window.WordCounterLogic;
+  const T = ToolsBuilt.scope('word-counter');
   const textInput = document.getElementById('text-input');
   const clearBtn = document.getElementById('clear-btn');
   const copyBtn = document.getElementById('copy-btn');
@@ -27,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const res = logic.analyzeText(text);
     currentStats = res;
 
-    const numFmt = new Intl.NumberFormat('en-US');
+    const numFmt = new Intl.NumberFormat(ToolsBuilt.pageLocale('en-US'));
     statWords.textContent = numFmt.format(res.words);
     statCharsWithSpace.textContent = numFmt.format(res.characters);
     statCharsNoSpace.textContent = numFmt.format(res.charactersNoSpaces);
@@ -38,12 +39,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (topWordsList) {
       if (res.topWords.length === 0) {
-        topWordsList.innerHTML = '<li class="text-muted" style="color: var(--text-muted); font-size: 0.9rem;">No repeated keywords detected yet.</li>';
+        topWordsList.innerHTML = `<li class="text-muted text-secondary text-sm">${T('topWords.empty')}</li>`;
       } else {
         topWordsList.innerHTML = res.topWords.map(item => `
-          <li style="display: flex; justify-content: space-between; padding: 0.35rem 0; border-bottom: 1px solid var(--border-subtle); font-size: 0.9rem;">
-            <span style="font-weight: 500;">${item.word}</span>
-            <span style="color: var(--text-muted);">${numFmt.format(item.count)} (${item.percentage}%)</span>
+          <li class="flex justify-between py-1 border-b text-sm">
+            <span class="font-medium">${item.word}</span>
+            <span class="text-secondary">${numFmt.format(item.count)} (${item.percentage}%)</span>
           </li>
         `).join('');
       }
@@ -66,7 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
   copyBtn.addEventListener('click', () => {
     if (!textInput.value) return;
     if (window.ToolsBuilt && window.ToolsBuilt.copy) {
-      window.ToolsBuilt.copy(textInput.value, 'Text copied to clipboard');
+      window.ToolsBuilt.copy(textInput.value, T('copy.text'));
     }
   });
 
@@ -74,9 +75,9 @@ document.addEventListener('DOMContentLoaded', () => {
     copyStatsBtn.addEventListener('click', () => {
       if (!currentStats) return;
       const s = currentStats;
-      const summary = `Word Count: ${s.words} | Characters: ${s.characters} (${s.charactersNoSpaces} without spaces) | Sentences: ${s.sentences} | Paragraphs: ${s.paragraphs} | Reading Time: ${s.readingTime} | Speaking Time: ${s.speakingTime}`;
+      const summary = T('copy.summary', s);
       if (window.ToolsBuilt && window.ToolsBuilt.copy) {
-        window.ToolsBuilt.copy(summary, 'Text statistics copied to clipboard');
+        window.ToolsBuilt.copy(summary, T('copy.stats'));
       }
     });
   }

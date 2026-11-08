@@ -1,0 +1,108 @@
+---
+layout: layouts/tool.njk
+toolSlug: tip-calculator
+permalink: /tools/tip-calculator/
+extraCss: "/tools/tip-calculator/style.css"
+lastReviewed: "2026-10-31"
+---
+{% from "partials/currency-select.njk" import currencySelect, countryData with context %}
+{{ countryData(countries) }}
+
+    <!-- Tool Form Container -->
+    <section class="tool-container" aria-label="{{ 'ariaLabel.tool-section1' | pt }}">
+      <form id="calculator-form" novalidate>
+        <div class="form-grid two-col">
+          <div class="form-group">
+            <label for="bill">{{ 'label.bill' | pt }}</label>
+            <input type="number" inputmode="decimal" step="any" min="0" id="bill" data-param="bill" class="form-control" value="50" placeholder="{{ 'placeholder.bill' | pt }}" required aria-required="true">
+          </div>
+          {{ currencySelect({ id: "currency", param: "cur", selected: "USD" }) }}
+        </div>
+
+        <fieldset class="choice-toggle tip-presets">
+          <legend>{{ 'content.tool.legend1' | pt }}</legend>
+          <div class="choice-toggle-options">
+            {% for p in [10, 15, 18, 20, 25] %}
+            <label class="choice-toggle-option">
+              <input type="radio" name="tip-preset" value="{{ p }}"{% if p == 18 %} checked{% endif %}>
+              <span>{{ p }}%</span>
+            </label>
+            {% endfor %}
+          </div>
+        </fieldset>
+
+        <div class="form-grid two-col">
+          <div class="form-group">
+            <label for="tip-percent">{{ 'label.tip-percent' | pt }}</label>
+            <input type="number" inputmode="decimal" step="any" min="0" max="100" id="tip-percent" data-param="tip" class="form-control" value="18" required aria-required="true">
+          </div>
+          <div class="form-group">
+            <label for="people">{{ 'label.people' | pt }}</label>
+            <input type="number" inputmode="numeric" step="1" min="1" id="people" data-param="people" class="form-control" value="2">
+          </div>
+        </div>
+
+        <div class="tip-options">
+          <label class="checkbox-label">
+            {{ 'content.tool.label1' | pt }}
+          </label>
+          <div class="form-group tip-tax-group" id="tax-group" hidden>
+            <label for="tax-percent">{{ 'label.tax-percent' | pt }}</label>
+            <input type="number" inputmode="decimal" step="any" min="0" max="100" id="tax-percent" data-param="tax" class="form-control" placeholder="{{ 'placeholder.tax-percent' | pt }}">
+          </div>
+          <label class="checkbox-label">
+            {{ 'content.tool.label2' | pt }}
+          </label>
+        </div>
+
+        <div class="button-group mt-6">
+          <button type="submit" class="btn btn-primary">{{ 'content.tool.button1' | pt }}</button>
+          <button type="button" class="btn btn-secondary" id="reset-btn">{{ 'text.reset-btn' | pt }}</button>
+        </div>
+      </form>
+
+      <div id="error-box" class="hidden form-error" role="alert"></div>
+
+      <div id="result-box" class="result-box is-visible" aria-live="polite">
+        <div class="result-header">
+          <span id="result-header-text">{{ 'text.result-header-text' | pt }}</span>
+          <button type="button" class="btn btn-sm btn-ghost" id="copy-result-btn" title="{{ 'title.copy-result-btn' | pt }}" aria-label="{{ 'ariaLabel.copy-result-btn' | pt }}">
+            {{ 'text.copy-result-btn' | pt }}
+          </button>
+        </div>
+        <div class="result-primary" id="result-primary-text">--</div>
+        <p class="form-hint" id="result-note" hidden></p>
+        <div class="result-grid" id="result-stats"></div>
+      </div>
+    </section>
+
+    <!-- tool-end -->
+
+    <section class="content-section">
+      <h2>{{ 'content.quick-tip-percentages.heading' | pt }}</h2>
+      <p>{{ 'content.quick-tip-percentages.p1' | pt }}</p>
+      <div class="table-wrapper">
+        <table class="table">
+          <caption class="visually-hidden">{{ 'content.quick-tip-percentages.caption1' | pt }}</caption>
+          <thead><tr><th scope="col">{{ 'content.quick-tip-percentages.th1' | pt }}</th><th scope="col">{{ 'content.quick-tip-percentages.th2' | pt }}</th><th scope="col">{{ 'content.quick-tip-percentages.th3' | pt }}</th></tr></thead>
+          <tbody>
+            <tr><td>10%</td><td>{{ 'content.quick-tip-percentages.td1' | pt }}</td><td>6.40</td></tr>
+            <tr><td>15%</td><td>{{ 'content.quick-tip-percentages.td2' | pt }}</td><td>6.40 + 3.20 = 9.60</td></tr>
+            <tr><td>18%</td><td>{{ 'content.quick-tip-percentages.td3' | pt }}</td><td>12.80 − 1.28 = 11.52</td></tr>
+            <tr><td>20%</td><td>{{ 'content.quick-tip-percentages.td4' | pt }}</td><td>12.80</td></tr>
+            <tr><td>25%</td><td>{{ 'content.quick-tip-percentages.td5' | pt }}</td><td>16.00</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>{{ 'content.tipping-customs-differ.heading' | pt }}</h2>
+      <p>{{ 'content.tipping-customs-differ.p1' | pt }}</p>
+      <p>{{ 'content.tipping-customs-differ.p2' | pt }}</p>
+
+      <h2>{{ 'content.splitting-fairly.heading' | pt }}</h2>
+      <ul class="content-list">
+        <li>{{ 'content.splitting-fairly.li1' | pt }}</li>
+        <li>{{ 'content.splitting-fairly.li2' | pt }}</li>
+        <li>{{ 'content.splitting-fairly.li3' | pt }}</li>
+      </ul>
+    </section>

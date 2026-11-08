@@ -5,86 +5,90 @@
 const UNIT_FACTORS = {
   length: {
     baseUnit: 'm',
-    name: 'Length',
     units: {
-      'm': { name: 'Meter (m)', factor: 1 },
-      'km': { name: 'Kilometer (km)', factor: 1000 },
-      'cm': { name: 'Centimeter (cm)', factor: 0.01 },
-      'mm': { name: 'Millimeter (mm)', factor: 0.001 },
-      'mi': { name: 'Mile (mi)', factor: 1609.344 },
-      'yd': { name: 'Yard (yd)', factor: 0.9144 },
-      'ft': { name: 'Foot (ft)', factor: 0.3048 },
-      'in': { name: 'Inch (in)', factor: 0.0254 },
-      'nmi': { name: 'Nautical Mile (nmi)', factor: 1852 }
+      'm': { factor: 1 },
+      'km': { factor: 1000 },
+      'cm': { factor: 0.01 },
+      'mm': { factor: 0.001 },
+      'mi': { factor: 1609.344 },
+      'yd': { factor: 0.9144 },
+      'ft': { factor: 0.3048 },
+      'in': { factor: 0.0254 },
+      'nmi': { factor: 1852 }
     }
   },
   weight: {
     baseUnit: 'kg',
-    name: 'Weight / Mass',
     units: {
-      'kg': { name: 'Kilogram (kg)', factor: 1 },
-      'g': { name: 'Gram (g)', factor: 0.001 },
-      'mg': { name: 'Milligram (mg)', factor: 0.000001 },
-      't': { name: 'Metric Ton (t)', factor: 1000 },
-      'lb': { name: 'Pound (lb)', factor: 0.45359237 },
-      'oz': { name: 'Ounce (oz)', factor: 0.028349523125 },
-      'st': { name: 'Stone (st)', factor: 6.35029318 },
-      'ton': { name: 'Short Ton (US ton)', factor: 907.18474 }
+      'kg': { factor: 1 },
+      'g': { factor: 0.001 },
+      'mg': { factor: 0.000001 },
+      't': { factor: 1000 },
+      'lb': { factor: 0.45359237 },
+      'oz': { factor: 0.028349523125 },
+      'st': { factor: 6.35029318 },
+      'ton': { factor: 907.18474 }
     }
   },
   temperature: {
     baseUnit: 'c',
-    name: 'Temperature',
     units: {
-      'c': { name: 'Celsius (°C)' },
-      'f': { name: 'Fahrenheit (°F)' },
-      'k': { name: 'Kelvin (K)' }
+      'c': {},
+      'f': {},
+      'k': {}
     }
   },
   area: {
     baseUnit: 'sqm',
-    name: 'Area',
     units: {
-      'sqm': { name: 'Square Meter (m²)', factor: 1 },
-      'sqkm': { name: 'Square Kilometer (km²)', factor: 1000000 },
-      'sqcm': { name: 'Square Centimeter (cm²)', factor: 0.0001 },
-      'sqmi': { name: 'Square Mile (mi²)', factor: 2589988.110336 },
-      'sqyd': { name: 'Square Yard (yd²)', factor: 0.83612736 },
-      'sqft': { name: 'Square Foot (ft²)', factor: 0.09290304 },
-      'sqin': { name: 'Square Inch (in²)', factor: 0.00064516 },
-      'ha': { name: 'Hectare (ha)', factor: 10000 },
-      'ac': { name: 'Acre (ac)', factor: 4046.8564224 }
+      'sqm': { factor: 1 },
+      'sqkm': { factor: 1000000 },
+      'sqcm': { factor: 0.0001 },
+      'sqmi': { factor: 2589988.110336 },
+      'sqyd': { factor: 0.83612736 },
+      'sqft': { factor: 0.09290304 },
+      'sqin': { factor: 0.00064516 },
+      'ha': { factor: 10000 },
+      'ac': { factor: 4046.8564224 }
     }
   },
   volume: {
     baseUnit: 'l',
-    name: 'Volume',
     units: {
-      'l': { name: 'Liter (L)', factor: 1 },
-      'ml': { name: 'Milliliter (mL)', factor: 0.001 },
-      'cum': { name: 'Cubic Meter (m³)', factor: 1000 },
-      'gal': { name: 'US Gallon (gal)', factor: 3.785411784 },
-      'qt': { name: 'US Quart (qt)', factor: 0.946352946 },
-      'pt': { name: 'US Pint (pt)', factor: 0.473176473 },
-      'cup': { name: 'US Cup', factor: 0.2365882365 },
-      'floz': { name: 'US Fluid Ounce (fl oz)', factor: 0.0295735295625 },
-      'impgal': { name: 'Imperial Gallon (imp gal)', factor: 4.54609 }
+      'l': { factor: 1 },
+      'ml': { factor: 0.001 },
+      'cum': { factor: 1000 },
+      'gal': { factor: 3.785411784 },
+      'qt': { factor: 0.946352946 },
+      'pt': { factor: 0.473176473 },
+      'cup': { factor: 0.2365882365 },
+      'floz': { factor: 0.0295735295625 },
+      'impgal': { factor: 4.54609 }
     }
   },
   speed: {
     baseUnit: 'mps',
-    name: 'Speed',
     units: {
-      'mps': { name: 'Meter per Second (m/s)', factor: 1 },
-      'kph': { name: 'Kilometer per Hour (km/h)', factor: 1 / 3.6 },
-      'mph': { name: 'Mile per Hour (mph)', factor: 0.44704 },
-      'kn': { name: 'Knot (kn)', factor: 1852 / 3600 },
-      'fps': { name: 'Foot per Second (ft/s)', factor: 0.3048 }
+      'mps': { factor: 1 },
+      'kph': { factor: 1 / 3.6 },
+      'mph': { factor: 0.44704 },
+      'kn': { factor: 1852 / 3600 },
+      'fps': { factor: 0.3048 }
     }
   }
 };
 
 document.addEventListener('DOMContentLoaded', () => {
+  const T = ToolsBuilt.scope('unit-converter');
+
+  // Display names come from the tool's translation data: categories.<category>, units.<category>.<id>
+  Object.keys(UNIT_FACTORS).forEach(cat => {
+    UNIT_FACTORS[cat].name = T(`categories.${cat}`);
+    Object.keys(UNIT_FACTORS[cat].units).forEach(id => {
+      UNIT_FACTORS[cat].units[id].name = T(`units.${cat}.${id}`);
+    });
+  });
+
   const logic = window.UnitConverterLogic || {
     convert: (cat, val, from, to) => {
       const v = parseFloat(val);
@@ -181,7 +185,7 @@ document.addEventListener('DOMContentLoaded', () => {
         renderTable();
         return;
       }
-      showError('Please enter a valid numeric value.', inputA);
+      showError(T('errors.numericValue'), inputA);
       return;
     }
 
@@ -206,7 +210,7 @@ document.addEventListener('DOMContentLoaded', () => {
         renderTable();
         return;
       }
-      showError('Please enter a valid numeric value.', inputB);
+      showError(T('errors.numericValue'), inputB);
       return;
     }
 
@@ -233,27 +237,27 @@ document.addEventListener('DOMContentLoaded', () => {
     const statsGrid = document.getElementById('result-stats-grid');
     const formulaBox = document.getElementById('formula-explanation');
 
-    if (headerEl) headerEl.textContent = `${UNIT_FACTORS[activeCategory].name} Conversion`;
+    if (headerEl) headerEl.textContent = T('result.header', { category: UNIT_FACTORS[activeCategory].name });
     if (primaryEl) {
-      primaryEl.textContent = `${valA} ${nameA} = ${valB} ${nameB}`;
+      primaryEl.textContent = T('result.primary', { valA, nameA, valB, nameB });
     }
 
-    lastResultText = `${valA} ${nameA} is equal to ${valB} ${nameB}.`;
+    lastResultText = T('result.copy', { valA, nameA, valB, nameB });
 
     if (statsGrid) {
       const oneUnitEquiv = logic.convert(activeCategory, 1, uA, uB);
       const reverseEquiv = logic.convert(activeCategory, 1, uB, uA);
       statsGrid.innerHTML = `
         <div class="result-stat-card">
-          <span class="stat-label">1 ${nameA}</span>
-          <span class="stat-value">${oneUnitEquiv} ${nameB}</span>
+          <span class="stat-label">${T('result.quantity', { value: 1, unit: nameA })}</span>
+          <span class="stat-value">${T('result.quantity', { value: oneUnitEquiv, unit: nameB })}</span>
         </div>
         <div class="result-stat-card">
-          <span class="stat-label">1 ${nameB}</span>
-          <span class="stat-value">${reverseEquiv} ${nameA}</span>
+          <span class="stat-label">${T('result.quantity', { value: 1, unit: nameB })}</span>
+          <span class="stat-value">${T('result.quantity', { value: reverseEquiv, unit: nameA })}</span>
         </div>
         <div class="result-stat-card">
-          <span class="stat-label">Category</span>
+          <span class="stat-label">${T('stats.category')}</span>
           <span class="stat-value">${UNIT_FACTORS[activeCategory].name}</span>
         </div>
       `;
@@ -268,13 +272,13 @@ document.addEventListener('DOMContentLoaded', () => {
         else if (uA === 'k' && uB === 'c') tempFormula = `K - 273.15 = °C`;
         else if (uA === 'f' && uB === 'k') tempFormula = `(°F - 32) × 5/9 + 273.15 = K`;
         else if (uA === 'k' && uB === 'f') tempFormula = `(K - 273.15) × 9/5 + 32 = °F`;
-        else tempFormula = `Direct 1:1 match`;
-        formulaBox.innerHTML = `<strong>Conversion Formula:</strong> <code>${tempFormula}</code>`;
+        else tempFormula = T('formula.sameUnit');
+        formulaBox.innerHTML = T('formula.temperature', { formula: tempFormula });
       } else {
         const factorA = UNIT_FACTORS[activeCategory].units[uA].factor;
         const factorB = UNIT_FACTORS[activeCategory].units[uB].factor;
         const ratio = Math.round((factorA / factorB) * 1e8) / 1e8;
-        formulaBox.innerHTML = `<strong>Conversion Formula:</strong> Multiply by factor <code>${ratio}</code>`;
+        formulaBox.innerHTML = T('formula.factor', { ratio });
       }
       formulaBox.classList.remove('hidden');
     }
@@ -291,10 +295,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const baseName = UNIT_FACTORS[activeCategory].units[baseUnitKey].name;
 
     tableBody.innerHTML = items.map(item => `
-      <tr style="border-bottom: 1px solid var(--border-subtle);">
-        <td style="padding: 0.6rem 0.75rem; font-weight: 500;">${baseVal || 1} ${baseName}</td>
-        <td style="padding: 0.6rem 0.75rem; text-align: right; font-weight: 700; color: var(--accent-primary);">${item.value}</td>
-        <td style="padding: 0.6rem 0.75rem;">${item.unitName}</td>
+      <tr>
+        <td class="py-2 px-3 font-medium">${T('result.quantity', { value: baseVal || 1, unit: baseName })}</td>
+        <td class="py-2 px-3 text-right font-bold text-accent">${item.value}</td>
+        <td class="py-2 px-3">${item.unitName}</td>
       </tr>
     `).join('');
   }
@@ -345,7 +349,7 @@ document.addEventListener('DOMContentLoaded', () => {
       try {
         await navigator.clipboard.writeText(lastResultText);
         const orig = copyBtn.innerHTML;
-        copyBtn.innerHTML = '<span>Copied!</span>';
+        copyBtn.innerHTML = `<span>${T('result.copied')}</span>`;
         setTimeout(() => { copyBtn.innerHTML = orig; }, 2000);
       } catch (e) {
         console.error('Copy failed:', e);

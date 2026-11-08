@@ -1,0 +1,337 @@
+{
+  "listing": {
+    "name": "Unix-Zeitstempel-Umrechner",
+    "shortName": "Unix-Zeitstempel",
+    "description": "Rechne Unix-Epoch-Zeitstempel in UTC- und Ortszeit, ISO 8601 und RFC 2822 um, oder Daten zurück in Sekunden und Millisekunden.",
+    "shortDescription": "Epoch-Sekunden oder -Millisekunden in ein lesbares Datum und zurück, mit live laufendem aktuellen Zeitstempel.",
+    "keywords": [
+      "unix zeitstempel umrechnen",
+      "epoch converter",
+      "epoch in datum",
+      "timestamp in datum umwandeln",
+      "datum in timestamp",
+      "aktuelle unix zeit",
+      "jahr 2038 problem"
+    ]
+  },
+  "title": "Unix-Zeitstempel umrechnen (Epoch in Datum & zurück)",
+  "description": "Unix-Zeitstempel-Umrechner: Epoch-Zeitstempel in UTC- und Ortszeit, ISO 8601 und RFC 2822 umrechnen oder ein Datum in Sekunden und Millisekunden.",
+  "h1": "Unix-Zeitstempel-Umrechner",
+  "quickAnswer": "Ein Unix-Zeitstempel ist die Anzahl der Sekunden seit 1970-01-01 00:00:00 UTC, ohne Schaltsekunden. 1700000000 entspricht 2023-11-14T22:13:20Z, derselbe Zeitpunkt in Millisekunden ist 1700000000000. Eine 10-stellige Zahl sind fast immer Sekunden, eine 13-stellige Millisekunden; dieser Unix-Zeitstempel-Umrechner erkennt automatisch, was du eingefügt hast.",
+  "formula": {
+    "title": "Formel für die Epoch-Umrechnung",
+    "expression": "Datum (UTC) = 1970-01-01T00:00:00Z + Zeitstempel in Sekunden   ·   Zeitstempel = (Datum − 1970-01-01T00:00:00Z) in Sekunden",
+    "explanation": "Jeder Unix-Tag hat genau 86,400 Sekunden. Das Datum ergibt sich also, indem man durch 86,400 teilt, um die Tagesnummer seit dem 1. Januar 1970 zu erhalten, und den Rest als Uhrzeit nimmt. Millisekunden sind Sekunden × 1,000. Die Einheit wird an der Größe der Zahl erkannt: unter 100,000,000,000 gilt als Sekunden (das reicht bis ins Jahr 5138), bis 14 Stellen als Millisekunden, darüber als Mikro- und Nanosekunden.",
+    "variables": [
+      {
+        "name": "Sekunden",
+        "description": "Die klassische Unix-Zeit, die die meisten Server, Datenbanken und der Befehl date nutzen."
+      },
+      {
+        "name": "Millisekunden",
+        "description": "Genutzt von JavaScript (Date.now()), Java (System.currentTimeMillis()) und vielen APIs: Sekunden × 1,000."
+      },
+      {
+        "name": "Ortszeit",
+        "description": "Derselbe Zeitpunkt mit dem Zeitzonenversatz deines Geräts. Der Zeitstempel selbst ändert sich nie mit der Zeitzone."
+      }
+    ]
+  },
+  "workedExamples": [
+    {
+      "title": "Die Unix-Epoche",
+      "inputs": [
+        "Zeitstempel: 0"
+      ],
+      "steps": [
+        "0 Sekunden nach der Epoche"
+      ],
+      "result": "1970-01-01T00:00:00Z (Donnerstag, 1. Januar 1970, Mitternacht UTC)"
+    },
+    {
+      "title": "Ein 10-stelliger Zeitstempel in Sekunden",
+      "inputs": [
+        "Zeitstempel: 1700000000"
+      ],
+      "steps": [
+        "1,700,000,000 ÷ 86,400 = 19,675 ganze Tage, Rest 80,000 Sekunden",
+        "Tag 19,675 nach dem 1. Januar 1970 ist der 14. November 2023",
+        "80,000 Sekunden = 22 Stunden 13 Minuten 20 Sekunden"
+      ],
+      "result": "2023-11-14T22:13:20Z (Tue, 14 Nov 2023 22:13:20 +0000)"
+    },
+    {
+      "title": "Ein 13-stelliger Zeitstempel in Millisekunden",
+      "inputs": [
+        "Zeitstempel: 1700000000000"
+      ],
+      "steps": [
+        "13 Stellen, also wird er als Millisekunden gelesen",
+        "1,700,000,000,000 ÷ 1,000 = 1,700,000,000 Sekunden"
+      ],
+      "result": "2023-11-14T22:13:20Z, derselbe Zeitpunkt wie im vorigen Beispiel"
+    },
+    {
+      "title": "Die letzte Sekunde der 32-Bit-Zeit",
+      "inputs": [
+        "Zeitstempel: 2147483647 (2³¹ − 1)"
+      ],
+      "steps": [
+        "Der größte Wert, den eine vorzeichenbehaftete 32-Bit-Ganzzahl fassen kann",
+        "2,147,483,647 Sekunden nach der Epoche"
+      ],
+      "result": "2038-01-19T03:14:07Z, eine Sekunde bevor 32-Bit-Uhren überlaufen"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Millisekunden als Sekunden behandeln",
+      "description": "Übergibst du 1700000000000 an eine Funktion, die Sekunden erwartet, erhältst du ein Datum etwa 54,000 Jahre in der Zukunft; übergibst du Sekunden an JavaScripts <code>new Date()</code>, landest du im Januar 1970. Zähl die Stellen: 10 für Sekunden, 13 für Millisekunden."
+    },
+    {
+      "title": "Denken, ein Zeitstempel hätte eine Zeitzone",
+      "description": "Ein Unix-Zeitstempel wird immer ab Mitternacht UTC gezählt, dieselbe Zahl ist also überall derselbe Zeitpunkt. Nur die Darstellung ändert sich. Weichen zwei Systeme um ganze Stunden voneinander ab, formatiert eines davon in Ortszeit."
+    },
+    {
+      "title": "Versehentlich einen Zeitstempel aus Ortszeit bilden",
+      "description": "Wer \"2026-03-01 09:00\" umrechnet, ohne die Zeitzone anzugeben, nutzt stillschweigend die Zeitzone des Computers. Wähle beim Umrechnen eines Datums in einen Zeitstempel ausdrücklich UTC oder Ortszeit."
+    },
+    {
+      "title": "Zeit in einer vorzeichenbehafteten 32-Bit-Ganzzahl speichern",
+      "description": "Ein vorzeichenbehafteter 32-Bit-Sekundenzähler läuft nach 2038-01-19T03:14:07Z über und springt auf Dezember 1901. Nutze 64-Bit-Ganzzahlen (BIGINT, int64, time_t auf modernen 64-Bit-Systemen) für alles, was Daten nach 2038 speichern könnte, auch Ablaufdaten und Hypotheken."
+    },
+    {
+      "title": "Schaltsekunden erwarten",
+      "description": "Unix-Zeit ignoriert Schaltsekunden: Jeder Tag hat genau 86,400 Sekunden. Die Differenz zweier Zeitstempel ist daher die vergangene bürgerliche Zeit und kann um die 27 seit 1972 eingefügten Schaltsekunden von den tatsächlich vergangenen Sekunden abweichen."
+    }
+  ],
+  "sources": [
+    {
+      "name": "The Open Group Base Specifications: Seconds Since the Epoch (POSIX)"
+    },
+    {
+      "name": "RFC 3339: Date and Time on the Internet (Profil von ISO 8601)"
+    },
+    {
+      "name": "RFC 2822: Internet Message Format (Spezifikation von Datum und Uhrzeit)"
+    },
+    {
+      "name": "IERS Bulletin C: Ankündigungen von Schaltsekunden"
+    }
+  ],
+  "howto": {
+    "name": "So rechnest du einen Unix-Zeitstempel um",
+    "description": "Mach aus einem Epoch-Zeitstempel ein lesbares Datum oder aus einem Datum einen Zeitstempel.",
+    "steps": [
+      {
+        "name": "Zeitstempel einfügen",
+        "text": "Gib die Zahl in Sekunden oder Millisekunden ein. Die Einheit wird an der Stellenzahl erkannt, oder du wählst sie im Menü Einheit."
+      },
+      {
+        "name": "Datum ablesen",
+        "text": "Sieh das Datum in UTC und deiner Ortszeit, dazu ISO 8601, RFC 2822 und wie lange es her ist oder noch dauert."
+      },
+      {
+        "name": "Datum zurückrechnen",
+        "text": "Wähle Datum und Uhrzeit, lege fest, ob es UTC oder deine Ortszeit ist, und lies den Zeitstempel in Sekunden und Millisekunden ab."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Was ist ein Unix-Zeitstempel?",
+      "a": "Die Anzahl der Sekunden, die seit 00:00:00 UTC am 1. Januar 1970 (der Unix-Epoche) vergangen sind, ohne Schaltsekunden. Man nennt sie auch Epoch-Zeit, POSIX-Zeit oder Unix-Zeit."
+    },
+    {
+      "q": "Wie rechne ich einen Unix-Zeitstempel in ein Datum um?",
+      "a": "Füge ihn oben in den Umrechner ein. Im Code: JavaScript new Date(ts * 1000).toISOString(); Python datetime.fromtimestamp(ts, tz=timezone.utc); unter Linux date -u -d @1700000000; in Excel =ts/86400 + DATUM(1970;1;1)."
+    },
+    {
+      "q": "Wie bekomme ich den aktuellen Unix-Zeitstempel?",
+      "a": "Der Live-Zähler oben im Tool zeigt ihn in Sekunden und Millisekunden. Im Code: Math.floor(Date.now() / 1000) in JavaScript, int(time.time()) in Python, date +%s in einer Unix-Shell."
+    },
+    {
+      "q": "Ist mein Zeitstempel in Sekunden oder Millisekunden?",
+      "a": "Zähl die Stellen. Aktuelle Zeitstempel in Sekunden haben 10 Stellen (1,7xx,xxx,xxx), in Millisekunden 13 Stellen. Der Umrechner erkennt das automatisch, und du kannst die Einheit im Menü Einheit erzwingen."
+    },
+    {
+      "q": "Was ist das Jahr-2038-Problem?",
+      "a": "Systeme, die Unix-Zeit in einer vorzeichenbehafteten 32-Bit-Ganzzahl speichern, können nur bis 2,147,483,647 Sekunden zählen, also bis 03:14:07 UTC am 19. Januar 2038. Eine Sekunde später läuft der Wert in eine negative Zahl über und das Datum springt auf den 13. Dezember 1901 zurück. 64-Bit-Zeitwerte vermeiden das."
+    },
+    {
+      "q": "Hängt ein Unix-Zeitstempel von der Zeitzone ab?",
+      "a": "Nein. Der Zeitstempel ist zum selben Zeitpunkt überall gleich. Zeitzonen spielen erst eine Rolle, wenn du ihn in ein lesbares Datum umwandelst; deshalb zeigt der Umrechner UTC und deine Ortszeit."
+    },
+    {
+      "q": "Kann ein Unix-Zeitstempel negativ sein?",
+      "a": "Ja. Negative Werte sind Daten vor 1970: −86400 ist der 31. Dezember 1969 00:00:00 UTC. Die meisten modernen Sprachen kommen damit zurecht, manche älteren Systeme und Tabellenkalkulationen nicht."
+    },
+    {
+      "q": "Was ist der Unterschied zwischen Datumsangaben nach ISO 8601 und RFC 2822?",
+      "a": "ISO 8601 (2023-11-14T22:13:20Z) ist das sortierbare Format in JSON und APIs. RFC 2822 (Tue, 14 Nov 2023 22:13:20 +0000) ist das Format in Date-Headern von E-Mails und vielen HTTP- und RSS-Feeds."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Unix-Zeitstempel-Umrechner",
+      "tool-div1": "Aktueller Unix-Zeitstempel",
+      "copy-result-btn": "Ergebnis in die Zwischenablage kopieren"
+    },
+    "content": {
+      "tool": {
+        "div1": "<span class=\"epoch-now-label\">Aktueller Zeitstempel (Sekunden)</span>\n          <span class=\"epoch-now-value tabular-nums\" id=\"now-seconds\">–</span>",
+        "div2": "<span class=\"epoch-now-label\">Millisekunden</span>\n          <span class=\"epoch-now-value tabular-nums\" id=\"now-ms\">–</span>",
+        "button1": "Sekunden kopieren",
+        "button2": "ms kopieren"
+      },
+      "timestamp-to-date": {
+        "heading": "Zeitstempel in Datum",
+        "button1": "In Datum umrechnen"
+      },
+      "date-to-timestamp": {
+        "heading": "Datum in Zeitstempel"
+      },
+      "the-year-2038-problem-explained": {
+        "heading": "Das Jahr-2038-Problem erklärt",
+        "p1": "Frühe Unix-Systeme speicherten die Zeit in einem <code>time_t</code>, das eine vorzeichenbehaftete 32-Bit-Ganzzahl war. Der größte darstellbare Wert ist 2,147,483,647, und so viele Sekunden nach der Epoche sind <strong>03:14:07 UTC am Dienstag, 19. Januar 2038</strong>. Eine Sekunde später läuft der Zähler auf −2,147,483,648 über, was Software als 20:45:52 UTC am 13. Dezember 1901 liest.",
+        "p2": "Das ähnelt dem Jahr-2000-Problem, ist aber schwerer zu erkennen: Es liegt nicht daran, wie Jahre geschrieben werden, sondern an der Bitbreite einer Zahl tief in Dateisystemen, Datenbanken, eingebetteten Geräten und Dateiformaten. Berechnungen, die in die Zukunft schauen, etwa Tilgungspläne über 30 Jahre, Ablaufdaten von Zertifikaten oder langfristige Planungen, können schon lange vor 2038 scheitern.",
+        "li1": "<strong>Bereits behoben:</strong> 64-Bit-Linux, macOS, Windows und moderne Sprachen nutzen 64-Bit-Zeit, die etwa 292 Milliarden Jahre reicht. Linux-Kernel 5.6 hat 64-Bit-Zeit auch für 32-Bit-Architekturen eingeführt.",
+        "li2": "<strong>Noch gefährdet:</strong> alte eingebettete 32-Bit-Systeme, MySQL-Spalten vom Typ <code>TIMESTAMP</code> (begrenzt auf 2038-01-19 03:14:07 UTC), Dateiformate mit 32-Bit-Zeitfeldern und Code, der Zeitstempel in <code>int</code> umwandelt.",
+        "li3": "<strong>So prüfst du es:</strong> Rechne oben 2147483648 um. Zeigt dein System dafür ein Datum im Jahr 2038, kommt es mit Zeiten jenseits der Grenze zurecht."
+      },
+      "timestamps-in-common-languages": {
+        "heading": "Zeitstempel in gängigen Sprachen",
+        "caption1": "Unix-Zeitstempel im Code abrufen und umrechnen",
+        "th1": "Sprache",
+        "th2": "Aktueller Zeitstempel",
+        "th3": "Zeitstempel in Datum",
+        "td1": "JavaScript",
+        "td2": "<code>Math.floor(Date.now() / 1000)</code>",
+        "td3": "<code>new Date(ts * 1000)</code>",
+        "td4": "Python",
+        "td5": "<code>int(time.time())</code>",
+        "td6": "<code>datetime.fromtimestamp(ts, timezone.utc)</code>",
+        "td7": "PHP",
+        "td8": "<code>time()</code>",
+        "td9": "<code>date('c', $ts)</code>",
+        "td10": "Java",
+        "td11": "<code>Instant.now().getEpochSecond()</code>",
+        "td12": "<code>Instant.ofEpochSecond(ts)</code>",
+        "td13": "Shell (GNU)",
+        "td14": "<code>date +%s</code>",
+        "td15": "<code>date -u -d @1700000000</code>",
+        "td16": "SQL (PostgreSQL)",
+        "td17": "<code>extract(epoch from now())</code>",
+        "td18": "<code>to_timestamp(1700000000)</code>",
+        "p1": "Alles auf dieser Seite läuft in deinem Browser: Der aktuelle Zeitstempel kommt von der Uhr deines Geräts, und die Ortszeit nutzt die Zeitzoneneinstellung deines Geräts. Wirkt der Live-Zähler falsch, prüfe, ob die Uhr deines Computers synchronisiert ist."
+      }
+    },
+    "text": {
+      "now-pause": "Pause",
+      "ts-now-btn": "Jetzt",
+      "ts-hint": "10 Stellen = Sekunden, 13 Stellen = Millisekunden. Negative Werte sind Daten vor 1970.",
+      "reset-btn": "Zurücksetzen",
+      "result-header-text": "Datum und Uhrzeit",
+      "copy-result-btn": "<span data-icon=\"copy\"></span> Ergebnis kopieren"
+    },
+    "label": {
+      "ts-input": "Unix-Zeitstempel <span class=\"text-accent\">*</span>",
+      "ts-unit": "Einheit",
+      "date-input": "Datum und Uhrzeit <span class=\"text-accent\">*</span>",
+      "date-zone": "Die Uhrzeit oben ist in"
+    },
+    "option": {
+      "ts-unit": {
+        "auto": "Automatisch erkennen",
+        "s": "Sekunden",
+        "ms": "Millisekunden",
+        "us": "Mikrosekunden",
+        "ns": "Nanosekunden"
+      },
+      "date-zone": {
+        "utc": "UTC",
+        "local": "Meiner Ortszeit"
+      }
+    },
+    "title": {
+      "copy-result-btn": "Ergebnis in die Zwischenablage kopieren"
+    }
+  },
+  "client": {
+    "units": {
+      "s": "Sekunden",
+      "ms": "Millisekunden",
+      "us": "Mikrosekunden",
+      "ns": "Nanosekunden"
+    },
+    "errors": {
+      "empty": "Gib einen Unix-Zeitstempel ein, zum Beispiel 1700000000.",
+      "notNumber": "Ein Unix-Zeitstempel ist eine ganze Zahl an Sekunden (oder Millisekunden), etwa 1700000000. Entferne Buchstaben und andere Zeichen.",
+      "unknownUnit": "Unbekannte Einheit.",
+      "outOfRange": "Dieser Zeitstempel liegt außerhalb des Bereichs, den ein Datum darstellen kann (etwa ±275,000 Jahre ab 1970).",
+      "invalidDateTime": "Gib ein gültiges Datum mit Uhrzeit ein, zum Beispiel 2023-11-14 22:13:20.",
+      "dateOutOfRange": "Dieses Datum liegt außerhalb des unterstützten Bereichs.",
+      "pickDateTime": "Wähle Datum und Uhrzeit zum Umrechnen."
+    },
+    "relative": {
+      "justNow": "gerade eben",
+      "past": "vor {{text}}",
+      "future": "in {{text}}",
+      "year": {
+        "one": "{{n}} Jahr",
+        "other": "{{n}} Jahren"
+      },
+      "month": {
+        "one": "{{n}} Monat",
+        "other": "{{n}} Monaten"
+      },
+      "week": {
+        "one": "{{n}} Woche",
+        "other": "{{n}} Wochen"
+      },
+      "day": {
+        "one": "{{n}} Tag",
+        "other": "{{n}} Tagen"
+      },
+      "hour": {
+        "one": "{{n}} Stunde",
+        "other": "{{n}} Stunden"
+      },
+      "minute": {
+        "one": "{{n}} Minute",
+        "other": "{{n}} Minuten"
+      },
+      "second": {
+        "one": "{{n}} Sekunde",
+        "other": "{{n}} Sekunden"
+      }
+    },
+    "yourTimeZone": "deine Zeitzone",
+    "buttons": {
+      "pause": "Pause",
+      "resume": "Fortsetzen",
+      "copy": "Kopieren"
+    },
+    "copy": {
+      "copiedValue": "{{value}} kopiert",
+      "ariaLabel": "{{label}} kopieren",
+      "copiedLabel": "{{label}} kopiert"
+    },
+    "detected": {
+      "auto": "Erkannt als {{unit}}",
+      "forced": "Gelesen als {{unit}}",
+      "beyond2038": "nach der 32-Bit-Grenze von 2038-01-19T03:14:07Z"
+    },
+    "rows": {
+      "localTime": "Ortszeit ({{zone}})",
+      "isoUtc": "ISO 8601 (UTC)",
+      "isoLocal": "ISO 8601 (lokaler Versatz)",
+      "relative": "Relativ",
+      "seconds": "Sekunden",
+      "milliseconds": "Millisekunden",
+      "timestampSeconds": "Zeitstempel (Sekunden)",
+      "inLocal": "In deiner Ortszeit ({{zone}})",
+      "inUtc": "In UTC"
+    }
+  }
+}

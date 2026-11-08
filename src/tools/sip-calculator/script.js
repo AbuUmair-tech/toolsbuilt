@@ -6,6 +6,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   const logic = window.SipLogic;
   if (!logic) return;
+  const T = ToolsBuilt.scope('sip-calculator');
 
   const form = document.getElementById('calculator-form');
   const investmentInput = document.getElementById('monthly-investment');
@@ -28,23 +29,15 @@ document.addEventListener('DOMContentLoaded', () => {
   const tableBody = document.getElementById('sip-table-body');
 
   const STORAGE_KEY = 'toolsbuilt:sip-calculator';
+  const currencySelect = document.getElementById('currency');
+  const money = (n) => ToolsBuilt.money(n, currencySelect.value);
   let debounceTimer = null;
   let lastResultSummary = '';
 
   function initInputs() {
-    const params = new URLSearchParams(window.location.search);
-    const urlInv = params.get('inv');
-    const urlRet = params.get('ret');
-    const urlYrs = params.get('yrs');
-    const urlStep = params.get('step');
-
-    if (urlInv) {
-      investmentInput.value = urlInv;
-      if (urlRet) returnInput.value = urlRet;
-      if (urlYrs) yearsInput.value = urlYrs;
-      if (urlStep) stepUpInput.value = urlStep;
-      return;
-    }
+    // Result links (?inv=&ret=&yrs=&step=) take priority over saved state
+    currencySelect.value = ToolsBuilt.defaultCurrency('USD', currencySelect);
+    if (ToolsBuilt.resultLink.restore().length) return;
 
     try {
       const saved = localStorage.getItem(STORAGE_KEY);
@@ -54,6 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (data.ret) returnInput.value = data.ret;
         if (data.yrs) yearsInput.value = data.yrs;
         if (data.step) stepUpInput.value = data.step;
+        if (data.cur && Array.from(currencySelect.options).some(o => o.value === data.cur)) currencySelect.value = data.cur;
         return;
       }
     } catch (e) {}
@@ -67,15 +61,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function saveState(inv, ret, yrs, step) {
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify({ inv, ret, yrs, step }));
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({ inv, ret, yrs, step, cur: currencySelect.value }));
     } catch (e) {}
 
-    const url = new URL(window.location.href);
-    if (inv && inv !== '500') url.searchParams.set('inv', inv); else url.searchParams.delete('inv');
-    if (ret && ret !== '12') url.searchParams.set('ret', ret); else url.searchParams.delete('ret');
-    if (yrs && yrs !== '10') url.searchParams.set('yrs', yrs); else url.searchParams.delete('yrs');
-    if (step) url.searchParams.set('step', step); else url.searchParams.delete('step');
-    window.history.replaceState({}, '', url.toString());
+    ToolsBuilt.resultLink.update();
   }
 
   function clearError() {
@@ -109,50 +98,50 @@ document.addEventListener('DOMContentLoaded', () => {
     const rawStep = stepUpInput.value.trim();
 
     if (!rawInv || isNaN(parseFloat(rawInv))) {
-      showError('Please enter a monthly investment amount.', investmentInput);
+      showError(T('errors.investmentRequired'), investmentInput);
       return;
     }
     if (parseFloat(rawInv) <= 0) {
-      showError('Monthly investment must be greater than zero.', investmentInput);
+      showError(T('errors.investmentPositive'), investmentInput);
       return;
     }
     if (!rawRet || isNaN(parseFloat(rawRet))) {
-      showError('Please enter expected annual return.', returnInput);
+      showError(T('errors.returnRequired'), returnInput);
       return;
     }
     if (parseFloat(rawRet) < 0) {
-      showError('Expected annual return cannot be negative.', returnInput);
+      showError(T('errors.returnNegative'), returnInput);
       return;
     }
     if (!rawYrs || isNaN(parseFloat(rawYrs))) {
-      showError('Please enter investment time period.', yearsInput);
+      showError(T('errors.yearsRequired'), yearsInput);
       return;
     }
     if (parseFloat(rawYrs) <= 0) {
-      showError('Time period must be greater than zero.', yearsInput);
+      showError(T('errors.yearsPositive'), yearsInput);
       return;
     }
     if (rawStep && (isNaN(parseFloat(rawStep)) || parseFloat(rawStep) < 0 || parseFloat(rawStep) > 100)) {
-      showError('Annual step-up percentage must be between 0% and 100%.', stepUpInput);
+      showError(T('errors.stepUpRange'), stepUpInput);
       return;
     }
 
     try {
       const res = logic.calculateSip(rawInv, rawRet, rawYrs, {
         stepUpPercent: rawStep ? parseFloat(rawStep) : 0,
-        currencySymbol: '$'
+        currencySymbol: ToolsBuilt.currencySymbol(currencySelect.value)
       });
 
-      const formattedMaturity = logic.formatCurrency(res.maturityValue);
-      const formattedInvested = logic.formatCurrency(res.totalInvested);
-      const formattedReturns = logic.formatCurrency(res.estimatedReturns);
+      const formattedMaturity = money(res.maturityValue);
+      const formattedInvested = money(res.totalInvested);
+      const formattedReturns = money(res.estimatedReturns);
       const multiplier = res.totalInvested > 0 ? (res.maturityValue / res.totalInvested).toFixed(2) : '1.00';
 
-      resultPrimary.textContent = `Maturity Value: ${formattedMaturity}`;
+      resultPrimary.textContent = T('result.primary', { value: formattedMaturity });
       statMaturity.textContent = formattedMaturity;
       statInvested.textContent = formattedInvested;
       statReturns.textContent = formattedReturns;
-      statMultiplier.textContent = `${multiplier}x Growth`;
+      statMultiplier.textContent = T('result.multiplier', { multiplier });
 
       populateYearlyTable(res.yearlyBreakdown);
 
@@ -160,14 +149,14 @@ document.addEventListener('DOMContentLoaded', () => {
       if (actionsBar) actionsBar.removeAttribute('hidden');
 
       lastResultSummary = [
-        `SIP Investment Projection Summary:`,
-        `Monthly Investment: ${logic.formatCurrency(res.monthlyInvestment)}`,
-        `Expected Return: ${res.expectedReturnPercent}% per year`,
-        `Duration: ${res.tenureYears} Years (${res.totalMonths} installments)`,
-        res.stepUpPercent > 0 ? `Annual Step-Up: ${res.stepUpPercent}%` : null,
-        `Total Invested: ${formattedInvested}`,
-        `Estimated Returns: ${formattedReturns}`,
-        `Projected Maturity Value: ${formattedMaturity} (${multiplier}x invested capital)`
+        T('summary.title'),
+        T('summary.monthly', { value: money(res.monthlyInvestment) }),
+        T('summary.return', { rate: res.expectedReturnPercent }),
+        T('summary.duration', { years: res.tenureYears, months: res.totalMonths }),
+        res.stepUpPercent > 0 ? T('summary.stepUp', { rate: res.stepUpPercent }) : null,
+        T('summary.invested', { value: formattedInvested }),
+        T('summary.returns', { value: formattedReturns }),
+        T('summary.maturity', { value: formattedMaturity, multiplier })
       ].filter(Boolean).join('\n');
 
       saveState(rawInv, rawRet, rawYrs, rawStep);
@@ -184,11 +173,11 @@ document.addEventListener('DOMContentLoaded', () => {
     breakdown.forEach(row => {
       const tr = document.createElement('tr');
       tr.innerHTML = `
-        <td>Year ${row.year}</td>
-        <td>$${row.monthlyDeposit.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
-        <td>$${row.annualInvestment.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
-        <td>$${row.totalInvestedToDate.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
-        <td><strong>$${row.futureValue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</strong></td>
+        <td>${T('table.year', { year: row.year })}</td>
+        <td>${money(row.monthlyDeposit)}</td>
+        <td>${money(row.annualInvestment)}</td>
+        <td>${money(row.totalInvestedToDate)}</td>
+        <td><strong>${money(row.futureValue)}</strong></td>
       `;
       fragment.appendChild(tr);
     });
@@ -204,6 +193,8 @@ document.addEventListener('DOMContentLoaded', () => {
   [investmentInput, returnInput, yearsInput, stepUpInput].forEach(inp => {
     if (inp) inp.addEventListener('input', debounceCalculate);
   });
+
+  currencySelect.addEventListener('change', calculate);
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -229,7 +220,7 @@ document.addEventListener('DOMContentLoaded', () => {
     copyBtn.addEventListener('click', () => {
       if (!lastResultSummary) return;
       navigator.clipboard.writeText(lastResultSummary).then(() => {
-        if (window.showTbToast) window.showTbToast('SIP calculation copied to clipboard!');
+        if (window.showTbToast) window.showTbToast(T('toast.copied'));
       }).catch(() => {});
     });
   }

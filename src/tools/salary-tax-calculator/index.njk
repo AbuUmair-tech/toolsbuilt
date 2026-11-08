@@ -1,0 +1,41 @@
+---
+layout: layouts/tool.njk
+toolSlug: salary-tax-calculator
+permalink: /tools/salary-tax-calculator/
+extraCss: "/tools/salary-tax-calculator/style.css"
+toolScript: "/tools/salary-tax-calculator/calculator.js"
+applicationCategory: FinanceApplication
+lastReviewed: "2026-10-31"
+---
+{% from "partials/currency-select.njk" import countryData with context %}
+{{ countryData(countries) }}
+{% from "partials/salary-tax-calculator.njk" import salaryTaxCalculator with context %}
+{{ salaryTaxCalculator({}) }}
+
+    <!-- tool-end -->
+
+{% from "partials/salary-tax-links.njk" import chooseCountry with context %}
+    {{ chooseCountry() }}
+
+
+    <section class="content-section" aria-labelledby="no-tax-heading">
+      <h2 id="no-tax-heading">{{ 'text.no-tax-heading' | pt }}</h2>
+      <p>{{ 'content.countries-with-no-income-tax-on.p1' | pt }}</p>
+      <ul class="content-list">
+        {% for c in noSalaryTax.countries %}
+        <li id="no-tax-{{ c.code | lower }}">{{ 'hub.noTaxItem' | pt({ name: c.name, statement: text.noTax[c.code].statement, url: c.source.url, source: text.noTax[c.code].source, date: c.verifiedOn | humanDate }) }}</li>
+        {% endfor %}
+      </ul>
+    </section>
+
+    <section class="content-section" aria-labelledby="compare-heading">
+      <h2 id="compare-heading">{{ 'text.compare-heading' | pt }}</h2>
+      <p>{{ 'content.how-countries-tax-salaries-differently.p1' | pt }}</p>
+      <ul class="content-list">
+        <li>{{ 'content.how-countries-tax-salaries-differently.li1' | pt }}</li>
+        <li>{{ 'content.how-countries-tax-salaries-differently.li2' | pt }}</li>
+        <li>{{ 'content.how-countries-tax-salaries-differently.li3' | pt }}</li>
+        <li>{{ 'content.how-countries-tax-salaries-differently.li4' | pt }}</li>
+      </ul>
+      <p>{{ 'content.how-countries-tax-salaries-differently.p2' | pt }}</p>
+    </section>

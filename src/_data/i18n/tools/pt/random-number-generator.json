@@ -1,0 +1,265 @@
+{
+  "listing": {
+    "name": "Gerador de números aleatórios",
+    "shortName": "Número aleatório",
+    "description": "Gere números aleatórios seguros em qualquer intervalo: inteiros ou decimais, até mil de uma vez, com ou sem repetição, em ordem ou não.",
+    "shortDescription": "Números aleatórios seguros em qualquer intervalo, com ou sem repetição.",
+    "keywords": [
+      "gerador de números aleatórios",
+      "número aleatório entre 1 e 100",
+      "sorteador de números",
+      "sortear número",
+      "números aleatórios sem repetição",
+      "gerador de números da loteria",
+      "número aleatório verdadeiro"
+    ]
+  },
+  "title": "Gerador de números aleatórios em qualquer intervalo",
+  "description": "Gerador de números aleatórios com a fonte segura do navegador: inteiros ou decimais, até mil de uma vez, com ou sem repetição, em qualquer intervalo.",
+  "h1": "Gerador de números aleatórios",
+  "quickAnswer": "No gerador de números aleatórios, informe o mínimo, o máximo e quantos números precisa e clique em Gerar. Cada número é sorteado com crypto.getRandomValues, o gerador criptograficamente seguro do navegador, e com amostragem por rejeição, para que todos os valores do intervalo tenham exatamente a mesma chance. Desative as repetições para um sorteio em que nenhum número se repete, como uma rifa.",
+  "formula": {
+    "title": "Como os números são sorteados",
+    "expression": "n = máx − mín + 1   ·   sortear x de forma uniforme em [0, 2³²)   ·   rejeitar x ≥ 2³² − (2³² mod n)   ·   resultado = mín + (x mod n)",
+    "explanation": "A fonte aleatória segura do navegador fornece números de 32 bits. Usar x mod n diretamente deixaria os resultados menores um pouco mais prováveis sempre que n não divide 2³² exatamente (viés do módulo), então os sorteios que caem na faixa superior desigual são descartados e refeitos. Assim, cada valor tem probabilidade exata de 1 ÷ n. Decimais com N casas são sorteados da mesma forma, como números inteiros de passos de 10^−N entre o mínimo e o máximo. Sem repetição, cada valor é sorteado no máximo uma vez (amostragem sem reposição).",
+    "variables": [
+      {
+        "description": "Quantos valores diferentes são possíveis: máx − mín + 1 para números inteiros."
+      },
+      {
+        "name": "Amostragem por rejeição",
+        "description": "Descartar os poucos sorteios brutos que distorceriam o resultado; em média, é preciso menos de um sorteio extra."
+      },
+      {
+        "name": "Sem repetição",
+        "description": "Você pode sortear no máximo n números, porque depois disso todos os valores já foram usados."
+      }
+    ]
+  },
+  "workedExamples": [
+    {
+      "title": "Rolar um dado de seis lados",
+      "inputs": [
+        "Mín 1, máx 6, quantidade 1"
+      ],
+      "steps": [
+        "n = 6 valores possíveis",
+        "2³² mod 6 = 4, então os 4 valores brutos mais altos de 4,294,967,296 são rejeitados"
+      ],
+      "result": "Um número de 1 a 6, cada um com probabilidade 1/6"
+    },
+    {
+      "title": "Sorteio estilo loteria: 6 números de 1 a 49",
+      "inputs": [
+        "Mín 1, máx 49, quantidade 6",
+        "Permitir repetição: não, ordenar: sim"
+      ],
+      "steps": [
+        "Cada número é sorteado entre os que ainda não saíram",
+        "Existem 13,983,816 combinações possíveis de 6"
+      ],
+      "result": "Seis números diferentes em ordem crescente"
+    },
+    {
+      "title": "Decimais aleatórios entre 0 e 1",
+      "inputs": [
+        "Mín 0, máx 1, quantidade 5",
+        "Casas decimais: 3"
+      ],
+      "steps": [
+        "Os valores andam em passos de 0.001, então há n = 1,001 valores possíveis",
+        "Cada sorteio é um número inteiro de passos, dividido por 1,000"
+      ],
+      "result": "Cinco números como 0.417, cada um de 0.000 a 1.000"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Usar Math.random() para algo que importa",
+      "description": "O Math.random() é rápido, mas não foi feito para ser imprevisível, e às vezes a sua saída pode ser reconstruída. Para sorteios de prêmios, senhas ou qualquer coisa ligada à segurança, use uma fonte criptográfica como crypto.getRandomValues, como esta ferramenta faz."
+    },
+    {
+      "title": "Usar x mod n sobre um número aleatório bruto",
+      "description": "Reduzir um número aleatório com % n sem amostragem por rejeição gera um pequeno viés para os valores mais baixos quando n não divide exatamente o intervalo do gerador. O efeito é minúsculo para n pequeno, mas é real e fácil de evitar."
+    },
+    {
+      "title": "Pedir mais números únicos do que o intervalo comporta",
+      "description": "Existem só 10 números inteiros diferentes de 1 a 10, então não dá para sortear 11 sem repetir. A ferramenta avisa quando a quantidade é maior que o intervalo."
+    },
+    {
+      "title": "Esperar que os números aleatórios pareçam bem distribuídos",
+      "description": "A aleatoriedade real produz sequências e agrupamentos. Tirar três 6 seguidos em um dado honesto acontece mais ou menos uma vez a cada 216 tentativas; isso não prova que o gerador está com defeito."
+    },
+    {
+      "title": "Tratar os decimais como contínuos",
+      "description": "Com 2 casas decimais entre 0 e 1 existem exatamente 101 valores possíveis. Se precisar de valores mais finos, aumente as casas decimais."
+    }
+  ],
+  "sources": [
+    {
+      "name": "W3C Web Cryptography API: getRandomValues()"
+    },
+    {
+      "name": "MDN Web Docs: Crypto.getRandomValues()"
+    },
+    {
+      "name": "NIST SP 800-90A Rev. 1: recomendação para geração de números aleatórios com geradores determinísticos de bits aleatórios"
+    }
+  ],
+  "howto": {
+    "name": "Como gerar números aleatórios",
+    "description": "Gere números aleatórios seguros em qualquer intervalo.",
+    "steps": [
+      {
+        "name": "Defina o intervalo",
+        "text": "Informe o menor e o maior número permitidos."
+      },
+      {
+        "name": "Escolha a quantidade",
+        "text": "Informe quantos números você precisa, até mil."
+      },
+      {
+        "name": "Escolha as opções",
+        "text": "Permita ou proíba repetições, ordene os resultados e escolha números inteiros ou até 6 casas decimais."
+      },
+      {
+        "name": "Gere e salve",
+        "text": "Clique em Gerar e depois copie os números ou baixe-os em um arquivo de texto."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Este gerador de números aleatórios é realmente aleatório?",
+      "a": "Ele usa o crypto.getRandomValues, um gerador criptograficamente seguro embutido no navegador e alimentado pelas fontes de entropia do seu sistema operacional. Serve para jogos, sorteios e amostragens, e os números não podem ser previstos a partir dos anteriores."
+    },
+    {
+      "q": "Como gerar um número aleatório entre 1 e 100?",
+      "a": "Defina o mínimo como 1, o máximo como 100 e a quantidade como 1, e clique em Gerar. Cada número de 1 a 100 tem exatamente 1% de chance."
+    },
+    {
+      "q": "Como sortear números aleatórios sem repetição?",
+      "a": "Desmarque Permitir repetição. Todos os números do resultado serão diferentes, desde que você não peça mais números do que o intervalo contém."
+    },
+    {
+      "q": "Posso gerar números decimais aleatórios?",
+      "a": "Sim. Escolha de 1 a 6 casas decimais. Os números se distribuem por igual no intervalo, em passos desse tamanho."
+    },
+    {
+      "q": "Quantos números aleatórios posso gerar de uma vez?",
+      "a": "Até mil por clique. Copie-os ou baixe-os em um arquivo de texto, um número por linha."
+    },
+    {
+      "q": "Posso usar isto em uma rifa ou sorteio?",
+      "a": "Sim. Numere os participantes, ajuste o intervalo, desmarque as repetições e sorteie quantos vencedores precisar. Para nomes em vez de números, use o sorteador de nomes."
+    },
+    {
+      "q": "Meus números são enviados para algum lugar?",
+      "a": "Não. Os números são gerados no seu navegador e não são enviados nem armazenados em nenhum servidor."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Gerador de números aleatórios",
+      "rng-list": "Números gerados"
+    },
+    "label": {
+      "rng-min": "Mínimo <span class=\"text-accent\">*</span>",
+      "rng-max": "Máximo <span class=\"text-accent\">*</span>",
+      "rng-count": "Quantidade",
+      "rng-dp": "Tipo de número"
+    },
+    "option": {
+      "rng-dp": {
+        "0": "Números inteiros",
+        "1": "1 casa decimal",
+        "2": "2 casas decimais",
+        "3": "3 casas decimais",
+        "4": "4 casas decimais",
+        "5": "5 casas decimais",
+        "6": "6 casas decimais"
+      }
+    },
+    "content": {
+      "tool": {
+        "label1": "<input type=\"checkbox\" id=\"rng-dupes\" checked>\n            <span>Permitir repetição</span>",
+        "label2": "<input type=\"checkbox\" id=\"rng-sort\" data-param=\"sort\">\n            <span>Ordenar do menor para o maior</span>",
+        "div1": "<span id=\"result-header-text\">Seu número aleatório</span>"
+      },
+      "why-secure-randomness-and-rejection-sampling": {
+        "heading": "Por que a aleatoriedade segura e a amostragem por rejeição importam",
+        "p1": "Computadores não jogam moedas, então usam algoritmos. Geradores comuns, como o Math.random() do JavaScript, produzem números que parecem aleatórios, mas seguem um padrão escondido. Os geradores criptograficamente seguros, disponíveis nos navegadores como crypto.getRandomValues, são alimentados por eventos imprevisíveis coletados pelo sistema operacional e foram feitos para que ver as saídas anteriores não ajude a prever a próxima.",
+        "p2": "Obter um número dentro de um intervalo também exige cuidado. Um gerador seguro devolve valores de 0 a 4.294.967.295. Para obter um número de 1 a 6, você poderia pegar o resto da divisão por 6, mas 4.294.967.296 não é múltiplo de 6, então os restos de 0 a 3 sairiam um pouquinho mais vezes que 4 e 5. Esta ferramenta descarta os poucos valores brutos que causam esse desequilíbrio e sorteia de novo, para que cada face tenha exatamente a mesma chance.",
+        "caption1": "Intervalos comuns e as suas chances",
+        "th1": "Uso",
+        "th2": "Intervalo",
+        "th3": "Chance de cada valor",
+        "td1": "Cara ou coroa",
+        "td2": "1 em 2 (50%)",
+        "td3": "Dado de seis lados",
+        "td4": "1 em 6 (16.67%)",
+        "td5": "Porcentagem",
+        "td6": "1 em 100 (1%)",
+        "td7": "Dia do ano",
+        "td8": "1 em 365 (0.27%)",
+        "td9": "Senha de quatro dígitos",
+        "td10": "1 em 10.000 (0.01%)"
+      },
+      "ideas-for-using-random-numbers": {
+        "heading": "Ideias para usar números aleatórios",
+        "li1": "<strong>Sorteios de prêmios:</strong> numere os participantes e sorteie os vencedores sem repetição.",
+        "li2": "<strong>Ensino e pesquisa:</strong> escolha alunos, participantes de pesquisas ou linhas de uma planilha ao acaso.",
+        "li3": "<strong>Jogos:</strong> substitua dados perdidos, decida quem começa ou monte cenários aleatórios. O <a href=\"/tools/coin-flip-dice-roller/\">cara ou coroa e rolador de dados</a> mostra as faces dos dados e guarda o histórico.",
+        "li4": "<strong>Testes:</strong> gere dados de teste com decimais ou intervalos muito grandes e baixe-os em um arquivo.",
+        "p1": "Tudo roda no seu navegador. Os números são gerados no seu dispositivo e nunca são enviados a um servidor."
+      }
+    },
+    "text": {
+      "generate-btn": "Gerar",
+      "reset-btn": "Redefinir",
+      "copy-numbers-btn": "Copiar números",
+      "download-btn": "Baixar .txt"
+    }
+  },
+  "client": {
+    "errors": {
+      "noCrypto": "Números aleatórios seguros não estão disponíveis neste navegador.",
+      "rangeSize": "O tamanho do intervalo deve ficar entre 1 e 2^53.",
+      "minEmpty": "Informe o valor mínimo.",
+      "maxEmpty": "Informe o valor máximo.",
+      "minInvalid": "O mínimo deve ser um número.",
+      "maxInvalid": "O máximo deve ser um número.",
+      "minAboveMax": "O mínimo ({{min}}) é maior que o máximo ({{max}}). Inverta os valores ou mude um deles.",
+      "count": "A quantidade deve ser um número inteiro de 1 a {{max}}.",
+      "decimals": "As casas decimais devem ser um número inteiro de 0 a {{max}}.",
+      "rangeTooLarge": "Esse intervalo é grande demais. Use números menores ou menos casas decimais.",
+      "noValue": {
+        "decimal": "Não existe nenhum número com {{decimals}} casas decimais entre {{min}} e {{max}}.",
+        "whole": "Não existe nenhum número inteiro entre {{min}} e {{max}}."
+      },
+      "tooFewUnique": {
+        "decimal": "Só existem {{possible}} valores diferentes de {{min}} a {{max}}, então {{count}} números não podem ser todos diferentes. Diminua a quantidade, aumente o intervalo ou permita repetições.",
+        "whole": "Só existem {{possible}} números inteiros diferentes de {{min}} a {{max}}, então {{count}} números não podem ser todos diferentes. Diminua a quantidade, aumente o intervalo ou permita repetições."
+      }
+    },
+    "result": {
+      "singleDecimal": "Número aleatório de {{min}} a {{max}}",
+      "singleWhole": "Número inteiro aleatório de {{min}} a {{max}}",
+      "multiple": "{{count}} números aleatórios de {{min}} a {{max}}",
+      "summary": {
+        "plain": "{{count}} números",
+        "unique": "{{count}} números, sem repetição",
+        "sorted": "{{count}} números, em ordem",
+        "uniqueSorted": "{{count}} números, sem repetição, em ordem"
+      },
+      "chanceExact": "1 em {{n}}",
+      "chanceApprox": "cerca de 1 em {{n}}",
+      "note": {
+        "many": "{{possible}} valores possíveis; em cada sorteio, todo valor tem {{chance}} de chance.",
+        "one": "{{possible}} valor possível; em cada sorteio, todo valor tem {{chance}} de chance.",
+        "other": "{{possible}} valores possíveis; em cada sorteio, todo valor tem {{chance}} de chance."
+      },
+      "copied": "Números copiados"
+    }
+  }
+}

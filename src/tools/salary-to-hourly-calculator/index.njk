@@ -1,0 +1,112 @@
+---
+layout: layouts/tool.njk
+toolSlug: salary-to-hourly-calculator
+permalink: /tools/salary-to-hourly-calculator/
+extraCss: "/tools/salary-to-hourly-calculator/style.css"
+lastReviewed: "2026-10-31"
+---
+{% from "partials/currency-select.njk" import currencySelect, countryData with context %}
+{{ countryData(countries) }}
+
+    <!-- Tool Form Container -->
+    <section class="tool-container" aria-label="{{ 'ariaLabel.tool-section1' | pt }}">
+      <form id="calculator-form" novalidate>
+        <div class="form-grid salary-pay-grid">
+          <div class="form-group">
+            <label for="amount">{{ 'label.amount' | pt }}</label>
+            <input type="number" inputmode="decimal" step="any" min="0" id="amount" data-param="amount" class="form-control" value="52000" required aria-required="true">
+          </div>
+          <div class="form-group">
+            <label for="period">{{ 'label.period' | pt }}</label>
+            <select id="period" data-param="per" class="form-control">
+              <option value="hourly">{{ 'option.period.hourly' | pt }}</option>
+              <option value="daily">{{ 'option.period.daily' | pt }}</option>
+              <option value="weekly">{{ 'option.period.weekly' | pt }}</option>
+              <option value="biweekly">{{ 'option.period.biweekly' | pt }}</option>
+              <option value="monthly">{{ 'option.period.monthly' | pt }}</option>
+              <option value="annual" selected>{{ 'option.period.annual' | pt }}</option>
+            </select>
+          </div>
+          {{ currencySelect({ id: "currency", param: "cur", selected: "USD" }) }}
+        </div>
+
+        <fieldset class="salary-fieldset">
+          <legend>{{ 'content.tool.legend1' | pt }}</legend>
+          <div class="form-grid salary-pattern-grid">
+            <div class="form-group">
+              <label for="hours">{{ 'label.hours' | pt }}</label>
+              <input type="number" inputmode="decimal" step="any" min="0" max="168" id="hours" data-param="hours" class="form-control" value="40">
+            </div>
+            <div class="form-group">
+              <label for="days">{{ 'label.days' | pt }}</label>
+              <input type="number" inputmode="decimal" step="any" min="0" max="7" id="days" data-param="days" class="form-control" value="5">
+            </div>
+            <div class="form-group">
+              <label for="weeks">{{ 'label.weeks' | pt }}</label>
+              <input type="number" inputmode="decimal" step="any" min="1" max="53" id="weeks" data-param="weeks" class="form-control" value="52">
+            </div>
+            <div class="form-group">
+              <label for="unpaid">{{ 'label.unpaid' | pt }}</label>
+              <input type="number" inputmode="decimal" step="any" min="0" id="unpaid" data-param="unpaid" class="form-control" value="0">
+            </div>
+          </div>
+          <p class="form-hint">{{ 'content.tool.p1' | pt }}</p>
+        </fieldset>
+
+        <div class="button-group mt-6">
+          <button type="submit" class="btn btn-primary">{{ 'content.tool.button1' | pt }}</button>
+          <button type="button" class="btn btn-secondary" id="reset-btn">{{ 'text.reset-btn' | pt }}</button>
+        </div>
+      </form>
+
+      <div id="error-box" class="hidden form-error" role="alert"></div>
+
+      <div id="result-box" class="result-box is-visible" aria-live="polite">
+        <div class="result-header">
+          <span id="result-header-text">{{ 'text.result-header-text' | pt }}</span>
+          <button type="button" class="btn btn-sm btn-ghost" id="copy-result-btn" title="{{ 'title.copy-result-btn' | pt }}" aria-label="{{ 'ariaLabel.copy-result-btn' | pt }}">
+            {{ 'text.copy-result-btn' | pt }}
+          </button>
+        </div>
+        <div class="result-primary" id="result-primary-text">--</div>
+        <p class="form-hint" id="result-note"></p>
+        <div class="table-wrapper salary-table-wrapper">
+          <table class="table salary-table">
+            <caption class="visually-hidden">{{ 'content.tool.caption1' | pt }}</caption>
+            <thead><tr><th scope="col">{{ 'content.tool.th1' | pt }}</th><th scope="col">{{ 'content.tool.th2' | pt }}</th></tr></thead>
+            <tbody id="salary-rows"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- tool-end -->
+
+    <section class="content-section">
+      <h2>{{ 'content.common-salaries-as-hourly-rates.heading' | pt }}</h2>
+      <p>{{ 'content.common-salaries-as-hourly-rates.p1' | pt }}</p>
+      <div class="table-wrapper">
+        <table class="table">
+          <caption class="visually-hidden">{{ 'content.common-salaries-as-hourly-rates.caption1' | pt }}</caption>
+          <thead><tr><th scope="col">{{ 'content.common-salaries-as-hourly-rates.th1' | pt }}</th><th scope="col">{{ 'content.common-salaries-as-hourly-rates.th2' | pt }}</th><th scope="col">{{ 'content.common-salaries-as-hourly-rates.th3' | pt }}</th><th scope="col">{{ 'content.common-salaries-as-hourly-rates.th4' | pt }}</th></tr></thead>
+          <tbody>
+            <tr><td>30,000</td><td>2,500.00</td><td>576.92</td><td>14.42</td></tr>
+            <tr><td>40,000</td><td>3,333.33</td><td>769.23</td><td>19.23</td></tr>
+            <tr><td>50,000</td><td>4,166.67</td><td>961.54</td><td>24.04</td></tr>
+            <tr><td>60,000</td><td>5,000.00</td><td>1,153.85</td><td>28.85</td></tr>
+            <tr><td>75,000</td><td>6,250.00</td><td>1,442.31</td><td>36.06</td></tr>
+            <tr><td>100,000</td><td>8,333.33</td><td>1,923.08</td><td>48.08</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>{{ 'content.common-salaries-as-hourly-rates.p2' | pt }}</p>
+
+      <h2>{{ 'content.when-to-use-each-setting.heading' | pt }}</h2>
+      <ul class="content-list">
+        <li>{{ 'content.when-to-use-each-setting.li1' | pt }}</li>
+        <li>{{ 'content.when-to-use-each-setting.li2' | pt }}</li>
+        <li>{{ 'content.when-to-use-each-setting.li3' | pt }}</li>
+        <li>{{ 'content.when-to-use-each-setting.li4' | pt }}</li>
+      </ul>
+      <p>{{ 'content.when-to-use-each-setting.p1' | pt }}</p>
+    </section>

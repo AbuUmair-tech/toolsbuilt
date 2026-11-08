@@ -1,0 +1,204 @@
+{
+  "listing": {
+    "name": "Roda Pemilih Nama Acak",
+    "shortName": "Pemilih Nama Acak",
+    "description": "Putar roda interaktif untuk memilih pemenang secara acak dari daftar nama. Menggunakan keacakan yang aman secara kriptografis.",
+    "shortDescription": "Putar roda interaktif untuk memilih pemenang secara acak dari daftar nama. Menggunakan keacakan yang aman secara kriptografis.",
+    "keywords": [
+      "pemilih nama acak",
+      "roda nama",
+      "roda undian nama",
+      "generator pilihan acak",
+      "spin wheel undian"
+    ]
+  },
+  "title": "Roda Pemilih Nama Acak | ToolsBuilt",
+  "description": "Roda pemilih nama acak online gratis. Masukkan nama, putar untuk memilih pemenang secara adil untuk undian, kelas, dan giveaway. Didukung Web Crypto API.",
+  "h1": "Roda Pemilih Nama Acak",
+  "quickAnswer": "Untuk memilih nama atau pemenang secara acak dari daftar, tempel atau ketik nama-nama peserta, tentukan apakah duplikat dihapus, lalu klik pilih. Roda pemilih nama acak ini memakai keacakan perangkat keras yang aman secara kriptografis agar peluang menang setiap peserta sama tanpa bias. Alat ini mendukung undian satu pemenang maupun undian beberapa hadiah tanpa pengembalian.",
+  "formula": {
+    "title": "Rumus Pemilihan Adil & Peluang",
+    "expression": "P(Terpilih) = 1 / Jumlah Total Peserta  |  Indeks = CryptoRandomUint() % JumlahPeserta",
+    "explanation": "Setiap peserta memiliki peluang terpilih yang secara matematis identik. Pengundian memakai entropi perangkat keras dari Web Crypto API bawaan browser dengan rejection sampling untuk menghilangkan bias modulo. Untuk undian bertingkat tanpa pengembalian, pemenang yang terpilih dikeluarkan satu per satu dari kumpulan peserta."
+  },
+  "workedExamples": [
+    {
+      "title": "Undian Satu Pemenang dari 5 Peserta",
+      "inputs": [
+        "Peserta: Alice, Bob, Charlie, David, Emma (5 peserta)",
+        "Mode: Satu Pemenang"
+      ],
+      "steps": [
+        "Pecah nama menjadi 5 entri berbeda",
+        "Beri peluang seragam P = 1/5 (20.00%) untuk setiap peserta",
+        "Ambil indeks acak seragam dalam rentang [0, 4] dengan crypto.getRandomValues"
+      ],
+      "result": "Pemenang terpilih dengan peluang tepat 20.0%"
+    },
+    {
+      "title": "Undian Beberapa Hadiah Tanpa Pengembalian",
+      "inputs": [
+        "Peserta: Alice, Bob, Charlie, David (4 peserta)",
+        "Hadiah: 2 pemenang tanpa pengembalian"
+      ],
+      "steps": [
+        "Putaran 1: Pilih pemenang ke-1 dari 4 peserta (P = 1/4 = 25.0%)",
+        "Keluarkan pemenang ke-1 dari kumpulan aktif (tersisa 3 peserta)",
+        "Putaran 2: Pilih pemenang ke-2 dari 3 peserta tersisa (P = 1/3 = 33.3%)"
+      ],
+      "result": "2 pemenang unik terpilih, tersisa 2 peserta"
+    },
+    {
+      "title": "Menghapus Duplikat dari Entri Spreadsheet Mentah",
+      "inputs": [
+        "Input mentah: Alice, Bob, Alice, Charlie (4 entri)",
+        "Opsi: Hapus duplikat = Ya"
+      ],
+      "steps": [
+        "Urai entri berdasarkan koma dan baris baru",
+        "Saring 'Alice' yang duplikat dengan penghapusan duplikat Set",
+        "Bentuk kumpulan bersih berisi 3 nama unik (Alice, Bob, Charlie)"
+      ],
+      "result": "3 peserta unik berhak ikut (P = 33.3% masing-masing)"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Memakai Math.random() yang Mudah Diprediksi di Kontes Sungguhan",
+      "description": "Math.random() standar yang pseudoacak rentan terhadap pola statistik. Giveaway memerlukan keacakan perangkat keras kriptografis melalui crypto.getRandomValues."
+    },
+    {
+      "title": "Membiarkan Entri Duplikat yang Tidak Disengaja",
+      "description": "Saat menempelkan entri dari spreadsheet, nama yang duplikat menggandakan peluang menang peserta itu. Selalu gunakan tombol Hapus Duplikat sebelum memutar."
+    },
+    {
+      "title": "Mengundi dengan Pengembalian pada Giveaway Bertingkat",
+      "description": "Tidak mengeluarkan pemenang sebelumnya dalam undian beberapa hadiah memungkinkan peserta yang sama memenangkan lebih dari satu hadiah."
+    },
+    {
+      "title": "Bias Modulo pada Pengindeksan Peserta",
+      "description": "Operasi modulo sederhana pada bilangan bulat acak menimbulkan sedikit bias matematis ke indeks yang lebih kecil. Rejection sampling menjamin keadilan yang benar-benar seragam."
+    }
+  ],
+  "sources": [
+    {
+      "name": "Spesifikasi W3C Web Cryptography API"
+    },
+    {
+      "name": "NIST SP 800-90A: Rekomendasi Pembangkitan Bilangan Acak"
+    },
+    {
+      "name": "RFC 7929: Pedoman Pembangkitan Bilangan Acak Kriptografis"
+    }
+  ],
+  "howto": {
+    "name": "Cara Memilih Nama Acak dengan Roda",
+    "description": "Petunjuk langkah demi langkah untuk memilih pemenang acak dengan putaran roda yang tidak berpihak secara kriptografis.",
+    "steps": [
+      {
+        "name": "Masukkan Nama Peserta",
+        "text": "Ketik atau tempelkan daftar nama ke kotak teks (satu nama per baris, atau dipisahkan koma)."
+      },
+      {
+        "name": "Atur Pengaturan",
+        "text": "Jika perlu, klik Hapus Duplikat untuk membuang entri ganda, atau centang 'Hapus pemenang otomatis setelah putaran' untuk undian beberapa putaran."
+      },
+      {
+        "name": "Putar Roda untuk Memilih Pemenang",
+        "text": "Klik Putar Roda untuk memulai animasi putaran, atau pemilihan instan jika pengurangan gerak diaktifkan."
+      },
+      {
+        "name": "Umumkan dan Salin Pemenang",
+        "text": "Lihat nama pemenang di dialog pengumuman dan salin nama pemenang ke papan klip."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Bagaimana pemilih nama acak menjamin pemilihan yang adil dan tidak berpihak?",
+      "a": "Alat ini memakai Web Crypto API bawaan browser melalui crypto.getRandomValues dengan rejection sampling untuk menghilangkan bias modulo. Berbeda dengan algoritma Math.random standar, entropi tingkat perangkat keras dari sistem operasi menjamin distribusi peluang yang seragam untuk semua entri. Setiap nama memiliki peluang matematis yang sama untuk terpilih di setiap putaran."
+    },
+    {
+      "q": "Bisakah nama pemenang dihapus otomatis setelah setiap putaran?",
+      "a": "Bisa. Cukup aktifkan kotak centang 'Hapus pemenang otomatis setelah putaran', atau klik 'Hapus Pemenang & Tutup' di dialog pengumuman. Alat ini langsung menghapus entri yang terpilih dan menggambar ulang roda untuk putaran berikutnya."
+    },
+    {
+      "q": "Apakah roda ini ramah bagi pengguna yang sensitif terhadap gerakan atau memiliki gangguan vestibular?",
+      "a": "Ya. Pemilih nama acak menghormati preferensi aksesibilitas di tingkat sistem perangkat Anda. Jika 'prefers-reduced-motion' aktif, animasi putaran dilewati sepenuhnya. Alat ini langsung menghitung potongan pemenang dan segera membuka dialog pemenang."
+    },
+    {
+      "q": "Apakah ada batas jumlah nama yang bisa ditempelkan ke roda?",
+      "a": "Anda dapat memasukkan ratusan nama ke kotak teks. Generator otomatis menghitung sudut setiap potongan dan menyesuaikan label di roda. Setiap potongan tetap berbeda secara matematis selama proses pemilihan kriptografis."
+    },
+    {
+      "q": "Apakah nama peserta saya disimpan di server jarak jauh atau dilacak?",
+      "a": "Tidak. Semua daftar nama, perhitungan putaran, dan pemilihan pemenang berjalan hanya di memori browser lokal. Tidak ada nama yang Anda masukkan yang dikirim ke server eksternal, dicatat di database, atau disimpan di URL."
+    },
+    {
+      "q": "Bisakah saya menempelkan nama yang dipisahkan koma atau titik koma?",
+      "a": "Bisa. Pengurai input otomatis memisahkan entri berdasarkan baris baru, koma, dan titik koma, serta memangkas spasi berlebih di sekitar setiap nama."
+    },
+    {
+      "q": "Bagaimana memastikan peluang yang adil jika satu orang boleh memiliki beberapa tiket?",
+      "a": "Jangan gunakan opsi Hapus Duplikat agar peserta yang membeli beberapa tiket tetap memiliki beberapa entri di kumpulan peserta."
+    }
+  ],
+  "body": {
+    "label": {
+      "namesInput": "Daftar Nama (satu per baris):"
+    },
+    "text": {
+      "nameCount": "8 entri",
+      "spinBtn": "Putar Roda!",
+      "shuffleBtn": "Acak",
+      "dedupeBtn": "Hapus Duplikat",
+      "clearBtn": "Hapus",
+      "winnerTitle": "🎉 Kita Punya Pemenang!",
+      "copyWinnerBtn": "<span data-icon=\"copy\"></span> Salin Pemenang",
+      "removeWinnerBtn": "Hapus Pemenang &amp; Tutup",
+      "closeModalBtn": "Tetap di Daftar &amp; Tutup",
+      "when-to-use-heading": "Kapan Menggunakan Roda Pemilih Nama Acak"
+    },
+    "placeholder": {
+      "namesInput": "Masukkan nama di sini..."
+    },
+    "content": {
+      "tool": {
+        "p1": "Nama dipisahkan dengan <strong>baris baru</strong>, <strong>koma</strong>, atau <strong>titik koma</strong> — jadi <code>Smith, John</code> menjadi dua nama: <em>Smith</em> dan <em>John</em>.",
+        "label1": "<input type=\"checkbox\" id=\"removeWinner\">\n          <span>Hapus pemenang otomatis setelah putaran</span>"
+      },
+      "when-to-use-the-random-name": {
+        "li1": "<strong>Kelas &amp; Partisipasi Siswa:</strong> Pastikan pemilihan siswa yang adil dan tanpa ketegangan dengan membiarkan roda netral memilih siapa yang berbicara.",
+        "li2": "<strong>Undian &amp; Giveaway Media Sosial:</strong> Adakan undian giveaway secara live agar peserta bisa melihat langsung keadilan undiannya.",
+        "li3": "<strong>Standup Tim &amp; Retrospektif Agile:</strong> Tentukan urutan bicara secara acak di rapat standup harian atau pembagian tugas code review.",
+        "li4": "<strong>Pengambilan Keputusan yang Adil:</strong> Pilih di antara proyek, restoran, atau tugas rumah dengan keacakan yang sepenuhnya netral."
+      },
+      "why-use-a-digital-random-name": {
+        "heading": "Mengapa Memakai Roda Pemilih Nama Acak Digital?",
+        "p1": "Baik Anda mengadakan giveaway di media sosial, memilih siswa untuk berpartisipasi di kelas, mengatur tukar kado tim, atau menentukan siapa yang mentraktir kopi, memilih secara adil itu penting. Undian fisik dengan gulungan kertas butuh waktu untuk disiapkan dan bisa menimbulkan kecurigaan. Roda putar digital menyediakan cara yang transparan, menarik, dan terbukti adil untuk memilih pemenang secara real-time."
+      },
+      "cryptographically-secure-randomness": {
+        "heading": "Keacakan yang Aman secara Kriptografis",
+        "p1": "Banyak roda online mengandalkan generator angka pseudoacak standar seperti <code>Math.random()</code>, yang cukup untuk permainan sederhana tetapi menunjukkan pola matematis yang dapat diprediksi jika dijalankan berulang kali. Alat kami memakai <strong>Web Crypto API (<code>crypto.getRandomValues</code>)</strong> bawaan browser. Ini menyediakan entropi tingkat perangkat keras dan keacakan kriptografis yang kuat, sehingga setiap putaran sepenuhnya independen dan tidak berpihak."
+      }
+    },
+    "ariaLabel": {
+      "wheelCanvas": "Roda Nama Acak"
+    }
+  },
+  "client": {
+    "count": {
+      "other": "{{count}} entri"
+    },
+    "wheel": {
+      "empty": "Masukkan nama untuk membuat roda",
+      "spin": "PUTAR"
+    },
+    "toast": {
+      "winner": "Pemenang: {{name}}!",
+      "deduplicated": "Nama duplikat dihapus",
+      "copied": "Nama pemenang disalin ke papan klip"
+    },
+    "defaultNames": "Budi\nSiti\nAndi\nDewi\nRizky\nPutri\nAgus\nRina"
+  }
+}

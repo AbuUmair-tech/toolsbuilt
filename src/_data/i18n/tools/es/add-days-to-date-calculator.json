@@ -1,0 +1,245 @@
+{
+  "listing": {
+    "name": "Sumar o restar días a una fecha",
+    "shortName": "Sumar o restar días",
+    "description": "Suma o resta días, semanas, meses o años a cualquier fecha de inicio. Modo opcional solo con días hábiles.",
+    "shortDescription": "Suma o resta días, semanas, meses o años a cualquier fecha de inicio. Modo opcional solo con días hábiles.",
+    "keywords": [
+      "sumar días a una fecha",
+      "restar días a una fecha",
+      "calcular fecha más días",
+      "sumar días hábiles",
+      "calculadora de fechas futuras"
+    ]
+  },
+  "title": "Sumar o restar días a una fecha: calculadora | ToolsBuilt",
+  "description": "Calculadora gratis para sumar días a una fecha o restarlos. Suma o resta días, semanas, meses o años a cualquier fecha, con opción de solo días hábiles.",
+  "h1": "Sumar o restar días a una fecha",
+  "quickAnswer": "Para sumar días a una fecha o restarlos, introduce la fecha de inicio, indica el número de días, semanas, meses o años y elige sumar o restar. Activa los días hábiles para saltarte sábados y domingos. La herramienta calcula al instante la fecha resultante, el día de la semana y los días naturales transcurridos, todo en tu navegador.",
+  "formula": {
+    "title": "Fórmula de aritmética de fechas y ajuste a fin de mes",
+    "expression": "Fecha final = Fecha de inicio ± (Cantidad × Intervalo de la unidad)",
+    "explanation": "Los días y las semanas avanzan de forma secuencial en pasos de 24 horas UTC. En los cálculos con meses y años se ajusta el índice del mes y, si el día no existe, se fija en el último día del mes de destino. El modo de días hábiles avanza día a día y se salta sábados y domingos."
+  },
+  "workedExamples": [
+    {
+      "title": "Sumar 10 días hábiles",
+      "inputs": [
+        "Fecha de inicio: viernes, 16 de octubre de 2026",
+        "Operación: sumar 10 días hábiles"
+      ],
+      "steps": [
+        "Saltar el fin de semana: 17-18 oct. (sábado-domingo)",
+        "Contar 5 días hábiles: del 19 oct. al 23 oct.",
+        "Saltar el fin de semana: 24-25 oct. (sábado-domingo)",
+        "Contar los 5 días hábiles restantes: del 26 oct. al 30 oct."
+      ],
+      "result": "Viernes, 30 de octubre de 2026 (14 días naturales transcurridos: 10 hábiles, 4 de fin de semana)"
+    },
+    {
+      "title": "Sumar 1 mes a un fin de mes (con ajuste)",
+      "inputs": [
+        "Fecha de inicio: domingo, 31 de enero de 2027",
+        "Operación: sumar 1 mes"
+      ],
+      "steps": [
+        "Avanzar el mes de enero a febrero de 2027",
+        "2027 es un año común (no bisiesto), así que febrero tiene 28 días",
+        "Ajustar el día 31 al último día del mes, el 28"
+      ],
+      "result": "Domingo, 28 de febrero de 2027 (28 días naturales transcurridos)"
+    },
+    {
+      "title": "Restar 90 días naturales",
+      "inputs": [
+        "Fecha de inicio: sábado, 17 de octubre de 2026",
+        "Operación: restar 90 días naturales"
+      ],
+      "steps": [
+        "Retroceder 90 días naturales consecutivos",
+        "Se recorren octubre, septiembre, agosto y julio"
+      ],
+      "result": "Domingo, 19 de julio de 2026 (90 días naturales transcurridos)"
+    },
+    {
+      "title": "Sumar 3 semanas",
+      "inputs": [
+        "Fecha de inicio: domingo, 1 de marzo de 2026",
+        "Operación: sumar 3 semanas"
+      ],
+      "steps": [
+        "Convertir 3 semanas en 21 días naturales (3 × 7)",
+        "Avanzar 21 días naturales desde el 1 de marzo de 2026"
+      ],
+      "result": "Domingo, 22 de marzo de 2026 (21 días naturales transcurridos)"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Creer que 30 días equivalen a 1 mes",
+      "description": "Los meses tienen entre 28 y 31 días. Si sumas 30 días al 1 de enero llegas al 31 de enero, pero si sumas 1 mes llegas al 1 de febrero."
+    },
+    {
+      "title": "Suponer que 5 días hábiles son 5 días naturales",
+      "description": "Los días hábiles se saltan sábados y domingos. Sumar 5 días hábiles abarca siempre al menos 7 días naturales."
+    },
+    {
+      "title": "No ajustar el desbordamiento de mes",
+      "description": "Sumar 1 mes al 31 de enero debe dar el 28 de febrero (o el 29 en años bisiestos). Un cálculo ingenuo puede saltar sin querer a marzo."
+    },
+    {
+      "title": "Ignorar los efectos del horario de verano",
+      "description": "Sumar bloques de 24 horas en hora local puede desviarse 1 hora los días de cambio de hora. Normalizar a medianoche UTC garantiza que la fecha cuadre exactamente."
+    }
+  ],
+  "sources": [
+    {
+      "name": "Normas de aritmética de calendario ISO 8601"
+    },
+    {
+      "name": "Observatorio Naval de EE. UU.: calendario astronómico y años bisiestos"
+    },
+    {
+      "name": "Nota del W3C sobre formatos de fecha y hora"
+    }
+  ],
+  "howto": {
+    "name": "Cómo sumar o restar días a una fecha",
+    "description": "Instrucciones paso a paso para calcular una fecha final con días naturales o solo días hábiles.",
+    "steps": [
+      {
+        "name": "Elige la fecha de inicio",
+        "text": "Selecciona la fecha de inicio o haz clic en «Hoy» para usar la fecha actual."
+      },
+      {
+        "name": "Elige la operación",
+        "text": "Indica si quieres sumar (+) hacia el futuro o restar (-) hacia el pasado."
+      },
+      {
+        "name": "Introduce la cantidad y la unidad",
+        "text": "Escribe el número y elige días, semanas, meses o años en el menú desplegable."
+      },
+      {
+        "name": "Filtra los días laborables (opcional)",
+        "text": "Marca «Contar solo días hábiles» si quieres saltarte sábados y domingos."
+      },
+      {
+        "name": "Revisa la fecha final y los detalles",
+        "text": "Consulta la fecha resultante, el día de la semana y la duración total transcurrida."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "¿Cómo excluye los fines de semana el cálculo de días hábiles?",
+      "a": "Al marcar la opción de días hábiles, la calculadora se salta los sábados y domingos mientras avanza. Si sumas 5 días hábiles empezando un viernes, la herramienta avanza de lunes a viernes y te da la fecha laborable exacta."
+    },
+    {
+      "q": "¿Cómo se tienen en cuenta los años bisiestos al sumar años o meses?",
+      "a": "La herramienta tiene en cuenta los años bisiestos automáticamente. Si sumas 365 días naturales a lo largo de un año bisiesto, se incluye el 29 de febrero, de modo que la fecha cuadra sin correcciones manuales."
+    },
+    {
+      "q": "¿Puedo calcular fechas pasadas restando días?",
+      "a": "Sí, solo tienes que elegir Restar en el menú de operación. Puedes contar hacia atrás por días, semanas, meses o años para saber fechas exactas del pasado, como el inicio de un contrato, un plazo de preaviso o para una investigación histórica."
+    },
+    {
+      "q": "¿Qué pasa si sumo un mes al 31 de enero?",
+      "a": "El cálculo de calendario estándar ajusta el desbordamiento al último día válido del mes de destino. Por ejemplo, sumar un mes al 31 de enero da el 28 de febrero (o el 29 de febrero en años bisiestos)."
+    },
+    {
+      "q": "¿Se guarda alguna de mis fechas en servidores externos?",
+      "a": "No. Todos los cálculos se hacen localmente en tu navegador con JavaScript. Ni las fechas que introduces ni los resultados se envían a servidores externos ni se registran en ninguna base de datos."
+    },
+    {
+      "q": "¿Cómo funciona la resta de fechas en la calculadora?",
+      "a": "Al elegir Restar, la herramienta retrocede en el tiempo por días, semanas, meses o años. El algoritmo respeta los límites de cada mes y los días bisiestos igual que al sumar, pero a la inversa."
+    },
+    {
+      "q": "¿El contador de días hábiles se salta los días festivos?",
+      "a": "La herramienta excluye automáticamente los fines de semana (sábado y domingo). Los festivos oficiales varían según el país y la región, así que no se descuentan automáticamente."
+    }
+  ],
+  "body": {
+    "label": {
+      "startDate": "Fecha de inicio",
+      "operation": "Operación",
+      "amount": "Cantidad",
+      "unit": "Unidad"
+    },
+    "text": {
+      "todayBtn": "Hoy",
+      "businessDaysLabel": "<input type=\"checkbox\" id=\"businessDaysOnly\" data-param=\"biz\" autocomplete=\"off\">\n      <span>Contar solo días hábiles (excluir sábados y domingos)</span>",
+      "businessDaysNote": "Los días hábiles funcionan con días y semanas. Los meses y los años siempre usan fechas de calendario.",
+      "calcBtn": "Calcular",
+      "resetBtn": "Restablecer",
+      "copyResultBtn": "<span data-icon=\"copy\"></span> Copiar resultado",
+      "primaryResult": "Elige las opciones para calcular..."
+    },
+    "option": {
+      "operation": {
+        "add": "Sumar (+)",
+        "subtract": "Restar (-)"
+      },
+      "unit": {
+        "days": "Días",
+        "weeks": "Semanas",
+        "months": "Meses",
+        "years": "Años"
+      }
+    },
+    "content": {
+      "tool": {
+        "span1": "Fecha resultante"
+      },
+      "why-is-accurate-date-arithmetic-essential": {
+        "heading": "¿Por qué es importante calcular fechas con precisión?",
+        "p1": "Calcular fechas con precisión es imprescindible en la planificación de proyectos, los acuerdos legales, las previsiones financieras y la organización personal. Contar días a mano en un calendario suele provocar errores por la distinta duración de los meses, los fines de semana y los días bisiestos. Hacer el cálculo de forma automática en tu navegador garantiza la fecha exacta cada vez."
+      },
+      "how-business-day-filtering-works": {
+        "heading": "Cómo funciona el filtro de días hábiles",
+        "p1": "Al planificar el trabajo, los días naturales no siempre reflejan los plazos reales. Las entregas de proyectos, las condiciones de pago y los plazos de preaviso legales suelen expresarse en días hábiles. Con el filtro de días hábiles activado, la calculadora se salta sábados y domingos para que los plazos reflejen los días laborables reales."
+      }
+    },
+    "title": {
+      "copyResultBtn": "Copiar el resultado al portapapeles"
+    },
+    "ariaLabel": {
+      "copyResultBtn": "Copiar el resultado al portapapeles"
+    }
+  },
+  "client": {
+    "units": {
+      "days": "días",
+      "weeks": "semanas",
+      "months": "meses",
+      "years": "años"
+    },
+    "errors": {
+      "invalidStart": "Introduce una fecha de inicio válida (AAAA-MM-DD).",
+      "invalidAmount": "Cantidad no válida: \"{{amount}}\". Introduce un número entero no negativo (por ejemplo, 5, no \"5abc\" ni \"1.9\").",
+      "nonNegative": "Introduce un número entero no negativo válido.",
+      "tooLarge": "La cantidad {{amount}} {{unit}} supera el rango máximo admitido de unos 10,000 años. Introduce un valor más pequeño.",
+      "unsupportedUnit": "Unidad de calendario no admitida: \"{{unit}}\".",
+      "missingStart": "Introduce una fecha de inicio válida.",
+      "missingAmount": "Introduce una cantidad no negativa válida."
+    },
+    "stats": {
+      "operationLabel": "Operación",
+      "operation": {
+        "add": "Se sumaron {{amount}} {{unit}}",
+        "subtract": "Se restaron {{amount}} {{unit}}",
+        "addBusiness": "Se sumaron {{amount}} {{unit}} (solo días hábiles)",
+        "subtractBusiness": "Se restaron {{amount}} {{unit}} (solo días hábiles)"
+      },
+      "isoDate": "Fecha ISO 8601",
+      "elapsedDays": "Días naturales transcurridos",
+      "businessDays": "Días hábiles",
+      "daysValue": "{{n}} días",
+      "businessDaysValue": "{{n}} días ({{weekend}} de fin de semana)"
+    },
+    "copy": {
+      "result": "Fecha resultante: {{date}} ({{iso}}). Días naturales transcurridos: {{elapsed}}. Días hábiles: {{business}}.",
+      "toast": "Fecha final copiada al portapapeles"
+    }
+  }
+}

@@ -1,0 +1,97 @@
+---
+layout: layouts/tool.njk
+toolSlug: week-number-calculator
+permalink: /tools/week-number-calculator/
+extraCss: "/tools/week-number-calculator/style.css"
+lastReviewed: "2026-10-31"
+---
+
+    <!-- Tool Form Container -->
+    <section class="tool-container" aria-label="{{ 'ariaLabel.tool-section1' | pt }}">
+      <div class="week-today" id="week-today">
+        {{ 'text.week-today' | pt }}
+      </div>
+
+      <h2 class="week-heading">{{ 'content.week-number-of-a-date.heading' | pt }}</h2>
+      <form id="date-form" novalidate>
+        <div class="form-grid week-date-grid">
+          <div class="form-group">
+            <label for="week-date">{{ 'label.week-date' | pt }}</label>
+            <div class="input-with-button">
+              <input type="date" id="week-date" data-param="date" class="form-control" required aria-required="true">
+              <button type="button" class="btn btn-secondary" id="today-btn">{{ 'text.today-btn' | pt }}</button>
+            </div>
+          </div>
+        </div>
+        <div class="button-group">
+          <button type="submit" class="btn btn-primary">{{ 'content.week-number-of-a-date.button1' | pt }}</button>
+          <button type="button" class="btn btn-secondary" id="reset-btn">{{ 'text.reset-btn' | pt }}</button>
+        </div>
+      </form>
+
+      <div id="error-box" class="hidden form-error" role="alert"></div>
+
+      <div id="result-box" class="result-box is-visible" aria-live="polite">
+        <div class="result-header">
+          <span id="result-header-text">{{ 'text.result-header-text' | pt }}</span>
+          <button type="button" class="btn btn-sm btn-ghost" id="copy-result-btn" title="{{ 'title.copy-result-btn' | pt }}" aria-label="{{ 'ariaLabel.copy-result-btn' | pt }}">
+            {{ 'text.copy-result-btn' | pt }}
+          </button>
+        </div>
+        <div class="result-primary" id="result-primary-text">--</div>
+        <p class="form-hint" id="week-note"></p>
+        <div class="result-grid" id="week-stats"></div>
+      </div>
+
+      <h2 class="week-heading">{{ 'content.dates-in-a-week.heading' | pt }}</h2>
+      <form id="range-form" novalidate>
+        <div class="form-grid week-range-grid">
+          <div class="form-group">
+            <label for="range-year">{{ 'label.range-year' | pt }}</label>
+            <input type="number" inputmode="numeric" min="1" max="9999" step="1" id="range-year" data-param="wy" class="form-control" required aria-required="true">
+          </div>
+          <div class="form-group">
+            <label for="range-week">{{ 'label.range-week' | pt }}</label>
+            <input type="number" inputmode="numeric" min="1" max="53" step="1" id="range-week" data-param="wn" class="form-control" required aria-required="true">
+          </div>
+        </div>
+      </form>
+      <div id="range-error" class="hidden form-error" role="alert"></div>
+      <div class="week-range-result" id="range-result" aria-live="polite">
+        <p class="week-range-summary" id="range-summary"></p>
+        <ol class="week-days" id="range-days"></ol>
+      </div>
+    </section>
+
+    <!-- tool-end -->
+
+    <section class="content-section">
+      <h2>{{ 'content.how-many-weeks-are-in-a.heading' | pt }}</h2>
+      <p>{{ 'content.how-many-weeks-are-in-a.p1' | pt }}</p>
+      <div class="table-wrapper">
+        <table class="table">
+          <caption class="visually-hidden">{{ 'content.how-many-weeks-are-in-a.caption1' | pt }}</caption>
+          <thead><tr><th scope="col">{{ 'content.how-many-weeks-are-in-a.th1' | pt }}</th><th scope="col">{{ 'content.how-many-weeks-are-in-a.th2' | pt }}</th><th scope="col">{{ 'content.how-many-weeks-are-in-a.th3' | pt }}</th><th scope="col">{{ 'content.how-many-weeks-are-in-a.th4' | pt }}</th></tr></thead>
+          <tbody>
+            <tr><td>2024</td><td>52</td><td>{{ 'content.how-many-weeks-are-in-a.td1' | pt }}</td><td>{{ 'content.how-many-weeks-are-in-a.td2' | pt }}</td></tr>
+            <tr><td>2025</td><td>52</td><td>{{ 'content.how-many-weeks-are-in-a.td3' | pt }}</td><td>{{ 'content.how-many-weeks-are-in-a.td4' | pt }}</td></tr>
+            <tr><td>2026</td><td><strong>53</strong></td><td>{{ 'content.how-many-weeks-are-in-a.td5' | pt }}</td><td>{{ 'content.how-many-weeks-are-in-a.td6' | pt }}</td></tr>
+            <tr><td>2027</td><td>52</td><td>{{ 'content.how-many-weeks-are-in-a.td7' | pt }}</td><td>{{ 'content.how-many-weeks-are-in-a.td8' | pt }}</td></tr>
+            <tr><td>2028</td><td>52</td><td>{{ 'content.how-many-weeks-are-in-a.td9' | pt }}</td><td>{{ 'content.how-many-weeks-are-in-a.td10' | pt }}</td></tr>
+            <tr><td>2029</td><td>52</td><td>{{ 'content.how-many-weeks-are-in-a.td11' | pt }}</td><td>{{ 'content.how-many-weeks-are-in-a.td12' | pt }}</td></tr>
+            <tr><td>2030</td><td>52</td><td>{{ 'content.how-many-weeks-are-in-a.td13' | pt }}</td><td>{{ 'content.how-many-weeks-are-in-a.td14' | pt }}</td></tr>
+            <tr><td>2031</td><td>52</td><td>{{ 'content.how-many-weeks-are-in-a.td15' | pt }}</td><td>{{ 'content.how-many-weeks-are-in-a.td16' | pt }}</td></tr>
+            <tr><td>2032</td><td><strong>53</strong></td><td>{{ 'content.how-many-weeks-are-in-a.td17' | pt }}</td><td>{{ 'content.how-many-weeks-are-in-a.td18' | pt }}</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>{{ 'content.iso-vs-us-week-numbers.heading' | pt }}</h2>
+      <p>{{ 'content.iso-vs-us-week-numbers.p1' | pt }}</p>
+      <ul class="content-list">
+        <li>{{ 'content.iso-vs-us-week-numbers.li1' | pt }}</li>
+        <li>{{ 'content.iso-vs-us-week-numbers.li2' | pt }}</li>
+        <li>{{ 'content.iso-vs-us-week-numbers.li3' | pt }}</li>
+        <li>{{ 'content.iso-vs-us-week-numbers.li4' | pt }}</li>
+      </ul>
+    </section>

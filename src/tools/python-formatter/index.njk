@@ -1,0 +1,77 @@
+---
+layout: layouts/tool.njk
+toolSlug: python-formatter
+permalink: /tools/python-formatter/
+lastReviewed: "2026-10-31"
+---
+{% from "partials/code-formatter.njk" import codeFormatter with context %}
+
+    {% call codeFormatter({ language: "Python", importMap: vendor.importMaps.python, engine: 'value.engine' | pt({ name: vendor.packages.ruff.name, version: vendor.packages.ruff.version }), sample: "import os,sys\ndef  calculate_total( items,tax_rate = 0.18 ) :\n  subtotal=sum( item['price']*item['qty'] for item in items )\n  return subtotal*( 1+tax_rate )\nclass   Account :\n    def __init__(self,owner,balance=0):\n        self.owner=owner;self.balance=balance\n    def deposit(self,amount):\n        if amount<=0: raise ValueError('Deposit must be positive')\n        self.balance+=amount\n        return self.balance\nconfig = {'host':'localhost','port':5432,'database':'inventory','user':'admin','options':{'sslmode':'require','connect_timeout':10}}\n" }) %}
+      <div class="form-group">
+        <label for="opt-line-length">{{ 'label.opt-line-length' | pt }}</label>
+        <select id="opt-line-length" class="form-control" data-option="lineLength">
+          <option value="79">{{ 'option.opt-line-length.79' | pt }}</option>
+          <option value="88" selected>{{ 'option.opt-line-length.88' | pt }}</option>
+          <option value="100">100</option>
+          <option value="120">120</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="opt-indent">{{ 'label.opt-indent' | pt }}</label>
+        <select id="opt-indent" class="form-control" data-option="indentWidth">
+          <option value="4" selected>{{ 'option.opt-indent.4' | pt }}</option>
+          <option value="2">{{ 'option.opt-indent.2' | pt }}</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="opt-quotes">{{ 'label.opt-quotes' | pt }}</label>
+        <select id="opt-quotes" class="form-control" data-option="quoteStyle">
+          <option value="double" selected>{{ 'option.opt-quotes.double' | pt }}</option>
+          <option value="single">{{ 'option.opt-quotes.single' | pt }}</option>
+          <option value="preserve">{{ 'option.opt-quotes.preserve' | pt }}</option>
+        </select>
+      </div>
+    {% endcall %}
+
+    <!-- tool-end -->
+
+    <section class="content-section" aria-labelledby="pep8-heading">
+      <h2 id="pep8-heading">{{ 'text.pep8-heading' | pt }}</h2>
+      <p>{{ 'content.pep-8-basics.p1' | pt }}</p>
+      <ul class="content-list">
+        <li>{{ 'content.pep-8-basics.li1' | pt }}</li>
+        <li>{{ 'content.pep-8-basics.li2' | pt }}</li>
+        <li>{{ 'content.pep-8-basics.li3' | pt }}</li>
+        <li>{{ 'content.pep-8-basics.li4' | pt }}</li>
+        <li>{{ 'content.pep-8-basics.li5' | pt }}</li>
+      </ul>
+      <p>{{ 'content.pep-8-basics.p2' | pt }}</p>
+    </section>
+
+    <section class="content-section" aria-labelledby="ruff-style-heading">
+      <h2 id="ruff-style-heading">{{ 'text.ruff-style-heading' | pt }}</h2>
+      <p>{{ 'content.how-ruff-and-black-style-differs.p1' | pt }}</p>
+      <ul class="content-list">
+        <li>{{ 'content.how-ruff-and-black-style-differs.li1' | pt }}</li>
+        <li>{{ 'content.how-ruff-and-black-style-differs.li2' | pt }}</li>
+        <li>{{ 'content.how-ruff-and-black-style-differs.li3' | pt }}</li>
+        <li>{{ 'content.how-ruff-and-black-style-differs.li4' | pt }}</li>
+      </ul>
+      <p>{{ 'content.how-ruff-and-black-style-differs.p2' | pt }}</p>
+    </section>
+
+    <section class="content-section" aria-labelledby="cannot-fix-heading">
+      <h2 id="cannot-fix-heading">{{ 'text.cannot-fix-heading' | pt }}</h2>
+      <p>{{ 'content.errors-the-formatter-cannot-fix.p1' | pt }}</p>
+      <ul class="content-list">
+        <li>{{ 'content.errors-the-formatter-cannot-fix.li1' | pt }}</li>
+        <li>{{ 'content.errors-the-formatter-cannot-fix.li2' | pt }}</li>
+        <li>{{ 'content.errors-the-formatter-cannot-fix.li3' | pt }}</li>
+      </ul>
+      <p>{{ 'content.errors-the-formatter-cannot-fix.p2' | pt }}</p>
+    </section>
+
+    <section class="content-section" aria-labelledby="privacy-heading">
+      <h2 id="privacy-heading">{{ 'text.privacy-heading' | pt }}</h2>
+      <p>{{ 'content.private-by-design.p1' | pt }}</p>
+    </section>

@@ -5,6 +5,7 @@
  */
 document.addEventListener('DOMContentLoaded', () => {
   const logic = window.CaseConverterLogic;
+  const T = ToolsBuilt.scope('text-case-converter');
   const textInput = document.getElementById('text-input');
   const clearBtn = document.getElementById('clear-btn');
   const copyBtn = document.getElementById('copy-btn');
@@ -19,8 +20,13 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!charStats) return;
     const text = textInput.value;
     const stats = logic.getStats(text);
-    const numFmt = new Intl.NumberFormat('en-US');
-    charStats.textContent = `${numFmt.format(stats.characters)} characters (${numFmt.format(stats.charactersNoSpaces)} no spaces) | ${numFmt.format(stats.words)} words | ${numFmt.format(stats.lines)} lines`;
+    const numFmt = new Intl.NumberFormat(ToolsBuilt.pageLocale('en-US'));
+    charStats.textContent = T('stats', {
+      characters: numFmt.format(stats.characters),
+      noSpaces: numFmt.format(stats.charactersNoSpaces),
+      words: numFmt.format(stats.words),
+      lines: numFmt.format(stats.lines)
+    });
   }
 
   function pushHistory(val) {
@@ -43,7 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
       updateStats();
 
       if (window.ToolsBuilt && window.ToolsBuilt.toast) {
-        window.ToolsBuilt.toast(`Converted to ${btn.textContent.trim()}`);
+        window.ToolsBuilt.toast(T('toast.converted', { style: btn.textContent.trim() }));
       }
     });
   });
@@ -56,7 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
         updateStats();
         if (history.length === 0) undoBtn.disabled = true;
         if (window.ToolsBuilt && window.ToolsBuilt.toast) {
-          window.ToolsBuilt.toast('Restored previous text');
+          window.ToolsBuilt.toast(T('toast.restored'));
         }
       }
     });
@@ -74,7 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
   copyBtn.addEventListener('click', () => {
     if (!textInput.value) return;
     if (window.ToolsBuilt && window.ToolsBuilt.copy) {
-      window.ToolsBuilt.copy(textInput.value, 'Converted text copied to clipboard');
+      window.ToolsBuilt.copy(textInput.value, T('toast.copied'));
     }
   });
 

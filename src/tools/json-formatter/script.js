@@ -6,6 +6,8 @@
 document.addEventListener('DOMContentLoaded', () => {
   const logic = window.JsonFormatterLogic;
   if (!logic) return;
+  const T = ToolsBuilt.scope('json-formatter');
+  const locale = ToolsBuilt.pageLocale();
 
   const jsonInput = document.getElementById('json-input');
   const jsonOutput = document.getElementById('json-output');
@@ -41,13 +43,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const max = logic.MAX_INPUT_BYTES;
     const kb = (len / 1024).toFixed(1);
     const maxMb = (max / (1024 * 1024)).toFixed(0);
-    sizeMeter.textContent = `${kb} KB / ${maxMb} MB`;
+    sizeMeter.textContent = T('sizeMeter', { kb, max: maxMb });
     if (len > max) {
-      sizeMeter.style.color = 'var(--text-danger, #ef4444)';
-      sizeMeter.style.fontWeight = 'bold';
+      sizeMeter.classList.add('is-over-limit');
     } else {
-      sizeMeter.style.color = 'var(--text-muted)';
-      sizeMeter.style.fontWeight = 'normal';
+      sizeMeter.classList.remove('is-over-limit');
     }
   }
 
@@ -87,7 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const res = logic.formatJson(text, { indent, sortKeys });
     if (res.success) {
       jsonOutput.value = res.formatted;
-      showStatus(`✓ Valid JSON: formatted ${res.stats.lines} lines (${(res.stats.characterCount / 1024).toFixed(1)} KB)`, 'success');
+      showStatus(T('status.formatted', { lines: res.stats.lines, kb: (res.stats.characterCount / 1024).toFixed(1) }), 'success');
     } else {
       showStatus(res.error, 'error');
     }
@@ -104,7 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const res = logic.minifyJson(text);
     if (res.success) {
       jsonOutput.value = res.minified;
-      showStatus(`✓ Minified JSON: 1 line (${res.stats.characterCount.toLocaleString()} chars)`, 'success');
+      showStatus(T('status.minified', { chars: res.stats.characterCount.toLocaleString(locale) }), 'success');
     } else {
       showStatus(res.error, 'error');
     }
@@ -113,13 +113,13 @@ document.addEventListener('DOMContentLoaded', () => {
   function processValidate() {
     const text = jsonInput.value;
     if (!text.trim()) {
-      showStatus('JSON input is empty. Paste or type JSON to validate.', 'info');
+      showStatus(T('errors.empty'), 'info');
       return;
     }
 
     const res = logic.validateJson(text);
     if (res.valid) {
-      showStatus(`✓ Valid JSON syntax: ${res.stats.lineCount} lines (${(res.stats.characterCount / 1024).toFixed(1)} KB)`, 'success');
+      showStatus(T('status.valid', { lines: res.stats.lineCount, kb: (res.stats.characterCount / 1024).toFixed(1) }), 'success');
     } else {
       showStatus(res.error, 'error');
     }
@@ -191,12 +191,12 @@ document.addEventListener('DOMContentLoaded', () => {
       const textToCopy = jsonOutput.value || jsonInput.value;
       if (!textToCopy) {
         if (window.ToolsBuilt && window.ToolsBuilt.toast) {
-          window.ToolsBuilt.toast('Nothing to copy. Enter valid JSON first.');
+          window.ToolsBuilt.toast(T('toast.nothingToCopy'));
         }
         return;
       }
       if (window.ToolsBuilt && window.ToolsBuilt.copy) {
-        window.ToolsBuilt.copy(textToCopy, 'JSON copied to clipboard');
+        window.ToolsBuilt.copy(textToCopy, T('toast.copied'));
       }
     });
   }
@@ -206,7 +206,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const textToDownload = jsonOutput.value || jsonInput.value;
       if (!textToDownload) {
         if (window.ToolsBuilt && window.ToolsBuilt.toast) {
-          window.ToolsBuilt.toast('Nothing to download. Enter valid JSON first.');
+          window.ToolsBuilt.toast(T('toast.nothingToDownload'));
         }
         return;
       }
@@ -222,11 +222,11 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.removeChild(a);
         URL.revokeObjectURL(url);
         if (window.ToolsBuilt && window.ToolsBuilt.toast) {
-          window.ToolsBuilt.toast('Downloaded formatted.json');
+          window.ToolsBuilt.toast(T('toast.downloaded', { file: 'formatted.json' }));
         }
       } catch (e) {
         if (window.ToolsBuilt && window.ToolsBuilt.toast) {
-          window.ToolsBuilt.toast('Download failed. Use copy instead.');
+          window.ToolsBuilt.toast(T('toast.downloadFailed'));
         }
       }
     });

@@ -1,0 +1,221 @@
+{
+  "listing": {
+    "name": "Kalkulator Hari Menuju Tanggal",
+    "shortName": "Hari Menuju Tanggal",
+    "description": "Hitung total hari, minggu, dan bulan yang tersisa menuju acara, ulang tahun, atau hari libur apa pun di masa depan.",
+    "shortDescription": "Hitung total hari, minggu, dan bulan yang tersisa menuju acara, ulang tahun, atau hari libur apa pun di masa depan.",
+    "keywords": [
+      "berapa hari lagi",
+      "hitung mundur acara",
+      "hitung hari menuju tanggal",
+      "countdown hari",
+      "sisa hari kalender"
+    ]
+  },
+  "title": "Kalkulator Hari Menuju Tanggal - Berapa Hari Lagi?",
+  "description": "Hitung berapa hari, minggu, dan bulan lagi menuju tanggal atau acara apa pun. Kalkulator hitung mundur tanggal online gratis tanpa perlu mendaftar.",
+  "h1": "Kalkulator Hari Menuju Tanggal",
+  "quickAnswer": "Untuk mengetahui berapa hari lagi menuju suatu acara, pilih tanggal target di kalender. Kalkulator hari menuju tanggal ini membandingkan target dengan tanggal hari ini dan menampilkan total sisa hari, minggu, bulan, dan jam. Alat ini juga bekerja ke arah sebaliknya untuk menghitung berapa hari yang telah berlalu sejak momen atau peringatan di masa lalu.",
+  "formula": {
+    "title": "Rumus Hitung Mundur Kalender",
+    "expression": "Hari Menuju = ⌊(ms UTC Tanggal Target - ms UTC Tanggal Sekarang) / 86,400,000 ms⌋",
+    "explanation": "Kedua tanggal dievaluasi pada tengah malam UTC untuk mencegah distorsi jam akibat daylight saving. Nilai positif berarti hitung mundur ke masa depan, sedangkan nilai negatif berarti waktu yang telah berlalu sejak peristiwa di masa lalu."
+  },
+  "workedExamples": [
+    {
+      "title": "Tenggat Proyek 30 Hari",
+      "inputs": [
+        "Tanggal target: 23 November 2026 (Senin)",
+        "Tanggal acuan: 24 Oktober 2026 (Sabtu)"
+      ],
+      "steps": [
+        "Hitung selisih tengah malam UTC: 30 hari",
+        "Uraikan menjadi minggu: 4 minggu 2 hari",
+        "Hitung jam: 30 × 24 = 720 jam"
+      ],
+      "result": "Sisa 30 hari (4 minggu 2 hari, 720 jam, Senin)"
+    },
+    {
+      "title": "Hitung Mundur Tahun Baru",
+      "inputs": [
+        "Tanggal target: 1 Januari 2027 (Jumat)",
+        "Tanggal acuan: 24 Oktober 2026 (Sabtu)"
+      ],
+      "steps": [
+        "Hitung total hari: 69 hari kalender",
+        "Uraikan menjadi bulan dan hari: 2 bulan 8 hari (9 minggu 6 hari)",
+        "Hitung jam: 69 × 24 = 1,656 jam"
+      ],
+      "result": "Sisa 69 hari (2 bulan 8 hari, 1,656 jam, Jumat)"
+    },
+    {
+      "title": "Hitung Waktu yang Telah Berlalu (Tanggal Lampau)",
+      "inputs": [
+        "Tanggal target: 24 September 2026 (Kamis)",
+        "Tanggal acuan: 24 Oktober 2026 (Sabtu)"
+      ],
+      "steps": [
+        "Target berada di masa lalu: selisih -30 hari",
+        "Hitung durasi absolut yang telah berlalu: 30 hari yang lalu",
+        "Uraikan: 1 bulan yang lalu (4 minggu 2 hari, 720 jam)"
+      ],
+      "result": "30 hari yang lalu (1 bulan yang lalu, 720 jam berlalu, Kamis)"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Memakai Jumlah Hari yang Tetap",
+      "description": "Menghitung mundur hari libur tahunan dengan perkiraan tetap tidak akan tepat karena jaraknya berubah setiap 24 jam. Selalu gunakan perhitungan kalender yang dinamis."
+    },
+    {
+      "title": "Pergeseran Tanggal Akibat Zona Waktu Lokal",
+      "description": "Membandingkan tanggal dengan tengah malam waktu lokal bisa menimbulkan selisih satu hari antarzona waktu. Menormalkan timestamp ke tengah malam UTC mencegah kesalahan pergeseran ini."
+    },
+    {
+      "title": "Tertukar antara Hari yang Berlalu dan Sisa Hari",
+      "description": "Tanggal di masa depan menghasilkan hitungan positif, sedangkan peringatan di masa lalu menghasilkan hari yang telah berlalu yang harus diberi label yang sesuai."
+    },
+    {
+      "title": "Mengabaikan Perbedaan Panjang Bulan",
+      "description": "Menguraikan 60 hari menjadi bulan mengharuskan pengecekan panjang bulan yang dilalui (mis. Februari punya 28 atau 29 hari, sedangkan Juli dan Agustus sama-sama 31 hari)."
+    }
+  ],
+  "sources": [
+    {
+      "name": "NIST Time and Frequency Division"
+    },
+    {
+      "name": "Standar Tanggal dan Waktu ISO 8601"
+    },
+    {
+      "name": "W3C Working Group Note on Time and Date Formats"
+    }
+  ],
+  "howto": {
+    "name": "Cara Menghitung Berapa Hari Lagi Menuju Suatu Tanggal",
+    "description": "Petunjuk langkah demi langkah untuk menghitung berapa hari lagi menuju acara di masa depan.",
+    "steps": [
+      {
+        "name": "Pilih Tanggal Target",
+        "text": "Pilih tanggal acara di masa depan menggunakan pemilih tanggal."
+      },
+      {
+        "name": "Tambahkan Nama Acara",
+        "text": "Jika mau, masukkan label acara seperti Liburan, Ulang Tahun, atau Tenggat Proyek."
+      },
+      {
+        "name": "Lihat Rincian Hitung Mundur",
+        "text": "Lihat total sisa hari, setaranya dalam minggu dan hari, bulan kalender, dan nama hari pada tanggal target."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Bagaimana Kalkulator Hari Menuju Tanggal bekerja?",
+      "a": "Kalkulator menghitung jarak kalender yang tepat antara tanggal hari ini dan tanggal target yang Anda pilih. Semua perhitungan tanggal menggunakan timestamp tengah malam UTC untuk menghilangkan pergeseran daylight saving time (DST) yang sering menyebabkan selisih satu hari di kalkulator lain."
+    },
+    {
+      "q": "Apakah kalkulator ini memperhitungkan tahun kabisat?",
+      "a": "Ya. Algoritmanya sepenuhnya memperhitungkan tahun kabisat 366 hari (termasuk 29 Februari) saat menghitung rentang lintas tahun kalender."
+    },
+    {
+      "q": "Bisakah saya menghitung berapa hari yang telah berlalu sejak tanggal di masa lalu?",
+      "a": "Bisa. Jika Anda memilih tanggal di masa lalu, alat ini otomatis mendeteksinya dan menampilkan waktu yang telah berlalu dalam hari, minggu, dan bulan sejak tanggal itu."
+    },
+    {
+      "q": "Bagaimana bulan dan hari diuraikan?",
+      "a": "Bulan dihitung dari pergantian bulan kalender penuh. Sisa hari disesuaikan dengan panjang bulan sebelumnya yang sebenarnya, sehingga bulan dengan 28, 29, 30, atau 31 hari ditangani dengan benar."
+    },
+    {
+      "q": "Apakah tanggal yang saya masukkan disimpan atau dikirim ke server?",
+      "a": "Tidak. Semua logika perhitungan berjalan sepenuhnya di dalam browser web Anda dengan JavaScript standar. Tidak ada tanggal pribadi atau nama acara yang keluar dari perangkat Anda."
+    },
+    {
+      "q": "Apakah hitung mundur diperbarui otomatis jika halaman dibiarkan terbuka?",
+      "a": "Perhitungan dijalankan setiap kali Anda memilih tanggal atau memuat ulang halaman. Untuk pembaruan saat tengah malam, muat ulang halaman agar tanggal acuannya diperbarui."
+    },
+    {
+      "q": "Bisakah kalkulator ini dipakai untuk merencanakan pernikahan atau pensiun?",
+      "a": "Bisa. Masukkan tanggal pensiun atau pernikahan Anda di masa depan untuk melihat sisa waktunya dalam total hari, minggu, dan bulan kalender."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Alat Kalkulator Hari Menuju Tanggal"
+    },
+    "label": {
+      "target-date": "Pilih Tanggal Target <span class=\"text-accent\">*</span>",
+      "event-name": "Nama Acara <span class=\"label-hint\">(Opsional)</span>"
+    },
+    "placeholder": {
+      "event-name": "mis. Liburan, Peluncuran Produk, Pernikahan..."
+    },
+    "text": {
+      "calculate-btn": "Hitung Hari",
+      "reset-btn": "Atur Ulang",
+      "result-primary-text": "-- Hari Menuju Tanggal"
+    },
+    "content": {
+      "tool": {
+        "div1": "<span id=\"result-header-text\">Hasil Perhitungan Hitung Mundur</span>",
+        "div2": "Total Hari",
+        "div3": "Minggu &amp; Hari",
+        "div4": "Bulan &amp; Hari",
+        "div5": "Nama Hari"
+      },
+      "how-when-to-use-the-days": {
+        "heading": "Cara &amp; Kapan Menggunakan Kalkulator Hari Menuju Tanggal",
+        "p1": "Memantau sisa waktu menuju suatu tanggal berguna untuk penjadwalan pribadi, keuangan, maupun profesional:",
+        "li1": "<strong>Manajemen Proyek &amp; Sprint:</strong> Hitung jumlah pasti hari kalender dan minggu yang tersisa menuju tonggak klien atau tenggat rilis.",
+        "li2": "<strong>Masa Pemberitahuan Kontrak &amp; Sewa:</strong> Tentukan tenggat perpanjangan sewa dan pemberitahuan hukum 30, 60, atau 90 hari.",
+        "li3": "<strong>Perencanaan Acara &amp; Perjalanan:</strong> Pantau berapa hari lagi menuju penerbangan, liburan, konferensi, atau hari pernikahan.",
+        "li4": "<strong>Tenggat Keuangan:</strong> Pantau batas pelaporan pajak, tanggal pembayaran angsuran pajak kuartalan, dan tanggal jatuh tempo obligasi."
+      }
+    }
+  },
+  "client": {
+    "errors": {
+      "invalidTarget": "Masukkan tanggal target yang valid (YYYY-MM-DD).",
+      "invalidBase": "Masukkan tanggal acuan perhitungan yang valid (YYYY-MM-DD).",
+      "missingTarget": "Pilih tanggal target yang valid."
+    },
+    "units": {
+      "weeks": {
+        "other": "{{n}} minggu"
+      },
+      "months": {
+        "other": "{{n}} bulan"
+      },
+      "days": {
+        "other": "{{n}} hari"
+      }
+    },
+    "result": {
+      "defaultSubject": "Tanggal Target",
+      "headerToday": "Status Acara",
+      "headerPast": "Perhitungan Waktu yang Telah Berlalu",
+      "headerFuture": "Hasil Perhitungan Hitung Mundur",
+      "today": "Hari ini harinya! ({{subject}})",
+      "since": {
+        "other": "{{n}} Hari Sejak {{subject}}"
+      },
+      "until": {
+        "other": "{{n}} Hari Lagi Menuju {{subject}}"
+      }
+    },
+    "stats": {
+      "zeroDays": "0 Hari",
+      "zeroWeeksDays": "0 minggu, 0 hari",
+      "zeroMonthsDays": "0 bulan, 0 hari",
+      "days": "{{n}} Hari",
+      "daysAgo": "{{n}} Hari yang Lalu",
+      "weeksDaysAgo": "{{weeks}}, {{days}} yang lalu",
+      "monthsDaysAgo": "{{months}}, {{days}} yang lalu"
+    },
+    "copy": {
+      "past": "{{result}} ({{n}} hari telah berlalu pada {{date}}).",
+      "future": "{{result}} ({{n}} hari, {{weeks}} mgg {{days}} hr lagi menuju {{date}}).",
+      "toast": "Hasil hitung mundur disalin ke papan klip"
+    }
+  }
+}

@@ -1,0 +1,236 @@
+{
+  "listing": {
+    "name": "Calcul d'âge",
+    "shortName": "Calcul d'âge",
+    "description": "Calculez votre âge exact en années, mois, jours, semaines et heures, et le compte à rebours jusqu'à votre prochain anniversaire.",
+    "shortDescription": "Calculez votre âge exact en années, mois, jours, semaines et heures, et le compte à rebours jusqu'à votre prochain anniversaire.",
+    "keywords": [
+      "calcul d'âge",
+      "calculer son âge en ligne",
+      "quel âge ai-je",
+      "calculateur d'âge",
+      "compte à rebours anniversaire"
+    ]
+  },
+  "title": "Calcul d'âge - Âge exact et prochain anniversaire",
+  "description": "Calcul d'âge gratuit en ligne : votre âge exact en années, mois et jours, le total d'heures vécues et les jours restants avant votre prochain anniversaire.",
+  "h1": "Calcul d'âge : calculateur d'âge exact",
+  "quickAnswer": "Pour le calcul d'âge exact, saisissez votre date de naissance et la date de calcul souhaitée. Le calculateur compte les années, mois et jours révolus avec un calcul de calendrier strict en UTC, pour éviter les effets du changement d'heure. Vous obtenez aussi le total d'heures, de jours et de semaines vécus, ainsi qu'un compte à rebours automatique jusqu'à votre prochain anniversaire.",
+  "formula": {
+    "title": "Méthode de calcul de l'âge exact",
+    "expression": "Âge exact = Date cible (AAAA-MM-JJ) - Date de naissance (AAAA-MM-JJ)",
+    "explanation": "L'âge s'obtient en soustrayant l'année, le mois et le jour de naissance de la date cible. Si le jour cible est inférieur au jour de naissance, on emprunte des jours au mois calendaire précédent selon sa longueur exacte (28 à 31 jours). Les années non bissextiles, un anniversaire du 29 février peut être fêté le 1er mars ou le 28 février selon la convention choisie."
+  },
+  "workedExamples": [
+    {
+      "title": "Âge d'un adulte",
+      "inputs": [
+        "Date de naissance : 15 mai 1995",
+        "Date cible : 17 octobre 2026"
+      ],
+      "steps": [
+        "Calculer les années révolues : 2026 - 1995 = 31 ans",
+        "Calculer les mois écoulés : du 15 mai au 15 octobre = 5 mois",
+        "Calculer les jours écoulés : du 15 oct. au 17 oct. = 2 jours"
+      ],
+      "result": "31 ans, 5 mois, 2 jours (11,478 jours au total, 275,472 heures)"
+    },
+    {
+      "title": "Anniversaire bissextile une année ordinaire",
+      "inputs": [
+        "Date de naissance : 29 février 2004",
+        "Date cible : 1er mars 2025",
+        "Convention : 1er mars (norme Royaume-Uni/Hong Kong)"
+      ],
+      "steps": [
+        "2025 est une année ordinaire de 365 jours, sans 29 février",
+        "Avec la convention du 1er mars, l'anniversaire tombe exactement le 1er mars",
+        "Années révolues : 2025 - 2004 = 21 ans"
+      ],
+      "result": "21 ans, 0 mois, 0 jour (7,671 jours au total)"
+    },
+    {
+      "title": "Âge d'un nourrisson",
+      "inputs": [
+        "Date de naissance : 10 janvier 2026",
+        "Date cible : 17 octobre 2026"
+      ],
+      "steps": [
+        "Années révolues : 0 an",
+        "Mois révolus : du 10 janv. au 10 oct. = 9 mois",
+        "Jours révolus : du 10 oct. au 17 oct. = 7 jours"
+      ],
+      "result": "0 an, 9 mois, 7 jours (40 semaines, 280 jours au total, 6,720 heures)"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Supposer que tous les mois ont 30 jours",
+      "description": "Les mois comptent 28, 29, 30 ou 31 jours. Diviser simplement par 30 donne des fractions de jours inexactes et l'écart s'accumule sur plusieurs années."
+    },
+    {
+      "title": "Changements d'heure du fuseau local",
+      "description": "Calculer un âge à partir de minuit heure locale peut ajouter ou retirer une heure lors des changements d'heure du printemps et de l'automne. Utiliser minuit UTC élimine ce problème."
+    },
+    {
+      "title": "Ambiguïté des anniversaires du 29 février",
+      "description": "Les personnes nées un 29 février n'ont pas cette date dans le calendrier les années ordinaires. Les règles légales varient : le droit britannique retient le 1er mars, tandis que d'autres pays retiennent le 28 février."
+    },
+    {
+      "title": "Se tromper sur l'âge de la majorité",
+      "description": "La pleine capacité juridique s'acquiert à 18 ans dans plus de 90% des pays. 21 ans est spécifiquement l'âge minimum légal pour boire de l'alcool aux États-Unis et l'âge de la majorité au Mississippi et à Porto Rico."
+    }
+  ],
+  "sources": [
+    {
+      "name": "ISO 8601 : normes de représentation des dates et heures"
+    },
+    {
+      "name": "US Naval Observatory : calendrier astronomique et années bissextiles"
+    },
+    {
+      "name": "UK Family Law Reform Act 1969, section 9"
+    }
+  ],
+  "howto": {
+    "name": "Comment calculer votre âge exact en ligne",
+    "description": "Guide pas à pas pour calculer votre âge exact, le nombre total de jours vécus et le compte à rebours jusqu'à votre prochain anniversaire.",
+    "steps": [
+      {
+        "name": "Choisir la date de naissance",
+        "text": "Choisissez votre date de naissance dans le sélecteur de date."
+      },
+      {
+        "name": "Choisir la date de calcul",
+        "text": "Gardez la date du jour ou choisissez une date passée ou future pour connaître l'âge à ce moment-là."
+      },
+      {
+        "name": "Choisir la règle du 29 février (le cas échéant)",
+        "text": "Si vous êtes né un 29 février, choisissez si les anniversaires des années non bissextiles tombent le 1er mars (norme Royaume-Uni/Hong Kong/common law) ou le 28 février."
+      },
+      {
+        "name": "Consulter le détail de l'âge",
+        "text": "Consultez votre âge en années, mois et jours, ainsi que le total d'heures, de semaines et de jours vécus et le compte à rebours jusqu'à votre prochain anniversaire."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Comment le calcul d'âge détermine-t-il l'âge exact en années, mois et jours ?",
+      "a": "Le calculateur mesure l'écart calendaire entre votre date de naissance et la date cible à partir d'horodatages à minuit UTC, pour éliminer les effets du changement d'heure. Il emprunte des jours au mois précédent selon la longueur réelle du mois (28 à 31 jours) et tient compte des 29 février des années bissextiles. Si un jour n'existe pas dans un mois (par exemple le 31), c'est le dernier jour de ce mois qui est utilisé."
+    },
+    {
+      "q": "Comment les anniversaires du 29 février sont-ils gérés les années non bissextiles ?",
+      "a": "Les années ordinaires de 365 jours, les juridictions et les cultures diffèrent. Le Royaume-Uni (Family Law Reform Act 1969) et Hong Kong retiennent le 1er mars comme date légale d'anniversaire, tandis que la Nouvelle-Zélande, Taïwan et plusieurs États américains retiennent le 28 février. Notre calculateur propose une option pour basculer entre ces deux conventions."
+    },
+    {
+      "q": "Puis-je calculer l'âge que j'aurai à une date future ?",
+      "a": "Oui. Remplacez le champ « Âge à la date » par n'importe quelle date future (départ à la retraite, date limite d'une demande de visa ou rentrée scolaire) pour connaître votre âge exact à cette date."
+    },
+    {
+      "q": "Pourquoi les heures vécues diffèrent-elles d'une simple multiplication des années par 8,760 ?",
+      "a": "Une année non bissextile compte 8,760 heures (365 jours × 24 heures), mais une année bissextile en compte 8,784 (366 jours × 24 heures). Notre calculateur additionne les jours calendaires exacts vécus et les multiplie par 24, en tenant compte de chaque 29 février de votre vie."
+    },
+    {
+      "q": "Ma date de naissance reste-t-elle privée et sécurisée ?",
+      "a": "Oui. Tous les calculs s'exécutent localement dans votre navigateur, en JavaScript pur. Vos dates ne sont jamais envoyées à des serveurs externes ni stockées dans une base de données distante."
+    },
+    {
+      "q": "Comment l'outil calcule-t-il le compte à rebours jusqu'à mon prochain anniversaire ?",
+      "a": "Le calculateur détermine votre prochain anniversaire dans l'année en cours ou la suivante, applique la règle du 29 février si nécessaire, puis calcule le nombre exact de jours restants et le jour de la semaine."
+    },
+    {
+      "q": "Puis-je calculer l'âge d'un personnage historique ou la durée d'un événement ?",
+      "a": "Oui. Saisissez la date de l'événement ou de naissance dans le champ Date de naissance et n'importe quelle date ultérieure dans le champ Date cible pour calculer une durée de vie ou une durée historique exacte."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Formulaire de calcul d'âge",
+      "copy-result-btn": "Copier le résultat dans le presse-papiers"
+    },
+    "label": {
+      "dob-date": "Date de naissance <span class=\"text-accent\">*</span>",
+      "target-date": "Âge à la date <span class=\"label-hint\">(par défaut : aujourd'hui)</span>"
+    },
+    "content": {
+      "tool": {
+        "legend1": "Anniversaires du 29 février les années non bissextiles",
+        "label1": "<input type=\"radio\" name=\"leap-convention\" value=\"mar1\" checked>\n              <span>1er mars (par défaut : Royaume-Uni / Hong Kong / common law)</span>",
+        "label2": "<input type=\"radio\" name=\"leap-convention\" value=\"feb28\">\n              <span>28 février (common law américaine / règle de Taïwan)</span>",
+        "button1": "Calculer l'âge",
+        "div1": "Années / mois / jours",
+        "div2": "Total en mois",
+        "div3": "Total en semaines",
+        "div4": "Total en jours",
+        "div5": "Total d'heures vécues",
+        "div6": "Compte à rebours jusqu'au prochain anniversaire"
+      },
+      "how-when-to-use-the-exact": {
+        "heading": "Comment et quand utiliser le calcul d'âge exact",
+        "p1": "Connaître votre âge exact en jours, semaines et mois est utile dans de nombreuses situations pratiques, juridiques et médicales :",
+        "li1": "<strong>Documents officiels et visas :</strong> les services de passeports, les contrôles aux frontières et les formulaires d'immigration exigent souvent une vérification de l'âge au jour près.",
+        "li2": "<strong>Étapes de la petite enfance :</strong> le suivi pédiatrique, le calendrier des vaccins et les stades de développement se mesurent en semaines et en mois plutôt qu'en années.",
+        "li3": "<strong>Dates limites d'inscription scolaire :</strong> les établissements fixent souvent des dates butoirs strictes (par ex. avoir 5 ans au 1er septembre) pour l'entrée à l'école.",
+        "li4": "<strong>Retraite et pension :</strong> déterminez le jour exact où vous atteignez l'âge du taux plein (par exemple 66 ou 67 ans)."
+      },
+      "key-facts-age-milestones-reference": {
+        "heading": "Repères clés et âges importants"
+      },
+      "astronomical-calendar-units": {
+        "heading": "Unités astronomiques et calendaires",
+        "li1": "<strong>Année grégorienne moyenne :</strong> 365.2425 jours (97 années bissextiles par cycle de 400 ans)",
+        "li2": "<strong>Année ordinaire :</strong> 365 jours = 8,760 heures",
+        "li3": "<strong>Année bissextile :</strong> 366 jours = 8,784 heures",
+        "li4": "<strong>Décennie :</strong> 120 mois",
+        "li5": "<strong>Anniversaire du 29 février :</strong> fêté le 1er mars ou le 28 février les années ordinaires"
+      },
+      "common-legal-age-milestones": {
+        "heading": "Âges légaux courants",
+        "th1": "Âge",
+        "th2": "Portée juridique habituelle",
+        "td1": "18 ans",
+        "td2": "Âge de la majorité et du droit de vote dans &gt;90% des pays",
+        "td3": "21 ans",
+        "td4": "Âge minimum d'achat d'alcool aux États-Unis ; âge de la majorité dans certaines juridictions (par ex. le Mississippi)",
+        "td5": "65–67 ans",
+        "td6": "Référence habituelle pour la retraite à taux plein et les pensions publiques"
+      }
+    },
+    "text": {
+      "reset-btn": "Réinitialiser",
+      "result-header-text": "Résultat du calcul d'âge",
+      "copy-result-btn": "<span data-icon=\"copy\"></span> Copier le résultat",
+      "result-primary-text": "-- ans, -- mois, -- jours"
+    },
+    "title": {
+      "copy-result-btn": "Copier le résultat dans le presse-papiers"
+    }
+  },
+  "client": {
+    "errors": {
+      "invalidDob": "Veuillez saisir une date de naissance valide (AAAA-MM-JJ).",
+      "invalidTarget": "Veuillez saisir une date de calcul valide (AAAA-MM-JJ).",
+      "dobInFuture": "La date de naissance ne peut pas être postérieure à la date de calcul.",
+      "missingDob": "Veuillez saisir une date de naissance valide.",
+      "missingTarget": "Veuillez saisir une date de calcul."
+    },
+    "result": {
+      "age": "{{years}} ans, {{months}} mois, {{days}} jours"
+    },
+    "stats": {
+      "months": "{{n}} mois",
+      "weeks": "{{n}} semaines",
+      "days": "{{n}} jours",
+      "hours": "{{n}} heures"
+    },
+    "birthday": {
+      "today": "C'est votre anniversaire aujourd'hui ! ({{weekday}})",
+      "daysLeft": "{{n}} jours restants ({{date}})"
+    },
+    "copy": {
+      "result": "Âge exact : {{age}}. Total de jours : {{totalDays}}. Prochain anniversaire : dans {{daysLeft}} jours ({{date}}).",
+      "toast": "Résultat du calcul d'âge copié dans le presse-papiers"
+    }
+  }
+}

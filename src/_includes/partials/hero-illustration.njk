@@ -1,0 +1,77 @@
+{# Original hero illustration: laptop with a wrench on screen and floating tool tiles.
+   Inline SVG rather than an image file, so it is never the LCP element; colours follow the theme tokens. #}
+<svg class="hero-art" width="520" height="440" viewBox="0 0 520 440" aria-hidden="true" focusable="false">
+  <defs>
+    <radialGradient id="ha-glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0" class="ha-glow-stop"/>
+      <stop offset="1" class="ha-glow-stop" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="ha-screen" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" class="ha-screen-a"/>
+      <stop offset="1" class="ha-screen-b"/>
+    </linearGradient>
+    <linearGradient id="ha-blue" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#4f8bff"/>
+      <stop offset="1" stop-color="#1d4ed8"/>
+    </linearGradient>
+  </defs>
+
+  <!-- glow -->
+  <circle cx="270" cy="230" r="210" fill="url(#ha-glow)"/>
+
+  <!-- laptop -->
+  <g transform="translate(110 120)">
+    <rect x="0" y="0" width="300" height="196" rx="16" class="ha-frame"/>
+    <rect x="12" y="12" width="276" height="172" rx="10" fill="url(#ha-screen)"/>
+    <!-- screen content: toolbar dots and lines -->
+    <circle cx="30" cy="30" r="4" class="ha-dot"/>
+    <circle cx="44" cy="30" r="4" class="ha-dot"/>
+    <circle cx="58" cy="30" r="4" class="ha-dot"/>
+    <rect x="28" y="140" width="96" height="8" rx="4" class="ha-line"/>
+    <rect x="28" y="156" width="64" height="8" rx="4" class="ha-line"/>
+    <!-- wrench -->
+    <g transform="translate(150 98) rotate(-45)">
+      <rect x="-9" y="-6" width="18" height="70" rx="9" fill="url(#ha-blue)"/>
+      <path d="M-26 -38a26 26 0 0 0 38 30l-2-18 -10 0 0-14 14 0a26 26 0 0 0-40 2z" fill="url(#ha-blue)" transform="translate(7 -6)"/>
+      <circle cx="0" cy="52" r="4" class="ha-hole"/>
+    </g>
+    <!-- base -->
+    <path d="M-28 196h356l-14 22a12 12 0 0 1-10 6H-4a12 12 0 0 1-10-6z" class="ha-base"/>
+    <rect x="120" y="198" width="60" height="6" rx="3" class="ha-notch"/>
+  </g>
+
+  <!-- floating tiles -->
+  <g class="ha-tile-group">
+    <!-- calculator (green) -->
+    <g transform="translate(40 70)">
+      <rect width="84" height="84" rx="22" class="ha-tile ha-green"/>
+      <g transform="translate(24 20)" fill="none" stroke="#ffffff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="0" y="0" width="36" height="44" rx="6"/>
+        <line x1="8" y1="12" x2="28" y2="12"/>
+        <path d="M9 24h.01M18 24h.01M27 24h.01M9 33h.01M18 33h.01M27 33h.01"/>
+      </g>
+    </g>
+    <!-- code (violet) -->
+    <g transform="translate(400 52)">
+      <rect width="84" height="84" rx="22" class="ha-tile ha-violet"/>
+      <g fill="none" stroke="#ffffff" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="34,30 20,42 34,54"/>
+        <polyline points="50,30 64,42 50,54"/>
+      </g>
+    </g>
+    <!-- percent (orange) -->
+    <g transform="translate(428 270)">
+      <rect width="76" height="76" rx="20" class="ha-tile ha-orange"/>
+      <g fill="none" stroke="#ffffff" stroke-width="3.4" stroke-linecap="round">
+        <line x1="52" y1="24" x2="24" y2="52"/>
+        <circle cx="27" cy="27" r="5"/>
+        <circle cx="49" cy="49" r="5"/>
+      </g>
+    </g>
+    <!-- small spark -->
+    <g transform="translate(58 300)">
+      <rect width="56" height="56" rx="16" class="ha-tile ha-blue"/>
+      <path d="M28 14l4 10 10 4-10 4-4 10-4-10-10-4 10-4z" fill="#ffffff"/>
+    </g>
+  </g>
+</svg>

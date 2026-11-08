@@ -6,6 +6,8 @@
 document.addEventListener('DOMContentLoaded', () => {
   const logic = window.Base64Logic;
   if (!logic) return;
+  const T = ToolsBuilt.scope('base64-encoder-decoder');
+  const locale = ToolsBuilt.pageLocale();
 
   const modeRadios = document.querySelectorAll('input[name="base64-mode"]');
   const urlSafeToggle = document.getElementById('url-safe-toggle');
@@ -30,17 +32,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function updateLabels() {
     currentMode = getMode();
-    if (currentMode === 'encode') {
-      if (inputLabel) inputLabel.textContent = 'Text to Encode (UTF-8 Plain Text):';
-      if (outputLabel) outputLabel.textContent = 'Base64 Encoded Output:';
-      if (convertBtn) convertBtn.textContent = 'Encode to Base64';
-      base64Input.placeholder = 'Type or paste plain text here (supports emojis, foreign alphabets, and symbols)...';
-    } else {
-      if (inputLabel) inputLabel.textContent = 'Base64 String to Decode:';
-      if (outputLabel) outputLabel.textContent = 'Decoded Plain Text (UTF-8):';
-      if (convertBtn) convertBtn.textContent = 'Decode from Base64';
-      base64Input.placeholder = 'Paste Base64 string here (e.g. TWFu or Y2Fmw6k=)...';
-    }
+    const labels = currentMode === 'encode' ? 'labels.encode' : 'labels.decode';
+    if (inputLabel) inputLabel.textContent = T(`${labels}.input`);
+    if (outputLabel) outputLabel.textContent = T(`${labels}.output`);
+    if (convertBtn) convertBtn.textContent = T(`${labels}.button`);
+    base64Input.placeholder = T(`${labels}.placeholder`);
   }
 
   function updateSizeMeter(text) {
@@ -49,12 +45,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const max = logic.MAX_INPUT_BYTES;
     const kb = (len / 1024).toFixed(1);
     const maxMb = (max / (1024 * 1024)).toFixed(0);
-    sizeMeter.textContent = `${kb} KB / ${maxMb} MB`;
+    sizeMeter.textContent = T('sizeMeter', { kb, max: maxMb });
     if (len > max) {
-      sizeMeter.style.color = 'var(--text-danger, #ef4444)';
+      sizeMeter.style.color = 'var(--color-error-text, #ef4444)';
       sizeMeter.style.fontWeight = 'bold';
     } else {
-      sizeMeter.style.color = 'var(--text-muted)';
+      sizeMeter.style.color = 'var(--text-secondary)';
       sizeMeter.style.fontWeight = 'normal';
     }
   }
@@ -96,7 +92,11 @@ document.addEventListener('DOMContentLoaded', () => {
       const res = logic.encode(text, { urlSafe });
       if (res.success) {
         base64Output.value = res.result;
-        showStatus(`✓ Encoded ${res.stats.inputChars.toLocaleString()} characters into ${res.stats.outputChars.toLocaleString()} Base64 characters (${res.stats.byteSize} bytes)`, 'success');
+        showStatus(T('status.encoded', {
+          input: res.stats.inputChars.toLocaleString(locale),
+          output: res.stats.outputChars.toLocaleString(locale),
+          bytes: res.stats.byteSize
+        }), 'success');
       } else {
         showStatus(res.error, 'error');
       }
@@ -104,7 +104,10 @@ document.addEventListener('DOMContentLoaded', () => {
       const res = logic.decode(text, { urlSafe });
       if (res.success) {
         base64Output.value = res.result;
-        showStatus(`✓ Decoded ${res.stats.inputChars.toLocaleString()} Base64 characters into ${res.stats.outputChars.toLocaleString()} plain text characters`, 'success');
+        showStatus(T('status.decoded', {
+          input: res.stats.inputChars.toLocaleString(locale),
+          output: res.stats.outputChars.toLocaleString(locale)
+        }), 'success');
       } else {
         showStatus(res.error, 'error');
       }
@@ -171,12 +174,12 @@ document.addEventListener('DOMContentLoaded', () => {
       const textToCopy = base64Output.value;
       if (!textToCopy) {
         if (window.ToolsBuilt && window.ToolsBuilt.toast) {
-          window.ToolsBuilt.toast('Nothing to copy. Enter text first.');
+          window.ToolsBuilt.toast(T('toast.nothingToCopy'));
         }
         return;
       }
       if (window.ToolsBuilt && window.ToolsBuilt.copy) {
-        window.ToolsBuilt.copy(textToCopy, 'Result copied to clipboard');
+        window.ToolsBuilt.copy(textToCopy, T('toast.copied'));
       }
     });
   }

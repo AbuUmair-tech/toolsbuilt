@@ -12,88 +12,95 @@
 })(typeof globalThis !== 'undefined' ? globalThis : this, function () {
   'use strict';
 
+  // Messages and unit names come from the tool's translation data
+  const T = (typeof ToolsBuilt !== 'undefined' && ToolsBuilt.scope)
+    ? ToolsBuilt.scope('unit-converter')
+    : require('../../../scripts/i18n-client.js').scope('unit-converter');
+
   // EXACT Conversion Factors to Base SI Unit
   const UNIT_DEFINITIONS = {
     length: {
       baseUnit: 'm',
-      name: 'Length',
       units: {
-        'm': { name: 'Meter (m)', factor: 1 },
-        'km': { name: 'Kilometer (km)', factor: 1000 },
-        'cm': { name: 'Centimeter (cm)', factor: 0.01 },
-        'mm': { name: 'Millimeter (mm)', factor: 0.001 },
-        'mi': { name: 'Mile (mi)', factor: 1609.344 },
-        'yd': { name: 'Yard (yd)', factor: 0.9144 },
-        'ft': { name: 'Foot (ft)', factor: 0.3048 },
-        'in': { name: 'Inch (in)', factor: 0.0254 },
-        'nmi': { name: 'Nautical Mile (nmi)', factor: 1852 }
+        'm': { factor: 1 },
+        'km': { factor: 1000 },
+        'cm': { factor: 0.01 },
+        'mm': { factor: 0.001 },
+        'mi': { factor: 1609.344 },
+        'yd': { factor: 0.9144 },
+        'ft': { factor: 0.3048 },
+        'in': { factor: 0.0254 },
+        'nmi': { factor: 1852 }
       }
     },
     weight: {
       baseUnit: 'kg',
-      name: 'Weight / Mass',
       units: {
-        'kg': { name: 'Kilogram (kg)', factor: 1 },
-        'g': { name: 'Gram (g)', factor: 0.001 },
-        'mg': { name: 'Milligram (mg)', factor: 0.000001 },
-        't': { name: 'Metric Ton (t)', factor: 1000 },
-        'lb': { name: 'Pound (lb)', factor: 0.45359237 },
-        'oz': { name: 'Ounce (oz)', factor: 0.028349523125 },
-        'st': { name: 'Stone (st)', factor: 6.35029318 },
-        'ton': { name: 'Short Ton (US ton)', factor: 907.18474 }
+        'kg': { factor: 1 },
+        'g': { factor: 0.001 },
+        'mg': { factor: 0.000001 },
+        't': { factor: 1000 },
+        'lb': { factor: 0.45359237 },
+        'oz': { factor: 0.028349523125 },
+        'st': { factor: 6.35029318 },
+        'ton': { factor: 907.18474 }
       }
     },
     temperature: {
       baseUnit: 'c',
-      name: 'Temperature',
       units: {
-        'c': { name: 'Celsius (°C)' },
-        'f': { name: 'Fahrenheit (°F)' },
-        'k': { name: 'Kelvin (K)' }
+        'c': {},
+        'f': {},
+        'k': {}
       }
     },
     area: {
       baseUnit: 'sqm',
-      name: 'Area',
       units: {
-        'sqm': { name: 'Square Meter (m²)', factor: 1 },
-        'sqkm': { name: 'Square Kilometer (km²)', factor: 1000000 },
-        'sqcm': { name: 'Square Centimeter (cm²)', factor: 0.0001 },
-        'sqmi': { name: 'Square Mile (mi²)', factor: 2589988.110336 },
-        'sqyd': { name: 'Square Yard (yd²)', factor: 0.83612736 },
-        'sqft': { name: 'Square Foot (ft²)', factor: 0.09290304 },
-        'sqin': { name: 'Square Inch (in²)', factor: 0.00064516 },
-        'ha': { name: 'Hectare (ha)', factor: 10000 },
-        'ac': { name: 'Acre (ac)', factor: 4046.8564224 }
+        'sqm': { factor: 1 },
+        'sqkm': { factor: 1000000 },
+        'sqcm': { factor: 0.0001 },
+        'sqmi': { factor: 2589988.110336 },
+        'sqyd': { factor: 0.83612736 },
+        'sqft': { factor: 0.09290304 },
+        'sqin': { factor: 0.00064516 },
+        'ha': { factor: 10000 },
+        'ac': { factor: 4046.8564224 }
       }
     },
     volume: {
       baseUnit: 'l',
-      name: 'Volume',
       units: {
-        'l': { name: 'Liter (L)', factor: 1 },
-        'ml': { name: 'Milliliter (mL)', factor: 0.001 },
-        'cum': { name: 'Cubic Meter (m³)', factor: 1000 },
-        'gal': { name: 'US Gallon (gal)', factor: 3.785411784 },
-        'qt': { name: 'US Quart (qt)', factor: 0.946352946 },
-        'pt': { name: 'US Pint (pt)', factor: 0.473176473 },
-        'cup': { name: 'US Cup', factor: 0.2365882365 },
-        'floz': { name: 'US Fluid Ounce (fl oz)', factor: 0.0295735295625 },
-        'impgal': { name: 'Imperial Gallon (imp gal)', factor: 4.54609 }
+        'l': { factor: 1 },
+        'ml': { factor: 0.001 },
+        'cum': { factor: 1000 },
+        'gal': { factor: 3.785411784 },
+        'qt': { factor: 0.946352946 },
+        'pt': { factor: 0.473176473 },
+        'cup': { factor: 0.2365882365 },
+        'floz': { factor: 0.0295735295625 },
+        'impgal': { factor: 4.54609 }
       }
     },
     speed: {
       baseUnit: 'mps',
-      name: 'Speed',
       units: {
-        'mps': { name: 'Meter per Second (m/s)', factor: 1 },
-        'kph': { name: 'Kilometer per Hour (km/h)', factor: 1 / 3.6 },
-        'mph': { name: 'Mile per Hour (mph)', factor: 0.44704 },
-        'kn': { name: 'Knot (kn)', factor: 1852 / 3600 },
-        'fps': { name: 'Foot per Second (ft/s)', factor: 0.3048 }
+        'mps': { factor: 1 },
+        'kph': { factor: 1 / 3.6 },
+        'mph': { factor: 0.44704 },
+        'kn': { factor: 1852 / 3600 },
+        'fps': { factor: 0.3048 }
       }
     }
   };
+
+  // Display names come from the tool's translation data: categories.<category>, units.<category>.<id>
+  Object.keys(UNIT_DEFINITIONS).forEach(cat => {
+    UNIT_DEFINITIONS[cat].name = T(`categories.${cat}`);
+    Object.keys(UNIT_DEFINITIONS[cat].units).forEach(id => {
+      UNIT_DEFINITIONS[cat].units[id].name = T(`units.${cat}.${id}`);
+    });
+  });
 
   function roundSensible(num, maxDecimals = 6) {
     if (!isFinite(num)) return num;
@@ -112,7 +119,7 @@
    */
   function convertTemperature(value, fromUnit, toUnit) {
     const val = parseFloat(value);
-    if (isNaN(val)) throw new Error('Please enter a valid numeric temperature value.');
+    if (isNaN(val)) throw new Error(T('errors.temperatureValue'));
 
     const from = String(fromUnit).toLowerCase();
     const to = String(toUnit).toLowerCase();
@@ -128,7 +135,7 @@
     } else if (from === 'k') {
       celsius = val - 273.15;
     } else {
-      throw new Error(`Invalid source temperature unit: ${fromUnit}`);
+      throw new Error(T('errors.invalidSourceTemp', { unit: fromUnit }));
     }
 
     // Convert from Celsius to target
@@ -140,7 +147,7 @@
     } else if (to === 'k') {
       result = celsius + 273.15;
     } else {
-      throw new Error(`Invalid target temperature unit: ${toUnit}`);
+      throw new Error(T('errors.invalidTargetTemp', { unit: toUnit }));
     }
 
     return roundSensible(result, 4);
@@ -152,12 +159,12 @@
   function convert(category, value, fromUnit, toUnit) {
     const cat = String(category).toLowerCase();
     if (!UNIT_DEFINITIONS[cat]) {
-      throw new Error(`Unsupported category: ${category}`);
+      throw new Error(T('errors.unsupportedCategory', { category }));
     }
 
     const val = parseFloat(value);
     if (isNaN(val)) {
-      throw new Error('Please enter a valid number to convert.');
+      throw new Error(T('errors.numberToConvert'));
     }
 
     if (cat === 'temperature') {
@@ -168,8 +175,8 @@
     const unitA = catUnits[fromUnit];
     const unitB = catUnits[toUnit];
 
-    if (!unitA) throw new Error(`Unknown source unit "${fromUnit}" in ${cat}`);
-    if (!unitB) throw new Error(`Unknown target unit "${toUnit}" in ${cat}`);
+    if (!unitA) throw new Error(T('errors.unknownSource', { unit: fromUnit, category: cat }));
+    if (!unitB) throw new Error(T('errors.unknownTarget', { unit: toUnit, category: cat }));
 
     if (fromUnit === toUnit) return val;
 

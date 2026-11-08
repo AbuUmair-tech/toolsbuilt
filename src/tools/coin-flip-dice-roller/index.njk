@@ -1,0 +1,95 @@
+---
+layout: layouts/tool.njk
+toolSlug: coin-flip-dice-roller
+permalink: /tools/coin-flip-dice-roller/
+extraCss: "/tools/coin-flip-dice-roller/style.css"
+lastReviewed: "2026-10-31"
+---
+
+    <!-- Tool Form Container -->
+    <section class="tool-container" aria-label="{{ 'ariaLabel.tool-section1' | pt }}">
+      <div class="segmented-control mb-6" role="tablist" aria-label="{{ 'ariaLabel.tool-div1' | pt }}">
+        <button type="button" class="btn btn-sm mode-tab-btn active" id="tab-coin" data-mode="coin" role="tab" aria-selected="true" aria-controls="calculator-form">{{ 'text.tab-coin' | pt }}</button>
+        <button type="button" class="btn btn-sm mode-tab-btn" id="tab-dice" data-mode="dice" role="tab" aria-selected="false" aria-controls="calculator-form" tabindex="-1">{{ 'text.tab-dice' | pt }}</button>
+      </div>
+
+      <form id="calculator-form" role="tabpanel" aria-labelledby="tab-coin" novalidate>
+        <input type="hidden" id="mode" data-param="mode" value="coin">
+        <div class="form-grid two-col" data-mode-field="coin">
+          <div class="form-group">
+            <label for="coin-count">{{ 'label.coin-count' | pt }}</label>
+            <input type="number" inputmode="numeric" step="1" min="1" max="100" id="coin-count" data-param="coins" class="form-control" value="1">
+          </div>
+        </div>
+        <div class="form-grid two-col" data-mode-field="dice" hidden>
+          <div class="form-group">
+            <label for="dice-count">{{ 'label.dice-count' | pt }}</label>
+            <input type="number" inputmode="numeric" step="1" min="1" max="10" id="dice-count" data-param="dice" class="form-control" value="2">
+          </div>
+          <div class="form-group">
+            <label for="dice-sides">{{ 'label.dice-sides' | pt }}</label>
+            <select id="dice-sides" data-param="sides" class="form-control">
+              <option value="4">{{ 'option.dice-sides.4' | pt }}</option>
+              <option value="6" selected>{{ 'option.dice-sides.6' | pt }}</option>
+              <option value="8">{{ 'option.dice-sides.8' | pt }}</option>
+              <option value="10">{{ 'option.dice-sides.10' | pt }}</option>
+              <option value="12">{{ 'option.dice-sides.12' | pt }}</option>
+              <option value="20">{{ 'option.dice-sides.20' | pt }}</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="button-group">
+          <button type="submit" class="btn btn-primary btn-lg" id="go-btn">{{ 'text.go-btn' | pt }}</button>
+          <button type="button" class="btn btn-secondary" id="clear-history-btn">{{ 'text.clear-history-btn' | pt }}</button>
+        </div>
+      </form>
+
+      <div id="error-box" class="hidden form-error" role="alert"></div>
+
+      <div id="result-box" class="result-box is-visible" aria-live="polite">
+        <div class="result-header">
+          {{ 'content.tool.div1' | pt }}
+        </div>
+        <div class="result-primary" id="result-primary-text">--</div>
+        <ul class="cd-pieces" id="cd-pieces" aria-label="{{ 'ariaLabel.cd-pieces' | pt }}"></ul>
+        <p class="form-hint" id="cd-note"></p>
+      </div>
+
+      <div class="cd-history">
+        <p class="cd-history-title" id="history-title">{{ 'text.history-title' | pt }}</p>
+        <ol class="cd-history-list" id="history-list" aria-labelledby="history-title"></ol>
+        <p class="form-hint" id="history-empty">{{ 'text.history-empty' | pt }}</p>
+      </div>
+    </section>
+
+    <!-- tool-end -->
+
+    <section class="content-section">
+      <h2>{{ 'content.dice-odds-at-a-glance.heading' | pt }}</h2>
+      <p>{{ 'content.dice-odds-at-a-glance.p1' | pt }}</p>
+      <div class="table-wrapper">
+        <table class="table">
+          <caption class="visually-hidden">{{ 'content.dice-odds-at-a-glance.caption1' | pt }}</caption>
+          <thead><tr><th scope="col">{{ 'content.dice-odds-at-a-glance.th1' | pt }}</th><th scope="col">{{ 'content.dice-odds-at-a-glance.th2' | pt }}</th><th scope="col">{{ 'content.dice-odds-at-a-glance.th3' | pt }}</th><th scope="col">{{ 'content.dice-odds-at-a-glance.th4' | pt }}</th></tr></thead>
+          <tbody>
+            <tr><td>{{ 'content.dice-odds-at-a-glance.td1' | pt }}</td><td>1–4</td><td>2.5</td><td>25%</td></tr>
+            <tr><td>{{ 'content.dice-odds-at-a-glance.td2' | pt }}</td><td>1–6</td><td>3.5</td><td>16.67%</td></tr>
+            <tr><td>{{ 'content.dice-odds-at-a-glance.td3' | pt }}</td><td>2–12</td><td>7</td><td>{{ 'content.dice-odds-at-a-glance.td4' | pt }}</td></tr>
+            <tr><td>{{ 'content.dice-odds-at-a-glance.td5' | pt }}</td><td>1–8</td><td>4.5</td><td>12.5%</td></tr>
+            <tr><td>{{ 'content.dice-odds-at-a-glance.td6' | pt }}</td><td>1–10</td><td>5.5</td><td>10%</td></tr>
+            <tr><td>{{ 'content.dice-odds-at-a-glance.td7' | pt }}</td><td>1–12</td><td>6.5</td><td>8.33%</td></tr>
+            <tr><td>{{ 'content.dice-odds-at-a-glance.td8' | pt }}</td><td>1–20</td><td>10.5</td><td>5%</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>{{ 'content.when-to-flip-a-coin-or.heading' | pt }}</h2>
+      <ul class="content-list">
+        <li>{{ 'content.when-to-flip-a-coin-or.li1' | pt }}</li>
+        <li>{{ 'content.when-to-flip-a-coin-or.li2' | pt }}</li>
+        <li>{{ 'content.when-to-flip-a-coin-or.li3' | pt }}</li>
+        <li>{{ 'content.when-to-flip-a-coin-or.li4' | pt }}</li>
+      </ul>
+      <p>{{ 'content.when-to-flip-a-coin-or.p1' | pt }}</p>
+    </section>

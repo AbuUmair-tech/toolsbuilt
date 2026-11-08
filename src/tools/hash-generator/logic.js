@@ -14,9 +14,14 @@
 })(typeof globalThis !== 'undefined' ? globalThis : this, function () {
   'use strict';
 
+  // Messages come from the tool's translation data
+  const T = (typeof ToolsBuilt !== 'undefined' && ToolsBuilt.scope)
+    ? ToolsBuilt.scope('hash-generator')
+    : require('../../../scripts/i18n-client.js').scope('hash-generator');
+
   const SUPPORTED_ALGORITHMS = ['SHA-256', 'SHA-512', 'SHA-384', 'SHA-1'];
 
-  const PASSWORD_WARNING = 'Security Warning: SHA-1 and MD5 are cryptographically broken and vulnerable to collision attacks. They must never be used for password hashing, digital signatures, or security-critical authentication. Use Argon2, bcrypt, or scrypt for passwords, and SHA-256 or SHA-512 for data integrity verification.';
+  const PASSWORD_WARNING = T('warnings.password');
 
   /**
    * Get cryptographic subtle crypto object across Browser and Node environments
@@ -61,7 +66,7 @@
   async function computeHash(text, algorithm = 'SHA-256', options = {}) {
     const algo = algorithm.toUpperCase();
     if (!SUPPORTED_ALGORITHMS.includes(algo)) {
-      throw new Error(`Unsupported hash algorithm: ${algorithm}. Supported: ${SUPPORTED_ALGORITHMS.join(', ')}`);
+      throw new Error(T('errors.unsupportedAlgorithm', { algorithm, supported: SUPPORTED_ALGORITHMS.join(', ') }));
     }
 
     const uppercase = !!options.uppercase;
@@ -82,7 +87,7 @@
       const hex = nodeCrypto.createHash(nodeAlgoName).update(str, 'utf8').digest('hex');
       return uppercase ? hex.toUpperCase() : hex.toLowerCase();
     } catch (e) {
-      throw new Error(`Cryptographic hash computation failed: ${e.message}`);
+      throw new Error(T('errors.computationFailed', { message: e.message }));
     }
   }
 

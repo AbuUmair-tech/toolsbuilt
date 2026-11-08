@@ -1,0 +1,808 @@
+{
+  "listing": {
+    "name": "Sales Tax, VAT & GST Calculator",
+    "shortName": "Sales Tax, VAT & GST",
+    "description": "Add or remove sales tax, VAT or GST at your country's rate or any custom rate, with quantity and the formula shown.",
+    "shortDescription": "Add tax to a price or remove it from a tax-inclusive price at any rate, with the formula shown.",
+    "keywords": [
+      "sales tax calculator",
+      "gst calculator",
+      "reverse sales tax calculator",
+      "remove gst from price",
+      "add 18% gst",
+      "vat calculator",
+      "sales tax pakistan 18%",
+      "tax inclusive price calculator"
+    ]
+  },
+  "title": "Sales Tax, VAT & GST Calculator: Add or Remove Tax",
+  "description": "Add or remove sales tax, VAT or GST from a price at your country's rate (UK, EU, India, Pakistan, Saudi Arabia, UAE, Canada and more) or any custom rate.",
+  "h1": "Sales Tax, VAT & GST Calculator",
+  "quickAnswer": "To add tax, multiply the price by (1 + rate): 1,000 plus 18% is 1,000 × 1.18 = 1,180, with 180 tax. To remove tax from a price that already includes it, divide by (1 + rate): 1,180 ÷ 1.18 = 1,000. Never just subtract 18%: 5,000 including 18% tax is 4,237.29 before tax, not 4,100.",
+  "formula": {
+    "title": "Sales Tax Formulas",
+    "expression": "Total = Price × (1 + Rate) · Price before tax = Total ÷ (1 + Rate)",
+    "explanation": "Write the rate as a decimal (18% = 0.18). To add tax to a tax-exclusive price, the tax is Price × Rate and the total is Price × (1 + Rate). To find the price before tax inside a tax-inclusive total, divide the total by (1 + Rate); the tax is the total minus that price. With a quantity, multiply the unit price by the quantity first.",
+    "variables": [
+      {
+        "name": "Price",
+        "description": "The price excluding tax (add mode) or including tax (remove mode), for one item."
+      },
+      {
+        "name": "Rate",
+        "description": "The tax rate as a decimal, e.g. 0.18 for 18%."
+      }
+    ]
+  },
+  "workedExamples": [
+    {
+      "title": "Add 18% to 1,000",
+      "inputs": [
+        "Price excluding tax: 1,000",
+        "Rate: 18%"
+      ],
+      "steps": [
+        "Tax: 1,000 × 0.18 = 180",
+        "Total: 1,000 + 180 = 1,180"
+      ],
+      "result": "Tax 180, total 1,180",
+      "link": "/tools/sales-tax-calculator/?mode=add&price=1000&rate=18&qty=1&cur=PKR#tool"
+    },
+    {
+      "title": "Remove 18% from 1,180",
+      "inputs": [
+        "Price including tax: 1,180",
+        "Rate: 18%"
+      ],
+      "steps": [
+        "Price before tax: 1,180 ÷ 1.18 = 1,000",
+        "Tax inside the price: 1,180 − 1,000 = 180"
+      ],
+      "result": "Price before tax 1,000, tax 180",
+      "link": "/tools/sales-tax-calculator/?mode=remove&price=1180&rate=18&qty=1&cur=PKR#tool"
+    },
+    {
+      "title": "Remove 18% from 5,000",
+      "inputs": [
+        "Price including tax: 5,000",
+        "Rate: 18%"
+      ],
+      "steps": [
+        "Price before tax: 5,000 ÷ 1.18 = 4,237.29",
+        "Tax inside the price: 5,000 − 4,237.29 = 762.71",
+        "Subtracting 18% instead (5,000 − 900 = 4,100) would be wrong by 137.29"
+      ],
+      "result": "Price before tax 4,237.29, tax 762.71",
+      "link": "/tools/sales-tax-calculator/?mode=remove&price=5000&rate=18&qty=1&cur=PKR#tool"
+    },
+    {
+      "title": "3 items at 1,000 each, plus 18%",
+      "inputs": [
+        "Price excluding tax: 1,000 per item",
+        "Quantity: 3",
+        "Rate: 18%"
+      ],
+      "steps": [
+        "Subtotal: 3 × 1,000 = 3,000",
+        "Tax: 3,000 × 0.18 = 540",
+        "Total: 3,000 + 540 = 3,540"
+      ],
+      "result": "Total 3,540 including 540 tax",
+      "link": "/tools/sales-tax-calculator/?mode=add&price=1000&rate=18&qty=3&cur=PKR#tool"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Subtracting the rate from a tax-inclusive price",
+      "description": "18% of a tax-inclusive price is not the tax inside it, because the tax was charged on the smaller pre-tax price. 1,180 minus 18% is 967.60, but the real pre-tax price is 1,180 ÷ 1.18 = 1,000. Always divide by (1 + rate)."
+    },
+    {
+      "title": "Not knowing whether a price includes tax",
+      "description": "Retail prices in many countries already include tax, while business quotes and US shelf prices often do not. Check the invoice or price tag before choosing Add tax or Remove tax."
+    },
+    {
+      "title": "Using the wrong rate",
+      "description": "Rates differ between countries, states and provinces, and between products and services. Reduced rates, exemptions and provincial or state taxes on services all change the answer, so confirm the rate that applies to your item."
+    },
+    {
+      "title": "Rounding each item before multiplying",
+      "description": "For several identical items, multiply the unit price by the quantity first and work out the tax on the subtotal. Rounding the tax on each item separately can leave the total a few paisa or cents out."
+    },
+    {
+      "title": "Calling the tax-inclusive price the cost",
+      "description": "If you are registered for sales tax or VAT and can claim input tax back, your real cost is the price before tax. Use Remove tax to find it."
+    }
+  ],
+  "sources": [
+    {
+      "name": "Federal Board of Revenue (FBR), Government of Pakistan",
+      "url": "https://www.fbr.gov.pk/"
+    }
+  ],
+  "howto": {
+    "name": "How to Add or Remove Sales Tax",
+    "description": "Add GST or sales tax to a price, or find the price before tax inside a total.",
+    "steps": [
+      {
+        "name": "Choose add or remove",
+        "text": "Pick Add tax if your price excludes tax, or Remove tax if it already includes tax."
+      },
+      {
+        "name": "Enter the price and quantity",
+        "text": "Type the price of one item and, if needed, the number of items."
+      },
+      {
+        "name": "Choose the rate",
+        "text": "Pick 18%, 5%, 10% or 15%, or enter a custom rate."
+      },
+      {
+        "name": "Read the result",
+        "text": "See the price before tax, the tax amount and the total, with the formula used."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "How do I add 18% sales tax to a price?",
+      "a": "Multiply the price by 1.18. The tax is the price × 0.18. For example, 1,000 × 0.18 = 180 tax, and the total is 1,180."
+    },
+    {
+      "q": "How do I remove 18% GST from a price?",
+      "a": "Divide the tax-inclusive price by 1.18 to get the price before tax, then subtract that from the total to get the tax. 1,180 ÷ 1.18 = 1,000, so the tax is 180."
+    },
+    {
+      "q": "Why can't I just subtract 18% from a price that includes tax?",
+      "a": "Because the 18% was charged on the price before tax, not on the total. Subtracting 18% of the total removes too much: 5,000 − 18% is 4,100, but the actual price before tax is 5,000 ÷ 1.18 = 4,237.29."
+    },
+    {
+      "q": "What is 18% of 1,000?",
+      "a": "18% of 1,000 is 180. If 1,000 is the price before tax, the total with 18% tax is 1,180. If 1,000 already includes 18% tax, the price before tax is 1,000 ÷ 1.18 = 847.46 and the tax is 152.54."
+    },
+    {
+      "q": "What is the sales tax rate in Pakistan?",
+      "a": "The standard rate of sales tax on goods in Pakistan is 18%, but some goods have reduced, special or zero rates, and sales tax on services is set by the provinces. Check the current rate for your item with FBR or your provincial revenue authority."
+    },
+    {
+      "q": "What is the difference between GST, VAT and sales tax?",
+      "a": "GST and VAT are taxes charged at each stage of supply, where registered businesses claim back the tax they paid on inputs, and the price shown to shoppers usually includes the tax. US sales tax is charged once at the final sale, set by states and localities, and usually added at the till. The arithmetic for adding or removing a percentage is the same for all three."
+    },
+    {
+      "q": "How do I calculate tax for several items?",
+      "a": "Enter the price of one item and the quantity. The calculator multiplies them to get the subtotal and works out the tax on the subtotal. Three items at 1,000 plus 18% tax come to 3,540."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Sales Tax, VAT and GST Calculator Form",
+      "copy-result-btn": "Copy Result to clipboard",
+      "vat-and-gst-rates-by-country-div1": "VAT and GST rates by country (scrollable)"
+    },
+    "content": {
+      "tool": {
+        "legend1": "I want to",
+        "label1": "<input type=\"radio\" name=\"tax-mode\" id=\"mode-add\" value=\"add\" data-param=\"mode\" checked>\n              <span>Add tax</span>",
+        "label2": "<input type=\"radio\" name=\"tax-mode\" id=\"mode-remove\" value=\"remove\" data-param=\"mode\">\n              <span>Remove tax</span>",
+        "button1": "Calculate",
+        "div1": "Price before tax",
+        "div2": "Total including tax"
+      },
+      "check-the-official-rate": {
+        "heading": "Check the official rate",
+        "p1": "Rates vary by country, state or province, and product or service. For Pakistan, confirm the rate with <a href=\"https://www.fbr.gov.pk/\" rel=\"noopener\" target=\"_blank\">FBR</a> or your provincial revenue authority."
+      },
+      "vat-and-gst-rates-by-country": {
+        "p1": "The country presets in the calculator use the rates below. Each was checked against the tax authority or official source linked in the table on the date shown. Reduced rates only apply to the goods and services the law lists, so use the standard rate unless you know your item qualifies. In the United States there is no national sales tax: states, counties and cities set their own rates, so type the combined rate for your area as a custom rate.",
+        "caption1": "Standard and reduced VAT, GST and sales tax rates used by the calculator",
+        "th1": "Country",
+        "th2": "Tax",
+        "th3": "Standard",
+        "th4": "Other rates",
+        "th5": "Source (checked)"
+      },
+      "tax-exclusive-and-tax-inclusive-prices": {
+        "p1": "Every sales tax question starts with one check: does the price you have already include the tax? A <strong>tax-exclusive</strong> price is the amount before tax, the figure on most business quotes and on US shelf labels. A <strong>tax-inclusive</strong> price already has the tax built in, which is how most retail prices are shown in Pakistan, the UK, the EU and the Gulf.",
+        "li1": "If your price <strong>excludes</strong> tax, choose <strong>Add tax</strong>. The calculator multiplies by the rate to find the tax and adds it on.",
+        "li2": "If your price <strong>includes</strong> tax, choose <strong>Remove tax</strong>. The calculator divides by (1 + rate) to find the price before tax, and the difference is the tax you paid.",
+        "p2": "Invoices usually show both: a net amount, the tax, and a gross total. Use this calculator to check that the three numbers agree."
+      },
+      "why-you-divide-by-1-rate": {
+        "p1": "When a seller adds 18% tax, they multiply the pre-tax price by 1.18. To undo that, you divide the total by 1.18. The formula is <code>price before tax = total ÷ (1 + rate)</code>, with the rate as a decimal.",
+        "p2": "The most common mistake is to take 18% off the total instead. That treats the tax as 18% of the total, when it was really 18% of the smaller pre-tax price. On a 5,000 total, subtracting 18% gives 4,100, but the true price before tax is 5,000 ÷ 1.18 = 4,237.29, and the tax inside it is 762.71, not 900. The higher the rate, the bigger the error, so use Remove tax whenever the price already includes tax. For other percentage questions, such as what share one number is of another, use the <a href=\"/tools/percentage-calculator/\">Percentage Calculator</a>."
+      },
+      "gst-vat-and-us-sales-tax": {
+        "p1": "GST (goods and services tax) and VAT (value added tax) are charged at each stage of supply, with registered businesses claiming back the tax they paid on their inputs, and shoppers usually see prices that already include the tax. US sales tax is charged once, at the final sale to the customer, at rates set by states and local governments, and it is usually added at the till rather than shown on the price tag. Pakistan's sales tax on goods works like a VAT, while sales tax on services is collected by the provinces. The arithmetic for adding or removing tax is the same in every case; only the rate and whether prices include it change."
+      },
+      "rates-vary-check-the-official-rate": {
+        "p1": "The presets here are common rates, not a statement of what applies to your purchase. Rates differ between countries, between states and provinces, and between products and services, and many items are reduced-rate, zero-rated or exempt. In Pakistan the standard rate of sales tax on goods is 18%, but check the current rate for your item with <a href=\"https://www.fbr.gov.pk/\" rel=\"noopener\" target=\"_blank\">FBR</a> or your provincial revenue authority, and use the custom rate when it differs. If a price has a discount as well as tax, work out the discount first with the <a href=\"/tools/discount-calculator/\">Discount Calculator</a>, which can also add sales tax to the discounted price."
+      }
+    },
+    "label": {
+      "tax-price": "Price excluding tax <span class=\"text-accent\">*</span>",
+      "tax-qty": "Quantity",
+      "tax-country": "Country",
+      "tax-rate-preset": "Tax rate",
+      "tax-rate-custom": "Custom rate (%)"
+    },
+    "placeholder": {
+      "tax-price": "e.g. 1000",
+      "tax-rate-custom": "e.g. 17"
+    },
+    "option": {
+      "tax-rate-preset": {
+        "18": "18% – Pakistan standard sales tax on goods",
+        "custom": "Custom rate"
+      }
+    },
+    "text": {
+      "reset-btn": "Reset",
+      "result-header-text": "Total including tax",
+      "copy-result-btn": "<span data-icon=\"copy\"></span> Copy Result",
+      "result-primary-text": "Rs 0.00",
+      "stat-net": "Rs 0.00",
+      "stat-tax-label": "Tax (18%)",
+      "stat-tax": "Rs 0.00",
+      "stat-gross": "Rs 0.00",
+      "vat-rates-heading": "VAT and GST rates by country",
+      "inclusive-heading": "Tax-exclusive and tax-inclusive prices",
+      "reverse-heading": "Why you divide by (1 + rate) to remove tax",
+      "gst-vat-heading": "GST, VAT and US sales tax",
+      "rates-heading": "Rates vary: check the official rate"
+    },
+    "title": {
+      "copy-result-btn": "Copy Result to clipboard"
+    },
+    "vat": {
+      "optionWithRate": "{{name}} ({{taxName}} {{rate}}%)",
+      "optionVaries": "{{name}} ({{taxName}} varies)",
+      "countryNote": "{{notes}} Source: <a href=\"{{url}}\" target=\"_blank\" rel=\"noopener noreferrer\">{{source}}</a>, checked {{date}}.",
+      "noPresetRate": "Set by state and city",
+      "otherRate": "{{rate}}% ({{label}})"
+    }
+  },
+  "client": {
+    "presets": {
+      "pk18": "18% (Pakistan standard sales tax)"
+    },
+    "vat": {
+      "AT": {
+        "name": "Austria",
+        "taxName": "VAT",
+        "rates": [
+          "standard rate",
+          "reduced rate",
+          "reduced rate",
+          "parking rate"
+        ],
+        "notes": "EU member state. Reduced rates apply only to the goods and services listed in national law.",
+        "source": "Your Europe (European Union): VAT rates in EU countries, last checked 13/07/2026"
+      },
+      "BE": {
+        "name": "Belgium",
+        "taxName": "VAT",
+        "rates": [
+          "standard rate",
+          "reduced rate",
+          "reduced rate",
+          "parking rate"
+        ],
+        "notes": "EU member state. Reduced rates apply only to the goods and services listed in national law.",
+        "source": "Your Europe (European Union): VAT rates in EU countries, last checked 13/07/2026"
+      },
+      "BG": {
+        "name": "Bulgaria",
+        "taxName": "VAT",
+        "rates": [
+          "standard rate",
+          "reduced rate"
+        ],
+        "notes": "EU member state. Reduced rates apply only to the goods and services listed in national law.",
+        "source": "Your Europe (European Union): VAT rates in EU countries, last checked 13/07/2026"
+      },
+      "HR": {
+        "name": "Croatia",
+        "taxName": "VAT",
+        "rates": [
+          "standard rate",
+          "reduced rate",
+          "reduced rate"
+        ],
+        "notes": "EU member state. Reduced rates apply only to the goods and services listed in national law.",
+        "source": "Your Europe (European Union): VAT rates in EU countries, last checked 13/07/2026"
+      },
+      "CY": {
+        "name": "Cyprus",
+        "taxName": "VAT",
+        "rates": [
+          "standard rate",
+          "reduced rate",
+          "reduced rate",
+          "super-reduced rate"
+        ],
+        "notes": "EU member state. Reduced rates apply only to the goods and services listed in national law.",
+        "source": "Your Europe (European Union): VAT rates in EU countries, last checked 13/07/2026"
+      },
+      "CZ": {
+        "name": "Czechia",
+        "taxName": "VAT",
+        "rates": [
+          "standard rate",
+          "reduced rate"
+        ],
+        "notes": "EU member state. Reduced rates apply only to the goods and services listed in national law.",
+        "source": "Your Europe (European Union): VAT rates in EU countries, last checked 13/07/2026"
+      },
+      "DK": {
+        "name": "Denmark",
+        "taxName": "VAT",
+        "rates": [
+          "standard rate"
+        ],
+        "notes": "EU member state. Reduced rates apply only to the goods and services listed in national law.",
+        "source": "Your Europe (European Union): VAT rates in EU countries, last checked 13/07/2026"
+      },
+      "EE": {
+        "name": "Estonia",
+        "taxName": "VAT",
+        "rates": [
+          "standard rate",
+          "reduced rate"
+        ],
+        "notes": "EU member state. Reduced rates apply only to the goods and services listed in national law.",
+        "source": "Your Europe (European Union): VAT rates in EU countries, last checked 13/07/2026"
+      },
+      "FI": {
+        "name": "Finland",
+        "taxName": "VAT",
+        "rates": [
+          "standard rate",
+          "reduced rate",
+          "reduced rate"
+        ],
+        "notes": "EU member state. Reduced rates apply only to the goods and services listed in national law.",
+        "source": "Your Europe (European Union): VAT rates in EU countries, last checked 13/07/2026"
+      },
+      "FR": {
+        "name": "France",
+        "taxName": "VAT",
+        "rates": [
+          "standard rate",
+          "reduced rate",
+          "reduced rate",
+          "super-reduced rate"
+        ],
+        "notes": "EU member state. Reduced rates apply only to the goods and services listed in national law.",
+        "source": "Your Europe (European Union): VAT rates in EU countries, last checked 13/07/2026"
+      },
+      "DE": {
+        "name": "Germany",
+        "taxName": "VAT",
+        "rates": [
+          "standard rate",
+          "reduced rate"
+        ],
+        "notes": "EU member state. Reduced rates apply only to the goods and services listed in national law.",
+        "source": "Your Europe (European Union): VAT rates in EU countries, last checked 13/07/2026"
+      },
+      "GR": {
+        "name": "Greece",
+        "taxName": "VAT",
+        "rates": [
+          "standard rate",
+          "reduced rate",
+          "reduced rate",
+          "reduced rate",
+          "super-reduced rate"
+        ],
+        "notes": "EU member state. Reduced rates apply only to the goods and services listed in national law.",
+        "source": "Your Europe (European Union): VAT rates in EU countries, last checked 13/07/2026"
+      },
+      "HU": {
+        "name": "Hungary",
+        "taxName": "VAT",
+        "rates": [
+          "standard rate",
+          "reduced rate",
+          "reduced rate"
+        ],
+        "notes": "EU member state. Reduced rates apply only to the goods and services listed in national law.",
+        "source": "Your Europe (European Union): VAT rates in EU countries, last checked 13/07/2026"
+      },
+      "IN": {
+        "name": "India",
+        "taxName": "GST",
+        "rates": [
+          "standard rate",
+          "merit rate",
+          "special rate on a few luxury and sin goods"
+        ],
+        "notes": "From 22 September 2025 GST has two main slabs, 18% and 5%, plus a special 40% rate on a select few goods and services. Some items are nil-rated.",
+        "source": "GST Council / PIB press release, 3 September 2025"
+      },
+      "IE": {
+        "name": "Ireland",
+        "taxName": "VAT",
+        "rates": [
+          "standard rate",
+          "reduced rate",
+          "reduced rate"
+        ],
+        "notes": "EU member state. Reduced rates apply only to the goods and services listed in national law.",
+        "source": "Your Europe (European Union): VAT rates in EU countries, last checked 13/07/2026"
+      },
+      "IT": {
+        "name": "Italy",
+        "taxName": "VAT",
+        "rates": [
+          "standard rate",
+          "reduced rate",
+          "reduced rate",
+          "super-reduced rate"
+        ],
+        "notes": "EU member state. Reduced rates apply only to the goods and services listed in national law.",
+        "source": "Your Europe (European Union): VAT rates in EU countries, last checked 13/07/2026"
+      },
+      "LV": {
+        "name": "Latvia",
+        "taxName": "VAT",
+        "rates": [
+          "standard rate",
+          "reduced rate",
+          "reduced rate"
+        ],
+        "notes": "EU member state. Reduced rates apply only to the goods and services listed in national law.",
+        "source": "Your Europe (European Union): VAT rates in EU countries, last checked 13/07/2026"
+      },
+      "LT": {
+        "name": "Lithuania",
+        "taxName": "VAT",
+        "rates": [
+          "standard rate",
+          "reduced rate",
+          "reduced rate"
+        ],
+        "notes": "EU member state. Reduced rates apply only to the goods and services listed in national law.",
+        "source": "Your Europe (European Union): VAT rates in EU countries, last checked 13/07/2026"
+      },
+      "LU": {
+        "name": "Luxembourg",
+        "taxName": "VAT",
+        "rates": [
+          "standard rate",
+          "reduced rate",
+          "super-reduced rate",
+          "parking rate"
+        ],
+        "notes": "EU member state. Reduced rates apply only to the goods and services listed in national law.",
+        "source": "Your Europe (European Union): VAT rates in EU countries, last checked 13/07/2026"
+      },
+      "MT": {
+        "name": "Malta",
+        "taxName": "VAT",
+        "rates": [
+          "standard rate",
+          "reduced rate",
+          "reduced rate",
+          "parking rate"
+        ],
+        "notes": "EU member state. Reduced rates apply only to the goods and services listed in national law.",
+        "source": "Your Europe (European Union): VAT rates in EU countries, last checked 13/07/2026"
+      },
+      "NL": {
+        "name": "Netherlands",
+        "taxName": "VAT",
+        "rates": [
+          "standard rate",
+          "reduced rate"
+        ],
+        "notes": "EU member state. Reduced rates apply only to the goods and services listed in national law.",
+        "source": "Your Europe (European Union): VAT rates in EU countries, last checked 13/07/2026"
+      },
+      "NZ": {
+        "name": "New Zealand",
+        "taxName": "GST",
+        "rates": [
+          "standard rate"
+        ],
+        "notes": "",
+        "source": "Inland Revenue (IRD): GST"
+      },
+      "PK": {
+        "name": "Pakistan",
+        "taxName": "Sales tax",
+        "rates": [
+          "standard sales tax on goods"
+        ],
+        "notes": "Federal sales tax on goods under section 3 of the Sales Tax Act, 1990. Services are taxed by the provinces at their own rates.",
+        "source": "FBR: Sales Tax Act, 1990 (amended up to 30 June 2025), section 3"
+      },
+      "PL": {
+        "name": "Poland",
+        "taxName": "VAT",
+        "rates": [
+          "standard rate",
+          "reduced rate",
+          "reduced rate"
+        ],
+        "notes": "EU member state. Reduced rates apply only to the goods and services listed in national law.",
+        "source": "Your Europe (European Union): VAT rates in EU countries, last checked 13/07/2026"
+      },
+      "PT": {
+        "name": "Portugal",
+        "taxName": "VAT",
+        "rates": [
+          "standard rate",
+          "reduced rate",
+          "reduced rate",
+          "parking rate"
+        ],
+        "notes": "EU member state. Reduced rates apply only to the goods and services listed in national law.",
+        "source": "Your Europe (European Union): VAT rates in EU countries, last checked 13/07/2026"
+      },
+      "RO": {
+        "name": "Romania",
+        "taxName": "VAT",
+        "rates": [
+          "standard rate",
+          "reduced rate"
+        ],
+        "notes": "EU member state. Reduced rates apply only to the goods and services listed in national law.",
+        "source": "Your Europe (European Union): VAT rates in EU countries, last checked 13/07/2026"
+      },
+      "SA": {
+        "name": "Saudi Arabia",
+        "taxName": "VAT",
+        "rates": [
+          "standard rate"
+        ],
+        "notes": "",
+        "source": "ZATCA: Amendments to the VAT Implementing Regulation guideline (April 2025)"
+      },
+      "SG": {
+        "name": "Singapore",
+        "taxName": "GST",
+        "rates": [
+          "standard rate (since 1 January 2024)"
+        ],
+        "notes": "Some supplies are zero-rated or exempt.",
+        "source": "IRAS: Current GST rates"
+      },
+      "SK": {
+        "name": "Slovakia",
+        "taxName": "VAT",
+        "rates": [
+          "standard rate",
+          "reduced rate",
+          "reduced rate"
+        ],
+        "notes": "EU member state. Reduced rates apply only to the goods and services listed in national law.",
+        "source": "Your Europe (European Union): VAT rates in EU countries, last checked 13/07/2026"
+      },
+      "SI": {
+        "name": "Slovenia",
+        "taxName": "VAT",
+        "rates": [
+          "standard rate",
+          "reduced rate",
+          "reduced rate"
+        ],
+        "notes": "EU member state. Reduced rates apply only to the goods and services listed in national law.",
+        "source": "Your Europe (European Union): VAT rates in EU countries, last checked 13/07/2026"
+      },
+      "ZA": {
+        "name": "South Africa",
+        "taxName": "VAT",
+        "rates": [
+          "standard rate"
+        ],
+        "notes": "Some supplies are zero-rated or exempt.",
+        "source": "SARS: Value-Added Tax"
+      },
+      "ES": {
+        "name": "Spain",
+        "taxName": "VAT",
+        "rates": [
+          "standard rate",
+          "reduced rate",
+          "super-reduced rate"
+        ],
+        "notes": "EU member state. Reduced rates apply only to the goods and services listed in national law.",
+        "source": "Your Europe (European Union): VAT rates in EU countries, last checked 13/07/2026"
+      },
+      "SE": {
+        "name": "Sweden",
+        "taxName": "VAT",
+        "rates": [
+          "standard rate",
+          "reduced rate",
+          "reduced rate"
+        ],
+        "notes": "EU member state. Reduced rates apply only to the goods and services listed in national law.",
+        "source": "Your Europe (European Union): VAT rates in EU countries, last checked 13/07/2026"
+      },
+      "AE": {
+        "name": "United Arab Emirates",
+        "taxName": "VAT",
+        "rates": [
+          "standard rate"
+        ],
+        "notes": "Some supplies are zero-rated or exempt under the VAT law.",
+        "source": "UAE Federal Tax Authority: Federal Decree-Law No. 8 of 2017 on VAT, Article 3"
+      },
+      "GB": {
+        "name": "United Kingdom",
+        "taxName": "VAT",
+        "rates": [
+          "standard rate",
+          "reduced rate (e.g. children’s car seats, home energy)"
+        ],
+        "notes": "Some goods and services are zero-rated (0%), for example most food and children’s clothes.",
+        "source": "GOV.UK: VAT rates"
+      },
+      "US": {
+        "name": "United States",
+        "taxName": "Sales tax",
+        "rates": [],
+        "notes": "There is no federal sales tax. Each state, and often the county and city, sets its own sales tax rate, so type the combined rate for your location."
+      },
+      "CA-AB": {
+        "name": "Canada – Alberta",
+        "taxName": "GST",
+        "rates": [
+          "GST (federal)"
+        ],
+        "notes": "No provincial sales tax.",
+        "source": "Canada Revenue Agency: GST/HST calculator and rates (rates from 1 April 2025)"
+      },
+      "CA-BC": {
+        "name": "Canada – British Columbia",
+        "taxName": "GST",
+        "rates": [
+          "GST (federal)",
+          "GST + PST combined"
+        ],
+        "notes": "The province also charges PST of 7% on the price before GST; the combined option adds both.",
+        "source": "Canada Revenue Agency: GST/HST calculator and rates (rates from 1 April 2025)"
+      },
+      "CA-MB": {
+        "name": "Canada – Manitoba",
+        "taxName": "GST",
+        "rates": [
+          "GST (federal)",
+          "GST + PST combined"
+        ],
+        "notes": "The province also charges PST of 7% on the price before GST; the combined option adds both.",
+        "source": "Canada Revenue Agency: GST/HST calculator and rates (rates from 1 April 2025)"
+      },
+      "CA-NB": {
+        "name": "Canada – New Brunswick",
+        "taxName": "HST",
+        "rates": [
+          "HST (federal + provincial)"
+        ],
+        "notes": "One harmonized sales tax (HST) covers the federal and provincial parts.",
+        "source": "Canada Revenue Agency: GST/HST calculator and rates (rates from 1 April 2025)"
+      },
+      "CA-NL": {
+        "name": "Canada – Newfoundland and Labrador",
+        "taxName": "HST",
+        "rates": [
+          "HST (federal + provincial)"
+        ],
+        "notes": "One harmonized sales tax (HST) covers the federal and provincial parts.",
+        "source": "Canada Revenue Agency: GST/HST calculator and rates (rates from 1 April 2025)"
+      },
+      "CA-NT": {
+        "name": "Canada – Northwest Territories",
+        "taxName": "GST",
+        "rates": [
+          "GST (federal)"
+        ],
+        "notes": "No provincial sales tax.",
+        "source": "Canada Revenue Agency: GST/HST calculator and rates (rates from 1 April 2025)"
+      },
+      "CA-NS": {
+        "name": "Canada – Nova Scotia",
+        "taxName": "HST",
+        "rates": [
+          "HST (federal + provincial)"
+        ],
+        "notes": "One harmonized sales tax (HST) covers the federal and provincial parts.",
+        "source": "Canada Revenue Agency: GST/HST calculator and rates (rates from 1 April 2025)"
+      },
+      "CA-NU": {
+        "name": "Canada – Nunavut",
+        "taxName": "GST",
+        "rates": [
+          "GST (federal)"
+        ],
+        "notes": "No provincial sales tax.",
+        "source": "Canada Revenue Agency: GST/HST calculator and rates (rates from 1 April 2025)"
+      },
+      "CA-ON": {
+        "name": "Canada – Ontario",
+        "taxName": "HST",
+        "rates": [
+          "HST (federal + provincial)"
+        ],
+        "notes": "One harmonized sales tax (HST) covers the federal and provincial parts.",
+        "source": "Canada Revenue Agency: GST/HST calculator and rates (rates from 1 April 2025)"
+      },
+      "CA-PE": {
+        "name": "Canada – Prince Edward Island",
+        "taxName": "HST",
+        "rates": [
+          "HST (federal + provincial)"
+        ],
+        "notes": "One harmonized sales tax (HST) covers the federal and provincial parts.",
+        "source": "Canada Revenue Agency: GST/HST calculator and rates (rates from 1 April 2025)"
+      },
+      "CA-QC": {
+        "name": "Canada – Quebec",
+        "taxName": "GST",
+        "rates": [
+          "GST (federal)",
+          "GST + QST combined"
+        ],
+        "notes": "The province also charges QST of 9.975% on the price before GST; the combined option adds both.",
+        "source": "Canada Revenue Agency: GST/HST calculator and rates (rates from 1 April 2025)"
+      },
+      "CA-SK": {
+        "name": "Canada – Saskatchewan",
+        "taxName": "GST",
+        "rates": [
+          "GST (federal)",
+          "GST + PST combined"
+        ],
+        "notes": "The province also charges PST of 6% on the price before GST; the combined option adds both.",
+        "source": "Canada Revenue Agency: GST/HST calculator and rates (rates from 1 April 2025)"
+      },
+      "CA-YT": {
+        "name": "Canada – Yukon",
+        "taxName": "GST",
+        "rates": [
+          "GST (federal)"
+        ],
+        "notes": "No provincial sales tax.",
+        "source": "Canada Revenue Agency: GST/HST calculator and rates (rates from 1 April 2025)"
+      }
+    },
+    "rateOption": "{{rate}}% – {{country}} {{label}}",
+    "customRate": "Custom rate",
+    "countryNote": "{{notes}} Source: <a href=\"{{url}}\" target=\"_blank\" rel=\"noopener noreferrer\">{{source}}</a>, checked {{date}}.",
+    "priceLabel": {
+      "add": "Price excluding tax ",
+      "remove": "Price including tax "
+    },
+    "errors": {
+      "priceRequired": "Please enter a price.",
+      "rateRequired": "Please enter a tax rate.",
+      "quantityRequired": "Please enter a quantity.",
+      "priceNegative": "The price cannot be negative.",
+      "rateRange": "The tax rate must be between 0% and 100%.",
+      "quantityPositive": "The quantity must be more than 0.",
+      "customRequired": "Please enter your custom tax rate."
+    },
+    "result": {
+      "headerAdd": "Total including tax",
+      "headerRemove": "Price before tax",
+      "taxLabel": "Tax ({{rate}})",
+      "perItem": "Per item: {{net}} before tax, {{tax}} tax, {{gross}} total.",
+      "copyAdd": "{{net}} + {{rate}} tax ({{tax}}) = {{gross}}.",
+      "copyRemove": "{{gross}} including {{rate}} tax = {{net}} before tax + {{tax}} tax."
+    },
+    "steps": {
+      "quantity": "{{qty}} × {{price}} = ",
+      "addFormula": "<strong>Add tax:</strong> <code>Total = Price × (1 + Rate)</code><br>",
+      "addNet": "Price before tax: {{qty}}<code>{{net}}</code><br>",
+      "addTax": "Tax: {{net}} × {{rate}} = <code>{{tax}}</code><br>",
+      "addTotal": "Total: {{net}} + {{tax}} = <strong>{{gross}}</strong>",
+      "removeFormula": "<strong>Remove tax:</strong> <code>Price before tax = Total ÷ (1 + Rate)</code><br>",
+      "removeGross": "Total including tax: {{qty}}<code>{{gross}}</code><br>",
+      "removeNet": "Price before tax: {{gross}} ÷ {{factor}} = <strong>{{net}}</strong><br>",
+      "removeTax": "Tax inside the price: {{gross}} − {{net}} = <code>{{tax}}</code>"
+    },
+    "toast": {
+      "copied": "Tax calculation copied to clipboard"
+    }
+  }
+}

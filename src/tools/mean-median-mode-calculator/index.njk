@@ -1,0 +1,86 @@
+---
+layout: layouts/tool.njk
+toolSlug: mean-median-mode-calculator
+permalink: /tools/mean-median-mode-calculator/
+extraCss: "/tools/mean-median-mode-calculator/style.css"
+lastReviewed: "2026-10-31"
+---
+
+    <!-- Tool Form Container -->
+    <section class="tool-container" aria-label="{{ 'ariaLabel.tool-section1' | pt }}">
+      <form id="calculator-form" novalidate>
+        <div class="form-group">
+          <label for="data">{{ 'label.data' | pt }}</label>
+          <textarea id="data" data-param="data" class="form-control stats-input" rows="4" spellcheck="false" required aria-required="true" aria-describedby="data-hint">2, 4, 4, 4, 5, 5, 7, 9</textarea>
+          <p class="form-hint" id="data-hint">{{ 'text.data-hint' | pt }}</p>
+        </div>
+        <div class="form-group stats-dp">
+          <label for="dp">{{ 'label.dp' | pt }}</label>
+          <select id="dp" data-param="dp" class="form-control">
+            <option value="2">2</option>
+            <option value="4" selected>4</option>
+            <option value="6">6</option>
+          </select>
+        </div>
+
+        <div class="button-group mt-6">
+          <button type="submit" class="btn btn-primary">{{ 'content.tool.button1' | pt }}</button>
+          <button type="button" class="btn btn-secondary" id="reset-btn">{{ 'text.reset-btn' | pt }}</button>
+        </div>
+      </form>
+
+      <div id="error-box" class="hidden form-error" role="alert"></div>
+
+      <div id="result-box" class="result-box is-visible" aria-live="polite">
+        <div class="result-header">
+          <span id="result-header-text">{{ 'text.result-header-text' | pt }}</span>
+          <button type="button" class="btn btn-sm btn-ghost" id="copy-result-btn" title="{{ 'title.copy-result-btn' | pt }}" aria-label="{{ 'ariaLabel.copy-result-btn' | pt }}">
+            {{ 'text.copy-result-btn' | pt }}
+          </button>
+        </div>
+        <div class="result-primary stats-primary" id="result-primary-text">--</div>
+        <div class="result-grid stats-grid" id="result-stats"></div>
+        <p class="form-hint" id="quartile-note"></p>
+
+        <details class="result-steps">
+          <summary>{{ 'content.tool.summary1' | pt }}</summary>
+        <div class="stats-work">
+          <p class="stats-work-title">{{ 'content.tool.p1' | pt }}</p>
+          <p class="stats-sorted" id="sorted-data"></p>
+          <p class="stats-work-title">{{ 'content.tool.p2' | pt }}</p>
+          <ol class="stats-steps" id="steps-mean"></ol>
+          <p class="stats-work-title">{{ 'content.tool.p3' | pt }}</p>
+          <ol class="stats-steps" id="steps-median"></ol>
+          <p class="stats-work-title">{{ 'content.tool.p4' | pt }}</p>
+          <ol class="stats-steps" id="steps-sd"></ol>
+        </div>
+        </details>
+      </div>
+    </section>
+
+    <!-- tool-end -->
+
+    <section class="content-section">
+      <h2>{{ 'content.mean-median-or-mode-which-average.heading' | pt }}</h2>
+      <div class="table-wrapper">
+        <table class="table">
+          <caption class="visually-hidden">{{ 'content.mean-median-or-mode-which-average.caption1' | pt }}</caption>
+          <thead><tr><th scope="col">{{ 'content.mean-median-or-mode-which-average.th1' | pt }}</th><th scope="col">{{ 'content.mean-median-or-mode-which-average.th2' | pt }}</th><th scope="col">{{ 'content.mean-median-or-mode-which-average.th3' | pt }}</th></tr></thead>
+          <tbody>
+            <tr><td>{{ 'content.mean-median-or-mode-which-average.td1' | pt }}</td><td>{{ 'content.mean-median-or-mode-which-average.td2' | pt }}</td><td>{{ 'content.mean-median-or-mode-which-average.td3' | pt }}</td></tr>
+            <tr><td>{{ 'content.mean-median-or-mode-which-average.td4' | pt }}</td><td>{{ 'content.mean-median-or-mode-which-average.td5' | pt }}</td><td>{{ 'content.mean-median-or-mode-which-average.td6' | pt }}</td></tr>
+            <tr><td>{{ 'content.mean-median-or-mode-which-average.td7' | pt }}</td><td>{{ 'content.mean-median-or-mode-which-average.td8' | pt }}</td><td>{{ 'content.mean-median-or-mode-which-average.td9' | pt }}</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>{{ 'content.mean-median-or-mode-which-average.p1' | pt }}</p>
+
+      <h2>{{ 'content.reading-the-standard-deviation.heading' | pt }}</h2>
+      <p>{{ 'content.reading-the-standard-deviation.p1' | pt }}</p>
+      <ul class="content-list">
+        <li>{{ 'content.reading-the-standard-deviation.li1' | pt }}</li>
+        <li>{{ 'content.reading-the-standard-deviation.li2' | pt }}</li>
+        <li>{{ 'content.reading-the-standard-deviation.li3' | pt }}</li>
+      </ul>
+      <p>{{ 'content.reading-the-standard-deviation.p2' | pt }}</p>
+    </section>

@@ -1,0 +1,228 @@
+{
+  "listing": {
+    "name": "Base64 Encoder & Decoder",
+    "shortName": "Base64 kodieren",
+    "description": "Kodiere und dekodiere UTF-8-Text in Standard- oder URL-sicheres Base64, lokal in deinem Browser.",
+    "shortDescription": "Kodiere und dekodiere UTF-8-Text in Standard- oder URL-sicheres Base64, lokal in deinem Browser.",
+    "keywords": [
+      "base64 kodieren",
+      "base64 dekodieren",
+      "base64 encoder",
+      "url sicheres base64",
+      "base64 decoder online"
+    ]
+  },
+  "title": "Base64 kodieren & dekodieren - Encoder für UTF-8 & URLs",
+  "description": "Kostenloser Base64 Encoder & Decoder: Text und UTF-8 in Standard- oder URL-sicheres Base64 umwandeln und zurück, direkt im Browser, ohne Speicherung.",
+  "h1": "Base64 Encoder & Decoder",
+  "quickAnswer": "Base64 kodiert Binär- oder Textdaten in ein ASCII-Alphabet aus 64 Zeichen (A–Z, a–z, 0–9, +, /), damit sie sicher über reine Textprotokolle wie E-Mail und HTTP übertragen werden können. Mit diesem Base64 Encoder & Decoder kannst du auch URL-sicheres Base64 erzeugen: Dabei werden '+' und '/' durch '-' und '_' ersetzt, damit es keine Konflikte mit URL-Trennzeichen gibt. Base64 ist eine Kodierung, keine Verschlüsselung, und läuft komplett in deinem Browser ohne Netzwerkzugriffe.",
+  "workedExamples": [
+    {
+      "title": "ASCII-Text 'Man' in Standard-Base64 kodieren",
+      "inputs": [
+        "Modus: In Base64 kodieren",
+        "Eingabe: Man",
+        "URL-sicher: aus"
+      ],
+      "steps": [
+        "ASCII-Zeichen in 8-Bit-Bytes umwandeln: 'M' (77), 'a' (97), 'n' (110)",
+        "Zu einem 24-Bit-Binärstrom verbinden: 01001101 01100001 01101110",
+        "In vier 6-Bit-Indexwerte teilen: 19, 22, 5, 46",
+        "Über die Base64-Indextabelle zuordnen: T, W, F, u"
+      ],
+      "result": "TWFu"
+    },
+    {
+      "title": "URL-sicheres Base64 mit Sonderzeichen kodieren",
+      "inputs": [
+        "Modus: In Base64 kodieren",
+        "Eingabe: subjects?_d=1",
+        "URL-sicher: an"
+      ],
+      "steps": [
+        "Zeichen in Standard-Base64 umwandeln: c3ViamVjdHM/X2Q9MQ==",
+        "'+' durch '-' und '/' durch '_' ersetzen",
+        "Die Zeichenkette kann jetzt sicher in URLs und Query-Parametern stehen"
+      ],
+      "result": "c3ViamVjdHM_X2Q9MQ=="
+    },
+    {
+      "title": "Base64 in Klartext dekodieren",
+      "inputs": [
+        "Modus: Aus Base64 dekodieren",
+        "Eingabe: SGVsbG8gV29ybGQh"
+      ],
+      "steps": [
+        "Blöcke aus vier Zeichen zurück in 6-Bit-Zahlenwerte übersetzen",
+        "6-Bit-Blöcke wieder zu 8-Bit-UTF-8-Bytefolgen zusammensetzen",
+        "UTF-8-Bytes in Unicode-Zeichen dekodieren"
+      ],
+      "result": "Hello World!"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Kodierung mit Verschlüsselung verwechseln",
+      "description": "Base64 ist keine Verschlüsselung. Es gibt keinen geheimen Schlüssel, keinen Initialisierungsvektor und keinen Rechenaufwand. Jeder kann Base64 in Millisekunden dekodieren. Für Sicherheit verschlüssele vor der Base64-Kodierung mit AES-GCM oder ChaCha20."
+    },
+    {
+      "title": "Beschädigte Surrogatpaare mit btoa()",
+      "description": "Die native JavaScript-Funktion <code>window.btoa()</code> geht von Latin-1 aus (Codepunkte 0–255). Zeichen wie Emojis oder Vokale mit Akzent lösen eine nicht abgefangene DOMException aus. Saubere Implementierungen wandeln Zeichenketten immer zuerst in UTF-8-Byte-Arrays um."
+    },
+    {
+      "title": "Abgeschnittene Zeichenketten ohne Padding",
+      "description": "Manche Web-Frameworks entfernen die abschließenden <code>=</code>-Füllzeichen. Ein robuster Decoder muss die Länge vor der Verarbeitung auf ein Vielfaches von 4 auffüllen, um Dekodierfehler zu vermeiden."
+    }
+  ],
+  "sources": [
+    {
+      "label": "RFC 4648: The Base16, Base32, and Base64 Data Encodings"
+    },
+    {
+      "label": "MDN Web Docs: Base64-Kodierung und -Dekodierung"
+    },
+    {
+      "label": "WHATWG: Die TextEncoder- und TextDecoder-API"
+    }
+  ],
+  "howto": {
+    "name": "So kodierst und dekodierst du Base64 online",
+    "description": "Schritt-für-Schritt-Anleitung, um UTF-8-Text in Base64 umzuwandeln und Base64 zurück in Klartext zu dekodieren.",
+    "steps": [
+      {
+        "name": "Kodieren oder Dekodieren wählen",
+        "text": "Wähle „In Base64 kodieren“, um Klartext in Base64 umzuwandeln, oder „Aus Base64 dekodieren“, um den ursprünglichen Text zu erhalten."
+      },
+      {
+        "name": "Text oder Base64-Zeichenkette eingeben",
+        "text": "Tippe oder füge deine Eingabe in das Quellfeld ein. Unicode-Zeichen, Emojis und andere Alphabete werden automatisch verarbeitet."
+      },
+      {
+        "name": "URL-sicher wählen & Ergebnis kopieren",
+        "text": "Aktiviere optional „URL-sicher“, um + und / durch - und _ zu ersetzen, und kopiere dann das Ergebnis."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Ist Base64 eine Verschlüsselung?",
+      "a": "Nein. Base64 ist ein Kodierungsverfahren, keine Verschlüsselung. Es bietet keinerlei Sicherheit, Vertraulichkeit oder kryptografische Geheimhaltung. Jeder, der eine Base64-Zeichenkette erhält, kann sie ohne Schlüssel sofort in Klartext zurückverwandeln."
+    },
+    {
+      "q": "Was ist der Unterschied zwischen Standard-Base64 und URL-sicherem Base64?",
+      "a": "Standard-Base64 (RFC 4648 §4) nutzt '+' und '/' im 64-Zeichen-Alphabet; diese müssen in URLs oder Dateinamen prozentkodiert werden. URL-sicheres Base64 (RFC 4648 §5) ersetzt '+' durch '-' und '/' durch '_' und vermeidet so Konflikte mit URL-Trennzeichen."
+    },
+    {
+      "q": "Verarbeitet dieser Encoder UTF-8-Zeichen und Emojis sicher?",
+      "a": "Ja. Das normale btoa() des Browsers scheitert an Zeichen außerhalb von Latin-1. Unser Tool wandelt allen Text über native UTF-8-Byte-Encoder um und garantiert volle Treue für Buchstaben mit Akzenten, asiatische Alphabete und Emojis (z. B. 🚀)."
+    },
+    {
+      "q": "Wird mein Text an einen Server übertragen?",
+      "a": "Nein. Alle Kodierungen und Dekodierungen laufen zu 100 % lokal im Arbeitsspeicher deines Browsers. Wir übertragen, protokollieren oder speichern keine Daten."
+    },
+    {
+      "q": "Warum endet Base64 oft mit '='-Zeichen?",
+      "a": "Das '='-Zeichen ist Padding. Base64 verarbeitet Daten in Blöcken von 3 Bytes (24 Bit) zu vier 6-Bit-Zeichen. Ist die Byte-Länge der Eingabe nicht durch 3 teilbar, füllen ein oder zwei '='-Zeichen den letzten Block auf."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Formular des Base64 Encoders &amp; Decoders"
+    },
+    "content": {
+      "tool": {
+        "label1": "<input type=\"radio\" name=\"base64-mode\" value=\"encode\" checked class=\"cursor-pointer\">\n            <span>In Base64 kodieren</span>",
+        "label2": "<input type=\"radio\" name=\"base64-mode\" value=\"decode\" class=\"cursor-pointer\">\n            <span>Aus Base64 dekodieren</span>",
+        "label3": "<input type=\"checkbox\" id=\"url-safe-toggle\" class=\"cursor-pointer\">\n            <span>URL-sichere Variante (RFC 4648 §5)</span>"
+      },
+      "important-base64-is-encoding-not-encryption": {
+        "heading": "<svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z\"></path><line x1=\"12\" y1=\"9\" x2=\"12\" y2=\"13\"></line><line x1=\"12\" y1=\"17\" x2=\"12.01\" y2=\"17\"></line></svg>\n        Wichtig: Base64 ist Kodierung, keine Verschlüsselung",
+        "p1": "Base64 ist eine offene Darstellung, um Binärdaten über reine Textkanäle zu übertragen. Es bietet <strong>keinerlei Vertraulichkeit</strong>. Nutze Base64 nie allein, um Passwörter, geheime Tokens oder private Nutzerdaten zu schützen."
+      },
+      "how-when-to-use-the-base64": {
+        "li1": "<strong>Data-URIs einbetten:</strong> Wandle kleine Bilder, Schriften oder SVG-Grafiken in Base64 um, für eingebettete HTML/CSS-Angaben wie <code>data:image/png;base64,...</code>.",
+        "li2": "<strong>HTTP-Header:</strong> Formatiere Zugangsdaten für HTTP Basic Authentication (<code>username:password</code>) als <code>Authorization: Basic &lt;base64&gt;</code>-Header.",
+        "li3": "<strong>URL-Parameter übergeben:</strong> Kodiere mit dem URL-sicheren Modus komplexe IDs, State-Tokens oder JSON-Objekte in Query-Parameter, ohne Konflikte mit reservierten Zeichen.",
+        "li4": "<strong>Payloads untersuchen:</strong> Dekodiere eingehende Webhook-Payloads, JWT-Segmente und MIME-Anhänge von E-Mails, um ihren Klartext zu prüfen."
+      },
+      "base64-encoding-method-rfc-4648-worked": {
+        "p1": "Base64 bildet Binärdaten auf eine ASCII-Teilmenge aus 64 Zeichen ab: Großbuchstaben (A–Z), Kleinbuchstaben (a–z), Ziffern (0–9) und zwei Symbole (+ und /). Drei 8-Bit-Bytes (24 Bit) werden in vier 6-Bit-Werte aufgeteilt, wodurch die Datenmenge um genau 33% wächst."
+      },
+      "rfc-4648-standard-vector-man": {
+        "heading": "Standard-Testvektor aus RFC 4648: \"Man\"",
+        "p1": "Kanonischer Testvektor mit 3 Bytes:",
+        "li1": "Klartext: <code>Man</code>",
+        "li2": "ASCII-Bytes: <code>77, 97, 110</code>",
+        "li3": "Binär (24 Bit): <code>01001101 01100001 01101110</code>",
+        "li4": "6-Bit-Blöcke: <code>19, 22, 5, 46</code>",
+        "li5": "Base64: <code>TWFu</code>"
+      },
+      "url-safe-substitution": {
+        "heading": "URL-sichere Ersetzung",
+        "p1": "Sichere Darstellung für URLs und Dateinamen:",
+        "li1": "Standard: <code>subjects?_d</code> &rarr; <code>c3ViamVjdHM/X2Q=</code>",
+        "li2": "URL-sicher: <code>+</code> &rarr; <code>-</code>, <code>/</code> &rarr; <code>_</code>",
+        "li3": "Ergebnis: <code>c3ViamVjdHM_X2Q=</code>",
+        "li4": "Kann ohne Prozentkodierung direkt in Query-Parametern stehen."
+      },
+      "multilingual-utf-8-handling": {
+        "heading": "Mehrsprachiges UTF-8",
+        "p1": "Akzente und Emojis verlustfrei kodiert:",
+        "li1": "Eingabe: <code>café 🚀</code>",
+        "li2": "UTF-8-Bytes: 9 Bytes",
+        "li3": "Base64: <code>Y2Fmw6kg8J+agA==</code>",
+        "li4": "Wird ohne Beschädigung in die ursprünglichen Zeichen zurückdekodiert."
+      }
+    },
+    "text": {
+      "clear-btn": "Leeren",
+      "size-meter": "0.0 KB / 1 MB",
+      "convert-btn": "In Base64 kodieren",
+      "swap-btn": "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><polyline points=\"17 1 21 5 17 9\"></polyline><path d=\"M3 11V9a4 4 0 0 1 4-4h14\"></path><polyline points=\"7 23 3 19 7 15\"></polyline><path d=\"M21 13v2a4 4 0 0 1-4 4H3\"></path></svg>\n          Eingabe &amp; Ausgabe tauschen",
+      "copy-btn": "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"9\" y=\"9\" width=\"13\" height=\"13\" rx=\"2\" ry=\"2\"></rect><path d=\"M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1\"></path></svg>\n          Ergebnis kopieren",
+      "how-to-use-heading": "Wie &amp; wann du den Base64 Encoder / Decoder nutzt",
+      "article-heading": "Base64-Kodierung, RFC 4648 &amp; Rechenbeispiele"
+    },
+    "label": {
+      "base64-input": "Zu kodierender Text (UTF-8-Klartext):",
+      "base64-output": "Base64-kodierte Ausgabe:"
+    },
+    "placeholder": {
+      "base64-input": "Klartext hier eingeben oder einfügen (unterstützt Emojis, andere Alphabete und Symbole) ...",
+      "base64-output": "Das Ergebnis erscheint hier live beim Tippen ..."
+    }
+  },
+  "client": {
+    "labels": {
+      "encode": {
+        "input": "Zu kodierender Text (UTF-8-Klartext):",
+        "output": "Base64-kodierte Ausgabe:",
+        "button": "In Base64 kodieren",
+        "placeholder": "Klartext hier eingeben oder einfügen (unterstützt Emojis, andere Alphabete und Symbole) ..."
+      },
+      "decode": {
+        "input": "Zu dekodierende Base64-Zeichenkette:",
+        "output": "Dekodierter Klartext (UTF-8):",
+        "button": "Aus Base64 dekodieren",
+        "placeholder": "Base64-Zeichenkette hier einfügen (z. B. TWFu oder Y2Fmw6k=) ..."
+      }
+    },
+    "sizeMeter": "{{kb}} KB / {{max}} MB",
+    "status": {
+      "encoded": "✓ {{input}} Zeichen in {{output}} Base64-Zeichen kodiert ({{bytes}} Bytes)",
+      "decoded": "✓ {{input}} Base64-Zeichen in {{output}} Klartextzeichen dekodiert"
+    },
+    "errors": {
+      "notText": "Die Eingabe muss eine gültige Zeichenkette sein.",
+      "notBase64": "Die Eingabe muss eine gültige Base64-Zeichenkette sein.",
+      "tooLarge": "Die Eingabe überschreitet die Sicherheitsgrenze von 1 MB (max. 1,048,576 Zeichen). Aktuelle Größe: {{size}} Zeichen.",
+      "encoding": "Fehler beim Kodieren: {{message}}",
+      "alphabet": "Ungültiges Base64-Format: enthält Zeichen außerhalb des Base64-Alphabets.",
+      "decoding": "Fehler beim Dekodieren: fehlerhafte Base64-Daten oder ungültige UTF-8-Bytefolge ({{message}})."
+    },
+    "toast": {
+      "nothingToCopy": "Nichts zu kopieren. Gib zuerst Text ein.",
+      "copied": "Ergebnis in die Zwischenablage kopiert"
+    }
+  }
+}

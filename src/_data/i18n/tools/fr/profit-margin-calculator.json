@@ -1,0 +1,254 @@
+{
+  "listing": {
+    "name": "Calculateur de marge et de majoration",
+    "shortName": "Marge bénéficiaire",
+    "description": "Calculez le bénéfice, la marge et la majoration à partir du coût et du prix, ou le prix de vente qui donne une marge ou une majoration cible.",
+    "shortDescription": "Bénéfice, marge et majoration à partir du coût et du prix, ou prix à partir d'une marge cible.",
+    "keywords": [
+      "calculateur de marge bénéficiaire",
+      "calcul de majoration",
+      "marge ou coefficient multiplicateur",
+      "marge brute",
+      "calcul prix de vente",
+      "taux de marque et taux de marge",
+      "calcul de prix"
+    ]
+  },
+  "title": "Calculateur de marge bénéficiaire : marge et majoration",
+  "description": "Calculez bénéfice, marge et majoration à partir du coût et du prix, ou le prix de vente pour une marge ou une majoration cible. Tableau comparatif inclus.",
+  "h1": "Calculateur de marge et de majoration",
+  "quickAnswer": "La marge est le bénéfice exprimé en pourcentage du prix de vente (taux de marque) ; la majoration est le bénéfice en pourcentage du coût (taux de marge). Un article qui coûte 60 et se vend 100 rapporte 40 de bénéfice, soit une marge de 40% et une majoration de 66.67%. Pour atteindre une marge cible, prix = coût ÷ (1 − marge) : une marge de 25% sur un coût de 75 exige un prix de 100. Ce calculateur de marge bénéficiaire fait le calcul pour vous.",
+  "formula": {
+    "title": "Formules de la marge et de la majoration",
+    "expression": "Bénéfice = Prix − Coût   ·   Marge % = Bénéfice ÷ Prix × 100   ·   Majoration % = Bénéfice ÷ Coût × 100",
+    "explanation": "La marge et la majoration utilisent le même bénéfice mais le divisent par des nombres différents : la majoration est donc toujours le pourcentage le plus élevé. Pour trouver un prix à partir d'une marge cible, divisez le coût par (1 − marge ÷ 100). Pour trouver un prix à partir d'une majoration, multipliez le coût par (1 + majoration ÷ 100). Les deux se convertissent directement : majoration = marge ÷ (1 − marge), et marge = majoration ÷ (1 + majoration), en décimal.",
+    "variables": [
+      {
+        "name": "Coût",
+        "description": "Ce que l'article vous coûte : prix d'achat, ou matériaux et main-d'œuvre pour ce que vous fabriquez."
+      },
+      {
+        "name": "Prix",
+        "description": "Le prix de vente hors taxe de vente ou TVA."
+      },
+      {
+        "name": "Marge",
+        "description": "La part du prix de vente que vous gardez comme bénéfice brut. Toujours inférieure à 100%."
+      },
+      {
+        "name": "Majoration",
+        "description": "Ce que vous ajoutez au coût, en pourcentage du coût. Peut dépasser 100%."
+      }
+    ]
+  },
+  "workedExamples": [
+    {
+      "title": "Coût 60, prix 100",
+      "inputs": [
+        "Coût : 60",
+        "Prix de vente : 100"
+      ],
+      "steps": [
+        "Bénéfice : 100 − 60 = 40",
+        "Marge : 40 ÷ 100 = 40%",
+        "Majoration : 40 ÷ 60 = 66.67%"
+      ],
+      "result": "Bénéfice 40, marge 40%, majoration 66.67%"
+    },
+    {
+      "title": "Prix pour une marge de 25% sur un coût de 75",
+      "inputs": [
+        "Coût : 75",
+        "Marge cible : 25%"
+      ],
+      "steps": [
+        "Prix = 75 ÷ (1 − 0.25) = 75 ÷ 0.75 = 100",
+        "Vérification : bénéfice 25 ÷ prix 100 = marge de 25%"
+      ],
+      "result": "Prix de vente 100 (majoration de 33.33%)"
+    },
+    {
+      "title": "Prix pour une majoration de 25% sur un coût de 80",
+      "inputs": [
+        "Coût : 80",
+        "Majoration : 25%"
+      ],
+      "steps": [
+        "Prix = 80 × (1 + 0.25) = 100",
+        "Marge : bénéfice 20 ÷ prix 100 = 20%"
+      ],
+      "result": "Prix de vente 100 (marge de 20%)"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Ajouter le pourcentage de marge au coût",
+      "description": "Ajouter 25% à un coût de 75 donne 93.75, ce qui correspond à une <em>majoration</em> de 25% et seulement à une marge de 20%. Pour une marge de 25%, il faut diviser : 75 ÷ 0.75 = 100."
+    },
+    {
+      "title": "Confondre marge et majoration",
+      "description": "Une majoration de 50% correspond à une marge de 33.3%, et une marge de 50% à une majoration de 100%. Précisez de laquelle vous parlez dans vos grilles tarifaires, négociations fournisseurs et plans de commission."
+    },
+    {
+      "title": "S'attendre à une marge supérieure à 100%",
+      "description": "La marge est une part du prix de vente : elle ne peut jamais atteindre 100%, sauf si le coût est nul. Si un chiffre supérieur à 100% apparaît, il s'agit d'une majoration."
+    },
+    {
+      "title": "Oublier certains coûts",
+      "description": "La marge brute utilise le coût direct de l'article. Livraison, frais de paiement, emballage et retours sont aussi de vrais coûts : incluez-les dans le coût si vous voulez connaître la marge que vous gardez réellement."
+    },
+    {
+      "title": "Inclure la taxe de vente ou la TVA dans le prix",
+      "description": "La taxe collectée pour l'État n'est pas un revenu. Utilisez le prix de vente hors taxe, sinon la marge paraîtra plus élevée qu'elle ne l'est."
+    }
+  ],
+  "sources": [
+    {
+      "name": "IRS Publication 334 : Tax Guide for Small Business (bénéfice brut et coût des marchandises vendues)"
+    },
+    {
+      "name": "U.S. SEC : guide des états financiers pour débutants (bénéfice brut et marges)"
+    },
+    {
+      "name": "GOV.UK : taux de TVA (exclure la taxe des prix de vente)"
+    }
+  ],
+  "howto": {
+    "name": "Comment calculer la marge bénéficiaire et la majoration",
+    "description": "Calculez la marge et la majoration à partir d'un coût et d'un prix, ou un prix à partir d'une marge ou d'une majoration cible.",
+    "steps": [
+      {
+        "name": "Choisir ce que vous connaissez",
+        "text": "Choisissez Prix pour obtenir la marge et la majoration d'un prix de vente, ou Marge ou Majoration pour obtenir le prix correspondant à un objectif."
+      },
+      {
+        "name": "Saisir le coût",
+        "text": "Saisissez ce que l'article vous coûte, y compris les coûts directs que vous voulez couvrir."
+      },
+      {
+        "name": "Saisir le prix, la marge ou la majoration",
+        "text": "Saisissez le prix de vente hors taxe, ou la marge ou la majoration souhaitée."
+      },
+      {
+        "name": "Lire les résultats",
+        "text": "Consultez côte à côte le bénéfice, la marge, la majoration et le prix de vente."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Quelle est la différence entre la marge et la majoration ?",
+      "a": "Les deux partent du même bénéfice (prix − coût). La marge le divise par le prix de vente ; la majoration le divise par le coût. Un coût de 60 et un prix de 100 donnent une marge de 40% mais une majoration de 66.67%."
+    },
+    {
+      "q": "Comment calculer la marge bénéficiaire ?",
+      "a": "Soustrayez le coût du prix de vente pour obtenir le bénéfice, divisez le bénéfice par le prix de vente et multipliez par 100. Prix 100 et coût 60 : (100 − 60) ÷ 100 = 40%."
+    },
+    {
+      "q": "Comment calculer un prix de vente à partir d'une marge souhaitée ?",
+      "a": "Divisez le coût par (1 − marge en décimal). Pour une marge de 25% sur un coût de 75 : 75 ÷ 0.75 = 100."
+    },
+    {
+      "q": "Comment convertir une majoration en marge ?",
+      "a": "Marge = majoration ÷ (1 + majoration), en décimal. Une majoration de 25% donne 0.25 ÷ 1.25 = 20% de marge ; une majoration de 100% donne une marge de 50%."
+    },
+    {
+      "q": "À quelle marge correspond une majoration de 50% ?",
+      "a": "Une majoration de 50% correspond à une marge de 33.33%. Un coût de 100 majoré de 50% se vend 150, et 50 de bénéfice ÷ 150 de prix = 33.33%."
+    },
+    {
+      "q": "La marge bénéficiaire peut-elle être négative ?",
+      "a": "Oui. Si vous vendez en dessous du coût, le bénéfice est négatif, tout comme la marge et la majoration. Le calculateur l'affiche alors comme une perte."
+    },
+    {
+      "q": "Qu'est-ce qu'une bonne marge bénéficiaire ?",
+      "a": "Cela dépend du secteur, du modèle économique et de la marge considérée (brute ou nette). Comparez-vous à des entreprises similaires et incluez tous vos coûts avant de fixer un objectif."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Calculateur de marge bénéficiaire",
+      "tool-div1": "Trouver la marge à partir d'un prix, ou un prix à partir d'une marge ou d'une majoration",
+      "copy-result-btn": "Copier le résultat dans le presse-papiers"
+    },
+    "text": {
+      "tab-price": "Prix",
+      "tab-margin": "Marge",
+      "tab-markup": "Majoration",
+      "reset-btn": "Réinitialiser",
+      "result-header-text": "Marge bénéficiaire",
+      "copy-result-btn": "<span data-icon=\"copy\"></span> Copier le résultat"
+    },
+    "label": {
+      "cost": "Coût <span class=\"text-accent\">*</span>",
+      "price": "Prix de vente <span class=\"text-accent\">*</span>",
+      "margin": "Marge cible (%) <span class=\"text-accent\">*</span>",
+      "markup": "Majoration (%) <span class=\"text-accent\">*</span>"
+    },
+    "content": {
+      "tool": {
+        "button1": "Calculer",
+        "summary1": "Étape par étape"
+      },
+      "margin-vs-markup-at-a-glance": {
+        "heading": "Marge et majoration en un coup d'œil",
+        "p1": "La marge et la majoration décrivent le même bénéfice sous deux angles. La marge répond à « quelle part de chaque vente je garde ? », la majoration à « combien ai-je ajouté à mon coût ? ». Comme le prix de vente est toujours supérieur au coût lorsqu'il y a bénéfice, le pourcentage de marge est toujours le plus petit des deux.",
+        "caption1": "Marge et majoration pour un article qui coûte 100",
+        "th1": "Prix de vente",
+        "th2": "Bénéfice",
+        "th3": "Marge (du prix)",
+        "th4": "Majoration (du coût)",
+        "p2": "Lisez une ligne pour convertir : une majoration de 25% correspond à une marge de 20%, et une marge de 50% exige une majoration de 100%. Quand la marge approche 100%, la majoration croît sans limite : c'est pourquoi une marge supérieure à 100% est impossible, alors que des majorations de 200% ou 300% sont courantes pour les articles peu coûteux."
+      },
+      "which-one-should-you-use": {
+        "heading": "Laquelle utiliser ?",
+        "li1": "<strong>Fixer des prix à partir des coûts :</strong> la majoration est pratique pour une grille tarifaire (« coût plus 40% »), mais vérifiez toujours la marge qu'elle donne.",
+        "li2": "<strong>Planification et reporting :</strong> la marge correspond à la façon dont les états financiers présentent le bénéfice brut, et permet de comparer des produits aux prix très différents.",
+        "li3": "<strong>Remises :</strong> une remise s'applique au prix de vente et réduit donc directement la marge. Une remise de 20% sur un produit à 20% de marge efface tout le bénéfice.",
+        "li4": "<strong>Échanges avec fournisseurs et équipes :</strong> dites explicitement « marge » ou « majoration » ; « 40% de bénéfice » est ambigu.",
+        "p1": "Ce calculateur calcule la marge brute sur un article : prix de vente moins le coût direct de cet article. La marge nette retranche aussi les frais généraux comme le loyer, les salaires, le marketing et les impôts : elle est donc toujours inférieure à la marge brute."
+      }
+    },
+    "title": {
+      "copy-result-btn": "Copier le résultat dans le presse-papiers"
+    }
+  },
+  "client": {
+    "errors": {
+      "costEmpty": "Saisissez le coût.",
+      "costInvalid": "Le coût doit être 0 ou un nombre positif.",
+      "priceEmpty": "Saisissez le prix de vente.",
+      "priceInvalid": "Le prix de vente doit être supérieur à 0.",
+      "marginEmpty": "Saisissez la marge cible.",
+      "marginInvalid": "La marge doit être un nombre.",
+      "marginMax": "Une marge doit être inférieure à 100% : à 100%, le bénéfice serait égal au prix entier, ce qui suppose un coût de 0.",
+      "markupEmpty": "Saisissez la majoration.",
+      "markupInvalid": "La majoration doit être un nombre.",
+      "markupMin": "Une majoration de −100% ou moins rendrait le prix nul ou négatif."
+    },
+    "result": {
+      "loss": "Perte sur cette vente",
+      "margin": "Marge bénéficiaire",
+      "marginAndMarkup": "Marge {{margin}} · majoration {{markup}}",
+      "sellingPrice": "Prix de vente",
+      "lossNote": "Le prix de vente est inférieur au coût : cette vente est donc à perte.",
+      "copy": "Coût {{cost}}, prix {{price}} : bénéfice {{profit}}, marge {{margin}}, majoration {{markup}}"
+    },
+    "stats": {
+      "sellingPrice": "Prix de vente",
+      "cost": "Coût",
+      "loss": "Perte",
+      "profit": "Bénéfice",
+      "margin": "Marge (du prix)",
+      "markup": "Majoration (du coût)",
+      "markupUndefined": "Non définie (coût nul)"
+    },
+    "steps": {
+      "priceFromMargin": "Prix = coût ÷ (1 − marge) = {{cost}} ÷ (1 − {{margin}}) = {{price}}",
+      "priceFromMarkup": "Prix = coût × (1 + majoration) = {{cost}} × (1 + {{markup}}) = {{price}}",
+      "profit": "Bénéfice = prix − coût = {{price}} − {{cost}} = {{profit}}",
+      "margin": "Marge = bénéfice ÷ prix = {{profit}} ÷ {{price}} = {{margin}}",
+      "markup": "Majoration = bénéfice ÷ coût = {{profit}} ÷ {{cost}} = {{markup}}"
+    }
+  }
+}

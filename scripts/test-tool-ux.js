@@ -1,14 +1,15 @@
 #!/usr/bin/env node
 /**
  * Playwright Tool UX, Debounce, Enter-Key, Error State & Accessibility (axe-core) Test Suite
- * Tests all 10 tools on ToolsBuilt for:
+ * Tests every tool in tools.json for:
  * 1. Debounced live execution (~150ms) without pressing buttons.
  * 2. Explicit Calculate button + Enter key triggering calculation.
  * 3. Accessible error states (aria-invalid="true", role="alert") on invalid inputs and clear on fix.
  * 4. Result copy button triggers clipboard write and toast feedback.
  * 5. Sensitive data safeguards (no passwords or custom names in localStorage/URL).
  * 6. axe-core accessibility audit in light and dark mode with 0 critical or serious violations.
- * 7. Visual verification screenshots at 375px and 1280px in docs/screenshots/tools/.
+ * 7. Optional screenshots at 375px and 1280px in docs/screenshots/tools/ (SAVE_SCREENSHOTS=1),
+ *    so a normal test run does not rewrite tracked files.
  */
 
 const http = require('http');
@@ -19,14 +20,23 @@ const { chromium } = require('playwright');
 const ROOT = path.resolve(__dirname, '..');
 const SITE_DIR = path.join(ROOT, '_site');
 const SCREENSHOTS_DIR = path.join(ROOT, 'docs', 'screenshots', 'tools');
+const SAVE_SCREENSHOTS = process.env.SAVE_SCREENSHOTS === '1';
 
-fs.mkdirSync(SCREENSHOTS_DIR, { recursive: true });
+if (SAVE_SCREENSHOTS) fs.mkdirSync(SCREENSHOTS_DIR, { recursive: true });
+
+// Screenshots are only written when asked for: SAVE_SCREENSHOTS=1 node scripts/test-tool-ux.js
+async function saveScreenshot(page, name) {
+  if (!SAVE_SCREENSHOTS) return;
+  await page.screenshot({ path: path.join(SCREENSHOTS_DIR, name), fullPage: false });
+}
 
 function createServer() {
   const mimeTypes = {
     '.html': 'text/html; charset=utf-8',
     '.css': 'text/css; charset=utf-8',
     '.js': 'application/javascript; charset=utf-8',
+    '.mjs': 'application/javascript; charset=utf-8',
+    '.wasm': 'application/wasm',
     '.json': 'application/json',
     '.svg': 'image/svg+xml',
     '.png': 'image/png',
@@ -53,24 +63,10 @@ function createServer() {
   });
 }
 
-const TOOLS = [
-  'age-calculator',
-  'days-until-date-calculator',
-  'date-difference-calculator',
-  'add-days-to-date-calculator',
-  'percentage-change-calculator',
-  'discount-calculator',
-  'word-counter',
-  'text-case-converter',
-  'password-generator',
-  'random-name-picker',
-  'json-formatter',
-  'base64-encoder-decoder',
-  'url-encoder-decoder',
-  'lorem-ipsum-generator',
-  'uuid-generator',
-  'hash-generator'
-];
+// Every tool in tools.json gets the axe audit and screenshots; tools with a block below also get interaction checks
+const TOOLS = require(path.join(ROOT, 'src', '_data', 'tools.json')).map(t => t.slug)
+  // TOOLS_ONLY=slug1,slug2 runs a subset while debugging
+  .filter(slug => !process.env.TOOLS_ONLY || process.env.TOOLS_ONLY.split(',').includes(slug));
 
 async function runAxe(page) {
   const axeSource = fs.readFileSync(require.resolve('axe-core/axe.min.js'), 'utf8');
@@ -111,7 +107,8 @@ async function runAllToolUxTests() {
   }
 
   try {
-    const page = await browser.newPage();
+    // A fixed locale and time zone: money tools preselect the visitor's currency from these
+    const page = await browser.newPage({ locale: 'en-US', timezoneId: 'America/New_York' });
     await page.emulateMedia({ reducedMotion: 'reduce' });
 
     for (const toolSlug of TOOLS) {
@@ -138,7 +135,7 @@ async function runAllToolUxTests() {
         console.error(JSON.stringify(axeLight.violations.map(v => ({ id: v.id, impact: v.impact, description: v.description })), null, 2));
       }
 
-      await page.screenshot({ path: path.join(SCREENSHOTS_DIR, `${toolSlug}-1280-light.png`), fullPage: false });
+      await saveScreenshot(page, `${toolSlug}-1280-light.png`);
 
       // 2. Desktop Dark Mode & Screenshot
       await page.evaluate(() => {
@@ -157,18 +154,18 @@ async function runAllToolUxTests() {
         console.error(JSON.stringify(axeDark.violations.map(v => ({ id: v.id, impact: v.impact, description: v.description, nodes: v.nodes.map(n => ({ target: n.target, html: n.html, failure: n.failureSummary })) })), null, 2));
       }
 
-      await page.screenshot({ path: path.join(SCREENSHOTS_DIR, `${toolSlug}-1280-dark.png`), fullPage: false });
+      await saveScreenshot(page, `${toolSlug}-1280-dark.png`);
 
       // 3. Mobile Viewport (375px) Screenshots
       await page.setViewportSize({ width: 375, height: 812 });
-      await page.screenshot({ path: path.join(SCREENSHOTS_DIR, `${toolSlug}-375-dark.png`), fullPage: false });
+      await saveScreenshot(page, `${toolSlug}-375-dark.png`);
       await page.evaluate(() => {
         document.documentElement.setAttribute('data-theme', 'light');
         localStorage.setItem('tb-theme', 'light');
         localStorage.setItem('theme', 'light');
       });
       await page.waitForTimeout(300);
-      await page.screenshot({ path: path.join(SCREENSHOTS_DIR, `${toolSlug}-375-light.png`), fullPage: false });
+      await saveScreenshot(page, `${toolSlug}-375-light.png`);
 
       // Reset to Desktop for interaction tests
       await page.setViewportSize({ width: 1280, height: 800 });
@@ -325,6 +322,81 @@ async function runAllToolUxTests() {
           await page.waitForSelector('.tb-toast.is-visible', { timeout: 2000 });
           assert(true, '[discount] Copy button triggered toast');
         }
+      }
+
+      if (toolSlug === 'gold-calculator') {
+        await page.selectOption('#currency', 'PKR');
+        await page.selectOption('#rate-unit', 'tola');
+        await page.selectOption('#rate-karat', '24');
+        await page.selectOption('#weight-unit', 'tola');
+        await page.selectOption('#item-karat', '22');
+        await page.selectOption('#making-type', 'none');
+        await page.fill('#gold-weight', '2');
+        await page.fill('#gold-rate', '400000');
+        await page.waitForTimeout(250);
+        const goldRes = await page.textContent('#result-primary-text');
+        assert(goldRes && goldRes.includes('733,333.33'), `[gold] Debounced calculation: "${goldRes.trim()}"`);
+
+        // Enter key
+        await page.fill('#gold-weight', '1');
+        await page.keyboard.press('Enter');
+        await page.waitForTimeout(100);
+        const goldRes2 = await page.textContent('#result-primary-text');
+        assert(goldRes2 && goldRes2.includes('366,666.67'), `[gold] Enter key updated: "${goldRes2.trim()}"`);
+
+        // Zero weight error state
+        await page.fill('#gold-weight', '0');
+        await page.waitForTimeout(250);
+        const goldInvalid = await page.getAttribute('#gold-weight', 'aria-invalid');
+        assert(goldInvalid === 'true' && await page.isVisible('#error-box'), '[gold] Zero weight triggered accessible error state');
+      }
+
+      if (toolSlug === 'sales-tax-calculator') {
+        await page.check('#mode-remove');
+        await page.selectOption('#tax-rate-preset', '18');
+        await page.fill('#tax-qty', '1');
+        await page.fill('#tax-price', '5000');
+        await page.waitForTimeout(250);
+        const taxRes = await page.textContent('#result-primary-text');
+        assert(taxRes && taxRes.includes('4,237.29'), `[sales-tax] Debounced reverse calculation: "${taxRes.trim()}"`);
+
+        // Enter key
+        await page.check('#mode-add');
+        await page.fill('#tax-price', '1000');
+        await page.keyboard.press('Enter');
+        await page.waitForTimeout(100);
+        const taxRes2 = await page.textContent('#result-primary-text');
+        assert(taxRes2 && taxRes2.includes('1,180.00'), `[sales-tax] Enter key updated: "${taxRes2.trim()}"`);
+
+        // Negative price error state
+        await page.fill('#tax-price', '-5');
+        await page.waitForTimeout(250);
+        const taxInvalid = await page.getAttribute('#tax-price', 'aria-invalid');
+        assert(taxInvalid === 'true' && await page.isVisible('#error-box'), '[sales-tax] Negative price triggered accessible error state');
+      }
+
+      if (toolSlug === 'python-formatter' || toolSlug === 'java-formatter') {
+        const isPython = toolSlug === 'python-formatter';
+        const offsite = [];
+        const onRequest = (req) => { if (!req.url().startsWith('http://localhost:8092/')) offsite.push(req.url()); };
+        page.on('request', onRequest);
+
+        await page.fill('#code-input', isPython ? 'def  f( a,b ) :\n  return a+b\n' : 'class A{int f(int a,int b){return a+b;}}');
+        await page.keyboard.press(process.platform === 'darwin' ? 'Meta+Enter' : 'Control+Enter');
+        await page.waitForFunction(() => document.getElementById('code-output').value.length > 0, null, { timeout: 30000 });
+        const formatted = await page.inputValue('#code-output');
+        assert(isPython ? formatted === 'def f(a, b):\n    return a + b\n' : formatted.includes('int f(int a, int b) {'),
+          `[${toolSlug}] Ctrl+Enter formats with the self-hosted engine`);
+
+        await page.fill('#code-input', isPython ? 'def f(:\n    pass\n' : 'class A { void f() { int x = 1 } }');
+        await page.click('#format-btn');
+        await page.waitForSelector('#error-box:not(.hidden)', { timeout: 10000 });
+        const errText = await page.textContent('#error-box');
+        const invalid = await page.getAttribute('#code-input', 'aria-invalid');
+        assert(/^Line \d+, column \d+/.test(errText) && invalid === 'true', `[${toolSlug}] Syntax error reported with line and column: "${errText.trim()}"`);
+
+        page.off('request', onRequest);
+        assert(offsite.length === 0, `[${toolSlug}] No off-site requests while formatting (${offsite.join(', ') || 'none'})`);
       }
 
       if (toolSlug === 'word-counter') {

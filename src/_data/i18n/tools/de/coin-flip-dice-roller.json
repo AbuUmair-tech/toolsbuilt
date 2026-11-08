@@ -1,0 +1,227 @@
+{
+  "listing": {
+    "name": "Münzwurf & Würfel",
+    "shortName": "Münzwurf & Würfel",
+    "description": "Wirf bis zu 100 Münzen oder bis zu 10 Würfel (d4 bis d20) mit sicherem Zufall, Summen, Kopf-und-Zahl-Zählung und Verlauf.",
+    "shortDescription": "Münzen werfen oder mit d4- bis d20-Würfeln würfeln, mit Summen und Verlauf.",
+    "keywords": [
+      "münzwurf",
+      "münze werfen",
+      "würfel online",
+      "online würfeln",
+      "kopf oder zahl",
+      "w20 würfeln",
+      "2w6 würfeln"
+    ]
+  },
+  "title": "Münzwurf & Würfel online - Kopf oder Zahl, d6, d20",
+  "description": "Münzwurf und Würfel online: Wirf bis zu 100 Münzen oder 10 Würfel (d4, d6, d8, d10, d12, d20) mit sicherem Zufall, Summen, Kopf/Zahl und Verlauf.",
+  "h1": "Münzwurf & Würfel",
+  "quickAnswer": "Wähle beim Münzwurf & Würfel-Tool Münze oder Würfel, lege die Anzahl fest und drücke Werfen oder Würfeln. Jede Münze zeigt mit genau 50% Wahrscheinlichkeit Kopf, und jede Seite eines Würfels ist gleich wahrscheinlich, weil die Ergebnisse aus dem sicheren Zufallsgenerator deines Browsers mit Rejection Sampling stammen. Würfel zeigen jede Seite und die Summe, die letzten 20 Ergebnisse bleiben im Verlauf.",
+  "formula": {
+    "title": "Wahrscheinlichkeiten",
+    "expression": "P(Kopf) = 1/2   ·   P(beliebige Seite eines dN) = 1/N   ·   Summe von k Würfeln reicht von k bis k × N",
+    "explanation": "Jeder Wurf ist unabhängig: Frühere Ergebnisse ändern den nächsten nicht. Bei einem Würfel sind alle Seiten gleich wahrscheinlich, Summen mehrerer Würfel aber nicht: Bei 2d6 gibt es 36 gleich wahrscheinliche Kombinationen, von denen sechs die Summe 7 ergeben. Die 7 ist also die häufigste Summe (1 zu 6), 2 oder 12 die seltensten (1 zu 36). Die durchschnittliche Summe von k Würfeln mit N Seiten ist k × (N + 1) ÷ 2.",
+    "variables": [
+      {
+        "name": "dN",
+        "description": "Ein Würfel mit N Seiten, nummeriert von 1 bis N: d4, d6, d8, d10, d12 oder d20."
+      },
+      {
+        "name": "kdN",
+        "description": "Würfelnotation für k Würfel mit N Seiten, z. B. 2d6 oder 1d20."
+      },
+      {
+        "name": "Unabhängigkeit",
+        "description": "Jedes Ergebnis wird neu gezogen; eine Serie von Kopf macht Zahl beim nächsten Wurf nicht wahrscheinlicher."
+      }
+    ]
+  },
+  "workedExamples": [
+    {
+      "title": "2d6 würfeln",
+      "inputs": [
+        "Würfel: 2, Typ d6"
+      ],
+      "steps": [
+        "Jeder Würfel zeigt 1-6, zum Beispiel 4 und 3",
+        "Summe = 4 + 3 = 7; mögliche Summen reichen von 2 bis 12"
+      ],
+      "result": "Summe 7 (die wahrscheinlichste Summe bei 2d6, Wahrscheinlichkeit 6/36)"
+    },
+    {
+      "title": "Einen d20 würfeln",
+      "inputs": [
+        "Würfel: 1, Typ d20"
+      ],
+      "steps": [
+        "Eine Zahl von 1 bis 20, jede mit Wahrscheinlichkeit 1/20 = 5%"
+      ],
+      "result": "Zum Beispiel 14; eine natürliche 20 kommt in 5% der Fälle"
+    },
+    {
+      "title": "100 Münzen werfen",
+      "inputs": [
+        "Münzen: 100"
+      ],
+      "steps": [
+        "Jede Münze zeigt mit Wahrscheinlichkeit 1/2 Kopf oder Zahl",
+        "Kopf + Zahl ergibt immer 100"
+      ],
+      "result": "Etwa 50-mal Kopf; alles von 40 bis 60 ist üblich (in etwa 96% der Fälle)"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Der Spielerfehlschluss",
+      "description": "Nach fünfmal Kopf hintereinander liegt Zahl immer noch bei genau 50%. Münzen und Würfel haben kein Gedächtnis, frühere Ergebnisse machen ein bestimmtes Ergebnis nie „fällig“."
+    },
+    {
+      "title": "Alle Würfelsummen für gleich wahrscheinlich halten",
+      "description": "Mit zwei Würfeln kommt die 7 sechsmal so oft wie die 2 oder die 12. Nur die Ergebnisse eines einzelnen Würfels sind gleich verteilt."
+    },
+    {
+      "title": "Genau 50-mal Kopf bei 100 Würfen erwarten",
+      "description": "Genau 50-mal Kopf kommt nur in etwa 8% der Fälle vor. Ergebnisse zwischen 40 und 60 sind normal; erst nach vielen Tausend Würfen pendelt sich der Anteil nahe 50% ein."
+    },
+    {
+      "title": "Eine vorhersagbare Zufallsquelle nutzen",
+      "description": "Einfache Generatoren wie Math.random() reichen für Animationen, aber nicht, wenn es um Fairness geht. Dieses Tool nutzt crypto.getRandomValues mit Rejection Sampling, damit keine Seite bevorzugt wird."
+    }
+  ],
+  "sources": [
+    {
+      "name": "W3C Web Cryptography API: getRandomValues()"
+    },
+    {
+      "name": "NIST/SEMATECH e-Handbook of Statistical Methods: Binomialverteilung"
+    },
+    {
+      "name": "W3C Media Queries Level 5: prefers-reduced-motion"
+    }
+  ],
+  "howto": {
+    "name": "So wirfst du online eine Münze oder würfelst",
+    "description": "Münzen werfen oder würfeln mit sicherem Zufall und einem Verlauf der Ergebnisse.",
+    "steps": [
+      {
+        "name": "Münze oder Würfel wählen",
+        "text": "Wähle Münze, um Münzen zu werfen, oder Würfel, um zu würfeln."
+      },
+      {
+        "name": "Anzahl festlegen",
+        "text": "Wähle 1 bis 100 Münzen oder 1 bis 10 Würfel und den Würfeltyp."
+      },
+      {
+        "name": "Werfen oder würfeln",
+        "text": "Drücke den Button, um jede Münze oder jeden Würfel, die Anzahl von Kopf und Zahl oder die Summe zu sehen."
+      },
+      {
+        "name": "Verlauf prüfen",
+        "text": "Deine letzten 20 Ergebnisse stehen unter dem Ergebnis."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Ist der Online-Münzwurf fair?",
+      "a": "Ja. Jeder Wurf nutzt den kryptografisch sicheren Zufallsgenerator deines Browsers, sodass Kopf und Zahl jeweils genau 50% Wahrscheinlichkeit haben und kein Wurf vom vorherigen abhängt."
+    },
+    {
+      "q": "Wie würfle ich online 2d6?",
+      "a": "Wähle Würfel, stelle die Anzahl auf 2 und den Typ auf d6 und drücke Würfeln. Du siehst beide Würfel und ihre Summe, die zwischen 2 und 12 liegen kann."
+    },
+    {
+      "q": "Welche Summe kommt mit zwei Würfeln am häufigsten?",
+      "a": "Die 7. Sechs der 36 Kombinationen ergeben 7 (1+6, 2+5, 3+4, 4+3, 5+2, 6+1), sie kommt also im Schnitt einmal in 6 Würfen."
+    },
+    {
+      "q": "Welche Würfel kann ich werfen?",
+      "a": "d4, d6, d8, d10, d12 und d20, bis zu 10 Würfel auf einmal – das Standardset für Pen-&-Paper-Rollenspiele."
+    },
+    {
+      "q": "Wie viele Münzen kann ich auf einmal werfen?",
+      "a": "Bis zu 100. Das Ergebnis zeigt jede Münze und zählt Kopf und Zahl."
+    },
+    {
+      "q": "Kann ich meine bisherigen Ergebnisse sehen?",
+      "a": "Ja. Der Verlauf speichert deine letzten 20 Würfe auf dieser Seite. Er wird gelöscht, wenn du die Seite verlässt oder auf „Verlauf löschen“ drückst."
+    },
+    {
+      "q": "Kann ich die Animation ausschalten?",
+      "a": "Die Wurf- und Würfelanimation wird automatisch übersprungen, wenn dein Gerät auf reduzierte Bewegung eingestellt ist."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Münzwurf und Würfel",
+      "tool-div1": "Münze oder Würfel",
+      "cd-pieces": "Jede Münze oder jeder Würfel"
+    },
+    "text": {
+      "tab-coin": "Münzwurf",
+      "tab-dice": "Würfel",
+      "go-btn": "Werfen",
+      "clear-history-btn": "Verlauf löschen",
+      "history-title": "Verlauf (letzte 20)",
+      "history-empty": "Noch keine Ergebnisse."
+    },
+    "label": {
+      "coin-count": "Anzahl der Münzen",
+      "dice-count": "Anzahl der Würfel",
+      "dice-sides": "Würfeltyp"
+    },
+    "content": {
+      "tool": {
+        "div1": "<span id=\"result-header-text\">Ergebnis</span>"
+      },
+      "dice-odds-at-a-glance": {
+        "heading": "Würfelwahrscheinlichkeiten auf einen Blick",
+        "p1": "Ein Würfel gibt jeder Seite die gleiche Chance. Mit mehr Würfeln sammeln sich die Summen in der Mitte – deshalb ist die 7 die wichtigste Zahl bei Brettspielen mit zwei sechsseitigen Würfeln.",
+        "caption1": "Bereiche, Durchschnitte und Chancen für einzelne Werte bei gängigen Würfeln",
+        "th1": "Wurf",
+        "th2": "Bereich",
+        "th3": "Durchschnitt",
+        "th4": "Chance auf einen Wert",
+        "td4": "7: 16.67%, 2 oder 12: 2.78%"
+      },
+      "when-to-flip-a-coin-or": {
+        "heading": "Wann du online eine Münze wirfst oder würfelst",
+        "li1": "<strong>Eine Entscheidung treffen:</strong> Der Münzwurf ist der klassische faire Entscheider zwischen zwei Optionen.",
+        "li2": "<strong>Brett- und Rollenspiele:</strong> Ersetze fehlende Würfel oder wirf schnell mehrere d6 oder einen d20, die Summe wird gleich mitgerechnet.",
+        "li3": "<strong>Wahrscheinlichkeit erklären:</strong> Wirf mehrmals 100 Münzen, um zu zeigen, wie die Anzahl von Kopf schwankt, oder vergleiche 2d6-Summen mit der Tabelle oben.",
+        "li4": "<strong>Zufällige Auswahl:</strong> Für eine Wahl zwischen mehr als sechs Optionen nutze den <a href=\"/tools/random-number-generator/\">Zufallszahlen-Generator</a> oder den <a href=\"/tools/random-name-picker/\">Zufallsnamen-Generator</a>.",
+        "p1": "Echte Münzen und Würfel können durch ihre Form und die Art des Werfens leicht verzerrt sein. Ein sicherer Software-Generator hat dieses Problem nicht: Jedes Ergebnis ist exakt gleich wahrscheinlich. Die Ergebnisse entstehen in deinem Browser, der Verlauf bleibt nur auf dieser Seite."
+      }
+    }
+  },
+  "client": {
+    "errors": {
+      "noCrypto": "Sichere Zufallszahlen sind in diesem Browser nicht verfügbar.",
+      "coins": "Wirf zwischen 1 und {{max}} Münzen.",
+      "dice": "Wirf zwischen 1 und {{max}} Würfel.",
+      "sides": "Wähle einen d{{dice}}-Würfel."
+    },
+    "buttons": {
+      "roll": "Würfeln",
+      "flip": "Werfen"
+    },
+    "coin": {
+      "headerOne": "Münzwurf",
+      "headerMany": "{{count}} Münzwürfe",
+      "heads": "Kopf",
+      "tails": "Zahl",
+      "counts": "{{heads}}× Kopf · {{tails}}× Zahl",
+      "note": "Kopf {{headsPct}}%, Zahl {{tailsPct}}%.",
+      "historyOne": "Münze: {{side}}",
+      "historyMany": "{{count}} Münzen: {{heads}}× Kopf, {{tails}}× Zahl",
+      "summaryMany": "{{heads}}× Kopf, {{tails}}× Zahl"
+    },
+    "dice": {
+      "header": "Gewürfelt: {{notation}}",
+      "total": "Summe {{sum}}",
+      "noteMany": "{{rolls}} = {{sum}} (möglich {{min}}–{{max}}).",
+      "noteOne": "Möglich 1–{{sides}}."
+    }
+  }
+}

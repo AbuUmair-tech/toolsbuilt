@@ -1,0 +1,206 @@
+{
+  "listing": {
+    "name": "Roleta sorteadora de nomes",
+    "shortName": "Sorteador de nomes",
+    "description": "Gire uma roleta interativa para sortear vencedores aleatórios de uma lista de nomes. Usa aleatoriedade criptograficamente segura.",
+    "shortDescription": "Gire uma roleta interativa para sortear vencedores aleatórios de uma lista de nomes. Usa aleatoriedade criptograficamente segura.",
+    "keywords": [
+      "sorteador de nomes",
+      "roleta de nomes",
+      "roleta para sortear nomes",
+      "sorteio online",
+      "roleta aleatória"
+    ]
+  },
+  "title": "Sorteador de nomes com roleta online | ToolsBuilt",
+  "description": "Sorteador de nomes online grátis com roleta: digite os nomes e gire para sortear vencedores imparciais em rifas, aulas e sorteios. Usa a Web Crypto API.",
+  "h1": "Sorteador de nomes com roleta",
+  "quickAnswer": "Para sortear um nome ou vencedor de uma lista com este sorteador de nomes, cole ou digite os participantes, escolha se quer remover duplicados e clique para sortear. A ferramenta usa aleatoriedade de hardware criptograficamente segura para garantir a mesma chance de vitória para todos, sem viés. Ela permite sorteios de um vencedor e rifas com vários prêmios sem reposição.",
+  "formula": {
+    "title": "Fórmula de seleção justa e probabilidade",
+    "expression": "P(Seleção) = 1 / Total de participantes  |  Índice = CryptoRandomUint() % TotalParticipantes",
+    "explanation": "Todos os participantes têm exatamente a mesma probabilidade matemática de serem sorteados. O sorteio usa a entropia de hardware da Web Crypto API nativa do navegador com amostragem por rejeição para eliminar o viés do módulo. Em rifas com vários prêmios sem reposição, os vencedores são retirados da lista um a um."
+  },
+  "workedExamples": [
+    {
+      "title": "Sorteio de um vencedor entre 5 participantes",
+      "inputs": [
+        "Participantes: Alice, Bob, Charlie, David, Emma (5 participantes)",
+        "Modo: um vencedor"
+      ],
+      "steps": [
+        "Separar os nomes em 5 entradas distintas",
+        "Atribuir a mesma probabilidade P = 1/5 (20.00%) a cada participante",
+        "Sortear um índice aleatório uniforme no intervalo [0, 4] com crypto.getRandomValues"
+      ],
+      "result": "Vencedor sorteado com probabilidade exata de 20.0%"
+    },
+    {
+      "title": "Rifa com vários prêmios sem reposição",
+      "inputs": [
+        "Participantes: Alice, Bob, Charlie, David (4 participantes)",
+        "Prêmios: 2 vencedores sem reposição"
+      ],
+      "steps": [
+        "Rodada 1: sortear o 1º vencedor entre 4 participantes (P = 1/4 = 25.0%)",
+        "Retirar o 1º vencedor da lista ativa (restam 3 participantes)",
+        "Rodada 2: sortear o 2º vencedor entre os 3 participantes restantes (P = 1/3 = 33.3%)"
+      ],
+      "result": "2 vencedores diferentes premiados, restam 2 participantes"
+    },
+    {
+      "title": "Remoção de duplicados de uma planilha",
+      "inputs": [
+        "Entrada bruta: Alice, Bob, Alice, Charlie (4 entradas)",
+        "Opções: remover duplicados = sim"
+      ],
+      "steps": [
+        "Separar as entradas por vírgulas e quebras de linha",
+        "Filtrar o 'Alice' duplicado com a remoção de duplicados via Set",
+        "Formar uma lista limpa de 3 nomes únicos (Alice, Bob, Charlie)"
+      ],
+      "result": "3 participantes únicos aptos (P = 33.3% cada)"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Usar o previsível Math.random() em sorteios reais",
+      "description": "O Math.random() pseudoaleatório padrão está sujeito a padrões estatísticos. Sorteios exigem aleatoriedade criptográfica de hardware via crypto.getRandomValues."
+    },
+    {
+      "title": "Deixar passar nomes duplicados sem querer",
+      "description": "Ao colar nomes de planilhas, um nome duplicado dobra a chance daquela pessoa ganhar. Use sempre o botão Remover duplicados antes de girar."
+    },
+    {
+      "title": "Sortear com reposição em sorteios com vários prêmios",
+      "description": "Não retirar os vencedores anteriores em sorteios com vários prêmios permite que a mesma pessoa ganhe mais de um prêmio."
+    },
+    {
+      "title": "Viés do módulo na escolha do índice",
+      "description": "Operações simples de módulo sobre inteiros aleatórios criam um leve viés matemático a favor dos índices menores. A amostragem por rejeição garante uma distribuição exatamente uniforme e justa."
+    }
+  ],
+  "sources": [
+    {
+      "name": "Especificação da W3C Web Cryptography API"
+    },
+    {
+      "name": "NIST SP 800-90A: recomendação para geração de números aleatórios"
+    },
+    {
+      "name": "RFC 7929: diretrizes para geração criptográfica de números aleatórios"
+    }
+  ],
+  "howto": {
+    "name": "Como sortear um nome aleatório com a roleta",
+    "description": "Instruções passo a passo para sortear vencedores com giros de roleta criptograficamente imparciais.",
+    "steps": [
+      {
+        "name": "Digite os nomes dos participantes",
+        "text": "Digite ou cole sua lista de nomes na caixa de texto (um nome por linha ou separados por vírgula)."
+      },
+      {
+        "name": "Ajuste as configurações",
+        "text": "Se quiser, clique em Remover duplicados para tirar entradas repetidas, ou marque 'Remover o vencedor automaticamente após o giro' para sorteios em várias rodadas."
+      },
+      {
+        "name": "Gire a roleta para sortear",
+        "text": "Clique em Girar a roleta para iniciar a animação, ou para ver o resultado na hora se você preferir movimento reduzido."
+      },
+      {
+        "name": "Anuncie e copie o vencedor",
+        "text": "Veja o nome sorteado na janela de anúncio e copie o nome do vencedor para a área de transferência."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Como o sorteador de nomes garante uma escolha justa e imparcial?",
+      "a": "A ferramenta usa a Web Crypto API nativa do seu navegador via crypto.getRandomValues, com amostragem por rejeição para eliminar o viés do módulo. Ao contrário dos algoritmos comuns com Math.random, a entropia de hardware do sistema operacional garante uma distribuição de probabilidade uniforme entre todas as entradas. Cada nome tem a mesma chance matemática de ser escolhido em cada giro."
+    },
+    {
+      "q": "Posso remover os nomes sorteados automaticamente após cada giro?",
+      "a": "Sim. Basta marcar a opção 'Remover o vencedor automaticamente após o giro' ou clicar em 'Remover vencedor e fechar' na janela de anúncio. A ferramenta retira o nome sorteado na hora e redesenha a roleta para as próximas rodadas."
+    },
+    {
+      "q": "A roleta é adequada para quem tem sensibilidade a movimento ou distúrbios vestibulares?",
+      "a": "Sim. O sorteador de nomes respeita as preferências de acessibilidade do sistema do seu dispositivo. Quando 'prefers-reduced-motion' está ativo, as animações de giro são totalmente ignoradas. A ferramenta calcula a fatia vencedora na hora e abre a janela do vencedor imediatamente."
+    },
+    {
+      "q": "Existe limite de nomes que posso colar na roleta?",
+      "a": "Você pode digitar centenas de nomes na caixa de texto. O gerador calcula automaticamente os ângulos das fatias e ajusta os rótulos na roleta. Cada fatia continua matematicamente distinta durante todo o processo de seleção criptográfica."
+    },
+    {
+      "q": "Os nomes dos participantes ficam salvos em servidores ou são rastreados?",
+      "a": "Não. As listas de nomes, os cálculos dos giros e a escolha dos vencedores acontecem apenas na memória local do navegador. Nenhum nome digitado é enviado para servidores externos, registrado em bancos de dados ou guardado em URLs."
+    },
+    {
+      "q": "Posso colar nomes separados por vírgula ou ponto e vírgula?",
+      "a": "Sim. O leitor de entrada separa os nomes automaticamente por quebras de linha, vírgulas e pontos e vírgulas, e remove os espaços extras ao redor de cada nome."
+    },
+    {
+      "q": "Como garantir chances justas quando cada pessoa pode ter vários bilhetes?",
+      "a": "Deixe a opção Remover duplicados desmarcada para que quem comprou vários bilhetes mantenha todas as suas entradas na lista de participantes."
+    }
+  ],
+  "body": {
+    "label": {
+      "namesInput": "Lista de nomes (um por linha):"
+    },
+    "text": {
+      "nameCount": "8 entradas",
+      "spinBtn": "Girar a roleta!",
+      "shuffleBtn": "Embaralhar",
+      "dedupeBtn": "Remover duplicados",
+      "clearBtn": "Limpar",
+      "winnerTitle": "🎉 Temos um vencedor!",
+      "copyWinnerBtn": "<span data-icon=\"copy\"></span> Copiar vencedor",
+      "removeWinnerBtn": "Remover vencedor e fechar",
+      "closeModalBtn": "Manter na lista e fechar",
+      "when-to-use-heading": "Quando usar a roleta sorteadora de nomes"
+    },
+    "placeholder": {
+      "namesInput": "Digite os nomes aqui..."
+    },
+    "content": {
+      "tool": {
+        "p1": "Os nomes são separados por <strong>quebras de linha</strong>, <strong>vírgulas</strong> ou <strong>ponto e vírgula</strong>, então <code>Smith, John</code> vira dois nomes: <em>Smith</em> e <em>John</em>.",
+        "label1": "<input type=\"checkbox\" id=\"removeWinner\">\n          <span>Remover o vencedor automaticamente após o giro</span>"
+      },
+      "when-to-use-the-random-name": {
+        "li1": "<strong>Salas de aula e participação dos alunos:</strong> escolha os alunos de forma igual e sem tensão, deixando uma roleta neutra decidir quem vai falar.",
+        "li2": "<strong>Rifas e sorteios nas redes sociais:</strong> faça sorteios ao vivo em que os participantes podem ver com os próprios olhos que o sorteio é justo.",
+        "li3": "<strong>Dailies e retrospectivas ágeis:</strong> defina aleatoriamente a ordem de fala nas reuniões diárias ou a distribuição de revisões de código.",
+        "li4": "<strong>Decisões justas:</strong> escolha entre projetos, restaurantes ou tarefas domésticas com aleatoriedade totalmente imparcial."
+      },
+      "why-use-a-digital-random-name": {
+        "heading": "Por que usar uma roleta digital para sortear nomes?",
+        "p1": "Seja para um sorteio nas redes sociais, para escolher alunos na sala de aula, organizar o amigo secreto da equipe ou decidir quem paga o café, escolher de forma justa é essencial. Sorteios com papeizinhos levam tempo para preparar e podem levantar suspeitas. Roletas digitais oferecem um jeito transparente, divertido e comprovadamente justo de sortear vencedores em tempo real."
+      },
+      "cryptographically-secure-randomness": {
+        "heading": "Aleatoriedade criptograficamente segura",
+        "p1": "Muitas roletas online usam geradores pseudoaleatórios comuns como <code>Math.random()</code>, que servem para jogos simples, mas mostram padrões matemáticos previsíveis com muitas repetições. Nossa ferramenta usa a <strong>Web Crypto API nativa do navegador (<code>crypto.getRandomValues</code>)</strong>. Ela oferece entropia de hardware e aleatoriedade criptograficamente forte, garantindo que cada giro seja totalmente independente e imparcial."
+      }
+    },
+    "ariaLabel": {
+      "wheelCanvas": "Roleta de nomes aleatórios"
+    }
+  },
+  "client": {
+    "count": {
+      "many": "{{count}} entradas",
+      "one": "{{count}} entrada",
+      "other": "{{count}} entradas"
+    },
+    "wheel": {
+      "empty": "Digite nomes para montar a roleta",
+      "spin": "GIRAR"
+    },
+    "toast": {
+      "winner": "Vencedor: {{name}}!",
+      "deduplicated": "Nomes duplicados removidos",
+      "copied": "Nome do vencedor copiado para a área de transferência"
+    },
+    "defaultNames": "Ana\nLucas\nJúlia\nPedro\nBeatriz\nGabriel\nMariana\nRafael"
+  }
+}

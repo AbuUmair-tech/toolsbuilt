@@ -1,0 +1,108 @@
+---
+layout: layouts/tool.njk
+toolSlug: jwt-decoder
+permalink: /tools/jwt-decoder/
+extraCss: "/tools/jwt-decoder/style.css"
+lastReviewed: "2026-10-31"
+---
+
+    <!-- Tool Form Container -->
+    <section class="tool-container" aria-label="{{ 'ariaLabel.tool-section1' | pt }}">
+      <p class="jwt-privacy" id="jwt-privacy">{{ 'text.jwt-privacy' | pt }}</p>
+      <form id="jwt-form" novalidate>
+        <div class="form-group">
+          <label for="jwt-input">{{ 'label.jwt-input' | pt }}</label>
+          <textarea id="jwt-input" class="form-control jwt-textarea" rows="5" spellcheck="false" autocomplete="off" autocapitalize="off" placeholder="{{ 'placeholder.jwt-input' | pt }}" aria-describedby="jwt-privacy"></textarea>
+        </div>
+        <div class="button-group">
+          <button type="button" class="btn btn-secondary" id="example-btn">{{ 'text.example-btn' | pt }}</button>
+          <button type="button" class="btn btn-ghost" id="clear-btn">{{ 'text.clear-btn' | pt }}</button>
+        </div>
+      </form>
+
+      <div id="error-box" class="hidden form-error" role="alert"></div>
+
+      <div id="result-box" class="result-box" aria-live="polite">
+        <div class="result-header">
+          {{ 'content.tool.div1' | pt }}
+        </div>
+        <p class="jwt-warning" role="note">{{ 'content.tool.p1' | pt }}</p>
+        <div class="result-primary jwt-primary" id="result-primary-text">--</div>
+        <p class="jwt-status" id="jwt-status"></p>
+
+        <div class="jwt-parts">
+          <div class="jwt-part">
+            <div class="jwt-part-head"><span>{{ 'content.tool.span1' | pt }}</span><button type="button" class="btn btn-sm btn-ghost" data-copy-part="header">{{ 'content.tool.button1' | pt }}</button></div>
+            <pre class="code-block jwt-json" id="jwt-header" tabindex="0" aria-label="{{ 'ariaLabel.jwt-header' | pt }}"></pre>
+          </div>
+          <div class="jwt-part">
+            <div class="jwt-part-head"><span>{{ 'content.tool.span2' | pt }}</span><button type="button" class="btn btn-sm btn-ghost" data-copy-part="payload">{{ 'content.tool.button2' | pt }}</button></div>
+            <pre class="code-block jwt-json" id="jwt-payload" tabindex="0" aria-label="{{ 'ariaLabel.jwt-payload' | pt }}"></pre>
+          </div>
+        </div>
+
+        <div class="table-wrapper jwt-times-wrapper" id="jwt-times-wrapper" hidden>
+          <table class="table jwt-times">
+            <caption class="visually-hidden">{{ 'content.tool.caption1' | pt }}</caption>
+            <thead><tr><th scope="col">{{ 'content.tool.th1' | pt }}</th><th scope="col">{{ 'content.tool.th2' | pt }}</th></tr></thead>
+            <tbody id="jwt-times"></tbody>
+          </table>
+        </div>
+
+        <div class="jwt-verify" id="jwt-verify">
+          <p class="jwt-verify-title">{{ 'content.tool.p2' | pt }}</p>
+          <p class="form-hint" id="verify-hint"></p>
+          <div class="jwt-verify-fields" id="verify-fields">
+            <div class="form-group">
+              <label for="jwt-secret">{{ 'label.jwt-secret' | pt }}</label>
+              <div class="input-with-button">
+                <input type="password" id="jwt-secret" class="form-control" autocomplete="off" spellcheck="false" autocapitalize="off">
+                <button type="button" class="btn btn-secondary" id="toggle-secret" aria-pressed="false" aria-controls="jwt-secret">{{ 'text.toggle-secret' | pt }}</button>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="jwt-secret-enc">{{ 'label.jwt-secret-enc' | pt }}</label>
+              <select id="jwt-secret-enc" class="form-control">
+                <option value="utf8" selected>{{ 'option.jwt-secret-enc.utf8' | pt }}</option>
+                <option value="base64url">{{ 'option.jwt-secret-enc.base64url' | pt }}</option>
+              </select>
+            </div>
+          </div>
+          <div class="button-group" id="verify-actions">
+            <button type="button" class="btn btn-primary" id="verify-btn">{{ 'text.verify-btn' | pt }}</button>
+          </div>
+          <p class="jwt-verify-result" id="verify-result" role="status"></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- tool-end -->
+
+    <section class="content-section">
+      <h2>{{ 'content.common-jwt-claims.heading' | pt }}</h2>
+      <div class="table-wrapper">
+        <table class="table">
+          <caption class="visually-hidden">{{ 'content.common-jwt-claims.caption1' | pt }}</caption>
+          <thead><tr><th scope="col">{{ 'content.common-jwt-claims.th1' | pt }}</th><th scope="col">{{ 'content.common-jwt-claims.th2' | pt }}</th><th scope="col">{{ 'content.common-jwt-claims.th3' | pt }}</th></tr></thead>
+          <tbody>
+            <tr><td>{{ 'content.common-jwt-claims.td1' | pt }}</td><td>{{ 'content.common-jwt-claims.td2' | pt }}</td><td>{{ 'content.common-jwt-claims.td3' | pt }}</td></tr>
+            <tr><td>{{ 'content.common-jwt-claims.td4' | pt }}</td><td>{{ 'content.common-jwt-claims.td5' | pt }}</td><td>{{ 'content.common-jwt-claims.td6' | pt }}</td></tr>
+            <tr><td>{{ 'content.common-jwt-claims.td7' | pt }}</td><td>{{ 'content.common-jwt-claims.td8' | pt }}</td><td>{{ 'content.common-jwt-claims.td9' | pt }}</td></tr>
+            <tr><td>{{ 'content.common-jwt-claims.td10' | pt }}</td><td>{{ 'content.common-jwt-claims.td11' | pt }}</td><td>{{ 'content.common-jwt-claims.td12' | pt }}</td></tr>
+            <tr><td>{{ 'content.common-jwt-claims.td13' | pt }}</td><td>{{ 'content.common-jwt-claims.td14' | pt }}</td><td>{{ 'content.common-jwt-claims.td15' | pt }}</td></tr>
+            <tr><td>{{ 'content.common-jwt-claims.td16' | pt }}</td><td>{{ 'content.common-jwt-claims.td17' | pt }}</td><td>{{ 'content.common-jwt-claims.td18' | pt }}</td></tr>
+            <tr><td>{{ 'content.common-jwt-claims.td19' | pt }}</td><td>{{ 'content.common-jwt-claims.td20' | pt }}</td><td>{{ 'content.common-jwt-claims.td21' | pt }}</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>{{ 'content.decoding-is-not-verifying.heading' | pt }}</h2>
+      <p>{{ 'content.decoding-is-not-verifying.p1' | pt }}</p>
+      <ul class="content-list">
+        <li>{{ 'content.decoding-is-not-verifying.li1' | pt }}</li>
+        <li>{{ 'content.decoding-is-not-verifying.li2' | pt }}</li>
+        <li>{{ 'content.decoding-is-not-verifying.li3' | pt }}</li>
+        <li>{{ 'content.decoding-is-not-verifying.li4' | pt }}</li>
+      </ul>
+      <p>{{ 'content.decoding-is-not-verifying.p2' | pt }}</p>
+    </section>

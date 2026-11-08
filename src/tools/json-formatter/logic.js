@@ -13,6 +13,12 @@
 })(typeof globalThis !== 'undefined' ? globalThis : this, function () {
   'use strict';
 
+  // Messages come from the tool's translation data; numbers follow the page language
+  const T = (typeof ToolsBuilt !== 'undefined' && ToolsBuilt.scope)
+    ? ToolsBuilt.scope('json-formatter')
+    : require('../../../scripts/i18n-client.js').scope('json-formatter');
+  const locale = (typeof ToolsBuilt !== 'undefined' && ToolsBuilt.pageLocale) ? ToolsBuilt.pageLocale() : undefined;
+
   const MAX_INPUT_BYTES = 1048576; // 1 MB (1,048,576 characters)
 
   /**
@@ -35,7 +41,7 @@
    */
   function extractErrorLocation(err, text) {
     const raw = typeof text === 'string' ? text : '';
-    const msg = (err && err.message) ? err.message : 'Invalid JSON';
+    const msg = (err && err.message) ? err.message : T('errors.invalid');
 
     // 1. Check for explicit "at position X" in error message
     const posMatch = msg.match(/at\s+position\s+(\d+)/i);
@@ -110,7 +116,7 @@
     if (typeof text !== 'string' || text.trim() === '') {
       return {
         valid: false,
-        error: 'JSON input is empty. Paste or type JSON to validate.',
+        error: T('errors.empty'),
         line: 1,
         column: 1,
         position: 0
@@ -120,7 +126,7 @@
     if (text.length > MAX_INPUT_BYTES) {
       return {
         valid: false,
-        error: `Input exceeds the 1 MB safety limit (max 1,048,576 characters). Current size: ${text.length.toLocaleString()} characters.`,
+        error: T('errors.tooLarge', { size: text.length.toLocaleString(locale) }),
         isSizeLimit: true,
         line: 1,
         column: 1,
@@ -144,7 +150,7 @@
       const loc = extractErrorLocation(err, text);
       return {
         valid: false,
-        error: `Syntax Error: ${loc.message} at line ${loc.line}, column ${loc.column}`,
+        error: T('errors.syntax', { message: loc.message, line: loc.line, column: loc.column }),
         line: loc.line,
         column: loc.column,
         position: loc.position

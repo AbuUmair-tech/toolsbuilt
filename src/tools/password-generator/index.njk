@@ -1,179 +1,90 @@
 ---
 layout: layouts/tool.njk
 toolSlug: password-generator
-title: "Strong Password Generator - Secure Random Passwords"
-description: "Generate cryptographically secure random passwords locally in your browser with crypto.getRandomValues. Free, private online password generator."
 permalink: /tools/password-generator/
-h1: "Strong Password Generator"
 extraCss: "/tools/password-generator/style.css"
-quickAnswer: "To generate cryptographically secure passwords or passphrases, choose your desired length, character types, or word count. The tool uses browser Web Crypto API random values with Fisher-Yates shuffling and rejection sampling to ensure zero statistical bias. Everything generates in local memory without remote network transmission."
-formula:
-  title: "Password Entropy & Strength Formula"
-  expression: "Entropy (bits) = Length × log₂(Pool Size)  |  Passphrase Entropy = Word Count × log₂(Wordlist Size)"
-  explanation: "Information entropy quantifies brute-force cracking difficulty. A 16-character password drawn from a 94-character ASCII pool provides ~104.9 bits of entropy, which would require trillions of years to guess using modern distributed GPU clusters."
-workedExamples:
-  - title: "16-Character High-Entropy Password"
-    inputs:
-      - "Length: 16 characters"
-      - "Character Sets: Uppercase (26), Lowercase (26), Numbers (10), Symbols (32)"
-      - "Pool Size: 94 printable ASCII characters"
-    steps:
-      - "Ensure at least 1 character from each selected set"
-      - "Draw remaining 12 positions uniformly using rejection sampling"
-      - "Shuffle character array using Fisher-Yates algorithm"
-      - "Calculate entropy: 16 × log₂(94) = 104.87 bits"
-    result: "Entropy: ~104.9 bits (Very Strong — Centuries to crack)"
-  - title: "12-Character Alphanumeric Password"
-    inputs:
-      - "Length: 12 characters"
-      - "Character Sets: Uppercase (26), Lowercase (26), Numbers (10)"
-      - "Pool Size: 62 alphanumeric characters"
-    steps:
-      - "Select 12 characters uniformly from 62 possible characters"
-      - "Calculate entropy: 12 × log₂(62) = 71.45 bits"
-      - "Evaluate brute-force threshold against offline hash tables"
-    result: "Entropy: ~71.5 bits (Strong — Decades to crack)"
-  - title: "5-Word EFF Diceware Passphrase"
-    inputs:
-      - "Mode: Memorable Passphrase"
-      - "Word Count: 5 words"
-      - "Wordlist: EFF Short Wordlist (1,296 words)"
-      - "Separator: Hyphen (-)"
-    steps:
-      - "Sample 5 independent words from 1,296-word curated dictionary"
-      - "Calculate passphrase entropy: 5 × log₂(1,296) = 51.70 bits"
-      - "Format with title casing and hyphen delimiters"
-    result: "Entropy: ~51.7 bits (Moderate — Months to Years to crack)"
-commonMistakes:
-  - title: "Using Pseudo-Random Math.random()"
-    description: "Standard JavaScript Math.random() is deterministic and predictable. Production password generation requires crypto.getRandomValues()."
-  - title: "Modulo Bias in Character Selection"
-    description: "Taking (randomUint % poolSize) biases character probability toward lower index values. Rejection sampling ensures exact mathematical uniformity."
-  - title: "Predictable Leetspeak Substitutions"
-    description: "Replacing letters with symbols (e.g., 'E' with '3') adds almost zero entropy because modern password cracking engines test substitution masks automatically."
-  - title: "Password Reuse Across Accounts"
-    description: "Reusing the same strong password across multiple sites leaves all accounts vulnerable if any single service suffers a credential breach."
-sources:
-  - name: "NIST Special Publication 800-63B: Digital Identity Guidelines"
-    url: "https://pages.nist.gov/800-63-3/sp800-63b.html"
-  - name: "W3C Web Cryptography API Specification"
-    url: "https://www.w3.org/TR/WebCryptoAPI/"
-  - name: "Electronic Frontier Foundation (EFF) Dice-Generated Passphrases"
-    url: "https://www.eff.org/dice"
-lastReviewed: "October 24, 2026"
-howto:
-  name: "How to Generate Cryptographically Secure Passwords"
-  description: "Step-by-step instructions for creating strong random passwords and memorable passphrases online."
-  steps:
-    - name: "Select Generator Mode"
-      text: "Choose between Random Character Passwords (high entropy) or Memorable Passphrases (easy to type)."
-    - name: "Customize Length and Options"
-      text: "Adjust the length slider (8 to 128 characters) and toggle uppercase, lowercase, numbers, symbols, or word counts."
-    - name: "Generate and Copy"
-      text: "Click Generate to create new passwords and Copy to send them directly to your clipboard."
-faqs:
-  - q: "How does this tool generate cryptographically strong passwords?"
-    a: "The generator uses the native Web Cryptography API (crypto.getRandomValues) with rejection sampling to eliminate modulo bias. This draws high-entropy randomness directly from your operating system's cryptographic random pool."
-  - q: "What is an EFF passphrase and why is it secure?"
-    a: "A passphrase combines 4 to 6 random dictionary words (e.g. 'Acid-Acorn-Acre-Acts'). Because each word is drawn independently from a 1,296-word curated list, a 5-word passphrase provides over 51 bits of entropy while remaining easy for humans to remember and type."
-  - q: "Are generated passwords saved in my browser or sent to a server?"
-    a: "Never. For strict privacy and security, passwords exist purely in temporary browser memory. They are never stored in localStorage, never placed in URL query parameters, and never transmitted over the internet."
-  - q: "What is the recommended password length for modern online security?"
-    a: "NIST Special Publication 800-63B recommends a minimum of 16 characters for critical accounts. Passwords of 16 characters with mixed character sets provide over 90 bits of Shannon entropy, rendering brute-force attacks infeasible."
-  - q: "Why should I exclude similar characters like 'O' and '0'?"
-    a: "Excluding ambiguous characters (such as uppercase 'O' vs digit '0', or lowercase 'l' vs uppercase 'I') prevents transcription errors when typing passwords manually on mobile keyboards or reading paper recovery backups."
-  - q: "How does the entropy calculation work?"
-    a: "Entropy is measured in bits using Shannon's information theory: length multiplied by the base-2 logarithm of the active character pool size. Higher bits indicate exponentially greater resistance to brute-force guessing."
-  - q: "Can I generate multiple passwords at once?"
-    a: "Yes. Use the Quantity to Generate dropdown to create 1, 3, 5, or 10 unique passwords simultaneously, perfect for provisioning team credentials or staging environments."
+lastReviewed: "2026-10-24"
 ---
 
     <!-- Tool Form Container -->
-    <section class="tool-container" aria-label="Password Generator Interface">
+    <section class="tool-container" aria-label="{{ 'ariaLabel.tool-section1' | pt }}">
       
       <!-- Mode Selection Tabs -->
-      <div class="segmented-control" role="tablist" aria-label="Generator Modes" style="display: flex; gap: 0.5rem; margin-bottom: 1.5rem;">
-        <button type="button" class="btn btn-sm mode-tab-btn active" id="mode-random-btn" role="tab" aria-selected="true">Random Password</button>
-        <button type="button" class="btn btn-sm mode-tab-btn" id="mode-passphrase-btn" role="tab" aria-selected="false">Memorable Passphrase</button>
+      <div class="segmented-control flex gap-2 mb-6" role="tablist" aria-label="{{ 'ariaLabel.tool-div1' | pt }}">
+        <button type="button" class="btn btn-sm mode-tab-btn active" id="mode-random-btn" role="tab" aria-selected="true">{{ 'text.mode-random-btn' | pt }}</button>
+        <button type="button" class="btn btn-sm mode-tab-btn" id="mode-passphrase-btn" role="tab" aria-selected="false">{{ 'text.mode-passphrase-btn' | pt }}</button>
       </div>
 
       <div class="form-group">
-        <label for="password-display" style="display: flex; justify-content: space-between; align-items: center;">
-          <span style="font-weight: 600;">Generated Password:</span>
+        <label for="password-display" class="row-between">
+          {{ 'label.password-display' | pt }}
         </label>
         
-        <div style="display: flex; gap: 0.75rem;">
-          <input type="text" id="password-display" class="form-control" readonly style="font-family: monospace; font-size: 1.2rem; letter-spacing: 0.05em; font-weight: 700; background-color: var(--surface-muted);">
-          <button type="button" class="btn btn-primary" id="copy-btn"><span data-icon="copy"></span> Copy</button>
-          <button type="button" class="btn btn-secondary" id="generate-btn" title="Generate New Password"><span data-icon="refresh"></span> Regenerate</button>
+        <div class="flex gap-3">
+          <input type="text" id="password-display" class="form-control font-mono text-md font-bold bg-muted" readonly>
+          <button type="button" class="btn btn-primary" id="copy-btn">{{ 'text.copy-btn' | pt }}</button>
+          <button type="button" class="btn btn-secondary" id="generate-btn" title="{{ 'title.generate-btn' | pt }}">{{ 'text.generate-btn' | pt }}</button>
         </div>
       </div>
 
       <!-- Strength Meter -->
-      <div class="strength-meter-container" style="margin-top: 1.25rem;">
-        <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.9rem;">
-          <span style="font-weight: 600; color: var(--text-main);">Entropy &amp; Strength:</span>
-          <span id="strength-text" style="font-weight: 700; color: var(--color-success-text, #065f46);">Very Strong (~96 bits entropy)</span>
+      <div class="strength-meter-container mt-6">
+        <div class="flex justify-between items-center text-sm">
+          {{ 'content.tool.div1' | pt }}
         </div>
-        <div class="strength-bar-bg" style="width: 100%; height: 8px; background: var(--border-subtle); border-radius: var(--radius-full); margin-top: 0.5rem; overflow: hidden;">
-          <div id="strength-bar-fill" class="strength-bar-fill" style="width: 100%; height: 100%; background-color: var(--color-success, #16a34a); transition: width 0.3s ease, background-color 0.3s ease;"></div>
+        <div class="strength-bar-bg meter">
+          <div id="strength-bar-fill" class="strength-bar-fill meter-fill" data-level="4"></div>
         </div>
       </div>
 
       <!-- Multiple Passwords List Container -->
-      <div id="multi-passwords-container" class="hidden" style="margin-top: 1.5rem;">
-        <h4 style="font-size: 0.95rem; margin-bottom: 0.5rem;">Additional Passwords:</h4>
+      <div id="multi-passwords-container" class="hidden mt-6">
+        <h4 class="text-sm mb-2">{{ 'content.tool.heading' | pt }}</h4>
         <div id="multi-passwords-list"></div>
       </div>
 
       <!-- Controls & Options -->
-      <div style="margin-top: 2rem; border-top: 1px solid var(--border-subtle); padding-top: 1.5rem;">
+      <div class="section-divider">
         
         <!-- Batch Count Selector -->
-        <div class="form-group" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem;">
-          <label for="password-count" style="font-size: 0.95rem; font-weight: 600; margin-bottom: 0;">Quantity to Generate:</label>
-          <select id="password-count" class="form-control" style="width: auto;">
-            <option value="1" selected>1 password</option>
-            <option value="3">3 passwords</option>
-            <option value="5">5 passwords</option>
-            <option value="10">10 passwords</option>
+        <div class="form-group flex items-center justify-between mb-4">
+          <label for="password-count" class="text-sm font-semibold mb-0">{{ 'label.password-count' | pt }}</label>
+          <select id="password-count" class="form-control w-auto">
+            <option value="1" selected>{{ 'option.password-count.1' | pt }}</option>
+            <option value="3">{{ 'option.password-count.3' | pt }}</option>
+            <option value="5">{{ 'option.password-count.5' | pt }}</option>
+            <option value="10">{{ 'option.password-count.10' | pt }}</option>
           </select>
         </div>
 
         <!-- Random Mode Options -->
         <div id="random-options-panel">
           <div class="form-group">
-            <label for="length-range" style="display: flex; justify-content: space-between;">
-              <span>Password Length:</span>
-              <span style="font-weight: 700; color: var(--accent-primary);"><span id="length-val">16</span> characters</span>
+            <label for="length-range" class="flex justify-between">
+              {{ 'label.length-range' | pt }}
             </label>
-            <input type="range" id="length-range" min="8" max="64" value="16" style="width: 100%; accent-color: var(--accent-primary); margin-top: 0.5rem; cursor: pointer;">
+            <input type="range" id="length-range" min="8" max="64" value="16" class="w-full mt-2 cursor-pointer">
           </div>
 
-          <div class="checkbox-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem; margin-top: 1rem;">
-            <label class="checkbox-label" style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
-              <input type="checkbox" id="opt-upper" checked>
-              <span>Uppercase (A-Z)</span>
+          <div class="checkbox-grid auto-grid mt-4">
+            <label class="checkbox-label option-label">
+              {{ 'content.tool.label1' | pt }}
             </label>
 
-            <label class="checkbox-label" style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
-              <input type="checkbox" id="opt-lower" checked>
-              <span>Lowercase (a-z)</span>
+            <label class="checkbox-label option-label">
+              {{ 'content.tool.label2' | pt }}
             </label>
 
-            <label class="checkbox-label" style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
-              <input type="checkbox" id="opt-numbers" checked>
-              <span>Numbers (0-9)</span>
+            <label class="checkbox-label option-label">
+              {{ 'content.tool.label3' | pt }}
             </label>
 
-            <label class="checkbox-label" style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
-              <input type="checkbox" id="opt-symbols" checked>
-              <span>Symbols (!@#$%^&amp;*)</span>
+            <label class="checkbox-label option-label">
+              {{ 'content.tool.label4' | pt }}
             </label>
 
-            <label class="checkbox-label" style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; grid-column: 1 / -1;">
-              <input type="checkbox" id="opt-exclude-similar">
-              <span>Exclude Ambiguous Characters (O, 0, l, 1, I, |)</span>
+            <label class="checkbox-label col-span-full">
+              {{ 'content.tool.label5' | pt }}
             </label>
           </div>
         </div>
@@ -181,57 +92,57 @@ faqs:
         <!-- Passphrase Mode Options -->
         <div id="passphrase-options-panel" class="hidden">
           <div class="form-group">
-            <label for="words-range" style="display: flex; justify-content: space-between;">
-              <span>Word Count:</span>
-              <span style="font-weight: 700; color: var(--accent-primary);"><span id="words-val">4</span> words</span>
+            <label for="words-range" class="flex justify-between">
+              {{ 'label.words-range' | pt }}
             </label>
-            <input type="range" id="words-range" min="3" max="8" value="4" style="width: 100%; accent-color: var(--accent-primary); margin-top: 0.5rem; cursor: pointer;">
+            <input type="range" id="words-range" min="3" max="8" value="4" class="w-full mt-2 cursor-pointer">
           </div>
 
-          <div class="form-grid two-col" style="margin-top: 1rem;">
+          <div class="form-grid two-col mt-4">
             <div class="form-group">
-              <label for="passphrase-separator">Word Separator</label>
+              <label for="passphrase-separator">{{ 'label.passphrase-separator' | pt }}</label>
               <select id="passphrase-separator" class="form-control">
-                <option value="-" selected>Hyphen (-)</option>
-                <option value=" ">Space ( )</option>
-                <option value="_">Underscore (_)</option>
-                <option value=".">Period (.)</option>
+                <option value="-" selected>{{ 'option.passphrase-separator.-' | pt }}</option>
+                <option value=" ">{{ 'option.passphrase-separator. ' | pt }}</option>
+                <option value="_">{{ 'option.passphrase-separator._' | pt }}</option>
+                <option value=".">{{ 'option.passphrase-separator..' | pt }}</option>
               </select>
             </div>
 
             <div class="form-group">
-              <label for="passphrase-capitalize">Capitalization</label>
+              <label for="passphrase-capitalize">{{ 'label.passphrase-capitalize' | pt }}</label>
               <select id="passphrase-capitalize" class="form-control">
-                <option value="title" selected>Title Case (Word-Word)</option>
-                <option value="lower">lowercase (word-word)</option>
-                <option value="upper">UPPERCASE (WORD-WORD)</option>
+                <option value="title" selected>{{ 'option.passphrase-capitalize.title' | pt }}</option>
+                <option value="lower">{{ 'option.passphrase-capitalize.lower' | pt }}</option>
+                <option value="upper">{{ 'option.passphrase-capitalize.upper' | pt }}</option>
               </select>
             </div>
           </div>
 
-          <div style="margin-top: 0.75rem;">
-            <label class="checkbox-label" style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
-              <input type="checkbox" id="opt-passphrase-number">
-              <span>Append a random number (0-9)</span>
+          <div class="mt-3">
+            <label class="checkbox-label option-label">
+              {{ 'content.tool.label6' | pt }}
             </label>
           </div>
 
-          <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.75rem;">
-            Passphrases generated using the Electronic Frontier Foundation (EFF) Short Wordlist #1 under <a href="https://creativecommons.org/licenses/by/3.0/us/" target="_blank" rel="noopener">CC-BY 3.0 US</a>.
+          <p class="text-sm text-secondary mt-3">
+            {{ 'content.tool.p1' | pt }}
           </p>
         </div>
 
       </div>
 
-      <div id="error-box" class="hidden" style="margin-top: 1rem; color: var(--color-error, #dc2626); background: rgba(220, 38, 38, 0.08); border: 1px solid rgba(220, 38, 38, 0.25); padding: 0.75rem 1rem; border-radius: var(--radius-sm);" role="alert"></div>
+      <div id="error-box" class="hidden form-error" role="alert"></div>
     </section>
 
+    <!-- tool-end -->
+
     <!-- When to Use Section -->
-    <section style="margin: 2.5rem 0;">
-      <h2>When to Use Strong Passwords vs. Passphrases</h2>
-      <ul style="color: var(--text-muted); line-height: 1.8; margin-left: 1.25rem;">
-        <li><strong>Random Character Passwords (16+ chars):</strong> Best for password managers (e.g. 1Password, Bitwarden, Apple Keychain) where credentials are auto-filled and never memorized.</li>
-        <li><strong>Memorable Passphrases (4-6 words):</strong> Best for master passwords, laptop login screens, Wi-Fi router keys, and mobile unlock PINs that humans need to type regularly.</li>
-        <li><strong>Batch Generation (3–10 passwords):</strong> Quickly provision initial accounts for teams or generate secure tokens for staging API environments.</li>
+    <section class="content-section">
+      <h2>{{ 'content.when-to-use-strong-passwords-vs.heading' | pt }}</h2>
+      <ul class="content-list">
+        <li>{{ 'content.when-to-use-strong-passwords-vs.li1' | pt }}</li>
+        <li>{{ 'content.when-to-use-strong-passwords-vs.li2' | pt }}</li>
+        <li>{{ 'content.when-to-use-strong-passwords-vs.li3' | pt }}</li>
       </ul>
     </section>

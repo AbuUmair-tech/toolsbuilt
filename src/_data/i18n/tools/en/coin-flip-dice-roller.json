@@ -1,0 +1,252 @@
+{
+  "listing": {
+    "name": "Coin Flip & Dice Roller",
+    "shortName": "Coin Flip & Dice",
+    "description": "Flip up to 100 coins or roll up to 10 dice (d4 to d20) with secure randomness, totals, heads and tails counts and a result history.",
+    "shortDescription": "Flip coins or roll d4-d20 dice with totals and history.",
+    "keywords": [
+      "coin flip",
+      "flip a coin",
+      "dice roller",
+      "roll dice online",
+      "heads or tails",
+      "d20 roller",
+      "2d6 roller"
+    ]
+  },
+  "title": "Coin Flip & Dice Roller Online",
+  "description": "Flip up to 100 coins or roll up to 10 dice (d4, d6, d8, d10, d12, d20) with secure randomness, totals, heads and tails counts, and a history of results.",
+  "h1": "Coin Flip & Dice Roller",
+  "quickAnswer": "Choose Coin or Dice, set how many, and press Flip or Roll. Each coin has exactly a 50% chance of heads, and each face of a die is equally likely, because results come from your browser's secure random generator with rejection sampling. Dice show every face and the total, and the last 20 results stay in the history.",
+  "formula": {
+    "title": "Probabilities",
+    "expression": "P(heads) = 1/2   ·   P(any face of a dN) = 1/N   ·   Sum of k dice ranges from k to k × N",
+    "explanation": "Every flip and roll is independent: earlier results do not change the next one. For one die all faces are equally likely, but sums of several dice are not: with 2d6 there are 36 equally likely combinations, six of which add up to 7, so 7 is the most common total (1 in 6) and 2 or 12 the rarest (1 in 36). The average total of k dice with N sides is k × (N + 1) ÷ 2.",
+    "variables": [
+      {
+        "name": "dN",
+        "description": "A die with N faces numbered 1 to N: d4, d6, d8, d10, d12 or d20."
+      },
+      {
+        "name": "kdN",
+        "description": "Dice notation for rolling k dice with N sides, e.g. 2d6 or 1d20."
+      },
+      {
+        "name": "Independence",
+        "description": "Each result is drawn fresh; a streak of heads makes tails no more likely on the next flip."
+      }
+    ]
+  },
+  "workedExamples": [
+    {
+      "title": "Roll 2d6",
+      "inputs": [
+        "Dice: 2, type d6"
+      ],
+      "steps": [
+        "Each die shows 1-6, for example 4 and 3",
+        "Total = 4 + 3 = 7; possible totals run from 2 to 12"
+      ],
+      "result": "Total 7 (the most likely 2d6 total, probability 6/36)",
+      "link": "/tools/coin-flip-dice-roller/?mode=dice&dice=2&sides=6#tool"
+    },
+    {
+      "title": "Roll a d20",
+      "inputs": [
+        "Dice: 1, type d20"
+      ],
+      "steps": [
+        "One number from 1 to 20, each with probability 1/20 = 5%"
+      ],
+      "result": "For example 14; a natural 20 comes up 5% of the time",
+      "link": "/tools/coin-flip-dice-roller/?mode=dice&dice=1&sides=20#tool"
+    },
+    {
+      "title": "Flip 100 coins",
+      "inputs": [
+        "Coins: 100"
+      ],
+      "steps": [
+        "Each coin is heads or tails with probability 1/2",
+        "Heads + tails always equals 100"
+      ],
+      "result": "Around 50 heads; anything from 40 to 60 is common (about 96% of the time)",
+      "link": "/tools/coin-flip-dice-roller/?mode=coin&coins=100#tool"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "The gambler's fallacy",
+      "description": "After five heads in a row, tails is still exactly 50%. Coins and dice have no memory, so past results never make a particular outcome \"due\"."
+    },
+    {
+      "title": "Assuming all dice totals are equally likely",
+      "description": "With two dice, 7 comes up six times as often as 2 or 12. Only single-die results are evenly spread."
+    },
+    {
+      "title": "Expecting exactly 50 heads in 100 flips",
+      "description": "Exactly 50 heads happens only about 8% of the time. Results between 40 and 60 are normal; it takes many thousands of flips for the proportion to settle close to 50%."
+    },
+    {
+      "title": "Using a predictable random source",
+      "description": "Simple generators such as Math.random() are fine for animations but not for anything where fairness matters. This tool uses crypto.getRandomValues with rejection sampling so no face is favoured."
+    }
+  ],
+  "sources": [
+    {
+      "name": "W3C Web Cryptography API: getRandomValues()",
+      "url": "https://www.w3.org/TR/WebCryptoAPI/#Crypto-method-getRandomValues"
+    },
+    {
+      "name": "NIST/SEMATECH e-Handbook of Statistical Methods: Binomial distribution",
+      "url": "https://www.itl.nist.gov/div898/handbook/eda/section3/eda366i.htm"
+    },
+    {
+      "name": "W3C Media Queries Level 5: prefers-reduced-motion",
+      "url": "https://www.w3.org/TR/mediaqueries-5/#prefers-reduced-motion"
+    }
+  ],
+  "howto": {
+    "name": "How to Flip a Coin or Roll Dice Online",
+    "description": "Flip coins or roll dice with secure randomness and keep a history of results.",
+    "steps": [
+      {
+        "name": "Choose coin or dice",
+        "text": "Pick Coin to flip coins, or Dice to roll dice."
+      },
+      {
+        "name": "Set how many",
+        "text": "Choose 1 to 100 coins, or 1 to 10 dice and the type of die."
+      },
+      {
+        "name": "Flip or roll",
+        "text": "Press the button to see each coin or die, the heads and tails count or the total."
+      },
+      {
+        "name": "Check the history",
+        "text": "Your last 20 results are listed below the result."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Is the online coin flip fair?",
+      "a": "Yes. Each flip uses your browser's cryptographically secure random generator, so heads and tails each have exactly a 50% chance, and no flip depends on the previous one."
+    },
+    {
+      "q": "How do I roll 2d6 online?",
+      "a": "Choose Dice, set the number of dice to 2 and the type to d6, then press Roll. You will see both dice and their total, which can be from 2 to 12."
+    },
+    {
+      "q": "What is the most common total with two dice?",
+      "a": "7. Six of the 36 combinations add up to 7 (1+6, 2+5, 3+4, 4+3, 5+2, 6+1), so it comes up 1 time in 6 on average."
+    },
+    {
+      "q": "What dice can I roll?",
+      "a": "d4, d6, d8, d10, d12 and d20, up to 10 dice at once, the standard set used in tabletop role-playing games."
+    },
+    {
+      "q": "How many coins can I flip at once?",
+      "a": "Up to 100. The result shows every coin and counts the heads and tails."
+    },
+    {
+      "q": "Can I see my previous results?",
+      "a": "Yes. The history keeps your last 20 flips and rolls on this page. It is cleared when you leave or press Clear history."
+    },
+    {
+      "q": "Can I turn off the animation?",
+      "a": "The flip and roll animation is skipped automatically if your device is set to reduce motion."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Coin Flip and Dice Roller",
+      "tool-div1": "Coin or dice",
+      "cd-pieces": "Each coin or die"
+    },
+    "text": {
+      "tab-coin": "Coin flip",
+      "tab-dice": "Dice roller",
+      "go-btn": "Flip",
+      "clear-history-btn": "Clear history",
+      "history-title": "History (last 20)",
+      "history-empty": "No results yet."
+    },
+    "label": {
+      "coin-count": "Number of coins",
+      "dice-count": "Number of dice",
+      "dice-sides": "Type of die"
+    },
+    "option": {
+      "dice-sides": {
+        "4": "d4",
+        "6": "d6",
+        "8": "d8",
+        "10": "d10",
+        "12": "d12",
+        "20": "d20"
+      }
+    },
+    "content": {
+      "tool": {
+        "div1": "<span id=\"result-header-text\">Result</span>"
+      },
+      "dice-odds-at-a-glance": {
+        "heading": "Dice Odds at a Glance",
+        "p1": "One die gives every face the same chance. Add more dice and the totals bunch up in the middle, which is why 7 is the number to watch in board games played with two six-sided dice.",
+        "caption1": "Ranges, averages and single-face chances for common dice",
+        "th1": "Roll",
+        "th2": "Range",
+        "th3": "Average",
+        "th4": "Chance of one value",
+        "td1": "1d4",
+        "td2": "1d6",
+        "td3": "2d6",
+        "td4": "7: 16.67%, 2 or 12: 2.78%",
+        "td5": "1d8",
+        "td6": "1d10",
+        "td7": "1d12",
+        "td8": "1d20"
+      },
+      "when-to-flip-a-coin-or": {
+        "heading": "When to Flip a Coin or Roll a Die Online",
+        "li1": "<strong>Settling a decision:</strong> a coin flip is the classic fair tie-breaker between two options.",
+        "li2": "<strong>Board games and role-playing games:</strong> replace missing dice, or roll handfuls of d6 or a d20 quickly with the total worked out.",
+        "li3": "<strong>Teaching probability:</strong> flip 100 coins several times to show how the heads count varies, or compare 2d6 totals with the odds table above.",
+        "li4": "<strong>Random choices:</strong> for a choice among more than six options, use the <a href=\"/tools/random-number-generator/\">random number generator</a> or the <a href=\"/tools/random-name-picker/\">random name picker</a>.",
+        "p1": "Physical coins and dice can be slightly biased by their shape and how they are thrown. A secure software generator does not have that problem: every outcome is exactly equally likely. Results are generated in your browser and the history stays on this page only."
+      }
+    }
+  },
+  "client": {
+    "errors": {
+      "noCrypto": "Secure random numbers are not available in this browser.",
+      "coins": "Flip between 1 and {{max}} coins.",
+      "dice": "Roll between 1 and {{max}} dice.",
+      "sides": "Choose a d{{dice}} die."
+    },
+    "buttons": {
+      "roll": "Roll",
+      "flip": "Flip"
+    },
+    "coin": {
+      "headerOne": "Coin flip",
+      "headerMany": "{{count}} coin flips",
+      "heads": "Heads",
+      "tails": "Tails",
+      "headsLetter": "H",
+      "tailsLetter": "T",
+      "counts": "{{heads}} heads · {{tails}} tails",
+      "note": "Heads {{headsPct}}%, tails {{tailsPct}}%.",
+      "historyOne": "Coin: {{side}}",
+      "historyMany": "{{count}} coins: {{heads}} heads, {{tails}} tails",
+      "summaryMany": "{{heads}} heads, {{tails}} tails"
+    },
+    "dice": {
+      "header": "Rolled {{notation}}",
+      "total": "Total {{sum}}",
+      "noteMany": "{{rolls}} = {{sum}} (possible {{min}}–{{max}}).",
+      "noteOne": "Possible 1–{{sides}}."
+    }
+  }
+}

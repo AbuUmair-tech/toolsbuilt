@@ -1,0 +1,231 @@
+{
+  "listing": {
+    "name": "Calculadora de días hasta una fecha",
+    "shortName": "Días hasta una fecha",
+    "description": "Calcula el total exacto de días, semanas y meses que faltan para cualquier evento, cumpleaños o festivo futuro.",
+    "shortDescription": "Calcula el total exacto de días, semanas y meses que faltan para cualquier evento, cumpleaños o festivo futuro.",
+    "keywords": [
+      "días hasta una fecha",
+      "cuenta regresiva para un evento",
+      "cuántos días faltan para",
+      "cuenta regresiva de días",
+      "días que faltan calendario"
+    ]
+  },
+  "title": "Calculadora de días hasta una fecha: cuenta regresiva",
+  "description": "Calculadora de días hasta una fecha: calcula los días, semanas y meses exactos que faltan para cualquier fecha o evento. Gratis, en línea y sin registro.",
+  "h1": "Calculadora de días hasta una fecha",
+  "quickAnswer": "Para saber cuántos días faltan para un evento con esta calculadora de días hasta una fecha, elige la fecha objetivo en el calendario. La herramienta la compara con la fecha de hoy y muestra el total de días, semanas, meses y horas que faltan. También funciona a la inversa, para calcular los días transcurridos desde hitos o aniversarios pasados.",
+  "formula": {
+    "title": "Fórmula de la cuenta regresiva",
+    "expression": "Días hasta = ⌊(Fecha objetivo UTC ms - Fecha actual UTC ms) / 86,400,000 ms⌋",
+    "explanation": "Ambas fechas se evalúan a medianoche UTC para evitar las distorsiones del horario de verano. Los valores positivos indican una cuenta regresiva hacia el futuro, y los negativos, el tiempo transcurrido desde eventos pasados."
+  },
+  "workedExamples": [
+    {
+      "title": "Plazo de un proyecto a 30 días",
+      "inputs": [
+        "Fecha objetivo: 23 de noviembre de 2026 (lunes)",
+        "Fecha base: 24 de octubre de 2026 (sábado)"
+      ],
+      "steps": [
+        "Calcular la diferencia entre medianoches UTC: 30 días",
+        "Descomponer en semanas: 4 semanas y 2 días",
+        "Calcular las horas: 30 × 24 = 720 horas"
+      ],
+      "result": "Faltan 30 días (4 semanas y 2 días, 720 horas, lunes)"
+    },
+    {
+      "title": "Cuenta regresiva para Año Nuevo",
+      "inputs": [
+        "Fecha objetivo: 1 de enero de 2027 (viernes)",
+        "Fecha base: 24 de octubre de 2026 (sábado)"
+      ],
+      "steps": [
+        "Calcular el total de días: 69 días naturales",
+        "Descomponer en meses y días: 2 meses y 8 días (9 semanas y 6 días)",
+        "Calcular las horas: 69 × 24 = 1,656 horas"
+      ],
+      "result": "Faltan 69 días (2 meses y 8 días, 1,656 horas, viernes)"
+    },
+    {
+      "title": "Hito ya pasado (fecha anterior)",
+      "inputs": [
+        "Fecha objetivo: 24 de septiembre de 2026 (jueves)",
+        "Fecha base: 24 de octubre de 2026 (sábado)"
+      ],
+      "steps": [
+        "La fecha objetivo está en el pasado: diferencia de -30 días",
+        "Evaluar la duración transcurrida en valor absoluto: hace 30 días",
+        "Descomponer: hace 1 mes (4 semanas y 2 días, 720 horas)"
+      ],
+      "result": "Hace 30 días (hace 1 mes, 720 horas transcurridas, jueves)"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Usar cifras de días fijas",
+      "description": "Contar los días hasta festivos anuales con estimaciones fijas falla, porque la distancia cambia cada 24 horas. Usa siempre un cálculo de calendario dinámico."
+    },
+    {
+      "title": "Desfases de fecha por la zona horaria local",
+      "description": "Comparar fechas con la medianoche local puede provocar errores de un día entre zonas horarias. Normalizar las marcas de tiempo a la medianoche UTC evita estos desfases."
+    },
+    {
+      "title": "Confundir días transcurridos con días restantes",
+      "description": "Las fechas futuras dan cifras positivas, mientras que los aniversarios pasados dan días transcurridos que deben indicarse como tales."
+    },
+    {
+      "title": "No tener en cuenta la duración de cada mes",
+      "description": "Para descomponer 60 días en meses hay que comprobar la duración real de los meses intermedios (p. ej., febrero tiene 28 o 29 días, mientras que julio y agosto tienen 31)."
+    }
+  ],
+  "sources": [
+    {
+      "name": "NIST, División de Tiempo y Frecuencia"
+    },
+    {
+      "name": "Normas ISO 8601 de fecha y hora"
+    },
+    {
+      "name": "Nota del grupo de trabajo del W3C sobre formatos de fecha y hora"
+    }
+  ],
+  "howto": {
+    "name": "Cómo calcular los días que faltan para cualquier fecha",
+    "description": "Instrucciones paso a paso para calcular los días que faltan para un evento futuro.",
+    "steps": [
+      {
+        "name": "Elige la fecha objetivo",
+        "text": "Elige la fecha de tu evento futuro con el selector de fecha."
+      },
+      {
+        "name": "Añade el nombre del evento",
+        "text": "Si quieres, escribe una etiqueta para el evento, como Vacaciones, Cumpleaños o Entrega del proyecto."
+      },
+      {
+        "name": "Consulta el desglose de la cuenta regresiva",
+        "text": "Consulta el total de días que faltan, su equivalente en semanas y días, los meses de calendario y el día de la semana de la fecha objetivo."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "¿Cómo funciona la calculadora de días hasta una fecha?",
+      "a": "La calculadora calcula la distancia exacta en el calendario entre la fecha de hoy y la fecha objetivo que elijas. Todos los cálculos usan marcas de tiempo de medianoche UTC para eliminar los cambios del horario de verano, que suelen provocar errores de un día en otras calculadoras."
+    },
+    {
+      "q": "¿Tiene en cuenta los años bisiestos?",
+      "a": "Sí. El algoritmo tiene en cuenta los años bisiestos de 366 días (incluido el 29 de febrero) al calcular periodos que abarcan varios años."
+    },
+    {
+      "q": "¿Puedo calcular cuántos días han pasado desde una fecha pasada?",
+      "a": "Sí. Si eliges una fecha pasada, la herramienta lo detecta automáticamente y muestra el tiempo transcurrido desde esa fecha en días, semanas y meses."
+    },
+    {
+      "q": "¿Cómo se desglosan los meses y los días?",
+      "a": "Los meses se calculan a partir de cambios de mes completos en el calendario. Los días restantes se ajustan a la duración exacta del mes anterior, de modo que se manejan correctamente los meses de 28, 29, 30 o 31 días."
+    },
+    {
+      "q": "¿Se guarda mi fecha o se envía a un servidor?",
+      "a": "No. Todo el cálculo se ejecuta únicamente en tu navegador con JavaScript estándar. Ninguna fecha personal ni nombre de evento sale de tu dispositivo."
+    },
+    {
+      "q": "¿La cuenta regresiva se actualiza sola si dejo la página abierta?",
+      "a": "El cálculo se ejecuta cada vez que eliges una fecha o recargas la página. Para actualizarlo después de la medianoche, recarga la página y así se actualizará la fecha base."
+    },
+    {
+      "q": "¿Puedo usar esta calculadora para planificar una boda o la jubilación?",
+      "a": "Sí. Introduce la fecha de tu boda o de tu jubilación para ver el tiempo que falta desglosado en días, semanas y meses de calendario."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Herramienta de calculadora de días hasta una fecha"
+    },
+    "label": {
+      "target-date": "Elige la fecha objetivo <span class=\"text-accent\">*</span>",
+      "event-name": "Nombre del evento <span class=\"label-hint\">(opcional)</span>"
+    },
+    "placeholder": {
+      "event-name": "p. ej., Vacaciones, Lanzamiento del producto, Boda..."
+    },
+    "text": {
+      "calculate-btn": "Calcular días",
+      "reset-btn": "Restablecer",
+      "result-primary-text": "-- días hasta la fecha"
+    },
+    "content": {
+      "tool": {
+        "div1": "<span id=\"result-header-text\">Resultado de la cuenta regresiva</span>",
+        "div2": "Total de días",
+        "div3": "Semanas y días",
+        "div4": "Meses y días",
+        "div5": "Día de la semana"
+      },
+      "how-when-to-use-the-days": {
+        "heading": "Cómo y cuándo usar la calculadora de días hasta una fecha",
+        "p1": "Saber cuánto falta para una fecha es útil para planificar en lo personal, lo financiero y lo profesional:",
+        "li1": "<strong>Gestión de proyectos y sprints:</strong> calcula el número exacto de días y semanas que faltan para un hito del cliente o una fecha de entrega.",
+        "li2": "<strong>Plazos de preaviso de contratos y alquileres:</strong> determina los plazos de renovación de alquileres y avisos legales a 30, 60 o 90 días.",
+        "li3": "<strong>Planificación de eventos y viajes:</strong> lleva la cuenta de los días que faltan para vuelos, vacaciones, conferencias o tu boda.",
+        "li4": "<strong>Plazos financieros:</strong> controla los plazos de declaración de impuestos, las fechas de pagos trimestrales estimados y los vencimientos de bonos."
+      }
+    }
+  },
+  "client": {
+    "errors": {
+      "invalidTarget": "Introduce una fecha objetivo válida (AAAA-MM-DD).",
+      "invalidBase": "Introduce una fecha base de cálculo válida (AAAA-MM-DD).",
+      "missingTarget": "Elige una fecha objetivo válida."
+    },
+    "units": {
+      "weeks": {
+        "many": "{{n}} semanas",
+        "one": "{{n}} semana",
+        "other": "{{n}} semanas"
+      },
+      "months": {
+        "many": "{{n}} meses",
+        "one": "{{n}} mes",
+        "other": "{{n}} meses"
+      },
+      "days": {
+        "many": "{{n}} días",
+        "one": "{{n}} día",
+        "other": "{{n}} días"
+      }
+    },
+    "result": {
+      "defaultSubject": "la fecha objetivo",
+      "headerToday": "Estado del evento",
+      "headerPast": "Cálculo del tiempo transcurrido",
+      "headerFuture": "Resultado de la cuenta regresiva",
+      "today": "¡Hoy es el día! ({{subject}})",
+      "since": {
+        "many": "{{n}} días desde {{subject}}",
+        "one": "{{n}} día desde {{subject}}",
+        "other": "{{n}} días desde {{subject}}"
+      },
+      "until": {
+        "many": "{{n}} días hasta {{subject}}",
+        "one": "{{n}} día hasta {{subject}}",
+        "other": "{{n}} días hasta {{subject}}"
+      }
+    },
+    "stats": {
+      "zeroDays": "0 días",
+      "zeroWeeksDays": "0 semanas, 0 días",
+      "zeroMonthsDays": "0 meses, 0 días",
+      "days": "{{n}} días",
+      "daysAgo": "Hace {{n}} días",
+      "weeksDaysAgo": "Hace {{weeks}} y {{days}}",
+      "monthsDaysAgo": "Hace {{months}} y {{days}}"
+    },
+    "copy": {
+      "past": "{{result}} ({{n}} días transcurridos al {{date}}).",
+      "future": "{{result}} ({{n}} días, {{weeks}} sem {{days}} d hasta el {{date}}).",
+      "toast": "Resultado de la cuenta regresiva copiado al portapapeles"
+    }
+  }
+}

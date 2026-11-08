@@ -11,7 +11,7 @@ layout: layouts/base.njk
       {
         "@type": "ListItem",
         "position": 1,
-        "name": "Home",
+        "name": {{ 'common.home' | t | jsonStr }},
         "item": "https://toolsbuilt.com/"
       },
       {
@@ -37,15 +37,21 @@ layout: layouts/base.njk
 {% endblock %}
 
   <!-- Main Content -->
-  <main id="main-content" class="container page-container">
-    {% include "partials/breadcrumbs.njk" %}
+  <main id="main-content">
+    <section class="page-hero">
+      <div class="container">
+        {% include "partials/breadcrumbs.njk" %}
 
-    <div class="page-header">
-      <h1>{{ h1 or title }}</h1>
-      {% if subtitle %}<p>{{ subtitle }}</p>{% endif %}
+        <div class="page-header">
+          <h1>{{ h1 or title }}</h1>
+          {% if subtitle %}<p>{{ subtitle }}</p>{% endif %}
+        </div>
+      </div>
+    </section>
+
+    <div class="container page-container">
+      <article class="content-article">
+        {{ content | safe }}
+      </article>
     </div>
-
-    <article class="content-article">
-      {{ content | safe }}
-    </article>
   </main>

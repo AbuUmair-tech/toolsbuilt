@@ -1,0 +1,295 @@
+{
+  "listing": {
+    "name": "Kalkulator Merit & Agregat",
+    "shortName": "Kalkulator Merit",
+    "description": "Hitung agregat merit penerimaan dari nilai Matric, Intermediate, tes masuk, dan wawancara dengan bobot kustom atau bobot NUST dan MDCAT yang terverifikasi.",
+    "shortDescription": "Agregat penerimaan dari nilai ujian dewan dan tes dengan bobot kustom atau terverifikasi.",
+    "keywords": [
+      "kalkulator merit",
+      "kalkulator agregat",
+      "kalkulator agregat NUST",
+      "kalkulator agregat MDCAT",
+      "rumus perhitungan merit",
+      "agregat tes masuk",
+      "kalkulator merit universitas"
+    ]
+  },
+  "title": "Kalkulator Merit & Agregat (Bobot Kustom)",
+  "description": "Kalkulator merit: hitung agregat penerimaan dari nilai Matric, Intermediate, tes masuk, dan wawancara, dengan bobot kustom atau preset NUST dan MDCAT.",
+  "h1": "Kalkulator Merit & Agregat",
+  "quickAnswer": "Agregat = Σ (nilai yang diperoleh ÷ nilai total × bobot %). Dengan Matric 900/1100 berbobot 10%, Intermediate 950/1100 berbobot 40%, dan tes masuk 300/400 berbobot 50%, agregatnya 8.18 + 34.55 + 37.50 = 80.23%. Di kalkulator merit ini bobot harus berjumlah 100%, dan setiap universitas menetapkan bobotnya sendiri, jadi pastikan di prospektus resmi untuk tahun penerimaan Anda.",
+  "formula": {
+    "title": "Rumus Agregat Merit",
+    "expression": "Agregat % = Σ (Diperoleh ÷ Total × 100 × Bobot ÷ 100)",
+    "explanation": "Setiap komponen (Matric/SSC, Intermediate/HSSC, tes masuk, wawancara, dan sebagainya) diubah dulu menjadi persentase dari totalnya sendiri, sehingga tes dengan nilai maksimum 200 dan ujian dewan dengan nilai maksimum 1100 dapat dibandingkan. Persentase itu dikalikan dengan bobot komponennya, lalu bagian-bagian berbobot dijumlahkan. Karena total bobotnya 100%, hasilnya sendiri berupa persentase dari 0 hingga 100. Kalkulator mempertahankan presisi penuh sampai akhir dan membulatkan agregat ke 2 angka desimal.",
+    "variables": [
+      {
+        "name": "Diperoleh / Total",
+        "description": "Nilai Anda pada komponen itu dan nilai maksimumnya, persis seperti di kartu hasil ujian Anda."
+      },
+      {
+        "name": "Bobot",
+        "description": "Porsi agregat yang diberikan institusi untuk komponen itu, dalam %. Semua bobot harus berjumlah 100%."
+      },
+      {
+        "name": "Kontribusi",
+        "description": "Persentase Anda pada komponen × bobotnya ÷ 100: poin yang ditambahkannya ke agregat Anda."
+      }
+    ]
+  },
+  "workedExamples": [
+    {
+      "title": "Matric, Intermediate, dan tes masuk (10 / 40 / 50)",
+      "inputs": [
+        "Matric: 900 / 1100, bobot 10%",
+        "Intermediate: 950 / 1100, bobot 40%",
+        "Tes masuk: 300 / 400, bobot 50%"
+      ],
+      "steps": [
+        "Matric: 900 ÷ 1100 = 81.818%, × 10% = 8.1818",
+        "Intermediate: 950 ÷ 1100 = 86.364%, × 40% = 34.5455",
+        "Tes masuk: 300 ÷ 400 = 75%, × 50% = 37.5",
+        "Total: 8.1818 + 34.5455 + 37.5 = 80.2273"
+      ],
+      "result": "Agregat 80.23%"
+    },
+    {
+      "title": "Bobot NUST NET (10 / 15 / 75)",
+      "inputs": [
+        "SSC: 1000 / 1100, bobot 10%",
+        "HSSC Part-1: 480 / 550, bobot 15%",
+        "NET: 140 / 200, bobot 75%"
+      ],
+      "steps": [
+        "SSC: 90.909% × 10% = 9.0909",
+        "HSSC: 87.273% × 15% = 13.0909",
+        "NET: 70% × 75% = 52.5"
+      ],
+      "result": "Agregat 74.68%"
+    },
+    {
+      "title": "Dengan wawancara (empat komponen)",
+      "inputs": [
+        "SSC 850/1100 berbobot 10%, HSSC 900/1100 berbobot 30%",
+        "Tes 150/200 berbobot 50%, wawancara 40/50 berbobot 10%"
+      ],
+      "steps": [
+        "SSC 77.273% × 10% = 7.7273; HSSC 81.818% × 30% = 24.5455",
+        "Tes 75% × 50% = 37.5; wawancara 80% × 10% = 8"
+      ],
+      "result": "Agregat 77.77%"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Memakai bobot tahun lalu",
+      "description": "Universitas dan regulator mengubah rumus merit mereka, kadang setiap tahun. Selalu periksa bobot di prospektus resmi atau pengumuman penerimaan untuk periode yang Anda lamar."
+    },
+    {
+      "title": "Menjumlahkan nilai mentah, bukan persentase",
+      "description": "Menjumlahkan 900 nilai ujian dewan dengan 150 nilai tes menghasilkan angka yang tidak bermakna, karena totalnya berbeda. Setiap komponen harus diubah menjadi persentase dari totalnya sendiri sebelum diberi bobot."
+    },
+    {
+      "title": "Memasukkan total yang salah",
+      "description": "Total nilai ujian dewan berbeda antara skema Matric dan antardewan, dan sebagian rumus hanya memakai nilai HSSC Part-1. Salin totalnya persis dari kartu hasil Anda dan dari aturan institusi."
+    },
+    {
+      "title": "Lupa tambahan hafiz-e-Quran atau lainnya",
+      "description": "Sebagian institusi menambahkan nilai ekstra atau mengurangi nilai untuk percobaan ulang. Aturannya berbeda-beda, jadi tambahkan sendiri sesuai prospektus resmi."
+    },
+    {
+      "title": "Membulatkan setiap komponen",
+      "description": "Membulatkan setiap kontribusi sebelum dijumlahkan bisa menggeser agregat akhir beberapa perseratus, yang berpengaruh pada daftar merit yang ketat. Kalkulator mempertahankan presisi penuh dan hanya membulatkan hasil akhirnya."
+    }
+  ],
+  "sources": [
+    {
+      "name": "NUST: Merit generation criteria for UG admission on NET basis"
+    },
+    {
+      "name": "PM&DC: Laws and regulations (Admissions, Curriculum and Conduct Regulations 2026)"
+    },
+    {
+      "name": "IBCC: Kesetaraan O/A Level dan kualifikasi luar negeri"
+    }
+  ],
+  "howto": {
+    "name": "Cara Menghitung Agregat Merit",
+    "description": "Gabungkan hasil ujian dewan, tes masuk, dan wawancara menjadi agregat penerimaan.",
+    "steps": [
+      {
+        "name": "Pilih kustom atau preset",
+        "text": "Gunakan Kustom untuk mengetik bobot apa pun, atau pilih preset terverifikasi untuk mengisi komponen dan bobotnya."
+      },
+      {
+        "name": "Masukkan nilai Anda",
+        "text": "Untuk setiap komponen, ketik nilai yang diperoleh dan nilai total persis seperti di kartu hasil Anda."
+      },
+      {
+        "name": "Periksa bobotnya",
+        "text": "Pastikan bobot berjumlah 100% dan sesuai dengan prospektus resmi untuk tahun penerimaan Anda."
+      },
+      {
+        "name": "Baca agregat Anda",
+        "text": "Lihat persentase dan kontribusi setiap komponen, serta agregat Anda hingga dua angka desimal."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Bagaimana cara menghitung agregat merit saya?",
+      "a": "Bagi nilai Anda dengan nilai total untuk setiap komponen, kalikan dengan bobot komponen tersebut, lalu jumlahkan hasilnya. Untuk 900/1100 berbobot 10%, 950/1100 berbobot 40%, dan 300/400 berbobot 50%, agregatnya 80.23%."
+    },
+    {
+      "q": "Apa rumus agregat NUST?",
+      "a": "Untuk penerimaan berdasarkan NET, kriteria yang diterbitkan NUST adalah NET 75%, HSSC (Part-1 atau lengkap) 15%, dan SSC/O Level 10%. Pilih preset NUST, masukkan nilai Anda, dan periksa halaman kriteria merit NUST untuk periode saat ini."
+    },
+    {
+      "q": "Apa rumus agregat MDCAT?",
+      "a": "Berdasarkan PM&DC Admissions, Curriculum and Conduct Regulations 2026, penerimaan jalur merit terbuka ke fakultas kedokteran dan kedokteran gigi negeri maupun swasta menggunakan MDCAT 50%, FSc/HSSC 40%, dan SSC/Matric 10%. Universitas penerima menerbitkan kriteria akhirnya."
+    },
+    {
+      "q": "Mengapa kalkulator menyatakan bobot saya harus berjumlah 100%?",
+      "a": "Agregat adalah persentase berbobot, jadi bobotnya harus mencakup seluruh 100%. Jika jumlahnya 90%, ada komponen atau sebagian bobot yang hilang; periksa rumus institusi tersebut."
+    },
+    {
+      "q": "Bisakah saya menambahkan wawancara atau tes kedua?",
+      "a": "Bisa. Mode kustom menerima hingga lima komponen. Beri setiap komponen nama, nilai yang diperoleh, nilai total, dan bobot."
+    },
+    {
+      "q": "Di mana bobot untuk UET ECAT atau universitas lain?",
+      "a": "Kalkulator ini hanya menyertakan preset yang sudah dicek terhadap sumber resmi. Untuk universitas lain, gunakan mode Kustom dan salin bobotnya dari prospektus terbaru universitas tersebut."
+    },
+    {
+      "q": "Apakah agregat yang saya hitung ini resmi?",
+      "a": "Tidak. Itu adalah perkiraan dari nilai dan bobot yang Anda masukkan. Perhitungan dan daftar merit dari institusi penerima adalah yang final."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Kalkulator Merit dan Agregat",
+      "tool-div1": "Komponen",
+      "copy-result-btn": "Salin hasil ke papan klip"
+    },
+    "label": {
+      "preset": "Bobot",
+      "componentObtained": "Diperoleh",
+      "componentTotal": "Total",
+      "componentWeight": "Bobot %"
+    },
+    "option": {
+      "preset": {
+        "custom": "Kustom (masukkan bobot sendiri)"
+      }
+    },
+    "text": {
+      "preset-note": "Bobot berbeda antaruniversitas dan bisa berubah setiap tahun. Pastikan di prospektus resmi untuk periode penerimaan Anda.",
+      "reset-btn": "Atur Ulang",
+      "result-header-text": "Agregat",
+      "copy-result-btn": "<span data-icon=\"copy\"></span> Salin Hasil"
+    },
+    "content": {
+      "tool": {
+        "text1": "Sumber:",
+        "text2": "· diverifikasi",
+        "text3": ". Bobot bisa berubah setiap tahun; pastikan di prospektus resmi.",
+        "div1": "<span>Komponen</span><span>Diperoleh</span><span>Total</span><span>Bobot %</span>",
+        "button1": "Hitung Agregat",
+        "caption1": "Persentase setiap komponen dan kontribusinya terhadap agregat",
+        "th1": "Komponen",
+        "th2": "Nilai",
+        "th3": "Bobot",
+        "th4": "Menambah",
+        "summary1": "Langkah pengerjaan"
+      },
+      "always-check-the-official-prospectus": {
+        "heading": "Selalu Periksa Prospektus Resmi",
+        "p1": "Rumus merit ditetapkan oleh setiap universitas, regulator kedokteran, atau otoritas penerimaan, dan bisa berubah. Bobot bergeser antara Matric, Intermediate, dan tes masuk; sebagian institusi hanya memakai nilai HSSC Part-1, menambahkan wawancara, atau memperlakukan kesetaraan O/A Level secara berbeda. Sebelum mengandalkan agregat apa pun, buka prospektus resmi atau pengumuman penerimaan untuk periode Anda dan bandingkan rumusnya dengan bobot yang Anda masukkan.",
+        "p2": "Kalkulator ini hanya menyertakan preset yang bobotnya sudah dicek terhadap sumber resmi, dan setiap preset menampilkan sumber serta tanggal pengecekannya:",
+        "caption1": "Preset merit yang terverifikasi",
+        "th1": "Preset",
+        "th2": "Bobot",
+        "th3": "Diverifikasi",
+        "p3": "Untuk universitas lain, pilih Kustom dan salin bobotnya dari prospektus. Jika rumusnya mencakup sesuatu yang tidak ada di kalkulator ini, seperti nilai tambahan untuk hafiz-e-Quran atau pengurangan untuk ujian perbaikan, terapkan penyesuaian itu pada nilai Anda terlebih dahulu."
+      },
+      "improving-your-aggregate": {
+        "heading": "Meningkatkan Agregat Anda",
+        "li1": "<strong>Perhatikan bobotnya:</strong> komponen berbobot 50% atau 75% menggeser agregat jauh lebih besar daripada yang berbobot 10%. Dengan rumus NUST, setiap tambahan satu poin persentase NET menambah 0.75 ke agregat Anda.",
+        "li2": "<strong>Ketahui mana yang sudah tetap:</strong> nilai Matric biasanya sudah final saat Anda mendaftar; nilai tes masuk dan kadang nilai Intermediate belum.",
+        "li3": "<strong>Bandingkan dengan merit sebelumnya:</strong> institusi sering menerbitkan merit penutupan tahun-tahun sebelumnya. Anggap hanya sebagai gambaran kasar; angkanya berubah sesuai jumlah pendaftar dan kursi."
+      }
+    },
+    "title": {
+      "copy-result-btn": "Salin hasil ke papan klip"
+    },
+    "components": {
+      "label": "Komponen {{n}}",
+      "placeholder1": "mis. Matric",
+      "placeholder2": "mis. Intermediate",
+      "placeholder3": "mis. Tes masuk",
+      "placeholder4": "mis. Wawancara",
+      "placeholder5": "Opsional"
+    }
+  },
+  "client": {
+    "presets": {
+      "nust-net": {
+        "name": "NUST sarjana (berdasarkan NET)",
+        "institution": "National University of Sciences & Technology (NUST), Islamabad",
+        "components": {
+          "ssc": "SSC / Matric / O Level",
+          "hssc": "HSSC / FSc (Part-1 atau lengkap) / A Level / DAE",
+          "net": "Tes Masuk NUST (NET)"
+        },
+        "note": "Kriteria umum untuk penerimaan berdasarkan NET. Peserta yang masih menempuh A Level diberi bobot 25% pada nilai kesetaraan O Level (IBCC). Pelamar ACT/SAT untuk kursi nasional memakai pembagian 75/10/15 yang sama dengan skor ACT/SAT menggantikan NET.",
+        "sourceName": "NUST: Merit Generation Criteria"
+      },
+      "pmdc-mdcat": {
+        "name": "MBBS / BDS merit terbuka (PM&DC, MDCAT)",
+        "institution": "Pakistan Medical & Dental Council (fakultas kedokteran dan kedokteran gigi negeri maupun swasta)",
+        "components": {
+          "ssc": "SSC / Matriculation / setara",
+          "hssc": "FSc Pre-Medical / HSSC / setara",
+          "mdcat": "MDCAT"
+        },
+        "note": "Ditetapkan oleh PM&DC (Admissions, Curriculum and Conduct) Policy and Regulations 2026, diumumkan 12 Oktober 2026, untuk kursi merit terbuka di fakultas negeri dan swasta. Fakultas yang dikelola Angkatan Bersenjata menerima mahasiswa melalui NUMS dan tes masuknya sendiri.",
+        "sourceName": "PM&DC Admissions, Curriculum and Conduct Policy and Regulations 2026"
+      }
+    },
+    "defaults": {
+      "matric": "Matric",
+      "intermediate": "Intermediate",
+      "entryTest": "Tes masuk"
+    },
+    "errors": {
+      "addComponent": "Tambahkan minimal satu komponen.",
+      "tooMany": "Gunakan paling banyak {{max}} komponen.",
+      "enterObtained": "{{name}}: masukkan nilai yang diperoleh.",
+      "enterTotal": "{{name}}: masukkan nilai total.",
+      "enterWeight": "{{name}}: masukkan bobotnya.",
+      "totalPositive": "{{name}}: nilai total harus lebih dari 0.",
+      "obtainedNonNegative": "{{name}}: nilai yang diperoleh harus 0 atau lebih.",
+      "obtainedOverTotal": "{{name}}: nilai yang diperoleh ({{obtained}}) tidak boleh lebih dari total ({{total}}).",
+      "weightRange": "{{name}}: bobot harus lebih dari 0% dan paling tinggi 100%.",
+      "noComponents": "Masukkan nilai dan bobot untuk minimal satu komponen.",
+      "weightsAddMore": "Bobot berjumlah {{total}}%, padahal harus 100%. Tambahkan {{diff}}% lagi ke satu atau beberapa komponen.",
+      "weightsRemove": "Bobot berjumlah {{total}}%, padahal harus 100%. Kurangi {{diff}}% dari satu atau beberapa komponen."
+    },
+    "componentName": "Komponen {{n}}",
+    "steps": {
+      "component": "{{name}}: {{obtained}} ÷ {{total}} × 100 = {{pct}}%, × bobot {{weight}}% = {{contribution}}",
+      "aggregate": "Agregat = {{sum}} = {{exact}} ≈ {{rounded}}%"
+    },
+    "weights": {
+      "ok": "Bobot yang dimasukkan: {{total}}% ✓",
+      "notOk": "Bobot yang dimasukkan: {{total}}% (harus berjumlah 100%)"
+    },
+    "result": {
+      "header": "Agregat",
+      "headerPreset": "Agregat ({{preset}})"
+    },
+    "copy": {
+      "aggregate": "Agregat: {{aggregate}}%"
+    }
+  }
+}

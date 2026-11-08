@@ -1,0 +1,245 @@
+{
+  "listing": {
+    "name": "Tage zu einem Datum addieren oder abziehen",
+    "shortName": "Tage addieren/abziehen",
+    "description": "Addiere oder subtrahiere Tage, Wochen, Monate oder Jahre zu einem Startdatum. Optional nur Werktage zählen.",
+    "shortDescription": "Addiere oder subtrahiere Tage, Wochen, Monate oder Jahre zu einem Startdatum. Optional nur Werktage zählen.",
+    "keywords": [
+      "tage zu datum addieren",
+      "tage von datum abziehen",
+      "datum plus tage",
+      "werktage addieren",
+      "datum in der zukunft berechnen"
+    ]
+  },
+  "title": "Tage addieren oder abziehen - Datumsrechner | ToolsBuilt",
+  "description": "Datumsrechner: Addiere oder subtrahiere Tage, Wochen, Monate oder Jahre zu einem Startdatum, optional nur mit Werktagen. Kostenlos und sofort.",
+  "h1": "Tage zu einem Datum addieren oder abziehen",
+  "quickAnswer": "Um Tage zu einem Datum zu addieren oder abzuziehen, gibst du das Startdatum ein, legst die Anzahl an Tagen, Wochen, Monaten oder Jahren fest und wählst Addieren oder Subtrahieren. Mit der Werktage-Option werden Samstage und Sonntage übersprungen. Das Tool berechnet sofort das Zieldatum, den Wochentag und die vergangenen Kalendertage, lokal in deinem Browser.",
+  "formula": {
+    "title": "Datumsarithmetik & Begrenzung am Monatsende",
+    "expression": "Zieldatum = Startdatum ± (Anzahl × Einheit)",
+    "explanation": "Kalendertage und Wochen werden in 24-Stunden-Schritten in UTC weitergezählt. Bei Monaten und Jahren wird der Monat verschoben und ein Tagesüberlauf auf den letzten Kalendertag des Zielmonats begrenzt. Im Werktagsmodus wird Tag für Tag weitergezählt, Samstage und Sonntage werden übersprungen."
+  },
+  "workedExamples": [
+    {
+      "title": "10 Werktage addieren",
+      "inputs": [
+        "Startdatum: Freitag, 16. Oktober 2026",
+        "Rechnung: 10 Werktage addieren"
+      ],
+      "steps": [
+        "Wochenende überspringen: 17.-18. Okt. (Samstag-Sonntag)",
+        "5 Werktage zählen: 19. Okt. bis 23. Okt.",
+        "Wochenende überspringen: 24.-25. Okt. (Samstag-Sonntag)",
+        "Die übrigen 5 Werktage zählen: 26. Okt. bis 30. Okt."
+      ],
+      "result": "Freitag, 30. Oktober 2026 (14 Kalendertage vergangen: 10 Werktage, 4 Wochenendtage)"
+    },
+    {
+      "title": "1 Monat zum Monatsende addieren (begrenzt)",
+      "inputs": [
+        "Startdatum: Sonntag, 31. Januar 2027",
+        "Rechnung: 1 Monat addieren"
+      ],
+      "steps": [
+        "Monat von Januar auf Februar 2027 erhöhen",
+        "2027 ist ein Gemeinjahr (kein Schaltjahr), der Februar hat also 28 Tage",
+        "Tag 31 auf den letzten Monatstag 28 begrenzen"
+      ],
+      "result": "Sonntag, 28. Februar 2027 (28 Kalendertage vergangen)"
+    },
+    {
+      "title": "90 Kalendertage abziehen",
+      "inputs": [
+        "Startdatum: Samstag, 17. Oktober 2026",
+        "Rechnung: 90 Kalendertage abziehen"
+      ],
+      "steps": [
+        "90 aufeinanderfolgende Kalendertage zurückgehen",
+        "Dabei werden Oktober, September, August und Juli durchlaufen"
+      ],
+      "result": "Sonntag, 19. Juli 2026 (90 Kalendertage vergangen)"
+    },
+    {
+      "title": "3 Wochen addieren",
+      "inputs": [
+        "Startdatum: Sonntag, 1. März 2026",
+        "Rechnung: 3 Wochen addieren"
+      ],
+      "steps": [
+        "3 Wochen in 21 Kalendertage umrechnen (3 × 7)",
+        "21 Kalendertage ab dem 1. März 2026 weiterzählen"
+      ],
+      "result": "Sonntag, 22. März 2026 (21 Kalendertage vergangen)"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "30 Tage mit 1 Monat gleichsetzen",
+      "description": "Kalendermonate haben 28 bis 31 Tage. 30 Tage ab dem 1. Januar ergeben den 31. Januar, 1 Monat dagegen den 1. Februar."
+    },
+    {
+      "title": "5 Werktage mit 5 Kalendertagen gleichsetzen",
+      "description": "Werktage überspringen Samstage und Sonntage. 5 Werktage umfassen immer mindestens 7 Kalendertage."
+    },
+    {
+      "title": "Unbegrenzter Monatsüberlauf",
+      "description": "1 Monat ab dem 31. Januar muss auf den 28. Februar (im Schaltjahr 29.) begrenzt werden. Naive Rechnungen landen versehentlich im März."
+    },
+    {
+      "title": "Effekte der Zeitumstellung ignorieren",
+      "description": "Lokale 24-Stunden-Additionen können an Tagen der Zeitumstellung um 1 Stunde abweichen. Die Normalisierung auf UTC-Mitternacht sorgt für exakte Kalendertage."
+    }
+  ],
+  "sources": [
+    {
+      "name": "ISO 8601: Normen zum Rechnen mit Kalenderdaten"
+    },
+    {
+      "name": "US Naval Observatory: Astronomischer Kalender & Schaltjahre"
+    },
+    {
+      "name": "W3C Note zu Datums- und Zeitformaten"
+    }
+  ],
+  "howto": {
+    "name": "So addierst oder subtrahierst du Tage zu einem Datum",
+    "description": "Schritt-für-Schritt-Anleitung, um Zieldaten mit Kalender- oder Werktagen zu berechnen.",
+    "steps": [
+      {
+        "name": "Startdatum wählen",
+        "text": "Wähle dein Startdatum oder klicke auf „Heute“, um das aktuelle Datum zu nutzen."
+      },
+      {
+        "name": "Rechenart wählen",
+        "text": "Wähle, ob du in die Zukunft addieren (+) oder in die Vergangenheit subtrahieren (-) willst."
+      },
+      {
+        "name": "Anzahl und Zeiteinheit eingeben",
+        "text": "Gib die Zahl ein und wähle Tage, Wochen, Monate oder Jahre aus der Liste."
+      },
+      {
+        "name": "Werktage filtern (optional)",
+        "text": "Aktiviere „Nur Werktage zählen“, wenn Samstage und Sonntage übersprungen werden sollen."
+      },
+      {
+        "name": "Zieldatum und Details ansehen",
+        "text": "Sieh dir das Zieldatum, den Wochentag und die insgesamt vergangene Zeit an."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Wie filtert die Werktagsberechnung Wochenenden heraus?",
+      "a": "Ist die Werktage-Option aktiv, überspringt der Rechner beim Zählen Samstage und Sonntage. Addierst du 5 Werktage ab einem Freitag, zählt das Tool von Montag bis Freitag weiter und liefert so den exakten Arbeitstag."
+    },
+    {
+      "q": "Wie werden Schaltjahre beim Addieren von Jahren oder Monaten behandelt?",
+      "a": "Das Tool berücksichtigt Schaltjahre automatisch. Werden 365 Kalendertage über ein Schaltjahr hinweg addiert, wird der 29. Februar mitgezählt, ganz ohne manuelle Korrektur."
+    },
+    {
+      "q": "Kann ich durch Abziehen von Tagen Daten in der Vergangenheit berechnen?",
+      "a": "Ja, wähle einfach Subtrahieren als Rechenart. Du kannst Tage, Wochen, Monate oder Jahre zurückzählen, um genaue Daten für Vertragsbeginn, Kündigungsfristen oder historische Recherchen zu bestimmen."
+    },
+    {
+      "q": "Was passiert, wenn ich zum 31. Januar einen Monat addiere?",
+      "a": "Die übliche Kalenderrechnung setzt einen Überlauf am Monatsende auf den letzten gültigen Tag des Zielmonats. Ein Monat ab dem 31. Januar ergibt also den 28. Februar (im Schaltjahr den 29. Februar)."
+    },
+    {
+      "q": "Werden meine Datumseingaben auf externen Servern gespeichert?",
+      "a": "Nein. Alle Datumsberechnungen laufen lokal in deinem Webbrowser per clientseitigem JavaScript. Weder deine Eingaben noch die Ergebnisse werden an externe Server übertragen oder in Datenbanken protokolliert."
+    },
+    {
+      "q": "Wie geht der Rechner mit dem Abziehen von Daten um?",
+      "a": "Subtrahieren geht in der Zeit zurück, über Tage, Wochen, Monate oder Jahre. Der Algorithmus berücksichtigt Monatsgrenzen und Schalttage rückwärts genauso wie vorwärts."
+    },
+    {
+      "q": "Überspringt der Werktagszähler Feiertage?",
+      "a": "Das Tool schließt automatisch Wochenendtage (Samstag und Sonntag) aus. Gesetzliche Feiertage unterscheiden sich je nach Land und Region und werden nicht automatisch abgezogen."
+    }
+  ],
+  "body": {
+    "label": {
+      "startDate": "Startdatum",
+      "operation": "Rechenart",
+      "amount": "Anzahl",
+      "unit": "Einheit"
+    },
+    "text": {
+      "todayBtn": "Heute",
+      "businessDaysLabel": "<input type=\"checkbox\" id=\"businessDaysOnly\" data-param=\"biz\" autocomplete=\"off\">\n      <span>Nur Werktage zählen (ohne Samstage &amp; Sonntage)</span>",
+      "businessDaysNote": "Werktage funktionieren mit Tagen und Wochen. Monate und Jahre nutzen immer Kalenderdaten.",
+      "calcBtn": "Berechnen",
+      "resetBtn": "Zurücksetzen",
+      "copyResultBtn": "<span data-icon=\"copy\"></span> Ergebnis kopieren",
+      "primaryResult": "Wähle Optionen zum Berechnen ..."
+    },
+    "option": {
+      "operation": {
+        "add": "Addieren (+)",
+        "subtract": "Subtrahieren (-)"
+      },
+      "unit": {
+        "days": "Tage",
+        "weeks": "Wochen",
+        "months": "Monate",
+        "years": "Jahre"
+      }
+    },
+    "content": {
+      "tool": {
+        "span1": "Zieldatum"
+      },
+      "why-is-accurate-date-arithmetic-essential": {
+        "heading": "Warum genaues Rechnen mit Daten wichtig ist",
+        "p1": "Genaues Rechnen mit Daten ist eine Grundvoraussetzung für Projektplanung, Verträge, Finanzprognosen und die private Terminplanung. Tage manuell im Kalender abzuzählen führt oft zu Fehlern, weil Monate unterschiedlich lang sind, Wochenenden dazwischenliegen und es Schalttage gibt. Automatische Datumsrechnung im Browser sorgt jedes Mal für das exakte Datum."
+      },
+      "how-business-day-filtering-works": {
+        "heading": "So funktioniert der Werktagsfilter",
+        "p1": "Bei der Planung im Geschäftsleben spiegeln Kalendertage die tatsächlichen Arbeitszeiten oft nicht wider. Projektergebnisse, Zahlungsziele und gesetzliche Fristen werden häufig in Werktagen angegeben. Ist der Werktagsfilter aktiv, überspringt der Rechner Samstage und Sonntage, sodass Fristen die tatsächlichen Arbeitstage abbilden."
+      }
+    },
+    "title": {
+      "copyResultBtn": "Ergebnis in die Zwischenablage kopieren"
+    },
+    "ariaLabel": {
+      "copyResultBtn": "Ergebnis in die Zwischenablage kopieren"
+    }
+  },
+  "client": {
+    "units": {
+      "days": "Tage",
+      "weeks": "Wochen",
+      "months": "Monate",
+      "years": "Jahre"
+    },
+    "errors": {
+      "invalidStart": "Bitte gib ein gültiges Startdatum ein (JJJJ-MM-TT).",
+      "invalidAmount": "Ungültige Anzahl \"{{amount}}\". Bitte gib eine ganze, nicht negative Zahl ein (z. B. 5, nicht \"5abc\" oder \"1.9\").",
+      "nonNegative": "Bitte gib eine gültige, nicht negative ganze Zahl ein.",
+      "tooLarge": "{{amount}} {{unit}} überschreitet den unterstützten Bereich von ~10,000 Jahren. Bitte gib einen kleineren Wert ein.",
+      "unsupportedUnit": "Nicht unterstützte Kalendereinheit: \"{{unit}}\".",
+      "missingStart": "Bitte gib ein gültiges Startdatum ein.",
+      "missingAmount": "Bitte gib eine gültige, nicht negative Anzahl ein."
+    },
+    "stats": {
+      "operationLabel": "Rechnung",
+      "operation": {
+        "add": "{{amount}} {{unit}} addiert",
+        "subtract": "{{amount}} {{unit}} abgezogen",
+        "addBusiness": "{{amount}} {{unit}} addiert (nur Werktage)",
+        "subtractBusiness": "{{amount}} {{unit}} abgezogen (nur Werktage)"
+      },
+      "isoDate": "Datum nach ISO 8601",
+      "elapsedDays": "Vergangene Kalendertage",
+      "businessDays": "Werktage",
+      "daysValue": "{{n}} Tage",
+      "businessDaysValue": "{{n}} Tage ({{weekend}} am Wochenende)"
+    },
+    "copy": {
+      "result": "Zieldatum: {{date}} ({{iso}}). Vergangene Kalendertage: {{elapsed}}. Werktage: {{business}}.",
+      "toast": "Zieldatum in die Zwischenablage kopiert"
+    }
+  }
+}

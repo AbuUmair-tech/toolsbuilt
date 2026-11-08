@@ -1090,9 +1090,1261 @@ console.log('\n--- Seeded Property-Based Fuzz Testing (500 iterations) ---');
   assert(true, 'Compound Interest Fuzz: 100 random compound scenarios satisfied bounds and APY');
 }
 
-console.log(`\nLogic Tests Summary: ${passed} passed, ${failures} failed.`);
-if (failures > 0) {
-  process.exit(1);
-} else {
-  console.log('✅ ALL PURE LOGIC & PROPERTY FUZZ TESTS PASSED!');
+// Pakistan Salary Tax Calculator Logic (Finance Act 2026 slabs)
+const pkTaxLogic = require(path.join(ROOT, 'src/tools/pakistan-salary-tax-calculator/logic.js'));
+{
+  const near = (a, b) => Math.abs(a - b) < 0.005;
+  const annual = (income, year) => pkTaxLogic.calculateAnnualTax(income, year);
+
+  assert(pkTaxLogic.TAX_YEAR === '2026-27', 'PkTax: default TAX_YEAR is 2026-27');
+
+  // Required 2026-27 cases (annual income -> annual tax)
+  [[600000, 0], [1200000, 6000], [2400000, 156000], [4100000, 541000], [8000000, 1774000], [12000000, 3174000]]
+    .forEach(([income, tax]) => {
+      const r = annual(income, '2026-27');
+      assert(near(r.annualTax, tax), `PkTax 2026-27: Rs ${income} -> Rs ${tax} (got ${r.annualTax})`);
+    });
+  assert(annual(12000000, '2026-27').surcharge === 0, 'PkTax 2026-27: no surcharge above Rs 10M for salaried individuals');
+
+  const m100k = pkTaxLogic.calculateSalaryTax(100000, 'monthly', '2026-27');
+  assert(near(m100k.annualTax, 6000) && near(m100k.monthlyTax, 500), `PkTax 2026-27: monthly Rs 100,000 -> monthly tax Rs 500 (got ${m100k.monthlyTax})`);
+
+  // Required 2025-26 comparison cases
+  assert(near(annual(2400000, '2025-26').annualTax, 162000), 'PkTax 2025-26: Rs 2,400,000 -> Rs 162,000');
+  const r12m = annual(12000000, '2025-26');
+  assert(near(r12m.baseTax, 3381000) && near(r12m.surcharge, 304290) && near(r12m.annualTax, 3685290),
+    `PkTax 2025-26: Rs 12,000,000 -> Rs 3,381,000 + 9% surcharge = Rs 3,685,290 (got ${r12m.annualTax})`);
+  assert(annual(10000000, '2025-26').surcharge === 0, 'PkTax 2025-26: no surcharge at exactly Rs 10,000,000');
+
+  // Page worked examples (monthly salaries)
+  const m250k = pkTaxLogic.calculateSalaryTax(250000, 'monthly', '2026-27');
+  assert(near(m250k.monthlyTax, 23000) && near(m250k.monthlyTakeHome, 227000) && near(m250k.comparison.monthlySaving, 2000),
+    'PkTax: monthly Rs 250,000 -> tax Rs 23,000, take-home Rs 227,000, saves Rs 2,000 vs 2025-26');
+  const m500k = pkTaxLogic.calculateSalaryTax(500000, 'monthly', '2026-27');
+  assert(near(m500k.monthlyTax, 92000) && near(m500k.monthlyTakeHome, 408000) && near(m500k.comparison.monthlySaving, 14750),
+    'PkTax: monthly Rs 500,000 -> tax Rs 92,000, take-home Rs 408,000, saves Rs 14,750 vs 2025-26');
+  assert(near(m100k.comparison.monthlySaving, 0), 'PkTax: monthly Rs 100,000 -> same tax in both years');
+  assert(m500k.slabIndex === 6 && near(m500k.effectiveRate, 18.4), 'PkTax: Rs 6,000,000 a year is in the 32% slab, effective rate 18.4%');
+
+  // Monthly and annual input give the same result
+  const a1 = pkTaxLogic.calculateSalaryTax(3000000, 'annual', '2026-27');
+  assert(near(a1.annualTax, m250k.annualTax), 'PkTax: Rs 3,000,000 annual equals Rs 250,000 monthly');
+
+  // Each table is continuous: a slab's fixed amount equals the full tax of the slab below
+  Object.entries(pkTaxLogic.TAX_TABLES).forEach(([year, table]) => {
+    table.slabs.forEach((slab, i) => {
+      if (i === 0) return;
+      const prev = table.slabs[i - 1];
+      assert(prev.upTo === slab.over && near(prev.fixed + prev.rate * (prev.upTo - prev.over), slab.fixed),
+        `PkTax ${year}: slab ${i + 1} fixed Rs ${slab.fixed} continues from slab ${i}`);
+    });
+  });
+
+  assert(pkTaxLogic.formatPkr(1234567) === 'Rs 1,234,567', 'PkTax: formatPkr(1234567) = "Rs 1,234,567"');
+  assert(pkTaxLogic.formatPkr(0) === 'Rs 0', 'PkTax: formatPkr(0) = "Rs 0"');
+
+  let threw = false;
+  try { pkTaxLogic.calculateSalaryTax(-1, 'monthly'); } catch (e) { threw = true; }
+  assert(threw, 'PkTax: negative salary throws a clear error');
 }
+
+// CGPA to Percentage Calculator Logic
+const cgpaLogic = require(path.join(ROOT, 'src/tools/cgpa-to-percentage-calculator/logic.js'));
+{
+  const near = (a, b) => Math.abs(a - b) < 1e-9;
+  const throws = fn => { try { fn(); return false; } catch (e) { return true; } };
+
+  assert(near(cgpaLogic.cgpaToPercentage(3.2, { scale: 4 }).percentage, 80), 'CgpaLogic: 3.2 on 4.0 (simple) -> 80%');
+  assert(near(cgpaLogic.cgpaToPercentage(3.5, { scale: 4 }).percentage, 87.5), 'CgpaLogic: 3.5 on 4.0 (simple) -> 87.5%');
+  assert(near(cgpaLogic.cgpaToPercentage(8.0, { scale: 10, formula: 'cbse' }).percentage, 76), 'CgpaLogic: 8.0 on 10 (CBSE) -> 76%');
+  assert(near(cgpaLogic.percentageToCgpa(76, { scale: 10, formula: 'cbse' }).cgpa, 8.0), 'CgpaLogic: 76% on 10 (CBSE) -> 8.0');
+  assert(near(cgpaLogic.cgpaToPercentage(3.0, { scale: 4, formula: 'custom', multiplier: 20, offset: 10 }).percentage, 70),
+    'CgpaLogic: custom m=20, c=10, CGPA 3.0 -> 70%');
+  assert(near(cgpaLogic.percentageToCgpa(70, { scale: 4, formula: 'custom', multiplier: 20, offset: 10 }).cgpa, 3.0),
+    'CgpaLogic: custom m=20, c=10, 70% -> CGPA 3.0 (reverse solved algebraically)');
+  assert(near(cgpaLogic.percentageToCgpa(80, { scale: 4 }).cgpa, 3.2), 'CgpaLogic: 80% on 4.0 (simple) -> 3.2');
+  assert(near(cgpaLogic.cgpaToPercentage(4.0, { scale: 5 }).percentage, 80), 'CgpaLogic: 4.0 on 5.0 (simple) -> 80%');
+
+  assert(throws(() => cgpaLogic.cgpaToPercentage(4.1, { scale: 4 })), 'CgpaLogic: CGPA above the scale is rejected');
+  assert(throws(() => cgpaLogic.cgpaToPercentage(-1, { scale: 4 })), 'CgpaLogic: negative CGPA is rejected');
+  assert(throws(() => cgpaLogic.percentageToCgpa(101, { scale: 4 })), 'CgpaLogic: percentage above 100 is rejected');
+  assert(throws(() => cgpaLogic.cgpaToPercentage(3, { scale: 4, formula: 'cbse' })), 'CgpaLogic: CBSE formula only on the 10.0 scale');
+  assert(throws(() => cgpaLogic.percentageToCgpa(100, { scale: 10, formula: 'cbse' })), 'CgpaLogic: 100% under CBSE (10.53) is outside the scale');
+  assert(throws(() => cgpaLogic.cgpaToPercentage(3, { scale: 4, formula: 'custom', multiplier: 0, offset: 10 })), 'CgpaLogic: custom multiplier 0 is rejected');
+  assert(throws(() => cgpaLogic.cgpaToPercentage(4, { scale: 4, formula: 'custom', multiplier: 30, offset: 10 })), 'CgpaLogic: custom formula giving over 100% is rejected');
+}
+
+// Marks Percentage Calculator Logic
+const marksLogic = require(path.join(ROOT, 'src/tools/marks-percentage-calculator/logic.js'));
+{
+  const throws = fn => { try { fn(); return false; } catch (e) { return true; } };
+
+  const m1 = marksLogic.calculatePercentage(870, 1100);
+  assert(m1.percentage === 79.09 && m1.grade === 'A', `MarksLogic: 870/1100 -> 79.09% (A) (got ${m1.percentage}%, ${m1.grade})`);
+  const m2 = marksLogic.calculatePercentage(990, 1200);
+  assert(m2.percentage === 82.5 && m2.grade === 'A+', `MarksLogic: 990/1200 -> 82.5% (A+) (got ${m2.percentage}%, ${m2.grade})`);
+  const m3 = marksLogic.calculateSubjects([{ obtained: 75, total: 100 }, { obtained: 60, total: 75 }, { obtained: 40, total: 50 }]);
+  assert(m3.obtained === 175 && m3.total === 225 && m3.percentage === 77.78 && m3.grade === 'A',
+    `MarksLogic: subjects 75/100, 60/75, 40/50 -> 175/225 = 77.78% (A) (got ${m3.obtained}/${m3.total} = ${m3.percentage}%, ${m3.grade})`);
+  assert(m3.subjects.map(s => s.percentage).join(',') === '75,80,80', 'MarksLogic: per-subject percentages 75%, 80%, 80%');
+  const m4 = marksLogic.calculatePercentage(30, 100);
+  assert(m4.percentage === 30 && m4.grade === 'F', `MarksLogic: 30/100 -> 30% (F) (got ${m4.grade})`);
+
+  // Band edges use the exact percentage
+  [[80, 'A+'], [79.99, 'A'], [70, 'A'], [60, 'B'], [50, 'C'], [40, 'D'], [33, 'E'], [32.99, 'F'], [0, 'F']]
+    .forEach(([pct, grade]) => assert(marksLogic.gradeFor(pct).grade === grade, `MarksLogic: ${pct}% -> ${grade}`));
+
+  // Empty rows are skipped; partly filled rows must be complete
+  const m5 = marksLogic.calculateSubjects([{ obtained: 50, total: 100 }, { name: '', obtained: '', total: '' }]);
+  assert(m5.subjects.length === 1 && m5.percentage === 50, 'MarksLogic: completely empty subject rows are skipped');
+
+  assert(throws(() => marksLogic.calculatePercentage(110, 100)), 'MarksLogic: obtained above total is rejected');
+  assert(throws(() => marksLogic.calculatePercentage(-5, 100)), 'MarksLogic: negative obtained marks are rejected');
+  assert(throws(() => marksLogic.calculatePercentage(5, 0)), 'MarksLogic: total of 0 is rejected');
+  assert(throws(() => marksLogic.calculateSubjects([{ obtained: 40, total: '' }])), 'MarksLogic: a subject with obtained but no total is rejected');
+  assert(throws(() => marksLogic.calculateSubjects([{ obtained: '', total: '' }])), 'MarksLogic: no marks at all is rejected');
+}
+
+// Gold Calculator Logic (rate 400,000 per tola for 24K)
+const goldLogic = require(path.join(ROOT, 'src/tools/gold-calculator/logic.js'));
+{
+  const near = (a, b, eps = 1e-6) => Math.abs(a - b) < eps;
+  const throws = fn => { try { fn(); return false; } catch (e) { return true; } };
+  const gold = (weight, weightUnit, karat, extra) => goldLogic.calculateGold({
+    rate: 400000, rateUnit: 'tola', rateKarat: 24, weight, weightUnit, karat, ...(extra || {})
+  });
+  const r2 = goldLogic.round2;
+
+  assert(r2(gold(2, 'tola', 22).total) === 733333.33, `GoldLogic: 2 tola of 22K -> 733,333.33 (got ${r2(gold(2, 'tola', 22).total)})`);
+  assert(r2(gold(10, 'gram', 24).total) === 342941.30, `GoldLogic: 10 g of 24K -> 342,941.30 (got ${r2(gold(10, 'gram', 24).total)})`);
+  assert(r2(gold(10, 'gram', 21).total) === 300073.63, `GoldLogic: 10 g of 21K -> 300,073.63 (got ${r2(gold(10, 'gram', 21).total)})`);
+  assert(r2(gold(1, 'masha', 24).total) === 33333.33, `GoldLogic: 1 masha of 24K -> 33,333.33 (got ${r2(gold(1, 'masha', 24).total)})`);
+
+  // Unit conversion: 1 tola = 11.6638038 g = 12 masha = 96 ratti
+  const oneTola = goldLogic.convertWeight(goldLogic.toGrams(1, 'tola'));
+  assert(near(oneTola.gram, 11.6638038) && near(oneTola.masha, 12) && near(oneTola.ratti, 96),
+    'GoldLogic: 1 tola = 11.6638038 g = 12 masha = 96 ratti');
+  assert(near(goldLogic.toGrams(96, 'ratti'), 11.6638038) && near(goldLogic.toGrams(12, 'masha'), 11.6638038),
+    'GoldLogic: 96 ratti and 12 masha are each 11.6638038 g');
+
+  // Pure gold content and karat-adjusted rates
+  const g22 = gold(2, 'tola', 22);
+  assert(near(g22.pureGoldGrams, 2 * 11.6638038 * 22 / 24), 'GoldLogic: 2 tola of 22K holds 21.38364 g of pure gold');
+  assert(near(g22.rates.perTola, 400000 * 22 / 24, 1e-6), 'GoldLogic: 22K rate per tola = 24K rate × 22/24');
+
+  // The same rate quoted per 10 g or per gram gives the same result
+  const per10 = goldLogic.calculateGold({ rate: 400000 / 11.6638038 * 10, rateUnit: '10g', rateKarat: 24, weight: 2, weightUnit: 'tola', karat: 22 });
+  assert(near(per10.total, g22.total, 1e-6), 'GoldLogic: a per-10-gram rate gives the same price as the equivalent per-tola rate');
+
+  // A rate quoted for 22K is scaled to the item's karat
+  const from22 = goldLogic.calculateGold({ rate: 400000 * 22 / 24, rateUnit: 'tola', rateKarat: 22, weight: 10, weightUnit: 'gram', karat: 21 });
+  assert(r2(from22.total) === 300073.63, 'GoldLogic: a 22K rate converted to 21K matches the 24K-based result');
+
+  // Making charges
+  const pct = gold(1, 'tola', 22, { makingType: 'percent', makingValue: 10 });
+  assert(near(pct.makingCharges, pct.goldValue * 0.1) && near(pct.total, pct.goldValue * 1.1), 'GoldLogic: 10% making charges on gold value');
+  const fixed = gold(10, 'gram', 22, { makingType: 'perGram', makingValue: 500 });
+  assert(near(fixed.makingCharges, 5000) && near(fixed.total, fixed.goldValue + 5000), 'GoldLogic: Rs 500 per gram making on 10 g = Rs 5,000');
+
+  assert(goldLogic.formatMoney(733333.333, 'PKR') === 'Rs 733,333.33', 'GoldLogic: formatMoney PKR with separators');
+  assert(throws(() => gold(0, 'tola', 22)), 'GoldLogic: zero weight is rejected');
+  assert(throws(() => gold(1, 'tola', 23)), 'GoldLogic: unsupported karat is rejected');
+  assert(throws(() => goldLogic.calculateGold({ rate: '', weight: 1, weightUnit: 'tola', karat: 24 })), 'GoldLogic: missing rate is rejected');
+  assert(throws(() => gold(1, 'tola', 22, { makingType: 'percent', makingValue: -5 })), 'GoldLogic: negative making charges are rejected');
+}
+
+// GST & Sales Tax Calculator Logic
+const salesTaxLogic = require(path.join(ROOT, 'src/tools/sales-tax-calculator/logic.js'));
+{
+  const throws = fn => { try { fn(); return false; } catch (e) { return true; } };
+
+  const add = salesTaxLogic.addTax(1000, 18);
+  assert(add.tax === 180 && add.gross === 1180, `SalesTaxLogic: add 18% to 1,000 -> tax 180, total 1,180 (got ${add.tax}, ${add.gross})`);
+  const rem = salesTaxLogic.removeTax(1180, 18);
+  assert(rem.net === 1000 && rem.tax === 180, `SalesTaxLogic: remove 18% from 1,180 -> 1,000 and tax 180 (got ${rem.net}, ${rem.tax})`);
+  const rem5k = salesTaxLogic.removeTax(5000, 18);
+  assert(rem5k.net === 4237.29 && rem5k.tax === 762.71, `SalesTaxLogic: remove 18% from 5,000 -> 4,237.29 and tax 762.71 (got ${rem5k.net}, ${rem5k.tax})`);
+  assert(rem5k.net + rem5k.tax === 5000, 'SalesTaxLogic: net + tax add up exactly to the inclusive price');
+  const qty = salesTaxLogic.addTax(1000, 18, 3);
+  assert(qty.gross === 3540 && qty.net === 3000 && qty.tax === 540, `SalesTaxLogic: 3 x 1,000 at 18% -> 3,540 (got ${qty.gross})`);
+  // The common mistake: subtracting 18% from an inclusive price gives the wrong pre-tax price
+  assert(1180 * (1 - 0.18) !== rem.net, 'SalesTaxLogic: subtracting 18% from 1,180 (967.60) is not the pre-tax price');
+  assert(salesTaxLogic.addTax(100, 0).gross === 100, 'SalesTaxLogic: 0% tax leaves the price unchanged');
+
+  assert(throws(() => salesTaxLogic.addTax(-1, 18)), 'SalesTaxLogic: negative price is rejected');
+  assert(throws(() => salesTaxLogic.addTax(100, 120)), 'SalesTaxLogic: rate above 100% is rejected');
+  assert(throws(() => salesTaxLogic.addTax(100, 18, 0)), 'SalesTaxLogic: quantity 0 is rejected');
+  assert(throws(() => salesTaxLogic.removeTax('', 18)), 'SalesTaxLogic: missing price is rejected');
+}
+
+// Country data: salary tax datasets, VAT presets, grading scales, gold units, countries
+{
+  const fs = require('fs');
+  const engine = require(path.join(ROOT, 'src/tools/salary-tax-calculator/logic.js'));
+  const near = (a, b) => Math.abs(a - b) < 0.005;
+  const isDate = (s) => /^\d{4}-\d{2}-\d{2}$/.test(s || '');
+  const isOfficialUrl = (u) => /^https:\/\/([^/]+\.)?(u\.ae|gov\.uk|gov|gov\.in|gov\.pk|gov\.ae|gov\.sa|gov\.qa|gov\.sg|govt\.nz|europa\.eu|canada\.ca|gov\.za|edu\.pk|nist\.gov|gov\.hk)\//.test(u || '');
+  const taxDir = path.join(ROOT, 'src/_data/tax');
+  const datasets = fs.readdirSync(taxDir).filter(f => f.endsWith('.json'))
+    .map(f => ({ file: f, d: JSON.parse(fs.readFileSync(path.join(taxDir, f), 'utf8')) }));
+  const tools = JSON.parse(fs.readFileSync(path.join(ROOT, 'src/_data/tools.json'), 'utf8'));
+  // Country page text (FAQs, sections, worked examples) lives in the translation data
+  const countryPages = require(path.join(ROOT, 'src/_data/i18n/tools/en/salary-tax-calculator.json')).countryPages;
+
+  // Every dataset: official sources, a verification date, continuous slabs, fixed amounts that
+  // match the slabs below, and a tools.json entry for its page
+  datasets.forEach(({ file, d }) => {
+    assert(file === `${d.country.toLowerCase()}-${d.taxYear}.json`, `TaxData ${file}: file name matches country and tax year`);
+    assert(d.sources.length > 0 && d.sources.every(s => isOfficialUrl(s.url)), `TaxData ${file}: every source is an official https URL`);
+    assert(isDate(d.verifiedOn), `TaxData ${file}: verifiedOn is a date`);
+    const statusIds = d.statuses ? Object.keys(d.statuses) : [undefined];
+    statusIds.forEach(id => {
+      const raw = id ? d.statuses[id].slabs : d.slabs;
+      const { slabs } = engine.resolve(d, id);
+      slabs.forEach((slab, i) => {
+        if (i) assert(slabs[i - 1].upTo === slab.over, `TaxData ${file}${id ? ' ' + id : ''}: slab ${i + 1} starts where slab ${i} ends`);
+        if (typeof raw[i].fixed === 'number') assert(near(raw[i].fixed, slab.fixed) || i === 0, `TaxData ${file}${id ? ' ' + id : ''}: published fixed amount ${raw[i].fixed} equals tax on the slabs below`);
+      });
+      assert(slabs[slabs.length - 1].upTo === null, `TaxData ${file}${id ? ' ' + id : ''}: top slab is open-ended`);
+    });
+    if (d.page) {
+      assert(tools.some(t => t.slug === d.page.slug), `TaxData ${file}: tools.json lists /tools/${d.page.slug}/`);
+      const cp = countryPages[d.country] || {};
+      assert(cp.faqs.length >= 3 && cp.sections.length >= 2 && cp.workedExamples.length >= 2, `TaxData ${file}: page has its own FAQs, sections and worked examples`);
+    }
+  });
+
+  // Each country page has genuinely different text (no shared paragraphs)
+  const pageTexts = datasets.filter(x => x.d.page).map(x => countryPages[x.d.country].sections.flatMap(s => s.paragraphs));
+  const allParas = pageTexts.flat();
+  assert(new Set(allParas).size === allParas.length, 'TaxData: no paragraph is repeated across country pages');
+
+  const ds = (name) => datasets.find(x => x.file === name).d;
+
+  // India FY 2025-26: Budget Speech 2025-26 annex table (tax after rebate, before cess)
+  const IN = ds('in-2025-26.json');
+  assert(IN.officialExamples.length >= 2, 'TaxIN: at least two official examples');
+  IN.officialExamples.forEach(x => {
+    const r = engine.calculate(IN, x.grossSalary);
+    assert(near(r.grossTax - r.rebate + r.surcharge, x.taxBeforeCess), `TaxIN official: ${x.note} (got ${r.grossTax - r.rebate + r.surcharge})`);
+  });
+  assert(near(engine.calculate(IN, 1675000).annualTax, 124800), 'TaxIN: ₹16.75 lakh salary -> ₹1,24,800 with 4% cess');
+  assert(near(engine.calculate(IN, 1285000).annualTax, 10400), 'TaxIN: marginal relief at ₹12.1 lakh total income -> ₹10,000 + cess');
+  assert(near(engine.calculate(IN, 5175000).surcharge, 70000), 'TaxIN: surcharge marginal relief at ₹51 lakh -> ₹70,000');
+  assert(engine.calculate(IN, 5075000).surcharge === 0, 'TaxIN: no surcharge at exactly ₹50 lakh total income');
+
+  // United States 2026: Rev. Proc. 2025-32 tax rate tables
+  const US = ds('us-2026.json');
+  assert(US.officialExamples.length >= 2, 'TaxUS: at least two official examples');
+  US.officialExamples.forEach(x => {
+    const tax = engine.slabTax(engine.resolve(US, x.status).slabs, x.taxableIncome);
+    assert(near(tax, x.tax), `TaxUS official: ${x.note} (got ${tax})`);
+  });
+  assert(near(engine.calculate(US, 72000, { status: 'single' }).annualTax, 7010), 'TaxUS: single $72,000 -> $7,010');
+  assert(near(engine.calculate(US, 150000, { status: 'married_joint' }).annualTax, 15340), 'TaxUS: MFJ $150,000 -> $15,340');
+  assert(engine.calculate(US, 16100, { status: 'single' }).annualTax === 0, 'TaxUS: wages at the standard deduction pay no federal income tax');
+
+  // United Kingdom 2026-27: GOV.UK Personal Allowance and bands
+  const GB = ds('gb-2026-27.json');
+  assert(GB.officialExamples.length >= 2, 'TaxGB: at least two official examples');
+  GB.officialExamples.forEach(x => {
+    const r = engine.calculate(GB, x.income, { status: x.status });
+    if (x.tax !== undefined) assert(near(r.annualTax, x.tax), `TaxGB official: ${x.note} (got ${r.annualTax})`);
+    if (x.allowance !== undefined) assert(near(r.deductions.find(dd => dd.id === 'allowance').amount, x.allowance), `TaxGB official: ${x.note}`);
+  });
+  assert(near(engine.calculate(GB, 36000, { status: 'rUK' }).annualTax, 4686), 'TaxGB: £36,000 in England -> £4,686');
+  assert(near(engine.calculate(GB, 110000, { status: 'rUK' }).annualTax, 33432), 'TaxGB: £110,000 -> £33,432 (allowance taper)');
+  assert(near(engine.calculate(GB, 36000, { status: 'scotland' }).annualTax, 4711.07), 'TaxGB: £36,000 in Scotland -> £4,711.07');
+  assert(near(engine.calculate(GB, 200000, { status: 'rUK' }).annualTax, 76203), 'TaxGB: £200,000 -> £76,203 (no allowance)');
+
+  // Unified calculator: take-home pay with contributions (calculatePay). Expected figures are
+  // worked out by hand from the rates in each dataset and match HMRC, IRS/SSA and Income Tax
+  // Department examples where those publish one.
+  const pay = (d, amount, input) => engine.calculatePay(d, { amount, period: 'annual', ...(input || {}) });
+  const line = (r, id) => (r.lines.find(l => l.id === id) || { amount: 0 }).amount;
+
+  // UK 2026-27: Income Tax + Class 1 NI (8% from £12,570 to £50,270, 2% above), student loans, pension
+  const gb50 = pay(GB, 50000);
+  assert(near(line(gb50, 'incomeTax'), 7486) && near(line(gb50, 'nationalInsurance'), 2994.4) && near(gb50.net, 39519.6),
+    `PayGB: £50,000 -> tax £7,486, NI £2,994.40, take-home £39,519.60 (got ${gb50.net})`);
+  const gb60 = pay(GB, 60000);
+  assert(near(line(gb60, 'incomeTax'), 11432) && near(line(gb60, 'nationalInsurance'), 3210.6), 'PayGB: £60,000 -> tax £11,432, NI £3,210.60 (2% above the UEL)');
+  assert(near(gb60.marginalRate, 42), `PayGB: £60,000 marginal rate 40% + 2% NI (got ${gb60.marginalRate})`);
+  assert(near(pay(GB, 110000).marginalRate, 62), 'PayGB: £110,000 marginal rate 62% inside the allowance taper');
+  assert(near(line(pay(GB, 36000, { status: 'scotland' }), 'nationalInsurance'), 1874.4), 'PayGB: Scotland pays the same UK-wide NI (£36,000 -> £1,874.40)');
+  assert(near(line(pay(GB, 12570), 'nationalInsurance'), 0), 'PayGB official: no employee NI up to the Primary Threshold £12,570');
+  const gbLoans = pay(GB, 36000, { options: { studentLoan: 'plan2', postgraduateLoan: true } });
+  assert(near(line(gbLoans, 'plan2'), 595.35) && near(line(gbLoans, 'postgraduateLoan'), 900), 'PayGB: £36,000 -> Plan 2 £595.35 (9% over £29,385), Postgraduate £900 (6% over £21,000)');
+  ['plan1', 'plan4', 'plan5'].forEach((plan, i) => {
+    const expected = [(36000 - 26900) * 0.09, (36000 - 33795) * 0.09, (36000 - 25000) * 0.09][i];
+    assert(near(line(pay(GB, 36000, { options: { studentLoan: plan } }), plan), expected), `PayGB: £36,000 -> ${plan} repayment ${expected.toFixed(2)}`);
+  });
+  assert(line(pay(GB, 36000), 'plan2') === 0, 'PayGB: no student loan line unless a plan is chosen');
+  const gbPension = pay(GB, 36000, { options: { pension: 5 } });
+  assert(near(line(gbPension, 'incomeTax'), 4326) && near(line(gbPension, 'pension'), 1800) && near(line(gbPension, 'nationalInsurance'), 1874.4),
+    'PayGB: 5% pension (net pay arrangement) cuts Income Tax to £4,326, not NI; £1,800 comes off take-home');
+  assert(near(line(pay(GB, 110000, { options: { pension: 10 } }), 'incomeTax'), 27032), 'PayGB: £110,000 with 10% pension keeps the full allowance (adjusted net income £99,000) -> £27,032');
+
+  // US 2026: federal income tax + FICA
+  const us72 = pay(US, 72000);
+  assert(near(line(us72, 'socialSecurity'), 4464) && near(line(us72, 'medicare'), 1044) && near(us72.net, 59482), `PayUS: single $72,000 -> SS $4,464, Medicare $1,044, take-home $59,482 (got ${us72.net})`);
+  const us250 = pay(US, 250000);
+  assert(near(line(us250, 'socialSecurity'), 11439) && near(line(us250, 'medicare'), 3625) && near(line(us250, 'additionalMedicare'), 450),
+    'PayUS: single $250,000 -> SS capped at the $184,500 wage base ($11,439), Medicare $3,625, Additional Medicare $450');
+  assert(line(pay(US, 250000, { status: 'married_joint' }), 'additionalMedicare') === 0, 'PayUS: MFJ $250,000 -> no Additional Medicare Tax (threshold $250,000)');
+  assert(near(line(pay(US, 150000, { status: 'married_separate' }), 'additionalMedicare'), 225), 'PayUS: MFS $150,000 -> Additional Medicare $225 (threshold $125,000)');
+  assert(near(line(pay(US, 104000, { status: 'head_of_household' }), 'incomeTax'), 10468), 'PayUS: head of household $104,000 -> $10,468 ($24,150 standard deduction)');
+
+  // India FY 2025-26: new and old regime
+  assert(near(line(pay(IN, 1675000), 'incomeTax'), 124800), 'PayIN: new regime is the default status (₹16.75 lakh -> ₹1,24,800)');
+  const inOld = pay(IN, 1000000, { status: 'old', options: { deduction80C: 200000, deduction80D: 25000 } });
+  assert(near(inOld.taxableIncome, 775000) && near(line(inOld, 'incomeTax'), 70200), `PayIN: old regime ₹10 lakh, 80C capped at ₹1.5 lakh, 80D ₹25,000 -> taxable ₹7,75,000, tax ₹70,200 (got ${line(inOld, 'incomeTax')})`);
+  assert(near(inOld.net, 1000000 - 70200), 'PayIN: 80C and 80D are deductions, not money taken out of pay');
+  assert(line(pay(IN, 550000, { status: 'old' }), 'incomeTax') === 0, 'PayIN: old regime 87A rebate -> nil tax at ₹5 lakh taxable');
+  assert(near(line(pay(IN, 560000, { status: 'old' }), 'incomeTax'), 15080), 'PayIN: old regime has no marginal relief above ₹5 lakh (₹5.1 lakh taxable -> ₹15,080)');
+  assert(near(line(pay(IN, 1000000, { status: 'new', options: { deduction80C: 150000 } }), 'incomeTax'), 0), 'PayIN: 80C is ignored under the new regime');
+
+  // Pakistan 2026-27 and periods
+  const pk = ds('pk-2026-27.json');
+  const pk250 = engine.calculatePay(pk, { amount: 250000, period: 'monthly' });
+  assert(near(pk250.views.totalTaxes.monthly, 23000) && near(pk250.views.net.monthly, 227000), 'PayPK: Rs 250,000 a month -> tax Rs 23,000, take-home Rs 227,000');
+  assert(engine.toAnnual(20, 'hourly', 37.5) === 39000 && engine.toAnnual(500, 'weekly') === 26000 && engine.toAnnual(1000, 'monthly') === 12000, 'PayPeriods: hourly × hours × 52, weekly × 52, monthly × 12');
+  assert(near(pk250.views.net.weekly * 52, pk250.net), 'PayPeriods: weekly view is the annual amount / 52');
+  let hoursThrew = false;
+  try { engine.toAnnual(20, 'hourly', 0); } catch (e) { hoursThrew = true; }
+  assert(hoursThrew, 'PayPeriods: hourly pay needs hours per week');
+
+  // Custom Tax Mode
+  const customEur = engine.customDataset({ currency: 'EUR', brackets: [{ from: 0, to: 10000, rate: 0 }, { from: 10000, to: '', rate: 20 }], social: 10, levies: [{ label: 'Levy', rate: 5, base: 'incomeTax' }] });
+  const c30 = pay(customEur, 30000);
+  assert(near(line(c30, 'incomeTax'), 4000) && near(line(c30, 'social'), 3000) && near(line(c30, 'levy1'), 200), 'PayCustom: 20% over 10,000, 10% social, 5% levy on tax -> 4,000 / 3,000 / 200');
+  const gaps = engine.customDataset({ brackets: [{ from: 10000, to: 20000, rate: 10 }] });
+  assert(near(line(pay(gaps, 30000), 'incomeTax'), 1000), 'PayCustom: below the first bracket and above a capped last bracket is 0%');
+  const capped = engine.customDataset({ brackets: [{ from: 0, to: '', rate: 0 }], social: 10, socialCap: 50000, allowance: 5000, deduction: 1000, pension: 5 });
+  const cap80 = pay(capped, 80000);
+  assert(near(line(cap80, 'social'), 5000) && near(line(cap80, 'pension'), 4000), 'PayCustom: social security stops at the cap; pension % comes off pay');
+  let customErrors = 0;
+  [[{ from: 0, to: 100, rate: 10 }, { from: 50, to: '', rate: 20 }], [{ from: 0, to: '', rate: 120 }], [{ from: 100, to: 50, rate: 10 }], []].forEach(brackets => {
+    try { engine.customDataset({ brackets }); } catch (e) { customErrors++; }
+  });
+  assert(customErrors === 4, 'PayCustom: overlapping brackets, a rate over 100%, "to" below "from" and no brackets are rejected');
+  const settings = { currency: 'CHF', brackets: [{ from: '0', to: '', rate: '12.5' }], allowance: '1000', deduction: '', social: '5.3', socialCap: '', pension: '', levies: [{ label: 'Church tax_*~!', rate: '8', base: 'incomeTax' }] };
+  assert(JSON.stringify(engine.decodeCustom(engine.encodeCustom(settings))) === JSON.stringify(settings), 'PayCustom: settings survive the URL encoding');
+  assert(engine.decodeCustom('garbage') === null, 'PayCustom: an invalid custom parameter is ignored');
+  const copied = engine.customFromDataset(US, 'single');
+  assert(copied.brackets.length === 7 && copied.deduction === 16100 && copied.currency === 'USD', 'PayCustom: "copy a country" template takes its brackets, deduction and currency');
+  assert(near(line(pay(engine.customDataset(copied), 72000), 'incomeTax'), 7010), 'PayCustom: a copied US template gives the same federal tax ($72,000 -> $7,010)');
+
+  // Country list: every country once, valid currencies, built-in rules for every dataset
+  const stcCountries = require(path.join(ROOT, 'src/_data/salaryTaxCountries.js'))();
+  assert(new Set(stcCountries.map(c => c.code)).size === stcCountries.length && stcCountries.length > 230, `StcCountries: ${stcCountries.length} unique countries`);
+  assert(stcCountries.every(c => { try { new Intl.NumberFormat('en', { style: 'currency', currency: c.currency }); return /^[A-Z]{3}$/.test(c.currency); } catch (e) { return false; } }), 'StcCountries: every currency is a valid ISO 4217 code');
+  datasets.forEach(({ d }) => {
+    const c = stcCountries.find(x => x.code === d.country);
+    assert(c && c.rules === 'builtin' && c.years.includes(d.taxYear), `StcCountries: ${d.country} ${d.taxYear} is offered with built-in rules`);
+  });
+  require(path.join(ROOT, 'src/_data/noSalaryTax.json')).countries.forEach(n => assert(stcCountries.find(c => c.code === n.code).rules === 'noTax', `StcCountries: ${n.code} is a no-income-tax country`));
+
+  // Engine errors
+  let threw = false;
+  try { engine.calculate(US, 50000, { status: 'head' }); } catch (e) { threw = true; }
+  assert(threw, 'TaxEngine: unknown filing status throws');
+
+  // Countries with no salary tax: each has an official statement
+  const noTax = JSON.parse(fs.readFileSync(path.join(ROOT, 'src/_data/noSalaryTax.json'), 'utf8')).countries;
+  noTax.forEach(c => assert(isOfficialUrl(c.source.url) && isDate(c.verifiedOn) && c.quote, `NoSalaryTax ${c.code}: official source, quote and date`));
+
+  // VAT presets
+  const vat = JSON.parse(fs.readFileSync(path.join(ROOT, 'src/_data/vat-rates.json'), 'utf8')).countries;
+  assert(new Set(vat.map(c => c.code)).size === vat.length, 'Vat: country codes are unique');
+  const EU = ['AT','BE','BG','CY','CZ','DE','DK','EE','GR','ES','FI','FR','HR','HU','IE','IT','LT','LU','LV','MT','NL','PL','PT','RO','SE','SI','SK'];
+  assert(EU.every(code => vat.some(c => c.code === code)), 'Vat: all 27 EU member states are present');
+  vat.forEach(c => {
+    if (c.code === 'US') {
+      assert(c.rates.length === 0 && /no federal sales tax/i.test(c.notes), 'Vat US: no preset rate; the note explains state and local sales tax');
+      return;
+    }
+    assert(c.rates.length > 0 && c.rates.every(r => r.rate > 0 && r.rate < 100 && r.label), `Vat ${c.code}: rates are between 0 and 100 with labels`);
+    assert(isOfficialUrl(c.source.url) && isDate(c.verifiedOn), `Vat ${c.code}: official source and verifiedOn`);
+  });
+  const rate = (code) => vat.find(c => c.code === code).rates[0].rate;
+  assert(rate('GB') === 20 && rate('DE') === 19 && rate('FI') === 25.5 && rate('IN') === 18 && rate('PK') === 18 && rate('SA') === 15 && rate('AE') === 5 && rate('CA-ON') === 13,
+    'Vat: standard rates GB 20, DE 19, FI 25.5, IN 18, PK 18, SA 15, AE 5, Ontario HST 13');
+
+  // Grading scales
+  const scales = JSON.parse(fs.readFileSync(path.join(ROOT, 'src/_data/grading-scales.json'), 'utf8')).scales;
+  scales.forEach(sc => {
+    assert(sc.note && (sc.source ? isOfficialUrl(sc.source.url) && isDate(sc.verifiedOn) : /typical|could not find|vary/i.test(sc.name + sc.note)),
+      `Grading ${sc.code}: has an official source, or says it is typical / unverified`);
+    if (sc.type === 'bands') {
+      assert(sc.bands.every((b, i) => !i || b.min < sc.bands[i - 1].min) && sc.bands[sc.bands.length - 1].min === 0, `Grading ${sc.code}: bands run from highest to 0%`);
+    }
+  });
+  const scale = (code) => scales.find(sc => sc.code === code);
+  assert(JSON.stringify(scale('PK-BISE').bands) === JSON.stringify(marksLogic.GRADING.bands), 'Grading PK-BISE: matches the logic module default');
+  [[96, 'A++'], [95.5, 'A+'], [91, 'A+'], [86, 'A'], [76, 'B+'], [61, 'C+'], [40, 'D'], [39.99, 'U']]
+    .forEach(([pct, g]) => assert(marksLogic.gradeFor(pct, scale('PK-IBCC-2026')).grade === g, `Grading IBCC 2026: ${pct}% -> ${g}`));
+  assert(marksLogic.gradeFor(33, scale('IN-CBSE')).passed === true && marksLogic.gradeFor(32.99, scale('IN-CBSE')).passed === false, 'Grading CBSE: 33% passes, 32.99% does not');
+  assert(marksLogic.calculatePercentage(870, 1100, scale('US-TYPICAL')).grade === 'C', 'Grading US typical: 79.09% -> C');
+  const custom = marksLogic.customScale([{ grade: 'Pass', min: '50' }, { grade: 'Distinction', min: '75' }, { grade: 'Fail', min: '0' }]);
+  assert(custom.bands.map(b => b.grade).join(',') === 'Distinction,Pass,Fail' && marksLogic.gradeFor(80, custom).grade === 'Distinction', 'Grading custom: rows sorted by minimum; 80% -> Distinction');
+  let customThrew = 0;
+  [[{ grade: '', min: 50 }], [{ grade: 'A', min: 120 }], [{ grade: 'A', min: 50 }, { grade: 'B', min: 50 }], []].forEach(rows => {
+    try { marksLogic.customScale(rows); } catch (e) { customThrew++; }
+  });
+  assert(customThrew === 4, 'Grading custom: blank name, minimum over 100, duplicate minimum and empty scale are rejected');
+
+  // Gold units from legal definitions
+  assert(goldLogic.WEIGHT_UNITS.troyOunce.grams === 31.1034768, 'GoldUnits: troy ounce = 31.1034768 g (NIST HB 44)');
+  assert(goldLogic.WEIGHT_UNITS.taelTroy.grams === 37.429, 'GoldUnits: Hong Kong tael troy = 37.429 g (Cap. 68)');
+  const oz = goldLogic.calculateGold({ rate: 2000, rateUnit: 'troyOunce', rateKarat: 24, weight: 1, weightUnit: 'troyOunce', karat: 24, makingType: 'none' });
+  assert(near(oz.goldValue, 2000), 'GoldUnits: 1 troy ounce of 24K at 2,000 per troy ounce = 2,000');
+  const kg = goldLogic.calculateGold({ rate: 100, rateUnit: 'gram', rateKarat: 24, weight: 1, weightUnit: 'kilogram', karat: 24, makingType: 'none' });
+  assert(near(kg.goldValue, 100000), 'GoldUnits: 1 kg at 100 per gram = 100,000');
+
+  // Countries list
+  const countries = JSON.parse(fs.readFileSync(path.join(ROOT, 'src/_data/countries.json'), 'utf8'));
+  assert(new Set(countries.map(c => c.code)).size === countries.length && new Set(countries.map(c => c.slug)).size === countries.length, 'Countries: codes and slugs are unique');
+  countries.forEach(c => {
+    let ok = true;
+    try { new Intl.NumberFormat(c.locale, { style: 'currency', currency: c.currency }).format(1); } catch (e) { ok = false; }
+    assert(ok && Intl.NumberFormat.supportedLocalesOf(c.locale).length === 1, `Countries ${c.code}: locale ${c.locale} and currency ${c.currency} are valid`);
+  });
+}
+
+// Hours Calculator Logic
+const hoursLogic = require(path.join(ROOT, 'src/tools/hours-calculator/logic.js'));
+{
+  const day = hoursLogic.calculateDuration('09:00', '17:30', 30);
+  assert(day.hhmm === '8:00' && day.decimalHours === 8 && day.workedMinutes === 480, `Hours: 09:00-17:30 with 30 min break = 8:00 (8.00 h) (got ${day.hhmm}, ${day.decimalHours})`);
+
+  const night = hoursLogic.calculateDuration('22:00', '06:00', 0);
+  assert(night.hhmm === '8:00' && night.crossesMidnight === true, `Hours: 22:00-06:00 crosses midnight = 8:00 (got ${night.hhmm})`);
+
+  assert(hoursLogic.minutesToDecimal(8 * 60 + 45) === 8.75, 'Hours: 8 h 45 min = 8.75 decimal hours');
+  const quarterTo = hoursLogic.calculateDuration('08:15', '17:30', 30);
+  assert(quarterTo.hhmm === '8:45' && quarterTo.decimalHours === 8.75, 'Hours: 08:15-17:30 with 30 min break = 8:45 = 8.75 h');
+  assert(hoursLogic.decimalToMinutes(8.75) === 525, 'Hours: 8.75 h = 525 minutes');
+
+  const fiveDays = Array.from({ length: 5 }, () => ({ start: '09:00', end: '17:00', break: 0 }));
+  const week40 = hoursLogic.calculateTimesheet(fiveDays, { rate: 15 });
+  assert(week40.decimalHours === 40 && week40.totalPay === 600 && week40.overtimePay === 0, `Hours: five 8 h days at 15/hour = 600 (got ${week40.totalPay})`);
+
+  const nineHourDays = Array.from({ length: 5 }, () => ({ start: '08:00', end: '17:00', break: 0 }));
+  const week45 = hoursLogic.calculateTimesheet(nineHourDays, { rate: 20, overtimeAfterHours: 40, overtimeMultiplier: 1.5 });
+  assert(week45.decimalHours === 45 && week45.regularPay === 800 && week45.overtimePay === 150 && week45.totalPay === 950,
+    `Hours: 45 h at 20/h with overtime after 40 at 1.5x = 800 + 150 = 950 (got ${week45.regularPay} + ${week45.overtimePay} = ${week45.totalPay})`);
+  const noOt = hoursLogic.calculateTimesheet(nineHourDays, { rate: 20, overtime: false });
+  assert(noOt.totalPay === 900 && noOt.overtimeMinutes === 0, 'Hours: overtime switched off pays 45 h x 20 = 900');
+
+  // Empty days are skipped, half-filled days and impossible breaks are rejected
+  const withDaysOff = hoursLogic.calculateTimesheet([{ start: '09:00', end: '17:00' }, {}, { start: '', end: '' }]);
+  assert(withDaysOff.daysWorked === 1 && withDaysOff.hhmm === '8:00' && withDaysOff.hasRate === false, 'Hours: empty timesheet rows count as days off; no rate means no pay figures');
+  const half = hoursLogic.calculateTimesheet([{ start: '09:00', end: '' }]);
+  assert(half.error && half.rowIndex === 0 && /Monday/.test(half.error), 'Hours: a row with only a start time names the day in its error');
+  assert(hoursLogic.calculateDuration('09:00', '10:00', 90).error, 'Hours: a break longer than the shift is an error');
+  assert(hoursLogic.calculateDuration('09:00', '17:00', -5).error, 'Hours: a negative break is an error');
+  assert(hoursLogic.calculateDuration('25:00', '17:00', 0).error && hoursLogic.calculateDuration('', '17:00', 0).error, 'Hours: invalid or missing start time is an error');
+  assert(hoursLogic.calculateTimesheet(fiveDays, { rate: 10, overtimeMultiplier: 0.5 }).error, 'Hours: an overtime multiplier below 1 is an error');
+
+  // 12-hour input and formatting
+  assert(hoursLogic.parseTime('5:30 pm') === 1050 && hoursLogic.parseTime('12am') === 0 && hoursLogic.parseTime('12:15 PM') === 735, 'Hours: 12-hour times parse (5:30 pm, 12am, 12:15 PM)');
+  assert(hoursLogic.parseTime('9') === null, 'Hours: a bare hour without am/pm is rejected as ambiguous');
+  assert(hoursLogic.formatHoursMinutes(2705) === '45:05', 'Hours: totals over 24 h format as 45:05');
+
+  // Property: duration + break always equals the clock span, and is within one day
+  const rand = mulberry32(2026);
+  for (let i = 0; i < 300; i++) {
+    const s = Math.floor(rand() * 1440), e = Math.floor(rand() * 1440);
+    const fmt = m => `${String(Math.floor(m / 60)).padStart(2, '0')}:${String(m % 60).padStart(2, '0')}`;
+    const span = ((e - s) + 1440) % 1440;
+    const brk = Math.floor(rand() * (span + 1));
+    const r = hoursLogic.calculateDuration(fmt(s), fmt(e), brk);
+    if (r.error || r.workedMinutes + brk !== span || r.workedMinutes < 0 || r.workedMinutes >= 1440) {
+      assert(false, `Hours fuzz: ${fmt(s)}-${fmt(e)} break ${brk} gave ${JSON.stringify(r)}`);
+      break;
+    }
+  }
+}
+
+// Unix Timestamp Converter Logic
+const unixLogic = require(path.join(ROOT, 'src/tools/unix-timestamp-converter/logic.js'));
+{
+  const now = Date.UTC(2026, 9, 31, 12, 0, 0);
+  const epoch = unixLogic.convertTimestamp('0', { now });
+  assert(epoch.iso === '1970-01-01T00:00:00Z' && epoch.unit === 's', `Unix: 0 -> 1970-01-01T00:00:00Z (got ${epoch.iso})`);
+
+  const sec = unixLogic.convertTimestamp('1700000000', { now });
+  assert(sec.iso === '2023-11-14T22:13:20Z' && sec.unit === 's' && sec.detected, `Unix: 1700000000 -> 2023-11-14T22:13:20Z (got ${sec.iso})`);
+  assert(sec.rfc2822 === 'Tue, 14 Nov 2023 22:13:20 +0000', `Unix: RFC 2822 for 1700000000 (got ${sec.rfc2822})`);
+
+  const ms = unixLogic.convertTimestamp('1700000000000', { now });
+  assert(ms.unit === 'ms' && ms.iso === '2023-11-14T22:13:20Z' && ms.seconds === 1700000000, `Unix: 1700000000000 detected as ms -> same date (got ${ms.unit}, ${ms.iso})`);
+
+  const y2038 = unixLogic.convertTimestamp(String(unixLogic.INT32_MAX), { now });
+  assert(y2038.iso === '2038-01-19T03:14:07Z' && y2038.beyond2038 === false, `Unix: 2147483647 -> 2038-01-19T03:14:07Z (got ${y2038.iso})`);
+  assert(unixLogic.convertTimestamp('2147483648', { now }).beyond2038 === true, 'Unix: 2147483648 is past the signed 32-bit limit');
+
+  // Units, negatives and invalid input
+  assert(unixLogic.detectUnit(1700000000) === 's' && unixLogic.detectUnit(1700000000000) === 'ms' && unixLogic.detectUnit(1700000000000000) === 'us' && unixLogic.detectUnit(1700000000000000000) === 'ns', 'Unix: unit detection for s, ms, us and ns');
+  assert(unixLogic.convertTimestamp('1700000000', { unit: 'ms', now }).iso === '1970-01-20T16:13:20Z', 'Unix: forcing ms reads 1700000000 as 20 January 1970');
+  assert(unixLogic.convertTimestamp('-86400', { now }).iso === '1969-12-31T00:00:00Z', 'Unix: -86400 -> 1969-12-31T00:00:00Z');
+  assert(unixLogic.convertTimestamp('1,700,000,000', { now }).seconds === 1700000000, 'Unix: thousands separators are ignored');
+  assert(unixLogic.convertTimestamp('1700000000123', { now }).iso === '2023-11-14T22:13:20.123Z', 'Unix: milliseconds are kept in ISO output');
+  assert(unixLogic.convertTimestamp('abc', { now }).error && unixLogic.convertTimestamp('', { now }).error, 'Unix: text and empty input are errors');
+  assert(unixLogic.convertTimestamp('99999999999999999999999', { unit: 's', now }).error, 'Unix: out-of-range timestamps are errors');
+
+  // Relative time
+  assert(unixLogic.relativeTime(now - 3 * 86400000, now) === '3 days ago', 'Unix: relative "3 days ago"');
+  assert(unixLogic.relativeTime(now + 2 * 3600000, now) === 'in 2 hours', 'Unix: relative "in 2 hours"');
+  assert(unixLogic.relativeTime(now + 1000, now) === 'just now', 'Unix: relative "just now"');
+
+  // Offsets and date -> timestamp
+  assert(unixLogic.toIsoWithOffset(1700000000000, 300) === '2023-11-15T03:13:20+05:00', 'Unix: ISO with +05:00 offset');
+  assert(unixLogic.toRfc2822(1700000000000, -300) === 'Tue, 14 Nov 2023 17:13:20 -0500', 'Unix: RFC 2822 with -0500 offset');
+  const back = unixLogic.dateToTimestamp('2023-11-14T22:13:20', { zone: 'utc' });
+  assert(back.seconds === 1700000000 && back.milliseconds === 1700000000000, 'Unix: 2023-11-14T22:13:20 UTC -> 1700000000');
+  assert(unixLogic.dateToTimestamp('2038-01-19 03:14:07', { zone: 'utc' }).seconds === 2147483647, 'Unix: 2038-01-19 03:14:07 UTC -> 2147483647');
+  assert(unixLogic.dateToTimestamp('2026-02-30T00:00', { zone: 'utc' }).error, 'Unix: 30 February is rejected');
+
+  // Property: date -> timestamp -> date round-trips
+  const rand = mulberry32(1970);
+  for (let i = 0; i < 300; i++) {
+    const t = Math.floor((rand() * 2 - 0.5) * 4e9);
+    const iso = unixLogic.convertTimestamp(String(t), { unit: 's', now }).iso;
+    const round = unixLogic.dateToTimestamp(iso.replace('Z', ''), { zone: 'utc' });
+    if (round.seconds !== t) {
+      assert(false, `Unix fuzz: ${t} -> ${iso} -> ${round.seconds}`);
+      break;
+    }
+  }
+}
+
+// Week Number Calculator Logic
+const weekLogic = require(path.join(ROOT, 'src/tools/week-number-calculator/logic.js'));
+{
+  const cases = [
+    ['2026-01-01', '2026-W01'],
+    ['2027-01-01', '2026-W53'],
+    ['2024-12-30', '2025-W01'],
+    ['2026-12-28', '2026-W53'],
+    ['2025-12-29', '2026-W01'],
+    ['2021-01-03', '2020-W53'],
+    ['2024-01-01', '2024-W01'],
+    ['2026-10-31', '2026-W44']
+  ];
+  cases.forEach(([date, expected]) => {
+    const info = weekLogic.weekInfo(date);
+    assert(info.isoLabel === expected, `Week: ${date} -> ${expected} (got ${info.isoLabel})`);
+  });
+  assert(weekLogic.isoWeeksInYear(2026) === 53, 'Week: 2026 has 53 ISO weeks');
+  assert(weekLogic.isoWeeksInYear(2025) === 52 && weekLogic.isoWeeksInYear(2027) === 52, 'Week: 2025 and 2027 have 52 ISO weeks');
+  assert(weekLogic.isoWeeksInYear(2020) === 53 && weekLogic.isoWeeksInYear(2032) === 53, 'Week: 2020 (leap, starts Wednesday) and 2032 have 53 ISO weeks');
+
+  const w1 = weekLogic.isoWeekRange(2026, 1);
+  assert(w1.start === '2025-12-29' && w1.end === '2026-01-04', `Week: 2026-W01 runs 2025-12-29 to 2026-01-04 (got ${w1.start} to ${w1.end})`);
+  const w53 = weekLogic.isoWeekRange(2026, 53);
+  assert(w53.start === '2026-12-28' && w53.end === '2027-01-03' && w53.days.length === 7, 'Week: 2026-W53 runs 2026-12-28 to 2027-01-03');
+  assert(weekLogic.isoWeekRange(2025, 53).error, 'Week: 2025-W53 does not exist');
+  assert(weekLogic.isoWeekRange(2026, 0).error, 'Week: week 0 is rejected');
+
+  const jan1 = weekLogic.weekInfo('2027-01-01');
+  assert(jan1.weekYearDiffers === true && jan1.isoWeekYear === 2026 && jan1.isoWeekday === 5 && jan1.isoFullLabel === '2026-W53-5', 'Week: 2027-01-01 is 2026-W53-5, flagged as a different week-year');
+
+  // US-style numbering: Sunday start, week 1 contains January 1
+  assert(weekLogic.weekInfo('2026-01-03').usWeek === 1 && weekLogic.weekInfo('2026-01-04').usWeek === 2, 'Week US: 2026-01-03 (Sat) is week 1, 2026-01-04 (Sun) starts week 2');
+  assert(weekLogic.weekInfo('2027-01-01').usWeek === 1, 'Week US: 1 January is always US week 1');
+  assert(weekLogic.weekInfo('2000-12-31').usWeek === 54, 'Week US: 2000-12-31 is US week 54');
+
+  assert(weekLogic.weekInfo('2026-02-29').error && weekLogic.weekInfo('').error, 'Week: invalid dates are errors');
+  const parsedWeek = weekLogic.parseIsoWeekString('2026-W53-4');
+  assert(parsedWeek && parsedWeek.year === 2026 && parsedWeek.week === 53 && parsedWeek.day === 4, 'Week: parses "2026-W53-4"');
+
+  // Property: every day maps into a week whose Monday-Sunday range contains it
+  const rand = mulberry32(8601);
+  for (let i = 0; i < 400; i++) {
+    const d = new Date(Date.UTC(1990, 0, 1) + Math.floor(rand() * 20000) * 86400000);
+    const iso = d.toISOString().slice(0, 10);
+    const info = weekLogic.weekInfo(iso);
+    if (!(info.weekStart <= iso && iso <= info.weekEnd) || info.isoWeek < 1 || info.isoWeek > info.weeksInIsoYear) {
+      assert(false, `Week fuzz: ${iso} -> ${info.isoLabel} (${info.weekStart} to ${info.weekEnd})`);
+      break;
+    }
+  }
+}
+
+// Time Zone Converter Logic
+const tzLogic = require(path.join(ROOT, 'src/tools/time-zone-converter/logic.js'));
+{
+  const summer = tzLogic.convert('2026-07-01', '12:00', 'America/New_York', ['UTC', 'Asia/Karachi']);
+  assert(summer.iso === '2026-07-01T16:00:00Z', `TimeZone: 2026-07-01 12:00 New York = 16:00 UTC (got ${summer.iso})`);
+  assert(summer.targets[0].time === '16:00' && summer.targets[1].time === '21:00' && summer.targets[1].dayDiff === 0,
+    `TimeZone: ... = 21:00 Asia/Karachi (got ${summer.targets.map(t => t.time).join(', ')})`);
+  assert(summer.source.offsetLabel === 'UTC−04:00', 'TimeZone: New York is UTC-4 in July (EDT)');
+
+  const winter = tzLogic.convert('2026-01-15', '09:00', 'Europe/London', ['Asia/Karachi']);
+  assert(winter.targets[0].time === '14:00' && winter.targets[0].date === '2026-01-15', `TimeZone: 2026-01-15 09:00 London = 14:00 Karachi (got ${winter.targets[0].time})`);
+  assert(tzLogic.convert('2026-07-15', '09:00', 'Europe/London', ['Asia/Karachi']).targets[0].time === '13:00', 'TimeZone: in July (BST) 09:00 London = 13:00 Karachi');
+
+  // Day changes and half-hour zones
+  const late = tzLogic.convert('2026-03-10', '18:00', 'America/Los_Angeles', ['Asia/Tokyo', 'Asia/Kolkata']);
+  assert(late.targets[0].time === '10:00' && late.targets[0].date === '2026-03-11' && late.targets[0].dayDiff === 1, 'TimeZone: 18:00 Los Angeles (PDT) = 10:00 next day in Tokyo');
+  assert(late.targets[1].time === '06:30' && late.targets[1].offsetLabel === 'UTC+05:30', 'TimeZone: Kolkata keeps its half-hour offset');
+  assert(tzLogic.convert('2026-01-01', '01:00', 'Asia/Tokyo', ['America/New_York']).targets[0].dayDiff === -1, 'TimeZone: 01:00 Tokyo is the previous day in New York');
+
+  // DST edges
+  const gap = tzLogic.zonedToUtc('2026-03-08', '02:30', 'America/New_York');
+  assert(gap.nonexistent === true && new Date(gap.utcMs).toISOString() === '2026-03-08T07:30:00.000Z', 'TimeZone: 02:30 on the US spring-forward day is moved to 03:30 EDT');
+  const repeat = tzLogic.zonedToUtc('2026-11-01', '01:30', 'America/New_York');
+  assert(repeat.ambiguous === true && new Date(repeat.utcMs).toISOString() === '2026-11-01T05:30:00.000Z', 'TimeZone: 01:30 on the US fall-back day uses the first (EDT) occurrence');
+  assert(tzLogic.offsetMinutes('Europe/London', Date.UTC(2026, 2, 29, 0, 59)) === 0 && tzLogic.offsetMinutes('Europe/London', Date.UTC(2026, 2, 29, 1, 0)) === 60, 'TimeZone: London switches to BST at 01:00 UTC on 29 March 2026');
+
+  // Overlap strip
+  const strip = tzLogic.overlapStrip('2026-07-01', 'Europe/London', ['Europe/Berlin']);
+  assert(strip.rows.length === 2 && strip.rows[0].slots.length === 24, 'TimeZone: strip has a row per zone and 24 hourly slots');
+  assert(JSON.stringify(strip.overlap) === JSON.stringify([9, 10, 11, 12, 13, 14, 15]), `TimeZone: London/Berlin overlap is 09:00-16:00 London time (got ${strip.overlap})`);
+  assert(tzLogic.overlapStrip('2026-07-01', 'America/Los_Angeles', ['Asia/Tokyo', 'Europe/London']).overlap.length === 0, 'TimeZone: LA, Tokyo and London share no 9-5 hour');
+
+  // Zone search and validation
+  assert(tzLogic.resolveZone('pakistan') === 'Asia/Karachi' && tzLogic.resolveZone('Lahore') === 'Asia/Karachi', 'TimeZone: "pakistan" and "Lahore" resolve to Asia/Karachi');
+  assert(tzLogic.resolveZone('new york') === 'America/New_York' && tzLogic.resolveZone('asia/tokyo') === 'Asia/Tokyo', 'TimeZone: city names and lower-case IANA names resolve');
+  assert(tzLogic.resolveZone('PST') === 'America/Los_Angeles' && tzLogic.resolveZone('India') === 'Asia/Kolkata', 'TimeZone: "PST" and "India" resolve to their main zones');
+  assert(tzLogic.resolveZone('Narnia') === null, 'TimeZone: unknown places do not resolve');
+  assert(tzLogic.canonicalZone('Asia/Calcutta') === 'Asia/Kolkata' && tzLogic.resolveZone('Asia/Calcutta') === 'Asia/Kolkata', 'TimeZone: legacy ICU names map to current IANA names');
+  assert(!tzLogic.listZones().includes('Asia/Calcutta') && tzLogic.listZones().includes('Asia/Kolkata'), 'TimeZone: the zone list uses current names (Asia/Kolkata, not Asia/Calcutta)');
+  assert(tzLogic.convert('2026-07-01', '12:00', 'Mars/Olympus', []).error && tzLogic.convert('2026-13-01', '12:00', 'UTC', []).error, 'TimeZone: unknown zones and invalid dates are errors');
+  const zones = tzLogic.listZones();
+  assert(zones[0] === 'UTC' && zones.includes('Asia/Karachi') && zones.length > 300, `TimeZone: zone list comes from Intl and starts with UTC (${zones.length} zones)`);
+
+  // Property: converting there and back returns the same wall time
+  const rand = mulberry32(1884);
+  const sample = ['America/New_York', 'Europe/London', 'Asia/Karachi', 'Asia/Kolkata', 'Australia/Sydney', 'America/Sao_Paulo', 'Pacific/Auckland'];
+  for (let i = 0; i < 200; i++) {
+    const a = sample[Math.floor(rand() * sample.length)], b = sample[Math.floor(rand() * sample.length)];
+    const day = new Date(Date.UTC(2026, 0, 1) + Math.floor(rand() * 365) * 86400000).toISOString().slice(0, 10);
+    const time = `${String(Math.floor(rand() * 24)).padStart(2, '0')}:${rand() < 0.5 ? '00' : '30'}`;
+    const there = tzLogic.convert(day, time, a, [b]);
+    if (there.nonexistent || there.ambiguous) continue;
+    const t = there.targets[0];
+    const back = tzLogic.convert(t.date, t.time, b, [a]);
+    if (back.utcMs !== there.utcMs && !back.ambiguous) {
+      assert(false, `TimeZone fuzz: ${day} ${time} ${a} -> ${t.date} ${t.time} ${b} did not round-trip`);
+      break;
+    }
+  }
+}
+
+// Tip Calculator Logic
+const tipLogic = require(path.join(ROOT, 'src/tools/tip-calculator/logic.js'));
+{
+  const r = tipLogic.calculateTip({ bill: 85.50, tipPercent: 18, people: 3 });
+  assert(r.tip === 15.39 && r.total === 100.89 && r.perPerson === 33.63, `Tip: 85.50 at 18% for 3 -> tip 15.39, total 100.89, 33.63 each (got ${r.tip}, ${r.total}, ${r.perPerson})`);
+  assert(r.unevenSplit === false, 'Tip: 100.89 splits evenly between 3');
+
+  const uneven = tipLogic.calculateTip({ bill: 100, tipPercent: 0, people: 3 });
+  assert(uneven.unevenSplit && uneven.extraCentPayers === 1 && uneven.lowShare === 33.33 && uneven.highShare === 33.34, 'Tip: 100 between 3 -> two pay 33.33, one pays 33.34');
+
+  const up = tipLogic.calculateTip({ bill: 85.50, tipPercent: 18, people: 3, roundUp: true });
+  assert(up.perPerson === 34 && up.total === 102 && up.tip === 16.5 && up.roundingExtra === 1.11, `Tip: rounding up gives 34 each, 102 total, tip 16.50 (got ${up.perPerson}, ${up.total}, ${up.tip})`);
+  assert(up.effectiveTipPercent === 19.3, `Tip: rounded-up tip is 19.3% of the bill (got ${up.effectiveTipPercent})`);
+
+  const preTax = tipLogic.calculateTip({ bill: 108, tipPercent: 20, people: 2, tipOnPreTax: true, taxPercent: 8 });
+  assert(preTax.tipBase === 100 && preTax.tax === 8 && preTax.tip === 20 && preTax.total === 128 && preTax.perPerson === 64, 'Tip: 20% on the pre-tax 100 of a 108 bill with 8% tax = 20 tip');
+  assert(tipLogic.calculateTip({ bill: 108, tipPercent: 20, tipOnPreTax: false, taxPercent: 8 }).tip === 21.6, 'Tip: without the pre-tax option the tip is on the full 108');
+
+  assert(tipLogic.calculateTip({ bill: '', tipPercent: 18 }).field === 'bill', 'Tip: missing bill is an error on the bill field');
+  assert(tipLogic.calculateTip({ bill: 50, tipPercent: -5 }).field === 'tip', 'Tip: negative tip is an error');
+  assert(tipLogic.calculateTip({ bill: 50, tipPercent: 15, people: 2.5 }).field === 'people', 'Tip: fractional people is an error');
+  assert(tipLogic.calculateTip({ bill: 50, tipPercent: 15, people: 0 }).field === 'people', 'Tip: zero people is an error');
+  assert(JSON.stringify(tipLogic.PRESETS) === '[10,15,18,20,25]', 'Tip: presets are 10, 15, 18, 20, 25');
+
+  // Property: shares always add back up to the total
+  const rand = mulberry32(1818);
+  for (let i = 0; i < 300; i++) {
+    const bill = Math.round(rand() * 50000) / 100 + 0.01;
+    const people = 1 + Math.floor(rand() * 12);
+    const t = tipLogic.calculateTip({ bill, tipPercent: Math.floor(rand() * 30), people });
+    const collected = Math.round(t.lowShare * 100) * (people - t.extraCentPayers) + Math.round(t.highShare * 100) * t.extraCentPayers;
+    if (collected !== Math.round(t.total * 100)) {
+      assert(false, `Tip fuzz: ${bill} between ${people} -> shares ${t.lowShare}/${t.highShare} do not add up to ${t.total}`);
+      break;
+    }
+  }
+}
+
+// Salary to Hourly Logic
+const salaryLogic = require(path.join(ROOT, 'src/tools/salary-to-hourly-calculator/logic.js'));
+{
+  const a = salaryLogic.convertPay({ amount: 52000, period: 'annual', hoursPerWeek: 40, weeksPerYear: 52 });
+  assert(a.hourly === 25 && a.weekly === 1000 && a.biweekly === 2000 && a.daily === 200 && a.monthly === 4333.33, `Salary: 52,000/year at 40 h x 52 weeks -> 25.00/hour (got ${a.hourly})`);
+
+  const h = salaryLogic.convertPay({ amount: 30, period: 'hourly' });
+  assert(h.annual === 62400 && h.monthly === 5200, `Salary: 30/hour -> 62,400/year and 5,200/month (got ${h.annual}, ${h.monthly})`);
+
+  const off = salaryLogic.convertPay({ amount: 52000, period: 'annual', unpaidWeeks: 2 });
+  assert(off.paidWeeks === 50 && off.hourly === 26, `Salary: 52,000/year with 2 unpaid weeks (50 weeks) -> 26.00/hour (got ${off.hourly})`);
+
+  assert(salaryLogic.convertPay({ amount: 5000, period: 'monthly' }).annual === 60000, 'Salary: 5,000/month = 60,000/year');
+  assert(salaryLogic.convertPay({ amount: 2000, period: 'biweekly' }).annual === 52000, 'Salary: 2,000 every two weeks = 52,000/year');
+  assert(salaryLogic.convertPay({ amount: 1000, period: 'weekly' }).hourly === 25, 'Salary: 1,000/week at 40 h = 25/hour');
+  assert(salaryLogic.convertPay({ amount: 200, period: 'daily' }).annual === 52000, 'Salary: 200/day x 5 days x 52 weeks = 52,000/year');
+  assert(salaryLogic.convertPay({ amount: 52000, period: 'annual', hoursPerWeek: 37.5 }).hourly === 26.67, 'Salary: 52,000 at 37.5 h/week = 26.67/hour');
+
+  assert(salaryLogic.convertPay({ amount: 0, period: 'annual' }).field === 'amount', 'Salary: zero pay is an error');
+  assert(salaryLogic.convertPay({ amount: 100, period: 'annual', hoursPerWeek: 200 }).field === 'hours', 'Salary: more than 168 hours a week is an error');
+  assert(salaryLogic.convertPay({ amount: 100, period: 'annual', unpaidWeeks: 52 }).field === 'unpaid', 'Salary: unpaid weeks equal to the year is an error');
+  assert(salaryLogic.convertPay({ amount: 100, period: 'fortnightly' }).field === 'period', 'Salary: unknown pay period is an error');
+
+  // Property: converting any period to hourly and back returns the same pay
+  const rand = mulberry32(4052);
+  for (let i = 0; i < 300; i++) {
+    const period = salaryLogic.PERIODS[Math.floor(rand() * salaryLogic.PERIODS.length)];
+    const input = { amount: 1 + rand() * 100000, period, hoursPerWeek: 10 + Math.floor(rand() * 50), weeksPerYear: 52, unpaidWeeks: Math.floor(rand() * 6) };
+    const r = salaryLogic.convertPay(input);
+    const back = salaryLogic.convertPay(Object.assign({}, input, { amount: r.exact.hourly, period: 'hourly' }));
+    if (Math.abs(back.exact.annual - r.exact.annual) > 1e-6 * r.exact.annual) {
+      assert(false, `Salary fuzz: ${JSON.stringify(input)} did not round-trip through hourly`);
+      break;
+    }
+  }
+}
+
+// Profit Margin & Markup Logic
+const profitLogic = require(path.join(ROOT, 'src/tools/profit-margin-calculator/logic.js'));
+{
+  const r = profitLogic.fromCostAndPrice(60, 100);
+  assert(r.profit === 40 && r.marginPercent === 40 && r.markupPercent === 66.67, `Profit: cost 60, price 100 -> profit 40, margin 40%, markup 66.67% (got ${r.profit}, ${r.marginPercent}, ${r.markupPercent})`);
+  const m = profitLogic.priceFromMargin(75, 25);
+  assert(m.price === 100 && m.profit === 25 && m.equivalentMarkup === 33.3333, `Profit: cost 75 with 25% margin -> price 100 (got ${m.price})`);
+  const k = profitLogic.priceFromMarkup(80, 25);
+  assert(k.price === 100 && k.marginPercent === 20 && k.equivalentMargin === 20, `Profit: cost 80 with 25% markup -> price 100, margin 20% (got ${k.price})`);
+
+  const loss = profitLogic.fromCostAndPrice(120, 100);
+  assert(loss.isLoss && loss.profit === -20 && loss.marginPercent === -20 && loss.markupPercent === -16.67, 'Profit: selling below cost shows a loss with negative margin and markup');
+  assert(profitLogic.fromCostAndPrice(0, 50).markupPercent === null && profitLogic.fromCostAndPrice(0, 50).marginPercent === 100, 'Profit: zero cost gives 100% margin and no markup');
+  assert(profitLogic.marginToMarkup(50) === 100 && profitLogic.markupToMargin(100) === 50, 'Profit: 50% margin = 100% markup');
+  assert(profitLogic.priceFromMargin(50, 100).field === 'margin' && profitLogic.priceFromMargin(50, 150).error, 'Profit: margins of 100% or more are rejected');
+  assert(profitLogic.priceFromMarkup(50, -100).field === 'markup', 'Profit: markup of -100% is rejected');
+  assert(profitLogic.fromCostAndPrice(-5, 10).field === 'cost' && profitLogic.fromCostAndPrice(5, 0).field === 'price', 'Profit: negative cost and zero price are rejected');
+
+  // Property: price from a margin gives back that margin, and margin and markup describe the same price
+  const rand = mulberry32(6040);
+  for (let i = 0; i < 300; i++) {
+    const cost = 1 + Math.round(rand() * 100000) / 100;
+    const margin = Math.round(rand() * 9500) / 100;
+    const p = profitLogic.priceFromMargin(cost, margin);
+    const viaMarkup = profitLogic.priceFromMarkup(cost, profitLogic.marginToMarkup(margin));
+    if (Math.abs(p.marginPercent - margin) > 0.02 || Math.abs(viaMarkup.price - p.price) > 0.02) {
+      assert(false, `Profit fuzz: cost ${cost}, margin ${margin}% -> ${p.price} / ${viaMarkup.price}`);
+      break;
+    }
+  }
+}
+
+// Fraction Calculator Logic
+const fractionLogic = require(path.join(ROOT, 'src/tools/fraction-calculator/logic.js'));
+{
+  const add = fractionLogic.calculate('1/2', '+', '1/3');
+  assert(add.fraction === '5/6' && add.decimal === '0.8(3)', `Fraction: 1/2 + 1/3 = 5/6 (got ${add.fraction})`);
+  assert(add.steps.some(s => /LCM\(2, 3\) = 6/.test(s)), 'Fraction: addition steps show the common denominator');
+  const div = fractionLogic.calculate('3/4', '/', '1/2');
+  assert(div.fraction === '3/2' && div.mixed === '1 1/2' && div.decimal === '1.5', `Fraction: 3/4 ÷ 1/2 = 3/2 = 1 1/2 (got ${div.fraction}, ${div.mixed})`);
+  assert(div.steps.some(s => /reciprocal 2\/1/.test(s)) && div.steps.some(s => /GCD\(6, 4\) = 2/.test(s)), 'Fraction: division steps show the reciprocal and the GCD');
+  const mul = fractionLogic.calculate('2 1/3', '*', '3/7');
+  assert(mul.fraction === '1' && mul.mixed === '1', `Fraction: 2 1/3 × 3/7 = 1 (got ${mul.fraction})`);
+  assert(mul.steps[0].includes('7/3'), 'Fraction: mixed number is converted to 7/3 first');
+  const simp = fractionLogic.simplify('6/8');
+  assert(simp.fraction === '3/4' && simp.gcd === '2', `Fraction: 6/8 simplifies to 3/4 (got ${simp.fraction})`);
+  const dec = fractionLogic.decimalToFraction('0.375');
+  assert(dec.fraction === '3/8', `Fraction: 0.375 = 3/8 (got ${dec.fraction})`);
+  const zero = fractionLogic.calculate('1/2', '/', '0/5');
+  assert(zero.error && /divide by zero/i.test(zero.error) && zero.field === 'b', 'Fraction: dividing by a zero fraction is a clear error');
+
+  // More forms and edge cases
+  assert(fractionLogic.calculate('-1 1/2', '-', '2/3').mixed === '-2 1/6', 'Fraction: -1 1/2 − 2/3 = -2 1/6');
+  assert(fractionLogic.calculate('5', '*', '0.25').fraction === '5/4', 'Fraction: whole numbers and decimals are accepted (5 × 0.25 = 5/4)');
+  assert(fractionLogic.calculate('3/-4', '+', '1/4').fraction === '-1/2', 'Fraction: a negative denominator is normalised');
+  assert(fractionLogic.calculate('1/3', '+', '1/3').steps[0].includes('already the same'), 'Fraction: equal denominators skip the LCM step');
+  assert(fractionLogic.calculate('1/0', '+', '1/2').error, 'Fraction: a zero denominator is an error');
+  assert(fractionLogic.calculate('abc', '+', '1/2').field === 'a', 'Fraction: text input is an error on the first field');
+  assert(fractionLogic.simplify('7/13').alreadySimplest === true, 'Fraction: 7/13 is already in lowest terms');
+  assert(fractionLogic.decimalToFraction('1.25').mixed === '1 1/4' && fractionLogic.decimalToFraction('-0.5').fraction === '-1/2', 'Fraction: 1.25 = 1 1/4 and -0.5 = -1/2');
+  assert(fractionLogic.decimalToFraction('0.3.3').error && fractionLogic.decimalToFraction('').error, 'Fraction: malformed decimals are errors');
+  assert(fractionLogic.toDecimal({ n: 1n, d: 7n }).text === '0.(142857)', 'Fraction: 1/7 = 0.(142857)');
+  const big = fractionLogic.calculate('123456789012345678/987654321', '*', '987654321/2');
+  assert(big.fraction === '61728394506172839', 'Fraction: large numbers stay exact (BigInt)');
+
+  // Property: (a op b) matches floating-point arithmetic
+  const rand = mulberry32(3141);
+  const ops = { '+': (x, y) => x + y, '-': (x, y) => x - y, '*': (x, y) => x * y, '/': (x, y) => x / y };
+  for (let i = 0; i < 400; i++) {
+    const a = [1 + Math.floor(rand() * 40), 1 + Math.floor(rand() * 40)], b = [1 + Math.floor(rand() * 40), 1 + Math.floor(rand() * 40)];
+    const op = Object.keys(ops)[Math.floor(rand() * 4)];
+    const r = fractionLogic.calculate(`${a[0]}/${a[1]}`, op, `${b[0]}/${b[1]}`);
+    const expected = ops[op](a[0] / a[1], b[0] / b[1]);
+    const got = Number(r.numerator) / Number(r.denominator);
+    if (Math.abs(got - expected) > 1e-9 * Math.max(1, Math.abs(expected)) || fractionLogic.gcd(BigInt(r.numerator), BigInt(r.denominator)) !== 1n) {
+      assert(false, `Fraction fuzz: ${a[0]}/${a[1]} ${op} ${b[0]}/${b[1]} gave ${r.fraction}`);
+      break;
+    }
+  }
+}
+
+// Mean, Median, Mode & Standard Deviation Logic
+const statsLogic = require(path.join(ROOT, 'src/tools/mean-median-mode-calculator/logic.js'));
+{
+  const s = statsLogic.analyse('2,4,4,4,5,5,7,9');
+  assert(s.mean === 5 && s.median === 4.5, `Stats: [2,4,4,4,5,5,7,9] mean 5, median 4.5 (got ${s.mean}, ${s.median})`);
+  assert(JSON.stringify(s.modes) === '[4]' && s.modeFrequency === 3, 'Stats: mode 4 (appears 3 times)');
+  assert(s.populationSD === 2 && statsLogic.fmt(s.sampleSD, 4) === '2.1381', `Stats: population SD 2, sample SD 2.1381 (got ${s.populationSD}, ${statsLogic.fmt(s.sampleSD, 4)})`);
+  assert(s.count === 8 && s.sum === 40 && s.min === 2 && s.max === 9 && s.range === 7, 'Stats: count 8, sum 40, min 2, max 9, range 7');
+  assert(s.populationVariance === 4 && statsLogic.fmt(s.sampleVariance, 4) === '4.5714', 'Stats: variances 4 and 4.5714');
+  assert(s.q1 === 4 && s.q3 === 6 && s.iqr === 2, `Stats: Q1 4, Q3 6 by median of halves (got ${s.q1}, ${s.q3})`);
+  assert(s.steps.sd.some(t => t.includes('32 ÷ (8 − 1)')), 'Stats: steps show the n − 1 division');
+
+  assert(statsLogic.analyse('1 2 3').modes.length === 0, 'Stats: [1,2,3] has no mode');
+  assert(statsLogic.analyse('1,1,2,2').modes.length === 0, 'Stats: values that all appear equally often have no mode');
+  assert(JSON.stringify(statsLogic.analyse('1,1,2,2,3').modes) === '[1,2]', 'Stats: two values tied for most frequent are both modes');
+  const odd = statsLogic.analyse('1\n3\n5\n7\n9');
+  assert(odd.median === 5 && odd.q1 === 2 && odd.q3 === 8, 'Stats: odd count excludes the median from the halves (Q1 2, Q3 8)');
+  assert(statsLogic.analyse('-1.5; 2.5\t-3').sum === -2, 'Stats: negatives, decimals, semicolons and tabs are accepted');
+  const one = statsLogic.analyse('42');
+  assert(one.sampleSD === null && one.populationSD === 0 && one.q1 === null, 'Stats: a single value has no sample SD or quartiles');
+
+  assert(/at least one number/i.test(statsLogic.analyse('').error) && statsLogic.analyse('   ,, ').error, 'Stats: empty input is a clear error');
+  const bad = statsLogic.analyse('1, two, 3');
+  assert(bad.error && bad.error.includes('"two"'), 'Stats: non-numeric input names the bad value');
+  assert(statsLogic.analyse([0.1, 0.2, 0.3]).sum === 0.6, 'Stats: compensated summation keeps 0.1 + 0.2 + 0.3 = 0.6');
+
+  // Property: shifting all values shifts the mean and median but not the SD
+  const rand = mulberry32(1999);
+  for (let i = 0; i < 200; i++) {
+    const values = Array.from({ length: 2 + Math.floor(rand() * 30) }, () => Math.round(rand() * 1000) / 10);
+    const shift = Math.round(rand() * 100);
+    const a = statsLogic.analyse(values), b = statsLogic.analyse(values.map(v => v + shift));
+    if (Math.abs(b.mean - a.mean - shift) > 1e-9 || Math.abs(b.median - a.median - shift) > 1e-9 || Math.abs(b.sampleSD - a.sampleSD) > 1e-9) {
+      assert(false, `Stats fuzz: shifting ${values} by ${shift} broke an invariant`);
+      break;
+    }
+  }
+}
+
+// Attendance Calculator Logic
+const attendanceLogic = require(path.join(ROOT, 'src/tools/attendance-calculator/logic.js'));
+{
+  const a = attendanceLogic.calculateAttendance(30, 40, 75);
+  assert(a.percentage === 75 && a.meetsTarget && a.canMiss === 0, `Attendance: 30/40 = 75.00% and meets 75% with 0 to spare (got ${a.percentage}%, miss ${a.canMiss})`);
+  const b = attendanceLogic.calculateAttendance(30, 40, 80);
+  assert(!b.meetsTarget && b.classesNeeded === 10 && b.afterNeeded.attended === 40 && b.afterNeeded.total === 50 && b.afterNeeded.percentage === 80,
+    `Attendance: 30/40 at 80% -> attend 10 more (40/50 = 80%) (got ${b.classesNeeded})`);
+  const c = attendanceLogic.calculateAttendance(45, 50, 75);
+  assert(c.meetsTarget && c.canMiss === 10 && c.afterMissing.total === 60 && c.afterMissing.percentage === 75, `Attendance: 45/50 at 75% -> can miss 10 (45/60 = 75%) (got ${c.canMiss})`);
+  const d = attendanceLogic.calculateAttendance(70, 100, 75);
+  assert(d.classesNeeded === 20 && d.afterNeeded.percentage === 75, `Attendance: 70/100 at 75% -> attend 20 more (got ${d.classesNeeded})`);
+
+  assert(c.projection.length === 10 && c.projection[0].ifAttend === 90.2 && c.projection[9].ifMiss === 75, 'Attendance: projection covers the next 1-10 classes');
+  assert(attendanceLogic.calculateAttendance(29, 40, 75).classesNeeded === 4, 'Attendance: 29/40 needs 4 more for 75% (33/44)');
+  assert(attendanceLogic.calculateAttendance(33, 40, 82.5).meetsTarget, 'Attendance: decimal targets compare exactly (33/40 = 82.5%)');
+  assert(attendanceLogic.calculateAttendance(39, 40, 100).reachable === false, 'Attendance: 100% cannot be reached after missing a class');
+  assert(attendanceLogic.calculateAttendance(41, 40).field === 'attended', 'Attendance: attended above total is an error');
+  assert(attendanceLogic.calculateAttendance(10, 0).field === 'total' && attendanceLogic.calculateAttendance(2.5, 10).field === 'attended', 'Attendance: zero total and fractional classes are errors');
+  assert(attendanceLogic.calculateAttendance(10, 20, 0).field === 'target' && attendanceLogic.calculateAttendance(10, 20, 120).field === 'target', 'Attendance: targets outside (0, 100] are errors');
+
+  // Property: the advice is always the exact minimum / maximum
+  const rand = mulberry32(7575);
+  for (let i = 0; i < 400; i++) {
+    const total = 1 + Math.floor(rand() * 200);
+    const attended = Math.floor(rand() * (total + 1));
+    const target = 50 + Math.floor(rand() * 50);
+    const r = attendanceLogic.calculateAttendance(attended, total, target);
+    const ok = (x, y) => x * 100 >= target * y;
+    const fine = r.meetsTarget
+      ? ok(attended, total + r.canMiss) && !ok(attended, total + r.canMiss + 1)
+      : ok(attended + r.classesNeeded, total + r.classesNeeded) && !ok(attended + r.classesNeeded - 1, total + r.classesNeeded - 1);
+    if (!fine) {
+      assert(false, `Attendance fuzz: ${attended}/${total} at ${target}% gave ${JSON.stringify({ need: r.classesNeeded, miss: r.canMiss })}`);
+      break;
+    }
+  }
+}
+
+// Weighted Average Logic
+const weightedLogic = require(path.join(ROOT, 'src/tools/weighted-average-calculator/logic.js'));
+{
+  const pct = weightedLogic.weightedAverage([{ value: 90, weight: 30 }, { value: 80, weight: 50 }, { value: 70, weight: 20 }], { weightType: 'percent' });
+  assert(Math.abs(pct.average - 81) < 1e-12 && pct.totalWeight === 100 && !pct.normalised, `Weighted: 90 (30%), 80 (50%), 70 (20%) = 81 (got ${pct.average})`);
+  assert(pct.rows[0].contribution === 27 && pct.rows[1].contribution === 40 && Math.abs(pct.rows[2].contribution - 14) < 1e-12, 'Weighted: contributions 27 + 40 + 14');
+  const plain = weightedLogic.weightedAverage([{ value: 90, weight: 2 }, { value: 80, weight: 3 }], { weightType: 'number' });
+  assert(plain.average === 84 && plain.totalWeight === 5 && !plain.normalised, `Weighted: 90 (weight 2), 80 (weight 3) = 84 (got ${plain.average})`);
+  const zero = weightedLogic.weightedAverage([{ value: 90, weight: 0 }, { value: 80, weight: 0 }]);
+  assert(zero.error && /zero/i.test(zero.error), 'Weighted: all weights zero is a clear error');
+
+  const norm = weightedLogic.weightedAverage([{ value: 90, weight: 30 }, { value: 80, weight: 50 }], { weightType: 'percent' });
+  assert(norm.normalised && norm.average === 83.75 && norm.steps.some(s => s.includes('80%')), 'Weighted: % weights totalling 80 are normalised and flagged (83.75)');
+  assert(weightedLogic.weightedAverage([{ value: 90, weight: 2 }, {}, { value: '', weight: '' }], { weightType: 'number' }).average === 90, 'Weighted: empty rows are skipped');
+  assert(weightedLogic.weightedAverage([{ value: 90, weight: '' }]).field === 'weight', 'Weighted: a value without a weight is an error');
+  assert(weightedLogic.weightedAverage([{ value: 90, weight: -1 }]).field === 'weight', 'Weighted: negative weights are errors');
+  assert(weightedLogic.weightedAverage([]).error, 'Weighted: no rows is an error');
+
+  // Property: scaling every weight by the same factor leaves the average unchanged
+  const rand = mulberry32(8484);
+  for (let i = 0; i < 200; i++) {
+    const rows = Array.from({ length: 1 + Math.floor(rand() * 8) }, () => ({ value: Math.round(rand() * 1000) / 10, weight: 1 + Math.floor(rand() * 20) }));
+    const k = 1 + Math.floor(rand() * 9);
+    const a1 = weightedLogic.weightedAverage(rows, { weightType: 'number' }).average;
+    const a2 = weightedLogic.weightedAverage(rows.map(r => ({ value: r.value, weight: r.weight * k })), { weightType: 'number' }).average;
+    const lo = Math.min(...rows.map(r => r.value)), hi = Math.max(...rows.map(r => r.value));
+    if (Math.abs(a1 - a2) > 1e-9 || a1 < lo - 1e-9 || a1 > hi + 1e-9) {
+      assert(false, `Weighted fuzz: ${JSON.stringify(rows)} x${k} gave ${a1} / ${a2}`);
+      break;
+    }
+  }
+}
+
+// Merit & Aggregate Logic
+const meritLogic = require(path.join(ROOT, 'src/tools/merit-calculator/logic.js'));
+{
+  const m = meritLogic.calculateMerit([
+    { name: 'Matric', obtained: 900, total: 1100, weight: 10 },
+    { name: 'Intermediate', obtained: 950, total: 1100, weight: 40 },
+    { name: 'Entry test', obtained: 300, total: 400, weight: 50 }
+  ]);
+  assert(m.aggregateRounded === 80.23, `Merit: Matric 900/1100 at 10%, Inter 950/1100 at 40%, test 300/400 at 50% -> 80.23% (got ${m.aggregateRounded})`);
+  assert(m.rows[2].percentage === 75 && m.rows[2].contribution === 37.5 && m.steps.length === 4, 'Merit: each component reports its percentage and contribution');
+  const ninety = meritLogic.calculateMerit([
+    { obtained: 900, total: 1100, weight: 10 },
+    { obtained: 950, total: 1100, weight: 30 },
+    { obtained: 300, total: 400, weight: 50 }
+  ]);
+  assert(ninety.error && ninety.weightTotal === 90 && /100%/.test(ninety.error) && /Add 10% more/.test(ninety.error), 'Merit: weights totalling 90% are a clear error');
+  assert(meritLogic.calculateMerit([{ obtained: 1200, total: 1100, weight: 100 }]).field === 'obtained', 'Merit: obtained above total is an error');
+  assert(meritLogic.calculateMerit([{ obtained: 50, total: 0, weight: 100 }]).field === 'total', 'Merit: zero total marks is an error');
+  assert(meritLogic.calculateMerit([{ obtained: 50, total: 100, weight: '' }]).field === 'weight', 'Merit: a missing weight is an error');
+  assert(meritLogic.calculateMerit([{ obtained: 80, total: 100, weight: 100 }, {}, {}]).aggregateRounded === 80, 'Merit: empty components are skipped');
+  assert(meritLogic.calculateMerit(new Array(6).fill({})).error, 'Merit: more than 5 components is an error');
+
+  // Presets: only verified institution weights, each with a source and date
+  const presets = require(path.join(ROOT, 'src/_data/meritPresets.json'));
+  presets.forEach(p => assert(meritLogic.validatePreset(p), `Merit preset ${p.id}: weights total 100%, official source and verifiedOn recorded`));
+  const nust = presets.find(p => p.id === 'nust-net');
+  assert(nust && nust.components.map(c => c.weight).join('/') === '10/15/75', 'Merit preset NUST: SSC 10%, HSSC 15%, NET 75%');
+  const mdcat = presets.find(p => p.id === 'pmdc-mdcat');
+  assert(mdcat && mdcat.components.map(c => c.weight).join('/') === '10/40/50', 'Merit preset PM&DC: SSC 10%, HSSC 40%, MDCAT 50%');
+}
+
+// Random Number Generator Logic
+const rngLogic = require(path.join(ROOT, 'src/tools/random-number-generator/logic.js'));
+{
+  const tooMany = rngLogic.generate({ min: 1, max: 10, count: 11, unique: true });
+  assert(tooMany.error && tooMany.field === 'count' && /Only 10 different/.test(tooMany.error), 'RNG: unique count larger than the range is a clear error');
+  assert(rngLogic.generate({ min: 10, max: 1, count: 1 }).field === 'min', 'RNG: min > max is an error');
+  assert(rngLogic.generate({ min: 1, max: 6, count: 1001 }).field === 'count', 'RNG: more than 1,000 numbers is an error');
+  assert(rngLogic.generate({ min: 0.11, max: 0.12, count: 1, decimals: 1 }).field === 'max', 'RNG: a range with no 1-decimal value is an error');
+
+  // 60,000 rolls of 1-6: each face within 5% of 10,000
+  const counts = [0, 0, 0, 0, 0, 0, 0];
+  for (let i = 0; i < 60; i++) {
+    rngLogic.generate({ min: 1, max: 6, count: 1000 }).numbers.forEach(n => { counts[n]++; });
+  }
+  const faces = counts.slice(1);
+  assert(faces.every(c => c >= 9500 && c <= 10500) && counts[0] === 0, `RNG: 60,000 draws of 1-6 are each within 5% of 10,000 (${faces.join(', ')})`);
+
+  // Range, uniqueness, sorting and decimals
+  let inRange = true;
+  for (let i = 0; i < 200; i++) {
+    const min = Math.floor(Math.random() * 2000) - 1000;
+    const max = min + Math.floor(Math.random() * 500);
+    const decimals = i % 3;
+    const r = rngLogic.generate({ min, max, count: 50, decimals });
+    if (r.error || !r.numbers.every(n => n >= min && n <= max)) { inRange = false; break; }
+  }
+  assert(inRange, 'RNG: every result stays within [min, max], for integers and decimals');
+  const u = rngLogic.generate({ min: 1, max: 10, count: 10, unique: true, sort: true });
+  assert(u.numbers.join(',') === '1,2,3,4,5,6,7,8,9,10', 'RNG: 10 unique numbers from 1-10 sorted are exactly 1-10');
+  const sparse = rngLogic.generate({ min: 1, max: 1e9, count: 1000, unique: true });
+  assert(new Set(sparse.numbers).size === 1000, 'RNG: unique mode on a wide range gives no repeats');
+  const dec = rngLogic.generate({ min: 0, max: 1, count: 20, decimals: 2 });
+  assert(dec.text.every(t => /^[01]\.\d\d$/.test(t)) && dec.possible === 101, 'RNG: 2 decimal places from 0 to 1 gives 101 possible values');
+  assert(rngLogic.generate({ min: -5, max: -5, count: 3 }).numbers.join(',') === '-5,-5,-5', 'RNG: min = max always returns that value');
+
+  // Rejection sampling: a range of 3 over a 32-bit word never favours a value
+  const third = [0, 0, 0];
+  for (let i = 0; i < 30000; i++) third[rngLogic.randomBelow(3)]++;
+  assert(third.every(c => c > 9500 && c < 10500), `RNG: randomBelow(3) is uniform (${third.join(', ')})`);
+  const big = rngLogic.randomBelow(2 ** 40);
+  assert(Number.isInteger(big) && big >= 0 && big < 2 ** 40, 'RNG: ranges above 2^32 use 53-bit draws');
+}
+
+// Coin Flip & Dice Roller Logic
+const coinDiceLogic = require(path.join(ROOT, 'src/tools/coin-flip-dice-roller/logic.js'));
+{
+  let sumsOk = true, d20Ok = true;
+  const seen2d6 = new Set(), seen20 = new Set();
+  for (let i = 0; i < 5000; i++) {
+    const r = coinDiceLogic.rollDice(2, 6);
+    if (r.sum < 2 || r.sum > 12 || r.rolls.length !== 2) sumsOk = false;
+    seen2d6.add(r.sum);
+    const d = coinDiceLogic.rollDice(1, 20);
+    if (d.sum < 1 || d.sum > 20) d20Ok = false;
+    seen20.add(d.sum);
+  }
+  assert(sumsOk && seen2d6.size === 11, `CoinDice: 2d6 sums always between 2 and 12 (saw ${seen2d6.size} different sums)`);
+  assert(d20Ok && seen20.size === 20, 'CoinDice: 1d20 always 1-20 and every face appears');
+  const flips = coinDiceLogic.flipCoins(100);
+  assert(flips.heads + flips.tails === 100 && flips.results.length === 100, `CoinDice: 100 coin flips -> heads + tails = 100 (${flips.heads} + ${flips.tails})`);
+
+  assert(coinDiceLogic.flipCoins(0).error && coinDiceLogic.flipCoins(101).error, 'CoinDice: 0 or 101 coins are errors');
+  assert(coinDiceLogic.rollDice(11, 6).error && coinDiceLogic.rollDice(1, 7).error, 'CoinDice: 11 dice or a d7 are errors');
+  const fixed = coinDiceLogic.rollDice(3, 8, () => 7);
+  assert(fixed.sum === 24 && fixed.maxSum === 24 && fixed.notation === '3d8', 'CoinDice: injected randomness gives the maximum roll');
+  let history = [];
+  for (let i = 0; i < 25; i++) history = coinDiceLogic.pushHistory(history, i);
+  assert(history.length === 20 && history[0] === 24 && history[19] === 5, 'CoinDice: history keeps the newest 20 results');
+  let heads = 0;
+  for (let i = 0; i < 200; i++) heads += coinDiceLogic.flipCoins(100).heads;
+  assert(heads > 9500 && heads < 10500, `CoinDice: 20,000 flips are about half heads (${heads})`);
+}
+
+// Text Diff Checker Logic
+const diffLogic = require(path.join(ROOT, 'src/tools/text-diff-checker/logic.js'));
+{
+  const d = diffLogic.diffTexts('a\nb\nc', 'a\nx\nc');
+  assert(d.stats.removed === 1 && d.stats.added === 1 && d.stats.unchanged === 2, `Diff: a/b/c vs a/x/c -> 1 removed, 1 added, 2 unchanged (got ${JSON.stringify(d.stats)})`);
+  assert(d.inline.find(l => l.type === 'removed').text === 'b' && d.inline.find(l => l.type === 'added').text === 'x', 'Diff: the removed line is b and the added line is x');
+  assert(d.rows[1].type === 'changed' && d.rows[1].left.no === 2 && d.rows[1].right.no === 2, 'Diff: side-by-side pairs b and x as a changed line');
+  const same = diffLogic.diffTexts('one\ntwo\nthree', 'one\ntwo\nthree');
+  assert(same.identical && same.stats.unchanged === 3 && same.stats.added === 0 && same.stats.removed === 0, 'Diff: identical texts have no differences');
+  assert(diffLogic.diffTexts('Hello', 'hello', { ignoreCase: true }).identical && !diffLogic.diffTexts('Hello', 'hello').identical, 'Diff: ignore case makes "Hello" and "hello" equal');
+  assert(diffLogic.diffTexts('a  b\t', 'a b', { ignoreWhitespace: true }).identical, 'Diff: ignore whitespace');
+  const blanks = diffLogic.diffTexts('a\n\nb', 'a\nb\n\n', { ignoreBlankLines: true });
+  assert(blanks.identical && blanks.inline[1].oldNo === 3, 'Diff: ignore blank lines keeps the original line numbers');
+  assert(diffLogic.diffTexts('a\r\nb\n', 'a\nb').identical, 'Diff: CRLF and a trailing newline do not count as changes');
+  assert(diffLogic.diffTexts('', 'new').stats.added === 1 && diffLogic.diffTexts('old', '').stats.removed === 1, 'Diff: empty side');
+  const w = diffLogic.wordDiff('The quick brown fox', 'The slow brown fox');
+  assert(w.old.map(s => s.type).join() === 'equal,removed,equal' && w.new[1].text === 'slow', 'Diff: word-level highlight marks only the changed word');
+
+  // Correctness: the edit script rebuilds both inputs and keeps a longest common subsequence
+  const lcsLength = (a, b) => {
+    const t = Array.from({ length: a.length + 1 }, () => new Array(b.length + 1).fill(0));
+    for (let i = 1; i <= a.length; i++) for (let j = 1; j <= b.length; j++) t[i][j] = a[i - 1] === b[j - 1] ? t[i - 1][j - 1] + 1 : Math.max(t[i - 1][j], t[i][j - 1]);
+    return t[a.length][b.length];
+  };
+  const rand = mulberry32(1986);
+  let diffOk = true;
+  for (let i = 0; i < 500 && diffOk; i++) {
+    const seq = () => Array.from({ length: Math.floor(rand() * 14) }, () => Math.floor(rand() * 4));
+    const a = seq(), b = seq();
+    const { ops } = diffLogic.myers(a, b);
+    const ra = ops.filter(o => o.t !== '+').map(o => a[o.a]).join();
+    const rb = ops.filter(o => o.t !== '-').map(o => b[o.b]).join();
+    if (ra !== a.join() || rb !== b.join() || ops.filter(o => o.t === '=').length !== lcsLength(a, b)) diffOk = false;
+  }
+  assert(diffOk, 'Diff fuzz: Myers edit scripts are valid and minimal');
+
+  // 6,000-line texts: scattered edits stay exact, fully different texts still finish quickly
+  const base = Array.from({ length: 6000 }, (_, i) => (i % 3 ? `keep ${i}` : `old ${i}`));
+  const edited = base.map((l, i) => (i % 3 ? l : `new ${i}`));
+  let t0 = Date.now();
+  const big = diffLogic.diffTexts(base.join('\n'), edited.join('\n'));
+  const tBig = Date.now() - t0;
+  assert(big.stats.removed === 2000 && big.stats.added === 2000 && big.stats.unchanged === 4000 && tBig < 3000, `Diff: 6,000 lines with 2,000 scattered edits are exact (${tBig} ms)`);
+  t0 = Date.now();
+  const other = diffLogic.diffTexts(base.join('\n'), base.map(l => `x${l}`).join('\n'));
+  assert(other.stats.removed === 6000 && other.stats.added === 6000 && Date.now() - t0 < 3000, `Diff: 6,000 completely different lines finish in ${Date.now() - t0} ms`);
+}
+
+// Duplicate Line Remover Logic
+const dupLogic = require(path.join(ROOT, 'src/tools/remove-duplicate-lines/logic.js'));
+{
+  const cs = dupLogic.removeDuplicates('a\nb\na\nB');
+  assert(cs.output === 'a\nb\nB' && cs.duplicatesRemoved === 1, `Dedupe: case-sensitive "a b a B" -> "a b B", 1 removed (got ${JSON.stringify(cs.output)})`);
+  const ci = dupLogic.removeDuplicates('a\nb\na\nB', { caseInsensitive: true });
+  assert(ci.output === 'a\nb' && ci.duplicatesRemoved === 2, `Dedupe: case-insensitive -> "a b", 2 removed (got ${JSON.stringify(ci.output)})`);
+  const trimCompare = dupLogic.removeDuplicates(' a\na', { trim: true });
+  assert(trimCompare.output === ' a' && trimCompare.duplicatesRemoved === 1, 'Dedupe: trim compares " a" and "a" as equal and keeps the first line as written');
+  const trimOut = dupLogic.removeDuplicates(' a\na', { trim: true, trimOutput: true });
+  assert(trimOut.output === 'a', 'Dedupe: with "trim output" the kept line is "a"');
+
+  assert(dupLogic.removeDuplicates('x\ny\nx', { keep: 'last' }).output === 'y\nx', 'Dedupe: keep last occurrence');
+  const empties = dupLogic.removeDuplicates('a\n\n \nb', { removeEmpty: true });
+  assert(empties.output === 'a\nb' && empties.emptyRemoved === 2, 'Dedupe: remove empty lines');
+  assert(dupLogic.removeDuplicates('b\na\nc\na', { sort: 'asc' }).output === 'a\nb\nc' && dupLogic.removeDuplicates('b\na\nc', { sort: 'desc' }).output === 'c\nb\na', 'Dedupe: sort A-Z and Z-A');
+  assert(dupLogic.removeDuplicates('item10\nitem2', { sort: 'asc' }).output === 'item2\nitem10', 'Dedupe: sorting is numeric-aware');
+  assert(dupLogic.removeDuplicates('a\r\nb\r\na').output === 'a\nb', 'Dedupe: Windows line endings');
+  const rep = dupLogic.removeDuplicates('x\ny\nx\nx');
+  assert(rep.repeated[0].line === 'x' && rep.repeated[0].count === 3 && rep.totalLines === 4 && rep.keptLines === 2, 'Dedupe: summary of repeated lines');
+  assert(dupLogic.removeDuplicates('').keptLines === 0, 'Dedupe: empty input');
+}
+
+// URL Slug Generator Logic
+const slugLogic = require(path.join(ROOT, 'src/tools/slug-generator/logic.js'));
+{
+  assert(slugLogic.slugify('Héllo, Wörld! 2026') === 'hello-world-2026', 'Slug: "Héllo, Wörld! 2026" -> hello-world-2026');
+  assert(slugLogic.slugify('  Multiple   Spaces  ') === 'multiple-spaces', 'Slug: repeated and surrounding spaces collapse');
+  assert(slugLogic.slugify('Hello World', { separator: '_' }) === 'hello_world', 'Slug: underscore separator');
+  assert(slugLogic.slugify('percentage change calculator', { maxLength: 10 }) === 'percentage', 'Slug: max length 10 cuts at a word boundary');
+  assert(slugLogic.slugify('Straße & Café don’t stop') === 'strasse-and-cafe-dont-stop', 'Slug: ß, &, accents and apostrophes');
+  assert(slugLogic.slugify('How to Write the Best Guide', { removeStopWords: true }) === 'write-best-guide', 'Slug: English stop words removed');
+  assert(slugLogic.slugify('The And Of', { removeStopWords: true }) === 'the-and-of', 'Slug: never removes every word');
+  assert(slugLogic.slugify('Supercalifragilistic', { maxLength: 5 }) === 'super', 'Slug: a first word longer than the limit is cut');
+  assert(slugLogic.slugify('--Hello---World--') === 'hello-world' && slugLogic.slugify('!!!') === '', 'Slug: separators are trimmed and collapsed');
+  assert(slugLogic.slugify('ÆON Łódź') === 'aeon-lodz', 'Slug: Æ and Ł are transliterated');
+  assert(slugLogic.slugify('KEEP Case', { lowercase: false }) === 'KEEP-Case', 'Slug: lowercase can be switched off');
+  const bulk = slugLogic.slugifyLines('First Post\n\nSecond Post\nFirst Post', { unique: true });
+  assert(bulk.length === 3 && bulk[2].slug === 'first-post-2' && bulk[2].duplicate, 'Slug: bulk mode with unique numbering');
+}
+
+// JWT Decoder Logic
+const jwtLogic = require(path.join(ROOT, 'src/tools/jwt-decoder/logic.js'));
+async function testJwt() {
+  const sample = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c';
+  const d = jwtLogic.decode(sample);
+  assert(d.header.alg === 'HS256' && d.header.typ === 'JWT' && Object.keys(d.header).length === 2, 'JWT: header is {alg: HS256, typ: JWT}');
+  assert(d.payload.sub === '1234567890' && d.payload.name === 'John Doe' && d.payload.iat === 1516239022, 'JWT: payload sub, name and iat');
+  assert(d.times.iat.iso === '2018-01-18T01:30:22Z' && d.status === 'no-exp', `JWT: iat = 2018-01-18T01:30:22Z (got ${d.times.iat.iso})`);
+  const ok = await jwtLogic.verifyHmac(sample, 'your-256-bit-secret');
+  assert(ok.valid === true, 'JWT: HS256 signature with "your-256-bit-secret" is valid');
+  assert((await jwtLogic.verifyHmac(sample, 'not-the-secret')).valid === false, 'JWT: a wrong secret is invalid');
+  const two = jwtLogic.decode('eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIn0');
+  assert(two.error && /three parts/.test(two.error) && /has 2/.test(two.error), 'JWT: a token with 2 parts is a clear error');
+
+  // Expiry, not-before, Bearer prefix and bad input
+  const enc = (o) => jwtLogic.bytesToBase64Url(new TextEncoder().encode(JSON.stringify(o)));
+  const now = Date.UTC(2026, 9, 31);
+  const t = (payload) => `${enc({ alg: 'HS256', typ: 'JWT' })}.${enc(payload)}.sig`;
+  assert(jwtLogic.decode(t({ exp: now / 1000 - 60 }), { now }).status === 'expired', 'JWT: exp in the past is expired');
+  assert(jwtLogic.decode(t({ exp: now / 1000 + 3600 }), { now }).status === 'valid-time', 'JWT: exp in the future is not expired');
+  assert(jwtLogic.decode(t({ nbf: now / 1000 + 60, exp: now / 1000 + 3600 }), { now }).status === 'not-yet-valid', 'JWT: nbf in the future is not yet valid');
+  assert(jwtLogic.decode(`Bearer ${sample}`).payload.name === 'John Doe', 'JWT: a "Bearer " prefix is ignored');
+  assert(jwtLogic.decode('a.b.c.d.e').error.includes('JWE'), 'JWT: five-part tokens are identified as JWE');
+  assert(jwtLogic.decode('###.e30.x').error && jwtLogic.decode(`${enc({ alg: 'HS256' })}.bm90IGpzb24.c2ln`).error.includes('JSON'), 'JWT: invalid Base64URL and non-JSON payloads are errors');
+  assert(jwtLogic.decode(`${enc({ alg: 'HS256' })}.${enc({ name: 'Zoë 😀' })}.c2ln`).payload.name === 'Zoë 😀', 'JWT: UTF-8 claims decode correctly');
+  const rs = await jwtLogic.verifyHmac(`${enc({ alg: 'RS256' })}.${enc({})}.c2ln`, 'x');
+  assert(rs.error && rs.error.includes('RS256'), 'JWT: non-HMAC algorithms are explained, not "verified"');
+  for (const [alg, hash] of [['HS384', 'SHA-384'], ['HS512', 'SHA-512']]) {
+    const unsigned = `${enc({ alg, typ: 'JWT' })}.${enc({ sub: 'x' })}`;
+    const key = await crypto.subtle.importKey('raw', new TextEncoder().encode('k3y'), { name: 'HMAC', hash }, false, ['sign']);
+    const sig = new Uint8Array(await crypto.subtle.sign('HMAC', key, new TextEncoder().encode(unsigned)));
+    const res = await jwtLogic.verifyHmac(`${unsigned}.${jwtLogic.bytesToBase64Url(sig)}`, 'k3y');
+    assert(res.valid === true, `JWT: ${alg} signatures verify`);
+  }
+}
+
+// Password Strength Checker Logic (zxcvbn-ts browser builds, loaded as the page loads them)
+const strengthLogic = require(path.join(ROOT, 'src/tools/password-strength-checker/logic.js'));
+{
+  const vm = require('vm');
+  const fs = require('fs');
+  const sandbox = {};
+  vm.createContext(sandbox);
+  ['core', 'language-common', 'language-en'].forEach(p => {
+    vm.runInContext(fs.readFileSync(path.join(ROOT, 'node_modules/@zxcvbn-ts', p, 'dist/zxcvbn-ts.js'), 'utf8'), sandbox);
+  });
+  const checker = strengthLogic.createChecker(sandbox.zxcvbnts);
+  const pw = checker.check('password');
+  assert(pw.score === 0 && pw.label === 'Very weak' && pw.warning, `Strength: "password" scores 0 (got ${pw.score})`);
+  const troub = checker.check('Tr0ub4dor&3');
+  assert(troub.score < 4, `Strength: "Tr0ub4dor&3" scores below 4 (got ${troub.score})`);
+  const pwGen = require(path.join(ROOT, 'src/tools/password-generator/logic.js'));
+  const generated = pwGen.generatePassword({ length: 20 }).password;
+  const gen = checker.check(generated);
+  assert(generated.length === 20 && gen.score === 4, `Strength: a 20-character generated password scores 4 (got ${gen.score})`);
+  assert(checker.check('') === null && checker.check(undefined) === null, 'Strength: empty input gives no result');
+  assert(pw.crackTimes.onlineThrottled.display && pw.crackTimes.offlineFast.display, 'Strength: crack times for online throttled and offline fast hashing');
+  const info = strengthLogic.characterInfo('Ab1! é');
+  assert(info.length === 6 && info.sets.lower === 1 && info.sets.upper === 1 && info.sets.digits === 1 && info.sets.symbols === 1 && info.sets.spaces === 1 && info.sets.other === 1, 'Strength: character sets are counted');
+  assert(strengthLogic.characterInfo('😀😀').length === 2, 'Strength: emoji count as one character each');
+}
+
+// Code formatters (async: the engines load with dynamic import)
+async function testCodeFormatters() {
+  const pyFormatter = require(path.join(ROOT, 'src/tools/python-formatter/logic.js'));
+  const javaFormatter = require(path.join(ROOT, 'src/tools/java-formatter/logic.js'));
+  const rejects = async (promise) => { try { await promise; return null; } catch (e) { return e; } };
+
+  // Python (Ruff): a messy function formats to the expected output
+  const messyPy = "def  calculate_total( items,tax_rate = 0.18 ) :\n  subtotal=sum( item['price']*item['qty'] for item in items )\n  return subtotal*( 1+tax_rate )\n";
+  const expectedPy = "def calculate_total(items, tax_rate=0.18):\n    subtotal = sum(item[\"price\"] * item[\"qty\"] for item in items)\n    return subtotal * (1 + tax_rate)\n";
+  const py = await pyFormatter.format(messyPy);
+  assert(py.output === expectedPy && py.changed, 'PythonFormatter: messy function formats to the expected Ruff output');
+  assert((await pyFormatter.format(expectedPy)).changed === false, 'PythonFormatter: formatted code is left unchanged');
+
+  const py79 = await pyFormatter.format("config = {'host':'localhost','port':5432,'database':'inventory','user':'admin','options':{'sslmode':'require','connect_timeout':10}}\n", { lineLength: 79, quoteStyle: 'single' });
+  assert(py79.output === "config = {\n    'host': 'localhost',\n    'port': 5432,\n    'database': 'inventory',\n    'user': 'admin',\n    'options': {'sslmode': 'require', 'connect_timeout': 10},\n}\n", 'PythonFormatter: 79 columns with single quotes');
+  const py2 = await pyFormatter.format('def f():\n    return 1\n', { indentWidth: 2 });
+  assert(py2.output === 'def f():\n  return 1\n', 'PythonFormatter: 2-space indent option');
+
+  // Python: a syntax error returns an error with a line number
+  const pyErr = await rejects(pyFormatter.format('def greet(name):\n    print("hi"\n\nx = 1\n'));
+  assert(pyErr && pyErr.name === 'PythonSyntaxError' && pyErr.line === 4 && /^Line 4, column 1:/.test(pyErr.message),
+    `PythonFormatter: unclosed parenthesis reports a syntax error on line 4 (got ${pyErr && pyErr.message})`);
+  const tabErr = await rejects(pyFormatter.format('if True:\n\tx = 1\n        y = 2\n'));
+  assert(tabErr && tabErr.line === 3 && /Unexpected indentation/.test(tabErr.message), 'PythonFormatter: mixed tabs and spaces report "Unexpected indentation" on line 3');
+  const colErr = await rejects(pyFormatter.format('x = 1\ndef f(:\n    pass\n'));
+  assert(colErr && colErr.line === 2 && colErr.column === 7, `PythonFormatter: error column is reported (got ${colErr && colErr.line}:${colErr && colErr.column})`);
+  assert(pyFormatter.positionFromByteOffset('é = 1\nx', 7).line === 2, 'PythonFormatter: byte offsets with multi-byte characters map to the right line');
+  assert(await rejects(pyFormatter.format('   ')), 'PythonFormatter: empty input is rejected');
+  assert(await rejects(pyFormatter.format('x = 1', { lineLength: 77 })), 'PythonFormatter: unsupported line length is rejected');
+
+  // Java (Prettier + prettier-plugin-java): a messy class formats to the expected output
+  const messyJava = "public class  OrderTotal{private final List<Integer> prices;public OrderTotal(List<Integer> prices){this.prices=prices;}public int total(){int sum=0;for(int p:prices){sum+=p;}return sum;}}\n";
+  const expectedJava = "public class OrderTotal {\n\n    private final List<Integer> prices;\n\n    public OrderTotal(List<Integer> prices) {\n        this.prices = prices;\n    }\n\n    public int total() {\n        int sum = 0;\n        for (int p : prices) {\n            sum += p;\n        }\n        return sum;\n    }\n}\n";
+  const java = await javaFormatter.format(messyJava);
+  assert(java.output === expectedJava && java.changed, 'JavaFormatter: messy class formats to the expected Prettier output');
+  assert((await javaFormatter.format(expectedJava)).changed === false, 'JavaFormatter: formatted code is left unchanged');
+  const java2 = await javaFormatter.format("class Adults{List<String> names(List<Person> people){return people.stream().filter(p->p.getAge()>=18).map(p->p.getName().toUpperCase()).sorted().collect(Collectors.toList());}}\n", { indentWidth: 2, printWidth: 100 });
+  assert(java2.output === "class Adults {\n\n  List<String> names(List<Person> people) {\n    return people\n      .stream()\n      .filter(p -> p.getAge() >= 18)\n      .map(p -> p.getName().toUpperCase())\n      .sorted()\n      .collect(Collectors.toList());\n  }\n}\n", 'JavaFormatter: 2-space indent and 100 print width (Google-style)');
+
+  // Java: invalid snippets return an error, with the position when it can be found
+  const javaErr = await rejects(javaFormatter.format('public class A {\n  void f() {\n    int x = 1\n  }\n}\n'));
+  assert(javaErr && javaErr.name === 'JavaSyntaxError' && javaErr.line === 3 && javaErr.column === 14 && /missing ";"/.test(javaErr.message),
+    `JavaFormatter: missing semicolon reports line 3, column 14 (got ${javaErr && javaErr.message})`);
+  const braceErr = await rejects(javaFormatter.format('class B {\n  void g() {\n    if (x) {\n    }\n'));
+  assert(braceErr && braceErr.name === 'JavaSyntaxError' && /missing "}"/.test(braceErr.message), 'JavaFormatter: missing brace is reported');
+  assert(await rejects(javaFormatter.format('class C { void h() { int y = ; } }')), 'JavaFormatter: invalid expression returns an error');
+  assert(await rejects(javaFormatter.format('class D {}', { indentWidth: 3 })), 'JavaFormatter: unsupported indent is rejected');
+
+  // HTML (Prettier html parser + postcss/babel for inline style and script)
+  const htmlFormatter = require(path.join(ROOT, 'src/tools/html-formatter/logic.js'));
+  const messy = await htmlFormatter.format('<div><p>Hi<span>there</span></p></div>');
+  assert(messy.output === '<div>\n  <p>Hi<span>there</span></p>\n</div>\n' && messy.changed && messy.warnings.length === 0,
+    `HtmlFormatter: messy div/p/span formats to the expected multi-line output (got ${JSON.stringify(messy.output)})`);
+  const mismatch = await rejects(htmlFormatter.format('<div>\n  <section>\n    <p>Hello\n</div>'));
+  assert(mismatch && mismatch.name === 'HtmlSyntaxError' && mismatch.line === 4 && mismatch.column === 1 && /^Line 4, column 1: Unexpected closing tag "div"/.test(mismatch.message),
+    `HtmlFormatter: a closing tag that does not match reports line 4, column 1 (got ${mismatch && mismatch.message})`);
+  const divInP = await rejects(htmlFormatter.format('<p>Intro\n<div>Block</div>\n</p>'));
+  assert(divInP && divInP.line === 3 && /closing tag "p"/.test(divInP.message), 'HtmlFormatter: a div inside a p is reported on the stray </p> line');
+  const unclosed = await htmlFormatter.format('<main>\n  <div class="card">\n    <span>Hi</span>');
+  assert(unclosed.warnings.length === 2 && unclosed.warnings[0].line === 1 && unclosed.warnings[1].line === 2 && unclosed.warnings[1].tag === 'div',
+    'HtmlFormatter: elements never closed are warnings with their line numbers');
+  assert((await htmlFormatter.format('<ul><li>a<li>b</ul><p>x <img src="a.png"> <br/>')).warnings.length === 0, 'HtmlFormatter: optional end tags and void elements are not warnings');
+  assert(htmlFormatter.findUnclosed('<script>if (a<b) { x = "<div>" }</script><div title="a>b"></div>').length === 0, 'HtmlFormatter: tags inside script and attribute values are ignored by the scanner');
+  const embedded = await htmlFormatter.format("<style>body{margin:0;color:#222}</style><script>function hi(name){return 'Hi '+name}</script>");
+  assert(embedded.output.includes('  body {\n    margin: 0;') && embedded.output.includes('    return "Hi " + name;'), 'HtmlFormatter: inline CSS and JavaScript are formatted');
+  const tabs = await htmlFormatter.format('<div><section><p>Hi</p></section></div>', { indentWidth: 'tab' });
+  assert(tabs.output.includes('\n\t<section>'), 'HtmlFormatter: tab indentation');
+  const four = await htmlFormatter.format('<div><section><p>Hi</p></section></div>', { indentWidth: '4' });
+  assert(four.output.includes('\n    <section>'), 'HtmlFormatter: 4-space indentation');
+  const ignoreWs = await htmlFormatter.format('<div><b>bold</b> <i>it</i></div>', { whitespace: 'ignore' });
+  assert(ignoreWs.output === '<div>\n  <b>bold</b>\n  <i>it</i>\n</div>\n', 'HtmlFormatter: whitespace sensitivity "ignore" breaks between inline elements');
+  assert(await rejects(htmlFormatter.format('<div>', { indentWidth: '3' })) && await rejects(htmlFormatter.format('  ')), 'HtmlFormatter: unsupported options and empty input are rejected');
+
+  // Minify: comments and whitespace between tags only
+  const min = await htmlFormatter.format('<!-- note -->\n<div>\n  <p>Hello   <b>world</b> <i>!</i></p>\n  <pre>  keep   me </pre>\n<script>\n var a = 1;  \n</script>\n</div>\n', { mode: 'minify' });
+  assert(min.output === '<div><p>Hello <b>world</b> <i>!</i></p><pre>  keep   me </pre><script>\n var a = 1;  \n</script></div>' && min.saved > 0,
+    `HtmlFormatter: minify removes comments and whitespace between tags, keeping inline spaces, pre and script (got ${JSON.stringify(min.output)})`);
+  assert(htmlFormatter.minify('<!--[if IE]><p>old</p><![endif]-->').includes('[if IE]'), 'HtmlFormatter: minify keeps conditional comments');
+}
+
+testCodeFormatters().catch((err) => {
+  assert(false, `Code formatter tests threw: ${err && err.stack}`);
+}).then(() => testJwt()).catch((err) => {
+  assert(false, `JWT tests threw: ${err && err.stack}`);
+}).then(() => {
+  console.log(`\nLogic Tests Summary: ${passed} passed, ${failures} failed.`);
+  if (failures > 0) {
+    process.exit(1);
+  } else {
+    console.log('✅ ALL PURE LOGIC & PROPERTY FUZZ TESTS PASSED!');
+  }
+});

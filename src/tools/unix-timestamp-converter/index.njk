@@ -1,0 +1,117 @@
+---
+layout: layouts/tool.njk
+toolSlug: unix-timestamp-converter
+permalink: /tools/unix-timestamp-converter/
+extraCss: "/tools/unix-timestamp-converter/style.css"
+lastReviewed: "2026-10-31"
+---
+
+    <!-- Tool Form Container -->
+    <section class="tool-container" aria-label="{{ 'ariaLabel.tool-section1' | pt }}">
+      <div class="epoch-now" aria-label="{{ 'ariaLabel.tool-div1' | pt }}">
+        <div class="epoch-now-item">
+          {{ 'content.tool.div1' | pt }}
+        </div>
+        <div class="epoch-now-item">
+          {{ 'content.tool.div2' | pt }}
+        </div>
+        <div class="epoch-now-actions">
+          <button type="button" class="btn btn-sm btn-secondary" data-copy-now="s">{{ 'content.tool.button1' | pt }}</button>
+          <button type="button" class="btn btn-sm btn-secondary" data-copy-now="ms">{{ 'content.tool.button2' | pt }}</button>
+          <button type="button" class="btn btn-sm btn-ghost" id="now-pause" aria-pressed="false">{{ 'text.now-pause' | pt }}</button>
+        </div>
+      </div>
+
+      <h2 class="epoch-heading">{{ 'content.timestamp-to-date.heading' | pt }}</h2>
+      <form id="ts-form" novalidate>
+        <div class="form-grid epoch-ts-grid">
+          <div class="form-group">
+            <label for="ts-input">{{ 'label.ts-input' | pt }}</label>
+            <div class="input-with-button">
+              <input type="text" inputmode="numeric" autocomplete="off" spellcheck="false" id="ts-input" data-param="ts" class="form-control font-mono" placeholder="{{ 'placeholder.ts-input' | pt }}" required aria-required="true" aria-describedby="ts-hint">
+              <button type="button" class="btn btn-secondary" id="ts-now-btn">{{ 'text.ts-now-btn' | pt }}</button>
+            </div>
+            <p class="form-hint" id="ts-hint">{{ 'text.ts-hint' | pt }}</p>
+          </div>
+          <div class="form-group">
+            <label for="ts-unit">{{ 'label.ts-unit' | pt }}</label>
+            <select id="ts-unit" data-param="unit" class="form-control">
+              <option value="auto" selected>{{ 'option.ts-unit.auto' | pt }}</option>
+              <option value="s">{{ 'option.ts-unit.s' | pt }}</option>
+              <option value="ms">{{ 'option.ts-unit.ms' | pt }}</option>
+              <option value="us">{{ 'option.ts-unit.us' | pt }}</option>
+              <option value="ns">{{ 'option.ts-unit.ns' | pt }}</option>
+            </select>
+          </div>
+        </div>
+        <div class="button-group">
+          <button type="submit" class="btn btn-primary">{{ 'content.timestamp-to-date.button1' | pt }}</button>
+          <button type="button" class="btn btn-secondary" id="reset-btn">{{ 'text.reset-btn' | pt }}</button>
+        </div>
+      </form>
+
+      <div id="error-box" class="hidden form-error" role="alert"></div>
+
+      <div id="result-box" class="result-box is-visible" aria-live="polite">
+        <div class="result-header">
+          <span id="result-header-text">{{ 'text.result-header-text' | pt }}</span>
+          <button type="button" class="btn btn-sm btn-ghost" id="copy-result-btn" title="{{ 'title.copy-result-btn' | pt }}" aria-label="{{ 'ariaLabel.copy-result-btn' | pt }}">
+            {{ 'text.copy-result-btn' | pt }}
+          </button>
+        </div>
+        <div class="result-primary epoch-primary" id="result-primary-text">--</div>
+        <p class="form-hint" id="ts-detected"></p>
+        <dl class="epoch-list" id="ts-details"></dl>
+      </div>
+
+      <h2 class="epoch-heading">{{ 'content.date-to-timestamp.heading' | pt }}</h2>
+      <form id="date-form" novalidate>
+        <div class="form-grid epoch-date-grid">
+          <div class="form-group">
+            <label for="date-input">{{ 'label.date-input' | pt }}</label>
+            <input type="datetime-local" step="1" id="date-input" data-param="date" class="form-control" required aria-required="true">
+          </div>
+          <div class="form-group">
+            <label for="date-zone">{{ 'label.date-zone' | pt }}</label>
+            <select id="date-zone" data-param="tz" class="form-control">
+              <option value="utc">{{ 'option.date-zone.utc' | pt }}</option>
+              <option value="local" selected>{{ 'option.date-zone.local' | pt }}</option>
+            </select>
+          </div>
+        </div>
+      </form>
+      <div id="date-error" class="hidden form-error" role="alert"></div>
+      <div class="epoch-date-result" id="date-result" aria-live="polite">
+        <dl class="epoch-list" id="date-details"></dl>
+      </div>
+    </section>
+
+    <!-- tool-end -->
+
+    <section class="content-section">
+      <h2>{{ 'content.the-year-2038-problem-explained.heading' | pt }}</h2>
+      <p>{{ 'content.the-year-2038-problem-explained.p1' | pt }}</p>
+      <p>{{ 'content.the-year-2038-problem-explained.p2' | pt }}</p>
+      <ul class="content-list">
+        <li>{{ 'content.the-year-2038-problem-explained.li1' | pt }}</li>
+        <li>{{ 'content.the-year-2038-problem-explained.li2' | pt }}</li>
+        <li>{{ 'content.the-year-2038-problem-explained.li3' | pt }}</li>
+      </ul>
+
+      <h2>{{ 'content.timestamps-in-common-languages.heading' | pt }}</h2>
+      <div class="table-wrapper">
+        <table class="table">
+          <caption class="visually-hidden">{{ 'content.timestamps-in-common-languages.caption1' | pt }}</caption>
+          <thead><tr><th scope="col">{{ 'content.timestamps-in-common-languages.th1' | pt }}</th><th scope="col">{{ 'content.timestamps-in-common-languages.th2' | pt }}</th><th scope="col">{{ 'content.timestamps-in-common-languages.th3' | pt }}</th></tr></thead>
+          <tbody>
+            <tr><td>{{ 'content.timestamps-in-common-languages.td1' | pt }}</td><td>{{ 'content.timestamps-in-common-languages.td2' | pt }}</td><td>{{ 'content.timestamps-in-common-languages.td3' | pt }}</td></tr>
+            <tr><td>{{ 'content.timestamps-in-common-languages.td4' | pt }}</td><td>{{ 'content.timestamps-in-common-languages.td5' | pt }}</td><td>{{ 'content.timestamps-in-common-languages.td6' | pt }}</td></tr>
+            <tr><td>{{ 'content.timestamps-in-common-languages.td7' | pt }}</td><td>{{ 'content.timestamps-in-common-languages.td8' | pt }}</td><td>{{ 'content.timestamps-in-common-languages.td9' | pt }}</td></tr>
+            <tr><td>{{ 'content.timestamps-in-common-languages.td10' | pt }}</td><td>{{ 'content.timestamps-in-common-languages.td11' | pt }}</td><td>{{ 'content.timestamps-in-common-languages.td12' | pt }}</td></tr>
+            <tr><td>{{ 'content.timestamps-in-common-languages.td13' | pt }}</td><td>{{ 'content.timestamps-in-common-languages.td14' | pt }}</td><td>{{ 'content.timestamps-in-common-languages.td15' | pt }}</td></tr>
+            <tr><td>{{ 'content.timestamps-in-common-languages.td16' | pt }}</td><td>{{ 'content.timestamps-in-common-languages.td17' | pt }}</td><td>{{ 'content.timestamps-in-common-languages.td18' | pt }}</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>{{ 'content.timestamps-in-common-languages.p1' | pt }}</p>
+    </section>

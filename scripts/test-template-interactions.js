@@ -60,7 +60,8 @@ async function runTemplateInteractionTests() {
   }
 
   try {
-    const page = await browser.newPage();
+    // A fixed locale and time zone: money tools preselect the visitor's currency from these
+    const page = await browser.newPage({ locale: 'en-US', timezoneId: 'America/New_York' });
 
     // -------------------------------------------------------------
     // Test 1: Age Calculator Calculation + Result Actions Bar + Toast
@@ -87,8 +88,12 @@ async function runTemplateInteractionTests() {
     const toastText = await page.textContent('#tb-toast');
     assert(toastVisible && toastText.includes('copied'), `Toast appears upon copying: "${toastText}"`);
 
+    // Exactly one Reset: the tool's own button, so the bar's duplicate is removed
+    const resetCount = await page.locator('#reset-btn:visible, #action-reset-btn:visible').count();
+    assert(resetCount === 1 && await page.locator('#action-reset-btn').count() === 0, `One visible Reset control (found ${resetCount}); bar duplicate removed`);
+
     // Click Reset button and verify fields reset and result hidden
-    await page.click('#action-reset-btn');
+    await page.click('#reset-btn');
     await page.waitForTimeout(100);
     const isResultBoxHidden = await page.isHidden('#result-box');
     assert(isResultBoxHidden, 'Reset clears age calculation output and hides result box');
@@ -138,11 +143,11 @@ async function runTemplateInteractionTests() {
     const toolCardsCount = await page.locator('.category-tools-section .tool-card').count();
     assert(toolCardsCount >= 4, `Category hub renders all tools in category (${toolCardsCount} cards)`);
 
-    const guideGridCount = await page.locator('.guide-grid .guide-card').count();
-    assert(guideGridCount >= 2, `How to choose guide rendered with ${guideGridCount} cards`);
+    const guideCount = await page.locator('.guide-list li').count();
+    assert(guideCount >= 2, `How to choose guide rendered as a list of ${guideCount} items`);
 
-    const otherCatsCount = await page.locator('.other-categories-grid .other-cat-card').count();
-    assert(otherCatsCount === 4, `Other categories section links to the other 4 categories (${otherCatsCount} cards)`);
+    const faqCount = await page.locator('.category-faq-section .faq-item').count();
+    assert(faqCount >= 1, `Category FAQ rendered (${faqCount} questions)`);
 
     // -------------------------------------------------------------
     // Test 5: All Tools Directory (/tools/) Dynamic Filtering & Search

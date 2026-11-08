@@ -1,0 +1,258 @@
+{
+  "listing": {
+    "name": "URL-Slug-Generator",
+    "shortName": "Slug-Generator",
+    "description": "Mach aus Titeln saubere, kleingeschriebene URL-Slugs ohne Akzente, mit Bindestrichen oder Unterstrichen, optional ohne Stoppwörter und im Stapelmodus.",
+    "shortDescription": "SEO-freundliche URL-Slugs aus Titeln, einzeln oder viele auf einmal.",
+    "keywords": [
+      "slug generator",
+      "url slug erstellen",
+      "slugify online",
+      "seo freundliche url",
+      "permalink generator",
+      "titel in slug umwandeln",
+      "url freundlicher text"
+    ]
+  },
+  "title": "URL-Slug-Generator: SEO-freundliche Slugs erstellen",
+  "description": "Slug-Generator: Mach aus Titeln saubere URL-Slugs in Kleinbuchstaben, ohne Akzente, mit Bindestrichen, ohne Stoppwörter, mit Maximallänge und Stapelmodus.",
+  "h1": "URL-Slug-Generator",
+  "quickAnswer": "Ein URL-Slug ist der lesbare Teil einer Webadresse, der eine Seite benennt, etwa percentage-change-calculator. Mit dem Slug-Generator schreibst du den Titel klein, entfernst Akzente, ersetzt Leer- und Satzzeichen durch Bindestriche und kürzt die Enden: Aus 'Héllo, Wörld! 2026' wird hello-world-2026. Halte Slugs kurz und aussagekräftig und ändere sie nicht mehr, sobald eine Seite veröffentlicht ist.",
+  "formula": {
+    "title": "So entsteht ein Slug",
+    "expression": "Titel → NFD-Normalisierung und Akzente entfernen → Kleinbuchstaben → alles außer Buchstaben und Ziffern wird zum Trennzeichen → Wiederholungen zusammenfassen → Enden kürzen",
+    "explanation": "Die Unicode-NFD-Normalisierung zerlegt Buchstaben wie é in e plus Akzentzeichen, und die Akzentzeichen werden entfernt. Buchstaben, die sich nicht zerlegen lassen (ß, æ, ø, ł), werden als ss, ae, o und l geschrieben, & wird zu 'and'. Alles, was kein Buchstabe und keine Ziffer ist, wird zu einem einzigen Trennzeichen, und Trennzeichen am Anfang oder Ende werden entfernt. Optional werden häufige englische Stoppwörter entfernt und der Slug an einer Wortgrenze gekürzt, damit er eine Maximallänge einhält. Buchstaben nicht-lateinischer Schriften bleiben erhalten, weil Browser sie anzeigen; du kannst den Titel aber vorher übersetzen.",
+    "variables": [
+      {
+        "name": "Trennzeichen",
+        "description": "Bindestriche (-) sind für URLs üblich; Unterstriche (_) passen für Dateinamen und manche Systeme."
+      },
+      {
+        "name": "Stoppwörter",
+        "description": "Kurze englische Wörter wie a, the, and, of, to, die einer URL selten helfen. Mindestens ein Wort bleibt immer erhalten."
+      },
+      {
+        "name": "Maximallänge",
+        "description": "Kürzt den Slug vor dem Wort, das die Grenze überschreiten würde, sodass Wörter nie halbiert werden."
+      }
+    ]
+  },
+  "workedExamples": [
+    {
+      "title": "Akzente und Satzzeichen",
+      "inputs": [
+        "Titel: Héllo, Wörld! 2026"
+      ],
+      "steps": [
+        "Akzente entfernen: Hello, World! 2026",
+        "Kleinschreiben, Satz- und Leerzeichen ersetzen: hello-world-2026"
+      ],
+      "result": "hello-world-2026"
+    },
+    {
+      "title": "Überzählige Leerzeichen und Unterstriche",
+      "inputs": [
+        "Titel: '  Multiple   Spaces  '",
+        "Trennzeichen: Bindestrich, dann Unterstrich für 'Hello World'"
+      ],
+      "steps": [
+        "Mehrere Leerzeichen werden zu einem Trennzeichen, die Enden werden gekürzt"
+      ],
+      "result": "multiple-spaces, und hello_world mit Unterstrich als Trennzeichen"
+    },
+    {
+      "title": "Maximallänge an einer Wortgrenze",
+      "inputs": [
+        "Titel: percentage change calculator",
+        "Maximallänge: 10"
+      ],
+      "steps": [
+        "'percentage' hat 10 Zeichen; mit '-change' wären es 17"
+      ],
+      "result": "percentage"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Den Slug einer veröffentlichten Seite ändern",
+      "description": "Ein neuer Slug ist eine neue URL. Links, Lesezeichen und Suchergebnisse mit der alten Adresse funktionieren nicht mehr, wenn du keine dauerhafte Weiterleitung (301) einrichtest. Wähle den Slug vor der Veröffentlichung mit Bedacht."
+    },
+    {
+      "title": "Keywords in den Slug stopfen",
+      "description": "bester-guenstiger-kostenloser-rechner-online-rechner-tool wirkt wie Spam. Ein kurzer, treffender Slug passend zum Seitentitel ist leichter zu lesen und zu teilen."
+    },
+    {
+      "title": "Jahreszahlen, die veralten",
+      "description": "Ein Slug wie beste-laptops-2024 wirkt im Jahr darauf veraltet, und eine spätere Änderung erfordert eine Weiterleitung. Lass Jahreszahlen weg, außer die Seite handelt von einem bestimmten Jahr."
+    },
+    {
+      "title": "Groß- und Kleinschreibung mischen",
+      "description": "Pfade unterscheiden auf vielen Servern Groß- und Kleinschreibung, /Ueber-Uns und /ueber-uns können also verschiedene Seiten sein. Slugs in Kleinbuchstaben vermeiden doppelte URLs."
+    },
+    {
+      "title": "Unterstriche in Webadressen verwenden",
+      "description": "Google empfiehlt Bindestriche, um Wörter in URLs zu trennen; mit Unterstrichen verbundene Wörter können als ein einziges Wort gelesen werden."
+    }
+  ],
+  "sources": [
+    {
+      "name": "Google Search Central: Best Practices für die URL-Struktur"
+    },
+    {
+      "name": "RFC 3986: Uniform Resource Identifier (URI) Generic Syntax"
+    },
+    {
+      "name": "Unicode Standard Annex #15: Unicode-Normalisierungsformen"
+    },
+    {
+      "name": "Google Search Central: Weiterleitungen und die Google Suche"
+    }
+  ],
+  "howto": {
+    "name": "So erstellst du einen URL-Slug",
+    "description": "Mach aus einem Seitentitel einen sauberen, SEO-freundlichen URL-Slug.",
+    "steps": [
+      {
+        "name": "Titel eingeben",
+        "text": "Gib den Titel der Seite oder des Beitrags ein, oder wechsle in den Stapelmodus und füge einen Titel pro Zeile ein."
+      },
+      {
+        "name": "Optionen wählen",
+        "text": "Wähle Bindestriche oder Unterstriche und entferne optional Stoppwörter oder lege eine Maximallänge fest."
+      },
+      {
+        "name": "Slug kopieren",
+        "text": "Kopiere den Slug und nutze ihn als letzten Teil der Seiten-URL."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Was ist ein URL-Slug?",
+      "a": "Das ist der Teil einer Webadresse, der eine bestimmte Seite benennt, meist nach dem letzten Schrägstrich. In toolsbuilt.com/tools/slug-generator/ lautet der Slug slug-generator."
+    },
+    {
+      "q": "Sollte ich in URLs Bindestriche oder Unterstriche verwenden?",
+      "a": "Nimm Bindestriche. Google empfiehlt sie zur Trennung von Wörtern in URLs, und sie sind die übliche Konvention. Unterstriche sind für Dateinamen in Ordnung."
+    },
+    {
+      "q": "Sollte ich Stoppwörter wie 'the' und 'and' aus Slugs entfernen?",
+      "a": "Oft ja, wenn der Slug dadurch kürzer wird, ohne an Bedeutung zu verlieren, etwa write-best-guide statt how-to-write-the-best-guide. Behalte sie, wenn der Slug ohne sie schlecht klingt. Die Option entfernt nur englische Stoppwörter."
+    },
+    {
+      "q": "Wie lang sollte ein URL-Slug sein?",
+      "a": "Es gibt keine feste Grenze, aber drei bis fünf aussagekräftige Wörter sind ein gutes Ziel. Mit der Option Maximallänge hältst du Slugs unter einer Grenze, ohne Wörter zu zerschneiden."
+    },
+    {
+      "q": "Wie werden Akzente und Sonderzeichen behandelt?",
+      "a": "Akzente werden per Unicode-Normalisierung entfernt, aus é wird e und aus ü wird u; ß wird zu ss und & zu 'and'. Andere Symbole werden zum Trennzeichen."
+    },
+    {
+      "q": "Kann ich Slugs für viele Titel auf einmal erstellen?",
+      "a": "Ja. Nutze den Stapelmodus und füge einen Titel pro Zeile ein. Aktiviere die Nummerierung, um wiederholten Slugs -2, -3 usw. anzuhängen."
+    },
+    {
+      "q": "Wirkt sich eine Änderung des Slugs auf SEO aus?",
+      "a": "Änderst du die URL einer bestehenden Seite, müssen Suchmaschinen die neue Adresse erst finden. Richte eine 301-Weiterleitung vom alten Slug ein, damit Links und Rankings übernommen werden."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "URL-Slug-Generator",
+      "tool-div1": "Einzeln oder Stapel"
+    },
+    "text": {
+      "tab-single": "Einzelner Titel",
+      "tab-bulk": "Stapel (einer pro Zeile)",
+      "copy-slug-btn": "Kopieren",
+      "download-btn": ".txt herunterladen",
+      "slug-examples-caption": "Beispiele für gute und schwache URL-Slugs"
+    },
+    "label": {
+      "slug-input": "Titel",
+      "slug-bulk": "Titel (einer pro Zeile)",
+      "slug-sep": "Trennzeichen",
+      "slug-max": "Maximallänge <span class=\"label-hint\">(0 = keine Grenze)</span>",
+      "slug-output": "Slugs"
+    },
+    "option": {
+      "slug-sep": {
+        "-": "Bindestrich -",
+        "_": "Unterstrich _"
+      }
+    },
+    "content": {
+      "tool": {
+        "label1": "<input type=\"checkbox\" id=\"slug-lower\" checked><span>Kleinbuchstaben</span>",
+        "label2": "<input type=\"checkbox\" id=\"slug-stop\"><span>Englische Stoppwörter entfernen</span>",
+        "label3": "<input type=\"checkbox\" id=\"slug-unique\" checked><span>Wiederholte Slugs nummerieren (-2, -3 …)</span>",
+        "div1": "<span id=\"result-header-text\">Slug</span>"
+      },
+      "good-and-bad-slugs": {
+        "heading": "Gute und schlechte Slugs",
+        "th1": "Seite",
+        "th2": "Schwacher Slug",
+        "th3": "Besserer Slug",
+        "td1": "So backst du Sauerteigbrot zu Hause",
+        "td2": "post?id=4172",
+        "td3": "sauerteigbrot-zu-hause",
+        "td4": "Unsere Rückgaberichtlinie",
+        "td5": "Unsere_Rueckgaberichtlinie",
+        "td6": "rueckgabe",
+        "td7": "Café Öffnungszeiten",
+        "td8": "caf%C3%A9-%C3%B6ffnungszeiten",
+        "td9": "cafe-oeffnungszeiten",
+        "td10": "Die 10 besten Laptops für Studierende",
+        "td11": "die-10-besten-laptops-fuer-studierende-2024-guenstig-beste",
+        "td12": "laptops-fuer-studierende"
+      },
+      "slug-checklist": {
+        "heading": "Slug-Checkliste",
+        "li1": "<strong>Kurz und aussagekräftig:</strong> Leser sollten allein an der URL erkennen, worum es auf der Seite geht.",
+        "li2": "<strong>Kleinbuchstaben mit Bindestrichen:</strong> einheitlich, leicht zu tippen und von Google empfohlen.",
+        "li3": "<strong>Keine Daten oder Zahlen, die sich ändern:</strong> außer sie gehören zum Inhalt der Seite.",
+        "li4": "<strong>Stabil:</strong> Behalte den Slug nach der Veröffentlichung. Musst du ihn ändern, leite die alte URL dauerhaft weiter.",
+        "li5": "<strong>Eindeutig:</strong> Zwei Seiten im selben Ordner können sich keinen Slug teilen; der Stapelmodus nummeriert Wiederholungen für dich.",
+        "p1": "ToolsBuilt hält sich bei den eigenen Seiten an diese Regeln, etwa /tools/remove-duplicate-lines/ und /tools/text-diff-checker/. Alles auf dieser Seite läuft in deinem Browser, nichts von deiner Eingabe wird gespeichert."
+      }
+    },
+    "value": {
+      "slug-input": "Héllo, Wörld! 2026",
+      "slug-bulk": "10 Tipps für besseren Schlaf\nCafé-Speisekarte & Preise\nSo schreibst du den besten Ratgeber\n10 Tipps für besseren Schlaf"
+    }
+  },
+  "client": {
+    "errors": {
+      "maxLength": "Die Maximallänge muss eine ganze Zahl von 0 (keine Grenze) bis 500 sein."
+    },
+    "result": {
+      "single": "Slug",
+      "bulk": "Slugs im Stapel",
+      "count": {
+        "one": "{{n}} Slug",
+        "other": "{{n}} Slugs"
+      }
+    },
+    "note": {
+      "noLetters": "Dieser Titel enthält keine verwendbaren Buchstaben oder Ziffern. Füge Wörter hinzu.",
+      "empty": "Gib einen Titel ein, um seinen Slug zu erhalten.",
+      "length": {
+        "one": "{{n}} Zeichen · /{{slug}}/",
+        "other": "{{n}} Zeichen · /{{slug}}/"
+      },
+      "repeated": {
+        "one": "{{n}} Titel ergab einen bereits verwendeten Slug.",
+        "other": "{{n}} Titel ergaben einen bereits verwendeten Slug."
+      },
+      "repeatedNumbered": {
+        "one": "{{n}} Titel ergab einen bereits verwendeten Slug, daher wurde eine Zahl angehängt.",
+        "other": "{{n}} Titel ergaben einen bereits verwendeten Slug, daher wurde eine Zahl angehängt."
+      },
+      "allUnique": "Jeder Titel hat seinen eigenen Slug."
+    },
+    "copied": {
+      "single": "Slug kopiert",
+      "bulk": "Slugs kopiert"
+    }
+  }
+}

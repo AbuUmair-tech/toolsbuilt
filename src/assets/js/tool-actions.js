@@ -19,6 +19,39 @@
     const shareBtn = document.getElementById('action-share-btn');
     const printBtn = document.getElementById('action-print-btn');
     const resetBtn = document.getElementById('action-reset-btn');
+    const copyLinkBtn = document.getElementById('action-copy-link-btn');
+
+    // Drop bar buttons the tool already provides itself (one Copy, one Reset per tool).
+    // Copy buttons inside the result header are hidden by CSS in favour of the bar's Copy.
+    const workspace = actionsBar.closest('.tool-workspace') || document;
+    const ownButtons = Array.from(workspace.querySelectorAll('button[id]')).filter(b => !actionsBar.contains(b));
+    const hasOwnCopy = ownButtons.some(b => /copy/i.test(b.id) && !b.matches('.result-box #copy-result-btn, .result-box #copyResultBtn'));
+    const hasOwnReset = ownButtons.some(b => /reset|clear/i.test(b.id));
+    if (copyBtn && hasOwnCopy) copyBtn.remove();
+    if (resetBtn && hasOwnReset) resetBtn.remove();
+
+    // Tool card header row: the tool's Reset sits beside the tool name. A tool with exactly one
+    // #reset-btn has it moved there (same element, so its listeners and id are kept); a tool
+    // without its own reset gets the generic one. Tools with several reset buttons keep them in place.
+    const headSlot = document.getElementById('tool-workspace-tools');
+    if (headSlot) {
+      const ownResets = ownButtons.filter(b => /reset|clear/i.test(b.id));
+      if (ownResets.length === 1 && ownResets[0].id === 'reset-btn') {
+        ownResets[0].classList.add('btn-sm');
+        headSlot.appendChild(ownResets[0]);
+      } else if (!ownResets.length && resetBtn && resetBtn.isConnected) {
+        headSlot.appendChild(resetBtn);
+      }
+    }
+
+    // Shareable result links: "Copy link to this result" replaces the generic Share
+    const resultLink = window.ToolsBuilt && window.ToolsBuilt.resultLink;
+    if (copyLinkBtn && resultLink && resultLink.isEnabled()) {
+      copyLinkBtn.removeAttribute('hidden');
+      if (shareBtn) shareBtn.remove();
+    } else if (copyLinkBtn) {
+      copyLinkBtn.remove();
+    }
 
     // Find the result container on this page
     const resultBox = document.querySelector('[data-result-source], #result-box, #resultBox, .result-box, #password-display, #winner-card, .counter-grid');
@@ -30,6 +63,13 @@
     }
 
     let wasResultVisible = false;
+    // Only auto-scroll to a result the visitor asked for, not the default one shown on load
+    let userInteracted = false;
+    ['input', 'change', 'submit'].forEach(type => {
+      document.addEventListener(type, (e) => {
+        if (e.target && e.target.closest && e.target.closest('.tool-workspace')) userInteracted = true;
+      }, true);
+    });
 
     // Toast notification utility
     function showToast(message) {
@@ -51,6 +91,9 @@
 
     // Extract human-readable text from the result
     function getResultText() {
+      // 0. A full summary the tool script provides (data-copy-text on the bar's Copy button)
+      if (copyBtn && copyBtn.dataset.copyText) return copyBtn.dataset.copyText;
+
       // 1. Check custom data-result-source element
       const customSource = document.querySelector('[data-result-source]');
       if (customSource) {
@@ -108,7 +151,7 @@
         actionsBar.classList.add('is-active');
 
         // On small screens, if newly visible and below the fold, scroll into view
-        if (!wasResultVisible && window.innerWidth <= 768) {
+        if (!wasResultVisible && userInteracted && window.innerWidth <= 768) {
           const rect = resultBox.getBoundingClientRect();
           if (rect.top > window.innerHeight - 100 || rect.bottom > window.innerHeight) {
             const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -135,24 +178,37 @@
 
         if (navigator.clipboard && navigator.clipboard.writeText) {
           navigator.clipboard.writeText(text).then(() => {
-            showToast('Result copied to clipboard!');
+            showToast(ToolsBuilt.t('toolActions.resultCopiedToClipboard'));
           }).catch(() => {
-            showToast('Result copied!');
+            showToast(ToolsBuilt.t('toolActions.resultCopied'));
           });
         } else {
-          showToast('Result copied!');
+          showToast(ToolsBuilt.t('toolActions.resultCopied'));
+        }
+      });
+    }
+
+    // Wire Copy link to this result (the URL already carries the inputs)
+    if (copyLinkBtn && copyLinkBtn.isConnected) {
+      copyLinkBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const link = window.location.href;
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(link).then(() => showToast(ToolsBuilt.t('toolActions.resultLinkCopied'))).catch(() => showToast(link));
+        } else {
+          showToast(link);
         }
       });
     }
 
     // Wire Share
-    if (shareBtn) {
+    if (shareBtn && shareBtn.isConnected) {
       shareBtn.addEventListener('click', (e) => {
         e.preventDefault();
         const resultText = getResultText();
         const shareData = {
           title: document.title,
-          text: resultText ? `Calculated on ToolsBuilt: ${resultText}` : document.title,
+          text: resultText ? ToolsBuilt.t('toolActions.shareText', { result: resultText }) : document.title,
           url: window.location.href
         };
 
@@ -160,10 +216,10 @@
           navigator.share(shareData).catch(() => {});
         } else if (navigator.clipboard && navigator.clipboard.writeText) {
           navigator.clipboard.writeText(window.location.href).then(() => {
-            showToast('Tool link copied to clipboard!');
+            showToast(ToolsBuilt.t('toolActions.toolLinkCopied'));
           });
         } else {
-          showToast('Tool link ready to share');
+          showToast(ToolsBuilt.t('toolActions.toolLinkReady'));
         }
       });
     }
@@ -257,9 +313,24 @@
     }
   }
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initToolActions);
-  } else {
+  // Sidebar "Copy link": the page address only, never the query string (inputs can be private)
+  function initPageLinkButtons() {
+    document.querySelectorAll('[data-copy-page-link]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const link = window.location.origin + window.location.pathname;
+        if (window.ToolsBuilt && ToolsBuilt.copy) ToolsBuilt.copy(link, ToolsBuilt.t('toolActions.toolLinkCopiedShort'));
+      });
+    });
+  }
+
+  function init() {
     initToolActions();
+    initPageLinkButtons();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
   }
 })();

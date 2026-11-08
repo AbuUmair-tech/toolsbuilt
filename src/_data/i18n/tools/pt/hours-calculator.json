@@ -1,0 +1,321 @@
+{
+  "listing": {
+    "name": "Calculadora de horas",
+    "shortName": "Calculadora de horas",
+    "description": "Calcule as horas entre dois horários com intervalos e turnos noturnos, ou some uma folha de ponto semanal com pagamento e horas extras.",
+    "shortDescription": "Horas entre dois horários, horas em decimal e folha de ponto semanal com pagamento e horas extras.",
+    "keywords": [
+      "calculadora de horas",
+      "calcular horas entre dois horários",
+      "calculadora de horas trabalhadas",
+      "calculadora de folha de ponto",
+      "horas trabalhadas",
+      "converter horas em decimal",
+      "calculadora de horas extras"
+    ]
+  },
+  "title": "Calculadora de horas: duração e horas trabalhadas",
+  "description": "Calculadora de horas: calcule as horas entre dois horários, com turno noturno e intervalo, ou some a folha de ponto semanal com pagamento e horas extras.",
+  "h1": "Calculadora de horas",
+  "quickAnswer": "Na calculadora de horas, para calcular as horas trabalhadas subtraia o horário de entrada do horário de saída e depois desconte o intervalo não remunerado. Das 9:00 às 17:30 com 30 minutos de intervalo dá 8 horas e 30 minutos menos 30 minutos = 8:00, ou 8.00 horas em decimal. Se a saída for antes da entrada, o turno passou da meia-noite, então some 24 horas ao horário de saída primeiro.",
+  "formula": {
+    "title": "Fórmula das horas trabalhadas",
+    "expression": "Horas trabalhadas = (saída − entrada [+ 24 h se a saída for antes]) − intervalo não remunerado",
+    "explanation": "Os dois horários são convertidos em minutos depois da meia-noite. Se a saída for antes da entrada, o turno passou da meia-noite e 1.440 minutos (24 horas) são somados à saída. O intervalo não remunerado é descontado, e o resultado aparece em horas e minutos (h:mm) e em horas decimais (minutos ÷ 60). No pagamento, as horas até o limite semanal de horas extras são pagas pelo valor da hora, e as horas acima dele pelo valor da hora vezes o multiplicador de hora extra.",
+    "variables": [
+      {
+        "name": "Horas decimais",
+        "description": "Minutos ÷ 60. 45 minutos são 0.75 hora, então 8 horas e 45 minutos são 8.75 horas."
+      },
+      {
+        "name": "Pagamento normal",
+        "description": "mín(total de horas, limite de horas extras) × valor da hora."
+      },
+      {
+        "name": "Pagamento de horas extras",
+        "description": "máx(0, total de horas − limite de horas extras) × valor da hora × multiplicador de hora extra."
+      }
+    ]
+  },
+  "workedExamples": [
+    {
+      "title": "Turno diurno com 30 minutos de almoço",
+      "inputs": [
+        "Entrada: 09:00",
+        "Saída: 17:30",
+        "Intervalo não remunerado: 30 minutos"
+      ],
+      "steps": [
+        "17:30 − 09:00 = 8 horas e 30 minutos (510 minutos)",
+        "510 − 30 minutos de intervalo = 480 minutos",
+        "480 ÷ 60 = 8.00 horas decimais"
+      ],
+      "result": "8:00 (8.00 horas)"
+    },
+    {
+      "title": "Turno noturno que passa da meia-noite",
+      "inputs": [
+        "Entrada: 22:00",
+        "Saída: 06:00 (manhã seguinte)",
+        "Intervalo não remunerado: nenhum"
+      ],
+      "steps": [
+        "A saída é antes da entrada, então some 24 horas: 06:00 vira 30:00",
+        "30:00 − 22:00 = 8 horas"
+      ],
+      "result": "8:00 (8.00 horas)"
+    },
+    {
+      "title": "Converter 8 horas e 45 minutos em decimal",
+      "inputs": [
+        "Entrada: 08:15",
+        "Saída: 17:30",
+        "Intervalo não remunerado: 30 minutos"
+      ],
+      "steps": [
+        "17:30 − 08:15 = 9 horas e 15 minutos (555 minutos)",
+        "555 − 30 = 525 minutos = 8 horas e 45 minutos",
+        "45 ÷ 60 = 0.75, então 8:45 = 8.75 horas decimais"
+      ],
+      "result": "8:45 (8.75 horas)"
+    },
+    {
+      "title": "Semana de 45 horas a 20 por hora com horas extras",
+      "inputs": [
+        "Segunda a sexta: das 08:00 às 17:00, sem intervalo (9 horas por dia)",
+        "Valor da hora: 20",
+        "Horas extras depois de 40 horas a 1.5×"
+      ],
+      "steps": [
+        "Total: 5 × 9 = 45 horas",
+        "Normais: 40 × 20 = 800",
+        "Extras: 5 × 20 × 1.5 = 150"
+      ],
+      "result": "Pagamento total 950 (800 normais + 150 extras)"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Escrever 8:45 como 8.45 na folha de ponto",
+      "description": "8 horas e 45 minutos são 8.75 horas decimais, e não 8.45. Os sistemas de folha de pagamento multiplicam as horas decimais pelo valor da hora, então 8.45 deixa de pagar 18 minutos de trabalho. Divida os minutos por 60: 15 min = 0.25, 30 min = 0.5, 45 min = 0.75."
+    },
+    {
+      "title": "Obter um resultado negativo em turnos noturnos",
+      "description": "Um turno das 22:00 às 06:00 parece dar −16 horas se você subtrair direto. Quando a saída é antes da entrada, o turno entrou no dia seguinte: some 24 horas ao horário de saída. Esta calculadora faz isso automaticamente."
+    },
+    {
+      "title": "Descontar intervalos remunerados",
+      "description": "Só os intervalos não remunerados devem ser descontados. Pelas regras federais dos EUA, pausas curtas de cerca de 5 a 20 minutos geralmente contam como tempo de trabalho pago, enquanto refeições de 30 minutos ou mais normalmente não. Confira o seu contrato ou a legislação local."
+    },
+    {
+      "title": "Calcular horas extras por dia quando a regra é semanal",
+      "description": "A Fair Labor Standards Act dos EUA define horas extras a 1.5× o valor normal para as horas acima de 40 na semana de trabalho, e não por dia. Alguns estados (como a Califórnia) e muitos contratos acrescentam horas extras diárias, então só o total semanal pode não bater com o seu holerite."
+    },
+    {
+      "title": "Misturar horários de 12 e de 24 horas",
+      "description": "5:30 escrito sem AM ou PM é ambíguo. Use horários de 24 horas (17:30) ou confira se o AM/PM do campo de horário está certo, senão um turno pode sair 12 horas mais curto ou mais longo."
+    }
+  ],
+  "sources": [
+    {
+      "name": "Departamento do Trabalho dos EUA: pagamento de horas extras (FLSA)"
+    },
+    {
+      "name": "Departamento do Trabalho dos EUA: pausas e intervalos para refeição"
+    },
+    {
+      "name": "Departamento do Trabalho dos EUA: ficha informativa nº 22 sobre horas trabalhadas"
+    },
+    {
+      "name": "GOV.UK: jornada semanal máxima"
+    }
+  ],
+  "howto": {
+    "name": "Como calcular as horas trabalhadas",
+    "description": "Calcule as horas entre dois horários ou some uma folha de ponto semanal com pagamento e horas extras.",
+    "steps": [
+      {
+        "name": "Escolha um modo",
+        "text": "Use Duração para um único turno, ou Folha de ponto semanal para somar de segunda a domingo."
+      },
+      {
+        "name": "Informe a entrada e a saída",
+        "text": "Digite ou escolha os horários de entrada e de saída. Se a saída for antes da entrada, o turno é tratado como passando da meia-noite."
+      },
+      {
+        "name": "Informe o intervalo não remunerado",
+        "text": "Informe o intervalo não remunerado em minutos. Deixe em 0 se os intervalos forem pagos."
+      },
+      {
+        "name": "Informe o pagamento (opcional)",
+        "text": "Na folha de ponto, informe o valor da hora, o limite e o multiplicador de horas extras para ver o pagamento normal, o de horas extras e o total."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Como calcular as horas trabalhadas entre dois horários?",
+      "a": "Subtraia o horário de entrada do horário de saída e depois desconte os intervalos não remunerados. Das 8:30 às 17:00 com 30 minutos de almoço: 17:00 − 8:30 = 8 horas e 30 minutos, menos 30 minutos = 8 horas."
+    },
+    {
+      "q": "Como converter horas e minutos em horas decimais?",
+      "a": "Divida os minutos por 60 e some às horas. 7 horas e 20 minutos = 7 + 20/60 = 7.33 horas; 8 horas e 45 minutos = 8.75 horas; 6 horas e 15 minutos = 6.25 horas."
+    },
+    {
+      "q": "Quantas horas são das 9 às 17?",
+      "a": "Das 9:00 às 17:00 são 8 horas. Com 30 minutos de almoço não remunerado são 7.5 horas (7:30); com uma hora de almoço não remunerada são 7 horas."
+    },
+    {
+      "q": "Como calcular as horas de um turno que passa da meia-noite?",
+      "a": "Some 24 horas ao horário de saída antes de subtrair. Das 22:00 às 6:00 vira das 22:00 às 30:00, o que dá 8 horas. A calculadora detecta isso quando a saída é antes da entrada."
+    },
+    {
+      "q": "Como o pagamento de horas extras é calculado?",
+      "a": "As horas acima do limite (40 por semana pela FLSA dos EUA) são pagas pelo valor normal vezes o multiplicador, geralmente 1.5. Para 45 horas a 20 por hora: 40 × 20 = 800 mais 5 × 30 = 150, ou seja, 950 no total."
+    },
+    {
+      "q": "Quantas horas tem uma semana de trabalho em tempo integral?",
+      "a": "Depende do país e do empregador. 40 horas (cinco dias de 8 horas) é comum nos EUA, 37.5 horas no Reino Unido, e 35 horas é a semana de referência legal na França. Informe as suas horas e o seu limite na folha de ponto."
+    },
+    {
+      "q": "O intervalo de almoço deve ser descontado das horas trabalhadas?",
+      "a": "Desconte só os intervalos não remunerados. Se o seu empregador paga o intervalo, deixe o campo de intervalo em 0 para que ele conte como tempo de trabalho."
+    },
+    {
+      "q": "Esta calculadora de horas salva a minha folha de ponto?",
+      "a": "Os seus dados ficam só neste navegador. Eles ficam guardados no endereço da página, para você salvar nos favoritos ou copiar um link do resultado, e nada é enviado a um servidor."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Calculadora de horas",
+      "tool-div1": "Modo da calculadora",
+      "tool-div2": "Folha de ponto semanal",
+      "copy-result-btn": "Copiar o resultado para a área de transferência",
+      "day-total": "Horas de {{day}}"
+    },
+    "text": {
+      "tab-single": "Duração",
+      "tab-week": "Folha de ponto semanal",
+      "reset-btn": "Redefinir",
+      "reset-week-btn": "Redefinir",
+      "result-header-text": "Horas trabalhadas",
+      "copy-result-btn": "<span data-icon=\"copy\"></span> Copiar resultado"
+    },
+    "label": {
+      "start-time": "Entrada <span class=\"text-accent\">*</span>",
+      "end-time": "Saída <span class=\"text-accent\">*</span>",
+      "break-min": "Intervalo não remunerado (minutos)",
+      "hourly-rate": "Valor da hora",
+      "ot-after": "Horas extras depois de (horas por semana)",
+      "ot-mult": "Multiplicador da hora extra",
+      "day-start": "Entrada",
+      "day-end": "Saída",
+      "day-break": "Intervalo (min)"
+    },
+    "content": {
+      "tool": {
+        "p1": "Se a saída for antes da entrada, o turno é considerado como terminando no dia seguinte.",
+        "button1": "Calcular horas",
+        "div1": "<span>Dia</span><span>Entrada</span><span>Saída</span><span>Intervalo (min)</span><span>Horas</span>",
+        "p2": "Deixe os dois horários vazios para um dia de folga.",
+        "legend1": "Pagamento e horas extras (opcional)",
+        "label1": "<input type=\"checkbox\" id=\"ot-enabled\" data-param=\"ot\" checked>\n            <span>Pagar horas extras acima do limite semanal</span>",
+        "button2": "Somar minha semana"
+      },
+      "hours-and-minutes-vs-decimal-hours": {
+        "heading": "Horas e minutos x horas decimais",
+        "p1": "O relógio conta em base 60, mas a folha de pagamento conta em base 10, e é daí que vem a maioria dos erros na folha de ponto. Um turno de 7 horas e 30 minutos é escrito <strong>7:30</strong> no relógio e <strong>7.5</strong> em horas decimais. Para converter, divida os minutos por 60:",
+        "caption1": "Minutos em horas decimais",
+        "th1": "Minutos",
+        "th2": "Decimal",
+        "th3": "Minutos",
+        "th4": "Decimal",
+        "p2": "A calculadora mostra os dois formatos lado a lado, para você copiar o formato de relógio para a folha de ponto e o formato decimal para o sistema de folha de pagamento ou de faturamento."
+      },
+      "when-to-use-the-weekly-timesheet": {
+        "heading": "Quando usar a folha de ponto semanal",
+        "li1": "<strong>Funcionários pagos por hora:</strong> confira se o seu holerite bate com as horas que você trabalhou, incluindo as horas extras acima de 40.",
+        "li2": "<strong>Freelancers e prestadores de serviço:</strong> some as horas faturáveis da semana e multiplique pelo seu valor para emitir a fatura.",
+        "li3": "<strong>Trabalhadores em turnos:</strong> turnos noturnos que terminam na manhã seguinte são tratados por linha, então um turno de sexta 22:00 a sábado 06:00 conta como 8 horas na sexta.",
+        "li4": "<strong>Gestores e pequenas empresas:</strong> confira as horas da escala antes de rodar a folha de pagamento.",
+        "p1": "As regras de horas extras variam de país para país. Nos EUA, a Fair Labor Standards Act exige 1.5 vez o valor normal para as horas acima de 40 na semana de trabalho de empregados não isentos. No Reino Unido não existe adicional legal de horas extras, mas as Working Time Regulations limitam a jornada média a 48 horas por semana, a menos que você abra mão disso. Ajuste o limite e o multiplicador ao seu contrato, ou desmarque as horas extras para pagar todas as horas pelo mesmo valor."
+      }
+    },
+    "title": {
+      "copy-result-btn": "Copiar o resultado para a área de transferência"
+    },
+    "day": {
+      "mon": "Segunda-feira",
+      "tue": "Terça-feira",
+      "wed": "Quarta-feira",
+      "thu": "Quinta-feira",
+      "fri": "Sexta-feira",
+      "sat": "Sábado",
+      "sun": "Domingo"
+    }
+  },
+  "client": {
+    "days": {
+      "mon": "Segunda-feira",
+      "tue": "Terça-feira",
+      "wed": "Quarta-feira",
+      "thu": "Quinta-feira",
+      "fri": "Sexta-feira",
+      "sat": "Sábado",
+      "sun": "Domingo"
+    },
+    "dayN": "Dia {{n}}",
+    "errors": {
+      "invalidStart": "Informe um horário de entrada válido, por exemplo 09:00.",
+      "invalidEnd": "Informe um horário de saída válido, por exemplo 17:30.",
+      "negativeBreak": "O intervalo deve ser zero ou um número positivo de minutos.",
+      "breakTooLong": "O intervalo ({{breakMin}} min) é maior que o tempo entre a entrada e a saída ({{span}}).",
+      "overtimeAfter": "As horas extras devem começar depois de zero ou mais horas.",
+      "multiplier": "O multiplicador de hora extra deve ser 1 ou mais (por exemplo, 1.5).",
+      "noRows": "Nenhuma linha da folha de ponto foi informada.",
+      "rowIncomplete": "{{day}}: informe a entrada e a saída, ou deixe os dois vazios.",
+      "missingStart": "Informe um horário de entrada, por exemplo 09:00.",
+      "missingEnd": "Informe um horário de saída, por exemplo 17:30.",
+      "rate": "O valor da hora deve ser zero ou um número positivo."
+    },
+    "result": {
+      "headerSingle": "Horas trabalhadas",
+      "headerWeek": {
+        "many": "Total da semana ({{count}} dias trabalhados)",
+        "one": "Total da semana ({{count}} dia trabalhado)",
+        "other": "Total da semana ({{count}} dias trabalhados)"
+      },
+      "hours": "{{hhmm}} horas",
+      "hoursAndPay": "{{hhmm}} horas · {{pay}} de pagamento"
+    },
+    "notes": {
+      "crossesMidnight": "A saída é antes da entrada, então o turno é considerado como terminando no dia seguinte.",
+      "sameTime": "A entrada e a saída são no mesmo horário, então a duração é 0. Para um turno de 24 horas inteiras, informe das 00:00 às 23:59 e some um minuto.",
+      "overnight": "{{days}}: o turno passa da meia-noite e é contado no dia em que começou.",
+      "addRate": "Informe o valor da hora para ver o pagamento normal, o de horas extras e o total."
+    },
+    "stats": {
+      "hoursAndMinutes": "Horas e minutos",
+      "decimalHours": "Horas decimais",
+      "totalMinutes": "Total de minutos",
+      "timeOnSite": "Tempo no local",
+      "unpaidBreak": "Intervalo não remunerado",
+      "minutesValue": "{{n}} min",
+      "totalHours": "Total de horas",
+      "regularHours": "Horas normais",
+      "overtimeHours": "Horas extras",
+      "regularPay": "Pagamento normal",
+      "overtimePay": "Pagamento de horas extras",
+      "totalPay": "Pagamento total"
+    },
+    "copy": {
+      "single": "{{start}} às {{end}}, {{breakMin}} min de intervalo: {{hhmm}} horas ({{decimal}} horas decimais)",
+      "singleNextDay": "{{start}} às {{end}} (dia seguinte), {{breakMin}} min de intervalo: {{hhmm}} horas ({{decimal}} horas decimais)",
+      "total": "Total: {{hhmm}} ({{decimal}} h)",
+      "regularPay": "Pagamento normal: {{pay}}",
+      "overtimePay": "Pagamento de horas extras: {{pay}}",
+      "totalPay": "Pagamento total: {{pay}}"
+    }
+  }
+}

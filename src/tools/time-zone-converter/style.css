@@ -1,0 +1,118 @@
+/* time-zone-converter: layout only. Colours, borders and type live in assets/css/tools.css. */
+
+@media (min-width: 640px) {
+  .tz-source-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .tz-source-grid .tz-zone-field {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (min-width: 900px) {
+  .tz-source-grid {
+    grid-template-columns: 1fr 0.8fr 2fr;
+  }
+
+  .tz-source-grid .tz-zone-field {
+    grid-column: auto;
+  }
+}
+
+.tz-source-grid {
+  margin-bottom: var(--space-4);
+}
+
+.tz-fieldset {
+  margin: 0;
+  padding: 0;
+  min-width: 0;
+}
+
+.tz-fieldset legend {
+  margin-bottom: var(--space-3);
+  padding: 0;
+}
+
+.tz-target-grid {
+  margin-bottom: var(--space-2);
+}
+
+.tz-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  gap: var(--space-3);
+  margin: var(--space-4) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tz-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: var(--space-3) var(--space-4);
+  min-width: 0;
+}
+
+.tz-card-city {
+  overflow-wrap: anywhere;
+}
+
+.tz-card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+  margin-top: var(--space-1);
+}
+
+.tz-heading {
+  margin: var(--space-8) 0 var(--space-2);
+}
+
+.tz-strip-wrapper {
+  margin-top: var(--space-3);
+}
+
+.tz-strip {
+  min-width: 100%;
+}
+
+.tz-strip th[scope="row"] {
+  position: sticky;
+  inset-inline-start: 0;
+  z-index: 1;
+  min-width: 6.5rem;
+  max-width: 9rem;
+  padding: var(--space-1) var(--space-2);
+  text-align: start;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tz-strip td {
+  min-width: 2rem;
+  padding: var(--space-1) 0;
+  text-align: center;
+}
+
+.tz-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-4);
+  margin: var(--space-3) 0 0;
+}
+
+.tz-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.tz-swatch {
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+}

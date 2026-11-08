@@ -5,6 +5,7 @@
  */
 document.addEventListener('DOMContentLoaded', () => {
   const logic = window.DiscountLogic;
+  const T = ToolsBuilt.scope('discount-calculator');
   const form = document.getElementById('calculator-form');
   const priceInput = document.getElementById('original-price');
   const discountInput = document.getElementById('discount-percent');
@@ -17,25 +18,24 @@ document.addEventListener('DOMContentLoaded', () => {
   const errorBox = document.getElementById('error-box');
 
   const STORAGE_KEY = 'toolsbuilt:discount-calculator';
+  // Older links and saved state stored a symbol; the selector now uses currency codes
+  const LEGACY_SYMBOLS = { '$': 'USD', '£': 'GBP', '€': 'EUR', '¥': 'JPY', '₹': 'INR' };
+  const toCode = (cur) => LEGACY_SYMBOLS[cur] || cur;
+  const defaultCurrency = () => ToolsBuilt.defaultCurrency('USD', currencySelect);
   let debounceTimer = null;
   let lastResultText = '';
 
   function initInputs() {
-    const params = new URLSearchParams(window.location.search);
-    const urlPrice = params.get('price');
-    const urlDisc = params.get('disc');
-    const urlStacked = params.get('stacked');
-    const urlTax = params.get('tax');
-    const urlCur = params.get('cur');
-
-    if (urlPrice) {
-      priceInput.value = urlPrice;
-      if (urlDisc) discountInput.value = urlDisc;
-      if (urlStacked) stackedDiscountInput.value = urlStacked;
-      if (urlTax) taxInput.value = urlTax;
-      if (urlCur && currencySelect) currencySelect.value = urlCur;
-      return;
-    }
+    // Result links (?price=&off=&off2=&tax=&cur=) take priority over saved state
+    try {
+      const params = new URLSearchParams(window.location.search);
+      if (LEGACY_SYMBOLS[params.get('cur')]) {
+        params.set('cur', toCode(params.get('cur')));
+        window.history.replaceState(window.history.state, '', `${window.location.pathname}?${params}${window.location.hash}`);
+      }
+    } catch (e) {}
+    currencySelect.value = defaultCurrency();
+    if (ToolsBuilt.resultLink.restore().length) return;
 
     try {
       const saved = localStorage.getItem(STORAGE_KEY);
@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (data.disc) discountInput.value = data.disc;
         if (data.stacked) stackedDiscountInput.value = data.stacked;
         if (data.tax) taxInput.value = data.tax;
-        if (data.cur && currencySelect) currencySelect.value = data.cur;
+        if (data.cur && currencySelect) currencySelect.value = toCode(data.cur);
         return;
       }
     } catch (e) {}
@@ -59,13 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
       localStorage.setItem(STORAGE_KEY, JSON.stringify({ price, disc, stacked, tax, cur }));
     } catch (e) {}
 
-    const url = new URL(window.location.href);
-    if (price && price !== '100') url.searchParams.set('price', price); else url.searchParams.delete('price');
-    if (disc && disc !== '20') url.searchParams.set('disc', disc); else url.searchParams.delete('disc');
-    if (stacked) url.searchParams.set('stacked', stacked); else url.searchParams.delete('stacked');
-    if (tax) url.searchParams.set('tax', tax); else url.searchParams.delete('tax');
-    if (cur && cur !== '$') url.searchParams.set('cur', cur); else url.searchParams.delete('cur');
-    window.history.replaceState({}, '', url.toString());
+    ToolsBuilt.resultLink.update();
   }
 
   function clearError() {
@@ -92,15 +86,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const rawDisc = discountInput.value.trim();
     const rawStacked = stackedDiscountInput.value.trim();
     const rawTax = taxInput.value.trim();
-    const cur = currencySelect ? currencySelect.value : '$';
+    const cur = currencySelect.value;
 
     if (!rawPrice || isNaN(parseFloat(rawPrice))) {
-      showError('Please enter a valid original price.', priceInput);
+      showError(T('errors.price'), priceInput);
       return;
     }
 
     if (!rawDisc || isNaN(parseFloat(rawDisc))) {
-      showError('Please enter a valid discount percentage.', discountInput);
+      showError(T('errors.discount'), discountInput);
       return;
     }
 
@@ -110,7 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const tax = rawTax ? parseFloat(rawTax) : 0;
 
     if (price < 0 || disc < 0 || stacked < 0 || tax < 0) {
-      showError('Price, discount, and tax percentages cannot be negative.', priceInput);
+      showError(T('errors.negative'), priceInput);
       return;
     }
 
@@ -128,32 +122,34 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function renderResult(res) {
-    const cur = res.currencySymbol;
-    const fmt = (num) => cur + num.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    const fmt = (num) => ToolsBuilt.money(num, res.currencySymbol);
 
     const finalFormatted = fmt(res.finalPrice);
     const savedFormatted = fmt(res.totalSavings);
 
-    document.getElementById('result-primary-text').textContent = `Final Price: ${finalFormatted}`;
+    document.getElementById('result-primary-text').textContent = T('result.primary', { final: finalFormatted });
     document.getElementById('stat-final-price').textContent = finalFormatted;
-    document.getElementById('stat-total-saved').textContent = `${savedFormatted} (${res.effectiveDiscountPercent}% total)`;
+    document.getElementById('stat-total-saved').textContent = T('result.totalSaved', { saved: savedFormatted, pct: res.effectiveDiscountPercent });
     document.getElementById('stat-price-before-tax').textContent = fmt(res.priceAfterDiscounts);
     document.getElementById('stat-tax-amount').textContent = fmt(res.taxAmount);
 
-    lastResultText = `Final Price: ${finalFormatted}. Total Saved: ${savedFormatted} (${res.effectiveDiscountPercent}% off). Price before tax: ${fmt(res.priceAfterDiscounts)}. Sales tax: ${fmt(res.taxAmount)}.`;
+    lastResultText = T('result.copy', {
+      final: finalFormatted, saved: savedFormatted, pct: res.effectiveDiscountPercent,
+      beforeTax: fmt(res.priceAfterDiscounts), tax: fmt(res.taxAmount)
+    });
 
-    let stepsHtml = `<strong>Calculation Breakdown:</strong><br>`;
-    stepsHtml += `1. Original Price: <code>${fmt(res.originalPrice)}</code><br>`;
-    stepsHtml += `2. Primary Discount (${res.primaryDiscount}%): Saved <code>${fmt(res.primarySavings)}</code> → Subtotal: <code>${fmt(res.subtotalAfterPrimary)}</code><br>`;
+    let stepsHtml = T('steps.heading');
+    stepsHtml += T('steps.original', { price: fmt(res.originalPrice) });
+    stepsHtml += T('steps.primary', { pct: res.primaryDiscount, saved: fmt(res.primarySavings), subtotal: fmt(res.subtotalAfterPrimary) });
 
     if (res.stackedDiscount > 0) {
-      stepsHtml += `3. Stacked 2nd Discount (${res.stackedDiscount}% off ${fmt(res.subtotalAfterPrimary)}): Saved additional <code>${fmt(res.stackedSavings)}</code> → Subtotal: <code>${fmt(res.priceAfterDiscounts)}</code><br>`;
+      stepsHtml += T('steps.stacked', { pct: res.stackedDiscount, base: fmt(res.subtotalAfterPrimary), saved: fmt(res.stackedSavings), subtotal: fmt(res.priceAfterDiscounts) });
     }
 
     if (res.taxPercent > 0) {
-      stepsHtml += `4. Sales Tax (${res.taxPercent}%): Added <code>${fmt(res.taxAmount)}</code><br>`;
+      stepsHtml += T('steps.tax', { pct: res.taxPercent, tax: fmt(res.taxAmount) });
     }
-    stepsHtml += `5. Total Out-of-Pocket: <strong>${finalFormatted}</strong> (Total Savings: <strong>${savedFormatted}</strong>)`;
+    stepsHtml += T('steps.total', { final: finalFormatted, saved: savedFormatted });
 
     const breakdownBox = document.getElementById('formula-breakdown-box');
     if (breakdownBox) {
@@ -186,16 +182,16 @@ document.addEventListener('DOMContentLoaded', () => {
     discountInput.value = '20';
     stackedDiscountInput.value = '';
     taxInput.value = '';
-    if (currencySelect) currencySelect.value = '$';
+    currencySelect.value = defaultCurrency();
     clearError();
-    saveState('100', '20', '', '', '$');
+    saveState('100', '20', '', '', currencySelect.value);
     calculate();
   });
 
   if (copyBtn) {
     copyBtn.addEventListener('click', () => {
       if (lastResultText && window.ToolsBuilt && window.ToolsBuilt.copy) {
-        window.ToolsBuilt.copy(lastResultText, 'Discount calculation copied to clipboard');
+        window.ToolsBuilt.copy(lastResultText, T('result.copied'));
       }
     });
   }

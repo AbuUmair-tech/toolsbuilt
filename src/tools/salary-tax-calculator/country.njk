@@ -1,0 +1,107 @@
+---js
+{
+  layout: "layouts/tool.njk",
+  pagination: { data: "salaryTaxPages", size: 1, alias: "tx" },
+  permalink: (data) => `/tools/${data.tx.page.slug}/`,
+  toolLogic: "/tools/salary-tax-calculator/logic.js",
+  toolScript: "/tools/salary-tax-calculator/calculator.js",
+  applicationCategory: "FinanceApplication",
+  extraCss: "/tools/salary-tax-calculator/style.css",
+  noPageLinks: true,
+  eleventyComputed: (() => {
+    // Resolved from the project root: front matter code does not run from this file's folder
+    const i18nData = require(require('path').resolve('scripts/i18n-data.js'));
+    const stx = (data) => i18nData.tool(data.lang, 'salary-tax-calculator');
+    const cpText = (data) => stx(data).countryPages[data.tx.country];
+    return {
+      toolSlug: (data) => data.tx.page.slug,
+      // The page text lives in the salary-tax-calculator translation data: shared strings in
+      // `body` (for pt) and this country's text in countryPages.<country code> (as `cp`)
+      text: (data) => stx(data),
+      body: (data) => stx(data).body,
+      cp: (data) => cpText(data),
+      title: (data) => cpText(data).title,
+      description: (data) => cpText(data).description,
+      h1: (data) => cpText(data).h1,
+      areaServed: (data) => data.tx.countryName,
+      countryCode: (data) => data.tx.country,
+      quickAnswer: (data) => cpText(data).quickAnswer,
+      howto: (data) => cpText(data).howto,
+      workedExamples: (data) => cpText(data).workedExamples,
+      commonMistakes: (data) => cpText(data).commonMistakes,
+      faqs: (data) => cpText(data).faqs,
+      sources: (data) => data.tx.sources.map((s, i) => ({ name: cpText(data).sources[i], url: s.url })),
+      lastReviewed: (data) => data.tx.verifiedOn
+    };
+  })()
+}
+---
+{%- set cur = tx.currency -%}
+{% from "partials/currency-select.njk" import countryData with context %}
+{{ countryData(countries) }}
+{% from "partials/salary-tax-calculator.njk" import salaryTaxCalculator with context %}
+{{ salaryTaxCalculator({ country: tx.country, year: tx.taxYear }) }}
+
+    <!-- tool-end -->
+
+{% from "partials/salary-tax-links.njk" import otherCountries with context %}
+    {{ otherCountries(tx.country) }}
+
+    <section class="content-section stc-rate-tables" aria-label="{{ cp.tableTitle }}">
+      <!-- Rate tables, rendered from the dataset (the calculator above shows the visitor's own bracket) -->
+      {% for table in tx.tables %}
+      {%- set statusText = (cp.statuses[table.id] if cp.statuses else {}) if tx.statuses else {} -%}
+      {%- set statusName = statusText.label or table.title -%}
+      {%- set slabNames = statusText.slabNames if tx.statuses else cp.slabNames %}
+      <div class="slab-table-block" data-status="{{ table.id }}">
+        <h2 class="slab-table-title">{% if statusName %}{{ 'country.table.titleWithStatus' | pt({ title: cp.tableTitle, status: statusName }) }}{% else %}{{ cp.tableTitle }}{% endif %}</h2>
+        <div class="table-wrapper" tabindex="0" role="region" aria-label="{% if statusName %}{{ 'country.table.ariaLabelWithStatus' | pt({ title: cp.tableTitle, status: statusName }) }}{% else %}{{ 'country.table.ariaLabel' | pt({ title: cp.tableTitle }) }}{% endif %}">
+          <table class="table slab-table">
+            <caption class="visually-hidden">{% if statusName %}{{ 'country.table.captionWithStatus' | pt({ title: cp.tableTitle, status: statusName }) }}{% else %}{{ cp.tableTitle }}{% endif %}</caption>
+            <thead>
+              <tr>
+                <th scope="col">{{ cp.tableIncomeHeading }}</th>
+                <th scope="col">{{ 'country.table.rate' | pt }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for slab in table.slabs %}
+              <tr data-slab="{{ loop.index0 }}">
+                <td>{% if slab.upTo === null %}{{ 'country.table.over' | pt({ from: slab.over | money(cur) }) }}{% elif slab.over == 0 %}{{ 'country.table.upTo' | pt({ to: slab.upTo | money(cur) }) }}{% else %}{{ 'country.table.range' | pt({ from: slab.over | money(cur), to: slab.upTo | money(cur) }) }}{% endif %}</td>
+                <td>{% if slabNames[loop.index0] %}{{ 'country.table.rateWithName' | pt({ rate: slab.rate | pct, name: slabNames[loop.index0] }) }}{% else %}{{ slab.rate | pct }}{% endif %}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      {% endfor %}
+      {% for note in cp.tableNotes %}
+      <p class="slab-table-note">{{ note }}</p>
+      {% endfor %}
+    </section>
+
+
+    {% for section in cp.sections %}
+    <section class="content-section" aria-labelledby="{{ section.id }}">
+      <h2 id="{{ section.id }}">{{ section.heading }}</h2>
+      {% for p in section.paragraphs %}<p>{{ p }}</p>{% endfor %}
+      {% if section.list %}
+      <ul class="content-list">
+        {% for item in section.list %}<li>{{ item | safe }}</li>{% endfor %}
+      </ul>
+      {% endif %}
+    </section>
+    {% endfor %}
+
+    <section class="content-section" aria-labelledby="other-countries-heading">
+      <h2 id="other-countries-heading">{{ 'country.others.heading' | pt }}</h2>
+      <p>{{ 'country.others.intro' | pt }}</p>
+      <ul class="content-list">
+        {% for other in salaryTaxPages %}{% if other.country != tx.country and loop.index0 < 4 %}
+        <li><a href="/tools/{{ other.page.slug }}/">{{ 'country.others.link' | pt({ country: other.countryName }) }}</a></li>
+        {% endif %}{% endfor %}
+        <li><a href="/tools/pakistan-salary-tax-calculator/">{{ 'country.others.pakistan' | pt }}</a></li>
+        <li><a href="/tools/salary-tax-calculator/">{{ 'country.others.hub' | pt }}</a></li>
+      </ul>
+    </section>

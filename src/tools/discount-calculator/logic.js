@@ -13,6 +13,11 @@
 })(typeof globalThis !== 'undefined' ? globalThis : this, function () {
   'use strict';
 
+  // Messages and breakdown labels come from the tool's translation data
+  const T = (typeof ToolsBuilt !== 'undefined' && ToolsBuilt.scope)
+    ? ToolsBuilt.scope('discount-calculator')
+    : require('../../../scripts/i18n-client.js').scope('discount-calculator');
+
   /**
    * Banker-safe rounding to 2 decimal places (cents)
    */
@@ -44,22 +49,22 @@
     }
 
     if (isNaN(orig) || orig < 0) {
-      throw new Error('Please enter a valid original price (must be 0 or greater).');
+      throw new Error(T('errors.originalPrice'));
     }
     if (isNaN(d1) || d1 < 0) {
-      throw new Error('Please enter a valid primary discount percentage (0-100%).');
+      throw new Error(T('errors.primaryDiscount'));
     }
     if (d1 > 100) {
-      throw new Error('Primary discount percentage cannot exceed 100%.');
+      throw new Error(T('errors.primaryOver100'));
     }
     if (isNaN(d2) || d2 < 0) {
-      throw new Error('Stacked secondary discount must be 0 or greater.');
+      throw new Error(T('errors.stackedNegative'));
     }
     if (d2 > 100) {
-      throw new Error('Stacked secondary discount cannot exceed 100%.');
+      throw new Error(T('errors.stackedOver100'));
     }
     if (isNaN(tax) || tax < 0) {
-      throw new Error('Tax percentage must be 0 or greater.');
+      throw new Error(T('errors.taxNegative'));
     }
 
     // Step 1: Apply primary discount
@@ -78,16 +83,16 @@
     const totalSavingsPercent = orig > 0 ? roundCents((totalSavings / orig) * 100) : 0;
 
     const breakdown = [
-      { step: 'Original Price', amount: orig },
-      { step: `Primary Discount (${d1}%)`, amount: -savings1, balance: priceAfterD1 }
+      { step: T('breakdown.originalPrice'), amount: orig },
+      { step: T('breakdown.primaryDiscount', { pct: d1 }), amount: -savings1, balance: priceAfterD1 }
     ];
 
     if (d2 > 0) {
-      breakdown.push({ step: `Stacked Coupon (${d2}%)`, amount: -savings2, balance: priceAfterD2 });
+      breakdown.push({ step: T('breakdown.stackedCoupon', { pct: d2 }), amount: -savings2, balance: priceAfterD2 });
     }
 
     if (tax > 0) {
-      breakdown.push({ step: `Sales Tax (${tax}%)`, amount: taxAmount, balance: finalPrice });
+      breakdown.push({ step: T('breakdown.salesTax', { pct: tax }), amount: taxAmount, balance: finalPrice });
     }
 
     return {

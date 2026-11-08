@@ -1,0 +1,89 @@
+---
+layout: layouts/tool.njk
+toolSlug: slug-generator
+permalink: /tools/slug-generator/
+extraCss: "/tools/slug-generator/style.css"
+lastReviewed: "2026-10-31"
+---
+
+    <!-- Tool Form Container -->
+    <section class="tool-container" aria-label="{{ 'ariaLabel.tool-section1' | pt }}">
+      <div class="segmented-control mb-6" role="tablist" aria-label="{{ 'ariaLabel.tool-div1' | pt }}">
+        <button type="button" class="btn btn-sm mode-tab-btn active" id="tab-single" data-mode="single" role="tab" aria-selected="true" aria-controls="slug-form">{{ 'text.tab-single' | pt }}</button>
+        <button type="button" class="btn btn-sm mode-tab-btn" id="tab-bulk" data-mode="bulk" role="tab" aria-selected="false" aria-controls="slug-form" tabindex="-1">{{ 'text.tab-bulk' | pt }}</button>
+      </div>
+
+      <form id="slug-form" role="tabpanel" aria-labelledby="tab-single" novalidate>
+        <div class="form-group" data-mode-field="single">
+          <label for="slug-input">{{ 'label.slug-input' | pt }}</label>
+          <input type="text" id="slug-input" class="form-control" autocomplete="off" value="{{ 'value.slug-input' | pt }}">
+        </div>
+        <div class="form-group" data-mode-field="bulk" hidden>
+          <label for="slug-bulk">{{ 'label.slug-bulk' | pt }}</label>
+          <textarea id="slug-bulk" class="form-control slug-textarea" rows="8" spellcheck="false" autocomplete="off">{{ 'value.slug-bulk' | pt }}</textarea>
+        </div>
+
+        <div class="form-grid slug-options">
+          <div class="form-group">
+            <label for="slug-sep">{{ 'label.slug-sep' | pt }}</label>
+            <select id="slug-sep" class="form-control">
+              <option value="-" selected>{{ 'option.slug-sep.-' | pt }}</option>
+              <option value="_">{{ 'option.slug-sep._' | pt }}</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="slug-max">{{ 'label.slug-max' | pt }}</label>
+            <input type="number" inputmode="numeric" min="0" max="500" step="1" id="slug-max" class="form-control" value="0">
+          </div>
+        </div>
+        <div class="slug-checks">
+          <label class="checkbox-label">{{ 'content.tool.label1' | pt }}</label>
+          <label class="checkbox-label">{{ 'content.tool.label2' | pt }}</label>
+          <label class="checkbox-label" data-mode-field="bulk" hidden>{{ 'content.tool.label3' | pt }}</label>
+        </div>
+      </form>
+
+      <div id="error-box" class="hidden form-error" role="alert"></div>
+
+      <div id="result-box" class="result-box is-visible" aria-live="polite">
+        <div class="result-header">
+          {{ 'content.tool.div1' | pt }}
+        </div>
+        <div class="result-primary slug-primary" id="result-primary-text">--</div>
+        <p class="form-hint" id="slug-note"></p>
+        <label for="slug-output" class="slug-output-label" data-mode-field="bulk" hidden>{{ 'label.slug-output' | pt }}</label>
+        <textarea id="slug-output" class="form-control slug-textarea" rows="8" readonly spellcheck="false" data-mode-field="bulk" hidden></textarea>
+        <div class="button-group mt-4">
+          <button type="button" class="btn btn-sm btn-secondary" id="copy-slug-btn">{{ 'text.copy-slug-btn' | pt }}</button>
+          <button type="button" class="btn btn-sm btn-secondary" id="download-btn" data-mode-field="bulk" hidden>{{ 'text.download-btn' | pt }}</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- tool-end -->
+
+    <section class="content-section">
+      <h2>{{ 'content.good-and-bad-slugs.heading' | pt }}</h2>
+      <div class="table-wrapper" tabindex="0" role="region" aria-labelledby="slug-examples-caption">
+        <table class="table">
+          <caption class="visually-hidden" id="slug-examples-caption">{{ 'text.slug-examples-caption' | pt }}</caption>
+          <thead><tr><th scope="col">{{ 'content.good-and-bad-slugs.th1' | pt }}</th><th scope="col">{{ 'content.good-and-bad-slugs.th2' | pt }}</th><th scope="col">{{ 'content.good-and-bad-slugs.th3' | pt }}</th></tr></thead>
+          <tbody>
+            <tr><td>{{ 'content.good-and-bad-slugs.td1' | pt }}</td><td>{{ 'content.good-and-bad-slugs.td2' | pt }}</td><td>{{ 'content.good-and-bad-slugs.td3' | pt }}</td></tr>
+            <tr><td>{{ 'content.good-and-bad-slugs.td4' | pt }}</td><td>{{ 'content.good-and-bad-slugs.td5' | pt }}</td><td>{{ 'content.good-and-bad-slugs.td6' | pt }}</td></tr>
+            <tr><td>{{ 'content.good-and-bad-slugs.td7' | pt }}</td><td>{{ 'content.good-and-bad-slugs.td8' | pt }}</td><td>{{ 'content.good-and-bad-slugs.td9' | pt }}</td></tr>
+            <tr><td>{{ 'content.good-and-bad-slugs.td10' | pt }}</td><td>{{ 'content.good-and-bad-slugs.td11' | pt }}</td><td>{{ 'content.good-and-bad-slugs.td12' | pt }}</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>{{ 'content.slug-checklist.heading' | pt }}</h2>
+      <ul class="content-list">
+        <li>{{ 'content.slug-checklist.li1' | pt }}</li>
+        <li>{{ 'content.slug-checklist.li2' | pt }}</li>
+        <li>{{ 'content.slug-checklist.li3' | pt }}</li>
+        <li>{{ 'content.slug-checklist.li4' | pt }}</li>
+        <li>{{ 'content.slug-checklist.li5' | pt }}</li>
+      </ul>
+      <p>{{ 'content.slug-checklist.p1' | pt }}</p>
+    </section>

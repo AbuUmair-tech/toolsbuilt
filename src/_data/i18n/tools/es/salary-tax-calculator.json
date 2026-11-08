@@ -1,0 +1,623 @@
+{
+  "listing": {
+    "name": "Calculadora de impuesto sobre el salario",
+    "shortName": "Calculadora de impuesto sobre el salario",
+    "description": "Elige tu país y calcula el impuesto sobre tu salario: Reino Unido, EE. UU. (federal), India y Pakistán con tasas oficiales, más los países del Golfo.",
+    "shortDescription": "Impuesto sobre la renta y salario neto para Pakistán, India, Reino Unido, EE. UU. y más",
+    "keywords": [
+      "calculadora de impuesto sobre el salario",
+      "calculadora de impuesto sobre la renta por país",
+      "calculadora de salario neto",
+      "cuánto impuesto pago por mi salario"
+    ]
+  },
+  "title": "Calculadora de impuesto sobre el salario por país (2026)",
+  "description": "Calculadora de impuesto sobre el salario por país: Reino Unido, EE. UU. (federal), India y Pakistán con tasas oficiales, más los países del Golfo.",
+  "h1": "Calculadora de impuesto sobre el salario por país",
+  "quickAnswer": "Elige tu país para abrir una calculadora de impuesto sobre el salario basada en las tasas oficiales de ese país. Cada país grava los salarios de forma distinta: el Reino Unido y la India aplican primero una asignación libre de impuestos o una deducción, EE. UU. usa tramos según el estado civil para la declaración y Pakistán usa tramos con una cantidad fija más un porcentaje. Los Emiratos Árabes Unidos, Arabia Saudí y Catar no gravan en absoluto los salarios de las personas.",
+  "faqs": [
+    {
+      "q": "¿Qué países cubre la calculadora de impuesto sobre el salario?",
+      "a": "El Reino Unido (incluidas las tasas de Escocia), Estados Unidos (impuesto federal sobre la renta), la India (nuevo régimen fiscal) y Pakistán. Cada página usa las tasas publicadas por la autoridad fiscal de ese país y muestra la fuente y la fecha en que la verificamos."
+    },
+    {
+      "q": "¿Pago impuestos por mi salario en los Emiratos Árabes Unidos, Arabia Saudí o Catar?",
+      "a": "En estos países no se cobra impuesto sobre la renta personal a los salarios, según sus fuentes gubernamentales oficiales enlazadas en esta página."
+    },
+    {
+      "q": "¿Por qué no aparece mi país?",
+      "a": "Solo añadimos un país después de comprobar sus tasas con una fuente oficial, como el sitio web de la autoridad fiscal o la ley de finanzas. Vamos añadiendo países a medida que los verificamos."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Elige tu país"
+    },
+    "label": {
+      "hub-country": "Tu país"
+    },
+    "option": {
+      "hub-country": {
+        "PK": "Pakistán"
+      }
+    },
+    "text": {
+      "hub-open-btn": "Abrir calculadora",
+      "no-tax-heading": "Países sin impuesto sobre la renta para los salarios",
+      "compare-heading": "Cómo grava cada país los salarios"
+    },
+    "content": {
+      "tool": {
+        "span1": "Pakistán"
+      },
+      "countries-with-no-income-tax-on": {
+        "p1": "Algunos países no gravan los ingresos laborales de las personas, así que no hay nada que calcular. Cada declaración de abajo procede de una fuente gubernamental oficial."
+      },
+      "how-countries-tax-salaries-differently": {
+        "p1": "La mayoría de los países gravan los salarios de forma progresiva: los ingresos se dividen en tramos y cada tramo tiene su propia tasa, de modo que una tasa más alta solo se aplica a la parte de tu sueldo que cae dentro de ese tramo. Lo que cambia de un país a otro es lo que se descuenta antes de que empiecen los tramos y lo que se suma encima.",
+        "li1": "<strong>Asignación libre de impuestos:</strong> el Reino Unido da a todos una Personal Allowance de £12,570, que se reduce por encima de £100,000.",
+        "li2": "<strong>Deducción estándar:</strong> EE. UU. resta una deducción estándar que depende del estado civil para la declaración, y la India concede ₹75,000 a los asalariados en el nuevo régimen.",
+        "li3": "<strong>Bonificaciones y recargos:</strong> la India anula por completo el impuesto hasta ₹12 lakh de ingreso total mediante una bonificación y añade un cess del 4%; Pakistán aplicó un recargo a los ingresos altos hasta 2025-26.",
+        "li4": "<strong>Quién decide:</strong> Escocia fija sus propios tramos sobre los salarios, y en EE. UU. cada estado añade su propio impuesto sobre la renta además del impuesto federal que se muestra aquí.",
+        "p2": "Cada calculadora indica el año fiscal que usa, la fuente oficial de sus tasas y la fecha en que las revisamos por última vez."
+      }
+    },
+    "hub": {
+      "pkMeta": "Año fiscal {{year}} · tramos de la FBR para asalariados",
+      "noTaxItem": "<strong>{{name}}:</strong> {{statement}} Fuente: <a href=\"{{url}}\" target=\"_blank\" rel=\"noopener noreferrer\">{{source}}</a> (verificado el {{date}})."
+    },
+    "country": {
+      "formLabel": "Formulario de la calculadora de impuesto sobre el salario: {{country}}",
+      "salaryLabel": "Salario bruto ({{currency}}) <span class=\"text-accent\">*</span>",
+      "periodLegend": "El salario es",
+      "monthly": "Mensual",
+      "annual": "Anual",
+      "statusLabel": "Estado civil para la declaración",
+      "taxYear": "Año fiscal",
+      "calculate": "Calcular impuesto",
+      "reset": "Restablecer",
+      "resultHeader": "Tu impuesto sobre la renta",
+      "copyTitle": "Copiar resultado al portapapeles",
+      "copy": "<span data-icon=\"copy\"></span> Copiar resultado",
+      "stats": {
+        "monthlyTax": "Impuesto mensual",
+        "monthlyTakeHome": "Salario neto mensual (tras el impuesto sobre la renta)",
+        "taxable": "Ingreso gravable",
+        "annualTax": "Impuesto sobre la renta anual",
+        "effectiveRate": "Tasa impositiva efectiva",
+        "topRate": "Tu tasa máxima"
+      },
+      "table": {
+        "ariaLabel": "{{title}} (desplazable)",
+        "ariaLabelWithStatus": "{{title}} {{status}} (desplazable)",
+        "rate": "Tasa",
+        "over": "Más de {{from}}",
+        "upTo": "Hasta {{to}}",
+        "range": "De {{from}} a {{to}}",
+        "yourBand": " · tu tramo"
+      },
+      "estimateTitle": "Esto es una estimación",
+      "others": {
+        "heading": "Impuesto sobre el salario en otros países",
+        "intro": "Las normas fiscales cambian mucho de un país a otro. Compara con nuestras calculadoras para otros países o consulta todos los países en una sola página.",
+        "pakistan": "Calculadora de impuesto sobre el salario en Pakistán",
+        "hub": "Calculadoras de impuesto sobre el salario para todos los países"
+      }
+    },
+    "calc": {
+      "otherCountries": "Otros países",
+      "allCountries": "Todos los países",
+      "chooseCountry": "Elige tu país",
+      "yearLabels": {
+        "PK": "Año fiscal 2026-27",
+        "IN": "AF 2025-26 (AY 2026-27)",
+        "GB": "Año fiscal 2026/27",
+        "US": "Año fiscal 2026"
+      }
+    }
+  },
+  "client": {
+    "countries": {
+      "GB": {
+        "label": "Año fiscal 2026/27",
+        "deductions": {
+          "allowance": "asignación personal (Personal Allowance)"
+        }
+      },
+      "IN": {
+        "label": "AF 2025-26 (AY 2026-27)",
+        "deductions": {
+          "standard": "deducción estándar para asalariados"
+        },
+        "rebate": "Bonificación de la sección 87A",
+        "cess": "Cess de salud y educación"
+      },
+      "US": {
+        "label": "Año fiscal 2026",
+        "deductions": {
+          "standard": "deducción estándar"
+        }
+      }
+    },
+    "engine": {
+      "standardDeduction": "Deducción estándar",
+      "personalAllowance": "Asignación personal (Personal Allowance)",
+      "errors": {
+        "noData": "No se han cargado datos fiscales.",
+        "unknownStatus": "Estado civil para la declaración desconocido: \"{{status}}\".",
+        "salaryMin": "Introduce un salario de 0 o más.",
+        "period": "Elige si el salario es mensual o anual."
+      }
+    },
+    "hub": {
+      "noTaxNote": "{{name}} no grava los salarios de las personas. Consulta la nota de abajo."
+    },
+    "errors": {
+      "salaryRequired": "Introduce tu salario."
+    },
+    "result": {
+      "primary": "{{tax}} al año",
+      "copy": "Impuesto sobre la renta en {{country}} ({{label}}) sobre {{income}} al año: {{tax}} al año ({{monthlyTax}} al mes), salario neto {{takeHome}} al mes, tasa efectiva {{effective}}%."
+    },
+    "steps": {
+      "gross": "Salario bruto anual: <code>{{amount}}</code>",
+      "less": "Menos {{label}}: <code>{{amount}}</code>",
+      "taxable": "Ingreso gravable: <strong>{{amount}}</strong>",
+      "band": "{{rate}} sobre {{amount}} (de {{from}} a {{to}}): <code>{{tax}}</code>",
+      "bandsTotal": "Impuesto de los tramos: <code>{{amount}}</code>",
+      "surcharge": "Más recargo: <code>{{amount}}</code>",
+      "cess": "Más {{label}} ({{rate}}): <code>{{amount}}</code>",
+      "total": "Impuesto sobre la renta anual: <strong>{{annual}}</strong>, o {{monthly}} al mes",
+      "defaultRebate": "bonificación",
+      "defaultCess": "cess"
+    },
+    "toast": {
+      "copied": "Cálculo del impuesto copiado al portapapeles"
+    },
+    "calc": {
+      "years": {
+        "PK": {
+          "2026-27": "Año fiscal 2026-27",
+          "2025-26": "Año fiscal 2025-26"
+        },
+        "IN": {
+          "2025-26": "AF 2025-26 (AY 2026-27)"
+        },
+        "GB": {
+          "2026-27": "Año fiscal 2026/27"
+        },
+        "US": {
+          "2026": "Año fiscal 2026"
+        }
+      }
+    }
+  },
+  "countryPages": {
+    "GB": {
+      "label": "Año fiscal 2026/27",
+      "title": "Calculadora de impuesto sobre el salario UK 2026/27",
+      "h1": "Calculadora de impuesto sobre el salario UK 2026/27",
+      "description": "Calcula el Income Tax de tu salario en el Reino Unido 2026/27, con la reducción de la asignación sobre £100,000 y las tasas de Escocia. Neto mensual.",
+      "salaryHint": "Tu salario bruto antes de impuestos. Deja fuera las aportaciones a pensiones descontadas antes de impuestos (salary sacrifice).",
+      "tableTitle": "Tramos del Income Tax 2026/27 (ingresos después de la Personal Allowance)",
+      "tableIncomeHeading": "Ingresos después de asignaciones",
+      "tableNotes": [
+        "Con la Personal Allowance estándar de £12,570, el tramo de la tasa básica va de £12,571 a £50,270 de salario en Inglaterra, Gales e Irlanda del Norte.",
+        "La Personal Allowance se reduce £1 por cada £2 de ingresos por encima de £100,000 y es cero a partir de £125,140."
+      ],
+      "disclaimer": "Estima el Income Tax sobre los ingresos laborales con la Personal Allowance y el código fiscal estándar. No incluye National Insurance, devoluciones de préstamos estudiantiles, aportaciones a pensiones, Marriage Allowance ni Blind Person's Allowance. Revisa tu código fiscal y tus nóminas en tu cuenta en línea de HMRC.",
+      "quickAnswer": "Según la calculadora de impuesto sobre el salario para 2026/27, las primeras £12,570 de ingresos están libres de impuestos. En Inglaterra, Gales e Irlanda del Norte pagas después el 20% sobre las siguientes £37,700, el 40% hasta £125,140 y el 45% por encima. Escocia tiene seis tramos del 19% al 48%. Por encima de £100,000 tu asignación libre de impuestos se reduce £1 por cada £2 que ganas, lo que crea una tasa efectiva del 60% entre £100,000 y £125,140.",
+      "howto": {
+        "name": "Cómo calcular el Income Tax de un salario en el Reino Unido",
+        "description": "Estima el Income Tax anual y mensual de un salario en el Reino Unido para 2026/27.",
+        "steps": [
+          {
+            "name": "Introduce tu salario",
+            "text": "Escribe tu salario bruto y elige mensual o anual."
+          },
+          {
+            "name": "Elige dónde vives",
+            "text": "Los contribuyentes escoceses usan los tramos de Escocia; todos los demás usan los tramos del resto del Reino Unido."
+          },
+          {
+            "name": "Consulta tu impuesto",
+            "text": "Ve tu Personal Allowance, el impuesto por tramo y tu salario neto mensual después del Income Tax."
+          }
+        ]
+      },
+      "workedExamples": [
+        {
+          "title": "Salario de £36,000 en Inglaterra",
+          "inputs": [
+            "Salario: £36,000 al año",
+            "Vive en Inglaterra"
+          ],
+          "steps": [
+            "Mínimo exento personal (Personal Allowance): £12,570",
+            "Ingresos después de asignaciones: £36,000 − £12,570 = £23,430",
+            "Tasa básica del 20% sobre £23,430 = £4,686"
+          ],
+          "result": "£4,686 de Income Tax al año (£390.50 al mes)."
+        },
+        {
+          "title": "Salario de £110,000: la reducción de la asignación",
+          "inputs": [
+            "Salario: £110,000 al año",
+            "Vive en Inglaterra"
+          ],
+          "steps": [
+            "Los ingresos superan £100,000 en £10,000, así que la asignación baja £5,000 hasta £7,570",
+            "Ingresos después de asignaciones: £110,000 − £7,570 = £102,430",
+            "20% sobre £37,700 = £7,540; 40% sobre £64,730 = £25,892"
+          ],
+          "result": "£33,432 de Income Tax al año (£2,786 al mes)."
+        },
+        {
+          "title": "Salario de £36,000 en Escocia",
+          "inputs": [
+            "Salario: £36,000 al año",
+            "Vive en Escocia"
+          ],
+          "steps": [
+            "Ingresos después de asignaciones: £23,430",
+            "19% sobre £3,967 = £753.73; 20% sobre £12,989 = £2,597.80; 21% sobre £6,474 = £1,359.54"
+          ],
+          "result": "£4,711.07 de Income Tax al año, unas £25 más que en Inglaterra."
+        }
+      ],
+      "commonMistakes": [
+        {
+          "title": "Interpretar los tramos como tramos de salario",
+          "description": "Los tramos de HMRC se aplican a los ingresos después de tu Personal Allowance. La tasa básica cubre las primeras £37,700 por encima de la asignación, que para la mayoría equivale a un salario de £12,571 a £50,270."
+        },
+        {
+          "title": "Ignorar la reducción por encima de £100,000",
+          "description": "Entre £100,000 y £125,140, cada £2 adicionales de ingresos eliminan £1 de asignación, así que esa franja tributa en la práctica al 60% en Inglaterra, Gales e Irlanda del Norte."
+        },
+        {
+          "title": "Confundir el Income Tax con la National Insurance",
+          "description": "La National Insurance es una deducción aparte en tu nómina, con sus propios umbrales, y no se incluye aquí."
+        }
+      ],
+      "faqs": [
+        {
+          "q": "¿Cuánto puedo ganar antes de pagar Income Tax en 2026/27?",
+          "a": "£12,570, la Personal Allowance estándar, si tus ingresos son de £100,000 o menos. Por encima de £100,000 la asignación se reduce £1 por cada £2 de ingresos y desaparece en £125,140."
+        },
+        {
+          "q": "¿Qué es la trampa fiscal del 60%?",
+          "a": "Entre £100,000 y £125,140, cada £1 de ingresos adicionales tributa al 40% y además elimina 50p de asignación libre de impuestos, que también pasa a tributar al 40%. En conjunto es una tasa marginal efectiva del 60%, más la National Insurance."
+        },
+        {
+          "q": "¿Son distintas las tasas de Escocia?",
+          "a": "Sí. Si vives en Escocia, tu salario tributa con las tasas escocesas: 19%, 20%, 21%, 42%, 45% y 48% en seis tramos. Los ingresos por ahorros y dividendos usan las tasas del Reino Unido."
+        },
+        {
+          "q": "¿Por qué el impuesto de mi nómina es distinto?",
+          "a": "El PAYE usa tu código fiscal, que puede incluir beneficios en especie, impuestos pendientes de años anteriores o una asignación diferente. Revisa tu código fiscal en tu cuenta en línea de HMRC."
+        }
+      ],
+      "sections": [
+        {
+          "heading": "Cómo funciona el Income Tax sobre un salario en el Reino Unido",
+          "paragraphs": [
+            "El año fiscal del Reino Unido va del 6 de abril al 5 de abril. Los empleadores retienen el Income Tax mediante el PAYE en cada pago usando tu código fiscal, que para la mayoría es 1257L (S1257L en Escocia), el código de la Personal Allowance de £12,570.",
+            "El Income Tax se cobra por tramos sobre los ingresos que superan tu Personal Allowance. HMRC publica los tramos como ingresos después de asignaciones: en Inglaterra, Gales e Irlanda del Norte, las primeras £37,700 tributan al 20%, los ingresos hasta £125,140 al 40% y todo lo que supere esa cifra al 45%."
+          ],
+          "list": [
+            "<strong>Reducción de la Personal Allowance:</strong> por encima de £100,000, la asignación se reduce £1 por cada £2 de ingreso neto ajustado.",
+            "<strong>Escocia:</strong> seis tramos fijados por el Parlamento escocés se aplican a los salarios y pensiones de los contribuyentes escoceses.",
+            "<strong>No incluido:</strong> National Insurance, préstamos estudiantiles y aportaciones a pensiones, que también se descuentan de tu nómina."
+          ]
+        },
+        {
+          "heading": "Del Income Tax al salario neto",
+          "paragraphs": [
+            "El salario neto que aparece aquí es tu salario menos solo el Income Tax. Tu nómina real también mostrará la National Insurance del empleado y, si te corresponden, las devoluciones del préstamo estudiantil y las aportaciones al plan de pensiones de la empresa.",
+            "Aportar a una pensión mediante salary sacrifice, o hacer aportaciones brutas a pensiones, reduce tu ingreso neto ajustado. Cerca de £100,000 eso puede recuperar parte de tu Personal Allowance, por eso muchas personas en la zona de reducción aumentan sus aportaciones a pensiones."
+          ]
+        }
+      ],
+      "statusLabel": "Dónde vives",
+      "statuses": {
+        "rUK": {
+          "label": "Inglaterra, Gales o Irlanda del Norte",
+          "slabNames": [
+            "tasa básica",
+            "tasa superior",
+            "tasa adicional"
+          ]
+        },
+        "scotland": {
+          "label": "Escocia",
+          "slabNames": [
+            "tasa inicial",
+            "tasa básica",
+            "tasa intermedia",
+            "tasa superior",
+            "tasa avanzada",
+            "tasa máxima"
+          ]
+        }
+      },
+      "sources": [
+        "GOV.UK: tasas del Income Tax y Personal Allowances (2026 a 2027)",
+        "HMRC: tasas y asignaciones del Income Tax para el año fiscal actual y los anteriores (ingresos después de asignaciones; Inglaterra, Gales, Irlanda del Norte y Escocia)",
+        "GOV.UK: tasas del Income Tax de Escocia 2026 a 2027"
+      ]
+    },
+    "IN": {
+      "label": "AF 2025-26 (AY 2026-27)",
+      "title": "Calculadora de impuesto sobre el salario India AF 2025-26",
+      "h1": "Calculadora de impuesto sobre el salario India AF 2025-26",
+      "description": "Calcula el impuesto de un salario en la India, AF 2025-26 (nuevo régimen): deducción de ₹75,000, bonificación 87A hasta ₹12 lakh, recargo y cess del 4%.",
+      "salaryHint": "Tu salario bruto antes de impuestos. Deja fuera las asignaciones exentas de impuestos.",
+      "tableTitle": "Tramos del nuevo régimen, AF 2025-26",
+      "tableIncomeHeading": "Ingreso total (después de la deducción estándar)",
+      "tableNotes": [
+        "Bonificación de la sección 87A: no hay impuesto si el ingreso total es de ₹12,00,000 o menos (bonificación de hasta ₹60,000), con alivio marginal justo por encima de ₹12 lakh.",
+        "Recargo sobre el impuesto: 10% por encima de ₹50 lakh, 15% por encima de ₹1 crore y 25% por encima de ₹2 crore, con alivio marginal. Después, cess de salud y educación del 4% sobre el impuesto más el recargo."
+      ],
+      "disclaimer": "Solo cubre el salario de una persona residente en el nuevo régimen fiscal predeterminado. No incluye el régimen antiguo, ingresos con tasas especiales como las ganancias de capital ni el impuesto profesional que cobran algunos estados. Comprueba tu TDS con tu empleador o un asesor fiscal.",
+      "quickAnswer": "Con esta calculadora de impuesto sobre el salario, en el nuevo régimen fiscal del AF 2025-26 restas ₹75,000 de tu salario anual como deducción estándar y aplicas los tramos: nada hasta ₹4 lakh; 5%, 10%, 15%, 20% y 25% en escalones de ₹4 lakh, y 30% por encima de ₹24 lakh. Si lo que queda es ₹12 lakh o menos, la bonificación de la sección 87A anula el impuesto, así que un salario de hasta ₹12.75 lakh no paga impuesto sobre la renta. Suma un cess del 4% a cualquier impuesto adeudado.",
+      "howto": {
+        "name": "Cómo calcular el impuesto sobre la renta de un salario en la India (nuevo régimen)",
+        "description": "Estima el impuesto sobre la renta anual y mensual de un salario para el AF 2025-26 en el nuevo régimen fiscal.",
+        "steps": [
+          {
+            "name": "Introduce tu salario",
+            "text": "Escribe tu salario bruto y elige si es una cifra mensual o anual."
+          },
+          {
+            "name": "Consulta tu impuesto",
+            "text": "Ve el impuesto anual y mensual, la bonificación, el recargo si lo hay, el cess del 4% y tu salario neto mensual después del impuesto sobre la renta."
+          },
+          {
+            "name": "Revisa tu tramo",
+            "text": "La tabla de tramos resalta el tramo en el que cae tu última rupia de ingresos."
+          }
+        ]
+      },
+      "workedExamples": [
+        {
+          "title": "Salario de ₹12.75 lakh: sin impuesto",
+          "inputs": [
+            "Salario anual: ₹12,75,000"
+          ],
+          "steps": [
+            "Deducción estándar: ₹12,75,000 − ₹75,000 = ₹12,00,000 de ingreso total",
+            "Impuesto por tramos: 5% de ₹4 lakh + 10% de ₹4 lakh = ₹60,000",
+            "Bonificación de la sección 87A de ₹60,000 (el ingreso total no supera ₹12 lakh)"
+          ],
+          "result": "Impuesto sobre la renta nulo. La tabla del Budget Speech 2025-26 muestra lo mismo: ₹12 lakh de ingreso total, impuesto nulo tras la bonificación."
+        },
+        {
+          "title": "Salario de ₹16.75 lakh",
+          "inputs": [
+            "Salario anual: ₹16,75,000"
+          ],
+          "steps": [
+            "Ingreso total después de la deducción estándar: ₹16,00,000",
+            "Impuesto por tramos: ₹20,000 + ₹40,000 + 15% de ₹4 lakh (₹60,000) = ₹1,20,000",
+            "Sin bonificación por encima de ₹12 lakh; cess del 4%: ₹4,800"
+          ],
+          "result": "₹1,24,800 al año (₹10,400 al mes). La tabla del Budget Speech muestra ₹1,20,000 antes del cess para ₹16 lakh de ingreso total."
+        },
+        {
+          "title": "Salario de ₹50.75 lakh",
+          "inputs": [
+            "Salario anual: ₹50,75,000"
+          ],
+          "steps": [
+            "Ingreso total: ₹50,00,000, no supera ₹50 lakh, así que no hay recargo",
+            "Impuesto por tramos: ₹3,00,000 hasta ₹24 lakh + 30% de ₹26 lakh (₹7,80,000) = ₹10,80,000",
+            "Cess del 4%: ₹43,200"
+          ],
+          "result": "₹11,23,200 al año. La tabla del Budget Speech muestra ₹10,80,000 antes del cess para ₹50 lakh de ingreso total."
+        }
+      ],
+      "commonMistakes": [
+        {
+          "title": "Olvidar la deducción estándar",
+          "description": "En el nuevo régimen, los asalariados restan ₹75,000 antes de aplicar los tramos, así que el punto sin impuesto es un salario de ₹12.75 lakh, no de ₹12 lakh."
+        },
+        {
+          "title": "Creer que ₹12 lakh es un tramo",
+          "description": "El límite de ₹12 lakh es para la bonificación, no un tramo exento. Justo por encima se aplica el impuesto completo de los tramos, suavizado solo por el alivio marginal."
+        },
+        {
+          "title": "Dejar fuera el cess",
+          "description": "El cess de salud y educación del 4% se cobra sobre el impuesto sobre la renta más el recargo, así que se suma a cualquier factura distinta de cero."
+        }
+      ],
+      "faqs": [
+        {
+          "q": "¿Qué salario está libre de impuestos en la India con el nuevo régimen?",
+          "a": "Para el AF 2025-26, una persona asalariada residente sin otros ingresos no paga impuesto sobre la renta con un salario de hasta ₹12,75,000: la deducción estándar de ₹75,000 deja el ingreso total en ₹12 lakh, y la bonificación de la sección 87A de hasta ₹60,000 anula el impuesto de los tramos."
+        },
+        {
+          "q": "¿Qué es el alivio marginal de la bonificación de ₹12 lakh?",
+          "a": "Si tu ingreso total supera un poco ₹12 lakh, el alivio marginal garantiza que el impuesto que pagas no sea mayor que la cantidad en que tu ingreso supera ₹12 lakh. Sin él, ganar ₹1 más de ₹12 lakh costaría más de ₹60,000 en impuestos."
+        },
+        {
+          "q": "¿Esta calculadora usa el régimen antiguo?",
+          "a": "No. Usa el nuevo régimen fiscal, que es el predeterminado. El régimen antiguo tiene otros tramos y permite deducciones como las de la sección 80C y el HRA; compara ambos con tu empleador o un asesor fiscal antes de elegir."
+        },
+        {
+          "q": "¿Cuándo se cobra el recargo?",
+          "a": "El recargo se aplica cuando el ingreso total supera ₹50 lakh: 10% del impuesto por encima de ₹50 lakh, 15% por encima de ₹1 crore y 25% por encima de ₹2 crore en el nuevo régimen, con alivio marginal en cada umbral."
+        },
+        {
+          "q": "¿Y el año fiscal 2026-27?",
+          "a": "A partir del 1 de abril de 2026 se aplica la Income-tax Act, 2025. El memorando del Finance Bill 2026 mantiene los mismos tramos, el recargo y el cess del 4% para el año fiscal 2026-27. Añadiremos ese año cuando hayamos comprobado la deducción estándar y la bonificación en la propia ley nueva."
+        }
+      ],
+      "sections": [
+        {
+          "heading": "Cómo se grava el salario en la India",
+          "paragraphs": [
+            "La India grava el salario por año financiero, del 1 de abril al 31 de marzo. Tu empleador retiene el impuesto en la fuente (TDS) de cada pago mensual según tu ingreso anual estimado, y liquidas cualquier diferencia al presentar tu declaración en el año de evaluación siguiente.",
+            "Desde el AF 2023-24, el nuevo régimen fiscal es el predeterminado. Tiene tasas más bajas por tramo, pero elimina la mayoría de las deducciones y exenciones, como las inversiones de la sección 80C y la asignación por alquiler de vivienda. Los asalariados conservan una deducción estándar, que es de ₹75,000 en el nuevo régimen."
+          ],
+          "list": [
+            "<strong>Ingreso total:</strong> salario bruto menos la deducción estándar de ₹75,000 (y cualquier otro ingreso que tengas).",
+            "<strong>Tramos:</strong> nada hasta ₹4 lakh; después 5%, 10%, 15%, 20% y 25% en escalones de ₹4 lakh, y 30% por encima de ₹24 lakh.",
+            "<strong>Bonificación:</strong> hasta ₹60,000 cuando el ingreso total es de ₹12 lakh o menos, con alivio marginal justo por encima.",
+            "<strong>Recargo y cess:</strong> recargo solo por encima de ₹50 lakh; cess del 4% en toda factura fiscal."
+          ]
+        },
+        {
+          "heading": "Qué significa esto para tu salario neto mensual",
+          "paragraphs": [
+            "El impuesto mensual que muestra la calculadora es la doceava parte del impuesto anual, que es aproximadamente lo que el TDS descuenta de cada nómina cuando tu salario es estable. Tu salario neto real también se reducirá por tu aportación al fondo de previsión (provident fund) y, en algunos estados, por el impuesto profesional, que esta calculadora no incluye.",
+            "Si tu salario cambia durante el año o recibes una bonificación, tu empleador recalcula el TDS de los meses restantes, así que cada nómina puede diferir del promedio que se muestra aquí."
+          ]
+        }
+      ],
+      "sources": [
+        "Memorando explicativo del Finance Bill, 2025: tramos de la sección 115BAC(1A) y bonificación de la sección 87A (₹60,000 hasta ₹12,00,000) desde el AY 2026-27",
+        "Budget Speech 2025-26, párrafo 156 (deducción estándar de ₹75,000) y tabla de ejemplos fiscales del anexo de la Parte B",
+        "Memorando explicativo del Finance Bill, 2026: recargo y cess de salud y educación del 4% para el AY 2026-27"
+      ]
+    },
+    "US": {
+      "label": "Año fiscal 2026",
+      "title": "Calculadora de impuesto sobre el salario EE. UU. 2026",
+      "h1": "Calculadora de impuesto sobre el salario EE. UU. 2026",
+      "description": "Estima el impuesto federal sobre la renta 2026 de EE. UU. para solteros y matrimonios con declaración conjunta: deducción estándar y tramos del IRS.",
+      "salaryHint": "Tu salario bruto antes de impuestos. Las aportaciones antes de impuestos al 401(k) o al seguro médico reducen el salario gravable, así que déjalas fuera si las conoces.",
+      "tableTitle": "Tramos del impuesto federal 2026",
+      "tableIncomeHeading": "Ingreso gravable (después de la deducción estándar)",
+      "tableNotes": [
+        "Deducción estándar para 2026: $16,100 para solteros, $32,200 para matrimonios con declaración conjunta.",
+        "Solo impuesto federal sobre la renta. No incluye impuestos estatales ni locales sobre la renta, Social Security ni Medicare."
+      ],
+      "disclaimer": "Estima solo el impuesto federal sobre la renta de los salarios, con la deducción estándar y sin créditos. Deja fuera los impuestos estatales y locales sobre la renta, Social Security y Medicare (FICA), las deducciones detalladas y créditos fiscales como el Child Tax Credit. Revisa tu retención con el IRS Tax Withholding Estimator o con un profesional fiscal.",
+      "quickAnswer": "Con esta calculadora de impuesto sobre el salario para 2026, resta la deducción estándar ($16,100 si eres soltero, $32,200 si es matrimonio con declaración conjunta) de tu salario anual y aplica a lo que queda los tramos federales del 10% al 37%. Cada tasa solo se aplica a la parte de los ingresos dentro de su tramo, así que una persona soltera que gana $72,000 paga unos $7,000 de impuesto federal sobre la renta, no el 22% de todo.",
+      "howto": {
+        "name": "Cómo estimar el impuesto federal sobre la renta de 2026 de un salario en EE. UU.",
+        "description": "Estima el impuesto federal sobre la renta anual y mensual de los salarios para 2026.",
+        "steps": [
+          {
+            "name": "Introduce tu salario",
+            "text": "Escribe tu salario bruto y elige si es mensual o anual."
+          },
+          {
+            "name": "Elige un estado civil para la declaración",
+            "text": "Elige soltero o matrimonio con declaración conjunta; cada uno tiene sus propios tramos y deducción estándar."
+          },
+          {
+            "name": "Consulta tu impuesto",
+            "text": "Ve el impuesto federal anual y mensual, tu tasa efectiva y tu tramo máximo."
+          }
+        ]
+      },
+      "workedExamples": [
+        {
+          "title": "Soltero, salario de $72,000",
+          "inputs": [
+            "Estado civil para la declaración: soltero",
+            "Salario: $72,000 al año"
+          ],
+          "steps": [
+            "Ingreso gravable: $72,000 − $16,100 = $55,900",
+            "Rev. Proc. 2025-32, tabla 3: $5,800 más el 22% del excedente sobre $50,400"
+          ],
+          "result": "$7,010 de impuesto federal sobre la renta (unos $584 al mes), tasa efectiva del 9.74%."
+        },
+        {
+          "title": "Matrimonio con declaración conjunta, $150,000 de salarios combinados",
+          "inputs": [
+            "Estado civil para la declaración: matrimonio con declaración conjunta",
+            "Salario: $150,000 al año"
+          ],
+          "steps": [
+            "Ingreso gravable: $150,000 − $32,200 = $117,800",
+            "Rev. Proc. 2025-32, tabla 1: $11,600 más el 22% del excedente sobre $100,800"
+          ],
+          "result": "$15,340 de impuesto federal sobre la renta (unos $1,278 al mes), tasa efectiva del 10.23%."
+        }
+      ],
+      "commonMistakes": [
+        {
+          "title": "Aplicar tu tasa máxima a todos tus ingresos",
+          "description": "Estar en el tramo del 22% no significa que el 22% de tu sueldo se vaya en impuesto federal: las franjas inferiores tributan al 10% y al 12%, y la deducción estándar no tributa en absoluto."
+        },
+        {
+          "title": "Olvidar el impuesto estatal y el FICA",
+          "description": "A tu cheque de pago también se le descuentan Social Security y Medicare y, en la mayoría de los estados, el impuesto estatal sobre la renta. Esta página muestra solo el impuesto federal sobre la renta."
+        },
+        {
+          "title": "Usar las cifras del año pasado",
+          "description": "Los tramos y la deducción estándar cambian cada año con la inflación. Estas son las cifras de 2026 de la IRS Rev. Proc. 2025-32."
+        }
+      ],
+      "faqs": [
+        {
+          "q": "¿Cuáles son los tramos del impuesto federal de 2026?",
+          "a": "Para solteros: 10% hasta $12,400 de ingreso gravable, 12% hasta $50,400, 22% hasta $105,700, 24% hasta $201,775, 32% hasta $256,225, 35% hasta $640,600 y 37% por encima. Los matrimonios con declaración conjunta tienen tramos aproximadamente el doble de anchos, empezando por el 10% hasta $24,800."
+        },
+        {
+          "q": "¿Cuál es la deducción estándar de 2026?",
+          "a": "$16,100 para solteros y $32,200 para matrimonios con declaración conjunta, según la IRS Rev. Proc. 2025-32."
+        },
+        {
+          "q": "¿Incluye el impuesto estatal sobre la renta?",
+          "a": "No. Los estados fijan sus propios impuestos sobre la renta, y algunos no tienen. Esta calculadora cubre solo el impuesto federal sobre la renta."
+        },
+        {
+          "q": "¿Por qué es distinta la retención de mi cheque de pago?",
+          "a": "La retención se basa en tu formulario W-4, la frecuencia de pago y las deducciones antes de impuestos, y además cubre Social Security y Medicare. Usa el IRS Tax Withholding Estimator para ajustarla."
+        }
+      ],
+      "sections": [
+        {
+          "heading": "Cómo funciona el impuesto federal sobre la renta de los salarios",
+          "paragraphs": [
+            "EE. UU. grava los ingresos por año natural. Tu empleador retiene el impuesto federal sobre la renta de cada cheque de pago según tu formulario W-4, y concilias el total en tu declaración de impuestos la primavera siguiente.",
+            "El impuesto federal sobre la renta es progresivo: las tablas de tasas dividen el ingreso gravable en tramos, y cada tasa se aplica solo a los ingresos dentro de su tramo. El ingreso gravable es tu salario menos las deducciones antes de impuestos y la deducción estándar o tus deducciones detalladas."
+          ],
+          "list": [
+            "<strong>El estado civil para la declaración</strong> decide qué tramos y qué deducción estándar se aplican. Esta calculadora cubre soltero y matrimonio con declaración conjunta; cabeza de familia y matrimonio con declaración por separado tienen sus propias tablas.",
+            "<strong>La deducción estándar</strong> para 2026 es de $16,100 (soltero) o $32,200 (matrimonio con declaración conjunta).",
+            "<strong>Los créditos fiscales</strong>, como el Child Tax Credit, reducen el propio impuesto y no se incluyen aquí."
+          ]
+        },
+        {
+          "heading": "Qué deja fuera esta estimación",
+          "paragraphs": [
+            "Tu salario neto también se reduce por Social Security y Medicare (FICA) y por el impuesto estatal y, a veces, municipal sobre la renta. Cada estado fija sus propias reglas, así que esta página no intenta estimarlos.",
+            "Si aportas a un 401(k) tradicional, a una HSA o al seguro médico de la empresa a través de la nómina, esas cantidades suelen descontarse antes del impuesto federal sobre la renta. Introduce tu salario después de esas deducciones para una estimación más precisa."
+          ]
+        }
+      ],
+      "statusLabel": "Estado civil para la declaración",
+      "statuses": {
+        "single": {
+          "label": "Soltero"
+        },
+        "married_joint": {
+          "label": "Matrimonio con declaración conjunta"
+        }
+      },
+      "sources": [
+        "IRS Revenue Procedure 2025-32 (ajustes por inflación de 2026): tablas de tasas y deducción estándar",
+        "Sala de prensa del IRS: ajustes fiscales por inflación para el año fiscal 2026"
+      ]
+    }
+  },
+  "noTax": {
+    "AE": {
+      "statement": "Los Emiratos Árabes Unidos no cobran impuesto sobre la renta a las personas, así que los salarios no tributan.",
+      "source": "Portal del Gobierno de los EAU (u.ae): fiscalidad"
+    },
+    "SA": {
+      "statement": "Los residentes de Arabia Saudí no están sujetos al impuesto sobre la renta personal, así que los salarios no tributan. El impuesto sobre la renta saudí se aplica a los residentes no saudíes que realizan una actividad empresarial en el Reino, no al empleo.",
+      "source": "Ministerio de Inversión de Arabia Saudí (MISA): programa de sedes regionales"
+    },
+    "QA": {
+      "statement": "En Catar las personas no pagan impuesto sobre la renta personal por sus salarios o sueldos.",
+      "source": "Autoridad General de Impuestos de Catar: inversores"
+    }
+  }
+}

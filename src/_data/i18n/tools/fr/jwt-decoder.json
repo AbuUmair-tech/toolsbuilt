@@ -1,0 +1,345 @@
+{
+  "listing": {
+    "name": "Décodeur JWT",
+    "shortName": "Décodeur JWT",
+    "description": "Décodez localement l'en-tête et le payload d'un JSON Web Token, affichez iat, nbf et exp sous forme de dates et vérifiez les signatures HS256, HS384 et HS512.",
+    "shortDescription": "Décodez des JWT, vérifiez l'expiration et les signatures HMAC dans votre navigateur.",
+    "keywords": [
+      "décodeur jwt",
+      "décoder un jwt",
+      "json web token",
+      "analyseur jwt",
+      "vérifier la signature jwt",
+      "expiration jwt",
+      "hs256"
+    ]
+  },
+  "title": "Décodeur JWT : décoder un JSON Web Token en local",
+  "description": "Décodez l'en-tête et le payload d'un JWT dans votre navigateur, affichez iat, nbf et exp en dates, vérifiez l'expiration et les signatures HS256/384/512.",
+  "h1": "Décodeur JWT",
+  "quickAnswer": "Un JWT se compose de trois parties encodées en Base64URL, séparées par des points : un en-tête, un payload de claims et une signature. Décoder les deux premières parties affiche leur JSON, mais ne prouve pas que le jeton est authentique ; seule la vérification de la signature avec la bonne clé le permet. Ce décodeur JWT fonctionne entièrement dans votre navigateur et peut vérifier les signatures HS256, HS384 et HS512 avec un secret que vous saisissez.",
+  "formula": {
+    "title": "Comment un JWT est décodé et vérifié",
+    "expression": "JWT = Base64URL(en-tête) . Base64URL(payload) . Base64URL(signature)   ·   Signature HS256 = HMAC-SHA256(secret, en-tête + '.' + payload)",
+    "explanation": "Chaque partie utilise l'encodage Base64URL (RFC 4648), qui remplace + et / par - et _ et supprime le remplissage =. Le décodage de l'en-tête et du payload donne du JSON en UTF-8. Les claims temporels iat (émis le), nbf (pas avant) et exp (expire le) sont des valeurs NumericDate : des secondes depuis le 1970-01-01T00:00:00Z, affichées ici en dates UTC et locales. Pour les algorithmes HMAC, la signature est recalculée sur le texte exact de l'en-tête et du payload avec le secret, grâce à l'API Web Crypto du navigateur, puis comparée en temps constant. Les jetons signés avec RS256, ES256 ou d'autres algorithmes à clé publique nécessitent la clé publique de l'émetteur et ne sont pas vérifiés ici.",
+    "variables": [
+      {
+        "name": "En-tête",
+        "description": "Des métadonnées comme alg (l'algorithme de signature) et typ (généralement JWT)."
+      },
+      {
+        "name": "Payload",
+        "description": "Les claims : la personne concernée (sub), l'émetteur (iss), le destinataire (aud), les dates et toute donnée personnalisée."
+      },
+      {
+        "name": "Signature",
+        "description": "La preuve que l'en-tête et le payload ont été créés par quelqu'un qui détient la clé et qu'ils n'ont pas été modifiés."
+      }
+    ]
+  },
+  "workedExamples": [
+    {
+      "title": "Le jeton d'exemple de jwt.io",
+      "inputs": [
+        "Jeton : eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+      ],
+      "steps": [
+        "En-tête : {\"alg\": \"HS256\", \"typ\": \"JWT\"}",
+        "Payload : {\"sub\": \"1234567890\", \"name\": \"John Doe\", \"iat\": 1516239022}",
+        "iat 1516239022 = 2018-01-18T01:30:22Z ; il n'y a pas de claim exp"
+      ],
+      "result": "Décodé ; avec le secret your-256-bit-secret, la signature HS256 est valide"
+    },
+    {
+      "title": "Un jeton avec seulement deux parties",
+      "inputs": [
+        "Jeton : eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIn0"
+      ],
+      "steps": [
+        "Le découpage selon les points donne 2 parties au lieu de 3"
+      ],
+      "result": "Erreur : la partie signature est manquante"
+    },
+    {
+      "title": "Un jeton expiré",
+      "inputs": [
+        "Le payload contient exp : 1700000000"
+      ],
+      "steps": [
+        "1700000000 = 2023-11-14T22:13:20Z, une date passée"
+      ],
+      "result": "Marqué comme expiré ; un serveur qui vérifie exp le rejetterait"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Faire confiance à un jeton décodé",
+      "description": "N'importe qui peut créer un jeton avec n'importe quel payload. Le décodage ne fait que le lire. Votre serveur doit vérifier la signature avec la bonne clé et le bon algorithme, et contrôler exp, nbf, iss et aud, avant de se fier à un claim."
+    },
+    {
+      "title": "Mettre des secrets dans le payload",
+      "description": "Un JWT signé est encodé, pas chiffré : quiconque possède le jeton peut lire le payload. N'y mettez jamais de mots de passe, de numéros de carte ou d'autres secrets."
+    },
+    {
+      "title": "Accepter alg: none ou un changement d'algorithme",
+      "description": "Les bibliothèques ne doivent accepter que les algorithmes attendus. Autoriser « none », ou laisser un attaquant passer de RS256 à HS256, sont des vulnérabilités JWT classiques répertoriées par l'OWASP."
+    },
+    {
+      "title": "Coller des jetons de production sur des sites web",
+      "description": "Un jeton valide équivaut à un mot de passe tant qu'il n'a pas expiré. Ne collez des jetons que dans des outils qui fonctionnent localement, comme celui-ci, et préférez des jetons expirés ou de test."
+    },
+    {
+      "title": "Utiliser un secret HMAC faible",
+      "description": "Des secrets HS256 comme « secret » peuvent être devinés hors ligne à partir de n'importe quel jeton. Utilisez une longue clé aléatoire, d'au moins 256 bits pour HS256, comme l'exige la RFC 7518."
+    }
+  ],
+  "sources": [
+    {
+      "name": "RFC 7519 : JSON Web Token (JWT)"
+    },
+    {
+      "name": "RFC 7515 : JSON Web Signature (JWS)"
+    },
+    {
+      "name": "RFC 7518 : JSON Web Algorithms (JWA)"
+    },
+    {
+      "name": "RFC 8725 : JSON Web Token Best Current Practices"
+    },
+    {
+      "name": "OWASP Cheat Sheet Series : JSON Web Token"
+    },
+    {
+      "name": "OWASP Web Security Testing Guide : Testing JSON Web Tokens"
+    }
+  ],
+  "howto": {
+    "name": "Comment décoder un JSON Web Token",
+    "description": "Lisez l'en-tête et les claims d'un JWT et vérifiez éventuellement sa signature HMAC, en local.",
+    "steps": [
+      {
+        "name": "Coller le jeton",
+        "text": "Collez le JWT, avec ou sans le préfixe « Bearer »."
+      },
+      {
+        "name": "Lire l'en-tête et le payload",
+        "text": "Consultez les deux parties en JSON formaté et les claims temporels en dates UTC et locales."
+      },
+      {
+        "name": "Vérifier l'expiration",
+        "text": "Le statut indique si le jeton a expiré ou n'est pas encore valide."
+      },
+      {
+        "name": "Vérifier la signature (HS256/384/512)",
+        "text": "Saisissez le secret partagé et cliquez sur Vérifier pour contrôler la signature en local."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Comment décoder un JWT ?",
+      "a": "Collez le jeton dans le champ. L'en-tête et le payload sont décodés depuis le Base64URL et affichés en JSON formaté, avec les claims temporels convertis en dates."
+    },
+    {
+      "q": "Est-il sûr de coller mon JWT ici ?",
+      "a": "Le décodage et la vérification de signature s'exécutent dans votre navigateur. Le jeton et le secret ne sont ni envoyés, ni stockés, ni journalisés, ni ajoutés à l'adresse de la page. Évitez malgré tout de coller des jetons de production actifs sur un site web que vous ne contrôlez pas."
+    },
+    {
+      "q": "Décoder un JWT suffit-il à le vérifier ?",
+      "a": "Non. Le décodage ne fait que lire le contenu. Un jeton n'est fiable qu'une fois sa signature vérifiée avec la bonne clé, et son expiration et son destinataire contrôlés."
+    },
+    {
+      "q": "Comment savoir si un JWT a expiré ?",
+      "a": "Regardez le claim exp : c'est un timestamp Unix en secondes. S'il est antérieur à l'heure actuelle, le jeton a expiré. Le décodeur affiche exp sous forme de date et signale les jetons expirés."
+    },
+    {
+      "q": "Comment vérifier la signature d'un JWT HS256 ?",
+      "a": "Saisissez le secret partagé dans la section signature et cliquez sur Vérifier. Le HMAC est recalculé localement avec Web Crypto. Pour le jeton d'exemple de jwt.io, le secret est your-256-bit-secret."
+    },
+    {
+      "q": "Puis-je vérifier ici des jetons RS256 ou ES256 ?",
+      "a": "Pas pour le moment. Ils utilisent des signatures à clé publique et nécessitent la clé publique de l'émetteur (souvent fournie par une URL JWKS). Vérifiez-les dans votre application avec une bibliothèque JWT maintenue."
+    },
+    {
+      "q": "Quelle est la différence entre JWT, JWS et JWE ?",
+      "a": "Un JWT est un ensemble de claims. Signé, c'est un JWS (trois parties) dont le payload est lisible ; chiffré, c'est un JWE (cinq parties) dont le payload ne peut être lu qu'avec la clé de déchiffrement."
+    },
+    {
+      "q": "Que signifient iat, nbf et exp ?",
+      "a": "iat est la date d'émission du jeton, nbf la date à partir de laquelle il peut être utilisé, et exp sa date d'expiration. Les trois sont exprimés en secondes depuis le 1er janvier 1970 UTC."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Décodeur JWT",
+      "jwt-header": "En-tête décodé",
+      "jwt-payload": "Payload décodé"
+    },
+    "text": {
+      "jwt-privacy": "Votre jeton et votre secret restent dans cet onglet. Ils ne sont ni envoyés, ni stockés, ni ajoutés à l'URL.",
+      "example-btn": "Utiliser l'exemple de jwt.io",
+      "clear-btn": "Effacer",
+      "toggle-secret": "Afficher",
+      "verify-btn": "Vérifier la signature"
+    },
+    "label": {
+      "jwt-input": "JSON Web Token",
+      "jwt-secret": "Secret",
+      "jwt-secret-enc": "Format du secret"
+    },
+    "placeholder": {
+      "jwt-input": "eyJhbGciOi…"
+    },
+    "content": {
+      "tool": {
+        "div1": "<span id=\"result-header-text\">Jeton décodé</span>",
+        "p1": "<strong>Décodé, NON vérifié.</strong> N'importe qui peut créer un jeton avec ce contenu. Ne vous y fiez qu'après vérification de sa signature avec la bonne clé.",
+        "span1": "En-tête",
+        "button1": "Copier",
+        "span2": "Payload",
+        "button2": "Copier",
+        "caption1": "Claims temporels",
+        "th1": "Claim",
+        "th2": "Date (UTC, puis locale)",
+        "p2": "Vérifier la signature"
+      },
+      "common-jwt-claims": {
+        "heading": "Claims JWT courants",
+        "caption1": "Noms de claims enregistrés de la RFC 7519",
+        "th1": "Claim",
+        "th2": "Nom",
+        "th3": "Signification",
+        "td1": "<code>iss</code>",
+        "td2": "Émetteur",
+        "td3": "Qui a créé et signé le jeton",
+        "td4": "<code>sub</code>",
+        "td5": "Sujet",
+        "td6": "La personne concernée par le jeton, souvent un identifiant utilisateur",
+        "td7": "<code>aud</code>",
+        "td8": "Destinataire",
+        "td9": "Le service auquel le jeton est destiné",
+        "td10": "<code>exp</code>",
+        "td11": "Date d'expiration",
+        "td12": "Après cette date, le jeton doit être rejeté",
+        "td13": "<code>nbf</code>",
+        "td14": "Pas avant",
+        "td15": "Avant cette date, le jeton doit être rejeté",
+        "td16": "<code>iat</code>",
+        "td17": "Émis le",
+        "td18": "Date de création du jeton",
+        "td19": "<code>jti</code>",
+        "td20": "Identifiant JWT",
+        "td21": "Un identifiant unique, utilisé pour empêcher la réutilisation d'un jeton"
+      },
+      "decoding-is-not-verifying": {
+        "heading": "Décoder n'est pas vérifier",
+        "p1": "L'en-tête et le payload d'un JWT signé sont seulement encodés : tout le monde peut les lire et les modifier. Ce qui empêche la falsification, c'est la signature : si un seul caractère de l'en-tête ou du payload change, la signature ne correspond plus. Un serveur doit donc :",
+        "li1": "<strong>Vérifier la signature</strong> avec la clé attendue et une liste d'algorithmes autorisés, jamais uniquement avec l'algorithme indiqué dans le jeton.",
+        "li2": "<strong>Contrôler les dates</strong> : rejeter les jetons après <code>exp</code> ou avant <code>nbf</code>, avec une faible tolérance de décalage d'horloge.",
+        "li3": "<strong>Vérifier le destinataire</strong> : <code>iss</code> et <code>aud</code> doivent correspondre à votre émetteur et à votre service.",
+        "li4": "<strong>Garder des jetons de courte durée</strong> et ne les transmettre qu'en HTTPS, comme le recommande la RFC 8725.",
+        "p2": "Cette page sert à lire et déboguer des jetons. Les signatures HMAC sont vérifiées avec l'API Web Crypto du navigateur, et le jeton et le secret ne sont conservés en mémoire que tant que la page est ouverte. Pour générer des secrets aléatoires, utilisez le <a href=\"/tools/password-generator/\">générateur de mot de passe</a> ; pour hacher du texte, le <a href=\"/tools/hash-generator/\">générateur de hash</a>."
+      }
+    },
+    "option": {
+      "jwt-secret-enc": {
+        "utf8": "Texte brut",
+        "base64url": "Base64 / Base64URL"
+      }
+    }
+  },
+  "client": {
+    "errors": {
+      "empty": "Collez un JSON Web Token (trois parties séparées par des points).",
+      "tooLong": "Ce jeton est trop long pour être décodé ici.",
+      "whitespace": "Un JWT ne peut pas contenir d'espaces ni de retours à la ligne. Copiez à nouveau le jeton sans eux.",
+      "jwe": "Cela ressemble à un JWT chiffré (JWE, cinq parties). Son payload ne peut pas être lu sans la clé de déchiffrement.",
+      "partCount": "Un JWT comporte trois parties séparées par des points (en-tête.payload.signature), mais celui-ci en a {{count}}.",
+      "header": {
+        "notBase64Url": "L'en-tête n'est pas un Base64URL valide.",
+        "notUtf8": "L'en-tête n'est pas un texte UTF-8 valide.",
+        "notObject": "L'en-tête doit être un objet JSON.",
+        "notJson": "L'en-tête n'est pas un JSON valide."
+      },
+      "payload": {
+        "notBase64Url": "Le payload n'est pas un Base64URL valide.",
+        "notUtf8": "Le payload n'est pas un texte UTF-8 valide.",
+        "notObject": "Le payload doit être un objet JSON.",
+        "notJson": "Le payload n'est pas un JSON valide."
+      },
+      "signatureNotBase64Url": "La signature n'est pas un Base64URL valide.",
+      "noWebCrypto": "La vérification de signature nécessite l'API Web Crypto, que ce navigateur ne fournit pas.",
+      "unsupportedAlgorithm": "Ce jeton utilise {{alg}}. Seules les signatures HS256, HS384 et HS512 (secret partagé) peuvent être vérifiées ici.",
+      "noAlgorithm": "aucun algorithme",
+      "noSecret": "Saisissez le secret pour vérifier la signature.",
+      "secretNotBase64": "Le secret n'est pas un Base64 / Base64URL valide.",
+      "noSignature": "Le jeton n'a pas de signature à vérifier."
+    },
+    "relative": {
+      "year": {
+        "many": "{{n}} ans",
+        "one": "{{n}} an",
+        "other": "{{n}} ans"
+      },
+      "day": {
+        "many": "{{n}} jours",
+        "one": "{{n}} jour",
+        "other": "{{n}} jours"
+      },
+      "hour": {
+        "many": "{{n}} heures",
+        "one": "{{n}} heure",
+        "other": "{{n}} heures"
+      },
+      "minute": {
+        "many": "{{n}} minutes",
+        "one": "{{n}} minute",
+        "other": "{{n}} minutes"
+      },
+      "second": {
+        "many": "{{n}} secondes",
+        "one": "{{n}} seconde",
+        "other": "{{n}} secondes"
+      },
+      "ago": "il y a {{time}}",
+      "in": "dans {{time}}",
+      "now": "maintenant"
+    },
+    "result": {
+      "noAlgorithm": "Aucun algorithme"
+    },
+    "status": {
+      "expired": "Expiré {{when}}",
+      "notYetValid": "Pas encore valide : utilisable {{when}}",
+      "validTime": "Non expiré : expire {{when}}",
+      "noExp": "Pas de claim d'expiration (exp) : ce jeton n'expire pas de lui-même"
+    },
+    "claims": {
+      "iat": "Émis le (iat)",
+      "nbf": "Pas avant (nbf)",
+      "exp": "Expire le (exp)"
+    },
+    "times": {
+      "invalid": "NumericDate non valide : {{value}}"
+    },
+    "verify": {
+      "unsigned": "Ce jeton n'est pas signé (alg « none » ou signature vide). Il ne prouve rien sur son créateur.",
+      "hmac": "Ce jeton utilise {{alg}}, une signature HMAC avec secret partagé. Saisissez le secret pour la vérifier ici, dans votre navigateur.",
+      "other": "Ce jeton utilise {{alg}}. Seuls HS256, HS384 et HS512 peuvent être vérifiés ici ; les algorithmes à clé publique comme RS256 nécessitent la clé publique de l'émetteur dans votre application.",
+      "unknownAlgorithm": "un algorithme inconnu",
+      "checking": "Vérification…",
+      "failed": "La signature n'a pas pu être vérifiée.",
+      "valid": "✓ Signature valide : ce jeton {{alg}} a été signé avec ce secret.",
+      "invalid": "✗ Signature non valide : le jeton n'a pas été signé avec ce secret, ou il a été modifié."
+    },
+    "copy": {
+      "decoded": "En-tête :\n{{header}}\n\nPayload :\n{{payload}}",
+      "header": "En-tête copié",
+      "payload": "Payload copié"
+    },
+    "toggle": {
+      "hide": "Masquer",
+      "show": "Afficher"
+    }
+  }
+}

@@ -1,0 +1,254 @@
+{
+  "listing": {
+    "name": "Doppelte Zeilen entfernen",
+    "shortName": "Duplikate entfernen",
+    "description": "Entferne doppelte Zeilen aus einer Liste und behalte die ursprüngliche Reihenfolge, auf Wunsch ohne Rücksicht auf Groß-/Kleinschreibung oder Leerzeichen, mit Sortieren, Kopieren und Download.",
+    "shortDescription": "Wiederholte Zeilen aus einer Liste löschen, Reihenfolge bleibt erhalten.",
+    "keywords": [
+      "doppelte zeilen entfernen",
+      "duplikate entfernen",
+      "eindeutige zeilen",
+      "liste bereinigen",
+      "duplikate online entfernen",
+      "doppelte einträge löschen",
+      "eindeutige werte"
+    ]
+  },
+  "title": "Doppelte Zeilen entfernen - online, Reihenfolge bleibt",
+  "description": "Doppelte Zeilen entfernen, Reihenfolge bleibt erhalten. Groß-/Kleinschreibung oder Leerzeichen ignorieren, leere Zeilen löschen, sortieren, kopieren.",
+  "h1": "Doppelte Zeilen entfernen",
+  "quickAnswer": "Um doppelte Zeilen zu entfernen, fügst du deine Liste mit einem Eintrag pro Zeile ein: Jede wiederholte Zeile wird gelöscht, das erste Vorkommen bleibt an seiner ursprünglichen Position. Mit „Groß-/Kleinschreibung ignorieren“ gelten 'Apfel' und 'apfel' als gleich, mit „Leerzeichen kürzen“ zählen Leerzeichen am Zeilenanfang und -ende nicht. Das Tool zeigt, wie viele Duplikate entfernt wurden, und du kannst das Ergebnis kopieren oder herunterladen.",
+  "formula": {
+    "title": "So werden Duplikate gefunden",
+    "expression": "Zeile behalten, wenn ihr Vergleichsschlüssel noch nicht vorkam   ·   Schlüssel = Zeile (gekürzt bei „Leerzeichen kürzen“) (kleingeschrieben bei „Groß-/Kleinschreibung ignorieren“)",
+    "explanation": "Die Zeilen werden von oben nach unten gelesen. Jede Zeile bekommt einen Vergleichsschlüssel: die Zeile selbst, ohne umgebende Leerzeichen, wenn „Leerzeichen kürzen“ aktiv ist, und kleingeschrieben, wenn „Groß-/Kleinschreibung ignorieren“ aktiv ist. Die erste Zeile mit einem bestimmten Schlüssel bleibt genau so, wie du sie eingegeben hast; spätere Zeilen mit demselben Schlüssel fallen weg. Mit „Letztes behalten“ wird die Liste stattdessen von unten gelesen, sodass das letzte Vorkommen bleibt, weiterhin an seiner ursprünglichen Position. Eine gewählte Sortierung erfolgt nach dem Entfernen der Duplikate und berücksichtigt Zahlen, sodass item2 vor item10 kommt.",
+    "variables": [
+      {
+        "name": "Groß-/Kleinschreibung ignorieren",
+        "description": "'Apfel', 'APFEL' und 'apfel' zählen als ein Wert."
+      },
+      {
+        "name": "Leerzeichen kürzen",
+        "description": "Leerzeichen und Tabs am Anfang oder Ende einer Zeile werden beim Vergleichen ignoriert. Aktiviere „Ausgabe kürzen“, um sie auch aus dem Ergebnis zu entfernen."
+      },
+      {
+        "name": "Erstes / letztes behalten",
+        "description": "Welche Kopie einer wiederholten Zeile in der Liste bleibt."
+      }
+    ]
+  },
+  "workedExamples": [
+    {
+      "title": "Mit Beachtung der Groß-/Kleinschreibung",
+      "inputs": [
+        "Zeilen: a, b, a, B"
+      ],
+      "steps": [
+        "Das zweite 'a' wiederholt das erste und wird entfernt",
+        "'B' unterscheidet sich von 'b', wenn die Schreibweise zählt"
+      ],
+      "result": "a, b, B (1 Duplikat entfernt)"
+    },
+    {
+      "title": "Groß-/Kleinschreibung ignorieren",
+      "inputs": [
+        "Zeilen: a, b, a, B",
+        "Groß-/Kleinschreibung ignorieren: an"
+      ],
+      "steps": [
+        "'a' wiederholt sich, und 'B' entspricht 'b'"
+      ],
+      "result": "a, b (2 Duplikate entfernt)"
+    },
+    {
+      "title": "Leerzeichen kürzen",
+      "inputs": [
+        "Zeilen: ' a' (mit führendem Leerzeichen), 'a'",
+        "Leerzeichen kürzen: an"
+      ],
+      "steps": [
+        "Beide Zeilen werden als 'a' verglichen, die zweite wird entfernt",
+        "Die behaltene Zeile bleibt wie eingegeben (' a'); mit „Ausgabe kürzen“ wird daraus 'a'"
+      ],
+      "result": "Eine Zeile: ' a', oder 'a' mit „Ausgabe kürzen“"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Duplikate übersehen, die sich nur durch Leerzeichen unterscheiden",
+      "description": "'apfel' und 'apfel ' mit Leerzeichen am Ende sehen gleich aus, sind aber verschiedene Zeichenketten. Aktiviere „Leerzeichen kürzen“, wenn deine Liste aus einer Tabelle oder einem Dokument kopiert wurde."
+    },
+    {
+      "title": "Werte zusammenführen, die getrennt bleiben sollten",
+      "description": "„Groß-/Kleinschreibung ignorieren“ passt für E-Mail-Adressen und die meisten Wörter, aber nicht für Daten, bei denen die Schreibweise zählt, etwa Passwörter, IDs oder Dateinamen unter Linux."
+    },
+    {
+      "title": "Eine sortierte Liste erwarten",
+      "description": "Standardmäßig bleibt die ursprüngliche Reihenfolge erhalten. Wähle A bis Z oder Z bis A, wenn du eine sortierte Liste willst."
+    },
+    {
+      "title": "Den letzten, neuesten Eintrag verlieren",
+      "description": "Sind spätere Zeilen neuere Fassungen früherer (etwa in einem Log oder Export), wähle „Letztes behalten“, damit die aktuellste Kopie bleibt."
+    },
+    {
+      "title": "Leere Zeilen als Daten behandeln",
+      "description": "Mehrere leere Zeilen gelten als Duplikate voneinander, sodass eine leere Zeile übrig bleiben kann. Aktiviere „Leere Zeilen entfernen“, um alle zu löschen."
+    }
+  ],
+  "sources": [
+    {
+      "name": "Unicode Technical Standard #10: Unicode Collation Algorithm"
+    },
+    {
+      "name": "ECMAScript Internationalization API: Intl.Collator"
+    },
+    {
+      "name": "Microsoft Support: Duplikate suchen und entfernen (Excel)"
+    },
+    {
+      "name": "Microsoft Support: Funktion EINDEUTIG"
+    },
+    {
+      "name": "GNU Coreutils: Aufruf von uniq"
+    }
+  ],
+  "howto": {
+    "name": "So entfernst du doppelte Zeilen",
+    "description": "Wiederholte Zeilen aus einer Liste entfernen und die ursprüngliche Reihenfolge behalten.",
+    "steps": [
+      {
+        "name": "Liste einfügen",
+        "text": "Füge den Text mit einem Eintrag pro Zeile ein."
+      },
+      {
+        "name": "Vergleichsart wählen",
+        "text": "Aktiviere „Groß-/Kleinschreibung ignorieren“ oder „Leerzeichen kürzen“, wenn diese Unterschiede nicht zählen sollen."
+      },
+      {
+        "name": "Wählen, was bleibt",
+        "text": "Behalte die erste oder letzte Kopie, entferne leere Zeilen und sortiere bei Bedarf."
+      },
+      {
+        "name": "Kopieren oder herunterladen",
+        "text": "Kopiere die bereinigte Liste oder lade sie als Textdatei herunter."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Wie entferne ich doppelte Zeilen aus einer Liste?",
+      "a": "Füge die Liste in das Feld ein. Wiederholte Zeilen werden sofort entfernt, die erste Kopie jeder Zeile bleibt an ihrer ursprünglichen Stelle, und die Zahl der entfernten Duplikate wird angezeigt."
+    },
+    {
+      "q": "Bleibt die ursprüngliche Reihenfolge erhalten?",
+      "a": "Ja. Solange du keine Sortierung wählst, bleiben die behaltenen Zeilen in der Reihenfolge, in der du sie eingefügt hast."
+    },
+    {
+      "q": "Kann ich Duplikate ohne Rücksicht auf Groß-/Kleinschreibung entfernen?",
+      "a": "Ja. Aktiviere „Groß-/Kleinschreibung ignorieren“, dann gelten Zeilen, die sich nur durch Großbuchstaben unterscheiden, etwa 'Paris' und 'paris', als gleich."
+    },
+    {
+      "q": "Wie behalte ich das letzte statt des ersten Vorkommens?",
+      "a": "Wähle „Letztes behalten“. Die letzte Kopie jeder Zeile bleibt an der Position, an der sie steht."
+    },
+    {
+      "q": "Kann ich gleichzeitig sortieren und Duplikate entfernen?",
+      "a": "Ja. Wähle A bis Z oder Z bis A. Zuerst werden Duplikate entfernt, dann die übrigen Zeilen sortiert, Zahlen in natürlicher Reihenfolge."
+    },
+    {
+      "q": "Wie entferne ich Duplikate stattdessen in Excel?",
+      "a": "Markiere in Excel die Spalte und nutze Daten > Duplikate entfernen oder in Excel 365 =EINDEUTIG(Bereich). Für Listen, die du als reinen Text kopiert hast, ist dieses Tool schneller."
+    },
+    {
+      "q": "Wird meine Liste irgendwo hochgeladen?",
+      "a": "Nein. Die Zeilen werden in deinem Browser verarbeitet und weder gesendet noch gespeichert oder in die Seitenadresse übernommen."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Doppelte Zeilen entfernen"
+    },
+    "label": {
+      "dedupe-input": "Deine Liste (ein Eintrag pro Zeile)",
+      "opt-keep": "Behalten",
+      "opt-sort": "Sortieren",
+      "dedupe-output": "Ergebnis"
+    },
+    "placeholder": {
+      "dedupe-input": "Zeilen hier einfügen"
+    },
+    "content": {
+      "tool": {
+        "label1": "<input type=\"checkbox\" id=\"opt-case\"><span>Groß-/Kleinschreibung ignorieren</span>",
+        "label2": "<input type=\"checkbox\" id=\"opt-trim\"><span>Leerzeichen beim Vergleichen kürzen</span>",
+        "label3": "<input type=\"checkbox\" id=\"opt-trim-output\"><span>Ausgabe kürzen</span>",
+        "label4": "<input type=\"checkbox\" id=\"opt-empty\"><span>Leere Zeilen entfernen</span>",
+        "div1": "<span id=\"result-header-text\">Duplikate entfernt</span>"
+      },
+      "which-options-to-use": {
+        "heading": "Welche Optionen du nutzen solltest",
+        "caption1": "Empfohlene Optionen für typische Listen",
+        "th1": "Deine Liste",
+        "th2": "Empfohlene Optionen",
+        "td1": "E-Mail-Adressen",
+        "td2": "Groß-/Kleinschreibung ignorieren, Leerzeichen kürzen, Ausgabe kürzen, leere Zeilen entfernen",
+        "td3": "Keywords oder Tags",
+        "td4": "Groß-/Kleinschreibung ignorieren, Leerzeichen kürzen, A bis Z sortieren",
+        "td5": "Produktcodes oder IDs",
+        "td6": "Nur Leerzeichen kürzen (Schreibweise kann zählen)",
+        "td7": "Log-Zeilen oder Exporte mit neueren Einträgen weiter unten",
+        "td8": "Letztes Vorkommen behalten",
+        "td9": "Code oder Konfiguration",
+        "td10": "Keine Optionen: Jedes Zeichen zählt",
+        "p1": "Das Ergebnis behält jede Zeile genau so, wie du sie geschrieben hast, solange „Ausgabe kürzen“ aus ist. So wird eine eingerückte Zeile oder eine Zeile mit bedeutsamen Leerzeichen am Ende nicht verändert, nur weil Leerzeichen beim Vergleichen ignoriert wurden."
+      },
+      "other-ways-to-remove-duplicates": {
+        "heading": "Andere Wege, Duplikate zu entfernen",
+        "li1": "<strong>Kommandozeile:</strong> <code>sort -u file.txt</code> entfernt Duplikate, sortiert aber die Datei; <code>awk '!seen[$0]++' file.txt</code> behält die ursprüngliche Reihenfolge.",
+        "li2": "<strong>Tabellenkalkulation:</strong> der Excel-Befehl „Duplikate entfernen“ oder die Funktion EINDEUTIG sowie UNIQUE in Google Sheets.",
+        "li3": "<strong>Zwei Listen vergleichen:</strong> Um zu sehen, was sich zwischen zwei Fassungen geändert hat statt was sich wiederholt, nutze den <a href=\"/tools/text-diff-checker/\">Textvergleich</a>.",
+        "p1": "Dein Text bleibt auf deinem Gerät: Er wird im Browser verarbeitet und nirgends gespeichert oder hingesendet."
+      }
+    },
+    "option": {
+      "opt-keep": {
+        "first": "Erstes Vorkommen",
+        "last": "Letztes Vorkommen"
+      },
+      "opt-sort": {
+        "none": "Ursprüngliche Reihenfolge",
+        "asc": "A bis Z",
+        "desc": "Z bis A"
+      }
+    },
+    "text": {
+      "example-btn": "Beispiel ausprobieren",
+      "clear-btn": "Leeren",
+      "copy-output-btn": "Ergebnis kopieren",
+      "download-btn": ".txt herunterladen"
+    }
+  },
+  "client": {
+    "example": "Apfel\nBanane\nApfel\nkirsche\n banane\n\nKirsche\nDattel\n\nApfel",
+    "result": {
+      "removed": {
+        "one": "{{n}} Duplikat entfernt",
+        "other": "{{n}} Duplikate entfernt"
+      }
+    },
+    "note": {
+      "lines": {
+        "one": "{{n}} Zeile",
+        "other": "{{n}} Zeilen"
+      },
+      "inOut": "{{in}} rein, {{out}} raus",
+      "emptyRemoved": {
+        "one": "{{n}} leere Zeile entfernt",
+        "other": "{{n}} leere Zeilen entfernt"
+      },
+      "emptyLine": "(leere Zeile)",
+      "mostRepeated": "Am häufigsten wiederholt: {{list}}"
+    },
+    "copied": "Ergebnis kopiert"
+  }
+}

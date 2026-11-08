@@ -13,6 +13,11 @@
 })(typeof globalThis !== 'undefined' ? globalThis : this, function () {
   'use strict';
 
+  // Messages come from the tool's translation data
+  const T = (typeof ToolsBuilt !== 'undefined' && ToolsBuilt.scope)
+    ? ToolsBuilt.scope('uuid-generator')
+    : require('../../../scripts/i18n-client.js').scope('uuid-generator');
+
   const MIN_COUNT = 1;
   const MAX_COUNT = 100;
   const UUID_V4_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
@@ -64,7 +69,7 @@
       return `${hex.slice(0, 8)}-${hex.slice(8, 12)}-${hex.slice(12, 16)}-${hex.slice(16, 20)}-${hex.slice(20, 32)}`;
     }
 
-    throw new Error('Cryptographically secure PRNG unavailable.');
+    throw new Error(T('errors.noSecureRandom'));
   }
 
   /**
@@ -103,13 +108,13 @@
   function validateCount(count) {
     const num = Number(count);
     if (!Number.isInteger(num)) {
-      return { valid: false, error: 'Quantity must be a whole number between 1 and 100.', sanitized: 1 };
+      return { valid: false, error: T('errors.notWholeNumber', { min: MIN_COUNT, max: MAX_COUNT }), sanitized: 1 };
     }
     if (num < MIN_COUNT) {
-      return { valid: false, error: `Quantity cannot be less than ${MIN_COUNT}.`, sanitized: MIN_COUNT };
+      return { valid: false, error: T('errors.belowMin', { min: MIN_COUNT }), sanitized: MIN_COUNT };
     }
     if (num > MAX_COUNT) {
-      return { valid: false, error: `Quantity cannot exceed ${MAX_COUNT} for bulk generation.`, sanitized: MAX_COUNT };
+      return { valid: false, error: T('errors.aboveMax', { max: MAX_COUNT }), sanitized: MAX_COUNT };
     }
     return { valid: true, error: null, sanitized: num };
   }

@@ -1,0 +1,245 @@
+{
+  "listing": {
+    "name": "Codificador y decodificador de URL",
+    "shortName": "Codificador de URL",
+    "description": "Codifica y decodifica URL con los modos encodeURIComponent y encodeURI, y analiza la cadena de consulta en una tabla.",
+    "shortDescription": "Codifica y decodifica URL con los modos encodeURIComponent y encodeURI, y analiza la cadena de consulta en una tabla.",
+    "keywords": [
+      "codificador de URL",
+      "decodificador de URL",
+      "encodeuricomponent",
+      "analizar parámetros de URL",
+      "codificación porcentual"
+    ]
+  },
+  "title": "Codificador y decodificador de URL: encodeURIComponent",
+  "description": "Codificador y decodificador de URL gratis. Cambia entre encodeURIComponent y encodeURI, revisa la cadena de consulta en una tabla y copia el resultado.",
+  "h1": "Codificador y decodificador de URL",
+  "quickAnswer": "En este codificador y decodificador de URL, encodeURIComponent() codifica todos los caracteres excepto A–Z, a–z, 0–9, -, _, ., !, ~, *, ', (, ). Úsalo para valores individuales de la cadena de consulta. encodeURI() conserva los caracteres estructurales (:, /, ?, #, &, =) y se usa para URL completas. Para decodificar, pega el texto con codificación porcentual y la herramienta convierte cada secuencia %XX en el carácter UTF-8 original.",
+  "workedExamples": [
+    {
+      "title": "Codificar el valor de un parámetro de consulta",
+      "inputs": [
+        "Modo: encodeURIComponent",
+        "Entrada: hello world & goodbye!"
+      ],
+      "steps": [
+        "Espacios → %20, & → %26, ! → %21",
+        "Salida: hello%20world%20%26%20goodbye%21"
+      ],
+      "result": "hello%20world%20%26%20goodbye%21"
+    },
+    {
+      "title": "Codificar una URL completa",
+      "inputs": [
+        "Modo: encodeURI",
+        "Entrada: https://example.com/search?q=hello world&lang=en"
+      ],
+      "steps": [
+        "Se conservan los caracteres estructurales: ://?&=",
+        "Espacio → %20, se codifican los demás caracteres especiales",
+        "Salida: https://example.com/search?q=hello%20world&lang=en"
+      ],
+      "result": "https://example.com/search?q=hello%20world&lang=en"
+    },
+    {
+      "title": "Decodificar una cadena con codificación porcentual",
+      "inputs": [
+        "Modo: Decodificar",
+        "Entrada: Caf%C3%A9%20au%20lait"
+      ],
+      "steps": [
+        "%C3%A9 es la codificación UTF-8 de é (e con tilde)",
+        "%20 es un espacio",
+        "Decodificado: Café au lait"
+      ],
+      "result": "Café au lait"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Codificar dos veces",
+      "description": "Codificar una cadena que ya tiene codificación porcentual convierte los caracteres <code>%</code> existentes en <code>%25</code> (por ejemplo, <code>%20</code> pasa a ser <code>%2520</code>). Comprueba siempre si los datos de entrada ya están codificados antes de transformarlos."
+    },
+    {
+      "title": "Usar encodeURI para valores de consulta",
+      "description": "Aplicar <code>encodeURI</code> al valor de un parámetro deja sin codificar caracteres como <code>&amp;</code> y <code>+</code>, lo que hace que los analizadores del servidor corten o dividan los valores de forma inesperada."
+    },
+    {
+      "title": "Secuencias porcentuales mal formadas",
+      "description": "Decodificar una cadena con un signo de porcentaje suelto (como <code>discount=50%</code> en lugar de <code>discount=50%25</code>) lanza un error fatal de JavaScript <code>URIError: URI malformed</code>. Las herramientas seguras capturan este error y lo muestran con claridad."
+    }
+  ],
+  "sources": [
+    {
+      "label": "RFC 3986: Uniform Resource Identifier (URI): Generic Syntax"
+    },
+    {
+      "label": "MDN Web Docs: encodeURIComponent()"
+    },
+    {
+      "label": "MDN Web Docs: encodeURI()"
+    }
+  ],
+  "howto": {
+    "name": "Cómo codificar y decodificar URL en línea",
+    "description": "Guía paso a paso para codificar componentes de URL, URI completas y analizar los parámetros de la cadena de consulta.",
+    "steps": [
+      {
+        "name": "Elige la operación y el modo",
+        "text": "Elige «Codificar» o «Decodificar» y selecciona el modo Componente (encodeURIComponent) o el modo URL completa (encodeURI)."
+      },
+      {
+        "name": "Introduce el texto o la URL",
+        "text": "Escribe o pega el parámetro de consulta, el fragmento de texto o la dirección web completa en el cuadro de entrada."
+      },
+      {
+        "name": "Revisa y copia la salida",
+        "text": "Mira la salida convertida en tiempo real, revisa los pares clave-valor de los parámetros de consulta en la tabla y copia el resultado."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "¿Cuál es la diferencia entre encodeURIComponent y encodeURI?",
+      "a": "encodeURIComponent codifica todos los signos de puntuación reservados (incluidos &, =, ?, /, : y #) como secuencias hexadecimales con codificación porcentual. Está pensado para codificar claves y valores individuales de los parámetros de consulta. En cambio, encodeURI conserva los caracteres válidos de la estructura de la URL (;,/?:@&=+$#) y solo codifica los caracteres no permitidos en las URI estándar, como los espacios y los caracteres Unicode."
+    },
+    {
+      "q": "¿Cuándo debo usar encodeURIComponent en lugar de encodeURI?",
+      "a": "Usa siempre encodeURIComponent cuando prepares valores para añadirlos a una cadena de consulta (por ejemplo, ?q=search+term o ?redirect_url=https://example.com). Si usaras encodeURI, los símbolos como & y = dentro del valor se tomarían por delimitadores de consulta adicionales."
+    },
+    {
+      "q": "¿Cómo trata esta herramienta los signos más (+) en las cadenas de consulta?",
+      "a": "En las cadenas de consulta application/x-www-form-urlencoded, el signo más (+) suele representar un espacio. Al decodificar en modo Componente, esta herramienta convierte tanto '+' como '%20' en espacios normales."
+    },
+    {
+      "q": "¿Se envían mi URL o mis parámetros de consulta privados a un servidor?",
+      "a": "No. Toda la codificación, la decodificación y el análisis de la cadena de consulta se ejecutan al 100% en tu navegador. Los tokens de API sensibles y las cadenas de consulta nunca salen de tu dispositivo."
+    },
+    {
+      "q": "¿Cuál es el tamaño máximo de URL admitido?",
+      "a": "La herramienta admite entradas de hasta un límite de seguridad de 1 MB (1,048,576 caracteres). El procesamiento en tiempo real con retardo mínimo actualiza la interfaz al instante y sin bloqueos."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Formulario del codificador y decodificador de URL",
+      "parsed-query-string-parameters-table1": "Parámetros analizados de la cadena de consulta",
+      "url-encoding-specification-mode-comparison-table1": "Comparación de modos"
+    },
+    "content": {
+      "tool": {
+        "span1": "Dirección:",
+        "label1": "<input type=\"radio\" name=\"url-direction\" value=\"encode\" checked class=\"cursor-pointer\">\n            <span>Codificar</span>",
+        "label2": "<input type=\"radio\" name=\"url-direction\" value=\"decode\" class=\"cursor-pointer\">\n            <span>Decodificar</span>",
+        "span2": "Modo:",
+        "label3": "<input type=\"radio\" name=\"url-mode\" value=\"component\" checked class=\"cursor-pointer\">\n            <span>Componente (encodeURIComponent)</span>",
+        "label4": "<input type=\"radio\" name=\"url-mode\" value=\"full\" class=\"cursor-pointer\">\n            <span>URL completa (encodeURI)</span>"
+      },
+      "parsed-query-string-parameters": {
+        "heading": "Parámetros analizados de la cadena de consulta",
+        "th1": "Clave del parámetro",
+        "th2": "Valor original / codificado",
+        "th3": "Valor decodificado"
+      },
+      "how-when-to-use-the-url": {
+        "li1": "<strong>Pasar URL anidadas en redirecciones:</strong> al pasar una URL de retorno (por ejemplo, <code>?returnTo=https://example.com/dashboard?tab=billing</code>), usa <code>encodeURIComponent</code> para que el servidor externo no interprete los parámetros de consulta anidados.",
+        "li2": "<strong>Arreglar enlaces rotos por espacios:</strong> los navegadores necesitan URI ASCII válidas. Codifica los espacios como <code>%20</code> (o <code>+</code>) y los caracteres Unicode no ASCII antes de compartir enlaces.",
+        "li3": "<strong>Depurar cargas de webhooks y cadenas de consulta:</strong> pega cadenas de consulta complejas para ver cada parámetro ordenado en una tabla estructurada.",
+        "li4": "<strong>Codificar datos de formularios de forma segura:</strong> comprueba cómo se transmitirán los datos de los campos en las solicitudes POST <code>application/x-www-form-urlencoded</code>."
+      },
+      "url-encoding-specification-mode-comparison": {
+        "p1": "El RFC 3986 define la codificación porcentual para representar en las URI los caracteres que quedan fuera del conjunto ASCII permitido. Entender la diferencia entre el modo componente y el modo URI completa evita rutas rotas y parámetros dañados.",
+        "th1": "Carácter",
+        "th2": "Modo encodeURI",
+        "th3": "Modo encodeURIComponent",
+        "th4": "Motivo",
+        "td1": "<code>Espacio ( )</code>",
+        "td2": "Los espacios nunca se permiten en una URI válida.",
+        "td3": "<code>Ampersand (&amp;)</code>",
+        "td4": "<code>&amp;</code> (se conserva)",
+        "td5": "<code>%26</code> (se codifica)",
+        "td6": "Separa los parámetros de consulta; debe codificarse dentro de los valores.",
+        "td7": "<code>Igual (=)</code>",
+        "td8": "<code>=</code> (se conserva)",
+        "td9": "<code>%3D</code> (se codifica)",
+        "td10": "Separa la clave del valor; debe codificarse dentro de los valores.",
+        "td11": "<code>Signo de interrogación (?)</code>",
+        "td12": "<code>?</code> (se conserva)",
+        "td13": "<code>%3F</code> (se codifica)",
+        "td14": "Inicia la cadena de consulta; debe codificarse dentro de los valores.",
+        "td15": "<code>Barra (/)</code>",
+        "td16": "<code>/</code> (se conserva)",
+        "td17": "<code>%2F</code> (se codifica)",
+        "td18": "Separa los segmentos de la ruta; debe codificarse dentro de los valores.",
+        "td19": "<code>Almohadilla (#)</code>",
+        "td20": "<code>#</code> (se conserva)",
+        "td21": "<code>%23</code> (se codifica)",
+        "td22": "Inicia el fragmento (ancla); debe codificarse dentro de los valores."
+      }
+    },
+    "title": {
+      "tool-label1": "Codifica todos los delimitadores (;,/?:@&=+$#). Ideal para claves y valores de parámetros.",
+      "tool-label2": "Conserva los delimitadores de la estructura de la URL. Ideal para direcciones web completas."
+    },
+    "text": {
+      "clear-btn": "Borrar",
+      "size-meter": "0.0 KB / 1 MB",
+      "convert-btn": "Codificar URL",
+      "swap-btn": "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><polyline points=\"17 1 21 5 17 9\"></polyline><path d=\"M3 11V9a4 4 0 0 1 4-4h14\"></path><polyline points=\"7 23 3 19 7 15\"></polyline><path d=\"M21 13v2a4 4 0 0 1-4 4H3\"></path></svg>\n          Intercambiar entrada y salida",
+      "copy-btn": "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"9\" y=\"9\" width=\"13\" height=\"13\" rx=\"2\" ry=\"2\"></rect><path d=\"M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1\"></path></svg>\n          Copiar resultado",
+      "query-count-badge": "0 parámetros",
+      "how-to-use-heading": "Cómo y cuándo usar el codificador y decodificador de URL",
+      "article-heading": "Especificación de la codificación de URL y comparación de modos"
+    },
+    "label": {
+      "url-input": "Texto o URL para codificar (Componente):",
+      "url-output": "URL codificada (salida):"
+    },
+    "placeholder": {
+      "url-input": "Pega aquí el parámetro o texto... p. ej., hello world &amp; symbols=?",
+      "url-output": "La salida aparecerá aquí en tiempo real mientras escribes..."
+    }
+  },
+  "client": {
+    "modeName": {
+      "full": "URL completa (encodeURI)",
+      "component": "Componente (encodeURIComponent)"
+    },
+    "labels": {
+      "encode": {
+        "input": "Texto o URL para codificar ({{mode}}):",
+        "output": "URL codificada (salida):",
+        "button": "Codificar URL",
+        "placeholderFull": "Pega aquí la URL completa... p. ej., https://example.com/search?q=toolsbuilt & more=yes",
+        "placeholderComponent": "Pega aquí el parámetro o texto... p. ej., hello world & symbols=?"
+      },
+      "decode": {
+        "input": "URL codificada para decodificar:",
+        "output": "Texto plano decodificado:",
+        "button": "Decodificar URL",
+        "placeholder": "Pega aquí la URL o cadena codificada... p. ej., https%3A%2F%2Fexample.com%3Fq%3Dtoolsbuilt"
+      }
+    },
+    "sizeMeter": "{{kb}} KB / {{max}} MB",
+    "params": {
+      "many": "{{n}} parámetros",
+      "one": "{{n}} parámetro",
+      "other": "{{n}} parámetros"
+    },
+    "status": {
+      "encoded": "✓ Codificado con {{mode}}: {{input}} &rarr; {{output}} caracteres",
+      "decoded": "✓ Decodificado con {{mode}}: {{input}} &rarr; {{output}} caracteres"
+    },
+    "errors": {
+      "notText": "La entrada debe ser una cadena de texto válida.",
+      "tooLarge": "La entrada supera el límite de seguridad de 1 MB (máximo 1,048,576 caracteres). Tamaño actual: {{size}} caracteres.",
+      "encoding": "Error de codificación: {{message}}",
+      "decoding": "Error de decodificación: secuencia con codificación porcentual no válida ({{message}}). Revisa si hay pares hexadecimales % incompletos."
+    },
+    "toast": {
+      "nothingToCopy": "No hay nada que copiar. Introduce texto primero.",
+      "copied": "Resultado copiado al portapapeles"
+    }
+  }
+}

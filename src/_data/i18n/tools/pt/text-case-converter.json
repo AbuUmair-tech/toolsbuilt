@@ -1,0 +1,242 @@
+{
+  "listing": {
+    "name": "Conversor de maiúsculas e minúsculas",
+    "shortName": "Maiúsculas e minúsculas",
+    "description": "Converta textos na hora entre MAIÚSCULAS, minúsculas, Title Case, Sentence case, camelCase, snake_case e kebab-case.",
+    "shortDescription": "Converta textos na hora entre MAIÚSCULAS, minúsculas, Title Case, Sentence case, camelCase, snake_case e kebab-case.",
+    "keywords": [
+      "conversor de maiúsculas e minúsculas",
+      "converter maiúscula para minúscula",
+      "converter texto em maiúsculas",
+      "conversor camelcase",
+      "snake case"
+    ]
+  },
+  "title": "Conversor de maiúsculas e minúsculas online grátis",
+  "description": "Conversor de maiúsculas e minúsculas grátis: converta texto em MAIÚSCULAS, minúsculas, Title Case, Sentence case, camelCase, snake_case e mais.",
+  "h1": "Conversor de maiúsculas e minúsculas",
+  "quickAnswer": "Para usar o conversor de maiúsculas e minúsculas, cole o seu texto na caixa de entrada e escolha um estilo. A ferramenta transforma o texto na hora em MAIÚSCULAS, minúsculas, Title Case, Sentence case, camelCase, PascalCase, snake_case, kebab-case e outros, preservando a pontuação e os caracteres Unicode, tudo no seu navegador.",
+  "formula": {
+    "title": "Regras de transformação e separação de palavras",
+    "expression": "Texto transformado = AplicarEstilo(SepararPalavras(TextoDeEntrada, RegexUnicode), RegraDeEstilo)",
+    "explanation": "O texto de entrada é separado em palavras com escapes de propriedade de letras Unicode (\\p{L}). Depois, as palavras são reorganizadas conforme a regra de cada estilo: as regras de palavras menores do Chicago Manual of Style para o Title Case, ou sublinhados/hífens como separadores para identificadores de código."
+  },
+  "workedExamples": [
+    {
+      "title": "Manchete em Title Case no estilo Chicago",
+      "inputs": [
+        "Entrada: 'the quick brown fox jumps over the lazy dog'",
+        "Estilo desejado: Title Case"
+      ],
+      "steps": [
+        "Separar as palavras pelos espaços Unicode",
+        "Colocar maiúscula na primeira e na última palavra ('The', 'Dog')",
+        "Colocar maiúscula nas palavras principais ('Quick', 'Brown', 'Fox', 'Jumps', 'Lazy')",
+        "Manter em minúsculas as preposições e os artigos curtos ('over', 'the')"
+      ],
+      "result": "'The Quick Brown Fox Jumps Over the Lazy Dog'"
+    },
+    {
+      "title": "Título em camelCase (identificador JavaScript)",
+      "inputs": [
+        "Entrada: 'user profile setting'",
+        "Estilo desejado: camelCase"
+      ],
+      "steps": [
+        "Extrair as palavras alfanuméricas: ['user', 'profile', 'setting']",
+        "Deixar a primeira palavra em minúsculas: 'user'",
+        "Colocar maiúscula na primeira letra das palavras seguintes: 'Profile', 'Setting'",
+        "Juntar tudo sem espaços"
+      ],
+      "result": "'userProfileSetting'"
+    },
+    {
+      "title": "Título em kebab-case (slug de URL)",
+      "inputs": [
+        "Entrada: 'Annual Financial Report 2026'",
+        "Estilo desejado: kebab-case"
+      ],
+      "steps": [
+        "Separar as palavras: ['Annual', 'Financial', 'Report', '2026']",
+        "Converter todos os caracteres em minúsculas",
+        "Juntar as palavras com hífens (-)"
+      ],
+      "result": "'annual-financial-report-2026'"
+    },
+    {
+      "title": "Maiúsculas no início das frases (Sentence case)",
+      "inputs": [
+        "Entrada: 'hello world! this is a test. here is another one.'",
+        "Estilo desejado: Sentence case"
+      ],
+      "steps": [
+        "Identificar os finais de frase (. ! ?)",
+        "Colocar maiúscula na primeira letra de cada frase",
+        "Manter o restante da frase em minúsculas"
+      ],
+      "result": "'Hello world! This is a test. Here is another one.'"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Pôr maiúscula em preposições curtas no Title Case",
+      "description": "Nos estilos Chicago e AP (para títulos em inglês), preposições, artigos e conjunções com menos de quatro letras (ex.: 'in', 'on', 'the', 'and', 'for') ficam em minúsculas, a menos que comecem a frase."
+    },
+    {
+      "title": "Estragar caracteres Unicode e acentuados",
+      "description": "Converter maiúsculas e minúsculas com uma regex ASCII simples falha em letras acentuadas como 'é' ou em alfabetos não latinos; é preciso usar escapes de propriedade Unicode (\\p{L})."
+    },
+    {
+      "title": "Perder os separadores ao converter código",
+      "description": "Converter código em camelCase ou snake_case para Sentence case remove os separadores de programação. Guarde uma cópia ou use o botão Desfazer."
+    },
+    {
+      "title": "Title Case em texto todo em maiúsculas",
+      "description": "Se um texto todo em maiúsculas for convertido para Title Case sem passar antes para minúsculas, as preposições curtas continuam em maiúsculas. Nosso algoritmo normaliza as palavras primeiro."
+    }
+  ],
+  "sources": [
+    {
+      "name": "The Chicago Manual of Style: regras de maiúsculas em títulos e cabeçalhos"
+    },
+    {
+      "name": "Unicode Standard Annex #29: segmentação de texto Unicode"
+    },
+    {
+      "name": "Normas de mapeamento de maiúsculas e minúsculas da Internacionalização (i18n) do W3C"
+    }
+  ],
+  "howto": {
+    "name": "Como converter maiúsculas e minúsculas online",
+    "description": "Guia passo a passo para converter textos entre 12 formatos diferentes com o ToolsBuilt.",
+    "steps": [
+      {
+        "name": "Cole o seu conteúdo",
+        "text": "Cole ou digite o seu texto sem formatação na área de texto."
+      },
+      {
+        "name": "Escolha um estilo",
+        "text": "Clique em um dos 12 botões de conversão (como Title Case, MAIÚSCULAS, camelCase ou CONSTANT_CASE)."
+      },
+      {
+        "name": "Copie ou desfaça",
+        "text": "Clique em Copiar texto para copiar o resultado para a área de transferência, ou em Desfazer se quiser voltar atrás."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Como converter maiúsculas e minúsculas online?",
+      "a": "Cole o seu texto na caixa do conversor e clique em um botão de conversão, como MAIÚSCULAS, minúsculas, Title Case ou Sentence case. O texto muda na hora, no seu navegador."
+    },
+    {
+      "q": "Qual é a diferença entre Title Case e Iniciais maiúsculas?",
+      "a": "O Title Case põe maiúscula nas palavras principais, mas mantém em minúsculas os artigos e preposições curtos (como 'in', 'the', 'of', 'and', 'for' em inglês), a menos que sejam a primeira ou a última palavra. O modo Iniciais maiúsculas põe maiúscula na primeira letra de todas as palavras, sem exceção."
+    },
+    {
+      "q": "Qual é a diferença entre camelCase, PascalCase, snake_case e kebab-case?",
+      "a": "O camelCase começa em minúscula e põe maiúscula nas palavras seguintes, sem espaços (ex.: 'myVariable'). O PascalCase põe maiúscula em todas as palavras, inclusive a primeira ('MyVariable'). O snake_case separa as palavras com sublinhados, em minúsculas ('my_variable'). O kebab-case separa as palavras com hífens ('my-variable')."
+    },
+    {
+      "q": "Posso desfazer uma conversão se não gostar do resultado?",
+      "a": "Sim. Clique no botão Desfazer para voltar ao texto anterior a qualquer momento."
+    },
+    {
+      "q": "Meu texto fica privado ao usar o conversor?",
+      "a": "Sim. Toda a lógica de conversão roda apenas na memória local do navegador, com JavaScript. O seu texto nunca vai para URLs, nunca é salvo em cookies e nunca é enviado a servidores remotos."
+    },
+    {
+      "q": "O conversor funciona com outros idiomas e caracteres acentuados?",
+      "a": "Sim. O mecanismo de texto usa escapes de propriedade Unicode (\\p{L}) para lidar sem problemas com acentos, tremas e alfabetos internacionais, como português, espanhol, francês e alemão."
+    },
+    {
+      "q": "Para que serve o CONSTANT_CASE?",
+      "a": "O CONSTANT_CASE converte o texto em maiúsculas com sublinhados, a convenção padrão de nomes para variáveis globais, constantes imutáveis e variáveis de ambiente em programação."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Formulário do conversor de maiúsculas e minúsculas"
+    },
+    "label": {
+      "text-input": "<span>Digite ou cole o seu texto abaixo:</span>"
+    },
+    "placeholder": {
+      "text-input": "Digite ou cole o texto aqui e clique em um dos botões de estilo abaixo..."
+    },
+    "text": {
+      "char-stats": "0 caracteres (0 sem espaços) | 0 palavras | 0 linhas",
+      "copy-btn": "<span data-icon=\"copy\"></span> Copiar texto",
+      "undo-btn": "Desfazer",
+      "clear-btn": "Limpar texto"
+    },
+    "content": {
+      "tool": {
+        "label1": "Escolha o estilo de conversão (12 disponíveis):",
+        "button1": "MAIÚSCULAS",
+        "button2": "minúsculas",
+        "button3": "Title Case",
+        "button4": "Sentence case",
+        "button5": "Iniciais Maiúsculas",
+        "button6": "camelCase",
+        "button7": "PascalCase",
+        "button8": "snake_case",
+        "button9": "kebab-case",
+        "button10": "CONSTANT_CASE",
+        "button11": "dot.case",
+        "button12": "aLtErNaDo"
+      },
+      "how-when-to-use-the-text": {
+        "heading": "Como e quando usar o conversor de maiúsculas e minúsculas",
+        "li1": "<strong>Desenvolvimento de software:</strong> converta entradas de usuário ou definições de esquema para as convenções de código (ex.: `camelCase` para variáveis JavaScript, `snake_case` para Python/colunas de banco de dados ou `CONSTANT_CASE` para variáveis de ambiente globais).",
+        "li2": "<strong>Títulos de blogs e artigos:</strong> transforme títulos de rascunho bagunçados em um Title Case elegante no estilo Chicago, com as preposições curtas em minúsculas.",
+        "li3": "<strong>Correção de CAPS LOCK ligado sem querer:</strong> recupere frases digitadas com o caps lock ativado sem precisar redigitar os parágrafos do zero.",
+        "li4": "<strong>Slugs de URL para SEO:</strong> transforme títulos de artigos em slugs `kebab-case` amigáveis para buscadores nas URLs do site."
+      },
+      "case-style-reference-developer-conventions": {
+        "heading": "Referência de estilos e convenções de desenvolvimento",
+        "th1": "Estilo",
+        "th2": "Exemplo de saída",
+        "th3": "Uso comum",
+        "td1": "MAIÚSCULAS",
+        "td2": "<code>HELLO WORLD</code>",
+        "td3": "Manchetes, avisos, siglas",
+        "td4": "minúsculas",
+        "td5": "<code>hello world</code>",
+        "td6": "Endereços de e-mail, normalização de buscas",
+        "td7": "Title Case",
+        "td8": "<code>The Return of the King</code>",
+        "td9": "Títulos de livros e artigos em inglês",
+        "td10": "Sentence case",
+        "td11": "<code>Hello world. Good morning.</code>",
+        "td12": "Textos corridos, documentação para usuários",
+        "td13": "camelCase",
+        "td14": "<code>helloWorld</code>",
+        "td15": "Nomes de variáveis e métodos em JavaScript e Java",
+        "td16": "PascalCase",
+        "td17": "<code>HelloWorld</code>",
+        "td18": "Classes em C#, Java, Python, TypeScript",
+        "td19": "snake_case",
+        "td20": "<code>hello_world</code>",
+        "td21": "Variáveis Python, colunas de banco de dados SQL",
+        "td22": "kebab-case",
+        "td23": "<code>hello-world</code>",
+        "td24": "Slugs de URL, classes CSS, atributos HTML",
+        "td25": "CONSTANT_CASE",
+        "td26": "<code>HELLO_WORLD</code>",
+        "td27": "Variáveis de ambiente, constantes imutáveis",
+        "td28": "dot.case",
+        "td29": "<code>hello.world</code>",
+        "td30": "Caminhos de propriedades, chaves de configuração"
+      }
+    }
+  },
+  "client": {
+    "stats": "{{characters}} caracteres ({{noSpaces}} sem espaços) | {{words}} palavras | {{lines}} linhas",
+    "toast": {
+      "converted": "Convertido para {{style}}",
+      "restored": "Texto anterior restaurado",
+      "copied": "Texto convertido copiado para a área de transferência"
+    }
+  }
+}

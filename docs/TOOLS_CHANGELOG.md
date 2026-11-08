@@ -1,4 +1,119 @@
-# ToolsBuilt Calculation Engine & UX Upgrade Changelog
+# ToolsBuilt Tools Changelog
+
+## 3.2.0: 20 new tools
+
+**Branch:** `tools-batch-20` (built on `redesign-and-tools`) · **Date:** October 31, 2026
+
+All 20 tools follow the tool checklist: full front matter (Quick Answer, method, worked examples, common mistakes, FAQs, primary sources), a pure UMD `logic.js` with unit tests in `scripts/test-tool-logic.js`, `script.js` with validation, and at least 1,000 words of content. Screenshots at 375px are in `docs/screenshots/tools-batch-20/`.
+
+| Tool | URL | Category | Notes |
+| :--- | :--- | :--- | :--- |
+| Hours Calculator | `/tools/hours-calculator/` | Date & Time | Overnight shifts, unpaid breaks, decimal hours; Mon-Sun timesheet with pay and weekly overtime |
+| Unix Timestamp Converter | `/tools/unix-timestamp-converter/` | Date & Time | Live timestamp, s/ms/µs/ns detection, ISO 8601, RFC 2822, relative time, Year 2038 explainer |
+| Week Number Calculator | `/tools/week-number-calculator/` | Date & Time | ISO 8601 weeks and week-years, week date ranges, 52/53 weeks, labelled US-style numbering |
+| Time Zone Converter & Meeting Planner | `/tools/time-zone-converter/` | Date & Time | Intl.DateTimeFormat with the browser's IANA data, DST gaps and overlaps, working-hours strip |
+| Tip Calculator & Bill Splitter | `/tools/tip-calculator/` | Math & Finance | Presets and custom tip, pre-tax tipping, round up per person, exact cents |
+| Salary to Hourly Calculator | `/tools/salary-to-hourly-calculator/` | Math & Finance | Annual, monthly, bi-weekly, weekly, daily and hourly, with unpaid weeks off |
+| Profit Margin & Markup Calculator | `/tools/profit-margin-calculator/` | Math & Finance | Cost + price, cost + margin, cost + markup; margin vs markup table |
+| Fraction Calculator | `/tools/fraction-calculator/` | Math & Finance | Exact BigInt arithmetic, mixed numbers, steps (LCM, reciprocal, GCD), repeating decimals |
+| Mean, Median, Mode & Standard Deviation | `/tools/mean-median-mode-calculator/` | Math & Finance | Population and sample variance/SD, quartiles (median of halves), worked steps |
+| Attendance Calculator | `/tools/attendance-calculator/` | Student & Exam | Classes needed or classes you can miss, 1-10 class projection |
+| Weighted Average Calculator | `/tools/weighted-average-calculator/` | Student & Exam | % or plain weights, normalisation notice, contributions and steps |
+| Merit & Aggregate Calculator | `/tools/merit-calculator/` | Student & Exam | Custom weights plus verified presets in `src/_data/meritPresets.json` (NUST NET, PM&DC MDCAT) |
+| Random Number Generator | `/tools/random-number-generator/` | Fun & Random | crypto.getRandomValues with rejection sampling, unique/sort/decimals, download |
+| Coin Flip & Dice Roller | `/tools/coin-flip-dice-roller/` | Fun & Random | 1-100 coins, 1-10 dice d4-d20, history, reduced-motion aware animation |
+| Text Diff Checker | `/tools/text-diff-checker/` | Text & Writing | Myers line diff with word highlights in a Web Worker, side-by-side and inline |
+| Remove Duplicate Lines | `/tools/remove-duplicate-lines/` | Text & Writing | Ignore case/spaces, keep first or last, sort, copy and download |
+| URL Slug Generator | `/tools/slug-generator/` | Text & Writing | NFD accent removal, stop words, max length at a word boundary, bulk mode |
+| JWT Decoder | `/tools/jwt-decoder/` | Security & Privacy | Header/payload, iat/nbf/exp dates and expiry, HS256/384/512 verification with Web Crypto |
+| Password Strength Checker | `/tools/password-strength-checker/` | Security & Privacy | zxcvbn-ts (self-hosted, pinned) in a Web Worker, loaded on first use; NIST SP 800-63B-4 guidance |
+| HTML Formatter | `/tools/html-formatter/` | Code Formatters | Prettier HTML with inline CSS/JS, parse errors and unclosed-tag warnings by line, conservative minify |
+
+### Shared changes
+- `src/_data/vendor.js`: Prettier's html, postcss, babel and estree plugins, and zxcvbn-ts (`@zxcvbn-ts/core` 4.2.0, `language-common` 4.1.3, `language-en` 4.1.1), served from `/assets/vendor/` and loaded only on their own pages.
+- `assets/js/code-formatter.js` and `partials/code-formatter.njk`: HTML syntax errors and a warnings list for non-fatal problems.
+- `assets/js/common.js`: tables that scroll sideways become keyboard-focusable regions named after their caption.
+- `components.css`: segmented controls with exactly three tabs stay on one row on phones.
+- `categories.json`: intros, "how to choose" guides and FAQs for all 7 categories now cover the new tools; the security FAQ on password length follows NIST SP 800-63B-4.
+- Hours Calculator and Fraction Calculator join the homepage Popular tools (8 in total).
+
+### Merit presets not added
+- **UET Lahore (ECAT):** uet.edu.pk and admission.uet.edu.pk returned HTTP 522 (server unreachable) on 2026-10-31, so the current weights could not be checked against an official page.
+
+## 3.1.0: Homepage redesign and country support
+
+**Branch:** `redesign-and-tools` · **Target:** `main` · **Date:** October 31, 2026
+
+### Design
+- New header (All Tools and Categories dropdowns, theme pill, Ctrl+K search), hero homepage with an original inline SVG illustration, category and tool card grids, trust strip and a footer with a "Suggest a tool" card.
+- Tool, category and directory pages use the same design: category tile beside the H1, section label pills, tinted Quick Answer and result cards, worked examples as cards, quiet table of contents.
+
+### New pages
+| Page | URL | Notes |
+| :--- | :--- | :--- |
+| Salary Tax Calculator by Country | `/tools/salary-tax-calculator/` | Hub with a country picker; UAE, Saudi Arabia and Qatar no-tax statements with sources |
+| UK Salary Tax Calculator 2026/27 | `/tools/uk-salary-tax-calculator/` | Personal Allowance taper and Scottish bands (GOV.UK, HMRC) |
+| US Salary Tax Calculator 2026 (Federal) | `/tools/us-salary-tax-calculator/` | Single and married filing jointly (IRS Rev. Proc. 2025-32); state tax excluded |
+| India Salary Tax Calculator 2025-26 | `/tools/india-salary-tax-calculator/` | New regime, ₹75,000 standard deduction, 87A rebate with marginal relief, surcharge, cess (Finance Bill 2025/2026 memoranda, Budget Speech 2025-26) |
+
+### Changes to existing tools
+- **Pakistan Salary Tax:** runs on the shared salary tax engine; slabs now live in `src/_data/tax/pk-*.json` with FBR sources. Results unchanged; URL unchanged.
+- **Sales Tax, VAT & GST Calculator** (renamed from GST & Sales Tax): country presets for the EU 27, UK, India, Pakistan, Saudi Arabia, UAE, Canadian provinces, New Zealand, Singapore and South Africa, each with its source; US uses a custom rate.
+- **Gold Calculator:** troy ounce (NIST), Hong Kong tael troy (Cap. 68) and kilogram, for both weight and rate.
+- **Marks Percentage Calculator:** grading presets (older BISE bands, IBCC 2026 revised grading, CBSE pass mark, typical US letter grades) and a custom scale editor.
+- **CGPA to Percentage:** cites CBSE Circular 24/2010 for the 9.5 rule.
+- **Discount, Loan EMI, Compound Interest, SIP, Gold, Sales Tax:** shared currency selector preselected from the visitor's time zone and language; amounts in the currency's own format (lakh grouping for INR and BDT). Old discount links with `cur=$` still work.
+- **Date tools:** dates shown in the visitor's regional English format.
+
+### Not added (not verified from an official source)
+Bangladesh salary tax and VAT, Australia GST, India tax year 2026-27 (standard deduction and rebate under the Income-tax Act, 2025), the South Indian pavan, the Thai baht gold weight.
+
+## 3.0.0: Redesign, 7 new tools and 2 new categories
+
+**Branch:** `redesign-and-tools` · **Target:** `main` · **Date:** October 31, 2026
+
+### New categories
+- **Student & Exam Tools** (`/category/education/`): Grade Calculator and GPA Calculator moved here (their URLs are unchanged), plus two new tools.
+- **Code Formatters** (`/category/code/`).
+
+### New tools
+| Tool | URL | Notes |
+| :--- | :--- | :--- |
+| Pakistan Salary Tax Calculator 2026-27 | `/tools/pakistan-salary-tax-calculator/` | Finance Act 2026 slabs, 2025-26 comparison (incl. 9% surcharge), slab table rendered from `logic.js` data |
+| CGPA to Percentage Calculator | `/tools/cgpa-to-percentage-calculator/` | 4.0/5.0/10.0 scales; simple proportion, CBSE ×9.5, or the formula on the transcript; no HEC/university presets |
+| Marks Percentage Calculator | `/tools/marks-percentage-calculator/` | Total or subject-wise; data-driven typical BISE grade table |
+| Gold Calculator | `/tools/gold-calculator/` | Tola, gram, masha, ratti; 24/22/21/18K; making charges; no live prices |
+| GST & Sales Tax Calculator | `/tools/sales-tax-calculator/` | Add or remove tax; net + tax always add up to the total |
+| Python Formatter | `/tools/python-formatter/` | Ruff formatter as self-hosted WebAssembly |
+| Java Formatter | `/tools/java-formatter/` | Prettier + prettier-plugin-java, self-hosted |
+
+Every new tool has a pure `logic.js` with unit tests (including every figure from its brief), shareable result links where relevant, and an axe-core audit in light and dark mode.
+
+### Changes to existing tools
+- **Tool page template:** new section order, the tool above the fold on phones, plain content sections, one privacy line, quiet desktop table of contents, Person/publisher schema, `isAccessibleForFree`, ISO `lastReviewed` dates.
+- **Duplicates removed:** 11 pages showed the Quick Answer twice and 7 repeated their worked examples; each now appears once. Body "pitfalls" lists became front-matter Common Mistakes, and 7 calculators gained a Formula section from their existing text.
+- **Shareable result links** on percentage change, percentage, discount, days until date, date difference, add days, compound interest, loan EMI and SIP (old parameter names still work).
+- **Percentage Change Calculator:** a 3-step method, "Percent change word problems" with pre-filled links, and three search-shaped FAQs.
+- **Fixes:**
+  - Six tools loaded their scripts twice.
+  - Phones scrolled to the default result on load.
+  - Reduced-motion users got thousands of transitions on theme change.
+  - Fields that should be hidden were shown, because `.form-group` overrode the `hidden` attribute.
+  - Several scrollable tables could not be reached by keyboard.
+  - The GPA "Remove Term" button's accessible name did not match its text.
+  - Undersized tap targets.
+
+### Tooling
+- `check-external.js` blocks any third-party resource.
+- `check-links.js` requires every tool to be linked from the homepage, its category and `/tools/`.
+- `check-schema.js` validates the new schema fields.
+- `test-tool-ux.js` audits every tool listed in `tools.json`. It used to cover only 16.
+- Screenshots and the SEO report are now opt-in, so `npm test` no longer modifies tracked files.
+
+---
+
+## 2.0.0: Calculation engine & UX upgrade
+
 
 **Version:** 2.0.0
 **Branch:** `feat/tools-upgrade`

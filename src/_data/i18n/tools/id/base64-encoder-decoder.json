@@ -1,0 +1,228 @@
+{
+  "listing": {
+    "name": "Base64 Encoder & Decoder",
+    "shortName": "Base64 Encoder",
+    "description": "Encode dan decode teks UTF-8 ke format Base64 standar atau aman untuk URL secara lokal di browser Anda.",
+    "shortDescription": "Encode dan decode teks UTF-8 ke format Base64 standar atau aman untuk URL secara lokal di browser Anda.",
+    "keywords": [
+      "base64 encoder",
+      "base64 decoder",
+      "encode base64 online",
+      "base64 aman untuk URL",
+      "decode base64 online"
+    ]
+  },
+  "title": "Base64 Encoder & Decoder - Konverter Teks UTF-8 & URL",
+  "description": "Base64 encoder dan decoder online gratis. Ubah teks biasa dan UTF-8 menjadi string Base64 standar atau aman untuk URL di sisi klien, tanpa penyimpanan.",
+  "h1": "Base64 Encoder & Decoder",
+  "quickAnswer": "Base64 meng-encode data biner atau teks ke dalam alfabet ASCII 64 karakter (A–Z, a–z, 0–9, +, /) agar aman dikirim melalui protokol yang hanya mendukung teks seperti email dan HTTP. Base64 yang aman untuk URL mengganti '+' dan '/' dengan '-' dan '_' untuk mencegah bentrok dengan pemisah URL. Base64 adalah encoding representasi, bukan enkripsi, dan Base64 encoder & decoder ini berjalan sepenuhnya di browser Anda tanpa panggilan jaringan.",
+  "workedExamples": [
+    {
+      "title": "Encode Teks ASCII 'Man' ke Base64 Standar",
+      "inputs": [
+        "Mode: Encode ke Base64",
+        "Input: Man",
+        "Aman untuk URL: Nonaktif"
+      ],
+      "steps": [
+        "Ubah karakter ASCII menjadi byte 8-bit: 'M' (77), 'a' (97), 'n' (110)",
+        "Gabungkan menjadi aliran biner 24-bit: 01001101 01100001 01101110",
+        "Pecah menjadi empat bilangan indeks 6-bit: 19, 22, 5, 46",
+        "Petakan ke tabel indeks Base64: T, W, F, u"
+      ],
+      "result": "TWFu"
+    },
+    {
+      "title": "Encode Base64 Aman untuk URL dengan Simbol",
+      "inputs": [
+        "Mode: Encode ke Base64",
+        "Input: subjects?_d=1",
+        "Aman untuk URL: Aktif"
+      ],
+      "steps": [
+        "Ubah karakter ke representasi Base64 standar: c3ViamVjdHM/X2Q9MQ==",
+        "Ganti '+' standar dengan '-' dan '/' dengan '_'",
+        "String hasilnya aman dimasukkan ke URL dan parameter query"
+      ],
+      "result": "c3ViamVjdHM_X2Q9MQ=="
+    },
+    {
+      "title": "Decode Base64 ke Teks Biasa",
+      "inputs": [
+        "Mode: Decode dari Base64",
+        "Input: SGVsbG8gV29ybGQh"
+      ],
+      "steps": [
+        "Petakan setiap potongan empat karakter kembali ke nilai angka 6-bit",
+        "Gabungkan kembali potongan 6-bit menjadi urutan byte UTF-8 8-bit",
+        "Decode byte UTF-8 menjadi karakter Unicode"
+      ],
+      "result": "Hello World!"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Menyamakan Encoding dengan Enkripsi",
+      "description": "Base64 bukan sandi. Base64 tidak memiliki kunci rahasia, vektor inisialisasi, atau tingkat kesulitan komputasi. Siapa pun bisa men-decode Base64 dalam hitungan milidetik. Untuk keamanan, terapkan enkripsi AES-GCM atau ChaCha20 sebelum encoding Base64."
+    },
+    {
+      "title": "Kerusakan Pasangan Surrogate dengan btoa()",
+      "description": "Fungsi bawaan JavaScript <code>window.btoa()</code> mengasumsikan encoding Latin-1 (code point 0–255). Memasukkan karakter seperti emoji atau huruf vokal beraksen memicu DOMException. Implementasi yang benar selalu meng-encode string ke array byte UTF-8 terlebih dahulu."
+    },
+    {
+      "title": "String Terpotong Tanpa Padding",
+      "description": "Beberapa framework web menghapus karakter padding <code>=</code> di akhir. Decoder yang andal harus menormalkan panjang padding menjadi kelipatan 4 sebelum memproses agar tidak terjadi kesalahan decoding."
+    }
+  ],
+  "sources": [
+    {
+      "label": "RFC 4648: The Base16, Base32, and Base64 Data Encodings"
+    },
+    {
+      "label": "MDN Web Docs: Encoding dan decoding Base64"
+    },
+    {
+      "label": "WHATWG: API TextEncoder dan TextDecoder"
+    }
+  ],
+  "howto": {
+    "name": "Cara Encode dan Decode Base64 secara Online",
+    "description": "Panduan langkah demi langkah untuk mengubah teks UTF-8 ke Base64 dan men-decode Base64 kembali ke teks biasa.",
+    "steps": [
+      {
+        "name": "Pilih Mode Encode atau Decode",
+        "text": "Pilih 'Encode ke Base64' untuk mengubah teks biasa menjadi Base64, atau 'Decode dari Base64' untuk mengambil teks aslinya."
+      },
+      {
+        "name": "Masukkan Teks atau String Base64",
+        "text": "Ketik atau tempelkan input Anda ke kotak sumber. Karakter Unicode, emoji, dan alfabet asing ditangani secara otomatis."
+      },
+      {
+        "name": "Aktifkan Aman untuk URL & Salin Hasil",
+        "text": "Jika perlu, aktifkan opsi Aman untuk URL untuk mengganti + dan / dengan - dan _, lalu salin hasilnya."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Apakah Base64 termasuk enkripsi?",
+      "a": "Tidak. Base64 adalah algoritma encoding, bukan enkripsi. Base64 sama sekali tidak memberikan keamanan, perlindungan kerahasiaan, atau kerahasiaan kriptografis. Siapa pun yang menerima string Base64 bisa langsung men-decode-nya kembali ke teks biasa tanpa kunci."
+    },
+    {
+      "q": "Apa perbedaan Base64 standar dan Base64 aman untuk URL?",
+      "a": "Base64 standar (RFC 4648 §4) memakai '+' dan '/' dalam alfabet 64 karakternya, yang memerlukan percent-encoding jika ditaruh di URL atau nama berkas. Base64 aman untuk URL (RFC 4648 §5) mengganti '+' dengan '-' dan '/' dengan '_', sehingga tidak bentrok dengan pemisah URL."
+    },
+    {
+      "q": "Apakah encoder ini aman menangani karakter UTF-8 dan emoji?",
+      "a": "Ya. btoa() standar di browser gagal pada karakter di luar rentang Latin-1. Alat kami mengubah semua teks melalui encoder byte UTF-8 bawaan, sehingga huruf beraksen, aksara Asia, dan emoji (mis. 🚀) tetap utuh."
+    },
+    {
+      "q": "Apakah teks saya dikirim ke server?",
+      "a": "Tidak. Semua encoding dan decoding berjalan 100% secara lokal di memori browser Anda. Kami tidak pernah mengirim, mencatat, atau menyimpan data apa pun."
+    },
+    {
+      "q": "Mengapa output Base64 diakhiri tanda sama dengan '='?",
+      "a": "Simbol '=' adalah padding. Base64 memproses data per potongan 3 byte (24 bit) menjadi empat karakter 6-bit. Jika panjang byte input tidak habis dibagi 3, satu atau dua karakter '=' ditambahkan ke blok terakhir."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Formulir Base64 Encoder &amp; Decoder"
+    },
+    "content": {
+      "tool": {
+        "label1": "<input type=\"radio\" name=\"base64-mode\" value=\"encode\" checked class=\"cursor-pointer\">\n            <span>Encode ke Base64</span>",
+        "label2": "<input type=\"radio\" name=\"base64-mode\" value=\"decode\" class=\"cursor-pointer\">\n            <span>Decode dari Base64</span>",
+        "label3": "<input type=\"checkbox\" id=\"url-safe-toggle\" class=\"cursor-pointer\">\n            <span>Varian aman untuk URL (RFC 4648 §5)</span>"
+      },
+      "important-base64-is-encoding-not-encryption": {
+        "heading": "<svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z\"></path><line x1=\"12\" y1=\"9\" x2=\"12\" y2=\"13\"></line><line x1=\"12\" y1=\"17\" x2=\"12.01\" y2=\"17\"></line></svg>\n        Penting: Base64 Adalah Encoding, Bukan Enkripsi",
+        "p1": "Base64 adalah representasi terbuka yang dirancang untuk mengirim data biner melalui saluran yang hanya mendukung teks. Base64 <strong>sama sekali tidak memberikan kerahasiaan</strong>. Jangan pernah memakai Base64 saja untuk melindungi kata sandi, token rahasia, atau data pribadi pengguna."
+      },
+      "how-when-to-use-the-base64": {
+        "li1": "<strong>Menyematkan Data URI:</strong> Ubah gambar kecil, font, atau grafik SVG menjadi string Base64 untuk tag inline HTML/CSS <code>data:image/png;base64,...</code>.",
+        "li2": "<strong>Pengiriman Header HTTP:</strong> Format kredensial autentikasi HTTP basic (<code>username:password</code>) menjadi header <code>Authorization: Basic &lt;base64&gt;</code>.",
+        "li3": "<strong>Mengirim Parameter URL:</strong> Gunakan mode aman untuk URL untuk meng-encode ID kompleks, token state, atau objek JSON ke parameter query tanpa bentrok dengan karakter khusus.",
+        "li4": "<strong>Memeriksa Payload:</strong> Decode payload webhook yang masuk, segmen JWT, dan lampiran MIME email untuk memeriksa isi teksnya."
+      },
+      "base64-encoding-method-rfc-4648-worked": {
+        "p1": "Base64 memetakan data biner ke subset ASCII berisi 64 karakter: huruf besar (A–Z), huruf kecil (a–z), angka (0–9), dan dua simbol (+ dan /). Tiga byte 8-bit (24 bit) dibagi menjadi empat nilai 6-bit, sehingga total panjang payload bertambah tepat 33%."
+      },
+      "rfc-4648-standard-vector-man": {
+        "heading": "Vektor Standar RFC 4648: \"Man\"",
+        "p1": "Vektor uji kanonis 3 byte:",
+        "li1": "Teks biasa: <code>Man</code>",
+        "li2": "Byte ASCII: <code>77, 97, 110</code>",
+        "li3": "Biner (24 bit): <code>01001101 01100001 01101110</code>",
+        "li4": "Potongan 6-bit: <code>19, 22, 5, 46</code>",
+        "li5": "Base64: <code>TWFu</code>"
+      },
+      "url-safe-substitution": {
+        "heading": "Substitusi Aman untuk URL",
+        "p1": "Representasi aman untuk URL dan nama berkas:",
+        "li1": "Standar: <code>subjects?_d</code> &rarr; <code>c3ViamVjdHM/X2Q=</code>",
+        "li2": "Aman untuk URL: <code>+</code> &rarr; <code>-</code>, <code>/</code> &rarr; <code>_</code>",
+        "li3": "Hasil: <code>c3ViamVjdHM_X2Q=</code>",
+        "li4": "Dapat langsung dimasukkan ke parameter query tanpa percent-encoding."
+      },
+      "multilingual-utf-8-handling": {
+        "heading": "Penanganan UTF-8 Multibahasa",
+        "p1": "Aksen dan emoji di-encode tanpa kehilangan data:",
+        "li1": "Input: <code>café 🚀</code>",
+        "li2": "Byte UTF-8: 9 byte",
+        "li3": "Base64: <code>Y2Fmw6kg8J+agA==</code>",
+        "li4": "Di-decode kembali ke karakter asli tanpa kerusakan."
+      }
+    },
+    "text": {
+      "clear-btn": "Hapus",
+      "size-meter": "0.0 KB / 1 MB",
+      "convert-btn": "Encode ke Base64",
+      "swap-btn": "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><polyline points=\"17 1 21 5 17 9\"></polyline><path d=\"M3 11V9a4 4 0 0 1 4-4h14\"></path><polyline points=\"7 23 3 19 7 15\"></polyline><path d=\"M21 13v2a4 4 0 0 1-4 4H3\"></path></svg>\n          Tukar Input &amp; Output",
+      "copy-btn": "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"9\" y=\"9\" width=\"13\" height=\"13\" rx=\"2\" ry=\"2\"></rect><path d=\"M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1\"></path></svg>\n          Salin Hasil",
+      "how-to-use-heading": "Cara &amp; Kapan Menggunakan Base64 Encoder / Decoder",
+      "article-heading": "Metode Encoding Base64, RFC 4648 &amp; Contoh Vektor"
+    },
+    "label": {
+      "base64-input": "Teks yang Di-encode (Teks Biasa UTF-8):",
+      "base64-output": "Output Ter-encode Base64:"
+    },
+    "placeholder": {
+      "base64-input": "Ketik atau tempelkan teks biasa di sini (mendukung emoji, alfabet asing, dan simbol)...",
+      "base64-output": "Hasil konversi akan muncul di sini secara langsung saat Anda mengetik..."
+    }
+  },
+  "client": {
+    "labels": {
+      "encode": {
+        "input": "Teks yang Di-encode (Teks Biasa UTF-8):",
+        "output": "Output Ter-encode Base64:",
+        "button": "Encode ke Base64",
+        "placeholder": "Ketik atau tempelkan teks biasa di sini (mendukung emoji, alfabet asing, dan simbol)..."
+      },
+      "decode": {
+        "input": "String Base64 yang Di-decode:",
+        "output": "Teks Biasa Hasil Decode (UTF-8):",
+        "button": "Decode dari Base64",
+        "placeholder": "Tempelkan string Base64 di sini (mis. TWFu atau Y2Fmw6k=)..."
+      }
+    },
+    "sizeMeter": "{{kb}} KB / {{max}} MB",
+    "status": {
+      "encoded": "✓ {{input}} karakter di-encode menjadi {{output}} karakter Base64 ({{bytes}} byte)",
+      "decoded": "✓ {{input}} karakter Base64 di-decode menjadi {{output}} karakter teks biasa"
+    },
+    "errors": {
+      "notText": "Input harus berupa string teks yang valid.",
+      "notBase64": "Input harus berupa string Base64 yang valid.",
+      "tooLarge": "Input melebihi batas aman 1 MB (maks 1,048,576 karakter). Ukuran saat ini: {{size}} karakter.",
+      "encoding": "Kesalahan encoding: {{message}}",
+      "alphabet": "Format Base64 tidak valid: berisi karakter di luar alfabet Base64.",
+      "decoding": "Kesalahan decoding: data Base64 rusak atau urutan byte UTF-8 tidak valid ({{message}})."
+    },
+    "toast": {
+      "nothingToCopy": "Tidak ada yang bisa disalin. Masukkan teks terlebih dahulu.",
+      "copied": "Hasil disalin ke papan klip"
+    }
+  }
+}

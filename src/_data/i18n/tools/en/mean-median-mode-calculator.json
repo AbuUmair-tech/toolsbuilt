@@ -1,0 +1,297 @@
+{
+  "listing": {
+    "name": "Mean, Median, Mode & Standard Deviation Calculator",
+    "shortName": "Mean, Median & Mode",
+    "description": "Get the mean, median, mode, range, quartiles, variance and standard deviation of a list of numbers, with the working shown.",
+    "shortDescription": "Mean, median, mode, quartiles and standard deviation with step-by-step working.",
+    "keywords": [
+      "mean median mode calculator",
+      "standard deviation calculator",
+      "average calculator",
+      "variance calculator",
+      "quartile calculator",
+      "statistics calculator",
+      "sample standard deviation"
+    ]
+  },
+  "title": "Mean, Median, Mode & Standard Deviation Calculator",
+  "description": "Paste a list of numbers to get the mean, median, mode, range, quartiles, variance and population and sample standard deviation, with the working.",
+  "h1": "Mean, Median, Mode & Standard Deviation Calculator",
+  "quickAnswer": "The mean is the sum divided by the count, the median is the middle value once the numbers are sorted, and the mode is the most frequent value. For 2, 4, 4, 4, 5, 5, 7, 9 the mean is 40 ÷ 8 = 5, the median is (4 + 5) ÷ 2 = 4.5 and the mode is 4. The population standard deviation is 2, and the sample standard deviation (dividing by n − 1) is 2.1381.",
+  "formula": {
+    "title": "Statistics Formulas",
+    "expression": "Mean x̄ = Σx ÷ n   ·   Population SD σ = √(Σ(x − x̄)² ÷ n)   ·   Sample SD s = √(Σ(x − x̄)² ÷ (n − 1))",
+    "explanation": "The median is the middle value of the sorted list, or the average of the two middle values when the count is even. The mode is the value that appears most often; if several values tie for the highest count they are all modes, and if every value appears equally often there is no mode. Quartiles use the median-of-halves method: Q1 is the median of the lower half and Q3 the median of the upper half, leaving out the overall median when the count is odd. Variance is the average squared distance from the mean, and standard deviation is its square root.",
+    "variables": [
+      {
+        "name": "Population (σ, divide by n)",
+        "description": "Use when your numbers are the whole group you care about, such as every test score in a class."
+      },
+      {
+        "name": "Sample (s, divide by n − 1)",
+        "description": "Use when your numbers are a sample from a bigger group and you want to estimate that group's spread (Bessel's correction)."
+      },
+      {
+        "name": "IQR",
+        "description": "Interquartile range, Q3 − Q1: the spread of the middle half of the data."
+      }
+    ]
+  },
+  "workedExamples": [
+    {
+      "title": "2, 4, 4, 4, 5, 5, 7, 9",
+      "inputs": [
+        "8 values"
+      ],
+      "steps": [
+        "Mean: (2 + 4 + 4 + 4 + 5 + 5 + 7 + 9) ÷ 8 = 40 ÷ 8 = 5",
+        "Median: 8 values, so average the 4th and 5th: (4 + 5) ÷ 2 = 4.5",
+        "Mode: 4 appears 3 times, more than any other value",
+        "Squared deviations: 9, 1, 1, 1, 0, 0, 4, 16; sum = 32",
+        "Population SD: √(32 ÷ 8) = √4 = 2; sample SD: √(32 ÷ 7) = 2.1381"
+      ],
+      "result": "Mean 5, median 4.5, mode 4, σ = 2, s = 2.1381",
+      "link": "/tools/mean-median-mode-calculator/?data=2%2C4%2C4%2C4%2C5%2C5%2C7%2C9#tool"
+    },
+    {
+      "title": "1, 2, 3 (no mode)",
+      "inputs": [
+        "3 values"
+      ],
+      "steps": [
+        "Mean: 6 ÷ 3 = 2; median: the middle value, 2",
+        "Each value appears once, so there is no mode",
+        "Population SD: √(2 ÷ 3) = 0.8165; sample SD: √(2 ÷ 2) = 1"
+      ],
+      "result": "Mean 2, median 2, no mode",
+      "link": "/tools/mean-median-mode-calculator/?data=1%2C2%2C3#tool"
+    },
+    {
+      "title": "Quartiles of 1, 3, 5, 7, 9",
+      "inputs": [
+        "5 values (odd count)"
+      ],
+      "steps": [
+        "Median: 5 (the 3rd value)",
+        "Lower half without the median: 1, 3, so Q1 = 2",
+        "Upper half without the median: 7, 9, so Q3 = 8"
+      ],
+      "result": "Q1 = 2, Q3 = 8, IQR = 6",
+      "link": "/tools/mean-median-mode-calculator/?data=1%2C3%2C5%2C7%2C9#tool"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Forgetting to sort before finding the median",
+      "description": "The median is the middle of the <em>sorted</em> list. The middle of 9, 2, 5 as typed is 2, but the median is 5."
+    },
+    {
+      "title": "Using the population formula for a sample",
+      "description": "Dividing by n underestimates the spread when your data is a sample from a larger group. Use the sample standard deviation (n − 1) for surveys, experiments and measurements of a subset."
+    },
+    {
+      "title": "Expecting one mode",
+      "description": "Data can have one mode, several modes, or none. 1, 1, 2, 2, 3 has two modes (1 and 2); 1, 2, 3 has none."
+    },
+    {
+      "title": "Comparing quartiles from different tools",
+      "description": "There are several accepted ways to calculate quartiles, and they can give slightly different answers for the same data. Spreadsheets often interpolate (Excel's QUARTILE.INC); this calculator uses the median-of-halves method taught in many courses."
+    },
+    {
+      "title": "Typing commas as decimal points",
+      "description": "Commas separate values here, so 2,5 is read as two numbers, 2 and 5. Use a dot for decimals: 2.5."
+    }
+  ],
+  "sources": [
+    {
+      "name": "NIST/SEMATECH e-Handbook of Statistical Methods: Measures of location",
+      "url": "https://www.itl.nist.gov/div898/handbook/eda/section3/eda351.htm"
+    },
+    {
+      "name": "NIST/SEMATECH e-Handbook of Statistical Methods: Measures of scale",
+      "url": "https://www.itl.nist.gov/div898/handbook/eda/section3/eda356.htm"
+    },
+    {
+      "name": "Microsoft Support: STDEV.P and STDEV.S functions",
+      "url": "https://support.microsoft.com/en-us/office/stdev-s-function-7d69cf97-0c1f-4acf-be27-f3e83904cc23"
+    },
+    {
+      "name": "Microsoft Support: QUARTILE.INC function (an interpolating quartile method)",
+      "url": "https://support.microsoft.com/en-us/office/quartile-inc-function-1bbacc80-5075-42f1-aed6-47d735c4819d"
+    }
+  ],
+  "howto": {
+    "name": "How to Calculate Mean, Median, Mode and Standard Deviation",
+    "description": "Paste your numbers to get every summary statistic with the working shown.",
+    "steps": [
+      {
+        "name": "Enter your numbers",
+        "text": "Type or paste values separated by commas, spaces or new lines."
+      },
+      {
+        "name": "Choose decimal places",
+        "text": "Pick how many decimal places to show in the results."
+      },
+      {
+        "name": "Read the statistics",
+        "text": "See the count, sum, mean, median, mode, range, quartiles, variance and standard deviation."
+      },
+      {
+        "name": "Check the working",
+        "text": "Follow the steps for the mean, median and standard deviation, and the sorted data."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "How do you find the mean, median and mode?",
+      "a": "Mean: add all values and divide by how many there are. Median: sort the values and take the middle one, or the average of the two middle ones. Mode: the value that appears most often."
+    },
+    {
+      "q": "What is the difference between population and sample standard deviation?",
+      "a": "Population standard deviation divides the sum of squared deviations by n and describes a complete group. Sample standard deviation divides by n − 1 and estimates the spread of a larger population from a sample, so it is slightly larger."
+    },
+    {
+      "q": "How do I calculate standard deviation by hand?",
+      "a": "Find the mean, subtract it from each value and square the result, add those squares, divide by n (population) or n − 1 (sample), then take the square root. The calculator shows each of these steps."
+    },
+    {
+      "q": "What if there is no mode?",
+      "a": "If every value appears the same number of times, no value is more common than the others and the data has no mode. 1, 2, 3 has no mode."
+    },
+    {
+      "q": "Can a data set have more than one mode?",
+      "a": "Yes. If two or more values tie for the highest count, they are all modes. 1, 1, 2, 2, 3 is bimodal with modes 1 and 2."
+    },
+    {
+      "q": "How are the quartiles calculated?",
+      "a": "This calculator uses the median-of-halves method: split the sorted data into a lower and upper half (leaving out the median when the count is odd) and take the median of each half as Q1 and Q3."
+    },
+    {
+      "q": "How should I enter my numbers?",
+      "a": "Separate numbers with commas, spaces, semicolons or new lines, and use a dot for decimals. You can paste a column straight from a spreadsheet."
+    },
+    {
+      "q": "Is the median or the mean better?",
+      "a": "The mean uses every value but is pulled by outliers; the median is the middle value and is not affected by a few extreme numbers. For skewed data such as incomes or house prices, the median is usually more representative."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Statistics Calculator",
+      "copy-result-btn": "Copy result to clipboard"
+    },
+    "label": {
+      "data": "Numbers <span class=\"text-accent\">*</span>",
+      "dp": "Decimal places"
+    },
+    "text": {
+      "data-hint": "Separate values with commas, spaces or new lines. Use a dot for decimals (2.5).",
+      "reset-btn": "Reset",
+      "result-header-text": "Summary",
+      "copy-result-btn": "<span data-icon=\"copy\"></span> Copy Result"
+    },
+    "content": {
+      "tool": {
+        "button1": "Calculate",
+        "summary1": "Sorted data and working",
+        "p1": "Sorted data",
+        "p2": "Mean",
+        "p3": "Median",
+        "p4": "Standard deviation"
+      },
+      "mean-median-or-mode-which-average": {
+        "heading": "Mean, Median or Mode: Which Average to Use",
+        "caption1": "When to use the mean, median and mode",
+        "th1": "Measure",
+        "th2": "What it tells you",
+        "th3": "Best for",
+        "td1": "Mean",
+        "td2": "The balance point of all values",
+        "td3": "Symmetric data without extreme outliers, such as heights or test scores",
+        "td4": "Median",
+        "td5": "The middle value; half are above, half below",
+        "td6": "Skewed data or data with outliers, such as incomes and house prices",
+        "td7": "Mode",
+        "td8": "The most common value",
+        "td9": "Categories and repeated values, such as shoe sizes or survey answers",
+        "p1": "An outlier can move the mean a long way while leaving the median almost unchanged. For the values 30, 32, 35, 38 and 40, the mean and median are both 35. Replace 40 with 400 and the median stays 35, but the mean jumps to 107. That is why official income statistics usually report the median."
+      },
+      "reading-the-standard-deviation": {
+        "heading": "Reading the Standard Deviation",
+        "p1": "Standard deviation measures how far values typically sit from the mean, in the same units as the data. A small standard deviation means the values cluster tightly; a large one means they are spread out. For data shaped like a bell curve, about 68% of values fall within one standard deviation of the mean and about 95% within two.",
+        "li1": "<strong>Variance</strong> is the standard deviation squared. It is used in further calculations but is in squared units, so it is harder to interpret directly.",
+        "li2": "<strong>Range</strong> (max − min) is quick but depends only on the two most extreme values.",
+        "li3": "<strong>Interquartile range</strong> (Q3 − Q1) covers the middle half of the data and ignores outliers. A common rule flags values more than 1.5 × IQR below Q1 or above Q3 as possible outliers.",
+        "p2": "In spreadsheets, STDEV.P and VAR.P match the population figures here, and STDEV.S and VAR.S match the sample figures. All calculations run in your browser, so you can paste private data safely."
+      }
+    },
+    "title": {
+      "copy-result-btn": "Copy result to clipboard"
+    }
+  },
+  "client": {
+    "errors": {
+      "empty": "Enter at least one number. Separate values with commas, spaces or new lines.",
+      "notNumber": {
+        "one": "{{shown}} is not a number. Use digits with a dot for decimals (2.5), separated by commas, spaces or new lines.",
+        "other": "{{shown}} are not a number. Use digits with a dot for decimals (2.5), separated by commas, spaces or new lines.",
+        "more": "{{shown}} and {{more}} more are not a number. Use digits with a dot for decimals (2.5), separated by commas, spaces or new lines."
+      },
+      "tooMany": "Enter at most {{max}} values.",
+      "tooLarge": "One of the values is too large to work with.",
+      "noNumbers": "Enter at least one number.",
+      "notAllNumbers": "Every value must be a number."
+    },
+    "quartileMethod": "Median of halves: Q1 is the median of the lower half and Q3 the median of the upper half, leaving out the overall median when the count is odd.",
+    "quartileNote": "Quartile method: {{method}}",
+    "more": "… ({{count}} more)",
+    "steps": {
+      "add": {
+        "one": "Add the {{count}} value: {{values}} = {{sum}}",
+        "other": "Add the {{count}} values: {{values}} = {{sum}}"
+      },
+      "divide": "Divide by the count: {{sum}} ÷ {{count}} = {{mean}}",
+      "sort": "Sort the values: {{values}}",
+      "odd": "{{count}} is odd, so the median is the middle value, number {{position}}: {{median}}",
+      "even": "{{count}} is even, so the median is the average of values {{first}} and {{second}}: ({{a}} + {{b}}) ÷ 2 = {{median}}",
+      "deviations": "Subtract the mean from each value and square it: {{deviations}}",
+      "sumOfSquares": "Add the squared deviations: sum of squares = {{ss}}",
+      "populationVariance": "Population variance σ² = {{ss}} ÷ {{count}} = {{variance}}, so σ = √{{variance}} = {{sd}}",
+      "sampleVariance": "Sample variance s² = {{ss}} ÷ ({{count}} − 1) = {{variance}}, so s = √{{variance}} = {{sd}}",
+      "sampleNeedsTwo": "The sample standard deviation needs at least 2 values (it divides by n − 1)."
+    },
+    "stats": {
+      "modeValue": "{{modes}} (appears {{count}} times)",
+      "noMode": "No mode",
+      "needsTwo": "Needs 2+ values",
+      "count": "Count (n)",
+      "sum": "Sum",
+      "mean": "Mean",
+      "median": "Median",
+      "mode": "Mode",
+      "modes": "Modes",
+      "min": "Minimum",
+      "max": "Maximum",
+      "range": "Range",
+      "populationSD": "Population SD (σ)",
+      "sampleSD": "Sample SD (s)",
+      "populationVariance": "Population variance (σ²)",
+      "sampleVariance": "Sample variance (s²)",
+      "q1": "Q1 (lower quartile)",
+      "q3": "Q3 (upper quartile)",
+      "iqr": "Interquartile range"
+    },
+    "result": {
+      "header": {
+        "one": "Summary of {{count}} value",
+        "other": "Summary of {{count}} values"
+      },
+      "primary": "Mean {{mean}} · Median {{median}} · {{mode}}",
+      "mode": "Mode {{modes}}"
+    },
+    "copy": {
+      "line": "{{label}}: {{value}}"
+    }
+  }
+}

@@ -1,0 +1,94 @@
+---
+layout: layouts/tool.njk
+toolSlug: attendance-calculator
+permalink: /tools/attendance-calculator/
+extraCss: "/tools/attendance-calculator/style.css"
+lastReviewed: "2026-10-31"
+---
+
+    <!-- Tool Form Container -->
+    <section class="tool-container" aria-label="{{ 'ariaLabel.tool-section1' | pt }}">
+      <form id="calculator-form" novalidate>
+        <div class="form-grid two-col">
+          <div class="form-group">
+            <label for="attended">{{ 'label.attended' | pt }}</label>
+            <input type="number" inputmode="numeric" step="1" min="0" id="attended" data-param="attended" class="form-control" value="30" required aria-required="true">
+          </div>
+          <div class="form-group">
+            <label for="total">{{ 'label.total' | pt }}</label>
+            <input type="number" inputmode="numeric" step="1" min="1" id="total" data-param="total" class="form-control" value="40" required aria-required="true">
+          </div>
+        </div>
+
+        <fieldset class="choice-toggle attendance-presets">
+          <legend>{{ 'content.tool.legend1' | pt }}</legend>
+          <div class="choice-toggle-options">
+            {% for p in [75, 80, 85] %}
+            <label class="choice-toggle-option">
+              <input type="radio" name="target-preset" value="{{ p }}"{% if p == 75 %} checked{% endif %}>
+              <span>{{ p }}%</span>
+            </label>
+            {% endfor %}
+          </div>
+        </fieldset>
+        <div class="form-group attendance-target">
+          <label for="target">{{ 'label.target' | pt }}</label>
+          <input type="number" inputmode="decimal" step="any" min="1" max="100" id="target" data-param="target" class="form-control" value="75">
+        </div>
+
+        <div class="button-group mt-6">
+          <button type="submit" class="btn btn-primary">{{ 'content.tool.button1' | pt }}</button>
+          <button type="button" class="btn btn-secondary" id="reset-btn">{{ 'text.reset-btn' | pt }}</button>
+        </div>
+      </form>
+
+      <div id="error-box" class="hidden form-error" role="alert"></div>
+
+      <div id="result-box" class="result-box is-visible" aria-live="polite">
+        <div class="result-header">
+          <span id="result-header-text">{{ 'text.result-header-text' | pt }}</span>
+          <button type="button" class="btn btn-sm btn-ghost" id="copy-result-btn" title="{{ 'title.copy-result-btn' | pt }}" aria-label="{{ 'ariaLabel.copy-result-btn' | pt }}">
+            {{ 'text.copy-result-btn' | pt }}
+          </button>
+        </div>
+        <div class="result-primary" id="result-primary-text">--</div>
+        <p class="attendance-advice" id="attendance-advice"></p>
+        <div class="table-wrapper attendance-table-wrapper">
+          <table class="table attendance-table">
+            <caption id="projection-caption">{{ 'text.projection-caption' | pt }}</caption>
+            <thead><tr><th scope="col">{{ 'content.tool.th1' | pt }}</th><th scope="col">{{ 'content.tool.th2' | pt }}</th><th scope="col">{{ 'content.tool.th3' | pt }}</th></tr></thead>
+            <tbody id="projection-rows"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- tool-end -->
+
+    <section class="content-section">
+      <h2>{{ 'content.quick-reference-for-a-75-requirement.heading' | pt }}</h2>
+      <p>{{ 'content.quick-reference-for-a-75-requirement.p1' | pt }}</p>
+      <div class="table-wrapper">
+        <table class="table">
+          <caption class="visually-hidden">{{ 'content.quick-reference-for-a-75-requirement.caption1' | pt }}</caption>
+          <thead><tr><th scope="col">{{ 'content.quick-reference-for-a-75-requirement.th1' | pt }}</th><th scope="col">{{ 'content.quick-reference-for-a-75-requirement.th2' | pt }}</th><th scope="col">{{ 'content.quick-reference-for-a-75-requirement.th3' | pt }}</th></tr></thead>
+          <tbody>
+            <tr><td>20 / 30</td><td>66.67%</td><td>{{ 'content.quick-reference-for-a-75-requirement.td1' | pt }}</td></tr>
+            <tr><td>25 / 35</td><td>71.43%</td><td>{{ 'content.quick-reference-for-a-75-requirement.td2' | pt }}</td></tr>
+            <tr><td>30 / 40</td><td>75.00%</td><td>{{ 'content.quick-reference-for-a-75-requirement.td3' | pt }}</td></tr>
+            <tr><td>36 / 45</td><td>80.00%</td><td>{{ 'content.quick-reference-for-a-75-requirement.td4' | pt }}</td></tr>
+            <tr><td>45 / 50</td><td>90.00%</td><td>{{ 'content.quick-reference-for-a-75-requirement.td5' | pt }}</td></tr>
+            <tr><td>70 / 100</td><td>70.00%</td><td>{{ 'content.quick-reference-for-a-75-requirement.td6' | pt }}</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>{{ 'content.planning-the-rest-of-the-term.heading' | pt }}</h2>
+      <ul class="content-list">
+        <li>{{ 'content.planning-the-rest-of-the-term.li1' | pt }}</li>
+        <li>{{ 'content.planning-the-rest-of-the-term.li2' | pt }}</li>
+        <li>{{ 'content.planning-the-rest-of-the-term.li3' | pt }}</li>
+        <li>{{ 'content.planning-the-rest-of-the-term.li4' | pt }}</li>
+      </ul>
+      <p>{{ 'content.planning-the-rest-of-the-term.p1' | pt }}</p>
+    </section>

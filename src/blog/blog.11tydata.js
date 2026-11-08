@@ -1,4 +1,6 @@
 module.exports = {
+  // Blog posts stay English-only: never copied into language folders, text stays in the posts
+  i18n: false,
   layout: "layouts/post.njk",
   tags: "post",
   eleventyComputed: {

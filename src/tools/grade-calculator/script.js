@@ -5,6 +5,7 @@
 
 document.addEventListener('DOMContentLoaded', () => {
   const logic = window.GradeCalculatorLogic;
+  const T = ToolsBuilt.scope('grade-calculator');
   const tbody = document.getElementById('assignments-tbody');
   const addRowBtn = document.getElementById('add-assignment-btn');
   const targetGradeInput = document.getElementById('target-grade-val');
@@ -44,7 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const scoreInput = row.querySelector('.assign-score');
       const weightInput = row.querySelector('.assign-weight');
 
-      const name = nameInput ? nameInput.value.trim() : `Item ${idx + 1}`;
+      const name = nameInput ? nameInput.value.trim() : T('itemName', { n: idx + 1 });
       const score = scoreInput ? parseFloat(scoreInput.value) : NaN;
       const weight = weightInput ? parseFloat(weightInput.value) : NaN;
 
@@ -85,7 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
         finalWeightVal
       );
 
-      lastResultText = `Current Grade: ${curRes.currentGrade}% (${curRes.letterGrade}) across ${curRes.totalWeight}% completed course weight. Target Grade: ${targetGradeVal}%. Needed on Final (${finalWeightVal}% weight): ${finalRes.neededScore}%.`;
+      lastResultText = T('copy.text', { current: curRes.currentGrade, letter: curRes.letterGrade, weight: curRes.totalWeight, target: targetGradeVal, finalWeight: finalWeightVal, needed: finalRes.neededScore });
 
       renderResult(curRes, finalRes);
     } catch (err) {
@@ -102,39 +103,39 @@ document.addEventListener('DOMContentLoaded', () => {
     const statsGrid = document.getElementById('result-stats-grid');
     const formulaBox = document.getElementById('formula-explanation');
 
-    if (headerEl) headerEl.textContent = 'Current Grade & Final Target';
+    if (headerEl) headerEl.textContent = T('result.header');
     if (primaryEl) {
-      primaryEl.textContent = `${curRes.currentGrade}% (${curRes.letterGrade})`;
+      primaryEl.textContent = T('result.grade', { grade: curRes.currentGrade, letter: curRes.letterGrade });
     }
 
     if (statsGrid) {
       statsGrid.innerHTML = `
         <div class="result-stat-card">
-          <span class="stat-label">Current Grade</span>
-          <span class="stat-value">${curRes.currentGrade}% (${curRes.letterGrade})</span>
+          <span class="stat-label">${T('stats.currentGrade')}</span>
+          <span class="stat-value">${T('result.grade', { grade: curRes.currentGrade, letter: curRes.letterGrade })}</span>
         </div>
         <div class="result-stat-card">
-          <span class="stat-label">Weight Completed</span>
+          <span class="stat-label">${T('stats.weightCompleted')}</span>
           <span class="stat-value">${curRes.totalWeight}%</span>
         </div>
         <div class="result-stat-card">
-          <span class="stat-label">Target Overall Grade</span>
+          <span class="stat-label">${T('stats.targetGrade')}</span>
           <span class="stat-value">${finalRes.targetGrade}%</span>
         </div>
-        <div class="result-stat-card" style="border-left: 3px solid var(--accent-primary);">
-          <span class="stat-label">Score Needed on Final</span>
-          <span class="stat-value" style="color: var(--accent-primary);">${finalRes.neededScore}%</span>
+        <div class="result-stat-card is-highlight">
+          <span class="stat-label">${T('stats.neededOnFinal')}</span>
+          <span class="stat-value text-accent">${finalRes.neededScore}%</span>
         </div>
       `;
     }
 
     if (formulaBox) {
       formulaBox.innerHTML = `
-        <strong>Final Exam Guidance:</strong>
-        <p style="margin: 0.35rem 0 0.5rem 0;">${finalRes.message}</p>
-        <div style="font-size: 0.85rem; color: var(--text-muted);">
-          Formula: Required Final = [Target × (Completed W + Final W) - Current Points] ÷ Final W<br>
-          Calculation: [${finalRes.targetGrade} × ${curRes.totalWeight + finalRes.finalWeight}% - ${curRes.totalPoints}] ÷ ${finalRes.finalWeight}% = <strong>${finalRes.neededScore}%</strong>
+        ${T('formula.guidance')}
+        <p class="mt-1 mb-2">${finalRes.message}</p>
+        <div class="text-sm text-secondary">
+          ${T('formula.formula')}<br>
+          ${T('formula.calculation', { target: finalRes.targetGrade, weight: curRes.totalWeight + finalRes.finalWeight, points: curRes.totalPoints, finalWeight: finalRes.finalWeight, needed: finalRes.neededScore })}
         </div>
       `;
       formulaBox.classList.remove('hidden');
@@ -151,16 +152,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const rowId = `row-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
     tr.innerHTML = `
       <td>
-        <input type="text" class="form-control assign-name" placeholder="e.g. Project 1" value="${name}" aria-label="Assignment Name">
+        <input type="text" class="form-control assign-name" placeholder="${T('rows.placeholder')}" value="${name}" aria-label="${T('rows.nameLabel')}">
       </td>
       <td>
-        <input type="number" step="any" min="0" max="200" class="form-control assign-score" placeholder="90" value="${score}" required aria-label="Grade Percentage">
+        <input type="number" step="any" min="0" max="200" class="form-control assign-score" placeholder="90" value="${score}" required aria-label="${T('rows.scoreLabel')}">
       </td>
       <td>
-        <input type="number" step="any" min="0" max="100" class="form-control assign-weight" placeholder="20" value="${weight}" required aria-label="Weight Percentage">
+        <input type="number" step="any" min="0" max="100" class="form-control assign-weight" placeholder="20" value="${weight}" required aria-label="${T('rows.weightLabel')}">
       </td>
-      <td style="text-align: center;">
-        <button type="button" class="btn btn-sm btn-ghost remove-row-btn" aria-label="Remove assignment row" title="Remove assignment row">
+      <td class="text-center">
+        <button type="button" class="btn btn-sm btn-ghost remove-row-btn" aria-label="${T('rows.remove')}" title="${T('rows.remove')}">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
         </button>
       </td>
@@ -172,7 +173,7 @@ document.addEventListener('DOMContentLoaded', () => {
         tr.remove();
         triggerDebounced();
       } else {
-        showError('You must keep at least one assignment row.');
+        showError(T('errors.keepOneRow'));
       }
     });
 
@@ -214,10 +215,10 @@ document.addEventListener('DOMContentLoaded', () => {
   if (resetBtn) {
     resetBtn.addEventListener('click', () => {
       tbody.innerHTML = '';
-      tbody.appendChild(createAssignmentRow('Homework', 95, 20));
-      tbody.appendChild(createAssignmentRow('Midterm Exam', 82, 25));
-      tbody.appendChild(createAssignmentRow('Class Project', 90, 15));
-      tbody.appendChild(createAssignmentRow('Quizzes', 88, 10));
+      tbody.appendChild(createAssignmentRow(T('defaults.homework'), 95, 20));
+      tbody.appendChild(createAssignmentRow(T('defaults.midterm'), 82, 25));
+      tbody.appendChild(createAssignmentRow(T('defaults.project'), 90, 15));
+      tbody.appendChild(createAssignmentRow(T('defaults.quizzes'), 88, 10));
       targetGradeInput.value = 90;
       finalWeightInput.value = 30;
       clearError();
@@ -240,7 +241,7 @@ document.addEventListener('DOMContentLoaded', () => {
       try {
         await navigator.clipboard.writeText(lastResultText);
         const origText = copyBtn.innerHTML;
-        copyBtn.innerHTML = '<span>Copied!</span>';
+        copyBtn.innerHTML = T('copy.copied');
         setTimeout(() => { copyBtn.innerHTML = origText; }, 2000);
       } catch (e) {
         console.error('Copy failed:', e);
@@ -257,7 +258,7 @@ document.addEventListener('DOMContentLoaded', () => {
         tr.remove();
         triggerDebounced();
       } else {
-        showError('You must keep at least one assignment row.');
+        showError(T('errors.keepOneRow'));
       }
     });
   });

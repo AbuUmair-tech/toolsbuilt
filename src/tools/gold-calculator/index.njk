@@ -1,0 +1,212 @@
+---
+layout: layouts/tool.njk
+toolSlug: gold-calculator
+permalink: /tools/gold-calculator/
+extraCss: "/tools/gold-calculator/style.css"
+lastReviewed: "2026-10-31"
+---
+{% from "partials/currency-select.njk" import currencySelect, countryData with context %}
+{{ countryData(countries) }}
+
+    <!-- Tool Form Container -->
+    <section class="tool-container" aria-label="{{ 'ariaLabel.tool-section1' | pt }}">
+      <form id="calculator-form" novalidate>
+        <fieldset class="gold-fieldset">
+          <legend>{{ 'content.tool.legend1' | pt }}</legend>
+          <div class="form-grid gold-rate-grid">
+            <div class="form-group">
+              <label for="gold-rate">{{ 'label.gold-rate' | pt }}</label>
+              <input type="number" inputmode="decimal" step="any" min="0" id="gold-rate" data-param="rate" class="form-control" placeholder="{{ 'placeholder.gold-rate' | pt }}" required aria-required="true" aria-describedby="rate-hint">
+            </div>
+            <div class="form-group">
+              <label for="rate-unit">{{ 'label.rate-unit' | pt }}</label>
+              <select id="rate-unit" data-param="per" class="form-control">
+                <option value="tola" selected>{{ 'option.rate-unit.tola' | pt }}</option>
+                <option value="10g">{{ 'option.rate-unit.10g' | pt }}</option>
+                <option value="gram">{{ 'option.rate-unit.gram' | pt }}</option>
+                <option value="troyOunce">{{ 'option.rate-unit.troyOunce' | pt }}</option>
+                <option value="taelTroy">{{ 'option.rate-unit.taelTroy' | pt }}</option>
+                <option value="kilogram">{{ 'option.rate-unit.kilogram' | pt }}</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="rate-karat">{{ 'label.rate-karat' | pt }}</label>
+              <select id="rate-karat" data-param="ratek" class="form-control">
+                <option value="24" selected>{{ 'option.rate-karat.24' | pt }}</option>
+                <option value="22">{{ 'option.rate-karat.22' | pt }}</option>
+                <option value="21">{{ 'option.rate-karat.21' | pt }}</option>
+                <option value="18">{{ 'option.rate-karat.18' | pt }}</option>
+              </select>
+            </div>
+            {{ currencySelect({ id: "currency", param: "cur", selected: "PKR" }) }}
+          </div>
+          <p class="form-hint" id="rate-hint">{{ 'text.rate-hint' | pt }}</p>
+        </fieldset>
+
+        <fieldset class="gold-fieldset">
+          <legend>{{ 'content.tool.legend2' | pt }}</legend>
+          <div class="form-grid gold-item-grid">
+            <div class="form-group">
+              <label for="gold-weight">{{ 'label.gold-weight' | pt }}</label>
+              <input type="number" inputmode="decimal" step="any" min="0" id="gold-weight" data-param="weight" class="form-control" placeholder="{{ 'placeholder.gold-weight' | pt }}" required aria-required="true">
+            </div>
+            <div class="form-group">
+              <label for="weight-unit">{{ 'label.weight-unit' | pt }}</label>
+              <select id="weight-unit" data-param="unit" class="form-control">
+                <option value="tola" selected>{{ 'option.weight-unit.tola' | pt }}</option>
+                <option value="gram">{{ 'option.weight-unit.gram' | pt }}</option>
+                <option value="masha">{{ 'option.weight-unit.masha' | pt }}</option>
+                <option value="ratti">{{ 'option.weight-unit.ratti' | pt }}</option>
+                <option value="troyOunce">{{ 'option.weight-unit.troyOunce' | pt }}</option>
+                <option value="taelTroy">{{ 'option.weight-unit.taelTroy' | pt }}</option>
+                <option value="kilogram">{{ 'option.weight-unit.kilogram' | pt }}</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="item-karat">{{ 'label.item-karat' | pt }}</label>
+              <select id="item-karat" data-param="karat" class="form-control">
+                <option value="24">{{ 'option.item-karat.24' | pt }}</option>
+                <option value="22" selected>{{ 'option.item-karat.22' | pt }}</option>
+                <option value="21">{{ 'option.item-karat.21' | pt }}</option>
+                <option value="18">{{ 'option.item-karat.18' | pt }}</option>
+              </select>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset class="gold-fieldset">
+          <legend>{{ 'content.tool.legend3' | pt }}</legend>
+          <div class="form-grid two-col">
+            <div class="form-group">
+              <label for="making-type">{{ 'label.making-type' | pt }}</label>
+              <select id="making-type" data-param="making" class="form-control">
+                <option value="none" selected>{{ 'option.making-type.none' | pt }}</option>
+                <option value="percent">{{ 'option.making-type.percent' | pt }}</option>
+                <option value="perGram">{{ 'option.making-type.perGram' | pt }}</option>
+              </select>
+            </div>
+            <div class="form-group" id="making-value-group" hidden>
+              <label for="making-value" id="making-value-label">{{ 'label.making-value' | pt }}</label>
+              <input type="number" inputmode="decimal" step="any" min="0" id="making-value" data-param="mv" class="form-control" placeholder="{{ 'placeholder.making-value' | pt }}">
+            </div>
+          </div>
+        </fieldset>
+
+        <div class="button-group mt-6">
+          <button type="submit" class="btn btn-primary">{{ 'content.tool.button1' | pt }}</button>
+          <button type="button" class="btn btn-secondary" id="reset-btn">{{ 'text.reset-btn' | pt }}</button>
+        </div>
+      </form>
+
+      <div id="error-box" class="hidden form-error" role="alert"></div>
+
+      <!-- Result Box -->
+      <div id="result-box" class="result-box" aria-live="polite">
+        <div class="result-header">
+          <span id="result-header-text">{{ 'text.result-header-text' | pt }}</span>
+          <button type="button" class="btn btn-sm btn-ghost" id="copy-result-btn" title="{{ 'title.copy-result-btn' | pt }}" aria-label="{{ 'ariaLabel.copy-result-btn' | pt }}">
+            {{ 'text.copy-result-btn' | pt }}
+          </button>
+        </div>
+        <div class="result-primary" id="result-primary-text">{{ 'text.result-primary-text' | pt }}</div>
+
+        <div class="result-grid">
+          <div class="result-stat-card">
+            <div class="result-stat-label">{{ 'content.tool.div1' | pt }}</div>
+            <div class="result-stat-value" id="stat-pure-grams">{{ 'text.stat-pure-grams' | pt }}</div>
+          </div>
+          <div class="result-stat-card">
+            <div class="result-stat-label">{{ 'content.tool.div2' | pt }}</div>
+            <div class="result-stat-value" id="stat-gold-value">{{ 'text.stat-gold-value' | pt }}</div>
+          </div>
+          <div class="result-stat-card">
+            <div class="result-stat-label">{{ 'content.tool.div3' | pt }}</div>
+            <div class="result-stat-value" id="stat-making">{{ 'text.stat-making' | pt }}</div>
+          </div>
+          <div class="result-stat-card">
+            <div class="result-stat-label">{{ 'content.tool.div4' | pt }}</div>
+            <div class="result-stat-value" id="stat-total">{{ 'text.stat-total' | pt }}</div>
+          </div>
+        </div>
+
+        <h3 class="gold-rates-title" id="rates-title">{{ 'text.rates-title' | pt }}</h3>
+        <dl class="gold-rates">
+          <div><dt>{{ 'content.equivalent-rates-for-22k.dt1' | pt }}</dt><dd id="rate-per-tola">–</dd></div>
+          <div><dt>{{ 'content.equivalent-rates-for-22k.dt2' | pt }}</dt><dd id="rate-per-10g">–</dd></div>
+          <div><dt>{{ 'content.equivalent-rates-for-22k.dt3' | pt }}</dt><dd id="rate-per-gram">–</dd></div>
+        </dl>
+        <p class="gold-weight-line" id="weight-line"></p>
+
+        <div class="formula-box content-panel" id="formula-breakdown-box">
+          <!-- Step-by-step breakdown inserted by script.js -->
+        </div>
+      </div>
+
+      <!-- Unit conversion table, rendered from logic.js unit data -->
+      <div class="gold-units-block">
+        <h2 class="gold-units-title">{{ 'content.gold-weight-units.heading' | pt }}</h2>
+        <div class="table-wrapper" tabindex="0" role="region" aria-label="{{ 'ariaLabel.gold-weight-units-div1' | pt }}">
+          <table class="table gold-units-table">
+            <caption class="visually-hidden">{{ 'content.gold-weight-units.caption1' | pt }}</caption>
+            <thead>
+              <tr>
+                <th scope="col">{{ 'content.gold-weight-units.th1' | pt }}</th>
+                <th scope="col">{{ 'content.gold-weight-units.th2' | pt }}</th>
+                <th scope="col">{{ 'content.gold-weight-units.th3' | pt }}</th>
+                <th scope="col">{{ 'content.gold-weight-units.th4' | pt }}</th>
+                <th scope="col">{{ 'content.gold-weight-units.th5' | pt }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for row in goldUnits.rows %}
+              <tr>
+                <th scope="row">{{ ('units.' + row.key) | pt }}</th>
+                <td>{{ row.tola }}</td>
+                <td>{{ row.gram }}</td>
+                <td>{{ row.masha }}</td>
+                <td>{{ row.ratti }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <p class="form-hint">{{ 'content.gold-weight-units.p1' | pt }}</p>
+      </div>
+    </section>
+
+    <!-- tool-end -->
+
+    <section class="content-section" aria-labelledby="tola-gram-heading">
+      <h2 id="tola-gram-heading">{{ 'text.tola-gram-heading' | pt }}</h2>
+      <p>{{ 'content.tola-and-gram-which-unit-is.p1' | pt }}</p>
+      <p>{{ 'content.tola-and-gram-which-unit-is.p2' | pt }}</p>
+    </section>
+
+    <section class="content-section" aria-labelledby="karat-heading">
+      <h2 id="karat-heading">{{ 'text.karat-heading' | pt }}</h2>
+      <p>{{ 'content.karat-and-purity.p1' | pt }}</p>
+      <ul class="content-list">
+        <li>{{ 'content.karat-and-purity.li1' | pt }}</li>
+        <li>{{ 'content.karat-and-purity.li2' | pt }}</li>
+        <li>{{ 'content.karat-and-purity.li3' | pt }}</li>
+        <li>{{ 'content.karat-and-purity.li4' | pt }}</li>
+      </ul>
+      <p>{{ 'content.karat-and-purity.p2' | pt }}</p>
+    </section>
+
+    <section class="content-section" aria-labelledby="shop-price-heading">
+      <h2 id="shop-price-heading">{{ 'text.shop-price-heading' | pt }}</h2>
+      <p>{{ 'content.why-shop-prices-differ-from-the.p1' | pt }}</p>
+      <ul class="content-list">
+        <li>{{ 'content.why-shop-prices-differ-from-the.li1' | pt }}</li>
+        <li>{{ 'content.why-shop-prices-differ-from-the.li2' | pt }}</li>
+        <li>{{ 'content.why-shop-prices-differ-from-the.li3' | pt }}</li>
+        <li>{{ 'content.why-shop-prices-differ-from-the.li4' | pt }}</li>
+      </ul>
+      <p>{{ 'content.why-shop-prices-differ-from-the.p2' | pt }}</p>
+    </section>
+
+    <section class="content-section" aria-labelledby="todays-rate-heading">
+      <h2 id="todays-rate-heading">{{ 'text.todays-rate-heading' | pt }}</h2>
+      <p>{{ 'content.use-today-s-rate-from-your.p1' | pt }}</p>
+    </section>

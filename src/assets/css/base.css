@@ -28,11 +28,14 @@
     }
   }
 
+  /* Reduced motion: switch transitions off outright. Setting only a tiny transition-duration
+     would make every element transition every property (transition-property defaults to all),
+     which turns a theme change into thousands of transitions. Nothing listens for transitionend. */
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
       animation-duration: 0.01ms !important;
       animation-iteration-count: 1 !important;
-      transition-duration: 0.01ms !important;
+      transition: none !important;
       scroll-behavior: auto !important;
     }
   }
@@ -49,8 +52,11 @@
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    transition: background-color var(--duration-normal) var(--ease-standard),
-                color var(--duration-normal) var(--ease-standard);
+  }
+
+  /* The hidden attribute always wins over component display rules (e.g. .form-group's flex) */
+  [hidden] {
+    display: none !important;
   }
 
   /* -------------------------------------------------------------------------
@@ -60,14 +66,15 @@
     outline: none;
   }
 
+  /* A visible focus ring on every interactive element, in both themes */
   :focus-visible {
-    outline: 2px solid var(--border-focus);
+    outline: 2px solid var(--accent-primary);
     outline-offset: 2px;
   }
 
   ::selection {
     background-color: var(--accent-subtle);
-    color: var(--accent-subtle-text);
+    color: var(--accent-primary);
   }
 
   /* -------------------------------------------------------------------------
@@ -108,11 +115,27 @@
     letter-spacing: var(--letter-spacing-tight);
   }
 
-  h1 { font-size: var(--font-size-4xl); }
-  h2 { font-size: var(--font-size-3xl); }
-  h3 { font-size: var(--font-size-2xl); }
-  h4 { font-size: var(--font-size-xl); }
-  h5 { font-size: var(--font-size-lg); }
+  h1 {
+    font-weight: var(--font-weight-extrabold);
+    letter-spacing: var(--letter-spacing-tighter);
+  }
+
+  h4, h5, h6 {
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-snug);
+  }
+
+  /* Highlighted word in a heading: <span class="text-accent"> */
+  h1 .text-accent,
+  h2 .text-accent {
+    color: var(--accent-primary);
+  }
+
+  h1 { font-size: var(--font-size-2xl); }
+  h2 { font-size: var(--font-size-xl); }
+  h3 { font-size: var(--font-size-lg); }
+  h4 { font-size: var(--font-size-md); }
+  h5 { font-size: var(--font-size-md); }
   h6 { font-size: var(--font-size-base); }
 
   p, ul, ol {
@@ -120,7 +143,7 @@
   }
 
   ul, ol {
-    padding-left: var(--space-5);
+    padding-inline-start: var(--space-6);
   }
 
   li {
@@ -133,8 +156,8 @@
     transition: color var(--duration-fast) var(--ease-standard);
   }
 
-  p a,
-  li > a:not(.btn, .tool-card, .nav-link, .mega-menu-tool-link, .tool-category-chip, .jump-pill) {
+  p:not(.hero-popular) a,
+  li > a:not(.btn, .tool-card, .category-card, .nav-link, .nav-menu-link, .mobile-drawer-link, .footer-social-link, .tool-category-chip) {
     text-decoration: underline;
     text-underline-offset: 2px;
   }
@@ -186,11 +209,9 @@
     #mobile-menu-btn,
     .skip-link,
     .breadcrumb,
-    .ad-placeholder,
     .cookie-banner,
     .tb-toast-container,
-    .related-tools-section,
-    .no-print {
+    .related-tools-section {
       display: none !important;
     }
 
@@ -208,12 +229,11 @@
       padding: 0 !important;
     }
 
-    .container, .tool-page {
+    .container {
       max-width: 100% !important;
       padding: 0 !important;
     }
 
-    .tool-interface,
     .result-box,
     .tool-card,
     .card {

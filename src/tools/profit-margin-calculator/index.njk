@@ -1,0 +1,97 @@
+---
+layout: layouts/tool.njk
+toolSlug: profit-margin-calculator
+permalink: /tools/profit-margin-calculator/
+extraCss: "/tools/profit-margin-calculator/style.css"
+lastReviewed: "2026-10-31"
+---
+{% from "partials/currency-select.njk" import currencySelect, countryData with context %}
+{{ countryData(countries) }}
+
+    <!-- Tool Form Container -->
+    <section class="tool-container" aria-label="{{ 'ariaLabel.tool-section1' | pt }}">
+      <div class="segmented-control mb-6" role="tablist" aria-label="{{ 'ariaLabel.tool-div1' | pt }}">
+        <button type="button" class="btn btn-sm mode-tab-btn active" id="tab-price" data-mode="price" role="tab" aria-selected="true" aria-controls="calculator-form">{{ 'text.tab-price' | pt }}</button>
+        <button type="button" class="btn btn-sm mode-tab-btn" id="tab-margin" data-mode="margin" role="tab" aria-selected="false" aria-controls="calculator-form" tabindex="-1">{{ 'text.tab-margin' | pt }}</button>
+        <button type="button" class="btn btn-sm mode-tab-btn" id="tab-markup" data-mode="markup" role="tab" aria-selected="false" aria-controls="calculator-form" tabindex="-1">{{ 'text.tab-markup' | pt }}</button>
+      </div>
+
+      <form id="calculator-form" role="tabpanel" aria-labelledby="tab-price" novalidate>
+        <input type="hidden" id="mode" data-param="mode" value="price">
+        <div class="form-grid two-col">
+          <div class="form-group">
+            <label for="cost">{{ 'label.cost' | pt }}</label>
+            <input type="number" inputmode="decimal" step="any" min="0" id="cost" data-param="cost" class="form-control" value="60" required aria-required="true">
+          </div>
+          <div class="form-group" data-mode-field="price">
+            <label for="price">{{ 'label.price' | pt }}</label>
+            <input type="number" inputmode="decimal" step="any" min="0" id="price" data-param="price" class="form-control" value="100">
+          </div>
+          <div class="form-group" data-mode-field="margin" hidden>
+            <label for="margin">{{ 'label.margin' | pt }}</label>
+            <input type="number" inputmode="decimal" step="any" max="99.99" id="margin" data-param="margin" class="form-control" value="25">
+          </div>
+          <div class="form-group" data-mode-field="markup" hidden>
+            <label for="markup">{{ 'label.markup' | pt }}</label>
+            <input type="number" inputmode="decimal" step="any" id="markup" data-param="markup" class="form-control" value="25">
+          </div>
+          {{ currencySelect({ id: "currency", param: "cur", selected: "USD" }) }}
+        </div>
+
+        <div class="button-group">
+          <button type="submit" class="btn btn-primary">{{ 'content.tool.button1' | pt }}</button>
+          <button type="button" class="btn btn-secondary" id="reset-btn">{{ 'text.reset-btn' | pt }}</button>
+        </div>
+      </form>
+
+      <div id="error-box" class="hidden form-error" role="alert"></div>
+
+      <div id="result-box" class="result-box is-visible" aria-live="polite">
+        <div class="result-header">
+          <span id="result-header-text">{{ 'text.result-header-text' | pt }}</span>
+          <button type="button" class="btn btn-sm btn-ghost" id="copy-result-btn" title="{{ 'title.copy-result-btn' | pt }}" aria-label="{{ 'ariaLabel.copy-result-btn' | pt }}">
+            {{ 'text.copy-result-btn' | pt }}
+          </button>
+        </div>
+        <div class="result-primary" id="result-primary-text">--</div>
+        <p class="form-hint" id="result-note"></p>
+        <div class="result-grid" id="result-stats"></div>
+        <details class="result-steps">
+          <summary>{{ 'content.tool.summary1' | pt }}</summary>
+          <ol class="margin-steps" id="result-steps"></ol>
+        </details>
+      </div>
+    </section>
+
+    <!-- tool-end -->
+
+    <section class="content-section">
+      <h2>{{ 'content.margin-vs-markup-at-a-glance.heading' | pt }}</h2>
+      <p>{{ 'content.margin-vs-markup-at-a-glance.p1' | pt }}</p>
+      <div class="table-wrapper">
+        <table class="table">
+          <caption>{{ 'content.margin-vs-markup-at-a-glance.caption1' | pt }}</caption>
+          <thead><tr><th scope="col">{{ 'content.margin-vs-markup-at-a-glance.th1' | pt }}</th><th scope="col">{{ 'content.margin-vs-markup-at-a-glance.th2' | pt }}</th><th scope="col">{{ 'content.margin-vs-markup-at-a-glance.th3' | pt }}</th><th scope="col">{{ 'content.margin-vs-markup-at-a-glance.th4' | pt }}</th></tr></thead>
+          <tbody>
+            <tr><td>111.11</td><td>11.11</td><td>10%</td><td>11.11%</td></tr>
+            <tr><td>125.00</td><td>25.00</td><td>20%</td><td>25%</td></tr>
+            <tr><td>133.33</td><td>33.33</td><td>25%</td><td>33.33%</td></tr>
+            <tr><td>150.00</td><td>50.00</td><td>33.33%</td><td>50%</td></tr>
+            <tr><td>166.67</td><td>66.67</td><td>40%</td><td>66.67%</td></tr>
+            <tr><td>200.00</td><td>100.00</td><td>50%</td><td>100%</td></tr>
+            <tr><td>300.00</td><td>200.00</td><td>66.67%</td><td>200%</td></tr>
+            <tr><td>400.00</td><td>300.00</td><td>75%</td><td>300%</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>{{ 'content.margin-vs-markup-at-a-glance.p2' | pt }}</p>
+
+      <h2>{{ 'content.which-one-should-you-use.heading' | pt }}</h2>
+      <ul class="content-list">
+        <li>{{ 'content.which-one-should-you-use.li1' | pt }}</li>
+        <li>{{ 'content.which-one-should-you-use.li2' | pt }}</li>
+        <li>{{ 'content.which-one-should-you-use.li3' | pt }}</li>
+        <li>{{ 'content.which-one-should-you-use.li4' | pt }}</li>
+      </ul>
+      <p>{{ 'content.which-one-should-you-use.p1' | pt }}</p>
+    </section>

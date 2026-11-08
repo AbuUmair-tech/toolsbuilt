@@ -1,0 +1,264 @@
+{
+  "listing": {
+    "name": "Remove Duplicate Lines",
+    "shortName": "Remove Duplicates",
+    "description": "Remove duplicate lines from a list and keep the original order, ignoring case or spaces, with sorting, copy and download.",
+    "shortDescription": "Delete repeated lines from a list while keeping the order.",
+    "keywords": [
+      "remove duplicate lines",
+      "delete duplicates",
+      "unique lines",
+      "dedupe list",
+      "remove duplicates online",
+      "duplicate line remover",
+      "unique values"
+    ]
+  },
+  "title": "Remove Duplicate Lines Online (Keep Order)",
+  "description": "Remove duplicate lines from a list while keeping the original order. Ignore case or spaces, drop empty lines, keep first or last, sort, copy or download.",
+  "h1": "Remove Duplicate Lines",
+  "quickAnswer": "Paste your list, one item per line, and every repeated line is removed while the first occurrence of each stays in its original position. Turn on Ignore case to treat 'Apple' and 'apple' as the same, or Trim spaces to ignore spaces at the start and end of lines. The tool shows how many duplicates were removed, and you can copy or download the result.",
+  "formula": {
+    "title": "How Duplicates Are Found",
+    "expression": "Keep a line if its comparison key has not been seen before   ·   key = line (trimmed if Trim spaces) (lower-cased if Ignore case)",
+    "explanation": "The lines are read from top to bottom. Each line gets a comparison key: the line itself, with surrounding spaces removed if Trim spaces is on and lower-cased if Ignore case is on. The first line with a given key is kept exactly as you typed it; later lines with the same key are dropped. With Keep last, the list is read from the bottom instead, so the last occurrence survives, still in its original position. Sorting, if chosen, happens after duplicates are removed and is number-aware, so item2 comes before item10.",
+    "variables": [
+      {
+        "name": "Ignore case",
+        "description": "'Apple', 'APPLE' and 'apple' count as one value."
+      },
+      {
+        "name": "Trim spaces",
+        "description": "Spaces and tabs at the start or end of a line are ignored when comparing. Turn on Trim output to remove them from the result as well."
+      },
+      {
+        "name": "Keep first / last",
+        "description": "Which copy of a repeated line stays in the list."
+      }
+    ]
+  },
+  "workedExamples": [
+    {
+      "title": "Case-sensitive",
+      "inputs": [
+        "Lines: a, b, a, B"
+      ],
+      "steps": [
+        "The second 'a' repeats the first and is removed",
+        "'B' is different from 'b' when case matters"
+      ],
+      "result": "a, b, B (1 duplicate removed)"
+    },
+    {
+      "title": "Ignore case",
+      "inputs": [
+        "Lines: a, b, a, B",
+        "Ignore case: on"
+      ],
+      "steps": [
+        "'a' repeats, and 'B' matches 'b'"
+      ],
+      "result": "a, b (2 duplicates removed)"
+    },
+    {
+      "title": "Trim spaces",
+      "inputs": [
+        "Lines: ' a' (with a leading space), 'a'",
+        "Trim spaces: on"
+      ],
+      "steps": [
+        "Both lines compare as 'a', so the second is removed",
+        "The kept line is written as typed (' a'); with Trim output on it becomes 'a'"
+      ],
+      "result": "One line: ' a', or 'a' with Trim output"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Missing duplicates that differ only by spaces",
+      "description": "'apple' and 'apple ' with a trailing space look the same but are different strings. Turn on Trim spaces when your list was copied from a spreadsheet or document."
+    },
+    {
+      "title": "Merging values that should stay separate",
+      "description": "Ignore case is right for email addresses and most words, but not for case-sensitive data such as passwords, IDs or file names on Linux."
+    },
+    {
+      "title": "Expecting the list to be sorted",
+      "description": "By default the original order is kept. Choose A-Z or Z-A if you want a sorted list."
+    },
+    {
+      "title": "Losing the last, most recent entry",
+      "description": "If later lines are newer versions of earlier ones (for example a log or an export), choose Keep last so the most recent copy survives."
+    },
+    {
+      "title": "Treating blank lines as data",
+      "description": "Several blank lines count as duplicates of each other, so one blank line can remain. Turn on Remove empty lines to drop them all."
+    }
+  ],
+  "sources": [
+    {
+      "name": "Unicode Technical Standard #10: Unicode Collation Algorithm",
+      "url": "https://www.unicode.org/reports/tr10/"
+    },
+    {
+      "name": "ECMAScript Internationalization API: Intl.Collator",
+      "url": "https://tc39.es/ecma402/#collator-objects"
+    },
+    {
+      "name": "Microsoft Support: Find and remove duplicates (Excel)",
+      "url": "https://support.microsoft.com/en-us/office/find-and-remove-duplicates-00e35bea-b46a-4d5d-b28e-66a552dc138d"
+    },
+    {
+      "name": "Microsoft Support: UNIQUE function",
+      "url": "https://support.microsoft.com/en-us/office/unique-function-c5ab87fd-30a3-4ce9-9d1a-40204fb85e1e"
+    },
+    {
+      "name": "GNU Coreutils: uniq invocation",
+      "url": "https://www.gnu.org/software/coreutils/manual/html_node/uniq-invocation.html"
+    }
+  ],
+  "howto": {
+    "name": "How to Remove Duplicate Lines",
+    "description": "Remove repeated lines from a list and keep the original order.",
+    "steps": [
+      {
+        "name": "Paste your list",
+        "text": "Paste the text with one item per line."
+      },
+      {
+        "name": "Choose how to compare",
+        "text": "Turn on Ignore case or Trim spaces if those differences should not count."
+      },
+      {
+        "name": "Choose what to keep",
+        "text": "Keep the first or last copy, remove empty lines, and sort if you want."
+      },
+      {
+        "name": "Copy or download",
+        "text": "Copy the cleaned list or download it as a text file."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "How do I remove duplicate lines from a list?",
+      "a": "Paste the list into the box. Repeated lines are removed straight away, the first copy of each line stays in its original place, and the count of removed duplicates is shown."
+    },
+    {
+      "q": "Does this keep the original order?",
+      "a": "Yes. Unless you choose a sort order, the kept lines stay in the order you pasted them."
+    },
+    {
+      "q": "Can I remove duplicates ignoring case?",
+      "a": "Yes. Turn on Ignore case and lines that differ only in capital letters, such as 'Paris' and 'paris', count as the same."
+    },
+    {
+      "q": "How do I keep the last occurrence instead of the first?",
+      "a": "Choose Keep last. The last copy of each line is kept, in the position where it appears."
+    },
+    {
+      "q": "Can I sort the lines and remove duplicates at the same time?",
+      "a": "Yes. Choose A-Z or Z-A. Duplicates are removed first, then the remaining lines are sorted, with numbers in natural order."
+    },
+    {
+      "q": "How do I remove duplicates in Excel instead?",
+      "a": "In Excel, select the column and use Data > Remove Duplicates, or =UNIQUE(range) in Excel 365. This tool is quicker for lists you have copied as plain text."
+    },
+    {
+      "q": "Is my list uploaded anywhere?",
+      "a": "No. The lines are processed in your browser and are not sent, stored or added to the page address."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Duplicate Line Remover"
+    },
+    "label": {
+      "dedupe-input": "Your list (one item per line)",
+      "opt-keep": "Keep",
+      "opt-sort": "Sort",
+      "dedupe-output": "Result"
+    },
+    "placeholder": {
+      "dedupe-input": "Paste lines here"
+    },
+    "content": {
+      "tool": {
+        "label1": "<input type=\"checkbox\" id=\"opt-case\"><span>Ignore case</span>",
+        "label2": "<input type=\"checkbox\" id=\"opt-trim\"><span>Trim spaces when comparing</span>",
+        "label3": "<input type=\"checkbox\" id=\"opt-trim-output\"><span>Trim output</span>",
+        "label4": "<input type=\"checkbox\" id=\"opt-empty\"><span>Remove empty lines</span>",
+        "div1": "<span id=\"result-header-text\">Duplicates removed</span>"
+      },
+      "which-options-to-use": {
+        "heading": "Which Options to Use",
+        "caption1": "Recommended options for common lists",
+        "th1": "Your list",
+        "th2": "Suggested options",
+        "td1": "Email addresses",
+        "td2": "Ignore case, Trim spaces, Trim output, Remove empty lines",
+        "td3": "Keywords or tags",
+        "td4": "Ignore case, Trim spaces, sort A to Z",
+        "td5": "Product codes or IDs",
+        "td6": "Trim spaces only (case can matter)",
+        "td7": "Log lines or exports with newer entries lower down",
+        "td8": "Keep last occurrence",
+        "td9": "Code or configuration",
+        "td10": "No options: every character counts",
+        "p1": "The result keeps each line exactly as you wrote it unless you turn on Trim output. That way an indented line or a line with meaningful trailing spaces is not changed just because spaces were ignored while comparing."
+      },
+      "other-ways-to-remove-duplicates": {
+        "heading": "Other Ways to Remove Duplicates",
+        "li1": "<strong>Command line:</strong> <code>sort -u file.txt</code> removes duplicates but sorts the file; <code>awk '!seen[$0]++' file.txt</code> keeps the original order.",
+        "li2": "<strong>Spreadsheets:</strong> Excel's Remove Duplicates command or the UNIQUE function, and UNIQUE in Google Sheets.",
+        "li3": "<strong>Comparing two lists:</strong> to see what changed between two versions rather than what repeats, use the <a href=\"/tools/text-diff-checker/\">text diff checker</a>.",
+        "p1": "Your text stays on your device: it is processed in the browser and is not saved or sent anywhere."
+      }
+    },
+    "option": {
+      "opt-keep": {
+        "first": "First occurrence",
+        "last": "Last occurrence"
+      },
+      "opt-sort": {
+        "none": "Keep original order",
+        "asc": "A to Z",
+        "desc": "Z to A"
+      }
+    },
+    "text": {
+      "example-btn": "Try an example",
+      "clear-btn": "Clear",
+      "copy-output-btn": "Copy result",
+      "download-btn": "Download .txt"
+    }
+  },
+  "client": {
+    "example": "apple\nBanana\napple\ncherry\n banana\n\nCherry\ndate\n\napple",
+    "result": {
+      "removed": {
+        "one": "{{n}} duplicate removed",
+        "other": "{{n}} duplicates removed"
+      }
+    },
+    "note": {
+      "lines": {
+        "one": "{{n}} line",
+        "other": "{{n}} lines"
+      },
+      "inOut": "{{in}} in, {{out}} out",
+      "emptyRemoved": {
+        "one": "{{n}} empty line removed",
+        "other": "{{n}} empty lines removed"
+      },
+      "emptyLine": "(empty line)",
+      "quoted": "\"{{text}}\"",
+      "repeatedItem": "{{line}} ×{{count}}",
+      "listSeparator": ", ",
+      "mostRepeated": "Most repeated: {{list}}",
+      "sentenceSeparator": ". ",
+      "sentences": "{{text}}."
+    },
+    "copied": "Result copied"
+  }
+}

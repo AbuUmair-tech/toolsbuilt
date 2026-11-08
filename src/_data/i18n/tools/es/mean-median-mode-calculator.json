@@ -1,0 +1,288 @@
+{
+  "listing": {
+    "name": "Calculadora de media, mediana, moda y desviación estándar",
+    "shortName": "Media, mediana y moda",
+    "description": "Obtén la media, la mediana, la moda, el rango, los cuartiles, la varianza y la desviación estándar de una lista de números, con el desarrollo paso a paso.",
+    "shortDescription": "Media, mediana, moda, cuartiles y desviación estándar con el desarrollo paso a paso.",
+    "keywords": [
+      "calculadora de media mediana y moda",
+      "calculadora de desviación estándar",
+      "calculadora de promedio",
+      "calculadora de varianza",
+      "calculadora de cuartiles",
+      "calculadora estadística",
+      "desviación estándar muestral"
+    ]
+  },
+  "title": "Calculadora de media, mediana, moda y desviación estándar",
+  "description": "Calculadora de media, mediana y moda: pega una lista de números y obtén rango, cuartiles, varianza y desviación estándar poblacional y muestral.",
+  "h1": "Calculadora de media, mediana, moda y desviación estándar",
+  "quickAnswer": "En esta calculadora de media, mediana y moda, la media es la suma dividida entre la cantidad de valores, la mediana es el valor central una vez ordenados los números y la moda es el valor más frecuente. Para 2, 4, 4, 4, 5, 5, 7, 9 la media es 40 ÷ 8 = 5, la mediana es (4 + 5) ÷ 2 = 4.5 y la moda es 4. La desviación estándar poblacional es 2 y la desviación estándar muestral (dividiendo entre n − 1) es 2.1381.",
+  "formula": {
+    "title": "Fórmulas estadísticas",
+    "expression": "Media x̄ = Σx ÷ n   ·   DE poblacional σ = √(Σ(x − x̄)² ÷ n)   ·   DE muestral s = √(Σ(x − x̄)² ÷ (n − 1))",
+    "explanation": "La mediana es el valor central de la lista ordenada, o el promedio de los dos valores centrales cuando la cantidad es par. La moda es el valor que aparece con más frecuencia; si varios valores empatan en la frecuencia más alta, todos son modas, y si todos los valores aparecen igual número de veces, no hay moda. Los cuartiles usan el método de la mediana de las mitades: Q1 es la mediana de la mitad inferior y Q3 la mediana de la mitad superior, excluyendo la mediana general cuando la cantidad es impar. La varianza es la distancia media al cuadrado respecto a la media, y la desviación estándar es su raíz cuadrada.",
+    "variables": [
+      {
+        "name": "Poblacional (σ, dividir entre n)",
+        "description": "Úsala cuando tus números son todo el grupo que te interesa, como todas las notas de examen de una clase."
+      },
+      {
+        "name": "Muestral (s, dividir entre n − 1)",
+        "description": "Úsala cuando tus números son una muestra de un grupo más grande y quieres estimar la dispersión de ese grupo (corrección de Bessel)."
+      },
+      {
+        "name": "RIC",
+        "description": "Rango intercuartílico, Q3 − Q1: la dispersión de la mitad central de los datos."
+      }
+    ]
+  },
+  "workedExamples": [
+    {
+      "inputs": [
+        "8 valores"
+      ],
+      "steps": [
+        "Media: (2 + 4 + 4 + 4 + 5 + 5 + 7 + 9) ÷ 8 = 40 ÷ 8 = 5",
+        "Mediana: 8 valores, así que se promedian el 4.º y el 5.º: (4 + 5) ÷ 2 = 4.5",
+        "Moda: el 4 aparece 3 veces, más que cualquier otro valor",
+        "Desviaciones al cuadrado: 9, 1, 1, 1, 0, 0, 4, 16; suma = 32",
+        "DE poblacional: √(32 ÷ 8) = √4 = 2; DE muestral: √(32 ÷ 7) = 2.1381"
+      ],
+      "result": "Media 5, mediana 4.5, moda 4, σ = 2, s = 2.1381"
+    },
+    {
+      "title": "1, 2, 3 (sin moda)",
+      "inputs": [
+        "3 valores"
+      ],
+      "steps": [
+        "Media: 6 ÷ 3 = 2; mediana: el valor central, 2",
+        "Cada valor aparece una vez, así que no hay moda",
+        "DE poblacional: √(2 ÷ 3) = 0.8165; DE muestral: √(2 ÷ 2) = 1"
+      ],
+      "result": "Media 2, mediana 2, sin moda"
+    },
+    {
+      "title": "Cuartiles de 1, 3, 5, 7, 9",
+      "inputs": [
+        "5 valores (cantidad impar)"
+      ],
+      "steps": [
+        "Mediana: 5 (el 3.er valor)",
+        "Mitad inferior sin la mediana: 1, 3, así que Q1 = 2",
+        "Mitad superior sin la mediana: 7, 9, así que Q3 = 8"
+      ],
+      "result": "Q1 = 2, Q3 = 8, RIC = 6"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Olvidar ordenar antes de buscar la mediana",
+      "description": "La mediana es el centro de la lista <em>ordenada</em>. El centro de 9, 2, 5 tal como se escribió es 2, pero la mediana es 5."
+    },
+    {
+      "title": "Usar la fórmula poblacional con una muestra",
+      "description": "Dividir entre n subestima la dispersión cuando tus datos son una muestra de un grupo más grande. Usa la desviación estándar muestral (n − 1) para encuestas, experimentos y mediciones de un subconjunto."
+    },
+    {
+      "title": "Esperar una sola moda",
+      "description": "Los datos pueden tener una moda, varias o ninguna. 1, 1, 2, 2, 3 tiene dos modas (1 y 2); 1, 2, 3 no tiene ninguna."
+    },
+    {
+      "title": "Comparar cuartiles de herramientas distintas",
+      "description": "Hay varias formas aceptadas de calcular los cuartiles y pueden dar respuestas algo distintas para los mismos datos. Las hojas de cálculo suelen interpolar (CUARTIL.INC de Excel); esta calculadora usa el método de la mediana de las mitades que se enseña en muchos cursos."
+    },
+    {
+      "title": "Escribir comas como separador decimal",
+      "description": "Aquí las comas separan valores, así que 2,5 se lee como dos números, 2 y 5. Usa un punto para los decimales: 2.5."
+    }
+  ],
+  "sources": [
+    {
+      "name": "NIST/SEMATECH e-Handbook of Statistical Methods: medidas de posición"
+    },
+    {
+      "name": "NIST/SEMATECH e-Handbook of Statistical Methods: medidas de escala"
+    },
+    {
+      "name": "Soporte de Microsoft: funciones DESVEST.P y DESVEST.M"
+    },
+    {
+      "name": "Soporte de Microsoft: función CUARTIL.INC (un método de cuartiles por interpolación)"
+    }
+  ],
+  "howto": {
+    "name": "Cómo calcular la media, la mediana, la moda y la desviación estándar",
+    "description": "Pega tus números para obtener todas las estadísticas descriptivas con el desarrollo paso a paso.",
+    "steps": [
+      {
+        "name": "Introduce tus números",
+        "text": "Escribe o pega valores separados por comas, espacios o saltos de línea."
+      },
+      {
+        "name": "Elige los decimales",
+        "text": "Elige cuántos decimales mostrar en los resultados."
+      },
+      {
+        "name": "Lee las estadísticas",
+        "text": "Consulta la cantidad, la suma, la media, la mediana, la moda, el rango, los cuartiles, la varianza y la desviación estándar."
+      },
+      {
+        "name": "Revisa el desarrollo",
+        "text": "Sigue los pasos de la media, la mediana y la desviación estándar, y consulta los datos ordenados."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "¿Cómo se calculan la media, la mediana y la moda?",
+      "a": "Media: suma todos los valores y divide entre la cantidad de valores. Mediana: ordena los valores y toma el central, o el promedio de los dos centrales. Moda: el valor que aparece con más frecuencia."
+    },
+    {
+      "q": "¿Qué diferencia hay entre la desviación estándar poblacional y la muestral?",
+      "a": "La desviación estándar poblacional divide la suma de las desviaciones al cuadrado entre n y describe un grupo completo. La desviación estándar muestral divide entre n − 1 y estima la dispersión de una población más grande a partir de una muestra, por lo que es algo mayor."
+    },
+    {
+      "q": "¿Cómo calculo la desviación estándar a mano?",
+      "a": "Calcula la media, réstala de cada valor y eleva el resultado al cuadrado, suma esos cuadrados, divide entre n (poblacional) o n − 1 (muestral) y luego saca la raíz cuadrada. La calculadora muestra cada uno de estos pasos."
+    },
+    {
+      "q": "¿Y si no hay moda?",
+      "a": "Si todos los valores aparecen el mismo número de veces, ningún valor es más frecuente que los demás y los datos no tienen moda. 1, 2, 3 no tiene moda."
+    },
+    {
+      "q": "¿Un conjunto de datos puede tener más de una moda?",
+      "a": "Sí. Si dos o más valores empatan en la frecuencia más alta, todos son modas. 1, 1, 2, 2, 3 es bimodal, con modas 1 y 2."
+    },
+    {
+      "q": "¿Cómo se calculan los cuartiles?",
+      "a": "Esta calculadora usa el método de la mediana de las mitades: divide los datos ordenados en una mitad inferior y otra superior (excluyendo la mediana cuando la cantidad es impar) y toma la mediana de cada mitad como Q1 y Q3."
+    },
+    {
+      "q": "¿Cómo debo introducir mis números?",
+      "a": "Separa los números con comas, espacios, punto y coma o saltos de línea, y usa un punto para los decimales. Puedes pegar una columna directamente desde una hoja de cálculo."
+    },
+    {
+      "q": "¿Es mejor la mediana o la media?",
+      "a": "La media usa todos los valores, pero los valores atípicos la desplazan; la mediana es el valor central y no le afectan unos pocos números extremos. Para datos asimétricos, como ingresos o precios de vivienda, la mediana suele ser más representativa."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Calculadora estadística",
+      "copy-result-btn": "Copiar el resultado al portapapeles"
+    },
+    "label": {
+      "data": "Números <span class=\"text-accent\">*</span>",
+      "dp": "Decimales"
+    },
+    "text": {
+      "data-hint": "Separa los valores con comas, espacios o saltos de línea. Usa un punto para los decimales (2.5).",
+      "reset-btn": "Restablecer",
+      "result-header-text": "Resumen",
+      "copy-result-btn": "<span data-icon=\"copy\"></span> Copiar resultado"
+    },
+    "content": {
+      "tool": {
+        "button1": "Calcular",
+        "summary1": "Datos ordenados y desarrollo",
+        "p1": "Datos ordenados",
+        "p2": "Media",
+        "p3": "Mediana",
+        "p4": "Desviación estándar"
+      },
+      "mean-median-or-mode-which-average": {
+        "heading": "Media, mediana o moda: qué promedio usar",
+        "caption1": "Cuándo usar la media, la mediana y la moda",
+        "th1": "Medida",
+        "th2": "Qué te indica",
+        "th3": "Ideal para",
+        "td1": "Media",
+        "td2": "El punto de equilibrio de todos los valores",
+        "td3": "Datos simétricos sin valores atípicos extremos, como estaturas o notas de examen",
+        "td4": "Mediana",
+        "td5": "El valor central; la mitad está por encima y la mitad por debajo",
+        "td6": "Datos asimétricos o con valores atípicos, como ingresos y precios de vivienda",
+        "td7": "Moda",
+        "td8": "El valor más común",
+        "td9": "Categorías y valores repetidos, como tallas de calzado o respuestas de encuestas",
+        "p1": "Un valor atípico puede mover mucho la media y dejar la mediana casi igual. Para los valores 30, 32, 35, 38 y 40, la media y la mediana son 35. Si cambias 40 por 400, la mediana sigue siendo 35, pero la media salta a 107. Por eso las estadísticas oficiales de ingresos suelen informar la mediana."
+      },
+      "reading-the-standard-deviation": {
+        "heading": "Cómo interpretar la desviación estándar",
+        "p1": "La desviación estándar mide a qué distancia suelen estar los valores de la media, en las mismas unidades que los datos. Una desviación estándar pequeña significa que los valores están muy agrupados; una grande, que están dispersos. En datos con forma de campana, alrededor del 68% de los valores quedan a menos de una desviación estándar de la media y alrededor del 95% a menos de dos.",
+        "li1": "La <strong>varianza</strong> es la desviación estándar al cuadrado. Se usa en cálculos posteriores, pero está en unidades al cuadrado, así que es más difícil de interpretar directamente.",
+        "li2": "El <strong>rango</strong> (máx − mín) es rápido, pero depende solo de los dos valores más extremos.",
+        "li3": "El <strong>rango intercuartílico</strong> (Q3 − Q1) abarca la mitad central de los datos e ignora los valores atípicos. Una regla habitual marca como posibles valores atípicos los que están más de 1.5 × RIC por debajo de Q1 o por encima de Q3.",
+        "p2": "En las hojas de cálculo, DESVEST.P y VAR.P coinciden con las cifras poblacionales de aquí, y DESVEST.M y VAR.S con las muestrales. Todos los cálculos se hacen en tu navegador, así que puedes pegar datos privados con seguridad."
+      }
+    },
+    "title": {
+      "copy-result-btn": "Copiar el resultado al portapapeles"
+    }
+  },
+  "client": {
+    "errors": {
+      "empty": "Introduce al menos un número. Separa los valores con comas, espacios o saltos de línea.",
+      "notNumber": {
+        "one": "{{shown}} no es un número. Usa cifras con un punto para los decimales (2.5), separadas por comas, espacios o saltos de línea.",
+        "other": "{{shown}} no son números. Usa cifras con un punto para los decimales (2.5), separadas por comas, espacios o saltos de línea.",
+        "more": "{{shown}} y {{more}} más no son números. Usa cifras con un punto para los decimales (2.5), separadas por comas, espacios o saltos de línea."
+      },
+      "tooMany": "Introduce como máximo {{max}} valores.",
+      "tooLarge": "Uno de los valores es demasiado grande para calcular con él.",
+      "noNumbers": "Introduce al menos un número.",
+      "notAllNumbers": "Todos los valores deben ser números."
+    },
+    "quartileMethod": "Mediana de las mitades: Q1 es la mediana de la mitad inferior y Q3 la mediana de la mitad superior, excluyendo la mediana general cuando la cantidad es impar.",
+    "quartileNote": "Método de cuartiles: {{method}}",
+    "more": "… ({{count}} más)",
+    "steps": {
+      "add": {
+        "many": "Suma los {{count}} valores: {{values}} = {{sum}}",
+        "one": "Suma el {{count}} valor: {{values}} = {{sum}}",
+        "other": "Suma los {{count}} valores: {{values}} = {{sum}}"
+      },
+      "divide": "Divide entre la cantidad: {{sum}} ÷ {{count}} = {{mean}}",
+      "sort": "Ordena los valores: {{values}}",
+      "odd": "{{count}} es impar, así que la mediana es el valor central, el número {{position}}: {{median}}",
+      "even": "{{count}} es par, así que la mediana es el promedio de los valores {{first}} y {{second}}: ({{a}} + {{b}}) ÷ 2 = {{median}}",
+      "deviations": "Resta la media de cada valor y eleva el resultado al cuadrado: {{deviations}}",
+      "sumOfSquares": "Suma las desviaciones al cuadrado: suma de cuadrados = {{ss}}",
+      "populationVariance": "Varianza poblacional σ² = {{ss}} ÷ {{count}} = {{variance}}, así que σ = √{{variance}} = {{sd}}",
+      "sampleVariance": "Varianza muestral s² = {{ss}} ÷ ({{count}} − 1) = {{variance}}, así que s = √{{variance}} = {{sd}}",
+      "sampleNeedsTwo": "La desviación estándar muestral necesita al menos 2 valores (divide entre n − 1)."
+    },
+    "stats": {
+      "modeValue": "{{modes}} (aparece {{count}} veces)",
+      "noMode": "Sin moda",
+      "needsTwo": "Necesita 2 o más valores",
+      "count": "Cantidad (n)",
+      "sum": "Suma",
+      "mean": "Media",
+      "median": "Mediana",
+      "mode": "Moda",
+      "modes": "Modas",
+      "min": "Mínimo",
+      "max": "Máximo",
+      "range": "Rango",
+      "populationSD": "DE poblacional (σ)",
+      "sampleSD": "DE muestral (s)",
+      "populationVariance": "Varianza poblacional (σ²)",
+      "sampleVariance": "Varianza muestral (s²)",
+      "q1": "Q1 (cuartil inferior)",
+      "q3": "Q3 (cuartil superior)",
+      "iqr": "Rango intercuartílico"
+    },
+    "result": {
+      "header": {
+        "many": "Resumen de {{count}} valores",
+        "one": "Resumen de {{count}} valor",
+        "other": "Resumen de {{count}} valores"
+      },
+      "primary": "Media {{mean}} · Mediana {{median}} · {{mode}}",
+      "mode": "Moda {{modes}}"
+    }
+  }
+}

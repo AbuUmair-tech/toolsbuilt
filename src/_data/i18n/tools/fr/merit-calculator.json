@@ -1,0 +1,295 @@
+{
+  "listing": {
+    "name": "Calculateur de mérite et d'agrégat",
+    "shortName": "Calculateur de mérite",
+    "description": "Calculez un agrégat de mérite pour une admission à partir des notes de Matric, d'Intermediate, du test d'entrée et de l'entretien, avec vos coefficients ou ceux vérifiés du NUST et du MDCAT.",
+    "shortDescription": "Agrégat d'admission à partir des notes de board et de test, avec coefficients personnalisés ou vérifiés.",
+    "keywords": [
+      "calculateur de mérite",
+      "calcul d'agrégat",
+      "agrégat nust",
+      "agrégat mdcat",
+      "formule de calcul du mérite",
+      "agrégat test d'entrée",
+      "calcul mérite université"
+    ]
+  },
+  "title": "Calculateur de mérite et d'agrégat (coefficients libres)",
+  "description": "Calculez votre agrégat de mérite à partir du Matric, de l'Intermediate, du test d'entrée et de l'entretien, avec vos coefficients ou ceux NUST/MDCAT.",
+  "h1": "Calculateur de mérite et d'agrégat",
+  "quickAnswer": "Agrégat = Σ (points obtenus ÷ total des points × coefficient %). Avec un Matric de 900/1100 à 10%, un Intermediate de 950/1100 à 40% et un test d'entrée de 300/400 à 50%, l'agrégat vaut 8.18 + 34.55 + 37.50 = 80.23%. Les coefficients doivent totaliser 100%, et chaque université fixe les siens : vérifiez-les dans le prospectus officiel de votre année d'admission. Ce calculateur de mérite fait le calcul pour vous.",
+  "formula": {
+    "title": "Formule de l'agrégat de mérite",
+    "expression": "Agrégat % = Σ (Obtenus ÷ Total × 100 × Coefficient ÷ 100)",
+    "explanation": "Chaque composante (Matric/SSC, Intermediate/HSSC, test d'entrée, entretien, etc.) est d'abord convertie en pourcentage de son propre total, pour pouvoir comparer un test sur 200 et un examen de board sur 1100. Ce pourcentage est multiplié par le coefficient de la composante, puis les parts pondérées sont additionnées. Comme les coefficients totalisent 100%, le résultat est lui-même un pourcentage de 0 à 100. Le calculateur garde toute la précision jusqu'à la fin et arrondit l'agrégat à 2 décimales.",
+    "variables": [
+      {
+        "name": "Obtenus / Total",
+        "description": "Vos points dans cette composante et le maximum possible, exactement comme sur votre relevé."
+      },
+      {
+        "name": "Coefficient",
+        "description": "La part de l'agrégat que l'établissement attribue à cette composante, en %. L'ensemble des coefficients doit faire 100%."
+      },
+      {
+        "name": "Contribution",
+        "description": "Votre pourcentage dans la composante × son coefficient ÷ 100 : les points qu'elle ajoute à votre agrégat."
+      }
+    ]
+  },
+  "workedExamples": [
+    {
+      "title": "Matric, Intermediate et test d'entrée (10 / 40 / 50)",
+      "inputs": [
+        "Matric : 900 / 1100, coefficient 10%",
+        "Intermediate : 950 / 1100, coefficient 40%",
+        "Test d'entrée : 300 / 400, coefficient 50%"
+      ],
+      "steps": [
+        "Matric : 900 ÷ 1100 = 81.818%, × 10% = 8.1818",
+        "Intermediate : 950 ÷ 1100 = 86.364%, × 40% = 34.5455",
+        "Test d'entrée : 300 ÷ 400 = 75%, × 50% = 37.5",
+        "Total : 8.1818 + 34.5455 + 37.5 = 80.2273"
+      ],
+      "result": "Agrégat 80.23%"
+    },
+    {
+      "title": "Coefficients du NET du NUST (10 / 15 / 75)",
+      "inputs": [
+        "SSC : 1000 / 1100, coefficient 10%",
+        "HSSC Part-1 : 480 / 550, coefficient 15%",
+        "NET : 140 / 200, coefficient 75%"
+      ],
+      "steps": [
+        "SSC : 90.909% × 10% = 9.0909",
+        "HSSC : 87.273% × 15% = 13.0909",
+        "NET : 70% × 75% = 52.5"
+      ],
+      "result": "Agrégat 74.68%"
+    },
+    {
+      "title": "Avec un entretien (quatre composantes)",
+      "inputs": [
+        "SSC 850/1100 à 10%, HSSC 900/1100 à 30%",
+        "Test 150/200 à 50%, entretien 40/50 à 10%"
+      ],
+      "steps": [
+        "SSC 77.273% × 10% = 7.7273 ; HSSC 81.818% × 30% = 24.5455",
+        "Test 75% × 50% = 37.5 ; entretien 80% × 10% = 8"
+      ],
+      "result": "Agrégat 77.77%"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Utiliser les coefficients de l'an dernier",
+      "description": "Les universités et les autorités de régulation modifient leurs formules de mérite, parfois chaque année. Vérifiez toujours les coefficients dans le prospectus officiel ou l'avis d'admission de la session visée."
+    },
+    {
+      "title": "Additionner des points bruts au lieu de pourcentages",
+      "description": "Additionner 900 points de board et 150 points de test donne un nombre sans signification, car les totaux diffèrent. Chaque composante doit être convertie en pourcentage de son propre total avant d'être pondérée."
+    },
+    {
+      "title": "Saisir le mauvais total",
+      "description": "Les totaux des boards varient selon les filières de Matric et les boards, et certaines formules n'utilisent que les notes de HSSC Part-1. Recopiez exactement le total de votre relevé et des règles de l'établissement."
+    },
+    {
+      "title": "Oublier les points pour hafiz-e-Quran ou autres ajouts",
+      "description": "Certains établissements ajoutent des points supplémentaires ou en retirent pour les tentatives répétées. Ces règles varient : ajoutez-les vous-même selon le prospectus officiel."
+    },
+    {
+      "title": "Arrondir chaque composante",
+      "description": "Arrondir chaque contribution avant de les additionner peut décaler l'agrégat final de quelques centièmes, ce qui compte sur des listes de mérite serrées. Le calculateur garde toute la précision et n'arrondit que le résultat final."
+    }
+  ],
+  "sources": [
+    {
+      "name": "NUST : critères de calcul du mérite pour l'admission en licence sur la base du NET"
+    },
+    {
+      "name": "PM&DC : lois et règlements (Admissions, Curriculum and Conduct Regulations 2026)"
+    },
+    {
+      "name": "IBCC : équivalence des O/A Level et des diplômes étrangers"
+    }
+  ],
+  "howto": {
+    "name": "Comment calculer un agrégat de mérite",
+    "description": "Combinez résultats de board, tests d'entrée et entretiens en un agrégat d'admission.",
+    "steps": [
+      {
+        "name": "Choisir personnalisé ou un préréglage",
+        "text": "Utilisez Personnalisé pour saisir vos propres coefficients, ou choisissez un préréglage vérifié qui remplit les composantes et les coefficients."
+      },
+      {
+        "name": "Saisir vos notes",
+        "text": "Pour chaque composante, saisissez les points obtenus et le total exactement comme sur votre relevé."
+      },
+      {
+        "name": "Vérifier les coefficients",
+        "text": "Assurez-vous que les coefficients totalisent 100% et correspondent au prospectus officiel de votre année d'admission."
+      },
+      {
+        "name": "Lire votre agrégat",
+        "text": "Consultez le pourcentage et la contribution de chaque composante, ainsi que votre agrégat à deux décimales."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Comment calculer mon agrégat de mérite ?",
+      "a": "Divisez vos points par le total de chaque composante, multipliez par le coefficient de cette composante et additionnez les résultats. Pour 900/1100 à 10%, 950/1100 à 40% et 300/400 à 50%, l'agrégat vaut 80.23%."
+    },
+    {
+      "q": "Quelle est la formule d'agrégat du NUST ?",
+      "a": "Pour une admission sur la base du NET, les critères publiés par le NUST sont : NET 75%, HSSC (Part-1 ou complet) 15% et SSC/O Level 10%. Choisissez le préréglage NUST, saisissez vos notes et consultez la page des critères de mérite du NUST pour la session en cours."
+    },
+    {
+      "q": "Quelle est la formule d'agrégat du MDCAT ?",
+      "a": "Selon les PM&DC Admissions, Curriculum and Conduct Regulations 2026, l'admission au mérite ouvert dans les facultés de médecine et de dentaire publiques et privées utilise MDCAT 50%, FSc/HSSC 40% et SSC/Matric 10%. L'université d'admission publie les critères définitifs."
+    },
+    {
+      "q": "Pourquoi le calculateur exige-t-il que les coefficients totalisent 100% ?",
+      "a": "Un agrégat est un pourcentage pondéré : les coefficients doivent donc couvrir l'intégralité des 100%. S'ils totalisent 90%, il manque une composante ou une partie d'un coefficient ; vérifiez la formule de l'établissement."
+    },
+    {
+      "q": "Puis-je ajouter un entretien ou un second test ?",
+      "a": "Oui. Le mode personnalisé accepte jusqu'à cinq composantes. Donnez à chacune un nom, les points obtenus, le total et un coefficient."
+    },
+    {
+      "q": "Où trouver les coefficients de l'ECAT de l'UET ou d'autres universités ?",
+      "a": "Ce calculateur ne propose que des préréglages vérifiés auprès d'une source officielle. Pour toute autre université, utilisez le mode personnalisé et recopiez les coefficients de son prospectus en vigueur."
+    },
+    {
+      "q": "L'agrégat calculé est-il officiel ?",
+      "a": "Non. C'est une estimation à partir des notes et coefficients que vous saisissez. Le calcul et la liste de mérite de l'établissement d'admission font foi."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Calculateur de mérite et d'agrégat",
+      "tool-div1": "Composantes",
+      "copy-result-btn": "Copier le résultat dans le presse-papiers"
+    },
+    "label": {
+      "preset": "Coefficients",
+      "componentObtained": "Obtenus",
+      "componentTotal": "Total",
+      "componentWeight": "Coefficient %"
+    },
+    "option": {
+      "preset": {
+        "custom": "Personnalisé (saisissez vos coefficients)"
+      }
+    },
+    "text": {
+      "preset-note": "Les coefficients diffèrent selon les universités et peuvent changer chaque année. Vérifiez-les dans le prospectus officiel de votre session d'admission.",
+      "reset-btn": "Réinitialiser",
+      "result-header-text": "Agrégat",
+      "copy-result-btn": "<span data-icon=\"copy\"></span> Copier le résultat"
+    },
+    "content": {
+      "tool": {
+        "text1": "Source :",
+        "text2": "· vérifié",
+        "text3": ". Les coefficients peuvent changer chaque année ; vérifiez-les dans le prospectus officiel.",
+        "div1": "<span>Composante</span><span>Obtenus</span><span>Total</span><span>Coefficient %</span>",
+        "button1": "Calculer l'agrégat",
+        "caption1": "Pourcentage et contribution de chaque composante à l'agrégat",
+        "th1": "Composante",
+        "th2": "Points",
+        "th3": "Coefficient",
+        "th4": "Apporte",
+        "summary1": "Détail du calcul"
+      },
+      "always-check-the-official-prospectus": {
+        "heading": "Vérifiez toujours le prospectus officiel",
+        "p1": "Les formules de mérite sont fixées par chaque université, autorité de régulation médicale ou organisme d'admission, et elles évoluent. Les coefficients varient entre Matric, Intermediate et tests d'entrée ; certains établissements n'utilisent que les notes de HSSC Part-1, ajoutent un entretien ou traitent différemment l'équivalence des O/A Level. Avant de vous fier à un agrégat, ouvrez le prospectus officiel ou l'avis d'admission de votre session et comparez sa formule avec les coefficients saisis.",
+        "p2": "Ce calculateur ne propose des préréglages que lorsque les coefficients ont été vérifiés auprès d'une source officielle, et chaque préréglage indique cette source et la date de vérification :",
+        "caption1": "Préréglages de mérite vérifiés",
+        "th1": "Préréglage",
+        "th2": "Coefficients",
+        "th3": "Vérifié",
+        "p3": "Pour toute autre université, choisissez Personnalisé et recopiez les coefficients de son prospectus. Si la formule comprend un élément que ce calculateur ne gère pas, comme des points supplémentaires pour hafiz-e-Quran ou une déduction pour une tentative d'amélioration, appliquez d'abord cet ajustement à vos notes."
+      },
+      "improving-your-aggregate": {
+        "heading": "Améliorer votre agrégat",
+        "li1": "<strong>Regardez les coefficients :</strong> une composante à 50% ou 75% fait bien plus varier votre agrégat qu'une composante à 10%. Avec la formule du NUST, chaque point de pourcentage supplémentaire au NET ajoute 0.75 à votre agrégat.",
+        "li2": "<strong>Sachez ce qui est figé :</strong> vos notes de Matric sont généralement définitives au moment de la candidature ; votre test d'entrée et parfois vos notes d'Intermediate ne le sont pas.",
+        "li3": "<strong>Comparez avec le mérite passé :</strong> les établissements publient souvent les derniers mérites admis des années précédentes. Ne les considérez que comme un repère approximatif : ils varient selon le nombre de candidats et de places."
+      }
+    },
+    "title": {
+      "copy-result-btn": "Copier le résultat dans le presse-papiers"
+    },
+    "components": {
+      "label": "Composante {{n}}",
+      "placeholder1": "ex. Matric",
+      "placeholder2": "ex. Intermediate",
+      "placeholder3": "ex. Test d'entrée",
+      "placeholder4": "ex. Entretien",
+      "placeholder5": "Facultatif"
+    }
+  },
+  "client": {
+    "presets": {
+      "nust-net": {
+        "name": "NUST licence (sur la base du NET)",
+        "institution": "National University of Sciences & Technology (NUST), Islamabad",
+        "components": {
+          "ssc": "SSC / Matric / O Level",
+          "hssc": "HSSC / FSc (Part-1 ou complet) / A Level / DAE",
+          "net": "Test d'entrée du NUST (NET)"
+        },
+        "note": "Critères généraux d'admission sur la base du NET. Les candidats encore en A Level se voient attribuer un coefficient de 25% sur les notes d'équivalence O Level (IBCC). Les candidats ACT/SAT aux places nationales suivent la même répartition 75/10/15, avec le score ACT/SAT à la place du NET.",
+        "sourceName": "NUST : Merit Generation Criteria"
+      },
+      "pmdc-mdcat": {
+        "name": "MBBS / BDS mérite ouvert (PM&DC, MDCAT)",
+        "institution": "Pakistan Medical & Dental Council (facultés de médecine et de dentaire publiques et privées)",
+        "components": {
+          "ssc": "SSC / Matriculation / équivalent",
+          "hssc": "FSc Pre-Medical / HSSC / équivalent",
+          "mdcat": "MDCAT"
+        },
+        "note": "Fixé par les PM&DC (Admissions, Curriculum and Conduct) Policy and Regulations 2026, notifiés le 12 octobre 2026, pour les places au mérite ouvert des facultés publiques et privées. Les facultés gérées par les forces armées admettent via la NUMS et son propre test d'admission.",
+        "sourceName": "PM&DC Admissions, Curriculum and Conduct Policy and Regulations 2026"
+      }
+    },
+    "defaults": {
+      "matric": "Matric",
+      "intermediate": "Intermediate",
+      "entryTest": "Test d'entrée"
+    },
+    "errors": {
+      "addComponent": "Ajoutez au moins une composante.",
+      "tooMany": "Utilisez au maximum {{max}} composantes.",
+      "enterObtained": "{{name}} : saisissez les points obtenus.",
+      "enterTotal": "{{name}} : saisissez le total des points.",
+      "enterWeight": "{{name}} : saisissez le coefficient.",
+      "totalPositive": "{{name}} : le total des points doit être supérieur à 0.",
+      "obtainedNonNegative": "{{name}} : les points obtenus doivent être de 0 ou plus.",
+      "obtainedOverTotal": "{{name}} : les points obtenus ({{obtained}}) ne peuvent pas dépasser le total ({{total}}).",
+      "weightRange": "{{name}} : le coefficient doit être supérieur à 0% et au plus égal à 100%.",
+      "noComponents": "Saisissez les points et un coefficient pour au moins une composante.",
+      "weightsAddMore": "Les coefficients totalisent {{total}}%, mais ils doivent faire 100%. Ajoutez {{diff}}% à une ou plusieurs composantes.",
+      "weightsRemove": "Les coefficients totalisent {{total}}%, mais ils doivent faire 100%. Retirez {{diff}}% à une ou plusieurs composantes."
+    },
+    "componentName": "Composante {{n}}",
+    "steps": {
+      "component": "{{name}} : {{obtained}} ÷ {{total}} × 100 = {{pct}}%, × coefficient {{weight}}% = {{contribution}}",
+      "aggregate": "Agrégat = {{sum}} = {{exact}} ≈ {{rounded}}%"
+    },
+    "weights": {
+      "ok": "Coefficients saisis : {{total}}% ✓",
+      "notOk": "Coefficients saisis : {{total}}% (le total doit être de 100%)"
+    },
+    "result": {
+      "header": "Agrégat",
+      "headerPreset": "Agrégat ({{preset}})"
+    },
+    "copy": {
+      "aggregate": "Agrégat : {{aggregate}}%"
+    }
+  }
+}

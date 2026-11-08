@@ -1,0 +1,194 @@
+{
+  "listing": {
+    "name": "Penghitung Kata & Karakter",
+    "shortName": "Penghitung Kata",
+    "description": "Hitung kata, karakter (dengan dan tanpa spasi), kalimat, paragraf, dan waktu baca secara langsung saat Anda mengetik.",
+    "shortDescription": "Hitung kata, karakter (dengan dan tanpa spasi), kalimat, paragraf, dan waktu baca secara langsung saat Anda mengetik.",
+    "keywords": [
+      "penghitung kata",
+      "hitung jumlah karakter",
+      "menghitung jumlah kata online",
+      "penghitung kalimat",
+      "kalkulator waktu baca"
+    ]
+  },
+  "title": "Penghitung Kata - Hitung Karakter & Waktu Baca",
+  "description": "Penghitung kata dan karakter online gratis. Hitung kata, karakter, kalimat, waktu baca, dan kata teratas secara langsung saat Anda mengetik.",
+  "h1": "Penghitung Kata & Karakter",
+  "quickAnswer": "Untuk menganalisis teks, ketik atau tempelkan konten langsung ke editor. Penghitung kata ini menghitung secara langsung jumlah kata, karakter dengan dan tanpa spasi, kalimat, paragraf, dan waktu baca berdasarkan 225 kata per menit. Semuanya diproses secara lokal dengan dukungan Unicode penuh, sehingga tulisan Anda tetap privat dan aman.",
+  "formula": {
+    "title": "Rumus Analisis Leksikal & Kecepatan Membaca",
+    "expression": "Jumlah Kata = Total Token Kata Unicode (\\p{L}\\p{N}+)  |  Waktu Baca = Kata / 225 wpm",
+    "explanation": "Kata dipecah menjadi token dengan mencocokkan rangkaian huruf dan angka Unicode yang bersambung, sehingga kontraksi dan karakter dari berbagai aksara dikenali dengan benar. Perkiraan waktu baca dalam hati menggunakan patokan kognitif hasil telaah sejawat, yaitu 225 kata per menit (meta-analisis Brysbaert 2019)."
+  },
+  "workedExamples": [
+    {
+      "title": "Postingan Media Sosial Singkat",
+      "inputs": [
+        "Teks: 'ToolsBuilt provides instant calculators that run entirely in your browser without data collection.'"
+      ],
+      "steps": [
+        "Ambil token kata Unicode: 13 kata",
+        "Hitung total karakter dengan spasi: 98 karakter",
+        "Hitung karakter yang terlihat tanpa spasi: 86 karakter",
+        "Hitung waktu baca dalam hati (13 / 225 wpm): 3 detik"
+      ],
+      "result": "13 kata | 98 karakter (86 tanpa spasi) | 1 kalimat | waktu baca 3 detik"
+    },
+    {
+      "title": "Teks Multibahasa Unicode dengan Emoji",
+      "inputs": [
+        "Teks: 'Café au lait costs €4.50 in Paris! ☕'"
+      ],
+      "steps": [
+        "Pecah kata beraksen dan angka menjadi token: ['Café', 'au', 'lait', 'costs', '4', '50', 'in', 'Paris'] = 8 kata",
+        "Hitung code point Unicode (emoji dihitung 1 glyph): 36 karakter",
+        "Hitung karakter tanpa spasi: 29 karakter"
+      ],
+      "result": "8 kata | 36 karakter (29 tanpa spasi) | 1 kalimat | waktu baca 2 detik"
+    },
+    {
+      "title": "Waktu Baca Esai Panjang (450 Kata)",
+      "inputs": [
+        "Teks: 450 kata isi tulisan"
+      ],
+      "steps": [
+        "Jumlahkan total kata: 450 kata",
+        "Hitung durasi membaca dalam hati: 450 ÷ 225 wpm = 2 menit 0 detik",
+        "Hitung durasi berbicara santai: 450 ÷ 140 wpm = 3 menit 13 detik"
+      ],
+      "result": "450 kata | Waktu baca: 2 menit 0 detik | Waktu bicara: 3 menit 13 detik"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Hanya Memisahkan Berdasarkan Spasi",
+      "description": "Menggunakan text.split(' ') menghitung tanda baca yang berdiri sendiri, spasi ganda, dan emoji sebagai kata terpisah. Penghitungan yang akurat memerlukan tokenisasi huruf Unicode."
+    },
+    {
+      "title": "Menganggap Kecepatan Membaca 300 WPM",
+      "description": "Meskipun 300 wpm sering disebut, meta-analisis kognitif empiris (Brysbaert 2019) menetapkan patokan membaca dalam hati orang dewasa pada 225 wpm."
+    },
+    {
+      "title": "Tertukar antara Karakter dengan dan tanpa Spasi",
+      "description": "Media sosial, agensi penerjemahan, dan formulir dengan batas karakter membedakan total glyph dengan spasi dan karakter yang terlihat tanpa spasi."
+    },
+    {
+      "title": "Salah Menghitung Pasangan Surrogate Emoji UTF-16",
+      "description": "Di JavaScript dasar, emoji surrogate terhitung sebagai 2 karakter. Perhitungan panjang yang akurat memerlukan Array.from(text) atau penghitungan code point Unicode dengan regex."
+    }
+  ],
+  "sources": [
+    {
+      "name": "Unicode Standard Annex #29: Unicode Text Segmentation"
+    },
+    {
+      "name": "W3C Internationalization Working Group"
+    },
+    {
+      "name": "Brysbaert, M. (2019) How many words do we read per minute? A review and meta-analysis"
+    }
+  ],
+  "howto": {
+    "name": "Cara Menghitung Kata dan Karakter secara Online",
+    "description": "Panduan langkah demi langkah menggunakan Penghitung Kata gratis dari ToolsBuilt.",
+    "steps": [
+      {
+        "name": "Ketik atau Tempelkan Teks",
+        "text": "Ketik atau tempelkan teks Anda ke area input utama."
+      },
+      {
+        "name": "Lihat Statistik Real-Time",
+        "text": "Baca jumlah kata, jumlah karakter, kalimat, dan perkiraan waktu baca yang diperbarui secara otomatis."
+      },
+      {
+        "name": "Salin atau Hapus Teks",
+        "text": "Gunakan tombol Salin Teks untuk menyalin teks ke papan klip atau Hapus Teks untuk mengosongkannya."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Bagaimana Penghitung Kata & Karakter menghitung jumlah kata?",
+      "a": "Alat ini menggunakan tokenisasi kata yang mendukung Unicode (mencocokkan huruf dan angka berurutan di semua alfabet, termasuk karakter beraksen). Tanda hubung dan batas tanda baca diurai sesuai konvensi tipografi standar."
+    },
+    {
+      "q": "Apa perbedaan karakter dengan spasi dan tanpa spasi?",
+      "a": "Karakter dengan spasi menghitung setiap glyph, spasi, dan baris baru. Karakter tanpa spasi tidak menghitung spasi, hanya karakter yang terlihat."
+    },
+    {
+      "q": "Bagaimana waktu baca dan waktu bicara diperkirakan?",
+      "a": "Waktu baca didasarkan pada patokan membaca orang dewasa sebesar 225 kata per menit (wpm), yang ditetapkan dalam studi psikologi kognitif. Waktu bicara menggunakan patokan presentasi santai sebesar 140 kata per menit."
+    },
+    {
+      "q": "Mengapa stop word umum tidak dihitung dalam kepadatan kata kunci?",
+      "a": "Kata gramatikal umum seperti 'the', 'is', 'at', dan 'and' sangat sering muncul di hampir semua teks bahasa Inggris. Menyaring stop word memperlihatkan kata kunci topik yang bermakna dalam konten Anda."
+    },
+    {
+      "q": "Apakah teks yang saya ketik disimpan atau dikirim ke server?",
+      "a": "Tidak. Semua analisis teks berjalan 100% secara lokal di memori browser Anda. Tulisan Anda tidak pernah dikirim, disimpan, atau dianalisis di server eksternal mana pun."
+    },
+    {
+      "q": "Bagaimana alat ini menghitung kalimat dan paragraf?",
+      "a": "Kalimat dikenali dari tanda baca akhir standar (. ! ?). Paragraf dihitung berdasarkan pergantian baris yang berurutan."
+    },
+    {
+      "q": "Bisakah penghitung kata ini digunakan di perangkat seluler?",
+      "a": "Bisa. Alat ini sepenuhnya responsif dan langsung berjalan di ponsel dan tablet melalui browser seluler apa pun."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Formulir Penghitung Kata &amp; Karakter"
+    },
+    "label": {
+      "text-input": "<span>Ketik atau Tempelkan Teks Anda di Bawah:</span>"
+    },
+    "placeholder": {
+      "text-input": "Mulai mengetik atau tempelkan konten Anda di sini untuk menghitung statistik kata dan karakter secara real-time..."
+    },
+    "text": {
+      "copy-btn": "<span data-icon=\"copy\"></span> Salin Teks",
+      "copy-stats-btn": "Salin Ringkasan Statistik",
+      "clear-btn": "Hapus Teks",
+      "stat-reading-time": "0 detik",
+      "stat-speaking-time": "0 detik"
+    },
+    "content": {
+      "live-text-statistics": {
+        "heading": "Statistik Teks Langsung",
+        "div1": "Total Kata",
+        "div2": "Karakter (dengan spasi)",
+        "div3": "Karakter (tanpa spasi)",
+        "div4": "Kalimat",
+        "div5": "Paragraf",
+        "div6": "Perkiraan Waktu Baca (225 wpm)",
+        "div7": "Perkiraan Waktu Bicara (140 wpm)",
+        "heading-2": "5 Kata Kunci Teratas (Tanpa Stop Word)",
+        "li1": "Ketik atau tempelkan teks untuk melihat kepadatan kata kunci."
+      },
+      "how-when-to-use-the-word": {
+        "heading": "Cara &amp; Kapan Menggunakan Penghitung Kata",
+        "li1": "<strong>Batas Karakter Media Sosial:</strong> Periksa jumlah karakter sebelum memposting ke platform seperti X / Twitter (280 karakter), postingan LinkedIn (3,000 karakter), atau caption Instagram (2,200 karakter).",
+        "li2": "<strong>Penulisan Akademik &amp; Esai:</strong> Pastikan esai, abstrak, dan makalah memenuhi batas panjang yang diwajibkan (mis. personal statement 500 kata atau abstrak jurnal 250 kata).",
+        "li3": "<strong>Latihan Pidato &amp; Presentasi:</strong> Perkirakan durasi presentasi secara akurat dengan patokan bicara 140 wpm agar sesuai dengan waktu yang dialokasikan.",
+        "li4": "<strong>Meta Description &amp; Judul Halaman SEO:</strong> Jaga meta description dalam rentang 150–160 karakter yang disarankan agar cuplikan di mesin pencari tidak terpotong."
+      }
+    }
+  },
+  "client": {
+    "time": {
+      "zero": "0 detik",
+      "sec": "{{s}} detik",
+      "minSec": "{{m}} menit {{s}} detik"
+    },
+    "topWords": {
+      "empty": "Belum ada kata kunci berulang yang terdeteksi."
+    },
+    "copy": {
+      "text": "Teks disalin ke papan klip",
+      "stats": "Statistik teks disalin ke papan klip",
+      "summary": "Jumlah kata: {{words}} | Karakter: {{characters}} ({{charactersNoSpaces}} tanpa spasi) | Kalimat: {{sentences}} | Paragraf: {{paragraphs}} | Waktu baca: {{readingTime}} | Waktu bicara: {{speakingTime}}"
+    }
+  }
+}

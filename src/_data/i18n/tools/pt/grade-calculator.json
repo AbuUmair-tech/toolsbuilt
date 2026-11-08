@@ -1,0 +1,259 @@
+{
+  "listing": {
+    "name": "Calculadora de notas",
+    "shortName": "Calculadora de notas",
+    "description": "Calcule a sua nota ponderada atual na disciplina e descubra exatamente quanto precisa tirar na prova final para chegar à nota desejada.",
+    "shortDescription": "Calcule a sua nota ponderada atual na disciplina e descubra exatamente quanto precisa tirar na prova final para chegar à nota desejada.",
+    "keywords": [
+      "calculadora de notas",
+      "calculadora de nota ponderada",
+      "quanto preciso tirar na prova final",
+      "calcular nota da disciplina",
+      "calcular nota da prova final"
+    ]
+  },
+  "title": "Calculadora de notas: nota ponderada e nota na prova final",
+  "description": "Calculadora de notas: calcule a nota ponderada atual da disciplina e veja exatamente quanto precisa tirar na prova final para atingir sua meta.",
+  "h1": "Calculadora de notas",
+  "quickAnswer": "Na calculadora de notas, para calcular a nota ponderada multiplique a nota de cada avaliação pelo seu peso no plano de ensino, some os resultados e divida pelo total de peso já avaliado: nota ponderada = Σ(nota × peso) ÷ Σ(peso). Para saber quanto precisa tirar na prova final, use: nota necessária = (nota desejada − pontos atuais) ÷ peso da final. Todos os cálculos rodam no navegador.",
+  "formula": {
+    "title": "Fórmula da nota ponderada",
+    "expression": "Nota ponderada = Σ(nota × peso) ÷ Σ(peso)",
+    "explanation": "Multiplique cada nota pelo seu peso percentual no plano de ensino, some os pontos e divida pelo total de peso já avaliado. Para saber a nota necessária na prova final: nota necessária = [nota desejada × 100 − pontos ponderados atuais] ÷ peso da final."
+  },
+  "workedExamples": [
+    {
+      "title": "Média ponderada padrão da disciplina",
+      "inputs": [
+        "Lição de casa (peso 20%): 95%",
+        "Prova parcial 1 (peso 25%): 84%",
+        "Prova parcial 2 (peso 25%): 88%"
+      ],
+      "steps": [
+        "Pontos da lição de casa: 95 × 0.20 = 19.0",
+        "Pontos da prova parcial 1: 84 × 0.25 = 21.0",
+        "Pontos da prova parcial 2: 88 × 0.25 = 22.0",
+        "Pontos atuais: 19.0 + 21.0 + 22.0 = 62.0 de 70% já avaliados",
+        "Nota atual normalizada: 62.0 ÷ 0.70 = 88.57% (B+)"
+      ],
+      "result": "Nota ponderada atual de 88.57% (B+)"
+    },
+    {
+      "title": "Nota necessária na prova final para tirar 'A'",
+      "inputs": [
+        "Nota desejada na disciplina: 90.0% (A)",
+        "Pontos ponderados atuais: 62.0 pontos obtidos de 70% já avaliados",
+        "Peso da prova final: 30%"
+      ],
+      "steps": [
+        "Pontos necessários no total: 90.0 pontos",
+        "Pontos que faltam e devem vir da final: 90.0 − 62.0 = 28.0 pontos",
+        "Nota necessária na final: 28.0 ÷ 0.30 = 93.33%"
+      ],
+      "result": "93.33% na prova final para garantir um A"
+    },
+    {
+      "title": "Aprovação garantida (0% necessário)",
+      "inputs": [
+        "Nota desejada na disciplina: 70.0% (C)",
+        "Pontos ponderados atuais: 72.5 pontos obtidos de 80% já avaliados",
+        "Peso da prova final: 20%"
+      ],
+      "steps": [
+        "Pontos necessários: 70.0 − 72.5 = −2.5 pontos",
+        "Como os pontos atuais já passam da meta, a nota necessária na final é ≤ 0%"
+      ],
+      "result": "0.0% necessário (aprovação já garantida)"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Tirar a média simples em vez da ponderada",
+      "description": "A média simples das notas ignora que um teste de 20 minutos e uma prova parcial completa têm pesos muito diferentes no plano de ensino."
+    },
+    {
+      "title": "Não normalizar um semestre ainda incompleto",
+      "description": "Se só 50% das avaliações já aconteceram, ter 42 pontos acumulados não quer dizer que você está com 42% (F). É preciso dividir por 0.50, o que dá 84% (B)."
+    },
+    {
+      "title": "Supor que os pesos somam 100% antes da final",
+      "description": "As avaliações já feitas raramente somam 100% antes da prova final ser corrigida. Considere sempre o peso que falta da prova final ao calcular a sua situação atual."
+    }
+  ],
+  "sources": [
+    {
+      "label": "AACRAO: práticas de avaliação e normas de registros acadêmicos"
+    },
+    {
+      "label": "Carnegie Mellon Eberly Center: estratégias de avaliação e atribuição de notas"
+    },
+    {
+      "label": "Indiana University Bloomington: cálculo de notas ponderadas"
+    }
+  ],
+  "howto": {
+    "name": "Como calcular a nota ponderada da disciplina e a meta na prova final",
+    "description": "Instruções passo a passo para calcular a média ponderada da disciplina e a nota necessária na prova final.",
+    "steps": [
+      {
+        "name": "Informe as avaliações já feitas",
+        "text": "Digite o nome de cada categoria de avaliação, a sua nota em porcentagem e o peso dela no plano de ensino."
+      },
+      {
+        "name": "Defina a nota desejada na disciplina",
+        "text": "Informe a nota final que você quer (ex.: 90% para um A) e o peso da prova final em porcentagem."
+      },
+      {
+        "name": "Veja a nota necessária na final",
+        "text": "Veja na hora a sua média ponderada atual, o conceito e a nota necessária na prova final."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Como a nota ponderada é calculada?",
+      "a": "Para calcular a nota ponderada, multiplique a nota de cada avaliação pelo seu peso percentual, some todos os pontos obtidos e divida pelo total de peso já avaliado. Matematicamente: nota ponderada = Σ(nota × peso) ÷ Σ(peso)."
+    },
+    {
+      "q": "Como calcular quanto preciso tirar na prova final?",
+      "a": "Subtraia os seus pontos ponderados atuais do total de pontos necessários e divida pelo peso da prova final: nota necessária = (pontos desejados - pontos atuais) ÷ peso da final. Por exemplo, se você precisa de 30 pontos e a final vale 30% da disciplina, precisa de 30 ÷ 0.30 = 100% na final."
+    },
+    {
+      "q": "O que acontece se os pesos das avaliações não somarem 100%?",
+      "a": "Nossa calculadora divide automaticamente os pontos acumulados pela soma dos pesos já avaliados. Isso normaliza a sua nota para mostrar com precisão a sua situação real em qualquer momento do semestre."
+    },
+    {
+      "q": "E se o meu plano de ensino usar pontos totais em vez de porcentagens?",
+      "a": "Se o plano usar pontos (ex.: lição de casa 200 pts, prova parcial 300 pts, final 500 pts, de 1000), divida os pontos de cada categoria pelo total de pontos da disciplina para achar o peso percentual: 200 ÷ 1000 = 20% de peso."
+    },
+    {
+      "q": "O que significa a calculadora dizer que preciso de mais de 100% na final?",
+      "a": "Se a nota necessária passar de 100%, significa que nem a nota máxima na prova final basta para chegar à sua meta. Você precisaria de pontos extras ou de uma escala de notas ajustada (curva) para chegar lá."
+    },
+    {
+      "q": "O que significa a calculadora dizer que preciso de 0% ou de uma nota negativa na final?",
+      "a": "Significa que você já acumulou pontos ponderados suficientes durante o período para ter a nota desejada garantida matematicamente, mesmo tirando zero na prova final."
+    },
+    {
+      "q": "Esta calculadora de notas salva as minhas notas?",
+      "a": "Não. Todos os cálculos de notas rodam apenas no seu navegador. Nenhum nome de avaliação, nota de prova ou registro acadêmico pessoal é transmitido ou salvo."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Formulário da calculadora de notas",
+      "tool-table1": "Tabela de avaliações ponderadas",
+      "tool-button1": "Remover a linha de lição de casa",
+      "tool-button3": "Remover a linha da prova parcial",
+      "tool-button5": "Remover a linha do projeto da disciplina",
+      "tool-button7": "Remover a linha dos testes",
+      "copy-result-btn": "Copiar o resultado para a área de transferência"
+    },
+    "content": {
+      "tool": {
+        "th1": "Avaliação / categoria",
+        "th2": "Nota (%)",
+        "th3": "Peso (%)",
+        "th4": "Ação"
+      },
+      "final-exam-target-setting": {
+        "heading": "Meta para a prova final",
+        "button1": "Calcular nota"
+      },
+      "how-when-to-use-the-grade": {
+        "li1": "<strong>Situação no meio do período:</strong> confira a sua porcentagem real na disciplina no meio do período, quando só as lições de casa e os testes foram corrigidos.",
+        "li2": "<strong>Estratégia para a semana de provas:</strong> descubra exatamente quanto precisa tirar na prova final para manter um A ou não ficar abaixo da nota mínima de aprovação.",
+        "li3": "<strong>Planejamento pelos pesos:</strong> organize os estudos identificando as avaliações de maior peso (como projetos em grupo de 30% ou provas de 25%), que têm mais impacto.",
+        "li4": "<strong>GPA acumulado da faculdade:</strong> quer acompanhar o desempenho geral no curso entre os períodos? Use esta ferramenta junto com a nossa <a href=\"/tools/gpa-calculator/\">Calculadora de GPA</a>."
+      }
+    },
+    "title": {
+      "tool-button2": "Remover a linha da avaliação",
+      "tool-button4": "Remover a linha da avaliação",
+      "tool-button6": "Remover a linha da avaliação",
+      "tool-button8": "Remover a linha da avaliação",
+      "copy-result-btn": "Copiar o resultado para a área de transferência"
+    },
+    "text": {
+      "add-assignment-btn": "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><line x1=\"12\" y1=\"5\" x2=\"12\" y2=\"19\"></line><line x1=\"5\" y1=\"12\" x2=\"19\" y2=\"12\"></line></svg>\n          Adicionar avaliação",
+      "reset-grade-form": "Limpar tudo",
+      "result-header-text": "Nota atual e meta na final",
+      "copy-result-btn": "<svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"9\" y=\"9\" width=\"13\" height=\"13\" rx=\"2\" ry=\"2\"></rect><path d=\"M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1\"></path></svg>\n            <span>Copiar</span>",
+      "how-to-use-heading": "Como e quando usar a calculadora de notas"
+    },
+    "label": {
+      "target-grade-val": "Nota final desejada na disciplina (%) <span class=\"text-accent\">*</span>",
+      "final-weight-val": "Peso da prova final (%) <span class=\"text-accent\">*</span>"
+    },
+    "assignments": {
+      "nameLabel": "Nome da avaliação",
+      "scoreLabel": "Nota em porcentagem",
+      "weightLabel": "Peso em porcentagem",
+      "homework": {
+        "name": "Lição de casa",
+        "placeholder": "ex.: Lição de casa"
+      },
+      "midterm": {
+        "name": "Prova parcial",
+        "placeholder": "ex.: Prova parcial"
+      },
+      "project": {
+        "name": "Projeto da disciplina",
+        "placeholder": "ex.: Projeto da disciplina"
+      },
+      "quizzes": {
+        "name": "Testes",
+        "placeholder": "ex.: Testes"
+      }
+    }
+  },
+  "client": {
+    "assignmentName": "Avaliação {{n}}",
+    "itemName": "Item {{n}}",
+    "errors": {
+      "noAssignments": "Informe pelo menos uma avaliação.",
+      "negativeWeight": "O peso da avaliação não pode ser negativo.",
+      "noValidGrades": "Nenhuma nota numérica válida foi informada.",
+      "zeroWeight": "O peso total já avaliado não pode ser 0%.",
+      "invalidTarget": "Informe números válidos para a meta, a nota atual e os pesos.",
+      "finalWeight": "O peso da prova final deve ser maior que 0%.",
+      "keepOneRow": "É preciso manter pelo menos uma linha de avaliação."
+    },
+    "final": {
+      "achievable": "Você precisa tirar {{needed}}% na prova final para garantir {{target}}% nesta disciplina.",
+      "alreadyAchieved": "Você já garantiu {{target}}% na disciplina, mesmo tirando 0% na prova final!",
+      "extraCredit": "Você precisa de {{needed}}% na prova final. Esta meta exige pontos extras além de 100%."
+    },
+    "copy": {
+      "text": "Nota atual: {{current}}% ({{letter}}) em {{weight}}% do peso da disciplina já avaliado. Nota desejada: {{target}}%. Necessário na final (peso {{finalWeight}}%): {{needed}}%.",
+      "copied": "<span>Copiado!</span>"
+    },
+    "result": {
+      "header": "Nota atual e meta na final"
+    },
+    "stats": {
+      "currentGrade": "Nota atual",
+      "weightCompleted": "Peso já avaliado",
+      "targetGrade": "Nota final desejada",
+      "neededOnFinal": "Nota necessária na final"
+    },
+    "formula": {
+      "guidance": "<strong>Orientação para a prova final:</strong>",
+      "formula": "Fórmula: nota necessária na final = [meta × (P avaliado + P da final) - pontos atuais] ÷ P da final",
+      "calculation": "Cálculo: [{{target}} × {{weight}}% - {{points}}] ÷ {{finalWeight}}% = <strong>{{needed}}%</strong>"
+    },
+    "rows": {
+      "placeholder": "ex.: Projeto 1",
+      "nameLabel": "Nome da avaliação",
+      "scoreLabel": "Nota em porcentagem",
+      "weightLabel": "Peso em porcentagem",
+      "remove": "Remover a linha da avaliação"
+    },
+    "defaults": {
+      "homework": "Lição de casa",
+      "midterm": "Prova parcial",
+      "project": "Projeto da disciplina",
+      "quizzes": "Testes"
+    }
+  }
+}

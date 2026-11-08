@@ -1,0 +1,65 @@
+/* coin-flip-dice-roller: layout only. Colours, borders and type live in assets/css/tools.css. */
+
+.cd-pieces {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: var(--space-4) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cd-pieces:empty {
+  display: none;
+}
+
+.cd-coin,
+.cd-die {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cd-coin {
+  width: 2.75rem;
+  height: 2.75rem;
+}
+
+.cd-die {
+  position: relative;
+  width: 3rem;
+  height: 3rem;
+}
+
+.cd-die-type {
+  position: absolute;
+  top: 1px;
+  inset-inline-end: 3px;
+}
+
+.cd-pieces.is-few .cd-coin,
+.cd-pieces.is-few .cd-die {
+  width: 4.5rem;
+  height: 4.5rem;
+}
+
+.cd-history {
+  margin-top: var(--space-6);
+}
+
+.cd-history-title {
+  margin: 0 0 var(--space-2);
+}
+
+.cd-history-list {
+  margin: 0;
+  padding-inline-start: var(--space-6);
+}
+
+.cd-history-list li + li {
+  margin-top: var(--space-1);
+}
+
+.cd-history-list:empty {
+  display: none;
+}

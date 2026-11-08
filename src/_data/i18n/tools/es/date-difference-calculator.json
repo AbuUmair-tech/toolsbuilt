@@ -1,0 +1,221 @@
+{
+  "listing": {
+    "name": "Calculadora de diferencia entre fechas",
+    "shortName": "Diferencia entre fechas",
+    "description": "Calcula los días totales, los días hábiles (lun-vie) y el tiempo transcurrido entre dos fechas cualesquiera.",
+    "shortDescription": "Calcula los días totales, los días hábiles (lun-vie) y el tiempo transcurrido entre dos fechas cualesquiera.",
+    "keywords": [
+      "diferencia entre fechas",
+      "días entre dos fechas",
+      "días hábiles entre fechas",
+      "calcular días entre fechas",
+      "contador de días laborables"
+    ]
+  },
+  "title": "Calculadora de diferencia entre fechas: contar días",
+  "description": "Calculadora de diferencia entre fechas gratis: calcula los días exactos, días hábiles, semanas, meses y años que hay entre dos fechas cualesquiera.",
+  "h1": "Calculadora de diferencia entre fechas",
+  "quickAnswer": "Para calcular la diferencia entre fechas, elige la fecha de inicio y la de fin, y decide si quieres incluir el último día. La calculadora te da los días naturales totales, los días hábiles, los fines de semana, las semanas y los meses. Todos los cálculos se hacen en tu navegador en UTC, lo que evita errores por el horario de verano.",
+  "formula": {
+    "title": "Fórmula del intervalo entre fechas",
+    "expression": "Duración = (Fecha de fin UTC ms - Fecha de inicio UTC ms) / 86,400,000 ms [± 1 día si es inclusiva]",
+    "explanation": "La duración de calendario mide los intervalos completos de 24 horas UTC entre dos fechas. En el modo inclusivo se suma 1 día para contar los dos días extremos. Los días hábiles se obtienen revisando cada día del intervalo, contando de lunes a viernes y saltando los fines de semana."
+  },
+  "workedExamples": [
+    {
+      "title": "Un mes laboral estándar (exclusivo)",
+      "inputs": [
+        "Fecha de inicio: 1 de octubre de 2026 (jueves)",
+        "Fecha de fin: 31 de octubre de 2026 (sábado)",
+        "Inclusivo: no"
+      ],
+      "steps": [
+        "Calcular el intervalo de días naturales: 30 días",
+        "Contar los días hábiles de lunes a viernes: 22 días",
+        "Contar los días de fin de semana: 8 días (4 fines de semana completos)"
+      ],
+      "result": "30 días en total (22 días hábiles, 8 días de fin de semana, 4 semanas y 2 días)"
+    },
+    {
+      "title": "Duración inclusiva de un evento (congreso / alquiler)",
+      "inputs": [
+        "Fecha de inicio: 1 de noviembre de 2026 (domingo)",
+        "Fecha de fin: 5 de noviembre de 2026 (jueves)",
+        "Inclusivo: sí"
+      ],
+      "steps": [
+        "Calcular el intervalo bruto: 4 días",
+        "Sumar 1 día por el extremo inclusivo: 5 días",
+        "Contar los días laborables (lun-jue): 4 días hábiles, 1 día de fin de semana (domingo)"
+      ],
+      "result": "5 días en total (4 días hábiles, 1 día de fin de semana, 120 horas)"
+    },
+    {
+      "title": "Duración entre trimestres que cruza el cambio de año",
+      "inputs": [
+        "Fecha de inicio: 15 de diciembre de 2025 (lunes)",
+        "Fecha de fin: 15 de marzo de 2026 (domingo)",
+        "Inclusivo: no"
+      ],
+      "steps": [
+        "Calcular los días naturales cruzando el cambio de año: 90 días",
+        "Descomponer en meses de calendario: exactamente 3 meses (0 días restantes)",
+        "Contar los días laborables: 65 días hábiles, 25 días de fin de semana"
+      ],
+      "result": "90 días en total (3 meses, 12 semanas y 6 días, 2,160 horas)"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "El problema de los postes (inclusivo frente a exclusivo)",
+      "description": "Una estancia de hotel de viernes a domingo son 2 noches (exclusivo), pero abarca 3 días naturales (inclusivo). No definir bien los extremos provoca errores en las reservas."
+    },
+    {
+      "title": "Calcular los días hábiles como 5/7 aproximado",
+      "description": "Los días laborables no pueden aproximarse como 5/7 de los días naturales, porque en intervalos cortos la posición de los fines de semana cambia mucho el recuento."
+    },
+    {
+      "title": "Suponer que se excluyen los festivos",
+      "description": "El contador de días hábiles excluye sábados y domingos. Los festivos nacionales y regionales varían según la jurisdicción y no se eliminan automáticamente."
+    },
+    {
+      "title": "Cambios de hora en la zona horaria local",
+      "description": "Calcular la diferencia de días con marcas de tiempo a medianoche local puede introducir errores de 23 o 25 horas en los cambios al horario de verano."
+    }
+  ],
+  "sources": [
+    {
+      "name": "Normas ISO 8601 de fecha y hora"
+    },
+    {
+      "name": "Observatorio Naval de EE. UU.: aritmética del calendario gregoriano"
+    },
+    {
+      "name": "Nota del W3C sobre formatos de fecha y hora"
+    }
+  ],
+  "howto": {
+    "name": "Cómo calcular la diferencia entre dos fechas",
+    "description": "Instrucciones paso a paso para calcular la duración y los días hábiles entre dos fechas.",
+    "steps": [
+      {
+        "name": "Introduce las fechas de inicio y fin",
+        "text": "Selecciona la fecha de inicio y la fecha de fin en los campos de calendario."
+      },
+      {
+        "name": "Elige la opción inclusiva",
+        "text": "Si quieres, marca «Incluir la fecha de fin en el recuento» cuando necesites contar los dos días extremos."
+      },
+      {
+        "name": "Consulta el desglose",
+        "text": "Ve los días naturales totales, los días hábiles (lun–vie), los días de fin de semana y el desglose en años, meses y semanas."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "¿Qué diferencia hay entre días naturales y días hábiles?",
+      "a": "Los días naturales incluyen los 7 días de cada semana (de lunes a domingo), mientras que los días hábiles solo cuentan los días laborables de lunes a viernes, sin los fines de semana."
+    },
+    {
+      "q": "¿Cuándo debo marcar «Incluir la fecha de fin en el recuento»?",
+      "a": "Marca esta opción si tu actividad o alquiler incluye los dos días extremos. Por ejemplo, un congreso de lunes a miércoles abarca 3 días completos de evento (inclusivo), pero dura 2 días si mides el tiempo transcurrido (exclusivo)."
+    },
+    {
+      "q": "¿Qué pasa si introduzco una fecha de fin anterior a la de inicio?",
+      "a": "La calculadora detecta las fechas invertidas, las intercambia para calcular un intervalo positivo y muestra un aviso indicando que las fechas se ordenaron automáticamente."
+    },
+    {
+      "q": "¿Cómo se tienen en cuenta los años bisiestos en periodos de varios años?",
+      "a": "Los cálculos usan marcas de tiempo a medianoche UTC y tienen en cuenta cada día bisiesto (29 de febrero) del intervalo, de modo que los años de 366 días se cuentan con total precisión. Si un día no existe en un mes (por ejemplo, el 31), se usa el último día de ese mes."
+    },
+    {
+      "q": "¿Se envía alguna de mis fechas a un servidor externo?",
+      "a": "No. Toda la aritmética de fechas se ejecuta en tu navegador. Ninguna fecha se transmite ni se guarda de forma remota."
+    },
+    {
+      "q": "¿Puedo usar esta herramienta para calcular días hábiles de facturación?",
+      "a": "Sí. El recuento de días hábiles da el número exacto de días que no son fin de semana entre la fecha de inicio y la de fin, ideal para pagos a 30 días o para el seguimiento de SLA."
+    },
+    {
+      "q": "¿Cómo desglosa la herramienta los días en meses y semanas?",
+      "a": "Primero calcula los meses de calendario completos transcurridos y después expresa el resto en semanas y días sobrantes, además de dar los días y las horas totales."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Formulario de la calculadora de diferencia entre fechas",
+      "copy-result-btn": "Copiar el resultado al portapapeles"
+    },
+    "label": {
+      "start-date": "Fecha de inicio <span class=\"text-accent\">*</span>",
+      "end-date": "Fecha de fin <span class=\"text-accent\">*</span>"
+    },
+    "content": {
+      "tool": {
+        "label1": "<input type=\"checkbox\" id=\"include-end-date\" data-param=\"inc\">\n            <span>Incluir la fecha de fin en el recuento (cálculo inclusivo)</span>",
+        "button1": "Calcular diferencia",
+        "div1": "Días naturales totales",
+        "div2": "Días hábiles",
+        "div3": "Años, meses y días",
+        "div4": "Semanas y días",
+        "div5": "Horas transcurridas en total"
+      },
+      "how-when-to-use-the-date": {
+        "heading": "Cómo y cuándo usar la calculadora de diferencia entre fechas",
+        "p1": "Saber la duración exacta entre dos fechas es útil para:",
+        "li1": "<strong>Nóminas y hojas de horas para facturar:</strong> determina los días laborables facturables entre el inicio y el final de un proyecto.",
+        "li2": "<strong>Inmuebles comerciales y alquileres:</strong> calcula la duración exacta de un arrendamiento, el prorrateo del alquiler o el plazo para devolver la fianza.",
+        "li3": "<strong>Plazos legales y de cumplimiento:</strong> controla plazos de respuesta legales, fechas límite para presentar escritos ante un tribunal o plazos de prescripción.",
+        "li4": "<strong>Itinerarios de viaje y alojamiento:</strong> comprueba el número de noches de hotel (exclusivo) frente a los días totales de viaje (inclusivo)."
+      }
+    },
+    "text": {
+      "reset-btn": "Restablecer",
+      "result-header-text": "Resultado de la diferencia entre fechas",
+      "copy-result-btn": "<span data-icon=\"copy\"></span> Copiar resultado",
+      "result-primary-text": "-- días"
+    },
+    "title": {
+      "copy-result-btn": "Copiar el resultado al portapapeles"
+    }
+  },
+  "client": {
+    "errors": {
+      "invalidStart": "Selecciona una fecha de inicio válida (AAAA-MM-DD).",
+      "invalidEnd": "Selecciona una fecha de fin válida (AAAA-MM-DD).",
+      "missingStart": "Selecciona una fecha de inicio válida.",
+      "missingEnd": "Selecciona una fecha de fin válida."
+    },
+    "result": {
+      "days": {
+        "many": "{{n}} días",
+        "one": "{{n}} día",
+        "other": "{{n}} días"
+      },
+      "header": "Diferencia entre fechas",
+      "headerSwapped": "Diferencia entre fechas (fechas ordenadas automáticamente de inicio a fin)"
+    },
+    "stats": {
+      "totalDays": "{{n}} días",
+      "businessDays": "{{n}} días hábiles ({{weekend}} días de fin de semana)",
+      "ymd": "{{years}} años, {{months}} meses, {{days}} días",
+      "weeks": {
+        "many": "{{n}} semanas",
+        "one": "{{n}} semana",
+        "other": "{{n}} semanas"
+      },
+      "days": {
+        "many": "{{n}} días",
+        "one": "{{n}} día",
+        "other": "{{n}} días"
+      },
+      "totalHours": "{{n}} horas en total"
+    },
+    "copy": {
+      "result": "Duración total: {{total}}. Días hábiles: {{business}} días. Equivale a: {{weeks}} sem {{weekDays}} d ({{years}} a {{months}} m {{days}} d).",
+      "resultSwapped": "Duración total: {{total}} (fechas ordenadas automáticamente de inicio a fin). Días hábiles: {{business}} días. Equivale a: {{weeks}} sem {{weekDays}} d ({{years}} a {{months}} m {{days}} d).",
+      "toast": "Diferencia entre fechas copiada al portapapeles"
+    }
+  }
+}

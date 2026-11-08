@@ -1,0 +1,259 @@
+{
+  "listing": {
+    "name": "Calculateur de notes",
+    "shortName": "Calculateur de notes",
+    "description": "Calculez votre moyenne pondérée actuelle dans un cours et la note exacte nécessaire à l'examen final pour atteindre votre objectif.",
+    "shortDescription": "Calculez votre moyenne pondérée actuelle dans un cours et la note exacte nécessaire à l'examen final pour atteindre votre objectif.",
+    "keywords": [
+      "calculateur de notes",
+      "calcul de note pondérée",
+      "calcul note finale",
+      "calcul moyenne d'un cours",
+      "note nécessaire à l'examen final"
+    ]
+  },
+  "title": "Calculateur de notes - Note pondérée et examen final",
+  "description": "Calculateur de notes : votre moyenne pondérée actuelle sur l'ensemble des évaluations et la note exacte nécessaire à l'examen final pour votre objectif.",
+  "h1": "Calculateur de notes",
+  "quickAnswer": "Pour calculer votre note pondérée, multipliez chaque note par son coefficient en pourcentage, additionnez les résultats et divisez par le total des coefficients déjà évalués : Note pondérée = Σ(Note × Coefficient) ÷ Σ(Coefficient). Pour trouver la note nécessaire à l'examen final : Note finale requise = (Note visée − Points actuels) ÷ Coefficient de l'examen final. Ce calculateur de notes fait tous les calculs dans votre navigateur.",
+  "formula": {
+    "title": "Formule de la note pondérée",
+    "expression": "Note pondérée = Σ(Note × Coefficient) ÷ Σ(Coefficient)",
+    "explanation": "Multipliez chaque note par son coefficient en pourcentage, additionnez les points et divisez par le total des coefficients déjà évalués. Pour trouver la note nécessaire à l'examen final : Note finale requise = [Note visée × 100 − Points pondérés actuels] ÷ Coefficient de l'examen final."
+  },
+  "workedExamples": [
+    {
+      "title": "Moyenne pondérée classique d'un cours",
+      "inputs": [
+        "Devoirs (coefficient 20%) : 95%",
+        "Partiel 1 (coefficient 25%) : 84%",
+        "Partiel 2 (coefficient 25%) : 88%"
+      ],
+      "steps": [
+        "Points des devoirs : 95 × 0.20 = 19.0",
+        "Points du partiel 1 : 84 × 0.25 = 21.0",
+        "Points du partiel 2 : 88 × 0.25 = 22.0",
+        "Points actuels : 19.0 + 21.0 + 22.0 = 62.0 sur 70% évalués",
+        "Note actuelle normalisée : 62.0 ÷ 0.70 = 88.57% (B+)"
+      ],
+      "result": "Note pondérée actuelle de 88.57% (B+)"
+    },
+    {
+      "title": "Note nécessaire à l'examen final pour obtenir un « A »",
+      "inputs": [
+        "Note visée pour le cours : 90.0% (A)",
+        "Points pondérés actuels : 62.0 points obtenus sur 70% évalués",
+        "Coefficient de l'examen final : 30%"
+      ],
+      "steps": [
+        "Points visés : 90.0 points au total",
+        "Points restant à obtenir à l'examen final : 90.0 − 62.0 = 28.0 points",
+        "Note requise à l'examen final : 28.0 ÷ 0.30 = 93.33%"
+      ],
+      "result": "93.33% nécessaires à l'examen final pour obtenir un A"
+    },
+    {
+      "title": "Réussite assurée (0% nécessaire)",
+      "inputs": [
+        "Note visée pour le cours : 70.0% (C)",
+        "Points pondérés actuels : 72.5 points obtenus sur 80% évalués",
+        "Coefficient de l'examen final : 20%"
+      ],
+      "steps": [
+        "Points nécessaires : 70.0 − 72.5 = −2.5 points",
+        "Les points actuels dépassent l'objectif : la note requise à l'examen final est ≤ 0%"
+      ],
+      "result": "0.0% nécessaire (réussite déjà acquise)"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Faire une moyenne simple au lieu d'une moyenne pondérée",
+      "description": "Une moyenne simple des notes ignore qu'une interrogation de 20 minutes et un partiel complet ont des coefficients très différents dans votre programme."
+    },
+    {
+      "title": "Oublier de normaliser un semestre incomplet",
+      "description": "Si seulement 50% des évaluations ont eu lieu, 42 points cumulés ne signifient pas 42% (F). Il faut diviser par 0.50, ce qui donne 84% (B)."
+    },
+    {
+      "title": "Supposer que les coefficients font 100% avant l'examen final",
+      "description": "Vos évaluations déjà notées totalisent rarement 100% avant la correction de l'examen final. Tenez toujours compte du coefficient restant de l'examen final pour évaluer votre situation actuelle."
+    }
+  ],
+  "sources": [
+    {
+      "label": "AACRAO : pratiques de notation et normes des dossiers scolaires"
+    },
+    {
+      "label": "Carnegie Mellon Eberly Center : stratégies de notation et d'évaluation"
+    },
+    {
+      "label": "Indiana University Bloomington : calcul des notes pondérées"
+    }
+  ],
+  "howto": {
+    "name": "Comment calculer une note pondérée et la note visée à l'examen final",
+    "description": "Instructions pas à pas pour calculer une moyenne pondérée de cours et la note nécessaire à l'examen final.",
+    "steps": [
+      {
+        "name": "Saisir les évaluations notées",
+        "text": "Saisissez le nom de chaque catégorie d'évaluation, votre note en pourcentage et son coefficient en pourcentage."
+      },
+      {
+        "name": "Définir la note visée",
+        "text": "Saisissez la note globale souhaitée (par ex. 90% pour un A) et le coefficient de l'examen final."
+      },
+      {
+        "name": "Consulter la note requise à l'examen final",
+        "text": "Consultez instantanément votre moyenne pondérée actuelle, la lettre correspondante et la note requise à l'examen final."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Comment calcule-t-on une note pondérée ?",
+      "a": "Multipliez chaque note par son coefficient en pourcentage, additionnez tous les points obtenus et divisez par le total des coefficients déjà évalués. En formule : Note pondérée = Σ(Note × Coefficient) ÷ Σ(Coefficient)."
+    },
+    {
+      "q": "Comment calculer la note nécessaire à l'examen final ?",
+      "a": "Soustrayez vos points pondérés actuels du total de points requis, puis divisez par le coefficient de l'examen final : Note requise = (Points visés - Points actuels) ÷ Coefficient final. Par exemple, s'il vous faut 30 points et que l'examen final compte pour 30% du cours, il vous faut 30 ÷ 0.30 = 100% à l'examen final."
+    },
+    {
+      "q": "Que se passe-t-il si la somme des coefficients ne fait pas 100% ?",
+      "a": "Notre calculateur divise automatiquement vos points cumulés par la somme des coefficients déjà évalués. Votre note est ainsi normalisée et reflète fidèlement votre situation réelle à tout moment du semestre."
+    },
+    {
+      "q": "Que faire si mon programme utilise des points au lieu de pourcentages ?",
+      "a": "Si votre programme utilise des points (par ex. devoirs 200 pts, partiel 300 pts, examen final 500 pts sur 1000), divisez les points de chaque catégorie par le total des points du cours pour obtenir son coefficient : 200 ÷ 1000 = 20%."
+    },
+    {
+      "q": "Que signifie un résultat de plus de 100% requis à l'examen final ?",
+      "a": "Si la note requise dépasse 100%, même une copie parfaite à l'examen final ne suffira pas pour atteindre votre objectif. Il vous faudrait des points bonus ou un barème ajusté."
+    },
+    {
+      "q": "Que signifie un résultat de 0% ou négatif requis à l'examen final ?",
+      "a": "Cela signifie que vous avez déjà accumulé suffisamment de points pondérés pendant le semestre : votre objectif est mathématiquement assuré, même avec zéro à l'examen final."
+    },
+    {
+      "q": "Ce calculateur de notes enregistre-t-il mes notes ?",
+      "a": "Non. Tous les calculs s'exécutent uniquement côté client, dans votre navigateur. Aucun nom d'évaluation, aucune note et aucun dossier scolaire n'est transmis ni enregistré."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Formulaire du calculateur de notes",
+      "tool-table1": "Tableau des évaluations pondérées",
+      "tool-button1": "Supprimer la ligne Devoirs",
+      "tool-button3": "Supprimer la ligne Partiel",
+      "tool-button5": "Supprimer la ligne Projet",
+      "tool-button7": "Supprimer la ligne Interrogations",
+      "copy-result-btn": "Copier le résultat dans le presse-papiers"
+    },
+    "content": {
+      "tool": {
+        "th1": "Évaluation / catégorie",
+        "th2": "Note (%)",
+        "th3": "Coefficient (%)",
+        "th4": "Action"
+      },
+      "final-exam-target-setting": {
+        "heading": "Objectif pour l'examen final",
+        "button1": "Calculer la note"
+      },
+      "how-when-to-use-the-grade": {
+        "li1": "<strong>Point à mi-semestre :</strong> vérifiez votre vrai pourcentage dans le cours à mi-parcours, quand seuls les devoirs et les interrogations ont été notés.",
+        "li2": "<strong>Stratégie pour les examens :</strong> déterminez précisément la note nécessaire à l'examen final pour garder un A ou ne pas passer sous le seuil de réussite.",
+        "li3": "<strong>Planification selon les coefficients :</strong> organisez vos révisions en repérant les évaluations à fort coefficient (comme un projet de groupe à 30% ou un examen à 25%).",
+        "li4": "<strong>GPA cumulé :</strong> vous suivez vos résultats sur plusieurs semestres ? Associez cet outil à notre <a href=\"/tools/gpa-calculator/\">calculateur de GPA</a>."
+      }
+    },
+    "title": {
+      "tool-button2": "Supprimer la ligne",
+      "tool-button4": "Supprimer la ligne",
+      "tool-button6": "Supprimer la ligne",
+      "tool-button8": "Supprimer la ligne",
+      "copy-result-btn": "Copier le résultat dans le presse-papiers"
+    },
+    "text": {
+      "add-assignment-btn": "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><line x1=\"12\" y1=\"5\" x2=\"12\" y2=\"19\"></line><line x1=\"5\" y1=\"12\" x2=\"19\" y2=\"12\"></line></svg>\n          Ajouter une évaluation",
+      "reset-grade-form": "Tout réinitialiser",
+      "result-header-text": "Note actuelle et objectif final",
+      "copy-result-btn": "<svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"9\" y=\"9\" width=\"13\" height=\"13\" rx=\"2\" ry=\"2\"></rect><path d=\"M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1\"></path></svg>\n            <span>Copier</span>",
+      "how-to-use-heading": "Comment et quand utiliser le calculateur de notes"
+    },
+    "label": {
+      "target-grade-val": "Note globale visée pour le cours (%) <span class=\"text-accent\">*</span>",
+      "final-weight-val": "Coefficient de l'examen final (%) <span class=\"text-accent\">*</span>"
+    },
+    "assignments": {
+      "nameLabel": "Nom de l'évaluation",
+      "scoreLabel": "Note en pourcentage",
+      "weightLabel": "Coefficient en pourcentage",
+      "homework": {
+        "name": "Devoirs",
+        "placeholder": "ex. Devoirs"
+      },
+      "midterm": {
+        "name": "Partiel",
+        "placeholder": "ex. Partiel"
+      },
+      "project": {
+        "name": "Projet",
+        "placeholder": "ex. Projet"
+      },
+      "quizzes": {
+        "name": "Interrogations",
+        "placeholder": "ex. Interrogations"
+      }
+    }
+  },
+  "client": {
+    "assignmentName": "Évaluation {{n}}",
+    "itemName": "Élément {{n}}",
+    "errors": {
+      "noAssignments": "Veuillez saisir au moins une évaluation.",
+      "negativeWeight": "Le coefficient d'une évaluation ne peut pas être négatif.",
+      "noValidGrades": "Aucune note numérique valide saisie.",
+      "zeroWeight": "Le total des coefficients évalués ne peut pas être de 0%.",
+      "invalidTarget": "Veuillez saisir des nombres valides pour l'objectif, la note actuelle et les coefficients.",
+      "finalWeight": "Le coefficient de l'examen final doit être supérieur à 0%.",
+      "keepOneRow": "Vous devez conserver au moins une ligne d'évaluation."
+    },
+    "final": {
+      "achievable": "Il vous faut {{needed}}% à l'examen final pour obtenir {{target}}% dans ce cours.",
+      "alreadyAchieved": "Vous avez déjà assuré une note de {{target}}% dans ce cours, même avec 0% à l'examen final !",
+      "extraCredit": "Il vous faut {{needed}}% à l'examen final. Cet objectif nécessite des points bonus au-delà de 100%."
+    },
+    "copy": {
+      "text": "Note actuelle : {{current}}% ({{letter}}) sur {{weight}}% du cours évalués. Note visée : {{target}}%. Nécessaire à l'examen final (coefficient {{finalWeight}}%) : {{needed}}%.",
+      "copied": "<span>Copié !</span>"
+    },
+    "result": {
+      "header": "Note actuelle et objectif final"
+    },
+    "stats": {
+      "currentGrade": "Note actuelle",
+      "weightCompleted": "Coefficients évalués",
+      "targetGrade": "Note globale visée",
+      "neededOnFinal": "Note requise à l'examen final"
+    },
+    "formula": {
+      "guidance": "<strong>Conseil pour l'examen final :</strong>",
+      "formula": "Formule : Note finale requise = [Objectif × (Coef. évalués + Coef. final) - Points actuels] ÷ Coef. final",
+      "calculation": "Calcul : [{{target}} × {{weight}}% - {{points}}] ÷ {{finalWeight}}% = <strong>{{needed}}%</strong>"
+    },
+    "rows": {
+      "placeholder": "ex. Projet 1",
+      "nameLabel": "Nom de l'évaluation",
+      "scoreLabel": "Note en pourcentage",
+      "weightLabel": "Coefficient en pourcentage",
+      "remove": "Supprimer la ligne"
+    },
+    "defaults": {
+      "homework": "Devoirs",
+      "midterm": "Partiel",
+      "project": "Projet",
+      "quizzes": "Interrogations"
+    }
+  }
+}

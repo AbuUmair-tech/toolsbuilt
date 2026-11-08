@@ -1,0 +1,750 @@
+{
+  "listing": {
+    "name": "Kalkulator Pajak Penjualan, VAT & GST",
+    "shortName": "Pajak Penjualan, VAT & GST",
+    "description": "Tambahkan atau keluarkan pajak penjualan, VAT, atau GST dengan tarif negara Anda atau tarif kustom apa pun, beserta jumlah barang dan rumusnya.",
+    "shortDescription": "Tambahkan pajak ke harga atau keluarkan pajak dari harga yang sudah termasuk pajak dengan tarif apa pun, beserta rumusnya.",
+    "keywords": [
+      "kalkulator pajak penjualan",
+      "kalkulator GST",
+      "kalkulator pajak terbalik",
+      "keluarkan GST dari harga",
+      "tambah GST 18%",
+      "kalkulator VAT (PPN)",
+      "pajak penjualan pakistan 18%",
+      "kalkulator harga termasuk pajak"
+    ]
+  },
+  "title": "Kalkulator Pajak Penjualan, VAT & GST: Tambah atau Keluarkan",
+  "description": "Kalkulator pajak penjualan: tambah atau keluarkan pajak penjualan, VAT, atau GST dengan tarif negara Anda (Inggris, UE, India, Pakistan, dll.) atau kustom.",
+  "h1": "Kalkulator Pajak Penjualan, VAT & GST",
+  "quickAnswer": "Untuk menambahkan pajak, kalikan harga dengan (1 + tarif): 1,000 ditambah 18% adalah 1,000 × 1.18 = 1,180, dengan pajak 180. Untuk mengeluarkan pajak dari harga yang sudah termasuk pajak, bagi dengan (1 + tarif): 1,180 ÷ 1.18 = 1,000. Kalkulator pajak penjualan ini mengingatkan: jangan sekadar mengurangi 18%: 5,000 termasuk pajak 18% berarti 4,237.29 sebelum pajak, bukan 4,100.",
+  "formula": {
+    "title": "Rumus Pajak Penjualan",
+    "expression": "Total = Harga × (1 + Tarif) · Harga sebelum pajak = Total ÷ (1 + Tarif)",
+    "explanation": "Tulis tarif sebagai desimal (18% = 0.18). Untuk menambahkan pajak ke harga belum termasuk pajak, pajaknya adalah Harga × Tarif dan totalnya Harga × (1 + Tarif). Untuk mencari harga sebelum pajak dari total yang sudah termasuk pajak, bagi total dengan (1 + Tarif); pajaknya adalah total dikurangi harga itu. Jika ada jumlah barang, kalikan dulu harga satuan dengan jumlahnya.",
+    "variables": [
+      {
+        "name": "Harga",
+        "description": "Harga belum termasuk pajak (mode tambah) atau sudah termasuk pajak (mode keluarkan), untuk satu barang."
+      },
+      {
+        "name": "Tarif",
+        "description": "Tarif pajak dalam desimal, mis. 0.18 untuk 18%."
+      }
+    ]
+  },
+  "workedExamples": [
+    {
+      "title": "Menambahkan 18% ke 1,000",
+      "inputs": [
+        "Harga belum termasuk pajak: 1,000",
+        "Tarif: 18%"
+      ],
+      "steps": [
+        "Pajak: 1,000 × 0.18 = 180",
+        "Total: 1,000 + 180 = 1,180"
+      ],
+      "result": "Pajak 180, total 1,180"
+    },
+    {
+      "title": "Mengeluarkan 18% dari 1,180",
+      "inputs": [
+        "Harga termasuk pajak: 1,180",
+        "Tarif: 18%"
+      ],
+      "steps": [
+        "Harga sebelum pajak: 1,180 ÷ 1.18 = 1,000",
+        "Pajak di dalam harga: 1,180 − 1,000 = 180"
+      ],
+      "result": "Harga sebelum pajak 1,000, pajak 180"
+    },
+    {
+      "title": "Mengeluarkan 18% dari 5,000",
+      "inputs": [
+        "Harga termasuk pajak: 5,000",
+        "Tarif: 18%"
+      ],
+      "steps": [
+        "Harga sebelum pajak: 5,000 ÷ 1.18 = 4,237.29",
+        "Pajak di dalam harga: 5,000 − 4,237.29 = 762.71",
+        "Jika mengurangi 18% begitu saja (5,000 − 900 = 4,100), hasilnya keliru sebesar 137.29"
+      ],
+      "result": "Harga sebelum pajak 4,237.29, pajak 762.71"
+    },
+    {
+      "title": "3 barang seharga 1,000 per buah, ditambah 18%",
+      "inputs": [
+        "Harga belum termasuk pajak: 1,000 per barang",
+        "Jumlah: 3",
+        "Tarif: 18%"
+      ],
+      "steps": [
+        "Subtotal: 3 × 1,000 = 3,000",
+        "Pajak: 3,000 × 0.18 = 540",
+        "Total: 3,000 + 540 = 3,540"
+      ],
+      "result": "Total 3,540 termasuk pajak 540"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Mengurangkan tarif dari harga yang sudah termasuk pajak",
+      "description": "18% dari harga yang sudah termasuk pajak bukanlah pajak di dalamnya, karena pajak dikenakan atas harga sebelum pajak yang lebih kecil. 1,180 dikurangi 18% adalah 967.60, tetapi harga sebelum pajak yang sebenarnya adalah 1,180 ÷ 1.18 = 1,000. Selalu bagi dengan (1 + tarif)."
+    },
+    {
+      "title": "Tidak tahu apakah harga sudah termasuk pajak",
+      "description": "Harga eceran di banyak negara sudah termasuk pajak, sedangkan penawaran bisnis dan label harga di AS sering belum. Periksa faktur atau label harga sebelum memilih Tambah pajak atau Keluarkan pajak."
+    },
+    {
+      "title": "Memakai tarif yang salah",
+      "description": "Tarif berbeda antarnegara, negara bagian, dan provinsi, serta antara barang dan jasa. Tarif dikurangi, pembebasan, dan pajak jasa tingkat provinsi atau negara bagian semuanya mengubah jawabannya, jadi pastikan tarif yang berlaku untuk barang Anda."
+    },
+    {
+      "title": "Membulatkan setiap barang sebelum dikalikan",
+      "description": "Untuk beberapa barang yang sama, kalikan dulu harga satuan dengan jumlahnya lalu hitung pajak dari subtotalnya. Membulatkan pajak setiap barang secara terpisah bisa membuat totalnya selisih beberapa sen."
+    },
+    {
+      "title": "Menganggap harga termasuk pajak sebagai biaya",
+      "description": "Jika Anda terdaftar sebagai pemungut pajak penjualan atau VAT dan dapat mengkreditkan pajak masukan, biaya Anda yang sebenarnya adalah harga sebelum pajak. Gunakan Keluarkan pajak untuk mencarinya."
+    }
+  ],
+  "sources": [
+    {
+      "name": "Federal Board of Revenue (FBR), Pemerintah Pakistan"
+    }
+  ],
+  "howto": {
+    "name": "Cara Menambahkan atau Mengeluarkan Pajak Penjualan",
+    "description": "Tambahkan GST atau pajak penjualan ke harga, atau cari harga sebelum pajak di dalam suatu total.",
+    "steps": [
+      {
+        "name": "Pilih tambah atau keluarkan",
+        "text": "Pilih Tambah pajak jika harga Anda belum termasuk pajak, atau Keluarkan pajak jika sudah termasuk pajak."
+      },
+      {
+        "name": "Masukkan harga dan jumlah",
+        "text": "Ketik harga satu barang dan, jika perlu, jumlah barangnya."
+      },
+      {
+        "name": "Pilih tarif",
+        "text": "Pilih 18%, 5%, 10%, atau 15%, atau masukkan tarif kustom."
+      },
+      {
+        "name": "Baca hasilnya",
+        "text": "Lihat harga sebelum pajak, jumlah pajak, dan totalnya, beserta rumus yang dipakai."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Bagaimana cara menambahkan pajak penjualan 18% ke suatu harga?",
+      "a": "Kalikan harga dengan 1.18. Pajaknya adalah harga × 0.18. Misalnya, 1,000 × 0.18 = pajak 180, dan totalnya 1,180."
+    },
+    {
+      "q": "Bagaimana cara mengeluarkan GST 18% dari suatu harga?",
+      "a": "Bagi harga yang sudah termasuk pajak dengan 1.18 untuk mendapatkan harga sebelum pajak, lalu kurangkan dari total untuk mendapatkan pajaknya. 1,180 ÷ 1.18 = 1,000, jadi pajaknya 180."
+    },
+    {
+      "q": "Mengapa saya tidak bisa sekadar mengurangi 18% dari harga yang sudah termasuk pajak?",
+      "a": "Karena 18% itu dikenakan atas harga sebelum pajak, bukan atas totalnya. Mengurangi 18% dari total membuang terlalu banyak: 5,000 − 18% adalah 4,100, tetapi harga sebelum pajak yang sebenarnya adalah 5,000 ÷ 1.18 = 4,237.29."
+    },
+    {
+      "q": "Berapa 18% dari 1,000?",
+      "a": "18% dari 1,000 adalah 180. Jika 1,000 adalah harga sebelum pajak, totalnya dengan pajak 18% adalah 1,180. Jika 1,000 sudah termasuk pajak 18%, harga sebelum pajaknya adalah 1,000 ÷ 1.18 = 847.46 dan pajaknya 152.54."
+    },
+    {
+      "q": "Berapa tarif pajak penjualan di Pakistan?",
+      "a": "Tarif standar pajak penjualan atas barang di Pakistan adalah 18%, tetapi sebagian barang memiliki tarif dikurangi, khusus, atau nol, dan pajak penjualan atas jasa ditetapkan oleh provinsi. Periksa tarif terkini untuk barang Anda ke FBR atau otoritas pendapatan provinsi Anda."
+    },
+    {
+      "q": "Apa perbedaan GST, VAT, dan pajak penjualan?",
+      "a": "GST dan VAT dikenakan di setiap tahap penyerahan, dengan pelaku usaha terdaftar mengkreditkan pajak yang mereka bayar atas masukan, dan harga yang dilihat pembeli biasanya sudah termasuk pajak. Pajak penjualan AS dikenakan sekali pada penjualan akhir, ditetapkan oleh negara bagian dan pemerintah lokal, dan biasanya ditambahkan di kasir. Hitungan untuk menambah atau mengeluarkan persentase sama untuk ketiganya."
+    },
+    {
+      "q": "Bagaimana cara menghitung pajak untuk beberapa barang?",
+      "a": "Masukkan harga satu barang dan jumlahnya. Kalkulator mengalikannya untuk mendapatkan subtotal lalu menghitung pajak dari subtotal. Tiga barang seharga 1,000 ditambah pajak 18% menjadi 3,540."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Formulir Kalkulator Pajak Penjualan, VAT, dan GST",
+      "copy-result-btn": "Salin hasil ke papan klip",
+      "vat-and-gst-rates-by-country-div1": "Tarif VAT dan GST per negara (dapat digulir)"
+    },
+    "content": {
+      "tool": {
+        "legend1": "Saya ingin",
+        "label1": "<input type=\"radio\" name=\"tax-mode\" id=\"mode-add\" value=\"add\" data-param=\"mode\" checked>\n              <span>Tambah pajak</span>",
+        "label2": "<input type=\"radio\" name=\"tax-mode\" id=\"mode-remove\" value=\"remove\" data-param=\"mode\">\n              <span>Keluarkan pajak</span>",
+        "button1": "Hitung",
+        "div1": "Harga sebelum pajak",
+        "div2": "Total termasuk pajak"
+      },
+      "check-the-official-rate": {
+        "heading": "Periksa tarif resmi",
+        "p1": "Tarif berbeda menurut negara, negara bagian atau provinsi, serta barang atau jasa. Untuk Pakistan, pastikan tarifnya ke <a href=\"https://www.fbr.gov.pk/\" rel=\"noopener\" target=\"_blank\">FBR</a> atau otoritas pendapatan provinsi Anda."
+      },
+      "vat-and-gst-rates-by-country": {
+        "p1": "Preset negara di kalkulator memakai tarif di bawah ini. Masing-masing sudah dicek terhadap otoritas pajak atau sumber resmi yang ditautkan di tabel pada tanggal yang tertera. Tarif dikurangi hanya berlaku untuk barang dan jasa yang tercantum dalam undang-undang, jadi gunakan tarif standar kecuali Anda tahu barang Anda memenuhi syarat. Di Amerika Serikat tidak ada pajak penjualan nasional: negara bagian, county, dan kota menetapkan tarifnya sendiri, jadi ketik tarif gabungan untuk wilayah Anda sebagai tarif kustom.",
+        "caption1": "Tarif VAT, GST, dan pajak penjualan standar dan dikurangi yang dipakai kalkulator",
+        "th1": "Negara",
+        "th2": "Pajak",
+        "th3": "Standar",
+        "th4": "Tarif lain",
+        "th5": "Sumber (dicek)"
+      },
+      "tax-exclusive-and-tax-inclusive-prices": {
+        "p1": "Setiap pertanyaan pajak penjualan dimulai dengan satu pengecekan: apakah harga yang Anda pegang sudah termasuk pajak? Harga <strong>belum termasuk pajak</strong> adalah jumlah sebelum pajak, angka di sebagian besar penawaran bisnis dan label rak di AS. Harga <strong>sudah termasuk pajak</strong> sudah memuat pajaknya, seperti cara sebagian besar harga eceran ditampilkan di Pakistan, Inggris, Uni Eropa, dan negara Teluk.",
+        "li1": "Jika harga Anda <strong>belum termasuk</strong> pajak, pilih <strong>Tambah pajak</strong>. Kalkulator mengalikan dengan tarif untuk mencari pajaknya lalu menambahkannya.",
+        "li2": "Jika harga Anda <strong>sudah termasuk</strong> pajak, pilih <strong>Keluarkan pajak</strong>. Kalkulator membagi dengan (1 + tarif) untuk mencari harga sebelum pajak, dan selisihnya adalah pajak yang Anda bayar.",
+        "p2": "Faktur biasanya menampilkan keduanya: jumlah neto, pajak, dan total bruto. Gunakan kalkulator ini untuk memastikan ketiga angka itu cocok."
+      },
+      "why-you-divide-by-1-rate": {
+        "p1": "Saat penjual menambahkan pajak 18%, mereka mengalikan harga sebelum pajak dengan 1.18. Untuk membaliknya, Anda membagi total dengan 1.18. Rumusnya adalah <code>harga sebelum pajak = total ÷ (1 + tarif)</code>, dengan tarif dalam desimal.",
+        "p2": "Kesalahan paling umum adalah memotong 18% dari total. Itu memperlakukan pajak sebagai 18% dari total, padahal sebenarnya 18% dari harga sebelum pajak yang lebih kecil. Pada total 5,000, mengurangi 18% menghasilkan 4,100, tetapi harga sebelum pajak yang sebenarnya adalah 5,000 ÷ 1.18 = 4,237.29, dan pajak di dalamnya 762.71, bukan 900. Makin tinggi tarifnya, makin besar kesalahannya, jadi gunakan Keluarkan pajak setiap kali harga sudah termasuk pajak. Untuk pertanyaan persentase lain, seperti berapa persen suatu angka dari angka lain, gunakan <a href=\"/tools/percentage-calculator/\">Kalkulator Persentase</a>."
+      },
+      "gst-vat-and-us-sales-tax": {
+        "p1": "GST (goods and services tax) dan VAT (value added tax) dikenakan di setiap tahap penyerahan, dengan pelaku usaha terdaftar mengkreditkan pajak yang mereka bayar atas masukan, dan pembeli biasanya melihat harga yang sudah termasuk pajak. Pajak penjualan AS dikenakan sekali, pada penjualan akhir ke pelanggan, dengan tarif yang ditetapkan negara bagian dan pemerintah lokal, dan biasanya ditambahkan di kasir alih-alih tertera di label harga. Pajak penjualan atas barang di Pakistan bekerja seperti VAT, sedangkan pajak penjualan atas jasa dipungut oleh provinsi. Hitungan untuk menambah atau mengeluarkan pajak sama dalam setiap kasus; yang berbeda hanya tarifnya dan apakah harga sudah termasuk pajak."
+      },
+      "rates-vary-check-the-official-rate": {
+        "p1": "Preset di sini adalah tarif umum, bukan pernyataan tentang apa yang berlaku untuk pembelian Anda. Tarif berbeda antarnegara, antara negara bagian dan provinsi, serta antara barang dan jasa, dan banyak barang bertarif dikurangi, bertarif nol, atau dibebaskan. Di Pakistan tarif standar pajak penjualan atas barang adalah 18%, tetapi periksa tarif terkini untuk barang Anda ke <a href=\"https://www.fbr.gov.pk/\" rel=\"noopener\" target=\"_blank\">FBR</a> atau otoritas pendapatan provinsi Anda, dan gunakan tarif kustom jika berbeda. Jika harga memiliki diskon sekaligus pajak, hitung dulu diskonnya dengan <a href=\"/tools/discount-calculator/\">Kalkulator Diskon</a>, yang juga bisa menambahkan pajak penjualan ke harga setelah diskon."
+      }
+    },
+    "label": {
+      "tax-price": "Harga belum termasuk pajak <span class=\"text-accent\">*</span>",
+      "tax-qty": "Jumlah",
+      "tax-country": "Negara",
+      "tax-rate-preset": "Tarif pajak",
+      "tax-rate-custom": "Tarif kustom (%)"
+    },
+    "option": {
+      "tax-rate-preset": {
+        "18": "18% – Pajak penjualan standar atas barang di Pakistan",
+        "custom": "Tarif kustom"
+      }
+    },
+    "text": {
+      "reset-btn": "Atur Ulang",
+      "result-header-text": "Total termasuk pajak",
+      "copy-result-btn": "<span data-icon=\"copy\"></span> Salin Hasil",
+      "result-primary-text": "Rs 0.00",
+      "stat-net": "Rs 0.00",
+      "stat-tax-label": "Pajak (18%)",
+      "stat-tax": "Rs 0.00",
+      "stat-gross": "Rs 0.00",
+      "vat-rates-heading": "Tarif VAT dan GST per negara",
+      "inclusive-heading": "Harga belum termasuk dan sudah termasuk pajak",
+      "reverse-heading": "Mengapa Anda membagi dengan (1 + tarif) untuk mengeluarkan pajak",
+      "gst-vat-heading": "GST, VAT, dan pajak penjualan AS",
+      "rates-heading": "Tarif berbeda-beda: periksa tarif resmi"
+    },
+    "title": {
+      "copy-result-btn": "Salin hasil ke papan klip"
+    },
+    "vat": {
+      "optionVaries": "{{name}} ({{taxName}} bervariasi)",
+      "countryNote": "{{notes}} Sumber: <a href=\"{{url}}\" target=\"_blank\" rel=\"noopener noreferrer\">{{source}}</a>, dicek {{date}}.",
+      "noPresetRate": "Ditetapkan oleh negara bagian dan kota"
+    }
+  },
+  "client": {
+    "presets": {
+      "pk18": "18% (pajak penjualan standar Pakistan)"
+    },
+    "vat": {
+      "AT": {
+        "name": "Austria",
+        "rates": [
+          "tarif standar",
+          "tarif dikurangi",
+          "tarif dikurangi",
+          "tarif parkir"
+        ],
+        "notes": "Negara anggota Uni Eropa. Tarif dikurangi hanya berlaku untuk barang dan jasa yang tercantum dalam undang-undang nasional.",
+        "source": "Your Europe (Uni Eropa): tarif VAT di negara-negara Uni Eropa, terakhir dicek 13/07/2026"
+      },
+      "BE": {
+        "name": "Belgia",
+        "rates": [
+          "tarif standar",
+          "tarif dikurangi",
+          "tarif dikurangi",
+          "tarif parkir"
+        ],
+        "notes": "Negara anggota Uni Eropa. Tarif dikurangi hanya berlaku untuk barang dan jasa yang tercantum dalam undang-undang nasional.",
+        "source": "Your Europe (Uni Eropa): tarif VAT di negara-negara Uni Eropa, terakhir dicek 13/07/2026"
+      },
+      "BG": {
+        "name": "Bulgaria",
+        "rates": [
+          "tarif standar",
+          "tarif dikurangi"
+        ],
+        "notes": "Negara anggota Uni Eropa. Tarif dikurangi hanya berlaku untuk barang dan jasa yang tercantum dalam undang-undang nasional.",
+        "source": "Your Europe (Uni Eropa): tarif VAT di negara-negara Uni Eropa, terakhir dicek 13/07/2026"
+      },
+      "HR": {
+        "name": "Kroasia",
+        "rates": [
+          "tarif standar",
+          "tarif dikurangi",
+          "tarif dikurangi"
+        ],
+        "notes": "Negara anggota Uni Eropa. Tarif dikurangi hanya berlaku untuk barang dan jasa yang tercantum dalam undang-undang nasional.",
+        "source": "Your Europe (Uni Eropa): tarif VAT di negara-negara Uni Eropa, terakhir dicek 13/07/2026"
+      },
+      "CY": {
+        "name": "Siprus",
+        "rates": [
+          "tarif standar",
+          "tarif dikurangi",
+          "tarif dikurangi",
+          "tarif sangat dikurangi"
+        ],
+        "notes": "Negara anggota Uni Eropa. Tarif dikurangi hanya berlaku untuk barang dan jasa yang tercantum dalam undang-undang nasional.",
+        "source": "Your Europe (Uni Eropa): tarif VAT di negara-negara Uni Eropa, terakhir dicek 13/07/2026"
+      },
+      "CZ": {
+        "name": "Ceko",
+        "rates": [
+          "tarif standar",
+          "tarif dikurangi"
+        ],
+        "notes": "Negara anggota Uni Eropa. Tarif dikurangi hanya berlaku untuk barang dan jasa yang tercantum dalam undang-undang nasional.",
+        "source": "Your Europe (Uni Eropa): tarif VAT di negara-negara Uni Eropa, terakhir dicek 13/07/2026"
+      },
+      "DK": {
+        "name": "Denmark",
+        "rates": [
+          "tarif standar"
+        ],
+        "notes": "Negara anggota Uni Eropa. Tarif dikurangi hanya berlaku untuk barang dan jasa yang tercantum dalam undang-undang nasional.",
+        "source": "Your Europe (Uni Eropa): tarif VAT di negara-negara Uni Eropa, terakhir dicek 13/07/2026"
+      },
+      "EE": {
+        "name": "Estonia",
+        "rates": [
+          "tarif standar",
+          "tarif dikurangi"
+        ],
+        "notes": "Negara anggota Uni Eropa. Tarif dikurangi hanya berlaku untuk barang dan jasa yang tercantum dalam undang-undang nasional.",
+        "source": "Your Europe (Uni Eropa): tarif VAT di negara-negara Uni Eropa, terakhir dicek 13/07/2026"
+      },
+      "FI": {
+        "name": "Finlandia",
+        "rates": [
+          "tarif standar",
+          "tarif dikurangi",
+          "tarif dikurangi"
+        ],
+        "notes": "Negara anggota Uni Eropa. Tarif dikurangi hanya berlaku untuk barang dan jasa yang tercantum dalam undang-undang nasional.",
+        "source": "Your Europe (Uni Eropa): tarif VAT di negara-negara Uni Eropa, terakhir dicek 13/07/2026"
+      },
+      "FR": {
+        "name": "Prancis",
+        "rates": [
+          "tarif standar",
+          "tarif dikurangi",
+          "tarif dikurangi",
+          "tarif sangat dikurangi"
+        ],
+        "notes": "Negara anggota Uni Eropa. Tarif dikurangi hanya berlaku untuk barang dan jasa yang tercantum dalam undang-undang nasional.",
+        "source": "Your Europe (Uni Eropa): tarif VAT di negara-negara Uni Eropa, terakhir dicek 13/07/2026"
+      },
+      "DE": {
+        "name": "Jerman",
+        "rates": [
+          "tarif standar",
+          "tarif dikurangi"
+        ],
+        "notes": "Negara anggota Uni Eropa. Tarif dikurangi hanya berlaku untuk barang dan jasa yang tercantum dalam undang-undang nasional.",
+        "source": "Your Europe (Uni Eropa): tarif VAT di negara-negara Uni Eropa, terakhir dicek 13/07/2026"
+      },
+      "GR": {
+        "name": "Yunani",
+        "rates": [
+          "tarif standar",
+          "tarif dikurangi",
+          "tarif dikurangi",
+          "tarif dikurangi",
+          "tarif sangat dikurangi"
+        ],
+        "notes": "Negara anggota Uni Eropa. Tarif dikurangi hanya berlaku untuk barang dan jasa yang tercantum dalam undang-undang nasional.",
+        "source": "Your Europe (Uni Eropa): tarif VAT di negara-negara Uni Eropa, terakhir dicek 13/07/2026"
+      },
+      "HU": {
+        "name": "Hongaria",
+        "rates": [
+          "tarif standar",
+          "tarif dikurangi",
+          "tarif dikurangi"
+        ],
+        "notes": "Negara anggota Uni Eropa. Tarif dikurangi hanya berlaku untuk barang dan jasa yang tercantum dalam undang-undang nasional.",
+        "source": "Your Europe (Uni Eropa): tarif VAT di negara-negara Uni Eropa, terakhir dicek 13/07/2026"
+      },
+      "IN": {
+        "name": "India",
+        "rates": [
+          "tarif standar",
+          "tarif merit",
+          "tarif khusus untuk beberapa barang mewah dan barang dosa"
+        ],
+        "notes": "Mulai 22 September 2025 GST memiliki dua lapisan utama, 18% dan 5%, ditambah tarif khusus 40% untuk beberapa barang dan jasa tertentu. Sebagian barang bertarif nol.",
+        "source": "Siaran pers GST Council / PIB, 3 September 2025"
+      },
+      "IE": {
+        "name": "Irlandia",
+        "rates": [
+          "tarif standar",
+          "tarif dikurangi",
+          "tarif dikurangi"
+        ],
+        "notes": "Negara anggota Uni Eropa. Tarif dikurangi hanya berlaku untuk barang dan jasa yang tercantum dalam undang-undang nasional.",
+        "source": "Your Europe (Uni Eropa): tarif VAT di negara-negara Uni Eropa, terakhir dicek 13/07/2026"
+      },
+      "IT": {
+        "name": "Italia",
+        "rates": [
+          "tarif standar",
+          "tarif dikurangi",
+          "tarif dikurangi",
+          "tarif sangat dikurangi"
+        ],
+        "notes": "Negara anggota Uni Eropa. Tarif dikurangi hanya berlaku untuk barang dan jasa yang tercantum dalam undang-undang nasional.",
+        "source": "Your Europe (Uni Eropa): tarif VAT di negara-negara Uni Eropa, terakhir dicek 13/07/2026"
+      },
+      "LV": {
+        "name": "Latvia",
+        "rates": [
+          "tarif standar",
+          "tarif dikurangi",
+          "tarif dikurangi"
+        ],
+        "notes": "Negara anggota Uni Eropa. Tarif dikurangi hanya berlaku untuk barang dan jasa yang tercantum dalam undang-undang nasional.",
+        "source": "Your Europe (Uni Eropa): tarif VAT di negara-negara Uni Eropa, terakhir dicek 13/07/2026"
+      },
+      "LT": {
+        "name": "Lituania",
+        "rates": [
+          "tarif standar",
+          "tarif dikurangi",
+          "tarif dikurangi"
+        ],
+        "notes": "Negara anggota Uni Eropa. Tarif dikurangi hanya berlaku untuk barang dan jasa yang tercantum dalam undang-undang nasional.",
+        "source": "Your Europe (Uni Eropa): tarif VAT di negara-negara Uni Eropa, terakhir dicek 13/07/2026"
+      },
+      "LU": {
+        "name": "Luksemburg",
+        "rates": [
+          "tarif standar",
+          "tarif dikurangi",
+          "tarif sangat dikurangi",
+          "tarif parkir"
+        ],
+        "notes": "Negara anggota Uni Eropa. Tarif dikurangi hanya berlaku untuk barang dan jasa yang tercantum dalam undang-undang nasional.",
+        "source": "Your Europe (Uni Eropa): tarif VAT di negara-negara Uni Eropa, terakhir dicek 13/07/2026"
+      },
+      "MT": {
+        "name": "Malta",
+        "rates": [
+          "tarif standar",
+          "tarif dikurangi",
+          "tarif dikurangi",
+          "tarif parkir"
+        ],
+        "notes": "Negara anggota Uni Eropa. Tarif dikurangi hanya berlaku untuk barang dan jasa yang tercantum dalam undang-undang nasional.",
+        "source": "Your Europe (Uni Eropa): tarif VAT di negara-negara Uni Eropa, terakhir dicek 13/07/2026"
+      },
+      "NL": {
+        "name": "Belanda",
+        "rates": [
+          "tarif standar",
+          "tarif dikurangi"
+        ],
+        "notes": "Negara anggota Uni Eropa. Tarif dikurangi hanya berlaku untuk barang dan jasa yang tercantum dalam undang-undang nasional.",
+        "source": "Your Europe (Uni Eropa): tarif VAT di negara-negara Uni Eropa, terakhir dicek 13/07/2026"
+      },
+      "NZ": {
+        "name": "Selandia Baru",
+        "rates": [
+          "tarif standar"
+        ],
+        "source": "Inland Revenue (IRD): GST"
+      },
+      "PK": {
+        "name": "Pakistan",
+        "taxName": "Pajak penjualan",
+        "rates": [
+          "pajak penjualan standar atas barang"
+        ],
+        "notes": "Pajak penjualan federal atas barang berdasarkan pasal 3 Sales Tax Act, 1990. Jasa dipajaki oleh provinsi dengan tarifnya sendiri.",
+        "source": "FBR: Sales Tax Act, 1990 (diubah hingga 30 Juni 2025), pasal 3"
+      },
+      "PL": {
+        "name": "Polandia",
+        "rates": [
+          "tarif standar",
+          "tarif dikurangi",
+          "tarif dikurangi"
+        ],
+        "notes": "Negara anggota Uni Eropa. Tarif dikurangi hanya berlaku untuk barang dan jasa yang tercantum dalam undang-undang nasional.",
+        "source": "Your Europe (Uni Eropa): tarif VAT di negara-negara Uni Eropa, terakhir dicek 13/07/2026"
+      },
+      "PT": {
+        "name": "Portugal",
+        "rates": [
+          "tarif standar",
+          "tarif dikurangi",
+          "tarif dikurangi",
+          "tarif parkir"
+        ],
+        "notes": "Negara anggota Uni Eropa. Tarif dikurangi hanya berlaku untuk barang dan jasa yang tercantum dalam undang-undang nasional.",
+        "source": "Your Europe (Uni Eropa): tarif VAT di negara-negara Uni Eropa, terakhir dicek 13/07/2026"
+      },
+      "RO": {
+        "name": "Rumania",
+        "rates": [
+          "tarif standar",
+          "tarif dikurangi"
+        ],
+        "notes": "Negara anggota Uni Eropa. Tarif dikurangi hanya berlaku untuk barang dan jasa yang tercantum dalam undang-undang nasional.",
+        "source": "Your Europe (Uni Eropa): tarif VAT di negara-negara Uni Eropa, terakhir dicek 13/07/2026"
+      },
+      "SA": {
+        "name": "Arab Saudi",
+        "rates": [
+          "tarif standar"
+        ],
+        "source": "ZATCA: Pedoman perubahan VAT Implementing Regulation (April 2025)"
+      },
+      "SG": {
+        "name": "Singapura",
+        "rates": [
+          "tarif standar (sejak 1 Januari 2024)"
+        ],
+        "notes": "Sebagian penyerahan bertarif nol atau dibebaskan.",
+        "source": "IRAS: Tarif GST saat ini"
+      },
+      "SK": {
+        "name": "Slowakia",
+        "rates": [
+          "tarif standar",
+          "tarif dikurangi",
+          "tarif dikurangi"
+        ],
+        "notes": "Negara anggota Uni Eropa. Tarif dikurangi hanya berlaku untuk barang dan jasa yang tercantum dalam undang-undang nasional.",
+        "source": "Your Europe (Uni Eropa): tarif VAT di negara-negara Uni Eropa, terakhir dicek 13/07/2026"
+      },
+      "SI": {
+        "name": "Slovenia",
+        "rates": [
+          "tarif standar",
+          "tarif dikurangi",
+          "tarif dikurangi"
+        ],
+        "notes": "Negara anggota Uni Eropa. Tarif dikurangi hanya berlaku untuk barang dan jasa yang tercantum dalam undang-undang nasional.",
+        "source": "Your Europe (Uni Eropa): tarif VAT di negara-negara Uni Eropa, terakhir dicek 13/07/2026"
+      },
+      "ZA": {
+        "name": "Afrika Selatan",
+        "rates": [
+          "tarif standar"
+        ],
+        "notes": "Sebagian penyerahan bertarif nol atau dibebaskan.",
+        "source": "SARS: Value-Added Tax"
+      },
+      "ES": {
+        "name": "Spanyol",
+        "rates": [
+          "tarif standar",
+          "tarif dikurangi",
+          "tarif sangat dikurangi"
+        ],
+        "notes": "Negara anggota Uni Eropa. Tarif dikurangi hanya berlaku untuk barang dan jasa yang tercantum dalam undang-undang nasional.",
+        "source": "Your Europe (Uni Eropa): tarif VAT di negara-negara Uni Eropa, terakhir dicek 13/07/2026"
+      },
+      "SE": {
+        "name": "Swedia",
+        "rates": [
+          "tarif standar",
+          "tarif dikurangi",
+          "tarif dikurangi"
+        ],
+        "notes": "Negara anggota Uni Eropa. Tarif dikurangi hanya berlaku untuk barang dan jasa yang tercantum dalam undang-undang nasional.",
+        "source": "Your Europe (Uni Eropa): tarif VAT di negara-negara Uni Eropa, terakhir dicek 13/07/2026"
+      },
+      "AE": {
+        "name": "Uni Emirat Arab",
+        "rates": [
+          "tarif standar"
+        ],
+        "notes": "Sebagian penyerahan bertarif nol atau dibebaskan menurut undang-undang VAT.",
+        "source": "UAE Federal Tax Authority: Federal Decree-Law No. 8 of 2017 on VAT, Article 3"
+      },
+      "GB": {
+        "name": "Inggris Raya",
+        "rates": [
+          "tarif standar",
+          "tarif dikurangi (mis. kursi mobil anak, energi rumah tangga)"
+        ],
+        "notes": "Sebagian barang dan jasa bertarif nol (0%), misalnya sebagian besar makanan dan pakaian anak.",
+        "source": "GOV.UK: VAT rates"
+      },
+      "US": {
+        "name": "Amerika Serikat",
+        "taxName": "Pajak penjualan",
+        "notes": "Tidak ada pajak penjualan federal. Setiap negara bagian, dan sering kali county serta kota, menetapkan tarif pajak penjualannya sendiri, jadi ketik tarif gabungan untuk lokasi Anda."
+      },
+      "CA-AB": {
+        "name": "Kanada – Alberta",
+        "rates": [
+          "GST (federal)"
+        ],
+        "notes": "Tidak ada pajak penjualan provinsi.",
+        "source": "Canada Revenue Agency: Kalkulator dan tarif GST/HST (tarif mulai 1 April 2025)"
+      },
+      "CA-BC": {
+        "name": "Kanada – British Columbia",
+        "rates": [
+          "GST (federal)",
+          "GST + PST digabung"
+        ],
+        "notes": "Provinsi juga memungut PST 7% atas harga sebelum GST; opsi gabungan menambahkan keduanya.",
+        "source": "Canada Revenue Agency: Kalkulator dan tarif GST/HST (tarif mulai 1 April 2025)"
+      },
+      "CA-MB": {
+        "name": "Kanada – Manitoba",
+        "rates": [
+          "GST (federal)",
+          "GST + PST digabung"
+        ],
+        "notes": "Provinsi juga memungut PST 7% atas harga sebelum GST; opsi gabungan menambahkan keduanya.",
+        "source": "Canada Revenue Agency: Kalkulator dan tarif GST/HST (tarif mulai 1 April 2025)"
+      },
+      "CA-NB": {
+        "name": "Kanada – New Brunswick",
+        "taxName": "HST",
+        "rates": [
+          "HST (federal + provinsi)"
+        ],
+        "notes": "Satu pajak penjualan terpadu (HST) mencakup bagian federal dan provinsi.",
+        "source": "Canada Revenue Agency: Kalkulator dan tarif GST/HST (tarif mulai 1 April 2025)"
+      },
+      "CA-NL": {
+        "name": "Kanada – Newfoundland dan Labrador",
+        "taxName": "HST",
+        "rates": [
+          "HST (federal + provinsi)"
+        ],
+        "notes": "Satu pajak penjualan terpadu (HST) mencakup bagian federal dan provinsi.",
+        "source": "Canada Revenue Agency: Kalkulator dan tarif GST/HST (tarif mulai 1 April 2025)"
+      },
+      "CA-NT": {
+        "name": "Kanada – Northwest Territories",
+        "rates": [
+          "GST (federal)"
+        ],
+        "notes": "Tidak ada pajak penjualan provinsi.",
+        "source": "Canada Revenue Agency: Kalkulator dan tarif GST/HST (tarif mulai 1 April 2025)"
+      },
+      "CA-NS": {
+        "name": "Kanada – Nova Scotia",
+        "taxName": "HST",
+        "rates": [
+          "HST (federal + provinsi)"
+        ],
+        "notes": "Satu pajak penjualan terpadu (HST) mencakup bagian federal dan provinsi.",
+        "source": "Canada Revenue Agency: Kalkulator dan tarif GST/HST (tarif mulai 1 April 2025)"
+      },
+      "CA-NU": {
+        "name": "Kanada – Nunavut",
+        "rates": [
+          "GST (federal)"
+        ],
+        "notes": "Tidak ada pajak penjualan provinsi.",
+        "source": "Canada Revenue Agency: Kalkulator dan tarif GST/HST (tarif mulai 1 April 2025)"
+      },
+      "CA-ON": {
+        "name": "Kanada – Ontario",
+        "taxName": "HST",
+        "rates": [
+          "HST (federal + provinsi)"
+        ],
+        "notes": "Satu pajak penjualan terpadu (HST) mencakup bagian federal dan provinsi.",
+        "source": "Canada Revenue Agency: Kalkulator dan tarif GST/HST (tarif mulai 1 April 2025)"
+      },
+      "CA-PE": {
+        "name": "Kanada – Prince Edward Island",
+        "taxName": "HST",
+        "rates": [
+          "HST (federal + provinsi)"
+        ],
+        "notes": "Satu pajak penjualan terpadu (HST) mencakup bagian federal dan provinsi.",
+        "source": "Canada Revenue Agency: Kalkulator dan tarif GST/HST (tarif mulai 1 April 2025)"
+      },
+      "CA-QC": {
+        "name": "Kanada – Quebec",
+        "rates": [
+          "GST (federal)",
+          "GST + QST digabung"
+        ],
+        "notes": "Provinsi juga memungut QST 9.975% atas harga sebelum GST; opsi gabungan menambahkan keduanya.",
+        "source": "Canada Revenue Agency: Kalkulator dan tarif GST/HST (tarif mulai 1 April 2025)"
+      },
+      "CA-SK": {
+        "name": "Kanada – Saskatchewan",
+        "rates": [
+          "GST (federal)",
+          "GST + PST digabung"
+        ],
+        "notes": "Provinsi juga memungut PST 6% atas harga sebelum GST; opsi gabungan menambahkan keduanya.",
+        "source": "Canada Revenue Agency: Kalkulator dan tarif GST/HST (tarif mulai 1 April 2025)"
+      },
+      "CA-YT": {
+        "name": "Kanada – Yukon",
+        "rates": [
+          "GST (federal)"
+        ],
+        "notes": "Tidak ada pajak penjualan provinsi.",
+        "source": "Canada Revenue Agency: Kalkulator dan tarif GST/HST (tarif mulai 1 April 2025)"
+      }
+    },
+    "customRate": "Tarif kustom",
+    "countryNote": "{{notes}} Sumber: <a href=\"{{url}}\" target=\"_blank\" rel=\"noopener noreferrer\">{{source}}</a>, dicek {{date}}.",
+    "priceLabel": {
+      "add": "Harga belum termasuk pajak ",
+      "remove": "Harga sudah termasuk pajak "
+    },
+    "errors": {
+      "priceRequired": "Masukkan harga.",
+      "rateRequired": "Masukkan tarif pajak.",
+      "quantityRequired": "Masukkan jumlah.",
+      "priceNegative": "Harga tidak boleh negatif.",
+      "rateRange": "Tarif pajak harus antara 0% dan 100%.",
+      "quantityPositive": "Jumlah harus lebih dari 0.",
+      "customRequired": "Masukkan tarif pajak kustom Anda."
+    },
+    "result": {
+      "headerAdd": "Total termasuk pajak",
+      "headerRemove": "Harga sebelum pajak",
+      "taxLabel": "Pajak ({{rate}})",
+      "perItem": "Per barang: {{net}} sebelum pajak, pajak {{tax}}, total {{gross}}.",
+      "copyAdd": "{{net}} + pajak {{rate}} ({{tax}}) = {{gross}}.",
+      "copyRemove": "{{gross}} termasuk pajak {{rate}} = {{net}} sebelum pajak + pajak {{tax}}."
+    },
+    "steps": {
+      "addFormula": "<strong>Tambah pajak:</strong> <code>Total = Harga × (1 + Tarif)</code><br>",
+      "addNet": "Harga sebelum pajak: {{qty}}<code>{{net}}</code><br>",
+      "addTax": "Pajak: {{net}} × {{rate}} = <code>{{tax}}</code><br>",
+      "addTotal": "Total: {{net}} + {{tax}} = <strong>{{gross}}</strong>",
+      "removeFormula": "<strong>Keluarkan pajak:</strong> <code>Harga sebelum pajak = Total ÷ (1 + Tarif)</code><br>",
+      "removeGross": "Total termasuk pajak: {{qty}}<code>{{gross}}</code><br>",
+      "removeNet": "Harga sebelum pajak: {{gross}} ÷ {{factor}} = <strong>{{net}}</strong><br>",
+      "removeTax": "Pajak di dalam harga: {{gross}} − {{net}} = <code>{{tax}}</code>"
+    },
+    "toast": {
+      "copied": "Perhitungan pajak disalin ke papan klip"
+    }
+  }
+}

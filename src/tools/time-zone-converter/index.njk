@@ -1,0 +1,98 @@
+---
+layout: layouts/tool.njk
+toolSlug: time-zone-converter
+permalink: /tools/time-zone-converter/
+extraCss: "/tools/time-zone-converter/style.css"
+lastReviewed: "2026-10-31"
+---
+
+    <!-- Tool Form Container -->
+    <section class="tool-container" aria-label="{{ 'ariaLabel.tool-section1' | pt }}">
+      <form id="tz-form" novalidate>
+        <div class="form-grid tz-source-grid">
+          <div class="form-group">
+            <label for="tz-date">{{ 'label.tz-date' | pt }}</label>
+            <input type="date" id="tz-date" data-param="date" class="form-control" required aria-required="true">
+          </div>
+          <div class="form-group">
+            <label for="tz-time">{{ 'label.tz-time' | pt }}</label>
+            <input type="time" id="tz-time" data-param="time" class="form-control" required aria-required="true">
+          </div>
+          <div class="form-group tz-zone-field">
+            <label for="tz-from">{{ 'label.tz-from' | pt }}</label>
+            <div class="input-with-button">
+              <input type="text" id="tz-from" data-param="from" class="form-control tz-zone-input" list="tz-list" autocomplete="off" spellcheck="false" placeholder="{{ 'placeholder.tz-from' | pt }}" required aria-required="true" aria-describedby="tz-from-hint">
+              <button type="button" class="btn btn-secondary" id="tz-now-btn">{{ 'text.tz-now-btn' | pt }}</button>
+            </div>
+            <p class="form-hint" id="tz-from-hint">{{ 'text.tz-from-hint' | pt }}</p>
+          </div>
+        </div>
+
+        <fieldset class="tz-fieldset">
+          <legend>{{ 'content.tool.legend1' | pt }}</legend>
+          <div class="form-grid tz-target-grid">
+            {% for i in [1, 2, 3, 4] %}
+            <div class="form-group">
+              <label for="tz-z{{ i }}">{{ 'label.zone-n' | pt({ i: i }) }}{% if i > 1 %} <span class="label-hint">{{ 'content.tool.span1' | pt }}</span>{% endif %}</label>
+              <input type="text" id="tz-z{{ i }}" data-param="z{{ i }}" class="form-control tz-zone-input tz-target" list="tz-list" autocomplete="off" spellcheck="false" placeholder="{{ 'placeholder.tool-input1' | pt }}">
+            </div>
+            {% endfor %}
+          </div>
+          <p class="form-hint">{{ 'content.tool.p1' | pt }}</p>
+        </fieldset>
+        <datalist id="tz-list"></datalist>
+
+        <div class="button-group mt-6">
+          <button type="submit" class="btn btn-primary">{{ 'content.tool.button1' | pt }}</button>
+          <button type="button" class="btn btn-secondary" id="tz-swap-btn">{{ 'text.tz-swap-btn' | pt }}</button>
+          <button type="button" class="btn btn-secondary" id="reset-btn">{{ 'text.reset-btn' | pt }}</button>
+        </div>
+      </form>
+
+      <div id="error-box" class="hidden form-error" role="alert"></div>
+
+      <div id="result-box" class="result-box is-visible" aria-live="polite">
+        <div class="result-header">
+          <span id="result-header-text">{{ 'text.result-header-text' | pt }}</span>
+          <button type="button" class="btn btn-sm btn-ghost" id="copy-result-btn" title="{{ 'title.copy-result-btn' | pt }}" aria-label="{{ 'ariaLabel.copy-result-btn' | pt }}">
+            {{ 'text.copy-result-btn' | pt }}
+          </button>
+        </div>
+        <div class="result-primary tz-primary" id="result-primary-text">--</div>
+        <p class="form-hint" id="tz-note"></p>
+        <ul class="tz-cards" id="tz-cards"></ul>
+      </div>
+
+      <h2 class="tz-heading">{{ 'content.working-hours-overlap.heading' | pt }}</h2>
+      <p class="form-hint" id="overlap-summary"></p>
+      <div class="table-wrapper tz-strip-wrapper" tabindex="0" role="region" aria-labelledby="overlap-caption">
+        <table class="tz-strip" id="tz-strip">
+          <caption id="overlap-caption" class="visually-hidden">{{ 'text.overlap-caption' | pt }}</caption>
+        </table>
+      </div>
+      <p class="tz-legend">
+        {{ 'content.working-hours-overlap.p1' | pt }}
+      </p>
+    </section>
+
+    <!-- tool-end -->
+
+    <section class="content-section">
+      <h2>{{ 'content.how-daylight-saving-time-is-handled.heading' | pt }}</h2>
+      <p>{{ 'content.how-daylight-saving-time-is-handled.p1' | pt }}</p>
+      <ul class="content-list">
+        <li>{{ 'content.how-daylight-saving-time-is-handled.li1' | pt }}</li>
+        <li>{{ 'content.how-daylight-saving-time-is-handled.li2' | pt }}</li>
+        <li>{{ 'content.how-daylight-saving-time-is-handled.li3' | pt }}</li>
+        <li>{{ 'content.how-daylight-saving-time-is-handled.li4' | pt }}</li>
+      </ul>
+      <p>{{ 'content.how-daylight-saving-time-is-handled.p2' | pt }}</p>
+
+      <h2>{{ 'content.tips-for-scheduling-across-time-zones.heading' | pt }}</h2>
+      <ul class="content-list">
+        <li>{{ 'content.tips-for-scheduling-across-time-zones.li1' | pt }}</li>
+        <li>{{ 'content.tips-for-scheduling-across-time-zones.li2' | pt }}</li>
+        <li>{{ 'content.tips-for-scheduling-across-time-zones.li3' | pt }}</li>
+        <li>{{ 'content.tips-for-scheduling-across-time-zones.li4' | pt }}</li>
+      </ul>
+    </section>

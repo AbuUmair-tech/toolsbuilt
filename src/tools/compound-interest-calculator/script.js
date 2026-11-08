@@ -6,6 +6,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   const logic = window.CompoundInterestLogic;
   if (!logic) return;
+  const T = ToolsBuilt.scope('compound-interest-calculator');
 
   const form = document.getElementById('calculator-form');
   const principalInput = document.getElementById('principal');
@@ -30,25 +31,15 @@ document.addEventListener('DOMContentLoaded', () => {
   const tableBody = document.getElementById('compound-table-body');
 
   const STORAGE_KEY = 'toolsbuilt:compound-interest-calculator';
+  const currencySelect = document.getElementById('currency');
+  const money = (n) => ToolsBuilt.money(n, currencySelect.value);
   let debounceTimer = null;
   let lastResultSummary = '';
 
   function initInputs() {
-    const params = new URLSearchParams(window.location.search);
-    const urlP = params.get('p');
-    const urlR = params.get('r');
-    const urlY = params.get('y');
-    const urlF = params.get('f');
-    const urlPmt = params.get('pmt');
-
-    if (urlP) {
-      principalInput.value = urlP;
-      if (urlR) rateInput.value = urlR;
-      if (urlY) yearsInput.value = urlY;
-      if (urlF) freqSelect.value = urlF;
-      if (urlPmt) contributionInput.value = urlPmt;
-      return;
-    }
+    // Result links (?p=&r=&y=&f=&pmt=) take priority over saved state
+    currencySelect.value = ToolsBuilt.defaultCurrency('USD', currencySelect);
+    if (ToolsBuilt.resultLink.restore().length) return;
 
     try {
       const saved = localStorage.getItem(STORAGE_KEY);
@@ -59,6 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (data.y) yearsInput.value = data.y;
         if (data.f) freqSelect.value = data.f;
         if (data.pmt) contributionInput.value = data.pmt;
+        if (data.cur && Array.from(currencySelect.options).some(o => o.value === data.cur)) currencySelect.value = data.cur;
         return;
       }
     } catch (e) {}
@@ -73,16 +65,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function saveState(p, r, y, f, pmt) {
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify({ p, r, y, f, pmt }));
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({ p, r, y, f, pmt, cur: currencySelect.value }));
     } catch (e) {}
 
-    const url = new URL(window.location.href);
-    if (p && p !== '10000') url.searchParams.set('p', p); else url.searchParams.delete('p');
-    if (r && r !== '7') url.searchParams.set('r', r); else url.searchParams.delete('r');
-    if (y && y !== '10') url.searchParams.set('y', y); else url.searchParams.delete('y');
-    if (f && f !== 'annual') url.searchParams.set('f', f); else url.searchParams.delete('f');
-    if (pmt) url.searchParams.set('pmt', pmt); else url.searchParams.delete('pmt');
-    window.history.replaceState({}, '', url.toString());
+    ToolsBuilt.resultLink.update();
   }
 
   function clearError() {
@@ -117,57 +103,57 @@ document.addEventListener('DOMContentLoaded', () => {
     const rawPmt = contributionInput.value.trim();
 
     if (rawP === '' || isNaN(parseFloat(rawP))) {
-      showError('Please enter an initial principal amount (0 or greater).', principalInput);
+      showError(T('errors.principalRequired'), principalInput);
       return;
     }
     if (parseFloat(rawP) < 0) {
-      showError('Initial principal cannot be negative.', principalInput);
+      showError(T('errors.principalNegative'), principalInput);
       return;
     }
     if (rawR === '' || isNaN(parseFloat(rawR))) {
-      showError('Please enter an annual interest rate.', rateInput);
+      showError(T('errors.rateRequired'), rateInput);
       return;
     }
     if (parseFloat(rawR) < 0) {
-      showError('Interest rate cannot be negative.', rateInput);
+      showError(T('errors.rateNegative'), rateInput);
       return;
     }
     if (!rawY || isNaN(parseFloat(rawY))) {
-      showError('Please enter investment duration in years.', yearsInput);
+      showError(T('errors.yearsRequired'), yearsInput);
       return;
     }
     if (parseFloat(rawY) <= 0) {
-      showError('Duration must be greater than zero.', yearsInput);
+      showError(T('errors.yearsMin'), yearsInput);
       return;
     }
     if (rawPmt && (isNaN(parseFloat(rawPmt)) || parseFloat(rawPmt) < 0)) {
-      showError('Contribution amount must be 0 or greater.', contributionInput);
+      showError(T('errors.contributionMin'), contributionInput);
       return;
     }
     if (parseFloat(rawP) === 0 && (!rawPmt || parseFloat(rawPmt) === 0)) {
-      showError('Please enter an initial principal or a regular contribution amount.', principalInput);
+      showError(T('errors.principalOrContributionRequired'), principalInput);
       return;
     }
 
     try {
       const res = logic.calculateCompoundInterest(rawP, rawR, rawY, freq, {
         contributionAmount: rawPmt ? parseFloat(rawPmt) : 0,
-        currencySymbol: '$'
+        currencySymbol: ToolsBuilt.currencySymbol(currencySelect.value)
       });
 
-      const formattedBal = logic.formatCurrency(res.finalBalance);
-      const formattedPrin = logic.formatCurrency(res.totalPrincipal);
-      const formattedInt = logic.formatCurrency(res.totalInterest);
+      const formattedBal = money(res.finalBalance);
+      const formattedPrin = money(res.totalPrincipal);
+      const formattedInt = money(res.totalInterest);
 
-      resultPrimary.textContent = `Future Value: ${formattedBal}`;
+      resultPrimary.textContent = T('result.primary', { value: formattedBal });
       statFinalBalance.textContent = formattedBal;
       statTotalPrincipal.textContent = formattedPrin;
       statTotalInterest.textContent = formattedInt;
-      statApy.textContent = `${res.apyPercent}% APY`;
+      statApy.textContent = T('result.apy', { apy: res.apyPercent });
 
       // Render SVG Growth Chart
       if (chartContainer) {
-        chartContainer.innerHTML = logic.generateSvgGrowthChart(res.yearlyData, '$');
+        chartContainer.innerHTML = logic.generateSvgGrowthChart(res.yearlyData, ToolsBuilt.currencySymbol(currencySelect.value));
       }
 
       // Populate Table
@@ -177,15 +163,15 @@ document.addEventListener('DOMContentLoaded', () => {
       if (actionsBar) actionsBar.removeAttribute('hidden');
 
       lastResultSummary = [
-        `Compound Interest Growth Summary:`,
-        `Initial Principal: ${logic.formatCurrency(res.initialPrincipal)}`,
-        `Interest Rate: ${res.annualRate}% (Compounded ${res.frequencyLabel})`,
-        `Effective APY: ${res.apyPercent}%`,
-        `Time Horizon: ${res.tenureYears} Years`,
-        res.contributionAmount > 0 ? `Monthly Contribution: ${logic.formatCurrency(res.contributionAmount)}` : null,
-        `Total Principal Invested: ${formattedPrin}`,
-        `Total Compound Interest Earned: ${formattedInt}`,
-        `Ending Future Value: ${formattedBal}`
+        T('summary.title'),
+        T('summary.principal', { value: money(res.initialPrincipal) }),
+        T('summary.rate', { rate: res.annualRate, frequency: res.frequencyLabel }),
+        T('summary.apy', { apy: res.apyPercent }),
+        T('summary.horizon', { years: res.tenureYears }),
+        res.contributionAmount > 0 ? T('summary.contribution', { value: money(res.contributionAmount) }) : null,
+        T('summary.totalPrincipal', { value: formattedPrin }),
+        T('summary.totalInterest', { value: formattedInt }),
+        T('summary.futureValue', { value: formattedBal })
       ].filter(Boolean).join('\n');
 
       saveState(rawP, rawR, rawY, freq, rawPmt);
@@ -202,11 +188,11 @@ document.addEventListener('DOMContentLoaded', () => {
     yearlyData.forEach(row => {
       const tr = document.createElement('tr');
       tr.innerHTML = `
-        <td>Year ${row.year}</td>
-        <td>$${row.annualDeposit.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
-        <td>$${row.totalPrincipal.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
-        <td>$${row.interestEarned.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
-        <td><strong>$${row.balance.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</strong></td>
+        <td>${T('table.year', { year: row.year })}</td>
+        <td>${money(row.annualDeposit)}</td>
+        <td>${money(row.totalPrincipal)}</td>
+        <td>${money(row.interestEarned)}</td>
+        <td><strong>${money(row.balance)}</strong></td>
       `;
       fragment.appendChild(tr);
     });
@@ -223,6 +209,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (inp) inp.addEventListener('input', debounceCalculate);
   });
   if (freqSelect) freqSelect.addEventListener('change', calculate);
+
+  currencySelect.addEventListener('change', calculate);
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -248,7 +236,7 @@ document.addEventListener('DOMContentLoaded', () => {
     copyBtn.addEventListener('click', () => {
       if (!lastResultSummary) return;
       navigator.clipboard.writeText(lastResultSummary).then(() => {
-        if (window.showTbToast) window.showTbToast('Compound interest calculation copied to clipboard!');
+        if (window.showTbToast) window.showTbToast(T('toast.copied'));
       }).catch(() => {});
     });
   }

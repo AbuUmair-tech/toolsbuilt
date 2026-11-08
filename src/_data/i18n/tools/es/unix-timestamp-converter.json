@@ -1,0 +1,344 @@
+{
+  "listing": {
+    "name": "Conversor de marca de tiempo Unix",
+    "shortName": "Timestamp Unix",
+    "description": "Convierte marcas de tiempo Unix (epoch) a fechas UTC y locales, ISO 8601 y RFC 2822, o fechas a segundos y milisegundos.",
+    "shortDescription": "De segundos o milisegundos epoch a una fecha legible y al revés, con la marca de tiempo actual en vivo.",
+    "keywords": [
+      "conversor de marca de tiempo unix",
+      "conversor epoch",
+      "epoch a fecha",
+      "timestamp a fecha",
+      "fecha a timestamp",
+      "hora unix actual",
+      "problema del año 2038"
+    ]
+  },
+  "title": "Conversor de marca de tiempo Unix (epoch a fecha)",
+  "description": "Conversor de marca de tiempo Unix: pasa un timestamp epoch a fecha UTC y local, ISO 8601 y RFC 2822, o una fecha a segundos y milisegundos.",
+  "h1": "Conversor de marca de tiempo Unix",
+  "quickAnswer": "Una marca de tiempo Unix (timestamp Unix) es el número de segundos transcurridos desde el 1970-01-01 00:00:00 UTC, sin contar los segundos intercalares. 1700000000 equivale a 2023-11-14T22:13:20Z, y el mismo instante en milisegundos es 1700000000000. Un número de 10 dígitos casi siempre son segundos y uno de 13 dígitos, milisegundos; este conversor de marca de tiempo Unix detecta cuál has pegado.",
+  "formula": {
+    "title": "Fórmula de conversión epoch",
+    "expression": "Fecha (UTC) = 1970-01-01T00:00:00Z + segundos del timestamp   ·   Timestamp = (Fecha − 1970-01-01T00:00:00Z) en segundos",
+    "explanation": "Cada día Unix tiene exactamente 86,400 segundos, así que la fecha se obtiene dividiendo entre 86,400 para sacar el número de día desde el 1 de enero de 1970 y usando el resto como hora del día. Los milisegundos son segundos × 1,000. La unidad se detecta por el tamaño del número: por debajo de 100,000,000,000 se trata como segundos (eso llega hasta el año 5138), hasta 14 dígitos como milisegundos, y después como microsegundos y nanosegundos.",
+    "variables": [
+      {
+        "name": "Segundos",
+        "description": "El tiempo Unix clásico que usan la mayoría de servidores, bases de datos y el comando date."
+      },
+      {
+        "name": "Milisegundos",
+        "description": "Lo usan JavaScript (Date.now()), Java (System.currentTimeMillis()) y muchas API: segundos × 1,000."
+      },
+      {
+        "name": "Hora local",
+        "description": "El mismo instante mostrado con la diferencia horaria de la zona horaria de tu dispositivo. La marca de tiempo en sí nunca cambia con la zona horaria."
+      }
+    ]
+  },
+  "workedExamples": [
+    {
+      "title": "El epoch de Unix",
+      "inputs": [
+        "Marca de tiempo: 0"
+      ],
+      "steps": [
+        "0 segundos después del epoch"
+      ],
+      "result": "1970-01-01T00:00:00Z (jueves, 1 de enero de 1970, medianoche UTC)"
+    },
+    {
+      "title": "Una marca de tiempo de 10 dígitos en segundos",
+      "inputs": [
+        "Marca de tiempo: 1700000000"
+      ],
+      "steps": [
+        "1,700,000,000 ÷ 86,400 = 19,675 días completos, resto 80,000 segundos",
+        "El día 19,675 después del 1 de enero de 1970 es el 14 de noviembre de 2023",
+        "80,000 segundos = 22 horas 13 minutos 20 segundos"
+      ],
+      "result": "2023-11-14T22:13:20Z (Tue, 14 Nov 2023 22:13:20 +0000)"
+    },
+    {
+      "title": "Una marca de tiempo de 13 dígitos en milisegundos",
+      "inputs": [
+        "Marca de tiempo: 1700000000000"
+      ],
+      "steps": [
+        "13 dígitos, así que se lee como milisegundos",
+        "1,700,000,000,000 ÷ 1,000 = 1,700,000,000 segundos"
+      ],
+      "result": "2023-11-14T22:13:20Z, el mismo instante que en el ejemplo anterior"
+    },
+    {
+      "title": "El último segundo del tiempo de 32 bits",
+      "inputs": [
+        "Marca de tiempo: 2147483647 (2³¹ − 1)"
+      ],
+      "steps": [
+        "El valor más grande que cabe en un entero con signo de 32 bits",
+        "2,147,483,647 segundos después del epoch"
+      ],
+      "result": "2038-01-19T03:14:07Z, un segundo antes de que los relojes de 32 bits se desborden"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Confundir milisegundos con segundos",
+      "description": "Pasar 1700000000000 a una función que espera segundos da una fecha unos 54,000 años en el futuro, y pasar segundos a <code>new Date()</code> de JavaScript da una fecha de enero de 1970. Cuenta los dígitos: 10 para segundos, 13 para milisegundos."
+    },
+    {
+      "title": "Creer que una marca de tiempo tiene zona horaria",
+      "description": "Una marca de tiempo Unix siempre se cuenta desde la medianoche UTC, así que el mismo número es el mismo instante en todo el mundo. Solo cambia la forma de mostrarlo. Si dos sistemas difieren en horas exactas, uno de ellos está formateando en hora local."
+    },
+    {
+      "title": "Generar una marca de tiempo a partir de la hora local sin querer",
+      "description": "Convertir \"2026-03-01 09:00\" sin indicar en qué zona horaria está usa en silencio la zona del propio equipo. Elige UTC o la hora local de forma explícita al convertir una fecha en marca de tiempo."
+    },
+    {
+      "title": "Guardar el tiempo en un entero con signo de 32 bits",
+      "description": "Un contador de segundos con signo de 32 bits se desborda después de 2038-01-19T03:14:07Z y vuelve a diciembre de 1901. Usa enteros de 64 bits (BIGINT, int64, time_t en sistemas modernos de 64 bits) para cualquier dato que pueda guardar fechas posteriores a 2038, incluidas fechas de vencimiento e hipotecas."
+    },
+    {
+      "title": "Esperar segundos intercalares",
+      "description": "El tiempo Unix ignora los segundos intercalares: cada día tiene exactamente 86,400 segundos. Por eso, al restar dos marcas de tiempo obtienes el tiempo civil transcurrido, que puede diferir de los segundos reales transcurridos en los 27 segundos intercalares añadidos desde 1972."
+    }
+  ],
+  "sources": [
+    {
+      "name": "The Open Group Base Specifications: Seconds Since the Epoch (POSIX)"
+    },
+    {
+      "name": "RFC 3339: Date and Time on the Internet (perfil de ISO 8601)"
+    },
+    {
+      "name": "RFC 2822: Internet Message Format (especificación de fecha y hora)"
+    },
+    {
+      "name": "IERS Bulletin C: anuncios de segundos intercalares"
+    }
+  ],
+  "howto": {
+    "name": "Cómo convertir una marca de tiempo Unix",
+    "description": "Convierte un timestamp epoch en una fecha legible, o una fecha en una marca de tiempo.",
+    "steps": [
+      {
+        "name": "Pega la marca de tiempo",
+        "text": "Introduce el número en segundos o milisegundos. La unidad se detecta por el número de dígitos, o elígela en el menú Unidad."
+      },
+      {
+        "name": "Lee la fecha",
+        "text": "Consulta la fecha en UTC y en tu hora local, además de ISO 8601, RFC 2822 y cuánto tiempo ha pasado o falta."
+      },
+      {
+        "name": "Convierte una fecha a timestamp",
+        "text": "Elige una fecha y una hora, indica si está en UTC o en tu hora local, y lee la marca de tiempo en segundos y milisegundos."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "¿Qué es una marca de tiempo Unix?",
+      "a": "Es el número de segundos transcurridos desde las 00:00:00 UTC del 1 de enero de 1970 (el epoch de Unix), sin contar los segundos intercalares. También se llama tiempo epoch, tiempo POSIX o tiempo Unix."
+    },
+    {
+      "q": "¿Cómo convierto una marca de tiempo Unix en una fecha?",
+      "a": "Pégala en el conversor de arriba. En código: JavaScript new Date(ts * 1000).toISOString(); Python datetime.fromtimestamp(ts, tz=timezone.utc); en Linux date -u -d @1700000000; en Excel =ts/86400 + DATE(1970,1,1)."
+    },
+    {
+      "q": "¿Cómo obtengo la marca de tiempo Unix actual?",
+      "a": "El contador en vivo de la parte superior de la herramienta la muestra en segundos y milisegundos. En código: Math.floor(Date.now() / 1000) en JavaScript, int(time.time()) en Python, date +%s en una shell de Unix."
+    },
+    {
+      "q": "¿Mi marca de tiempo está en segundos o en milisegundos?",
+      "a": "Cuenta los dígitos. Las marcas de tiempo actuales en segundos tienen 10 dígitos (1,7xx,xxx,xxx) y en milisegundos, 13 dígitos. El conversor lo detecta automáticamente, y puedes forzar una unidad con el menú Unidad."
+    },
+    {
+      "q": "¿Qué es el problema del año 2038?",
+      "a": "Los sistemas que guardan el tiempo Unix en un entero con signo de 32 bits solo pueden contar hasta 2,147,483,647 segundos, que corresponden a las 03:14:07 UTC del 19 de enero de 2038. Un segundo después, el valor se desborda a un número negativo y la fecha salta al 13 de diciembre de 1901. Los valores de tiempo de 64 bits lo evitan."
+    },
+    {
+      "q": "¿Una marca de tiempo Unix depende de la zona horaria?",
+      "a": "No. La marca de tiempo es la misma en todo el mundo en el mismo instante. La zona horaria solo importa cuando la conviertes en una fecha legible; por eso el conversor muestra tanto UTC como tu hora local."
+    },
+    {
+      "q": "¿Puede una marca de tiempo Unix ser negativa?",
+      "a": "Sí. Los valores negativos son fechas anteriores a 1970: −86400 es el 31 de diciembre de 1969 a las 00:00:00 UTC. La mayoría de lenguajes modernos los admiten, pero algunos sistemas antiguos y hojas de cálculo no."
+    },
+    {
+      "q": "¿Qué diferencia hay entre las fechas ISO 8601 y RFC 2822?",
+      "a": "ISO 8601 (2023-11-14T22:13:20Z) es el formato ordenable que se usa en JSON y en las API. RFC 2822 (Tue, 14 Nov 2023 22:13:20 +0000) es el formato de las cabeceras Date del correo electrónico y de muchos feeds HTTP y RSS."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Conversor de marca de tiempo Unix",
+      "tool-div1": "Marca de tiempo Unix actual",
+      "copy-result-btn": "Copiar el resultado al portapapeles"
+    },
+    "content": {
+      "tool": {
+        "div1": "<span class=\"epoch-now-label\">Marca de tiempo actual (segundos)</span>\n          <span class=\"epoch-now-value tabular-nums\" id=\"now-seconds\">–</span>",
+        "div2": "<span class=\"epoch-now-label\">Milisegundos</span>\n          <span class=\"epoch-now-value tabular-nums\" id=\"now-ms\">–</span>",
+        "button1": "Copiar segundos",
+        "button2": "Copiar ms"
+      },
+      "timestamp-to-date": {
+        "heading": "De marca de tiempo a fecha",
+        "button1": "Convertir a fecha"
+      },
+      "date-to-timestamp": {
+        "heading": "De fecha a marca de tiempo"
+      },
+      "the-year-2038-problem-explained": {
+        "heading": "El problema del año 2038, explicado",
+        "p1": "Los primeros sistemas Unix guardaban el tiempo en un <code>time_t</code> que era un entero con signo de 32 bits. El número más grande que admite es 2,147,483,647, y esa cantidad de segundos después del epoch corresponde a las <strong>03:14:07 UTC del martes 19 de enero de 2038</strong>. Un segundo después, el contador se desborda a −2,147,483,648, que el software interpreta como las 20:45:52 UTC del 13 de diciembre de 1901.",
+        "p2": "Es parecido al efecto 2000 (Y2K), pero más difícil de detectar: el problema no está en cómo se escriben los años, sino en el ancho binario de un número enterrado en sistemas de archivos, bases de datos, dispositivos integrados y formatos de archivo. Los cálculos que miran al futuro, como los cuadros de amortización de préstamos a 30 años, las fechas de vencimiento de certificados o la planificación a largo plazo, pueden fallar mucho antes de 2038.",
+        "li1": "<strong>Ya resuelto:</strong> Linux, macOS y Windows de 64 bits y los lenguajes modernos usan tiempo de 64 bits, que alcanza para unos 292 mil millones de años. El kernel de Linux 5.6 añadió también tiempo de 64 bits para arquitecturas de 32 bits.",
+        "li2": "<strong>Todavía en riesgo:</strong> sistemas integrados antiguos de 32 bits, columnas <code>TIMESTAMP</code> de MySQL (limitadas a 2038-01-19 03:14:07 UTC), formatos de archivo con campos de tiempo de 32 bits y código que convierte marcas de tiempo a <code>int</code>.",
+        "li3": "<strong>Cómo comprobarlo:</strong> convierte 2147483648 arriba. Si tu sistema muestra una fecha de 2038, admite tiempos posteriores al límite."
+      },
+      "timestamps-in-common-languages": {
+        "heading": "Marcas de tiempo en lenguajes habituales",
+        "caption1": "Obtener y convertir marcas de tiempo Unix en código",
+        "th1": "Lenguaje",
+        "th2": "Marca de tiempo actual",
+        "th3": "De marca de tiempo a fecha",
+        "td1": "JavaScript",
+        "td2": "<code>Math.floor(Date.now() / 1000)</code>",
+        "td3": "<code>new Date(ts * 1000)</code>",
+        "td4": "Python",
+        "td5": "<code>int(time.time())</code>",
+        "td6": "<code>datetime.fromtimestamp(ts, timezone.utc)</code>",
+        "td7": "PHP",
+        "td8": "<code>time()</code>",
+        "td9": "<code>date('c', $ts)</code>",
+        "td10": "Java",
+        "td11": "<code>Instant.now().getEpochSecond()</code>",
+        "td12": "<code>Instant.ofEpochSecond(ts)</code>",
+        "td13": "Shell (GNU)",
+        "td14": "<code>date +%s</code>",
+        "td15": "<code>date -u -d @1700000000</code>",
+        "td16": "SQL (PostgreSQL)",
+        "td17": "<code>extract(epoch from now())</code>",
+        "td18": "<code>to_timestamp(1700000000)</code>",
+        "p1": "Todo en esta página funciona en tu navegador: la marca de tiempo actual viene del reloj de tu dispositivo y la hora local usa la configuración de zona horaria de tu dispositivo. Si el contador en vivo parece incorrecto, comprueba que el reloj de tu equipo esté sincronizado."
+      }
+    },
+    "text": {
+      "now-pause": "Pausar",
+      "ts-now-btn": "Ahora",
+      "ts-hint": "10 dígitos = segundos, 13 dígitos = milisegundos. Los valores negativos son fechas anteriores a 1970.",
+      "reset-btn": "Restablecer",
+      "result-header-text": "Fecha y hora",
+      "copy-result-btn": "<span data-icon=\"copy\"></span> Copiar resultado"
+    },
+    "label": {
+      "ts-input": "Marca de tiempo Unix <span class=\"text-accent\">*</span>",
+      "ts-unit": "Unidad",
+      "date-input": "Fecha y hora <span class=\"text-accent\">*</span>",
+      "date-zone": "La hora indicada está en"
+    },
+    "option": {
+      "ts-unit": {
+        "auto": "Detectar automáticamente",
+        "s": "Segundos",
+        "ms": "Milisegundos",
+        "us": "Microsegundos",
+        "ns": "Nanosegundos"
+      },
+      "date-zone": {
+        "utc": "UTC",
+        "local": "Mi hora local"
+      }
+    },
+    "title": {
+      "copy-result-btn": "Copiar el resultado al portapapeles"
+    }
+  },
+  "client": {
+    "units": {
+      "s": "segundos",
+      "ms": "milisegundos",
+      "us": "microsegundos",
+      "ns": "nanosegundos"
+    },
+    "errors": {
+      "empty": "Introduce una marca de tiempo Unix, por ejemplo 1700000000.",
+      "notNumber": "Una marca de tiempo Unix es un número entero de segundos (o milisegundos), como 1700000000. Quita las letras y otros símbolos.",
+      "unknownUnit": "Unidad desconocida.",
+      "outOfRange": "Esa marca de tiempo está fuera del rango que puede representar una fecha (unos ±275,000 años desde 1970).",
+      "invalidDateTime": "Introduce una fecha y hora válidas, por ejemplo 2023-11-14 22:13:20.",
+      "dateOutOfRange": "Esa fecha está fuera del rango admitido.",
+      "pickDateTime": "Elige una fecha y una hora para convertir."
+    },
+    "relative": {
+      "justNow": "justo ahora",
+      "past": "hace {{text}}",
+      "future": "dentro de {{text}}",
+      "year": {
+        "many": "{{n}} años",
+        "one": "{{n}} año",
+        "other": "{{n}} años"
+      },
+      "month": {
+        "many": "{{n}} meses",
+        "one": "{{n}} mes",
+        "other": "{{n}} meses"
+      },
+      "week": {
+        "many": "{{n}} semanas",
+        "one": "{{n}} semana",
+        "other": "{{n}} semanas"
+      },
+      "day": {
+        "many": "{{n}} días",
+        "one": "{{n}} día",
+        "other": "{{n}} días"
+      },
+      "hour": {
+        "many": "{{n}} horas",
+        "one": "{{n}} hora",
+        "other": "{{n}} horas"
+      },
+      "minute": {
+        "many": "{{n}} minutos",
+        "one": "{{n}} minuto",
+        "other": "{{n}} minutos"
+      },
+      "second": {
+        "many": "{{n}} segundos",
+        "one": "{{n}} segundo",
+        "other": "{{n}} segundos"
+      }
+    },
+    "yourTimeZone": "tu zona horaria",
+    "buttons": {
+      "pause": "Pausar",
+      "resume": "Reanudar",
+      "copy": "Copiar"
+    },
+    "copy": {
+      "copiedValue": "{{value}} copiado",
+      "ariaLabel": "Copiar {{label}}",
+      "copiedLabel": "{{label}} copiado"
+    },
+    "detected": {
+      "auto": "Detectado como {{unit}}",
+      "forced": "Leído como {{unit}}",
+      "beyond2038": "posterior al límite de 32 bits de 2038-01-19T03:14:07Z"
+    },
+    "rows": {
+      "localTime": "Hora local ({{zone}})",
+      "isoUtc": "ISO 8601 (UTC)",
+      "isoLocal": "ISO 8601 (diferencia local)",
+      "relative": "Relativo",
+      "seconds": "Segundos",
+      "milliseconds": "Milisegundos",
+      "timestampSeconds": "Marca de tiempo (segundos)",
+      "inLocal": "En tu hora local ({{zone}})",
+      "inUtc": "En UTC"
+    }
+  }
+}

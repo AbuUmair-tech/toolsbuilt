@@ -1,0 +1,94 @@
+/* text-diff-checker: layout only. Colours, borders and type live in assets/css/tools.css. */
+
+.diff-inputs {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-4);
+}
+
+@media (min-width: 768px) {
+  .diff-inputs {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.diff-textarea {
+  min-height: 12rem;
+  resize: vertical;
+}
+
+.diff-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-6);
+  margin: var(--space-2) 0 var(--space-4);
+}
+
+.diff-view {
+  max-width: 22rem;
+}
+
+.diff-view .choice-toggle-options {
+  gap: var(--space-1);
+  padding: var(--space-1);
+}
+
+.diff-summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: var(--space-3) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.diff-summary li {
+  padding: var(--space-1) var(--space-3);
+}
+
+.diff-output {
+  margin-top: var(--space-4);
+  max-height: 70vh;
+  overflow: auto;
+}
+
+.diff-output:empty {
+  display: none;
+}
+
+.diff-line,
+.diff-row {
+  display: grid;
+  align-items: start;
+}
+
+.diff-line {
+  grid-template-columns: 2.25rem 2.25rem 1rem minmax(0, 1fr);
+}
+
+@media (min-width: 640px) {
+  .diff-line {
+    grid-template-columns: 3rem 3rem 1.25rem minmax(0, 1fr);
+  }
+}
+
+.diff-row {
+  grid-template-columns: repeat(2, 2.75rem 1rem minmax(0, 1fr));
+}
+
+.diff-no,
+.diff-sign {
+  padding: 0 var(--space-1);
+  text-align: end;
+  user-select: none;
+}
+
+.diff-text {
+  padding: 0 var(--space-2);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.diff-fold {
+  padding: var(--space-1) var(--space-3);
+}

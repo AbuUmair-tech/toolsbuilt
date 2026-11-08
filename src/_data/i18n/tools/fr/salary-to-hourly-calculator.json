@@ -1,0 +1,258 @@
+{
+  "listing": {
+    "name": "Convertisseur de salaire en taux horaire",
+    "shortName": "Salaire en taux horaire",
+    "description": "Convertissez une rémunération annuelle, mensuelle, bimensuelle, hebdomadaire, journalière ou horaire selon vos heures, vos semaines payées et vos congés non payés.",
+    "shortDescription": "Salaire annuel en taux horaire et inversement, avec montants mensuels, hebdomadaires et journaliers.",
+    "keywords": [
+      "salaire en taux horaire",
+      "taux horaire en salaire annuel",
+      "calcul salaire annuel",
+      "calcul taux horaire",
+      "convertisseur de salaire",
+      "combien je gagne de l'heure",
+      "salaire annuel en horaire"
+    ]
+  },
+  "title": "Salaire en taux horaire (et taux horaire en salaire)",
+  "description": "Convertissez une rémunération annuelle, mensuelle, bimensuelle, hebdomadaire, journalière ou horaire selon vos heures, semaines payées et congés non payés.",
+  "h1": "Convertisseur de salaire en taux horaire",
+  "quickAnswer": "Taux horaire = salaire annuel ÷ (heures par semaine × semaines payées par an). À 40 heures et 52 semaines, cela fait 2,080 heures : 52,000 par an correspondent donc à 25.00 de l'heure. Dans l'autre sens, 30 de l'heure font 62,400 par an et 5,200 par mois. Deux semaines de congé non payé laissent 50 semaines payées, ce qui porte l'équivalent horaire de 52,000 à 26.00. Ce convertisseur de salaire en taux horaire fait le calcul pour vous.",
+  "formula": {
+    "title": "Formule de conversion de la rémunération",
+    "expression": "Horaire = Annuel ÷ (Heures par semaine × Semaines payées)   ·   Annuel = Horaire × Heures par semaine × Semaines payées   ·   Mensuel = Annuel ÷ 12",
+    "explanation": "Chaque saisie est d'abord convertie en montant annuel, puis redivisée. Les semaines payées sont les semaines de l'année moins les semaines de congé non payé. La paie hebdomadaire vaut annuel ÷ semaines payées, la paie toutes les deux semaines deux de ces semaines, la paie journalière hebdomadaire ÷ jours travaillés par semaine, et le taux horaire hebdomadaire ÷ heures par semaine. Le mensuel vaut toujours annuel ÷ 12, car un mois ne compte pas un nombre entier de semaines.",
+    "variables": [
+      {
+        "name": "Heures par semaine",
+        "description": "Vos heures payées contractuelles ou habituelles, comme 40 ou 37.5."
+      },
+      {
+        "name": "Semaines payées par an",
+        "description": "52 pour la plupart des emplois salariés (les congés payés comptent comme des semaines payées)."
+      },
+      {
+        "name": "Semaines de congé non payé",
+        "description": "Les semaines pour lesquelles vous n'êtes pas payé, comme un congé sans solde ou les périodes entre deux contrats."
+      }
+    ]
+  },
+  "workedExamples": [
+    {
+      "title": "52,000 par an en taux horaire",
+      "inputs": [
+        "Rémunération : 52,000 par an",
+        "40 heures par semaine, 52 semaines payées"
+      ],
+      "steps": [
+        "Heures par an : 40 × 52 = 2,080",
+        "Taux horaire : 52,000 ÷ 2,080 = 25.00"
+      ],
+      "result": "25.00 de l'heure (1,000 par semaine, 4,333.33 par mois)"
+    },
+    {
+      "title": "30 de l'heure en annuel et en mensuel",
+      "inputs": [
+        "Rémunération : 30 de l'heure",
+        "40 heures par semaine, 52 semaines payées"
+      ],
+      "steps": [
+        "Annuel : 30 × 40 × 52 = 62,400",
+        "Mensuel : 62,400 ÷ 12 = 5,200"
+      ],
+      "result": "62,400 par an, 5,200 par mois"
+    },
+    {
+      "title": "52,000 par an avec deux semaines non payées",
+      "inputs": [
+        "Rémunération : 52,000 par an",
+        "40 heures par semaine, 52 semaines, 2 semaines de congé non payé"
+      ],
+      "steps": [
+        "Semaines payées : 52 − 2 = 50",
+        "Heures travaillées : 40 × 50 = 2,000",
+        "Taux horaire : 52,000 ÷ 2,000 = 26.00"
+      ],
+      "result": "26.00 de l'heure pour les heures réellement travaillées"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Multiplier la paie hebdomadaire par 4 pour obtenir le mensuel",
+      "description": "Une année compte 52 semaines, mais seulement 48 si l'on compte quatre semaines par mois. Le mensuel vaut annuel ÷ 12, soit la paie hebdomadaire × 4.33. Multiplier par 4 sous-estime le revenu mensuel d'environ 8%."
+    },
+    {
+      "title": "Comparer un salaire à un taux horaire sans compter les congés",
+      "description": "Un emploi salarié rémunère généralement les congés et les arrêts maladie ; le taux horaire d'un indépendant, souvent non. Pour comparer équitablement, saisissez les semaines non payées de l'indépendant afin que le montant annuel reflète les semaines réellement facturées."
+    },
+    {
+      "title": "Confondre paie toutes les deux semaines et paie bimensuelle",
+      "description": "Être payé toutes les deux semaines (bi-weekly) donne 26 paies par an. Être payé deux fois par mois (semi-monthly) en donne 24. Pour un même salaire, la paie toutes les deux semaines est donc plus faible que la paie bimensuelle."
+    },
+    {
+      "title": "Prendre les montants bruts pour le salaire net",
+      "description": "Ces montants sont bruts, avant impôt sur le revenu, cotisations sociales, retraite et autres retenues. Utilisez un calculateur d'impôt sur le salaire pour connaître votre salaire net."
+    },
+    {
+      "title": "Ignorer les heures supplémentaires non payées",
+      "description": "Si vous travaillez régulièrement plus que vos heures contractuelles sans rémunération supplémentaire, votre vrai taux horaire est plus bas. Saisissez les heures réellement travaillées pour le voir."
+    }
+  ],
+  "sources": [
+    {
+      "name": "U.S. Office of Personnel Management : calcul des taux horaires avec le diviseur de 2,087 heures"
+    },
+    {
+      "name": "U.S. Department of Labor : Overtime pay (FLSA)"
+    },
+    {
+      "name": "GOV.UK : taux du National Minimum Wage et du National Living Wage"
+    }
+  ],
+  "howto": {
+    "name": "Comment convertir un salaire en taux horaire",
+    "description": "Convertissez n'importe quelle rémunération en montants annuel, mensuel, toutes les deux semaines, hebdomadaire, journalier et horaire.",
+    "steps": [
+      {
+        "name": "Saisir votre rémunération",
+        "text": "Saisissez le montant et indiquez s'il est par heure, par jour, par semaine, toutes les deux semaines, par mois ou par an."
+      },
+      {
+        "name": "Définir votre rythme de travail",
+        "text": "Saisissez les heures par semaine, les jours par semaine et les semaines payées par an (40, 5 et 52 par défaut)."
+      },
+      {
+        "name": "Ajouter les congés non payés",
+        "text": "Saisissez les éventuelles semaines non payées, comme un congé sans solde ou les périodes entre deux contrats."
+      },
+      {
+        "name": "Lire chaque période de paie",
+        "text": "Consultez la même rémunération en montant annuel, mensuel, toutes les deux semaines, hebdomadaire, journalier et horaire."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Comment convertir mon salaire en taux horaire ?",
+      "a": "Divisez votre salaire annuel par le nombre d'heures payées dans l'année. À 40 heures par semaine pendant 52 semaines, cela fait 2,080 heures : divisez donc le salaire par 2,080."
+    },
+    {
+      "q": "Combien font 52,000 par an de l'heure ?",
+      "a": "52,000 par an font 25.00 de l'heure à 40 heures par semaine pendant 52 semaines. À 37.5 heures par semaine, cela fait 26.67 de l'heure."
+    },
+    {
+      "q": "Combien font 30 de l'heure par an ?",
+      "a": "30 de l'heure font 62,400 par an à 40 heures par semaine et 52 semaines payées, soit 5,200 par mois et 1,200 par semaine."
+    },
+    {
+      "q": "Combien d'heures de travail compte une année ?",
+      "a": "Une semaine de 40 heures sur 52 semaines fait 2,080 heures. Une année compte en réalité 52 semaines et 1 ou 2 jours : certains employeurs utilisent donc 2,087 heures ; l'Office of Personnel Management américain utilise 2,087 pour les taux horaires fédéraux."
+    },
+    {
+      "q": "Comment calculer un salaire mensuel à partir d'un taux horaire ?",
+      "a": "Multipliez le taux horaire par les heures par semaine et par 52 pour obtenir le salaire annuel, puis divisez par 12. Pour 20 de l'heure à 40 heures : 20 × 40 × 52 ÷ 12 = 3,466.67 par mois."
+    },
+    {
+      "q": "Quelle est la différence entre paie toutes les deux semaines et paie bimensuelle ?",
+      "a": "La paie toutes les deux semaines tombe 26 fois par an. La paie bimensuelle tombe deux fois par mois, soit 24 fois par an. Le calculateur affiche le montant toutes les deux semaines."
+    },
+    {
+      "q": "Les impôts sont-ils inclus ?",
+      "a": "Non. Tous les montants sont bruts, avant impôts et retenues. Les calculateurs d'impôt sur le salaire de ToolsBuilt donnent le salaire net pour plusieurs pays."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Convertisseur de salaire en taux horaire",
+      "copy-result-btn": "Copier le résultat dans le presse-papiers"
+    },
+    "label": {
+      "amount": "Rémunération <span class=\"text-accent\">*</span>",
+      "period": "Payée",
+      "hours": "Heures par semaine",
+      "days": "Jours par semaine",
+      "weeks": "Semaines par an",
+      "unpaid": "Semaines de congé non payé"
+    },
+    "option": {
+      "period": {
+        "hourly": "par heure",
+        "daily": "par jour",
+        "weekly": "par semaine",
+        "biweekly": "toutes les deux semaines",
+        "monthly": "par mois",
+        "annual": "par an"
+      }
+    },
+    "content": {
+      "tool": {
+        "legend1": "Rythme de travail",
+        "p1": "Les congés payés comptent comme des semaines payées. Ne saisissez comme semaines non payées que les semaines pour lesquelles vous n'êtes pas payé.",
+        "button1": "Convertir",
+        "caption1": "La même rémunération sur chaque période",
+        "th1": "Période",
+        "th2": "Rémunération brute"
+      },
+      "common-salaries-as-hourly-rates": {
+        "heading": "Salaires courants en taux horaire",
+        "p1": "À 40 heures par semaine et 52 semaines payées (2,080 heures par an), ces montants annuels ronds se convertissent ainsi. Les mêmes chiffres valent dans n'importe quelle devise.",
+        "caption1": "Salaire annuel en paie mensuelle, hebdomadaire et horaire sur 2,080 heures par an",
+        "th1": "Par an",
+        "th2": "Par mois",
+        "th3": "Par semaine",
+        "th4": "Par heure",
+        "p2": "Règle approximative à temps plein : le taux horaire vaut environ le salaire annuel en milliers divisé par 2. 50,000 par an font environ 25 de l'heure (24.04 exactement), et 20 de l'heure font environ 40,000 par an (41,600 exactement)."
+      },
+      "when-to-use-each-setting": {
+        "heading": "Quand utiliser chaque réglage",
+        "li1": "<strong>Comparer une offre d'emploi à votre rémunération actuelle :</strong> saisissez les deux salaires avec leurs vraies heures hebdomadaires. Un salaire plus élevé avec plus d'heures peut donner un taux horaire plus faible.",
+        "li2": "<strong>Passer de salarié à indépendant :</strong> saisissez le taux journalier proposé, indiquez les jours par semaine et ajoutez des semaines non payées pour les vacances, les arrêts maladie et les périodes entre deux contrats.",
+        "li3": "<strong>Temps partiel :</strong> saisissez vos heures à temps partiel. Un poste à 60% à 24 heures par semaine pour 30,000 par an reste à 24.04 de l'heure, comme 50,000 à 40 heures.",
+        "li4": "<strong>Budget :</strong> utilisez le montant mensuel, qui vaut annuel ÷ 12, plutôt que quatre fiches de paie hebdomadaires.",
+        "p1": "Les employeurs utilisent parfois un autre diviseur pour les taux horaires. Le gouvernement fédéral américain utilise 2,087 heures, la moyenne annuelle d'heures de travail en tenant compte des années bissextiles, et certains employeurs britanniques utilisent 52.14 semaines. Ajustez le nombre de semaines par an si votre contrat le précise."
+      }
+    },
+    "text": {
+      "reset-btn": "Réinitialiser",
+      "result-header-text": "Taux horaire",
+      "copy-result-btn": "<span data-icon=\"copy\"></span> Copier le résultat"
+    },
+    "title": {
+      "copy-result-btn": "Copier le résultat dans le presse-papiers"
+    }
+  },
+  "client": {
+    "errors": {
+      "amountEmpty": "Saisissez votre rémunération.",
+      "amountInvalid": "La rémunération doit être un nombre supérieur à 0.",
+      "period": "Choisissez la périodicité de cette rémunération.",
+      "hours": "Les heures par semaine doivent être supérieures à 0 et au plus égales à 168.",
+      "days": "Les jours par semaine doivent être supérieurs à 0 et au plus égaux à 7.",
+      "weeks": "Les semaines par an doivent être supérieures à 0 et au plus égales à 53.",
+      "unpaidNegative": "Les semaines non payées doivent être de 0 ou plus.",
+      "unpaidTooMany": "Les semaines non payées doivent être inférieures au nombre de semaines de l'année."
+    },
+    "periods": {
+      "hourly": "par heure",
+      "daily": "par jour",
+      "weekly": "par semaine",
+      "biweekly": "toutes les deux semaines",
+      "monthly": "par mois",
+      "annual": "par an"
+    },
+    "rows": {
+      "annual": "Annuel",
+      "monthly": "Mensuel",
+      "biweekly": "Toutes les 2 semaines",
+      "weekly": "Hebdomadaire",
+      "daily": "Journalier",
+      "hourly": "Horaire",
+      "entered": "{{label}} (saisi)"
+    },
+    "result": {
+      "hourlyRate": "Taux horaire",
+      "annualSalary": "Salaire annuel",
+      "note": "Sur la base de {{hoursPerWeek}} heures × {{paidWeeks}} semaines payées = {{hoursPerYear}} heures par an, et {{daysPerWeek}} jours par semaine. Rémunération brute, avant impôts."
+    }
+  }
+}

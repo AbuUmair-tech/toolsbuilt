@@ -1,0 +1,217 @@
+{
+  "country": "IN",
+  "taxYear": "2025-26",
+  "label": "FY 2025-26 (AY 2026-27)",
+  "period": "1 April 2025 to 31 March 2026",
+  "currency": "INR",
+  "current": true,
+  "statusLabel": "Tax regime",
+  "defaultStatus": "new",
+  "standardDeductionLabel": "Standard deduction for salaried employees",
+  "statuses": {
+    "new": {
+      "label": "New tax regime",
+      "standardDeduction": 75000,
+      "slabs": [
+        {
+          "over": 0,
+          "upTo": 400000,
+          "rate": 0
+        },
+        {
+          "over": 400000,
+          "upTo": 800000,
+          "rate": 0.05
+        },
+        {
+          "over": 800000,
+          "upTo": 1200000,
+          "rate": 0.1
+        },
+        {
+          "over": 1200000,
+          "upTo": 1600000,
+          "rate": 0.15
+        },
+        {
+          "over": 1600000,
+          "upTo": 2000000,
+          "rate": 0.2
+        },
+        {
+          "over": 2000000,
+          "upTo": 2400000,
+          "rate": 0.25
+        },
+        {
+          "over": 2400000,
+          "upTo": null,
+          "rate": 0.3
+        }
+      ],
+      "rebate": {
+        "upToIncome": 1200000,
+        "maxAmount": 60000,
+        "marginalRelief": true,
+        "label": "Section 87A rebate"
+      },
+      "surcharge": {
+        "tiers": [
+          {
+            "incomeAbove": 5000000,
+            "rate": 0.1
+          },
+          {
+            "incomeAbove": 10000000,
+            "rate": 0.15
+          },
+          {
+            "incomeAbove": 20000000,
+            "rate": 0.25
+          }
+        ],
+        "marginalRelief": true
+      }
+    },
+    "old": {
+      "label": "Old tax regime",
+      "standardDeduction": 50000,
+      "slabs": [
+        {
+          "over": 0,
+          "upTo": 250000,
+          "rate": 0
+        },
+        {
+          "over": 250000,
+          "upTo": 500000,
+          "rate": 0.05
+        },
+        {
+          "over": 500000,
+          "upTo": 1000000,
+          "rate": 0.2
+        },
+        {
+          "over": 1000000,
+          "upTo": null,
+          "rate": 0.3
+        }
+      ],
+      "rebate": {
+        "upToIncome": 500000,
+        "maxAmount": 12500,
+        "marginalRelief": false,
+        "label": "Section 87A rebate"
+      },
+      "surcharge": {
+        "tiers": [
+          {
+            "incomeAbove": 5000000,
+            "rate": 0.1
+          },
+          {
+            "incomeAbove": 10000000,
+            "rate": 0.15
+          },
+          {
+            "incomeAbove": 20000000,
+            "rate": 0.25
+          },
+          {
+            "incomeAbove": 50000000,
+            "rate": 0.37
+          }
+        ],
+        "marginalRelief": true
+      },
+      "options": [
+        {
+          "id": "deduction80C",
+          "label": "Section 80C investments (PPF, ELSS, EPF, life insurance...)",
+          "type": "amount",
+          "default": 0,
+          "max": 150000,
+          "deduction": {
+            "fromPay": false
+          }
+        },
+        {
+          "id": "deduction80D",
+          "label": "Section 80D health insurance premiums",
+          "type": "amount",
+          "default": 0,
+          "max": 100000,
+          "deduction": {
+            "fromPay": false
+          }
+        }
+      ]
+    }
+  },
+  "cess": {
+    "rate": 0.04,
+    "label": "Health and education cess"
+  },
+  "notes": [
+    "New tax regime under section 115BAC(1A) of the Income-tax Act, 1961, for assessment year 2026-27.",
+    "Old tax regime for an individual below 60: slabs nil up to ₹2,50,000, 5%, 20% above ₹5,00,000 and 30% above ₹10,00,000; standard deduction ₹50,000; section 87A rebate up to ₹12,500 when total income is at most ₹5,00,000; surcharge up to 37% above ₹5 crore. Section 80C is capped at ₹1,50,000 and section 80D at ₹1,00,000 (the most possible: ₹50,000 for self and family plus ₹50,000 for parents, both senior citizens).",
+    "Tax year 2026-27 (from 1 April 2026, Income-tax Act, 2025) keeps the same slabs, surcharge and cess per the Finance Bill 2026 memorandum; it will be added once the standard deduction and rebate under the 2025 Act are verified from the Act itself."
+  ],
+  "sources": [
+    {
+      "url": "https://www.indiabudget.gov.in/budget2025-26/doc/memo.pdf"
+    },
+    {
+      "url": "https://www.indiabudget.gov.in/budget2025-26/doc/budget_speech.pdf"
+    },
+    {
+      "url": "https://www.indiabudget.gov.in/doc/memo.pdf"
+    },
+    {
+      "url": "https://www.incometaxindia.gov.in/w/tax-rates"
+    },
+    {
+      "url": "https://www.incometaxindia.gov.in/w/various-deductions-under-the-income-tax-act"
+    }
+  ],
+  "verifiedOn": "2026-10-31",
+  "officialExamples": [
+    {
+      "note": "Budget Speech 2025-26 annex: total income ₹12 lakh, tax after rebate nil",
+      "grossSalary": 1275000,
+      "taxBeforeCess": 0,
+      "status": "new"
+    },
+    {
+      "note": "Budget Speech 2025-26 annex: total income ₹16 lakh, tax ₹1,20,000",
+      "grossSalary": 1675000,
+      "taxBeforeCess": 120000,
+      "status": "new"
+    },
+    {
+      "note": "Budget Speech 2025-26 annex: total income ₹20 lakh, tax ₹2,00,000",
+      "grossSalary": 2075000,
+      "taxBeforeCess": 200000,
+      "status": "new"
+    },
+    {
+      "note": "Budget Speech 2025-26 annex: total income ₹24 lakh, tax ₹3,00,000",
+      "grossSalary": 2475000,
+      "taxBeforeCess": 300000,
+      "status": "new"
+    },
+    {
+      "note": "Budget Speech 2025-26 annex: total income ₹50 lakh, tax ₹10,80,000",
+      "grossSalary": 5075000,
+      "taxBeforeCess": 1080000,
+      "status": "new"
+    }
+  ],
+  "page": {
+    "slug": "india-salary-tax-calculator",
+    "placeholder": "100000",
+    "defaultSalary": 150000,
+    "defaultPeriod": "monthly"
+  }
+}

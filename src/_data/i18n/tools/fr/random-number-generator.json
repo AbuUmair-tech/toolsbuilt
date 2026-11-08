@@ -1,0 +1,265 @@
+{
+  "listing": {
+    "name": "Générateur de nombres aléatoires",
+    "shortName": "Nombre aléatoire",
+    "description": "Générez des nombres aléatoires sûrs dans n'importe quel intervalle : entiers ou décimaux, jusqu'à 1,000 à la fois, avec ou sans répétition, triés ou non.",
+    "shortDescription": "Nombres aléatoires sûrs dans n'importe quel intervalle, avec ou sans répétition.",
+    "keywords": [
+      "générateur de nombres aléatoires",
+      "nombre aléatoire entre 1 et 100",
+      "tirage de nombre au hasard",
+      "nombre au hasard",
+      "nombres aléatoires sans répétition",
+      "générateur de numéros de loto",
+      "vrai nombre aléatoire"
+    ]
+  },
+  "title": "Générateur de nombres aléatoires dans un intervalle",
+  "description": "Générez des nombres aléatoires dans tout intervalle avec la source sûre de votre navigateur : entiers ou décimaux, jusqu'à 1,000, sans répétition.",
+  "h1": "Générateur de nombres aléatoires",
+  "quickAnswer": "Saisissez un minimum, un maximum et la quantité de nombres voulue, puis cliquez sur Générer. Ce générateur de nombres aléatoires tire chaque nombre avec crypto.getRandomValues, le générateur cryptographiquement sûr du navigateur, et un échantillonnage par rejet : chaque valeur de l'intervalle a exactement la même probabilité. Désactivez les doublons pour un tirage sans répétition, comme une tombola.",
+  "formula": {
+    "title": "Comment les nombres sont tirés",
+    "expression": "n = max − min + 1   ·   tirer x uniformément dans [0, 2³²)   ·   rejeter x ≥ 2³² − (2³² mod n)   ·   résultat = min + (x mod n)",
+    "explanation": "La source aléatoire sûre du navigateur fournit des nombres de 32 bits. Prendre directement x mod n rendrait les petits résultats légèrement plus probables dès que n ne divise pas exactement 2³² (biais du modulo) : les tirages situés dans la tranche supérieure inégale sont donc rejetés et retirés. Chaque valeur a alors une probabilité d'exactement 1 ÷ n. Les décimaux à N décimales sont tirés de la même façon, comme un nombre entier de pas de 10^−N entre le minimum et le maximum. Sans doublons, chaque valeur est tirée au plus une fois (tirage sans remise).",
+    "variables": [
+      {
+        "description": "Le nombre de valeurs différentes possibles : max − min + 1 pour des entiers."
+      },
+      {
+        "name": "Échantillonnage par rejet",
+        "description": "On écarte les quelques tirages bruts qui biaiseraient le résultat ; en moyenne, moins d'un tirage supplémentaire est nécessaire."
+      },
+      {
+        "name": "Sans doublons",
+        "description": "Vous pouvez tirer au plus n nombres, car au-delà toutes les valeurs ont été utilisées."
+      }
+    ]
+  },
+  "workedExamples": [
+    {
+      "title": "Lancer un dé à six faces",
+      "inputs": [
+        "Min 1, max 6, quantité 1"
+      ],
+      "steps": [
+        "n = 6 valeurs possibles",
+        "2³² mod 6 = 4 : les 4 valeurs brutes les plus hautes sur 4,294,967,296 sont rejetées"
+      ],
+      "result": "Un nombre de 1 à 6, chacun avec une probabilité de 1/6"
+    },
+    {
+      "title": "Tirage façon loto : 6 numéros de 1 à 49",
+      "inputs": [
+        "Min 1, max 49, quantité 6",
+        "Autoriser les doublons : non, trier : oui"
+      ],
+      "steps": [
+        "Chaque numéro est tiré parmi ceux qui n'ont pas encore été choisis",
+        "Il existe 13,983,816 combinaisons possibles de 6 numéros"
+      ],
+      "result": "Six numéros différents dans l'ordre croissant"
+    },
+    {
+      "title": "Décimaux aléatoires entre 0 et 1",
+      "inputs": [
+        "Min 0, max 1, quantité 5",
+        "Décimales : 3"
+      ],
+      "steps": [
+        "Les valeurs vont par pas de 0.001 : n = 1,001 valeurs possibles",
+        "Chaque tirage est un nombre entier de pas, divisé par 1,000"
+      ],
+      "result": "Cinq nombres comme 0.417, chacun de 0.000 à 1.000"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Utiliser Math.random() pour un usage important",
+      "description": "Math.random() est rapide mais n'est pas conçu pour être imprévisible, et ses résultats peuvent parfois être reconstitués. Pour un tirage au sort, des mots de passe ou tout usage lié à la sécurité, utilisez une source cryptographique comme crypto.getRandomValues, comme le fait cet outil."
+    },
+    {
+      "title": "Appliquer x mod n à un nombre aléatoire brut",
+      "description": "Réduire un nombre aléatoire avec % n sans échantillonnage par rejet favorise légèrement les petites valeurs lorsque n ne divise pas exactement la plage du générateur. L'effet est infime pour un petit n, mais réel et facile à éviter."
+    },
+    {
+      "title": "Demander plus de nombres uniques que l'intervalle n'en contient",
+      "description": "Il n'existe que 10 entiers différents de 1 à 10 : impossible d'en tirer 11 sans répétition. L'outil vous prévient si la quantité dépasse la taille de l'intervalle."
+    },
+    {
+      "title": "S'attendre à des nombres régulièrement répartis",
+      "description": "Le vrai hasard produit des séries et des regroupements. Obtenir trois 6 d'affilée avec un dé équilibré arrive environ une fois sur 216 ; ce n'est pas la preuve que le générateur est défaillant."
+    },
+    {
+      "title": "Considérer les décimaux comme continus",
+      "description": "Avec 2 décimales entre 0 et 1, il existe exactement 101 valeurs possibles. Si vous avez besoin de valeurs plus fines, augmentez le nombre de décimales."
+    }
+  ],
+  "sources": [
+    {
+      "name": "W3C Web Cryptography API : getRandomValues()"
+    },
+    {
+      "name": "MDN Web Docs : Crypto.getRandomValues()"
+    },
+    {
+      "name": "NIST SP 800-90A Rev. 1 : Recommendation for Random Number Generation Using Deterministic Random Bit Generators"
+    }
+  ],
+  "howto": {
+    "name": "Comment générer des nombres aléatoires",
+    "description": "Générez des nombres aléatoires sûrs dans n'importe quel intervalle.",
+    "steps": [
+      {
+        "name": "Définir l'intervalle",
+        "text": "Saisissez le plus petit et le plus grand nombre autorisés."
+      },
+      {
+        "name": "Choisir la quantité",
+        "text": "Saisissez le nombre de valeurs voulues, jusqu'à 1,000."
+      },
+      {
+        "name": "Choisir les options",
+        "text": "Autorisez ou non les doublons, triez les résultats et choisissez des entiers ou jusqu'à 6 décimales."
+      },
+      {
+        "name": "Générer et enregistrer",
+        "text": "Cliquez sur Générer, puis copiez les nombres ou téléchargez-les dans un fichier texte."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Ce générateur de nombres aléatoires est-il vraiment aléatoire ?",
+      "a": "Il utilise crypto.getRandomValues, un générateur cryptographiquement sûr intégré à votre navigateur et alimenté par les sources d'entropie de votre système d'exploitation. Il convient aux jeux, aux tirages au sort et aux échantillonnages, et les nombres ne peuvent pas être prédits à partir des précédents."
+    },
+    {
+      "q": "Comment générer un nombre aléatoire entre 1 et 100 ?",
+      "a": "Réglez le minimum sur 1, le maximum sur 100 et la quantité sur 1, puis cliquez sur Générer. Chaque nombre de 1 à 100 a exactement 1% de chances d'être tiré."
+    },
+    {
+      "q": "Comment tirer des nombres au hasard sans répétition ?",
+      "a": "Décochez Autoriser les doublons. Tous les nombres obtenus seront différents, tant que vous ne demandez pas plus de nombres que l'intervalle n'en contient."
+    },
+    {
+      "q": "Puis-je générer des nombres décimaux aléatoires ?",
+      "a": "Oui. Choisissez de 1 à 6 décimales. Les nombres sont répartis uniformément dans l'intervalle, par pas de cette taille."
+    },
+    {
+      "q": "Combien de nombres aléatoires puis-je générer à la fois ?",
+      "a": "Jusqu'à 1,000 par clic. Copiez-les ou téléchargez-les dans un fichier texte, un nombre par ligne."
+    },
+    {
+      "q": "Puis-je l'utiliser pour une tombola ou un concours ?",
+      "a": "Oui. Numérotez les participations, réglez l'intervalle en conséquence, décochez les doublons et tirez autant de gagnants que nécessaire. Pour des noms plutôt que des nombres, utilisez le tirage au sort de noms."
+    },
+    {
+      "q": "Mes nombres sont-ils envoyés quelque part ?",
+      "a": "Non. Les nombres sont générés dans votre navigateur et ne sont ni envoyés ni stockés sur un serveur."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Générateur de nombres aléatoires",
+      "rng-list": "Nombres générés"
+    },
+    "label": {
+      "rng-min": "Minimum <span class=\"text-accent\">*</span>",
+      "rng-max": "Maximum <span class=\"text-accent\">*</span>",
+      "rng-count": "Quantité",
+      "rng-dp": "Type de nombre"
+    },
+    "option": {
+      "rng-dp": {
+        "0": "Nombres entiers",
+        "1": "1 décimale",
+        "2": "2 décimales",
+        "3": "3 décimales",
+        "4": "4 décimales",
+        "5": "5 décimales",
+        "6": "6 décimales"
+      }
+    },
+    "content": {
+      "tool": {
+        "label1": "<input type=\"checkbox\" id=\"rng-dupes\" checked>\n            <span>Autoriser les doublons</span>",
+        "label2": "<input type=\"checkbox\" id=\"rng-sort\" data-param=\"sort\">\n            <span>Trier du plus petit au plus grand</span>",
+        "div1": "<span id=\"result-header-text\">Votre nombre aléatoire</span>"
+      },
+      "why-secure-randomness-and-rejection-sampling": {
+        "heading": "Pourquoi un aléa sûr et l'échantillonnage par rejet sont importants",
+        "p1": "Un ordinateur ne peut pas lancer de pièce : il utilise des algorithmes. Les générateurs ordinaires, comme Math.random() en JavaScript, produisent des nombres qui semblent aléatoires mais suivent un motif caché. Les générateurs cryptographiquement sûrs, accessibles dans les navigateurs via crypto.getRandomValues, sont alimentés par des événements imprévisibles collectés par le système d'exploitation et conçus pour que les résultats précédents n'aident pas à prédire le suivant.",
+        "p2": "Obtenir un nombre dans un intervalle demande aussi de la rigueur. Un générateur sûr renvoie des valeurs de 0 à 4,294,967,295. Pour obtenir un nombre de 1 à 6, on pourrait prendre le reste de la division par 6, mais 4,294,967,296 n'est pas un multiple de 6 : les restes 0 à 3 sortiraient très légèrement plus souvent que 4 et 5. Cet outil écarte les quelques valeurs brutes qui causent ce déséquilibre et effectue un nouveau tirage : chaque face a ainsi exactement la même probabilité.",
+        "caption1": "Intervalles courants et probabilités",
+        "th1": "Usage",
+        "th2": "Intervalle",
+        "th3": "Probabilité de chaque valeur",
+        "td1": "Pile ou face",
+        "td2": "1 sur 2 (50%)",
+        "td3": "Dé à six faces",
+        "td4": "1 sur 6 (16.67%)",
+        "td5": "Tirage d'un pourcentage",
+        "td6": "1 sur 100 (1%)",
+        "td7": "Jour de l'année",
+        "td8": "1 sur 365 (0.27%)",
+        "td9": "Code PIN à quatre chiffres",
+        "td10": "1 sur 10,000 (0.01%)"
+      },
+      "ideas-for-using-random-numbers": {
+        "heading": "Idées d'utilisation des nombres aléatoires",
+        "li1": "<strong>Tirages au sort :</strong> numérotez les participations et tirez les gagnants sans doublons.",
+        "li2": "<strong>Enseignement et recherche :</strong> choisissez au hasard des élèves, des participants à une enquête ou des lignes d'un tableur.",
+        "li3": "<strong>Jeux :</strong> remplacez des dés perdus, désignez qui commence ou créez des scénarios aléatoires. L'outil <a href=\"/tools/coin-flip-dice-roller/\">pile ou face et lancer de dés</a> affiche les faces des dés et garde un historique.",
+        "li4": "<strong>Tests :</strong> générez des données de test avec des décimales ou de très grands intervalles, puis téléchargez-les dans un fichier.",
+        "p1": "Tout fonctionne dans votre navigateur. Les nombres sont générés sur votre appareil et ne sont jamais envoyés à un serveur."
+      }
+    },
+    "text": {
+      "generate-btn": "Générer",
+      "reset-btn": "Réinitialiser",
+      "copy-numbers-btn": "Copier les nombres",
+      "download-btn": "Télécharger en .txt"
+    }
+  },
+  "client": {
+    "errors": {
+      "noCrypto": "Les nombres aléatoires sécurisés ne sont pas disponibles dans ce navigateur.",
+      "rangeSize": "La taille de l'intervalle doit être comprise entre 1 et 2^53.",
+      "minEmpty": "Saisissez la valeur minimale.",
+      "maxEmpty": "Saisissez la valeur maximale.",
+      "minInvalid": "Le minimum doit être un nombre.",
+      "maxInvalid": "Le maximum doit être un nombre.",
+      "minAboveMax": "Le minimum ({{min}}) est supérieur au maximum ({{max}}). Inversez-les ou modifiez l'un des deux.",
+      "count": "La quantité doit être un nombre entier de 1 à {{max}}.",
+      "decimals": "Le nombre de décimales doit être un entier de 0 à {{max}}.",
+      "rangeTooLarge": "Cet intervalle est trop grand. Utilisez des nombres plus petits ou moins de décimales.",
+      "noValue": {
+        "decimal": "Il n'existe aucun nombre à {{decimals}} décimales entre {{min}} et {{max}}.",
+        "whole": "Il n'existe aucun nombre entier entre {{min}} et {{max}}."
+      },
+      "tooFewUnique": {
+        "decimal": "Seules {{possible}} valeurs différentes existent de {{min}} à {{max}} : {{count}} nombres ne peuvent donc pas tous être différents. Réduisez la quantité, élargissez l'intervalle ou autorisez les doublons.",
+        "whole": "Seuls {{possible}} entiers différents existent de {{min}} à {{max}} : {{count}} nombres ne peuvent donc pas tous être différents. Réduisez la quantité, élargissez l'intervalle ou autorisez les doublons."
+      }
+    },
+    "result": {
+      "singleDecimal": "Nombre aléatoire de {{min}} à {{max}}",
+      "singleWhole": "Nombre entier aléatoire de {{min}} à {{max}}",
+      "multiple": "{{count}} nombres aléatoires de {{min}} à {{max}}",
+      "summary": {
+        "plain": "{{count}} nombres",
+        "unique": "{{count}} nombres, sans répétition",
+        "sorted": "{{count}} nombres, triés",
+        "uniqueSorted": "{{count}} nombres, sans répétition, triés"
+      },
+      "chanceExact": "1 sur {{n}}",
+      "chanceApprox": "environ 1 sur {{n}}",
+      "note": {
+        "many": "{{possible}} valeurs possibles ; à chaque tirage, chaque valeur a une probabilité de {{chance}}.",
+        "one": "{{possible}} valeur possible ; à chaque tirage, chaque valeur a une probabilité de {{chance}}.",
+        "other": "{{possible}} valeurs possibles ; à chaque tirage, chaque valeur a une probabilité de {{chance}}."
+      },
+      "copied": "Nombres copiés"
+    }
+  }
+}

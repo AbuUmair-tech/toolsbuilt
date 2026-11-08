@@ -5,6 +5,7 @@
  */
 document.addEventListener('DOMContentLoaded', () => {
   const logic = window.AgeCalculatorLogic;
+  const T = ToolsBuilt.scope('age-calculator');
   const form = document.getElementById('calculator-form');
   const dobInput = document.getElementById('dob-date');
   const targetDateInput = document.getElementById('target-date');
@@ -123,11 +124,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const conv = getSelectedConvention();
 
     if (!dob) {
-      showError('Please enter a valid date of birth.', dobInput);
+      showError(T('errors.missingDob'), dobInput);
       return;
     }
     if (!target) {
-      showError('Please enter a target calculation date.', targetDateInput);
+      showError(T('errors.missingTarget'), targetDateInput);
       return;
     }
 
@@ -141,22 +142,27 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function renderResult(res) {
-    const numFormatter = new Intl.NumberFormat('en-US');
-    const primaryStr = `${res.years} Years, ${res.months} Months, ${res.days} Days`;
-    lastResultText = `Exact Age: ${primaryStr}. Total Days: ${numFormatter.format(res.totalDays)}. Next Birthday: ${res.nextBirthday.daysUntil} days left (${res.nextBirthday.weekday}, ${res.nextBirthday.formattedDate}).`;
+    const numFormatter = new Intl.NumberFormat(ToolsBuilt.pageLocale('en-US'));
+    const primaryStr = T('result.age', { years: res.years, months: res.months, days: res.days });
+    lastResultText = T('copy.result', {
+      age: primaryStr,
+      totalDays: numFormatter.format(res.totalDays),
+      daysLeft: res.nextBirthday.daysUntil,
+      date: ToolsBuilt.formatIsoDate(res.nextBirthday.iso)
+    });
 
     document.getElementById('result-primary-text').textContent = primaryStr;
-    document.getElementById('stat-years-months-days').textContent = `${res.years}y ${res.months}m ${res.days}d`;
-    document.getElementById('stat-total-months').textContent = `${numFormatter.format(res.totalMonths)} Months`;
-    document.getElementById('stat-total-weeks').textContent = `${numFormatter.format(res.totalWeeks)} Weeks`;
-    document.getElementById('stat-total-days').textContent = `${numFormatter.format(res.totalDays)} Days`;
-    document.getElementById('stat-total-hours').textContent = `${numFormatter.format(res.totalHours)} Hours`;
+    document.getElementById('stat-years-months-days').textContent = T('stats.ymdShort', { years: res.years, months: res.months, days: res.days });
+    document.getElementById('stat-total-months').textContent = T('stats.months', { n: numFormatter.format(res.totalMonths) });
+    document.getElementById('stat-total-weeks').textContent = T('stats.weeks', { n: numFormatter.format(res.totalWeeks) });
+    document.getElementById('stat-total-days').textContent = T('stats.days', { n: numFormatter.format(res.totalDays) });
+    document.getElementById('stat-total-hours').textContent = T('stats.hours', { n: numFormatter.format(res.totalHours) });
 
     const bdayEl = document.getElementById('stat-next-birthday');
     if (res.nextBirthday.isToday) {
-      bdayEl.textContent = `Today is your Birthday! (${res.nextBirthday.weekday})`;
+      bdayEl.textContent = T('birthday.today', { weekday: res.nextBirthday.weekday });
     } else {
-      bdayEl.textContent = `${res.nextBirthday.daysUntil} days left (${res.nextBirthday.weekday}, ${res.nextBirthday.formattedDate})`;
+      bdayEl.textContent = T('birthday.daysLeft', { n: res.nextBirthday.daysUntil, date: ToolsBuilt.formatIsoDate(res.nextBirthday.iso) });
     }
 
     resultBox.classList.add('is-visible');
@@ -190,7 +196,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (copyBtn) {
     copyBtn.addEventListener('click', () => {
       if (lastResultText && window.ToolsBuilt && window.ToolsBuilt.copy) {
-        window.ToolsBuilt.copy(lastResultText, 'Age result copied to clipboard');
+        window.ToolsBuilt.copy(lastResultText, T('copy.toast'));
       }
     });
   }

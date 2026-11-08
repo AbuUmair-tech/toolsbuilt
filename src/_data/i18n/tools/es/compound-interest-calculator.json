@@ -1,0 +1,262 @@
+{
+  "listing": {
+    "name": "Calculadora de interés compuesto",
+    "shortName": "Calculadora de interés compuesto",
+    "description": "Calcula el interés compuesto con capitalización diaria, mensual, trimestral o anual, con aportes periódicos opcionales y gráficos de crecimiento.",
+    "shortDescription": "Calcula el crecimiento con interés compuesto diario, mensual o anual y aportes periódicos.",
+    "keywords": [
+      "calculadora de interés compuesto",
+      "interés compuesto diario",
+      "interés compuesto mensual",
+      "calculadora de inversiones",
+      "calculadora de ahorro con intereses"
+    ]
+  },
+  "title": "Calculadora de interés compuesto: diario y aportes",
+  "description": "Calculadora de interés compuesto con capitalización diaria, mensual, trimestral o anual, aportes periódicos y gráficos de crecimiento. Gratis.",
+  "h1": "Calculadora de interés compuesto",
+  "quickAnswer": "Con esta calculadora de interés compuesto, el interés se calcula con la fórmula A = P(1 + r/n)^(nt), donde P es el capital inicial, r la tasa de interés anual (en decimal), n el número de capitalizaciones por año y t el tiempo en años. Si haces depósitos mensuales periódicos PMT, el valor futuro también crece con la fórmula de anualidad: PMT × [((1 + r/n)^(nt) - 1) / (r/n)]. Todos los cálculos y gráficos funcionan en tu navegador.",
+  "formula": {
+    "title": "Fórmula del interés compuesto",
+    "explanation": "Sin aportes, el valor futuro A crece a partir del capital P a una tasa anual r, capitalizada n veces al año durante t años, generando intereses sobre los intereses acumulados."
+  },
+  "workedExamples": [
+    {
+      "title": "Capital inicial de $10,000 al 7% durante 10 años (capitalización anual)",
+      "inputs": [
+        "Capital inicial (P): $10,000",
+        "Tasa de interés anual (r): 7%",
+        "Frecuencia de capitalización (n): anual (1/año)",
+        "Plazo (t): 10 años",
+        "Aporte mensual: $0"
+      ],
+      "steps": [
+        "Fórmula: A = 10,000 × (1 + 0.07/1)^(1 × 10)",
+        null,
+        "Valor futuro total = $19,671.51",
+        "Intereses totales ganados = $19,671.51 − $10,000 = $9,671.51"
+      ],
+      "result": "Saldo final de $19,671.51 ($9,671.51 en intereses ganados)"
+    },
+    {
+      "title": "Capital de $5,000 con depósitos mensuales de $200 al 8% durante 5 años",
+      "inputs": [
+        "Capital inicial: $5,000",
+        "Tasa de interés anual: 8% (capitalización mensual)",
+        "Depósito mensual: $200",
+        "Plazo: 5 años"
+      ],
+      "steps": [
+        "Crecimiento del capital: 5,000 × (1 + 0.08/12)^60 = $7,449.23",
+        "Crecimiento de los aportes: 200 × [((1 + 0.08/12)^60 - 1) / (0.08/12)] = $14,695.37",
+        "Valor futuro total = $7,449.23 + $14,695.37 = $22,144.60",
+        "Depósitos totales = $5,000 + ($200 × 60) = $17,000"
+      ],
+      "result": "Saldo de $22,144.60 ($5,144.60 en intereses ganados)"
+    },
+    {
+      "title": "Comparación con capitalización diaria ($10,000 al 5% durante 1 año)",
+      "inputs": [
+        "Capital: $10,000",
+        "Tasa: 5%",
+        "Frecuencia: diaria (365 veces/año)",
+        "Tiempo: 1 año"
+      ],
+      "steps": [
+        "APY efectivo = (1 + 0.05/365)^365 − 1 ≈ 5.127%",
+        "Valor futuro = 10,000 × (1 + 0.05/365)^365 = $10,512.67",
+        "Rinde $12.67 más que la capitalización anual simple ($10,500.00)"
+      ],
+      "result": "$10,512.67 (5.13% APY)"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Comparar directamente la APR con el APY",
+      "description": "Un banco que anuncia una APR del 5.00% con capitalización diaria en realidad paga un 5.13% APY. Compara siempre APY con APY para evaluar en igualdad de condiciones."
+    },
+    {
+      "title": "Retrasar los aportes",
+      "description": "Gracias al crecimiento exponencial, ahorrar desde los veinte años genera mucha más riqueza que depositar el doble más tarde, a partir de los cuarenta."
+    },
+    {
+      "title": "Ignorar la inflación y los impuestos",
+      "description": "Las tasas de interés nominales altas deben ajustarse por la inflación y los impuestos anuales sobre los intereses para medir el crecimiento real del poder adquisitivo."
+    }
+  ],
+  "sources": [
+    {
+      "label": "Comisión de Bolsa y Valores de EE. UU. (SEC) - Calculadora de interés compuesto"
+    },
+    {
+      "label": "Oficina para la Protección Financiera del Consumidor (CFPB) - Explicación del APY y el ahorro"
+    },
+    {
+      "label": "Corporación Federal de Seguro de Depósitos (FDIC) - Cuentas de depósito"
+    }
+  ],
+  "howto": {
+    "name": "Cómo calcular el crecimiento con interés compuesto",
+    "description": "Instrucciones paso a paso para simular frecuencias de capitalización, depósitos periódicos y rendimiento porcentual anual (APY).",
+    "steps": [
+      {
+        "name": "Introduce el capital inicial",
+        "text": "Escribe tu inversión inicial o saldo de ahorro (puede ser $0 si solo vas a hacer depósitos periódicos)."
+      },
+      {
+        "name": "Introduce la tasa de interés anual",
+        "text": "Escribe la tasa nominal anual (APR) que paga tu cuenta de ahorro de alto rendimiento, tu depósito a plazo o tu inversión."
+      },
+      {
+        "name": "Elige la frecuencia de capitalización",
+        "text": "Elige con qué frecuencia se suman los intereses al capital: diaria, mensual, trimestral o anual."
+      },
+      {
+        "name": "Define el plazo de la inversión",
+        "text": "Indica cuántos años piensas dejar que tu dinero crezca sin tocarlo."
+      },
+      {
+        "name": "Añade aportes mensuales opcionales",
+        "text": "Si quieres, introduce depósitos mensuales recurrentes para proyectar el crecimiento de tus aportes periódicos."
+      },
+      {
+        "name": "Revisa el gráfico de crecimiento y los saldos",
+        "text": "Consulta el valor futuro final, los intereses totales ganados, el APY efectivo y el gráfico SVG interactivo de crecimiento."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "¿Cuál es la diferencia entre el interés simple y el interés compuesto?",
+      "a": "El interés simple se calcula solo sobre el capital original. El interés compuesto se calcula sobre el capital inicial y también sobre los intereses acumulados de periodos anteriores, lo que acelera el crecimiento de forma exponencial con el tiempo."
+    },
+    {
+      "q": "¿Cuál es la fórmula matemática del interés compuesto?",
+      "a": "Sin aportes periódicos, la fórmula es: A = P × (1 + r/n)^(n×t), donde P es el capital, r la tasa de interés nominal anual en forma decimal, n el número de periodos de capitalización por año y t el plazo en años."
+    },
+    {
+      "q": "¿Cuál es la diferencia entre la APR y el APY?",
+      "a": "La APR (tasa de porcentaje anual) es la tasa de interés nominal declarada, sin tener en cuenta la capitalización dentro del año. El APY (rendimiento porcentual anual) refleja la tasa anual efectiva real, incluido el efecto de la capitalización: APY = (1 + r/n)^n - 1."
+    },
+    {
+      "q": "¿Con qué frecuencia debe capitalizarse el interés para lograr el máximo crecimiento?",
+      "a": "Cuanto más frecuente es la capitalización, mayor es el rendimiento efectivo. La capitalización diaria (365 veces al año) produce un poco más de interés total que la mensual (12 veces) o la anual (1 vez) con la misma tasa de interés nominal."
+    },
+    {
+      "q": "¿Se guardan mis datos de inversión o mis saldos personales?",
+      "a": "No. Todos los cálculos de interés compuesto y los gráficos SVG se generan solo en la memoria de tu navegador. Ningún dato financiero privado sale de tu dispositivo."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Formulario de la calculadora de interés compuesto",
+      "copy-result-btn": "Copiar resumen del cálculo",
+      "annual-balance-interest-schedule-div1": "Tabla de desglose del interés compuesto (desplazable)",
+      "annual-balance-interest-schedule-table1": "Tabla de crecimiento del interés compuesto año por año"
+    },
+    "label": {
+      "principal": "Capital inicial <span class=\"text-accent\">*</span>",
+      "interest-rate": "Tasa de interés anual (%) <span class=\"text-accent\">*</span>",
+      "years": "Plazo de la inversión (años) <span class=\"text-accent\">*</span>",
+      "compounding-frequency": "Frecuencia de capitalización",
+      "regular-contribution": "Aporte mensual opcional <span class=\"label-hint\">(se deposita al inicio del mes)</span>"
+    },
+    "option": {
+      "compounding-frequency": {
+        "daily": "Diaria (365 veces/año)",
+        "monthly": "Mensual (12 veces/año)",
+        "quarterly": "Trimestral (4 veces/año)",
+        "annual": "Anual (1 vez/año)"
+      }
+    },
+    "content": {
+      "tool": {
+        "button1": "Calcular crecimiento",
+        "div1": "Valor futuro final",
+        "div2": "Capital total invertido",
+        "div3": "Interés compuesto total",
+        "div4": "APY efectivo"
+      },
+      "balance-growth-over-time": {
+        "heading": "Crecimiento del saldo a lo largo del tiempo",
+        "div1": "<span class=\"legend-item\"><span class=\"legend-dot principal\"></span> Capital total</span>\n              <span class=\"legend-item\"><span class=\"legend-dot balance\"></span> Saldo total</span>"
+      },
+      "annual-balance-interest-schedule": {
+        "heading": "Tabla anual de saldo e intereses",
+        "th1": "Año",
+        "th2": "Depósitos anuales",
+        "th3": "Capital total",
+        "th4": "Intereses ganados",
+        "th5": "Saldo final"
+      },
+      "how-when-to-use-the-compound": {
+        "li1": "<strong>Cuentas de ahorro de alto rendimiento y depósitos a plazo:</strong> compara las tasas con capitalización diaria y mensual de los bancos en línea para encontrar el APY real más alto.",
+        "li2": "<strong>Ahorro para la jubilación a largo plazo:</strong> calcula cómo crecen los aportes mensuales a fondos indexados a lo largo de carreras de 20, 30 o 40 años.",
+        "li3": "<strong>Fondos universitarios para hijos y planes 529:</strong> estima el valor futuro de un regalo inicial complementado con depósitos mensuales periódicos.",
+        "li4": "<strong>Comprobar la regla del 72:</strong> verifica cuánto tarda tu dinero en duplicarse con distintas tasas de interés y frecuencias de capitalización."
+      }
+    },
+    "text": {
+      "reset-btn": "Restablecer",
+      "result-header-text": "Proyección del crecimiento compuesto",
+      "copy-result-btn": "<span data-icon=\"copy\"></span> Copiar resumen",
+      "result-primary-text": "Valor futuro: $0.00",
+      "stat-effective-apy": "0.00% APY",
+      "how-to-use-heading": "Cómo y cuándo usar la calculadora de interés compuesto"
+    },
+    "title": {
+      "copy-result-btn": "Copiar resumen del cálculo"
+    }
+  },
+  "client": {
+    "freq": {
+      "daily": "Diaria (365/año)",
+      "monthly": "Mensual (12/año)",
+      "quarterly": "Trimestral (4/año)",
+      "annual": "Anual (1/año)"
+    },
+    "errors": {
+      "frequency": "Frecuencia de capitalización no válida",
+      "principalMin": "El capital inicial debe ser 0 o mayor.",
+      "rateMin": "La tasa de interés debe ser 0% o mayor.",
+      "horizonMin": "El plazo de la inversión debe ser mayor que cero.",
+      "horizonMax": "El plazo de la inversión no puede superar los 60 años.",
+      "contributionMin": "El importe del aporte debe ser 0 o mayor.",
+      "principalOrContribution": "Introduce un capital inicial o un importe de aporte periódico.",
+      "principalRequired": "Introduce un capital inicial (0 o mayor).",
+      "principalNegative": "El capital inicial no puede ser negativo.",
+      "rateRequired": "Introduce una tasa de interés anual.",
+      "rateNegative": "La tasa de interés no puede ser negativa.",
+      "yearsRequired": "Introduce la duración de la inversión en años.",
+      "yearsMin": "La duración debe ser mayor que cero.",
+      "principalOrContributionRequired": "Introduce un capital inicial o un importe de aporte periódico."
+    },
+    "chart": {
+      "yearTick": "Año {{year}}",
+      "pointTitle": "Año {{year}}: saldo {{symbol}}{{balance}}, capital {{symbol}}{{principal}}",
+      "ariaLabel": "Gráfico de proyección del crecimiento con interés compuesto",
+      "desc": "Evolución que compara el capital total invertido con el saldo con interés compuesto a lo largo de {{count}} años."
+    },
+    "result": {
+      "primary": "Valor futuro: {{value}}",
+      "apy": "{{apy}}% APY"
+    },
+    "summary": {
+      "title": "Resumen del crecimiento con interés compuesto:",
+      "principal": "Capital inicial: {{value}}",
+      "rate": "Tasa de interés: {{rate}}% (capitalización {{frequency}})",
+      "apy": "APY efectivo: {{apy}}%",
+      "horizon": "Plazo: {{years}} años",
+      "contribution": "Aporte mensual: {{value}}",
+      "totalPrincipal": "Capital total invertido: {{value}}",
+      "totalInterest": "Interés compuesto total ganado: {{value}}",
+      "futureValue": "Valor futuro final: {{value}}"
+    },
+    "table": {
+      "year": "Año {{year}}"
+    },
+    "toast": {
+      "copied": "¡Cálculo de interés compuesto copiado al portapapeles!"
+    }
+  }
+}

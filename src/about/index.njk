@@ -1,31 +1,49 @@
 ---
 layout: layouts/page.njk
-title: About ToolsBuilt - Fast & Free Privacy Web Calculators
-description: Learn about ToolsBuilt, our mission to provide free, private, and lightning-fast web calculators, and our commitment to accuracy and simplicity.
 permalink: /about/
-breadcrumbTitle: About Us
-h1: About ToolsBuilt
-subtitle: Building intuitive, privacy-focused calculators and digital tools for everyday tasks.
 updated: 2026-10-24
 ---
-      <h2>Our Mission</h2>
-      <p>At <strong>ToolsBuilt</strong>, our mission is simple: to create fast, reliable, and accessible web tools that solve practical math, date, text, and security challenges. We believe that basic web tools should be free from invasive pop-ups, forced account registrations, and heavy third-party downloads.</p>
+{% block jsonLd %}
+  <!-- JSON-LD: ProfilePage for the site's author -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ProfilePage",
+    "url": "https://toolsbuilt.com/about/",
+    "dateModified": {{ updated | isoDate | jsonStr }},
+    "mainEntity": {
+      "@type": "Person",
+      "name": {{ site.authorName | jsonStr }},
+      "url": {{ site.authorUrl | jsonStr }},
+      "sameAs": {{ (site.authorSameAs or []) | jsonStr }},
+      "description": {{ 'site.authorBio' | t | jsonStr }},
+      "knowsAbout": ["Web development", "Calculators"]
+    }
+  }
+  </script>
+{% endblock %}
+      <h2>{{ 'content.our-mission.heading' | pt }}</h2>
+      <p>{{ 'content.our-mission.p1' | pt }}</p>
 
-      <h2>Why We Started ToolsBuilt</h2>
-      <p>In today's digital landscape, simple tasks like calculating days until a date, generating secure passwords, or converting text casing often require navigating websites filled with heavy scripts and paywalls. We created ToolsBuilt to offer a clean, reliable alternative.</p>
+      <h2>{{ 'content.why-we-started-toolsbuilt.heading' | pt }}</h2>
+      <p>{{ 'content.why-we-started-toolsbuilt.p1' | pt }}</p>
       
-      <p>Every tool on our platform is built from the ground up using pure standard web technologies. This guarantees that our pages load almost instantaneously on mobile devices and desktop computers alike.</p>
+      <p>{{ 'content.why-we-started-toolsbuilt.p2' | pt }}</p>
 
-      <h2>Our Core Values</h2>
+      <h2>{{ 'content.our-core-values.heading' | pt }}</h2>
       <ul>
-        <li><strong>Privacy First:</strong> All computations are performed locally inside your browser. Your input data never leaves your device.</li>
-        <li><strong>Speed &amp; Efficiency:</strong> Zero external frameworks mean lightning-fast load times and minimal energy consumption.</li>
-        <li><strong>Universal Accessibility:</strong> We design all tools to work seamlessly across screen sizes, touch devices, and assistive technologies.</li>
-        <li><strong>100% Free Access:</strong> All features are open to everyone without paywalls or subscriptions.</li>
+        <li>{{ 'content.our-core-values.li1' | pt }}</li>
+        <li>{{ 'content.our-core-values.li2' | pt }}</li>
+        <li>{{ 'content.our-core-values.li3' | pt }}</li>
+        <li>{{ 'content.our-core-values.li4' | pt }}</li>
       </ul>
 
-      <h2>Creator &amp; Maintainer</h2>
-      <p>ToolsBuilt is designed, developed, and maintained by <strong>Abu Umair</strong>. Every calculator, algorithm, and interactive tool is crafted with an emphasis on client-side security, mathematical precision, and zero-bloat performance.</p>
+      <h2>{{ 'content.creator-maintainer.heading' | pt }}</h2>
+      <p>{{ 'content.creator-maintainer.p1' | pt }}</p>
+      {% if site.authorSameAs and site.authorSameAs.length %}
+      {% set profileLinks %}{% for link in site.authorSameAs %}<a href="{{ link }}" rel="me noopener" target="_blank">{% if "github.com" in link %}GitHub{% elif "linkedin.com" in link %}LinkedIn{% else %}{{ link }}{% endif %}</a>{% if not loop.last %}{% if loop.revindex == 2 %}{{ 'links.lastSeparator' | pt }}{% else %}{{ 'links.separator' | pt }}{% endif %}{% endif %}{% endfor %}{% endset %}
+      <p>{{ 'links.findOn' | pt({ author: site.authorName, links: profileLinks | safe }) }}</p>
+      {% endif %}
 
-      <h2>Get in Touch</h2>
-      <p>We are constantly expanding our collection of calculators and web utilities based on user feedback. If you have suggestions for new tools or improvements, please visit our <a href="/contact/">Contact Page</a> to send us a message.</p>
+      <h2>{{ 'content.get-in-touch.heading' | pt }}</h2>
+      <p>{{ 'content.get-in-touch.p1' | pt }}</p>

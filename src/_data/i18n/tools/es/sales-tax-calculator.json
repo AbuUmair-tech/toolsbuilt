@@ -1,0 +1,750 @@
+{
+  "listing": {
+    "name": "Calculadora de impuesto sobre las ventas, VAT (IVA) y GST",
+    "shortName": "Impuesto sobre las ventas, VAT y GST",
+    "description": "Suma o quita el impuesto sobre las ventas, el VAT (IVA) o el GST con la tasa de tu país o una tasa personalizada, con cantidad y la fórmula a la vista.",
+    "shortDescription": "Suma el impuesto a un precio o quítalo de un precio con impuestos incluidos a cualquier tasa, con la fórmula a la vista.",
+    "keywords": [
+      "calculadora de impuesto sobre las ventas",
+      "calculadora de IVA",
+      "quitar IVA a un precio",
+      "calcular precio sin impuestos",
+      "sumar 18% de impuesto",
+      "calculadora de GST",
+      "impuesto sobre las ventas Pakistán 18%",
+      "calcular precio con IVA incluido"
+    ]
+  },
+  "title": "Calculadora de impuesto sobre las ventas, VAT (IVA) y GST",
+  "description": "Calculadora de impuesto sobre las ventas, VAT (IVA) y GST: suma o resta el impuesto con la tasa de tu país (UE, Reino Unido, India, Pakistán…) u otra.",
+  "h1": "Calculadora de impuesto sobre las ventas, VAT (IVA) y GST",
+  "quickAnswer": "Esta calculadora de impuesto sobre las ventas funciona así: para sumar el impuesto, multiplica el precio por (1 + tasa): 1,000 más el 18% es 1,000 × 1.18 = 1,180, con 180 de impuesto. Para quitar el impuesto de un precio que ya lo incluye, divide entre (1 + tasa): 1,180 ÷ 1.18 = 1,000. Nunca restes sin más el 18%: 5,000 con el 18% de impuesto incluido son 4,237.29 antes de impuestos, no 4,100.",
+  "formula": {
+    "title": "Fórmulas del impuesto sobre las ventas",
+    "expression": "Total = Precio × (1 + Tasa) · Precio antes de impuestos = Total ÷ (1 + Tasa)",
+    "explanation": "Escribe la tasa como decimal (18% = 0.18). Para sumar el impuesto a un precio sin impuestos, el impuesto es Precio × Tasa y el total es Precio × (1 + Tasa). Para hallar el precio antes de impuestos dentro de un total con impuestos incluidos, divide el total entre (1 + Tasa); el impuesto es el total menos ese precio. Si hay una cantidad, multiplica primero el precio unitario por la cantidad.",
+    "variables": [
+      {
+        "name": "Precio",
+        "description": "El precio sin impuestos (modo sumar) o con impuestos incluidos (modo quitar) de un artículo."
+      },
+      {
+        "name": "Tasa",
+        "description": "La tasa del impuesto como decimal, p. ej., 0.18 para el 18%."
+      }
+    ]
+  },
+  "workedExamples": [
+    {
+      "title": "Sumar el 18% a 1,000",
+      "inputs": [
+        "Precio sin impuestos: 1,000",
+        "Tasa: 18%"
+      ],
+      "steps": [
+        "Impuesto: 1,000 × 0.18 = 180",
+        "Total: 1,000 + 180 = 1,180"
+      ],
+      "result": "Impuesto 180, total 1,180"
+    },
+    {
+      "title": "Quitar el 18% de 1,180",
+      "inputs": [
+        "Precio con impuestos incluidos: 1,180",
+        "Tasa: 18%"
+      ],
+      "steps": [
+        "Precio antes de impuestos: 1,180 ÷ 1.18 = 1,000",
+        "Impuesto incluido en el precio: 1,180 − 1,000 = 180"
+      ],
+      "result": "Precio antes de impuestos 1,000, impuesto 180"
+    },
+    {
+      "title": "Quitar el 18% de 5,000",
+      "inputs": [
+        "Precio con impuestos incluidos: 5,000",
+        "Tasa: 18%"
+      ],
+      "steps": [
+        "Precio antes de impuestos: 5,000 ÷ 1.18 = 4,237.29",
+        "Impuesto incluido en el precio: 5,000 − 4,237.29 = 762.71",
+        "Restar el 18% (5,000 − 900 = 4,100) daría un error de 137.29"
+      ],
+      "result": "Precio antes de impuestos 4,237.29, impuesto 762.71"
+    },
+    {
+      "title": "3 artículos de 1,000 cada uno, más el 18%",
+      "inputs": [
+        "Precio sin impuestos: 1,000 por artículo",
+        "Cantidad: 3",
+        "Tasa: 18%"
+      ],
+      "steps": [
+        "Subtotal: 3 × 1,000 = 3,000",
+        "Impuesto: 3,000 × 0.18 = 540",
+        "Total: 3,000 + 540 = 3,540"
+      ],
+      "result": "Total 3,540 con 540 de impuesto incluido"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Restar la tasa a un precio con impuestos incluidos",
+      "description": "El 18% de un precio con impuestos incluidos no es el impuesto que contiene, porque el impuesto se cobró sobre el precio menor antes de impuestos. 1,180 menos el 18% es 967.60, pero el precio real antes de impuestos es 1,180 ÷ 1.18 = 1,000. Divide siempre entre (1 + tasa)."
+    },
+    {
+      "title": "No saber si el precio incluye impuestos",
+      "description": "En muchos países los precios de venta al público ya incluyen el impuesto, mientras que los presupuestos entre empresas y los precios de estantería en EE. UU. a menudo no. Revisa la factura o la etiqueta antes de elegir Sumar impuesto o Quitar impuesto."
+    },
+    {
+      "title": "Usar la tasa equivocada",
+      "description": "Las tasas varían entre países, estados y provincias, y entre productos y servicios. Las tasas reducidas, las exenciones y los impuestos provinciales o estatales sobre servicios cambian el resultado, así que confirma la tasa que se aplica a tu artículo."
+    },
+    {
+      "title": "Redondear cada artículo antes de multiplicar",
+      "description": "Con varios artículos idénticos, multiplica primero el precio unitario por la cantidad y calcula el impuesto sobre el subtotal. Redondear el impuesto de cada artículo por separado puede desviar el total en unos pocos paisas o céntimos."
+    },
+    {
+      "title": "Considerar el precio con impuestos como tu costo",
+      "description": "Si estás registrado para el impuesto sobre las ventas o el VAT (IVA) y puedes recuperar el impuesto soportado, tu costo real es el precio antes de impuestos. Usa Quitar impuesto para calcularlo."
+    }
+  ],
+  "sources": [
+    {
+      "name": "Federal Board of Revenue (FBR), Gobierno de Pakistán"
+    }
+  ],
+  "howto": {
+    "name": "Cómo sumar o quitar el impuesto sobre las ventas",
+    "description": "Suma el GST o el impuesto sobre las ventas a un precio, o halla el precio antes de impuestos dentro de un total.",
+    "steps": [
+      {
+        "name": "Elige sumar o quitar",
+        "text": "Elige Sumar impuesto si tu precio no incluye impuestos, o Quitar impuesto si ya los incluye."
+      },
+      {
+        "name": "Introduce el precio y la cantidad",
+        "text": "Escribe el precio de un artículo y, si hace falta, el número de artículos."
+      },
+      {
+        "name": "Elige la tasa",
+        "text": "Elige 18%, 5%, 10% o 15%, o introduce una tasa personalizada."
+      },
+      {
+        "name": "Lee el resultado",
+        "text": "Consulta el precio antes de impuestos, el importe del impuesto y el total, con la fórmula utilizada."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "¿Cómo sumo un 18% de impuesto sobre las ventas a un precio?",
+      "a": "Multiplica el precio por 1.18. El impuesto es el precio × 0.18. Por ejemplo, 1,000 × 0.18 = 180 de impuesto, y el total es 1,180."
+    },
+    {
+      "q": "¿Cómo quito el 18% de GST de un precio?",
+      "a": "Divide el precio con impuestos incluidos entre 1.18 para obtener el precio antes de impuestos y luego réstalo del total para obtener el impuesto. 1,180 ÷ 1.18 = 1,000, así que el impuesto es 180."
+    },
+    {
+      "q": "¿Por qué no puedo restar sin más el 18% a un precio que incluye impuestos?",
+      "a": "Porque el 18% se cobró sobre el precio antes de impuestos, no sobre el total. Restar el 18% del total quita demasiado: 5,000 − 18% es 4,100, pero el precio real antes de impuestos es 5,000 ÷ 1.18 = 4,237.29."
+    },
+    {
+      "q": "¿Cuánto es el 18% de 1,000?",
+      "a": "El 18% de 1,000 es 180. Si 1,000 es el precio antes de impuestos, el total con un 18% de impuesto es 1,180. Si 1,000 ya incluye el 18% de impuesto, el precio antes de impuestos es 1,000 ÷ 1.18 = 847.46 y el impuesto es 152.54."
+    },
+    {
+      "q": "¿Cuál es la tasa del impuesto sobre las ventas en Pakistán?",
+      "a": "La tasa general del impuesto sobre las ventas de bienes en Pakistán es del 18%, pero algunos bienes tienen tasas reducidas, especiales o del cero por ciento, y el impuesto sobre las ventas de servicios lo fijan las provincias. Consulta la tasa vigente para tu artículo con la FBR o con la autoridad tributaria de tu provincia."
+    },
+    {
+      "q": "¿Cuál es la diferencia entre el GST, el VAT (IVA) y el impuesto sobre las ventas?",
+      "a": "El GST y el VAT (IVA) se cobran en cada etapa de la cadena de suministro; las empresas registradas recuperan el impuesto que pagaron por sus compras, y el precio que ve el comprador suele incluir el impuesto. El impuesto sobre las ventas de EE. UU. se cobra una sola vez en la venta final, lo fijan los estados y las localidades, y normalmente se suma en caja. El cálculo para sumar o quitar un porcentaje es el mismo en los tres casos."
+    },
+    {
+      "q": "¿Cómo calculo el impuesto de varios artículos?",
+      "a": "Introduce el precio de un artículo y la cantidad. La calculadora los multiplica para obtener el subtotal y calcula el impuesto sobre el subtotal. Tres artículos de 1,000 más un 18% de impuesto suman 3,540."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Formulario de la calculadora de impuesto sobre las ventas, VAT y GST",
+      "copy-result-btn": "Copiar el resultado al portapapeles",
+      "vat-and-gst-rates-by-country-div1": "Tasas de VAT y GST por país (desplazable)"
+    },
+    "content": {
+      "tool": {
+        "legend1": "Quiero",
+        "label1": "<input type=\"radio\" name=\"tax-mode\" id=\"mode-add\" value=\"add\" data-param=\"mode\" checked>\n              <span>Sumar impuesto</span>",
+        "label2": "<input type=\"radio\" name=\"tax-mode\" id=\"mode-remove\" value=\"remove\" data-param=\"mode\">\n              <span>Quitar impuesto</span>",
+        "button1": "Calcular",
+        "div1": "Precio antes de impuestos",
+        "div2": "Total con impuestos"
+      },
+      "check-the-official-rate": {
+        "heading": "Consulta la tasa oficial",
+        "p1": "Las tasas varían según el país, el estado o la provincia, y el producto o servicio. En Pakistán, confirma la tasa con la <a href=\"https://www.fbr.gov.pk/\" rel=\"noopener\" target=\"_blank\">FBR</a> o con la autoridad tributaria de tu provincia."
+      },
+      "vat-and-gst-rates-by-country": {
+        "p1": "Los países predefinidos de la calculadora usan las tasas siguientes. Cada una se verificó con la autoridad tributaria o la fuente oficial enlazada en la tabla, en la fecha indicada. Las tasas reducidas solo se aplican a los bienes y servicios que enumera la ley, así que usa la tasa general salvo que sepas que tu artículo cumple los requisitos. En Estados Unidos no hay un impuesto nacional sobre las ventas: los estados, condados y ciudades fijan sus propias tasas, así que escribe la tasa combinada de tu zona como tasa personalizada.",
+        "caption1": "Tasas generales y reducidas de VAT (IVA), GST e impuesto sobre las ventas que usa la calculadora",
+        "th1": "País",
+        "th2": "Impuesto",
+        "th3": "General",
+        "th4": "Otras tasas",
+        "th5": "Fuente (verificada)"
+      },
+      "tax-exclusive-and-tax-inclusive-prices": {
+        "p1": "Toda pregunta sobre el impuesto sobre las ventas empieza con una comprobación: ¿el precio que tienes ya incluye el impuesto? Un precio <strong>sin impuestos</strong> es el importe antes de impuestos, la cifra de la mayoría de los presupuestos entre empresas y de las etiquetas de estantería en EE. UU. Un precio <strong>con impuestos incluidos</strong> ya lleva el impuesto dentro, que es como se muestran la mayoría de los precios de venta al público en Pakistán, el Reino Unido, la UE y los países del Golfo.",
+        "li1": "Si tu precio <strong>no incluye</strong> impuestos, elige <strong>Sumar impuesto</strong>. La calculadora multiplica por la tasa para hallar el impuesto y lo suma.",
+        "li2": "Si tu precio <strong>incluye</strong> impuestos, elige <strong>Quitar impuesto</strong>. La calculadora divide entre (1 + tasa) para hallar el precio antes de impuestos, y la diferencia es el impuesto que pagaste.",
+        "p2": "Las facturas suelen mostrar ambos: un importe neto, el impuesto y un total bruto. Usa esta calculadora para comprobar que las tres cifras cuadran."
+      },
+      "why-you-divide-by-1-rate": {
+        "p1": "Cuando un vendedor suma un 18% de impuesto, multiplica el precio antes de impuestos por 1.18. Para deshacerlo, divides el total entre 1.18. La fórmula es <code>precio antes de impuestos = total ÷ (1 + tasa)</code>, con la tasa como decimal.",
+        "p2": "El error más común es restar el 18% al total. Eso trata el impuesto como el 18% del total, cuando en realidad era el 18% del precio menor antes de impuestos. Con un total de 5,000, restar el 18% da 4,100, pero el precio real antes de impuestos es 5,000 ÷ 1.18 = 4,237.29, y el impuesto incluido es 762.71, no 900. Cuanto mayor es la tasa, mayor es el error, así que usa Quitar impuesto siempre que el precio ya incluya el impuesto. Para otras preguntas de porcentajes, como qué parte es un número de otro, usa la <a href=\"/tools/percentage-calculator/\">calculadora de porcentaje</a>."
+      },
+      "gst-vat-and-us-sales-tax": {
+        "p1": "El GST (impuesto sobre bienes y servicios) y el VAT (impuesto sobre el valor añadido, IVA) se cobran en cada etapa de la cadena de suministro; las empresas registradas recuperan el impuesto que pagaron por sus compras, y los compradores suelen ver precios que ya incluyen el impuesto. El impuesto sobre las ventas de EE. UU. se cobra una sola vez, en la venta final al cliente, con tasas que fijan los estados y los gobiernos locales, y normalmente se suma en caja en lugar de aparecer en la etiqueta. El impuesto sobre las ventas de bienes de Pakistán funciona como un VAT, mientras que el de servicios lo recaudan las provincias. El cálculo para sumar o quitar el impuesto es el mismo en todos los casos; solo cambian la tasa y si los precios lo incluyen."
+      },
+      "rates-vary-check-the-official-rate": {
+        "p1": "Las tasas predefinidas son tasas habituales, no una afirmación de lo que se aplica a tu compra. Las tasas varían entre países, entre estados y provincias, y entre productos y servicios, y muchos artículos tienen tasa reducida, tasa cero o están exentos. En Pakistán la tasa general del impuesto sobre las ventas de bienes es del 18%, pero consulta la tasa vigente para tu artículo con la <a href=\"https://www.fbr.gov.pk/\" rel=\"noopener\" target=\"_blank\">FBR</a> o con la autoridad tributaria de tu provincia, y usa la tasa personalizada si es distinta. Si un precio tiene un descuento además del impuesto, calcula primero el descuento con la <a href=\"/tools/discount-calculator/\">calculadora de descuentos</a>, que también puede sumar el impuesto sobre las ventas al precio rebajado."
+      }
+    },
+    "label": {
+      "tax-price": "Precio sin impuestos <span class=\"text-accent\">*</span>",
+      "tax-qty": "Cantidad",
+      "tax-country": "País",
+      "tax-rate-preset": "Tasa del impuesto",
+      "tax-rate-custom": "Tasa personalizada (%)"
+    },
+    "option": {
+      "tax-rate-preset": {
+        "18": "18% – Impuesto general sobre las ventas de bienes en Pakistán",
+        "custom": "Tasa personalizada"
+      }
+    },
+    "text": {
+      "reset-btn": "Restablecer",
+      "result-header-text": "Total con impuestos",
+      "copy-result-btn": "<span data-icon=\"copy\"></span> Copiar resultado",
+      "result-primary-text": "Rs 0.00",
+      "stat-net": "Rs 0.00",
+      "stat-tax-label": "Impuesto (18%)",
+      "stat-tax": "Rs 0.00",
+      "stat-gross": "Rs 0.00",
+      "vat-rates-heading": "Tasas de VAT (IVA) y GST por país",
+      "inclusive-heading": "Precios sin impuestos y con impuestos incluidos",
+      "reverse-heading": "Por qué se divide entre (1 + tasa) para quitar el impuesto",
+      "gst-vat-heading": "GST, VAT (IVA) e impuesto sobre las ventas de EE. UU.",
+      "rates-heading": "Las tasas varían: consulta la tasa oficial"
+    },
+    "title": {
+      "copy-result-btn": "Copiar el resultado al portapapeles"
+    },
+    "vat": {
+      "optionVaries": "{{name}} ({{taxName}} variable)",
+      "countryNote": "{{notes}} Fuente: <a href=\"{{url}}\" target=\"_blank\" rel=\"noopener noreferrer\">{{source}}</a>, verificada el {{date}}.",
+      "noPresetRate": "Lo fijan el estado y la ciudad"
+    }
+  },
+  "client": {
+    "presets": {
+      "pk18": "18% (impuesto general sobre las ventas en Pakistán)"
+    },
+    "vat": {
+      "AT": {
+        "name": "Austria",
+        "rates": [
+          "tasa general",
+          "tasa reducida",
+          "tasa reducida",
+          "tasa intermedia (parking rate)"
+        ],
+        "notes": "Estado miembro de la UE. Las tasas reducidas solo se aplican a los bienes y servicios que enumera la legislación nacional.",
+        "source": "Tu Europa (Unión Europea): tipos de IVA (VAT) en los países de la UE, última verificación 13/07/2026"
+      },
+      "BE": {
+        "name": "Bélgica",
+        "rates": [
+          "tasa general",
+          "tasa reducida",
+          "tasa reducida",
+          "tasa intermedia (parking rate)"
+        ],
+        "notes": "Estado miembro de la UE. Las tasas reducidas solo se aplican a los bienes y servicios que enumera la legislación nacional.",
+        "source": "Tu Europa (Unión Europea): tipos de IVA (VAT) en los países de la UE, última verificación 13/07/2026"
+      },
+      "BG": {
+        "name": "Bulgaria",
+        "rates": [
+          "tasa general",
+          "tasa reducida"
+        ],
+        "notes": "Estado miembro de la UE. Las tasas reducidas solo se aplican a los bienes y servicios que enumera la legislación nacional.",
+        "source": "Tu Europa (Unión Europea): tipos de IVA (VAT) en los países de la UE, última verificación 13/07/2026"
+      },
+      "HR": {
+        "name": "Croacia",
+        "rates": [
+          "tasa general",
+          "tasa reducida",
+          "tasa reducida"
+        ],
+        "notes": "Estado miembro de la UE. Las tasas reducidas solo se aplican a los bienes y servicios que enumera la legislación nacional.",
+        "source": "Tu Europa (Unión Europea): tipos de IVA (VAT) en los países de la UE, última verificación 13/07/2026"
+      },
+      "CY": {
+        "name": "Chipre",
+        "rates": [
+          "tasa general",
+          "tasa reducida",
+          "tasa reducida",
+          "tasa superreducida"
+        ],
+        "notes": "Estado miembro de la UE. Las tasas reducidas solo se aplican a los bienes y servicios que enumera la legislación nacional.",
+        "source": "Tu Europa (Unión Europea): tipos de IVA (VAT) en los países de la UE, última verificación 13/07/2026"
+      },
+      "CZ": {
+        "name": "Chequia",
+        "rates": [
+          "tasa general",
+          "tasa reducida"
+        ],
+        "notes": "Estado miembro de la UE. Las tasas reducidas solo se aplican a los bienes y servicios que enumera la legislación nacional.",
+        "source": "Tu Europa (Unión Europea): tipos de IVA (VAT) en los países de la UE, última verificación 13/07/2026"
+      },
+      "DK": {
+        "name": "Dinamarca",
+        "rates": [
+          "tasa general"
+        ],
+        "notes": "Estado miembro de la UE. Las tasas reducidas solo se aplican a los bienes y servicios que enumera la legislación nacional.",
+        "source": "Tu Europa (Unión Europea): tipos de IVA (VAT) en los países de la UE, última verificación 13/07/2026"
+      },
+      "EE": {
+        "name": "Estonia",
+        "rates": [
+          "tasa general",
+          "tasa reducida"
+        ],
+        "notes": "Estado miembro de la UE. Las tasas reducidas solo se aplican a los bienes y servicios que enumera la legislación nacional.",
+        "source": "Tu Europa (Unión Europea): tipos de IVA (VAT) en los países de la UE, última verificación 13/07/2026"
+      },
+      "FI": {
+        "name": "Finlandia",
+        "rates": [
+          "tasa general",
+          "tasa reducida",
+          "tasa reducida"
+        ],
+        "notes": "Estado miembro de la UE. Las tasas reducidas solo se aplican a los bienes y servicios que enumera la legislación nacional.",
+        "source": "Tu Europa (Unión Europea): tipos de IVA (VAT) en los países de la UE, última verificación 13/07/2026"
+      },
+      "FR": {
+        "name": "Francia",
+        "rates": [
+          "tasa general",
+          "tasa reducida",
+          "tasa reducida",
+          "tasa superreducida"
+        ],
+        "notes": "Estado miembro de la UE. Las tasas reducidas solo se aplican a los bienes y servicios que enumera la legislación nacional.",
+        "source": "Tu Europa (Unión Europea): tipos de IVA (VAT) en los países de la UE, última verificación 13/07/2026"
+      },
+      "DE": {
+        "name": "Alemania",
+        "rates": [
+          "tasa general",
+          "tasa reducida"
+        ],
+        "notes": "Estado miembro de la UE. Las tasas reducidas solo se aplican a los bienes y servicios que enumera la legislación nacional.",
+        "source": "Tu Europa (Unión Europea): tipos de IVA (VAT) en los países de la UE, última verificación 13/07/2026"
+      },
+      "GR": {
+        "name": "Grecia",
+        "rates": [
+          "tasa general",
+          "tasa reducida",
+          "tasa reducida",
+          "tasa reducida",
+          "tasa superreducida"
+        ],
+        "notes": "Estado miembro de la UE. Las tasas reducidas solo se aplican a los bienes y servicios que enumera la legislación nacional.",
+        "source": "Tu Europa (Unión Europea): tipos de IVA (VAT) en los países de la UE, última verificación 13/07/2026"
+      },
+      "HU": {
+        "name": "Hungría",
+        "rates": [
+          "tasa general",
+          "tasa reducida",
+          "tasa reducida"
+        ],
+        "notes": "Estado miembro de la UE. Las tasas reducidas solo se aplican a los bienes y servicios que enumera la legislación nacional.",
+        "source": "Tu Europa (Unión Europea): tipos de IVA (VAT) en los países de la UE, última verificación 13/07/2026"
+      },
+      "IN": {
+        "name": "India",
+        "rates": [
+          "tasa general",
+          "tasa preferente (merit rate)",
+          "tasa especial para algunos bienes de lujo y nocivos"
+        ],
+        "notes": "Desde el 22 de septiembre de 2025, el GST tiene dos tramos principales, 18% y 5%, más una tasa especial del 40% para unos pocos bienes y servicios. Algunos artículos tienen tasa cero.",
+        "source": "GST Council / comunicado de prensa de PIB, 3 de septiembre de 2025"
+      },
+      "IE": {
+        "name": "Irlanda",
+        "rates": [
+          "tasa general",
+          "tasa reducida",
+          "tasa reducida"
+        ],
+        "notes": "Estado miembro de la UE. Las tasas reducidas solo se aplican a los bienes y servicios que enumera la legislación nacional.",
+        "source": "Tu Europa (Unión Europea): tipos de IVA (VAT) en los países de la UE, última verificación 13/07/2026"
+      },
+      "IT": {
+        "name": "Italia",
+        "rates": [
+          "tasa general",
+          "tasa reducida",
+          "tasa reducida",
+          "tasa superreducida"
+        ],
+        "notes": "Estado miembro de la UE. Las tasas reducidas solo se aplican a los bienes y servicios que enumera la legislación nacional.",
+        "source": "Tu Europa (Unión Europea): tipos de IVA (VAT) en los países de la UE, última verificación 13/07/2026"
+      },
+      "LV": {
+        "name": "Letonia",
+        "rates": [
+          "tasa general",
+          "tasa reducida",
+          "tasa reducida"
+        ],
+        "notes": "Estado miembro de la UE. Las tasas reducidas solo se aplican a los bienes y servicios que enumera la legislación nacional.",
+        "source": "Tu Europa (Unión Europea): tipos de IVA (VAT) en los países de la UE, última verificación 13/07/2026"
+      },
+      "LT": {
+        "name": "Lituania",
+        "rates": [
+          "tasa general",
+          "tasa reducida",
+          "tasa reducida"
+        ],
+        "notes": "Estado miembro de la UE. Las tasas reducidas solo se aplican a los bienes y servicios que enumera la legislación nacional.",
+        "source": "Tu Europa (Unión Europea): tipos de IVA (VAT) en los países de la UE, última verificación 13/07/2026"
+      },
+      "LU": {
+        "name": "Luxemburgo",
+        "rates": [
+          "tasa general",
+          "tasa reducida",
+          "tasa superreducida",
+          "tasa intermedia (parking rate)"
+        ],
+        "notes": "Estado miembro de la UE. Las tasas reducidas solo se aplican a los bienes y servicios que enumera la legislación nacional.",
+        "source": "Tu Europa (Unión Europea): tipos de IVA (VAT) en los países de la UE, última verificación 13/07/2026"
+      },
+      "MT": {
+        "name": "Malta",
+        "rates": [
+          "tasa general",
+          "tasa reducida",
+          "tasa reducida",
+          "tasa intermedia (parking rate)"
+        ],
+        "notes": "Estado miembro de la UE. Las tasas reducidas solo se aplican a los bienes y servicios que enumera la legislación nacional.",
+        "source": "Tu Europa (Unión Europea): tipos de IVA (VAT) en los países de la UE, última verificación 13/07/2026"
+      },
+      "NL": {
+        "name": "Países Bajos",
+        "rates": [
+          "tasa general",
+          "tasa reducida"
+        ],
+        "notes": "Estado miembro de la UE. Las tasas reducidas solo se aplican a los bienes y servicios que enumera la legislación nacional.",
+        "source": "Tu Europa (Unión Europea): tipos de IVA (VAT) en los países de la UE, última verificación 13/07/2026"
+      },
+      "NZ": {
+        "name": "Nueva Zelanda",
+        "rates": [
+          "tasa general"
+        ],
+        "source": "Inland Revenue (IRD): GST"
+      },
+      "PK": {
+        "name": "Pakistán",
+        "taxName": "Impuesto sobre las ventas",
+        "rates": [
+          "impuesto general sobre las ventas de bienes"
+        ],
+        "notes": "Impuesto federal sobre las ventas de bienes según la sección 3 de la Sales Tax Act de 1990. Los servicios los gravan las provincias con sus propias tasas.",
+        "source": "FBR: Sales Tax Act, 1990 (modificada hasta el 30 de junio de 2025), sección 3"
+      },
+      "PL": {
+        "name": "Polonia",
+        "rates": [
+          "tasa general",
+          "tasa reducida",
+          "tasa reducida"
+        ],
+        "notes": "Estado miembro de la UE. Las tasas reducidas solo se aplican a los bienes y servicios que enumera la legislación nacional.",
+        "source": "Tu Europa (Unión Europea): tipos de IVA (VAT) en los países de la UE, última verificación 13/07/2026"
+      },
+      "PT": {
+        "name": "Portugal",
+        "rates": [
+          "tasa general",
+          "tasa reducida",
+          "tasa reducida",
+          "tasa intermedia (parking rate)"
+        ],
+        "notes": "Estado miembro de la UE. Las tasas reducidas solo se aplican a los bienes y servicios que enumera la legislación nacional.",
+        "source": "Tu Europa (Unión Europea): tipos de IVA (VAT) en los países de la UE, última verificación 13/07/2026"
+      },
+      "RO": {
+        "name": "Rumanía",
+        "rates": [
+          "tasa general",
+          "tasa reducida"
+        ],
+        "notes": "Estado miembro de la UE. Las tasas reducidas solo se aplican a los bienes y servicios que enumera la legislación nacional.",
+        "source": "Tu Europa (Unión Europea): tipos de IVA (VAT) en los países de la UE, última verificación 13/07/2026"
+      },
+      "SA": {
+        "name": "Arabia Saudita",
+        "rates": [
+          "tasa general"
+        ],
+        "source": "ZATCA: guía de modificaciones del Reglamento de aplicación del VAT (IVA) (abril de 2025)"
+      },
+      "SG": {
+        "name": "Singapur",
+        "rates": [
+          "tasa general (desde el 1 de enero de 2024)"
+        ],
+        "notes": "Algunas operaciones tienen tasa cero o están exentas.",
+        "source": "IRAS: tasas vigentes del GST"
+      },
+      "SK": {
+        "name": "Eslovaquia",
+        "rates": [
+          "tasa general",
+          "tasa reducida",
+          "tasa reducida"
+        ],
+        "notes": "Estado miembro de la UE. Las tasas reducidas solo se aplican a los bienes y servicios que enumera la legislación nacional.",
+        "source": "Tu Europa (Unión Europea): tipos de IVA (VAT) en los países de la UE, última verificación 13/07/2026"
+      },
+      "SI": {
+        "name": "Eslovenia",
+        "rates": [
+          "tasa general",
+          "tasa reducida",
+          "tasa reducida"
+        ],
+        "notes": "Estado miembro de la UE. Las tasas reducidas solo se aplican a los bienes y servicios que enumera la legislación nacional.",
+        "source": "Tu Europa (Unión Europea): tipos de IVA (VAT) en los países de la UE, última verificación 13/07/2026"
+      },
+      "ZA": {
+        "name": "Sudáfrica",
+        "rates": [
+          "tasa general"
+        ],
+        "notes": "Algunas operaciones tienen tasa cero o están exentas.",
+        "source": "SARS: impuesto sobre el valor añadido (VAT)"
+      },
+      "ES": {
+        "name": "España",
+        "rates": [
+          "tasa general",
+          "tasa reducida",
+          "tasa superreducida"
+        ],
+        "notes": "Estado miembro de la UE. Las tasas reducidas solo se aplican a los bienes y servicios que enumera la legislación nacional.",
+        "source": "Tu Europa (Unión Europea): tipos de IVA (VAT) en los países de la UE, última verificación 13/07/2026"
+      },
+      "SE": {
+        "name": "Suecia",
+        "rates": [
+          "tasa general",
+          "tasa reducida",
+          "tasa reducida"
+        ],
+        "notes": "Estado miembro de la UE. Las tasas reducidas solo se aplican a los bienes y servicios que enumera la legislación nacional.",
+        "source": "Tu Europa (Unión Europea): tipos de IVA (VAT) en los países de la UE, última verificación 13/07/2026"
+      },
+      "AE": {
+        "name": "Emiratos Árabes Unidos",
+        "rates": [
+          "tasa general"
+        ],
+        "notes": "Algunas operaciones tienen tasa cero o están exentas según la ley del VAT (IVA).",
+        "source": "Autoridad Tributaria Federal de los EAU: Decreto-Ley Federal n.º 8 de 2017 sobre el VAT (IVA), artículo 3"
+      },
+      "GB": {
+        "name": "Reino Unido",
+        "rates": [
+          "tasa general",
+          "tasa reducida (p. ej., sillas infantiles para auto, energía doméstica)"
+        ],
+        "notes": "Algunos bienes y servicios tienen tasa cero (0%), por ejemplo, la mayoría de los alimentos y la ropa infantil.",
+        "source": "GOV.UK: tasas del VAT (IVA)"
+      },
+      "US": {
+        "name": "Estados Unidos",
+        "taxName": "Impuesto sobre las ventas",
+        "notes": "No existe un impuesto federal sobre las ventas. Cada estado, y a menudo el condado y la ciudad, fija su propia tasa, así que escribe la tasa combinada de tu ubicación."
+      },
+      "CA-AB": {
+        "name": "Canadá – Alberta",
+        "rates": [
+          "GST (federal)"
+        ],
+        "notes": "Sin impuesto provincial sobre las ventas.",
+        "source": "Agencia Tributaria de Canadá (CRA): calculadora y tasas de GST/HST (tasas desde el 1 de abril de 2025)"
+      },
+      "CA-BC": {
+        "name": "Canadá – Columbia Británica",
+        "rates": [
+          "GST (federal)",
+          "GST + PST combinados"
+        ],
+        "notes": "La provincia también cobra un PST del 7% sobre el precio antes del GST; la opción combinada suma ambos.",
+        "source": "Agencia Tributaria de Canadá (CRA): calculadora y tasas de GST/HST (tasas desde el 1 de abril de 2025)"
+      },
+      "CA-MB": {
+        "name": "Canadá – Manitoba",
+        "rates": [
+          "GST (federal)",
+          "GST + PST combinados"
+        ],
+        "notes": "La provincia también cobra un PST del 7% sobre el precio antes del GST; la opción combinada suma ambos.",
+        "source": "Agencia Tributaria de Canadá (CRA): calculadora y tasas de GST/HST (tasas desde el 1 de abril de 2025)"
+      },
+      "CA-NB": {
+        "name": "Canadá – Nuevo Brunswick",
+        "taxName": "HST",
+        "rates": [
+          "HST (federal + provincial)"
+        ],
+        "notes": "Un único impuesto armonizado sobre las ventas (HST) cubre la parte federal y la provincial.",
+        "source": "Agencia Tributaria de Canadá (CRA): calculadora y tasas de GST/HST (tasas desde el 1 de abril de 2025)"
+      },
+      "CA-NL": {
+        "name": "Canadá – Terranova y Labrador",
+        "taxName": "HST",
+        "rates": [
+          "HST (federal + provincial)"
+        ],
+        "notes": "Un único impuesto armonizado sobre las ventas (HST) cubre la parte federal y la provincial.",
+        "source": "Agencia Tributaria de Canadá (CRA): calculadora y tasas de GST/HST (tasas desde el 1 de abril de 2025)"
+      },
+      "CA-NT": {
+        "name": "Canadá – Territorios del Noroeste",
+        "rates": [
+          "GST (federal)"
+        ],
+        "notes": "Sin impuesto provincial sobre las ventas.",
+        "source": "Agencia Tributaria de Canadá (CRA): calculadora y tasas de GST/HST (tasas desde el 1 de abril de 2025)"
+      },
+      "CA-NS": {
+        "name": "Canadá – Nueva Escocia",
+        "taxName": "HST",
+        "rates": [
+          "HST (federal + provincial)"
+        ],
+        "notes": "Un único impuesto armonizado sobre las ventas (HST) cubre la parte federal y la provincial.",
+        "source": "Agencia Tributaria de Canadá (CRA): calculadora y tasas de GST/HST (tasas desde el 1 de abril de 2025)"
+      },
+      "CA-NU": {
+        "name": "Canadá – Nunavut",
+        "rates": [
+          "GST (federal)"
+        ],
+        "notes": "Sin impuesto provincial sobre las ventas.",
+        "source": "Agencia Tributaria de Canadá (CRA): calculadora y tasas de GST/HST (tasas desde el 1 de abril de 2025)"
+      },
+      "CA-ON": {
+        "name": "Canadá – Ontario",
+        "taxName": "HST",
+        "rates": [
+          "HST (federal + provincial)"
+        ],
+        "notes": "Un único impuesto armonizado sobre las ventas (HST) cubre la parte federal y la provincial.",
+        "source": "Agencia Tributaria de Canadá (CRA): calculadora y tasas de GST/HST (tasas desde el 1 de abril de 2025)"
+      },
+      "CA-PE": {
+        "name": "Canadá – Isla del Príncipe Eduardo",
+        "taxName": "HST",
+        "rates": [
+          "HST (federal + provincial)"
+        ],
+        "notes": "Un único impuesto armonizado sobre las ventas (HST) cubre la parte federal y la provincial.",
+        "source": "Agencia Tributaria de Canadá (CRA): calculadora y tasas de GST/HST (tasas desde el 1 de abril de 2025)"
+      },
+      "CA-QC": {
+        "name": "Canadá – Quebec",
+        "rates": [
+          "GST (federal)",
+          "GST + QST combinados"
+        ],
+        "notes": "La provincia también cobra un QST del 9.975% sobre el precio antes del GST; la opción combinada suma ambos.",
+        "source": "Agencia Tributaria de Canadá (CRA): calculadora y tasas de GST/HST (tasas desde el 1 de abril de 2025)"
+      },
+      "CA-SK": {
+        "name": "Canadá – Saskatchewan",
+        "rates": [
+          "GST (federal)",
+          "GST + PST combinados"
+        ],
+        "notes": "La provincia también cobra un PST del 6% sobre el precio antes del GST; la opción combinada suma ambos.",
+        "source": "Agencia Tributaria de Canadá (CRA): calculadora y tasas de GST/HST (tasas desde el 1 de abril de 2025)"
+      },
+      "CA-YT": {
+        "name": "Canadá – Yukón",
+        "rates": [
+          "GST (federal)"
+        ],
+        "notes": "Sin impuesto provincial sobre las ventas.",
+        "source": "Agencia Tributaria de Canadá (CRA): calculadora y tasas de GST/HST (tasas desde el 1 de abril de 2025)"
+      }
+    },
+    "customRate": "Tasa personalizada",
+    "countryNote": "{{notes}} Fuente: <a href=\"{{url}}\" target=\"_blank\" rel=\"noopener noreferrer\">{{source}}</a>, verificada el {{date}}.",
+    "priceLabel": {
+      "add": "Precio sin impuestos ",
+      "remove": "Precio con impuestos incluidos "
+    },
+    "errors": {
+      "priceRequired": "Introduce un precio.",
+      "rateRequired": "Introduce una tasa de impuesto.",
+      "quantityRequired": "Introduce una cantidad.",
+      "priceNegative": "El precio no puede ser negativo.",
+      "rateRange": "La tasa del impuesto debe estar entre 0% y 100%.",
+      "quantityPositive": "La cantidad debe ser mayor que 0.",
+      "customRequired": "Introduce tu tasa de impuesto personalizada."
+    },
+    "result": {
+      "headerAdd": "Total con impuestos",
+      "headerRemove": "Precio antes de impuestos",
+      "taxLabel": "Impuesto ({{rate}})",
+      "perItem": "Por artículo: {{net}} antes de impuestos, {{tax}} de impuesto, {{gross}} en total.",
+      "copyAdd": "{{net}} + {{rate}} de impuesto ({{tax}}) = {{gross}}.",
+      "copyRemove": "{{gross}} con {{rate}} de impuesto incluido = {{net}} antes de impuestos + {{tax}} de impuesto."
+    },
+    "steps": {
+      "addFormula": "<strong>Sumar impuesto:</strong> <code>Total = Precio × (1 + Tasa)</code><br>",
+      "addNet": "Precio antes de impuestos: {{qty}}<code>{{net}}</code><br>",
+      "addTax": "Impuesto: {{net}} × {{rate}} = <code>{{tax}}</code><br>",
+      "addTotal": "Total: {{net}} + {{tax}} = <strong>{{gross}}</strong>",
+      "removeFormula": "<strong>Quitar impuesto:</strong> <code>Precio antes de impuestos = Total ÷ (1 + Tasa)</code><br>",
+      "removeGross": "Total con impuestos: {{qty}}<code>{{gross}}</code><br>",
+      "removeNet": "Precio antes de impuestos: {{gross}} ÷ {{factor}} = <strong>{{net}}</strong><br>",
+      "removeTax": "Impuesto incluido en el precio: {{gross}} − {{net}} = <code>{{tax}}</code>"
+    },
+    "toast": {
+      "copied": "Cálculo del impuesto copiado al portapapeles"
+    }
+  }
+}

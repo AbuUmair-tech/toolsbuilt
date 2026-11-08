@@ -1,0 +1,340 @@
+{
+  "listing": {
+    "name": "JWT-Decoder",
+    "shortName": "JWT-Decoder",
+    "description": "Dekodiere Header und Payload von JSON Web Tokens lokal, sieh iat, nbf und exp als Datum und prüfe HS256-, HS384- und HS512-Signaturen.",
+    "shortDescription": "JWTs dekodieren, Ablauf prüfen und HMAC-Signaturen in deinem Browser verifizieren.",
+    "keywords": [
+      "jwt decoder",
+      "jwt dekodieren",
+      "json web token",
+      "jwt parser",
+      "jwt signatur prüfen",
+      "jwt ablauf prüfen",
+      "hs256"
+    ]
+  },
+  "title": "JWT-Decoder: JSON Web Tokens lokal dekodieren",
+  "description": "JWT-Decoder: Dekodiere Header und Payload eines JSON Web Tokens im Browser, sieh iat, nbf und exp als Datum und prüfe HS256/384/512-Signaturen lokal.",
+  "h1": "JWT-Decoder",
+  "quickAnswer": "Ein JWT besteht aus drei Base64URL-kodierten Teilen, getrennt durch Punkte: Header, Payload mit Claims und Signatur. Der JWT-Decoder zeigt das JSON der ersten beiden Teile, aber das beweist nicht, dass das Token echt ist – das tut nur die Prüfung der Signatur mit dem richtigen Schlüssel. Dieser Decoder läuft komplett in deinem Browser und kann HS256-, HS384- und HS512-Signaturen mit einem eingegebenen Secret prüfen.",
+  "formula": {
+    "title": "So wird ein JWT dekodiert und geprüft",
+    "expression": "JWT = Base64URL(Header) . Base64URL(Payload) . Base64URL(Signatur)   ·   HS256-Signatur = HMAC-SHA256(Secret, Header + '.' + Payload)",
+    "explanation": "Jeder Teil nutzt Base64URL-Kodierung (RFC 4648), die + und / durch - und _ ersetzt und das =-Padding weglässt. Dekodiert ergeben Header und Payload UTF-8-JSON. Die Zeit-Claims iat (ausgestellt), nbf (nicht vor) und exp (läuft ab) sind NumericDate-Werte: Sekunden seit 1970-01-01T00:00:00Z, hier als UTC- und Ortszeit angezeigt. Bei HMAC-Algorithmen wird die Signatur über den exakten Header- und Payload-Text mit dem Secret über die Web Crypto API des Browsers neu berechnet und in konstanter Zeit verglichen. Tokens mit RS256, ES256 oder anderen Public-Key-Verfahren brauchen den öffentlichen Schlüssel des Ausstellers und werden hier nicht geprüft.",
+    "variables": [
+      {
+        "name": "Header",
+        "description": "Metadaten wie alg (der Signaturalgorithmus) und typ (meist JWT)."
+      },
+      {
+        "name": "Payload",
+        "description": "Die Claims: um wen es geht (sub), wer das Token ausgestellt hat (iss), die Zielgruppe (aud), Zeiten und eigene Daten."
+      },
+      {
+        "name": "Signatur",
+        "description": "Beweis, dass Header und Payload von jemandem mit dem Schlüssel erstellt und nicht verändert wurden."
+      }
+    ]
+  },
+  "workedExamples": [
+    {
+      "title": "Das Beispiel-Token von jwt.io",
+      "inputs": [
+        "Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+      ],
+      "steps": [
+        "Header: {\"alg\": \"HS256\", \"typ\": \"JWT\"}",
+        "Payload: {\"sub\": \"1234567890\", \"name\": \"John Doe\", \"iat\": 1516239022}",
+        "iat 1516239022 = 2018-01-18T01:30:22Z; es gibt keinen exp-Claim"
+      ],
+      "result": "Dekodiert; mit dem Secret your-256-bit-secret ist die HS256-Signatur gültig"
+    },
+    {
+      "title": "Ein Token mit nur zwei Teilen",
+      "inputs": [
+        "Token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIn0"
+      ],
+      "steps": [
+        "Das Trennen an Punkten ergibt 2 statt 3 Teile"
+      ],
+      "result": "Fehler: Der Signaturteil fehlt"
+    },
+    {
+      "title": "Ein abgelaufenes Token",
+      "inputs": [
+        "Payload enthält exp: 1700000000"
+      ],
+      "steps": [
+        "1700000000 = 2023-11-14T22:13:20Z, liegt also in der Vergangenheit"
+      ],
+      "result": "Als abgelaufen markiert; ein Server, der exp prüft, würde es ablehnen"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Einem dekodierten Token vertrauen",
+      "description": "Jeder kann ein Token mit beliebigem Payload erstellen. Dekodieren liest es nur. Dein Server muss die Signatur mit dem richtigen Schlüssel und Algorithmus prüfen und exp, nbf, iss und aud kontrollieren, bevor er einem Claim vertraut."
+    },
+    {
+      "title": "Geheimnisse in den Payload schreiben",
+      "description": "Ein signiertes JWT ist kodiert, nicht verschlüsselt: Jeder mit dem Token kann den Payload lesen. Schreib nie Passwörter, Kartennummern oder andere Geheimnisse hinein."
+    },
+    {
+      "title": "alg: none akzeptieren oder Algorithmen wechseln lassen",
+      "description": "Bibliotheken dürfen nur die erwarteten Algorithmen akzeptieren. 'none' zu erlauben oder einen Wechsel von RS256 zu HS256 zuzulassen, sind klassische JWT-Schwachstellen, die OWASP auflistet."
+    },
+    {
+      "title": "Produktions-Tokens in Websites einfügen",
+      "description": "Ein gültiges Token ist so lange ein Passwort, wie es gilt. Füge Tokens nur in Tools ein, die lokal laufen, wie dieses, und nutze lieber abgelaufene oder Test-Tokens."
+    },
+    {
+      "title": "Ein schwaches HMAC-Secret verwenden",
+      "description": "HS256-Secrets wie 'secret' lassen sich aus jedem Token offline erraten. Nutze einen langen Zufallsschlüssel, für HS256 mindestens 256 Bit, wie RFC 7518 es verlangt."
+    }
+  ],
+  "sources": [
+    {
+      "name": "RFC 7519: JSON Web Token (JWT)"
+    },
+    {
+      "name": "RFC 7515: JSON Web Signature (JWS)"
+    },
+    {
+      "name": "RFC 7518: JSON Web Algorithms (JWA)"
+    },
+    {
+      "name": "RFC 8725: JSON Web Token Best Current Practices"
+    },
+    {
+      "name": "OWASP Cheat Sheet Series: JSON Web Token"
+    },
+    {
+      "name": "OWASP Web Security Testing Guide: JSON Web Tokens testen"
+    }
+  ],
+  "howto": {
+    "name": "So dekodierst du ein JSON Web Token",
+    "description": "Lies Header und Claims eines JWT und prüfe optional seine HMAC-Signatur, lokal.",
+    "steps": [
+      {
+        "name": "Token einfügen",
+        "text": "Füge das JWT ein, mit oder ohne Präfix 'Bearer '."
+      },
+      {
+        "name": "Header und Payload lesen",
+        "text": "Sieh beide Teile als formatiertes JSON und die Zeit-Claims als UTC- und Ortszeit."
+      },
+      {
+        "name": "Ablauf prüfen",
+        "text": "Der Status zeigt, ob das Token abgelaufen oder noch nicht gültig ist."
+      },
+      {
+        "name": "Signatur prüfen (HS256/384/512)",
+        "text": "Gib das gemeinsame Secret ein und drücke „Signatur prüfen“, um die Signatur lokal zu prüfen."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Wie dekodiere ich ein JWT?",
+      "a": "Füge das Token in das Feld ein. Header und Payload werden Base64URL-dekodiert und als formatiertes JSON angezeigt, Zeit-Claims werden in Datumsangaben umgerechnet."
+    },
+    {
+      "q": "Ist es sicher, mein JWT hier einzufügen?",
+      "a": "Dekodierung und Signaturprüfung laufen in deinem Browser. Token und Secret werden nirgendwohin gesendet, nicht gespeichert, nicht protokolliert und nicht in die Seitenadresse übernommen. Trotzdem: Füge keine echten Produktions-Tokens in Websites ein, die du nicht kontrollierst."
+    },
+    {
+      "q": "Wird ein JWT durch das Dekodieren geprüft?",
+      "a": "Nein. Dekodieren liest nur den Inhalt. Vertrauenswürdig ist ein Token erst, wenn seine Signatur mit dem richtigen Schlüssel geprüft und Ablauf und Zielgruppe kontrolliert wurden."
+    },
+    {
+      "q": "Wie prüfe ich, ob ein JWT abgelaufen ist?",
+      "a": "Sieh dir den exp-Claim an: Er ist ein Unix-Zeitstempel in Sekunden. Liegt er vor der aktuellen Zeit, ist das Token abgelaufen. Der Decoder zeigt exp als Datum und markiert abgelaufene Tokens."
+    },
+    {
+      "q": "Wie prüfe ich die Signatur eines HS256-JWT?",
+      "a": "Gib das gemeinsame Secret im Signaturbereich ein und drücke „Signatur prüfen“. Der HMAC wird lokal mit Web Crypto neu berechnet. Für das Beispiel-Token von jwt.io lautet das Secret your-256-bit-secret."
+    },
+    {
+      "q": "Kann ich hier RS256- oder ES256-Tokens prüfen?",
+      "a": "Derzeit nicht. Diese nutzen Public-Key-Signaturen und brauchen den öffentlichen Schlüssel des Ausstellers (oft aus einer JWKS-URL). Prüfe sie in deiner Anwendung mit einer gepflegten JWT-Bibliothek."
+    },
+    {
+      "q": "Was ist der Unterschied zwischen JWT, JWS und JWE?",
+      "a": "Ein JWT ist eine Menge von Claims. Signiert ist es ein JWS (drei Teile) mit lesbarem Payload; verschlüsselt ist es ein JWE (fünf Teile), dessen Payload nur mit dem Entschlüsselungsschlüssel lesbar ist."
+    },
+    {
+      "q": "Was bedeuten iat, nbf und exp?",
+      "a": "iat ist der Zeitpunkt der Ausstellung, nbf der früheste Zeitpunkt der Nutzung und exp der Ablauf. Alle drei sind Sekunden seit dem 1. Januar 1970 UTC."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "JWT-Decoder",
+      "jwt-header": "Dekodierter Header",
+      "jwt-payload": "Dekodierter Payload"
+    },
+    "text": {
+      "jwt-privacy": "Dein Token und dein Secret bleiben in diesem Browser-Tab. Sie werden weder gesendet noch gespeichert noch in die URL übernommen.",
+      "example-btn": "Beispiel von jwt.io verwenden",
+      "clear-btn": "Leeren",
+      "toggle-secret": "Anzeigen",
+      "verify-btn": "Signatur prüfen"
+    },
+    "label": {
+      "jwt-input": "JSON Web Token",
+      "jwt-secret": "Secret",
+      "jwt-secret-enc": "Format des Secrets"
+    },
+    "placeholder": {
+      "jwt-input": "eyJhbGciOi…"
+    },
+    "content": {
+      "tool": {
+        "div1": "<span id=\"result-header-text\">Dekodiertes Token</span>",
+        "p1": "<strong>Dekodiert, NICHT geprüft.</strong> Jeder kann ein Token mit diesem Inhalt erstellen. Vertraue ihm erst, wenn seine Signatur mit dem richtigen Schlüssel geprüft wurde.",
+        "span1": "Header",
+        "button1": "Kopieren",
+        "span2": "Payload",
+        "button2": "Kopieren",
+        "caption1": "Zeit-Claims",
+        "th1": "Claim",
+        "th2": "Wann (UTC, dann Ortszeit)",
+        "p2": "Signatur prüfen"
+      },
+      "common-jwt-claims": {
+        "heading": "Gängige JWT-Claims",
+        "caption1": "Registrierte Claim-Namen aus RFC 7519",
+        "th1": "Claim",
+        "th2": "Name",
+        "th3": "Bedeutung",
+        "td1": "<code>iss</code>",
+        "td2": "Aussteller (Issuer)",
+        "td3": "Wer das Token erstellt und signiert hat",
+        "td4": "<code>sub</code>",
+        "td5": "Subjekt (Subject)",
+        "td6": "Um wen es im Token geht, oft eine Nutzer-ID",
+        "td7": "<code>aud</code>",
+        "td8": "Zielgruppe (Audience)",
+        "td9": "Für welchen Dienst das Token bestimmt ist",
+        "td10": "<code>exp</code>",
+        "td11": "Ablaufzeit",
+        "td12": "Nach diesem Zeitpunkt muss das Token abgelehnt werden",
+        "td13": "<code>nbf</code>",
+        "td14": "Nicht vor (Not before)",
+        "td15": "Vor diesem Zeitpunkt muss das Token abgelehnt werden",
+        "td16": "<code>iat</code>",
+        "td17": "Ausgestellt am (Issued at)",
+        "td18": "Wann das Token erstellt wurde",
+        "td19": "<code>jti</code>",
+        "td20": "JWT-ID",
+        "td21": "Eine eindeutige ID, um die Wiederverwendung eines Tokens zu verhindern"
+      },
+      "decoding-is-not-verifying": {
+        "heading": "Dekodieren ist nicht Prüfen",
+        "p1": "Header und Payload eines signierten JWT sind nur kodiert, also für jeden lesbar und von jedem änderbar. Manipulation verhindert erst die Signatur: Ändert sich ein einziges Zeichen in Header oder Payload, passt die Signatur nicht mehr. Ein Server muss deshalb:",
+        "li1": "<strong>die Signatur prüfen</strong>, mit dem erwarteten Schlüssel und einer Liste erlaubter Algorithmen, nie allein mit dem im Token genannten Algorithmus.",
+        "li2": "<strong>die Zeiten prüfen</strong>: Tokens nach <code>exp</code> oder vor <code>nbf</code> ablehnen und nur eine kleine Uhrenabweichung zulassen.",
+        "li3": "<strong>prüfen, für wen es ist</strong>: <code>iss</code> und <code>aud</code> müssen zu deinem Aussteller und Dienst passen.",
+        "li4": "<strong>Tokens kurzlebig halten</strong> und nur über HTTPS senden, wie RFC 8725 empfiehlt.",
+        "p2": "Diese Seite dient zum Lesen und Debuggen von Tokens. HMAC-Signaturen werden mit der Web Crypto API des Browsers geprüft, und Token und Secret bleiben nur im Arbeitsspeicher, solange die Seite offen ist. Zufällige Secrets erzeugst du mit dem <a href=\"/tools/password-generator/\">Passwort-Generator</a>, Text hashst du mit dem <a href=\"/tools/hash-generator/\">Hash-Generator</a>."
+      }
+    },
+    "option": {
+      "jwt-secret-enc": {
+        "utf8": "Klartext",
+        "base64url": "Base64 / Base64URL"
+      }
+    }
+  },
+  "client": {
+    "errors": {
+      "empty": "Füge ein JSON Web Token ein (drei durch Punkte getrennte Teile).",
+      "tooLong": "Dieses Token ist zu lang, um es hier zu dekodieren.",
+      "whitespace": "Ein JWT darf keine Leerzeichen oder Zeilenumbrüche enthalten. Kopiere das Token noch einmal ohne sie.",
+      "jwe": "Das sieht nach einem verschlüsselten JWT aus (JWE, fünf Teile). Sein Payload ist ohne den Entschlüsselungsschlüssel nicht lesbar.",
+      "partCount": "Ein JWT hat drei durch Punkte getrennte Teile (header.payload.signature), dieses hat aber {{count}}.",
+      "header": {
+        "notBase64Url": "Der Header ist kein gültiges Base64URL.",
+        "notUtf8": "Der Header ist kein gültiger UTF-8-Text.",
+        "notObject": "Der Header muss ein JSON-Objekt sein.",
+        "notJson": "Der Header ist kein gültiges JSON."
+      },
+      "payload": {
+        "notBase64Url": "Der Payload ist kein gültiges Base64URL.",
+        "notUtf8": "Der Payload ist kein gültiger UTF-8-Text.",
+        "notObject": "Der Payload muss ein JSON-Objekt sein.",
+        "notJson": "Der Payload ist kein gültiges JSON."
+      },
+      "signatureNotBase64Url": "Die Signatur ist kein gültiges Base64URL.",
+      "noWebCrypto": "Für die Signaturprüfung wird die Web Crypto API benötigt, die dieser Browser nicht bietet.",
+      "unsupportedAlgorithm": "Dieses Token nutzt {{alg}}. Hier lassen sich nur HS256-, HS384- und HS512-Signaturen (gemeinsames Secret) prüfen.",
+      "noAlgorithm": "kein Algorithmus",
+      "noSecret": "Gib das Secret ein, um die Signatur zu prüfen.",
+      "secretNotBase64": "Das Secret ist kein gültiges Base64 / Base64URL.",
+      "noSignature": "Das Token hat keine Signatur, die sich prüfen ließe."
+    },
+    "relative": {
+      "year": {
+        "one": "{{n}} Jahr",
+        "other": "{{n}} Jahren"
+      },
+      "day": {
+        "one": "{{n}} Tag",
+        "other": "{{n}} Tagen"
+      },
+      "hour": {
+        "one": "{{n}} Stunde",
+        "other": "{{n}} Stunden"
+      },
+      "minute": {
+        "one": "{{n}} Minute",
+        "other": "{{n}} Minuten"
+      },
+      "second": {
+        "one": "{{n}} Sekunde",
+        "other": "{{n}} Sekunden"
+      },
+      "ago": "vor {{time}}",
+      "in": "in {{time}}",
+      "now": "jetzt"
+    },
+    "result": {
+      "noAlgorithm": "Kein Algorithmus"
+    },
+    "status": {
+      "expired": "Abgelaufen {{when}}",
+      "notYetValid": "Noch nicht gültig: nutzbar {{when}}",
+      "validTime": "Nicht abgelaufen: läuft {{when}} ab",
+      "noExp": "Kein Ablauf-Claim (exp): Dieses Token läuft nicht von selbst ab"
+    },
+    "claims": {
+      "iat": "Ausgestellt (iat)",
+      "nbf": "Nicht vor (nbf)",
+      "exp": "Läuft ab (exp)"
+    },
+    "times": {
+      "invalid": "Kein gültiges NumericDate: {{value}}"
+    },
+    "verify": {
+      "unsigned": "Dieses Token ist nicht signiert (alg \"none\" oder leere Signatur). Es beweist nichts darüber, wer es erstellt hat.",
+      "hmac": "Dieses Token nutzt {{alg}}, eine HMAC-Signatur mit gemeinsamem Secret. Gib das Secret ein, um es hier in deinem Browser zu prüfen.",
+      "other": "Dieses Token nutzt {{alg}}. Hier lassen sich nur HS256, HS384 und HS512 prüfen; Public-Key-Algorithmen wie RS256 brauchen den öffentlichen Schlüssel des Ausstellers in deiner Anwendung.",
+      "unknownAlgorithm": "einen unbekannten Algorithmus",
+      "checking": "Wird geprüft …",
+      "failed": "Die Signatur konnte nicht geprüft werden.",
+      "valid": "✓ Signatur gültig: Dieses {{alg}}-Token wurde mit diesem Secret signiert.",
+      "invalid": "✗ Signatur ungültig: Das Token wurde nicht mit diesem Secret signiert oder wurde verändert."
+    },
+    "copy": {
+      "decoded": "Header:\n{{header}}\n\nPayload:\n{{payload}}",
+      "header": "Header kopiert",
+      "payload": "Payload kopiert"
+    },
+    "toggle": {
+      "hide": "Verbergen",
+      "show": "Anzeigen"
+    }
+  }
+}

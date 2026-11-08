@@ -1,0 +1,208 @@
+---
+layout: layouts/tool.njk
+toolSlug: marks-percentage-calculator
+permalink: /tools/marks-percentage-calculator/
+extraCss: "/tools/marks-percentage-calculator/style.css"
+lastReviewed: "2026-10-31"
+---
+{% from "partials/currency-select.njk" import countryData with context %}
+{{ countryData(countries) }}{% set gradingScales = gradingScales | localizeData('grading-scales') %}
+
+    <!-- Tool Form Container -->
+    <script type="application/json" id="grading-data">{{ gradingScales.scales | dump | safe }}</script>
+    <section class="tool-container" aria-label="{{ 'ariaLabel.tool-section1' | pt }}">
+      <form id="calculator-form" novalidate>
+        <fieldset class="form-group choice-toggle" id="mode-fieldset">
+          <legend>{{ 'content.tool.legend1' | pt }}</legend>
+          <div class="segmented-control choice-toggle-options">
+            <label class="choice-toggle-option">
+              {{ 'content.tool.label1' | pt }}
+            </label>
+            <label class="choice-toggle-option">
+              {{ 'content.tool.label2' | pt }}
+            </label>
+          </div>
+        </fieldset>
+
+        <!-- Mode 1: total marks -->
+        <div id="panel-total" class="marks-panel">
+          <div class="form-grid two-col">
+            <div class="form-group">
+              <label for="obtained-marks">{{ 'label.obtained-marks' | pt }}</label>
+              <input type="number" inputmode="decimal" step="any" min="0" id="obtained-marks" data-param="obtained" class="form-control" placeholder="{{ 'placeholder.obtained-marks' | pt }}" required aria-required="true">
+            </div>
+            <div class="form-group">
+              <label for="total-marks">{{ 'label.total-marks' | pt }}</label>
+              <input type="number" inputmode="decimal" step="any" min="0" id="total-marks" data-param="total" class="form-control" placeholder="{{ 'placeholder.total-marks' | pt }}" required aria-required="true">
+            </div>
+          </div>
+        </div>
+
+        <!-- Mode 2: subject-wise -->
+        <div id="panel-subjects" class="marks-panel" hidden>
+          <div class="table-wrapper">
+            <table class="table subjects-table">
+              <caption class="visually-hidden">{{ 'content.tool.caption1' | pt }}</caption>
+              <thead>
+                <tr>
+                  <th scope="col">{{ 'content.tool.th1' | pt }}</th>
+                  <th scope="col">{{ 'content.tool.th2' | pt }}</th>
+                  <th scope="col">{{ 'content.tool.th3' | pt }}</th>
+                  <th scope="col">%</th>
+                  <th scope="col">{{ 'content.tool.th4' | pt }}</th>
+                </tr>
+              </thead>
+              <tbody id="subjects-tbody">
+                {% for i in range(1, 6) %}
+                <tr class="subject-row">
+                  <td><input type="text" class="form-control subject-name" placeholder="{{ 'subjects.placeholder' | pt({ n: i }) }}" aria-label="{{ 'subjects.nameLabel' | pt({ n: i }) }}"></td>
+                  <td><input type="number" inputmode="decimal" step="any" min="0" class="form-control subject-obtained" aria-label="{{ 'subjects.obtainedLabel' | pt({ n: i }) }}"></td>
+                  <td><input type="number" inputmode="decimal" step="any" min="0" class="form-control subject-total" placeholder="100" aria-label="{{ 'subjects.totalLabel' | pt({ n: i }) }}"></td>
+                  <td class="subject-percent" aria-live="off">–</td>
+                  <td>
+                    <button type="button" class="btn btn-sm btn-ghost remove-subject-btn" aria-label="{{ 'subjects.removeLabel' | pt({ n: i }) }}">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                    </button>
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          <button type="button" class="btn btn-sm btn-secondary mt-4" id="add-subject-btn">{{ 'text.add-subject-btn' | pt }}</button>
+        </div>
+
+        <div class="form-group mt-6">
+          <label for="grading-scale">{{ 'label.grading-scale' | pt }}</label>
+          <select id="grading-scale" data-param="scale" class="form-control" data-country-remember>
+            {% for scale in gradingScales.scales %}
+            <option value="{{ scale.code }}" data-country="{{ scale.country }}"{% if loop.first %} selected{% endif %}>{{ scale.name }}</option>
+            {% endfor %}
+            <option value="custom">{{ 'option.grading-scale.custom' | pt }}</option>
+          </select>
+        </div>
+
+        <!-- Custom scale editor: one row per grade with its minimum percentage -->
+        <div id="custom-scale-panel" class="custom-scale-panel" hidden>
+          <div class="table-wrapper">
+            <table class="table custom-scale-table">
+              <caption class="visually-hidden">{{ 'content.tool.caption2' | pt }}</caption>
+              <thead>
+                <tr>
+                  <th scope="col">{{ 'content.tool.th5' | pt }}</th>
+                  <th scope="col">{{ 'content.tool.th6' | pt }}</th>
+                  <th scope="col">{{ 'content.tool.th7' | pt }}</th>
+                </tr>
+              </thead>
+              <tbody id="custom-scale-tbody">
+                <tr class="custom-scale-row">
+                  <td><input type="text" class="form-control custom-grade" aria-label="{{ 'ariaLabel.custom-grade1' | pt }}"></td>
+                  <td><input type="number" inputmode="decimal" step="any" min="0" max="100" class="form-control custom-min" aria-label="{{ 'ariaLabel.custom-min1' | pt }}"></td>
+                  <td>
+                    <button type="button" class="btn btn-sm btn-ghost remove-grade-btn" aria-label="{{ 'ariaLabel.tool-button1' | pt }}">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <button type="button" class="btn btn-sm btn-secondary mt-4" id="add-grade-btn">{{ 'text.add-grade-btn' | pt }}</button>
+          <p class="form-hint">{{ 'content.tool.p1' | pt }}</p>
+        </div>
+
+        <div class="button-group mt-6">
+          <button type="submit" class="btn btn-primary">{{ 'content.tool.button1' | pt }}</button>
+          <button type="button" class="btn btn-secondary" id="reset-btn">{{ 'text.reset-btn' | pt }}</button>
+        </div>
+      </form>
+
+      <div id="error-box" class="hidden form-error" role="alert"></div>
+
+      <!-- Result Box -->
+      <div id="result-box" class="result-box" aria-live="polite">
+        <div class="result-header">
+          <span id="result-header-text">{{ 'text.result-header-text' | pt }}</span>
+          <button type="button" class="btn btn-sm btn-ghost" id="copy-result-btn" title="{{ 'title.copy-result-btn' | pt }}" aria-label="{{ 'ariaLabel.copy-result-btn' | pt }}">
+            {{ 'text.copy-result-btn' | pt }}
+          </button>
+        </div>
+        <div class="result-primary" id="result-primary-text">0%</div>
+
+        <div class="result-grid">
+          <div class="result-stat-card">
+            <div class="result-stat-label">{{ 'content.tool.div1' | pt }}</div>
+            <div class="result-stat-value" id="stat-marks">0 / 0</div>
+          </div>
+          <div class="result-stat-card">
+            <div class="result-stat-label">{{ 'content.tool.div2' | pt }}</div>
+            <div class="result-stat-value" id="stat-percentage">0%</div>
+          </div>
+          <div class="result-stat-card">
+            <div class="result-stat-label" id="stat-grade-label">{{ 'text.stat-grade-label' | pt }}</div>
+            <div class="result-stat-value" id="stat-grade">–</div>
+          </div>
+        </div>
+
+        <div class="formula-box content-panel" id="formula-breakdown-box">
+          <!-- Step-by-step breakdown inserted by script.js -->
+        </div>
+      </div>
+
+      <!-- Grading reference, rendered from logic.js GRADING; the visitor's grade is highlighted -->
+      <div class="grading-block">
+        <h2 class="grading-title">{{ 'content.grading-reference.heading' | pt }}</h2>
+        <div class="table-wrapper" tabindex="0" role="region" aria-label="{{ 'ariaLabel.grading-reference-div1' | pt }}">
+          <table class="table grading-table">
+            <caption class="visually-hidden">{{ text.client.grading.note }}</caption>
+            <thead>
+              <tr>
+                <th scope="col">{{ 'content.grading-reference.th1' | pt }}</th>
+                <th scope="col">{{ 'content.grading-reference.th2' | pt }}</th>
+              </tr>
+            </thead>
+            <tbody id="grading-tbody">
+              {% for row in marksGrading.rows %}
+              <tr data-grade-index="{{ row.index }}">
+                <td>{{ row.grade }}<span class="grade-you"> {{ 'content.grading-reference.span1' | pt }}</span></td>
+                <td>{% if row.labelled %}{{ text.client.grading.lowestBandLabel }}{% elif row.open %}{{ 'grading.andAbove' | pt({ min: row.min }) }}{% else %}{{ 'grading.between' | pt({ min: row.min, max: row.max }) }}{% endif %}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <p class="grading-note" id="grading-note">{{ text.client.grading.note }}</p>
+      </div>
+    </section>
+
+    <!-- tool-end -->
+
+    <section class="content-section" aria-labelledby="how-to-calc-heading">
+      <h2 id="how-to-calc-heading">{{ 'text.how-to-calc-heading' | pt }}</h2>
+      <p>{{ 'content.how-to-calculate-the-percentage-of.p1' | pt }}</p>
+      <ol class="content-list">
+        <li>{{ 'content.how-to-calculate-the-percentage-of.li1' | pt }}</li>
+        <li>{{ 'content.how-to-calculate-the-percentage-of.li2' | pt }}</li>
+        <li>{{ 'content.how-to-calculate-the-percentage-of.li3' | pt }}</li>
+      </ol>
+      <p>{{ 'content.how-to-calculate-the-percentage-of.p2' | pt }}</p>
+    </section>
+
+    <section class="content-section" aria-labelledby="matric-inter-heading">
+      <h2 id="matric-inter-heading">{{ 'text.matric-inter-heading' | pt }}</h2>
+      <p>{{ 'content.matric-and-inter-percentage-with-subject-wise.p1' | pt }}</p>
+      <p>{{ 'content.matric-and-inter-percentage-with-subject-wise.p2' | pt }}</p>
+      <p>{{ 'content.matric-and-inter-percentage-with-subject-wise.p3' | pt }}</p>
+    </section>
+
+    <section class="content-section" aria-labelledby="grading-heading">
+      <h2 id="grading-heading">{{ 'text.grading-heading' | pt }}</h2>
+      <p>{{ 'content.typical-bise-grading-in-pakistan.p1' | pt }}</p>
+      <p>{{ 'content.typical-bise-grading-in-pakistan.p2' | pt }}</p>
+      <p>{{ 'content.typical-bise-grading-in-pakistan.p3' | pt }}</p>
+    </section>
+
+    <section class="content-section" aria-labelledby="next-steps-heading">
+      <h2 id="next-steps-heading">{{ 'text.next-steps-heading' | pt }}</h2>
+      <p>{{ 'content.percentages-cgpa-and-admissions.p1' | pt }}</p>
+    </section>

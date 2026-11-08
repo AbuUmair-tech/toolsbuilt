@@ -1,0 +1,276 @@
+{
+  "listing": {
+    "name": "Textvergleich (Diff Checker)",
+    "shortName": "Textvergleich",
+    "description": "Vergleiche zwei Texte Zeile für Zeile mit Hervorhebung auf Wortebene, nebeneinander oder untereinander, auf Wunsch ohne Groß-/Kleinschreibung, Leerraum oder Leerzeilen.",
+    "shortDescription": "Zwei Texte vergleichen und hinzugefügte, entfernte und geänderte Zeilen und Wörter sehen.",
+    "keywords": [
+      "texte vergleichen",
+      "diff checker",
+      "text vergleichen online",
+      "zwei texte vergleichen",
+      "textvergleich",
+      "unterschiede finden",
+      "diff tool"
+    ]
+  },
+  "title": "Textvergleich: Zwei Texte online vergleichen (Diff)",
+  "description": "Textvergleich online: Vergleiche zwei Texte Zeile für Zeile und sieh, was hinzugefügt, entfernt oder geändert wurde, mit Hervorhebung auf Wortebene.",
+  "h1": "Textvergleich (Diff Checker)",
+  "quickAnswer": "Für den Textvergleich fügst du links den ursprünglichen und rechts den geänderten Text ein und drückst Vergleichen. Entfernte Zeilen erscheinen rot, hinzugefügte grün, und in geänderten Zeilen werden genau die abweichenden Wörter hervorgehoben. Du kannst Groß-/Kleinschreibung, Leerraum oder Leerzeilen ignorieren, und der Vergleich läuft komplett in deinem Browser.",
+  "formula": {
+    "title": "So funktioniert der Vergleich",
+    "expression": "Diff = kürzestes Edit-Skript, das die ursprünglichen Zeilen in die geänderten überführt (O(ND)-Algorithmus von Myers)",
+    "explanation": "Beide Texte werden in Zeilen zerlegt, und jede eindeutige Zeile bekommt eine Nummer, damit Zeilen sofort verglichen werden können. Gleiche Zeilen ganz am Anfang und Ende werden zuerst zugeordnet. Der Rest wird mit dem Differenzalgorithmus von Eugene Myers verglichen – demselben Ansatz wie bei git und GNU diff –, der die kleinste Menge an zu entfernenden und hinzuzufügenden Zeilen findet. Folgt auf eine entfernte Zeile eine hinzugefügte, werden beide noch einmal Wort für Wort verglichen, sodass nur die geänderten Wörter markiert werden. Sehr umfangreiche Umschreibungen werden an Zeilen geteilt, die in beiden Texten genau einmal vorkommen (die „Patience“-Technik), damit das Ergebnis lesbar bleibt. Die Arbeit läuft in einem Hintergrund-Thread, damit lange Dokumente die Seite nicht einfrieren.",
+    "variables": [
+      {
+        "name": "Entfernt",
+        "description": "Zeilen im ursprünglichen Text, die im geänderten Text fehlen."
+      },
+      {
+        "name": "Hinzugefügt",
+        "description": "Zeilen im geänderten Text, die im Original fehlen."
+      },
+      {
+        "name": "Geändert",
+        "description": "Eine entfernte Zeile zusammen mit der hinzugefügten Zeile, die sie ersetzt, mit Hervorhebung auf Wortebene."
+      }
+    ]
+  },
+  "workedExamples": [
+    {
+      "title": "Eine Zeile ersetzt",
+      "inputs": [
+        "Original: a / b / c",
+        "Geändert: a / x / c"
+      ],
+      "steps": [
+        "a und c stehen in beiden Texten und bleiben unverändert",
+        "b wurde entfernt und an seiner Stelle x hinzugefügt"
+      ],
+      "result": "1 entfernt, 1 hinzugefügt, 2 unverändert"
+    },
+    {
+      "title": "Ein Wort in einem Satz geändert",
+      "inputs": [
+        "Original: The quick brown fox",
+        "Geändert: The slow brown fox"
+      ],
+      "steps": [
+        "Die Zeilen unterscheiden sich, die Zeile gilt also als geändert",
+        "Wort für Wort wurde nur 'quick' durch 'slow' ersetzt"
+      ],
+      "result": "Eine geänderte Zeile mit hervorgehobenem 'quick' und 'slow'"
+    },
+    {
+      "title": "Groß-/Kleinschreibung und Abstände ignorieren",
+      "inputs": [
+        "Original: Hello   World",
+        "Geändert: hello world",
+        "Groß-/Kleinschreibung und Leerraum ignorieren: an"
+      ],
+      "steps": [
+        "Beide Zeilen werden für den Vergleich zu 'helloworld'"
+      ],
+      "result": "Die Texte werden als identisch gemeldet"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Texte mit unterschiedlichen Zeilenenden vergleichen",
+      "description": "Dateien von Windows nutzen CR LF als Zeilenende, Dateien von macOS oder Linux LF. Der Vergleich behandelt alle Zeilenenden gleich, manche anderen Tools melden aber jede Zeile als geändert."
+    },
+    {
+      "title": "Unsichtbaren Leerraum vergessen",
+      "description": "Leerzeichen und Tabs am Zeilenende lassen zwei gleich aussehende Zeilen als verschieden gelten. Aktiviere „Leerraum ignorieren“, wenn nur die Wörter zählen, und lass es bei Code aus, wo die Einrückung wichtig ist."
+    },
+    {
+      "title": "Einen verschobenen Absatz als Änderung lesen",
+      "description": "Ein Zeilenvergleich zeigt einen verschobenen Absatz an einer Stelle als entfernt und an einer anderen als hinzugefügt. Achte auf denselben Text in beiden Farben, bevor du annimmst, dass er umgeschrieben wurde."
+    },
+    {
+      "title": "Die beiden Fassungen vertauscht einfügen",
+      "description": "Das linke Feld gilt als Original. Erscheinen Ergänzungen als Entfernungen, tausche die Texte mit „Tauschen“."
+    },
+    {
+      "title": "Formatierte Dokumente mit einem Diff vergleichen",
+      "description": "Beim Kopieren aus einer Textverarbeitung oder einem PDF können sich Zeilenumbrüche ändern, sodass ganze Absätze verschieden aussehen. Vergleiche reinen Text oder aktiviere „Leerraum ignorieren“ und „Leerzeilen ignorieren“."
+    }
+  ],
+  "sources": [
+    {
+      "name": "Eugene W. Myers (1986): An O(ND) Difference Algorithm and Its Variations, Algorithmica 1"
+    },
+    {
+      "name": "Handbuch zu GNU Diffutils"
+    },
+    {
+      "name": "Git-Dokumentation: git diff (Diff-Algorithmen)"
+    },
+    {
+      "name": "WHATWG HTML Standard: Web Worker"
+    }
+  ],
+  "howto": {
+    "name": "So vergleichst du zwei Texte",
+    "description": "Finde jede Zeile und jedes Wort, das sich zwischen zwei Fassungen eines Textes unterscheidet.",
+    "steps": [
+      {
+        "name": "Original einfügen",
+        "text": "Füge die ursprüngliche Fassung in das erste Feld ein oder tippe sie."
+      },
+      {
+        "name": "Geänderte Fassung einfügen",
+        "text": "Füge die neue Fassung in das zweite Feld ein."
+      },
+      {
+        "name": "Optionen wählen",
+        "text": "Ignoriere Groß-/Kleinschreibung, Leerraum oder Leerzeilen, wenn diese Unterschiede nicht zählen, und wähle die Ansicht nebeneinander oder untereinander."
+      },
+      {
+        "name": "Vergleichen",
+        "text": "Drücke Vergleichen, um hinzugefügte, entfernte und geänderte Zeilen mit hervorgehobenen Wörtern zu sehen."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Wie vergleiche ich zwei Texte auf Unterschiede?",
+      "a": "Füge die ursprüngliche Fassung ins erste Feld und die neue ins zweite ein und drücke Vergleichen. Hinzugefügte Zeilen sind grün, entfernte rot, und geänderte Wörter innerhalb einer Zeile werden hervorgehoben."
+    },
+    {
+      "q": "Ist dieser Textvergleich privat?",
+      "a": "Ja. Der Vergleich läuft in deinem Browser, in einem Hintergrund-Thread dieser Seite. Die Texte werden weder hochgeladen noch gespeichert oder in die Seitenadresse übernommen."
+    },
+    {
+      "q": "Was ist der Unterschied zwischen der Ansicht nebeneinander und untereinander?",
+      "a": "Nebeneinander zeigt das Original links und den geänderten Text rechts, Zeile für Zeile. Untereinander zeigt eine Liste, in der auf entfernte Zeilen die Zeilen folgen, die sie ersetzt haben – auf dem Smartphone leichter lesbar."
+    },
+    {
+      "q": "Kann ich Groß-/Kleinschreibung und Leerraum beim Vergleich ignorieren?",
+      "a": "Ja. „Groß-/Kleinschreibung ignorieren“ behandelt 'Hallo' und 'hallo' gleich; „Leerraum ignorieren“ übergeht Leerzeichen und Tabs in und um Zeilen; „Leerzeilen ignorieren“ lässt leere Zeilen beim Vergleich weg."
+    },
+    {
+      "q": "Wie große Texte kann ich vergleichen?",
+      "a": "Texte mit vielen Tausend Zeilen funktionieren. Der Diff läuft in einem Hintergrund-Thread, und bei langen Dokumenten kannst du nur die Änderungen mit ein paar Zeilen Kontext anzeigen."
+    },
+    {
+      "q": "Welchen Algorithmus nutzt der Textvergleich?",
+      "a": "Er nutzt den O(ND)-Differenzalgorithmus von Eugene Myers, die Methode hinter GNU diff und git, mit Vergleich auf Wortebene innerhalb geänderter Zeilen."
+    },
+    {
+      "q": "Kann ich mit diesem Tool Code vergleichen?",
+      "a": "Ja. Füge beliebigen reinen Text ein, auch Quellcode, JSON oder CSV. Lass „Leerraum ignorieren“ aus, wenn die Einrückung wichtig ist."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Textvergleich",
+      "diff-summary": "Zusammenfassung",
+      "diff-output": "Unterschiede"
+    },
+    "label": {
+      "diff-old": "Ursprünglicher Text",
+      "diff-new": "Geänderter Text"
+    },
+    "placeholder": {
+      "diff-old": "Ursprüngliche Fassung hier einfügen",
+      "diff-new": "Geänderte Fassung hier einfügen"
+    },
+    "text": {
+      "old-count": "0 Zeilen",
+      "new-count": "0 Zeilen",
+      "swap-btn": "Tauschen",
+      "example-btn": "Beispiel ausprobieren",
+      "clear-btn": "Leeren"
+    },
+    "content": {
+      "tool": {
+        "label1": "<input type=\"checkbox\" id=\"opt-case\"><span>Groß-/Kleinschreibung ignorieren</span>",
+        "label2": "<input type=\"checkbox\" id=\"opt-space\"><span>Leerraum ignorieren</span>",
+        "label3": "<input type=\"checkbox\" id=\"opt-blank\"><span>Leerzeilen ignorieren</span>",
+        "label4": "<input type=\"checkbox\" id=\"opt-context\"><span>Nur Änderungen zeigen (mit 3 Zeilen Kontext)</span>",
+        "legend1": "Ansicht",
+        "label5": "<input type=\"radio\" name=\"diff-view\" value=\"split\" checked><span>Nebeneinander</span>",
+        "label6": "<input type=\"radio\" name=\"diff-view\" value=\"inline\"><span>Untereinander</span>",
+        "button1": "Vergleichen",
+        "div1": "<span id=\"result-header-text\">Unterschiede</span>"
+      },
+      "reading-the-result": {
+        "heading": "So liest du das Ergebnis",
+        "caption1": "Was jede Farbe und Markierung bedeutet",
+        "th1": "Markierung",
+        "th2": "Bedeutung",
+        "td1": "− rote Zeile",
+        "td2": "Die Zeile steht im ursprünglichen Text, aber nicht im geänderten.",
+        "td3": "+ grüne Zeile",
+        "td4": "Die Zeile steht im geänderten Text, aber nicht im Original.",
+        "td5": "Hervorgehobene Wörter",
+        "td6": "In einer geänderten Zeile sind nur die abweichenden Wörter markiert.",
+        "td7": "Normale Zeile",
+        "td8": "Die Zeile ist in beiden Texten gleich.",
+        "td9": "… unveränderte Zeilen",
+        "td10": "Mit „Nur Änderungen zeigen“ werden lange Folgen gleicher Zeilen eingeklappt.",
+        "p1": "Die Zeilennummern auf jeder Seite beziehen sich auf das Original bzw. den geänderten Text, damit du dieselbe Stelle in deinen Dateien findest. Sind beide Texte identisch, oder identisch nach Anwendung der Ignorieren-Optionen, sagt der Vergleich das, statt eine Liste anzuzeigen."
+      },
+      "when-to-use-a-diff-checker": {
+        "heading": "Wann du einen Textvergleich nutzt",
+        "li1": "<strong>Verträge und Richtlinien:</strong> Sieh genau, welche Sätze sich zwischen zwei Entwürfen geändert haben, bevor du unterschreibst oder veröffentlichst.",
+        "li2": "<strong>Schreiben und Lektorat:</strong> Vergleiche deinen Text mit der lektorierten Fassung und nimm jede Änderung bewusst an oder lehne sie ab.",
+        "li3": "<strong>Code und Konfiguration:</strong> Finde die eine geänderte Einstellung zwischen zwei Fassungen einer Konfigurationsdatei oder eines eingefügten Code-Schnipsels.",
+        "li4": "<strong>Daten:</strong> Vergleiche zwei Exporte einer Liste oder CSV; um vorher wiederholte Zeilen zu entfernen, nutze <a href=\"/tools/remove-duplicate-lines/\">Doppelte Zeilen entfernen</a>.",
+        "p1": "Alles, was du einfügst, bleibt auf deinem Gerät. Der Vergleich läuft in einem Web Worker, einem Hintergrund-Thread dieser Seite, und beim Verlassen wird nichts gespeichert."
+      }
+    }
+  },
+  "client": {
+    "example": {
+      "old": "Rückgaberichtlinie\n\nArtikel können innerhalb von 14 Tagen nach Lieferung zurückgegeben werden.\nErstattungen erfolgen auf die ursprüngliche Zahlungsart.\nVersandkosten werden nicht erstattet.\nWende dich an den Support, um eine Rückgabe zu starten.",
+      "new": "Rückgaberichtlinie\n\nArtikel können innerhalb von 30 Tagen nach Lieferung zurückgegeben werden.\nErstattungen erfolgen innerhalb von 5 Werktagen auf die ursprüngliche Zahlungsart.\nWende dich an den Support, um eine Rückgabe zu starten.\nDigitale Produkte können nicht zurückgegeben werden."
+    },
+    "lines": {
+      "one": "{{n}} Zeile",
+      "other": "{{n}} Zeilen"
+    },
+    "fold": {
+      "one": "… {{n}} unveränderte Zeile",
+      "other": "… {{n}} unveränderte Zeilen"
+    },
+    "errors": {
+      "empty": "Füge den ursprünglichen und den geänderten Text ein, um sie zu vergleichen.",
+      "tooLarge": "Diese Texte sind zu groß für einen Vergleich hier (zusammen über 5 Millionen Zeichen).",
+      "failed": "Der Vergleich ist fehlgeschlagen."
+    },
+    "aria": {
+      "removed": "Entfernte Zeile {{no}}: {{text}}",
+      "added": "Hinzugefügte Zeile {{no}}: {{text}}"
+    },
+    "summary": {
+      "added": "+{{n}} hinzugefügt",
+      "removed": "−{{n}} entfernt",
+      "unchanged": "{{n}} unverändert"
+    },
+    "result": {
+      "comparing": "Wird verglichen …",
+      "identical": "Keine Unterschiede",
+      "differ": {
+        "one": "{{n}} Zeile unterscheidet sich",
+        "other": "{{n}} Zeilen unterscheiden sich"
+      }
+    },
+    "ignored": {
+      "case": "Groß-/Kleinschreibung",
+      "whitespace": "Leerraum",
+      "blankLines": "Leerzeilen"
+    },
+    "note": {
+      "identical": "Die beiden Texte sind identisch.",
+      "identicalIgnoring": {
+        "one": "Die Texte sind identisch, wenn {{list}} ignoriert wird.",
+        "other": "Die Texte sind identisch, wenn {{list}} ignoriert werden."
+      },
+      "approximate": "Diese Texte sind sehr unterschiedlich, daher listet ein Teil des Ergebnisses ganze Blöcke als entfernt und hinzugefügt statt der kleinstmöglichen Menge an Änderungen."
+    },
+    "copySummary": "{{added}} hinzugefügt, {{removed}} entfernt, {{unchanged}} unveränderte Zeilen"
+  }
+}

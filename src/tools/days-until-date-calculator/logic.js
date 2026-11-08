@@ -12,12 +12,17 @@
 })(typeof globalThis !== 'undefined' ? globalThis : this, function () {
   'use strict';
 
-  const MONTH_NAMES = [
-    'January', 'February', 'March', 'April', 'May', 'June',
-    'July', 'August', 'September', 'October', 'November', 'December'
-  ];
-
-  const WEEKDAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  // Messages and the long date pattern come from the tool's translation data
+  const T = (typeof ToolsBuilt !== 'undefined' && ToolsBuilt.scope)
+    ? ToolsBuilt.scope('days-until-date-calculator')
+    : require('../../../scripts/i18n-client.js').scope('days-until-date-calculator');
+  // Month and weekday names come from Intl in the page language (en-US on English pages and in Node)
+  const LOCALE = (typeof ToolsBuilt !== 'undefined' && ToolsBuilt.pageLocale) ? ToolsBuilt.pageLocale('en-US') : 'en-US';
+  const MONTH_NAMES = Array.from({ length: 12 }, (_, i) =>
+    new Intl.DateTimeFormat(LOCALE, { month: 'long', timeZone: 'UTC' }).format(new Date(Date.UTC(2026, i, 1))));
+  // Sunday ... Saturday (4 to 10 January 2026)
+  const WEEKDAYS = Array.from({ length: 7 }, (_, i) =>
+    new Intl.DateTimeFormat(LOCALE, { weekday: 'long', timeZone: 'UTC' }).format(new Date(Date.UTC(2026, 0, 4 + i))));
 
   function parseDateParts(dateStr) {
     if (!dateStr || typeof dateStr !== 'string') return null;
@@ -64,14 +69,14 @@
   function calculateDaysUntil(targetDateStr, baseDateStr = null) {
     const targetParts = parseDateParts(targetDateStr);
     if (!targetParts) {
-      throw new Error('Please enter a valid target date (YYYY-MM-DD).');
+      throw new Error(T('errors.invalidTarget'));
     }
 
     let baseParts;
     if (baseDateStr) {
       baseParts = parseDateParts(baseDateStr);
       if (!baseParts) {
-        throw new Error('Please enter a valid base calculation date (YYYY-MM-DD).');
+        throw new Error(T('errors.invalidBase'));
       }
     } else {
       const now = new Date();
@@ -91,7 +96,7 @@
 
     const targetDateObj = new Date(targetUtc);
     const weekday = WEEKDAYS[targetDateObj.getUTCDay()];
-    const formattedDate = `${MONTH_NAMES[targetParts.month - 1]} ${targetParts.day}, ${targetParts.year}`;
+    const formattedDate = T('dateLong', { month: MONTH_NAMES[targetParts.month - 1], day: targetParts.day, year: targetParts.year });
 
     const weeks = Math.floor(absDays / 7);
     const remainingDaysAfterWeeks = absDays % 7;

@@ -1,0 +1,114 @@
+---
+layout: layouts/tool.njk
+toolSlug: merit-calculator
+permalink: /tools/merit-calculator/
+extraCss: "/tools/merit-calculator/style.css"
+lastReviewed: "2026-10-31"
+---
+{# Presets: numbers and sources from meritPresets.json, names and notes from the translation data #}{% set presetText = text.client.presets %}{% set presets = [] %}{% for p in meritPresets %}{% set comps = [] %}{% for c in p.components %}{% set _ = comps.push({ name: presetText[p.id].components[c.id], weight: c.weight }) %}{% endfor %}{% set _ = presets.push({ id: p.id, name: presetText[p.id].name, institution: presetText[p.id].institution, components: comps, note: presetText[p.id].note, source: p.source, sourceName: presetText[p.id].sourceName, verifiedOn: p.verifiedOn }) %}{% endfor %}<script type="application/json" id="merit-presets">{{ presets | dump | safe }}</script>
+
+    <!-- Tool Form Container -->
+    <section class="tool-container" aria-label="{{ 'ariaLabel.tool-section1' | pt }}">
+      <form id="calculator-form" novalidate>
+        <div class="form-group merit-preset">
+          <label for="preset">{{ 'label.preset' | pt }}</label>
+          <select id="preset" data-param="preset" class="form-control" aria-describedby="preset-note">
+            <option value="custom" selected>{{ 'option.preset.custom' | pt }}</option>
+            {% for p in presets %}
+            <option value="{{ p.id }}">{{ p.name }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <p class="form-hint" id="preset-note">{{ 'text.preset-note' | pt }}</p>
+        {% for p in presets %}
+        <div class="merit-preset-note" data-preset-note="{{ p.id }}" hidden>
+          <p>{{ p.institution }}. {{ p.note }}</p>
+          <p>{{ 'content.tool.text1' | pt }} <a href="{{ p.source }}" target="_blank" rel="noopener noreferrer">{{ p.sourceName }}</a> {{ 'content.tool.text2' | pt }} <time datetime="{{ p.verifiedOn }}">{{ p.verifiedOn | humanDate }}</time>{{ 'content.tool.text3' | pt }}</p>
+        </div>
+        {% endfor %}
+
+        <div class="merit-rows" role="group" aria-label="{{ 'ariaLabel.tool-div1' | pt }}">
+          <div class="merit-head" aria-hidden="true">{{ 'content.tool.div1' | pt }}</div>
+          {% for i in [1, 2, 3, 4, 5] %}
+          <div class="merit-row" data-row="{{ i }}">
+            <div class="merit-cell merit-name">
+              <label class="merit-label" for="c{{ i }}-name">{{ 'components.label' | pt({ n: i }) }}</label>
+              <input type="text" id="c{{ i }}-name" data-param="c{{ i }}n" class="form-control comp-name" autocomplete="off" placeholder="{{ ('components.placeholder' + i) | pt }}">
+            </div>
+            <div class="merit-cell">
+              <label class="merit-label" for="c{{ i }}-obtained">{{ 'label.componentObtained' | pt }}</label>
+              <input type="number" inputmode="decimal" step="any" min="0" id="c{{ i }}-obtained" data-param="c{{ i }}o" class="form-control comp-obtained">
+            </div>
+            <div class="merit-cell">
+              <label class="merit-label" for="c{{ i }}-total">{{ 'label.componentTotal' | pt }}</label>
+              <input type="number" inputmode="decimal" step="any" min="0" id="c{{ i }}-total" data-param="c{{ i }}t" class="form-control comp-total">
+            </div>
+            <div class="merit-cell">
+              <label class="merit-label" for="c{{ i }}-weight">{{ 'label.componentWeight' | pt }}</label>
+              <input type="number" inputmode="decimal" step="any" min="0" max="100" id="c{{ i }}-weight" data-param="c{{ i }}w" class="form-control comp-weight">
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+        <p class="form-hint merit-weight-total" id="weight-total" aria-live="polite"></p>
+
+        <div class="button-group mt-6">
+          <button type="submit" class="btn btn-primary">{{ 'content.tool.button1' | pt }}</button>
+          <button type="button" class="btn btn-secondary" id="reset-btn">{{ 'text.reset-btn' | pt }}</button>
+        </div>
+      </form>
+
+      <div id="error-box" class="hidden form-error" role="alert"></div>
+
+      <div id="result-box" class="result-box is-visible" aria-live="polite">
+        <div class="result-header">
+          <span id="result-header-text">{{ 'text.result-header-text' | pt }}</span>
+          <button type="button" class="btn btn-sm btn-ghost" id="copy-result-btn" title="{{ 'title.copy-result-btn' | pt }}" aria-label="{{ 'ariaLabel.copy-result-btn' | pt }}">
+            {{ 'text.copy-result-btn' | pt }}
+          </button>
+        </div>
+        <div class="result-primary" id="result-primary-text">--</div>
+        <div class="table-wrapper merit-table-wrapper">
+          <table class="table merit-table">
+            <caption class="visually-hidden">{{ 'content.tool.caption1' | pt }}</caption>
+            <thead><tr><th scope="col">{{ 'content.tool.th1' | pt }}</th><th scope="col" class="wide-only">{{ 'content.tool.th2' | pt }}</th><th scope="col">%</th><th scope="col" class="wide-only">{{ 'content.tool.th3' | pt }}</th><th scope="col">{{ 'content.tool.th4' | pt }}</th></tr></thead>
+            <tbody id="merit-table-rows"></tbody>
+          </table>
+        </div>
+        <details class="result-steps">
+          <summary>{{ 'content.tool.summary1' | pt }}</summary>
+          <ol class="merit-steps" id="result-steps"></ol>
+        </details>
+      </div>
+    </section>
+
+    <!-- tool-end -->
+
+    <section class="content-section">
+      <h2>{{ 'content.always-check-the-official-prospectus.heading' | pt }}</h2>
+      <p>{{ 'content.always-check-the-official-prospectus.p1' | pt }}</p>
+      <p>{{ 'content.always-check-the-official-prospectus.p2' | pt }}</p>
+      <div class="table-wrapper">
+        <table class="table">
+          <caption class="visually-hidden">{{ 'content.always-check-the-official-prospectus.caption1' | pt }}</caption>
+          <thead><tr><th scope="col">{{ 'content.always-check-the-official-prospectus.th1' | pt }}</th><th scope="col">{{ 'content.always-check-the-official-prospectus.th2' | pt }}</th><th scope="col">{{ 'content.always-check-the-official-prospectus.th3' | pt }}</th></tr></thead>
+          <tbody>
+            {% for p in presets %}
+            <tr>
+              <td><a href="{{ p.source }}" target="_blank" rel="noopener noreferrer">{{ p.name }}</a></td>
+              <td>{% for c in p.components %}{{ c.name }} {{ c.weight }}%{% if not loop.last %} · {% endif %}{% endfor %}</td>
+              <td><time datetime="{{ p.verifiedOn }}">{{ p.verifiedOn | humanDate }}</time></td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <p>{{ 'content.always-check-the-official-prospectus.p3' | pt }}</p>
+
+      <h2>{{ 'content.improving-your-aggregate.heading' | pt }}</h2>
+      <ul class="content-list">
+        <li>{{ 'content.improving-your-aggregate.li1' | pt }}</li>
+        <li>{{ 'content.improving-your-aggregate.li2' | pt }}</li>
+        <li>{{ 'content.improving-your-aggregate.li3' | pt }}</li>
+      </ul>
+    </section>

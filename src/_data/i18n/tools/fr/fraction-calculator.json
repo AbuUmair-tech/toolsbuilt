@@ -1,0 +1,304 @@
+{
+  "listing": {
+    "name": "Calculateur de fractions",
+    "shortName": "Calculateur de fractions",
+    "description": "Additionnez, soustrayez, multipliez et divisez des fractions et des nombres fractionnaires avec le calcul détaillé, simplifiez des fractions et convertissez des décimaux.",
+    "shortDescription": "Fractions et nombres fractionnaires avec étapes, simplification et décimal en fraction.",
+    "keywords": [
+      "calculateur de fractions",
+      "addition de fractions",
+      "calcul nombre fractionnaire",
+      "simplifier une fraction",
+      "décimal en fraction",
+      "division de fractions",
+      "multiplication de fractions"
+    ]
+  },
+  "title": "Calculateur de fractions : additionner, multiplier, diviser",
+  "description": "Calculateur de fractions : additionnez, soustrayez, multipliez et divisez fractions et nombres fractionnaires, avec étapes. Simplifiez et convertissez.",
+  "h1": "Calculateur de fractions",
+  "quickAnswer": "Pour additionner ou soustraire des fractions, mettez-les au même dénominateur et combinez les numérateurs : 1/2 + 1/3 = 3/6 + 2/6 = 5/6. Pour multiplier, multipliez les numérateurs entre eux et les dénominateurs entre eux ; pour diviser, multipliez par l'inverse : 3/4 ÷ 1/2 = 3/4 × 2/1 = 6/4 = 3/2 = 1 1/2. Ce calculateur de fractions termine toujours en divisant le numérateur et le dénominateur par leur plus grand commun diviseur.",
+  "formula": {
+    "title": "Règles de calcul des fractions",
+    "explanation": "Pour l'addition et la soustraction, le calculateur utilise le plus petit commun multiple des dénominateurs, ce qui garde des nombres petits, puis additionne ou soustrait les numérateurs réécrits. La multiplication se fait terme à terme. La division multiplie par l'inverse de la seconde fraction, ce qui est impossible si celle-ci vaut zéro. Le résultat est simplifié par son plus grand commun diviseur (trouvé avec l'algorithme d'Euclide) et affiché aussi sous forme de nombre fractionnaire et de décimal, avec les chiffres qui se répètent entre parenthèses.",
+    "variables": [
+      {
+        "name": "Nombre fractionnaire",
+        "description": "Un nombre entier suivi d'une fraction, comme 2 1/3. Il est d'abord converti en fraction impropre : (2 × 3 + 1)/3 = 7/3."
+      },
+      {
+        "name": "PPCM",
+        "description": "Plus petit commun multiple : le plus petit nombre divisible par les deux dénominateurs, utilisé comme dénominateur commun."
+      },
+      {
+        "name": "PGCD",
+        "description": "Plus grand commun diviseur : le plus grand nombre qui divise à la fois le numérateur et le dénominateur, utilisé pour simplifier."
+      }
+    ]
+  },
+  "workedExamples": [
+    {
+      "steps": [
+        "PPCM(2, 3) = 6",
+        "1/2 = 3/6 et 1/3 = 2/6",
+        "3/6 + 2/6 = 5/6, déjà irréductible"
+      ]
+    },
+    {
+      "steps": [
+        "Multiplier par l'inverse : 3/4 × 2/1",
+        null,
+        "PGCD(6, 4) = 2, donc 6/4 = 3/2"
+      ]
+    },
+    {
+      "steps": [
+        null,
+        null,
+        "PGCD(21, 21) = 21, donc la réponse est 1"
+      ]
+    },
+    {
+      "title": "Simplifier 6/8 et convertir 0.375",
+      "inputs": [
+        "Simplifier : 6/8",
+        "Décimal en fraction : 0.375"
+      ],
+      "steps": [
+        "PGCD(6, 8) = 2, donc 6/8 = 3/4",
+        "0.375 = 375/1000 ; PGCD(375, 1000) = 125, donc 375/1000 = 3/8"
+      ],
+      "result": "6/8 = 3/4 et 0.375 = 3/8"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Additionner les dénominateurs",
+      "description": "1/2 + 1/3 ne fait pas 2/5. Le dénominateur indique la taille des parts : il doit être identique avant d'additionner : 3/6 + 2/6 = 5/6."
+    },
+    {
+      "title": "Diviser sans inverser la seconde fraction",
+      "description": "Pour diviser par une fraction, multipliez par son inverse (en ne retournant que la seconde fraction). 3/4 ÷ 1/2 = 3/4 × 2/1 = 3/2, et non 3/8."
+    },
+    {
+      "title": "Multiplier séparément la partie entière d'un nombre fractionnaire",
+      "description": "2 1/3 × 3/7 ne vaut ni (2 × 3/7) plus (1/3), ni 2 × 1/3 × 3/7. Convertissez d'abord 2 1/3 en 7/3, puis multipliez."
+    },
+    {
+      "title": "S'arrêter avant d'avoir simplifié la fraction",
+      "description": "6/4 est juste mais pas terminé. Divisez le numérateur et le dénominateur par leur plus grand commun diviseur (2) pour obtenir 3/2, soit 1 1/2 en nombre fractionnaire."
+    },
+    {
+      "title": "Perdre le signe moins d'un nombre fractionnaire",
+      "description": "−1 1/2 signifie −(1 + 1/2) = −3/2, et non −1 + 1/2 = −1/2. Le signe s'applique à tout le nombre fractionnaire."
+    }
+  ],
+  "sources": [
+    {
+      "name": "Common Core State Standards for Mathematics : Number and Operations—Fractions"
+    },
+    {
+      "name": "Les Éléments d'Euclide, livre VII, proposition 2 (plus grande commune mesure)"
+    },
+    {
+      "name": "NIST Digital Library of Mathematical Functions : §27.1 théorie des nombres, PGCD"
+    }
+  ],
+  "howto": {
+    "name": "Comment utiliser le calculateur de fractions",
+    "description": "Calculez avec des fractions et des nombres fractionnaires, simplifiez des fractions et convertissez des décimaux en fractions.",
+    "steps": [
+      {
+        "name": "Choisir un mode",
+        "text": "Calculez avec deux fractions, simplifiez une fraction ou convertissez un décimal en fraction."
+      },
+      {
+        "name": "Saisir les nombres",
+        "text": "Saisissez des fractions comme 3/4, des nombres fractionnaires comme 2 1/3, des entiers ou des décimaux."
+      },
+      {
+        "name": "Choisir l'opération",
+        "text": "Choisissez addition, soustraction, multiplication ou division."
+      },
+      {
+        "name": "Lire la réponse et les étapes",
+        "text": "Consultez la fraction simplifiée, le nombre fractionnaire, le décimal et chaque étape du calcul."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Comment additionner des fractions de dénominateurs différents ?",
+      "a": "Trouvez un dénominateur commun (le plus petit commun multiple des dénominateurs), réécrivez chaque fraction avec ce dénominateur, puis additionnez les numérateurs. 1/2 + 1/3 = 3/6 + 2/6 = 5/6."
+    },
+    {
+      "q": "Comment diviser des fractions ?",
+      "a": "Gardez la première fraction, remplacez ÷ par × et inversez la seconde fraction. 3/4 ÷ 1/2 = 3/4 × 2/1 = 6/4 = 3/2."
+    },
+    {
+      "q": "Comment multiplier des nombres fractionnaires ?",
+      "a": "Convertissez chaque nombre fractionnaire en fraction impropre, multipliez les numérateurs et les dénominateurs, puis simplifiez. 2 1/3 × 3/7 = 7/3 × 3/7 = 21/21 = 1."
+    },
+    {
+      "q": "Comment simplifier une fraction ?",
+      "a": "Divisez le numérateur et le dénominateur par leur plus grand commun diviseur. Pour 6/8, le PGCD est 2, donc 6/8 = 3/4."
+    },
+    {
+      "q": "Comment transformer un décimal en fraction ?",
+      "a": "Écrivez les chiffres après la virgule sur 10, 100, 1000, etc., puis simplifiez. 0.375 = 375/1000, et en divisant les deux par 125 on obtient 3/8."
+    },
+    {
+      "q": "Comment saisir un nombre fractionnaire ?",
+      "a": "Saisissez la partie entière, une espace, puis la fraction : 2 1/3. Les nombres fractionnaires négatifs s'écrivent -2 1/3. Les entiers (5) et les décimaux (0.75) fonctionnent aussi."
+    },
+    {
+      "q": "Que signifie un nombre entre parenthèses dans le décimal ?",
+      "a": "Les chiffres entre parenthèses se répètent à l'infini. 5/6 = 0.8(3) signifie 0.8333…, et 1/7 = 0.(142857) signifie 0.142857142857…."
+    },
+    {
+      "q": "Pourquoi ne peut-on pas diviser par zéro ?",
+      "a": "Diviser par une fraction revient à multiplier par son inverse, et 0 n'a pas d'inverse. Aucun nombre multiplié par 0 ne donne un résultat non nul : la division par zéro est donc indéfinie."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Calculateur de fractions",
+      "tool-div1": "Mode du calculateur",
+      "copy-result-btn": "Copier le résultat dans le presse-papiers"
+    },
+    "text": {
+      "tab-calc": "Calculer",
+      "tab-simplify": "Simplifier",
+      "tab-dec": "Décimal",
+      "frac-hint": "Saisissez des fractions (3/4), des nombres fractionnaires avec une espace (2 1/3), des entiers (5) ou des décimaux (0.75).",
+      "reset-btn": "Réinitialiser",
+      "result-header-text": "Réponse",
+      "copy-result-btn": "<span data-icon=\"copy\"></span> Copier le résultat"
+    },
+    "label": {
+      "frac-a": "Premier nombre",
+      "frac-op": "Opération",
+      "frac-b": "Second nombre",
+      "frac-s": "Fraction à simplifier",
+      "frac-dec": "Décimal"
+    },
+    "option": {
+      "frac-op": {
+        "add": "+ addition",
+        "subtract": "− soustraction",
+        "multiply": "× multiplication",
+        "divide": "÷ division"
+      }
+    },
+    "content": {
+      "tool": {
+        "p1": "Décimaux finis uniquement, comme 0.375 ou 2.5.",
+        "button1": "Calculer",
+        "summary1": "Étape par étape"
+      },
+      "fraction-rules-in-one-table": {
+        "heading": "Les règles des fractions en un tableau",
+        "caption1": "Comment additionner, soustraire, multiplier et diviser des fractions",
+        "th1": "Opération",
+        "th2": "Méthode",
+        "th3": "Exemple",
+        "td1": "Additionner",
+        "td2": "Dénominateur commun, additionner les numérateurs",
+        "td3": "Soustraire",
+        "td4": "Dénominateur commun, soustraire les numérateurs",
+        "td5": "Multiplier",
+        "td6": "Numérateur × numérateur, dénominateur × dénominateur",
+        "td7": "Diviser",
+        "td8": "Multiplier par l'inverse de la seconde fraction",
+        "td9": "Simplifier",
+        "td10": "Diviser le numérateur et le dénominateur par leur PGCD",
+        "td11": "18/24 : PGCD(18, 24) = 6, donc 18/24 = 3/4"
+      },
+      "mixed-numbers-improper-fractions-and-decimals": {
+        "heading": "Nombres fractionnaires, fractions impropres et décimaux",
+        "p1": "Une fraction impropre a un numérateur au moins égal à son dénominateur, comme 7/3. Un nombre fractionnaire écrit la même valeur sous la forme d'un entier plus une fraction propre : 7 ÷ 3 = 2 reste 1, donc 7/3 = 2 1/3. Les calculs sont plus simples avec des fractions impropres : c'est pourquoi le calculateur convertit d'abord les nombres fractionnaires, puis reconvertit à la fin.",
+        "p2": "Toute fraction est aussi un décimal. Si le dénominateur simplifié n'a pas d'autres facteurs premiers que 2 et 5, le développement décimal est fini (3/8 = 0.375). Sinon, il se répète à l'infini, et le calculateur met la période entre parenthèses : 1/3 = 0.(3), 5/6 = 0.8(3), 1/7 = 0.(142857). Dans l'autre sens, seuls les décimaux finis peuvent être saisis exactement : 0.333 devient donc 333/1000, et non 1/3."
+      },
+      "how-euclid-s-algorithm-finds-the": {
+        "heading": "Comment l'algorithme d'Euclide trouve le PGCD",
+        "p1": "Pour simplifier 84/126, divisez le plus grand nombre par le plus petit et gardez le reste : 126 = 1 × 84 + 42, puis 84 = 2 × 42 + 0. Quand le reste atteint 0, le dernier diviseur (42) est le plus grand commun diviseur, donc 84/126 = 2/3. Le mode Simplifier affiche chacune de ces lignes, pratique pour vérifier des devoirs faits à la main.",
+        "p2": "Tous les calculs utilisent une arithmétique exacte sur les entiers dans votre navigateur : même les très grands numérateurs et dénominateurs ne sont jamais arrondis."
+      }
+    },
+    "title": {
+      "copy-result-btn": "Copier le résultat dans le presse-papiers"
+    }
+  },
+  "client": {
+    "errors": {
+      "empty": "Saisissez un nombre ou une fraction, par exemple 3/4 ou 2 1/3.",
+      "tooLong": "Ce nombre est trop long pour être traité ici.",
+      "zeroDenominator": "« {{raw}} » a un dénominateur égal à 0, ce qui est indéfini.",
+      "notUnderstood": "« {{raw}} » n'est pas un nombre que ce calculateur comprend. Utilisez des formes comme 3/4, 2 1/3, 5 ou 0.75.",
+      "chooseOperation": "Choisissez une opération : +, −, × ou ÷.",
+      "firstNumber": "Premier nombre : {{error}}",
+      "secondNumber": "Second nombre : {{error}}",
+      "divideByZero": "Impossible de diviser par zéro : le second nombre vaut 0, et la division par 0 est indéfinie.",
+      "decimalEmpty": "Saisissez un décimal comme 0.375.",
+      "notTerminating": "« {{raw}} » n'est pas un décimal fini. Saisissez des chiffres avec un point décimal facultatif, comme 0.375 ou 2.5. Les décimaux périodiques comme 0.333… ne peuvent pas être saisis exactement.",
+      "decimalTooLong": "Ce décimal est trop long pour être traité ici."
+    },
+    "steps": {
+      "convert": {
+        "mixed": {
+          "first": "Écrire le premier nombre {{text}} sous forme de fraction impropre : {{sign}}({{whole}} × {{d}} + {{partN}}) / {{d}} = {{n}}/{{d}}",
+          "second": "Écrire le second nombre {{text}} sous forme de fraction impropre : {{sign}}({{whole}} × {{d}} + {{partN}}) / {{d}} = {{n}}/{{d}}",
+          "single": "Écrire le nombre {{text}} sous forme de fraction impropre : {{sign}}({{whole}} × {{d}} + {{partN}}) / {{d}} = {{n}}/{{d}}"
+        },
+        "whole": {
+          "first": "Écrire le premier nombre {{text}} sous forme de fraction : {{n}}/1",
+          "second": "Écrire le second nombre {{text}} sous forme de fraction : {{n}}/1",
+          "single": "Écrire le nombre {{text}} sous forme de fraction : {{n}}/1"
+        },
+        "decimal": {
+          "first": "Écrire le premier nombre {{text}} sous forme de fraction : {{n}}/{{d}}",
+          "second": "Écrire le second nombre {{text}} sous forme de fraction : {{n}}/{{d}}",
+          "single": "Écrire le nombre {{text}} sous forme de fraction : {{n}}/{{d}}"
+        }
+      },
+      "simplify": "Simplifier : PGCD({{absN}}, {{d}}) = {{g}}, donc {{n}}/{{d}} = {{simplified}}",
+      "lowestTerms": "{{n}}/{{d}} est déjà irréductible (PGCD = 1)",
+      "sameDenominator": {
+        "add": "Les dénominateurs sont déjà identiques ({{d}}) : on additionne les numérateurs : {{a}} {{sym}} {{b}} = {{result}}",
+        "subtract": "Les dénominateurs sont déjà identiques ({{d}}) : on soustrait les numérateurs : {{a}} {{sym}} {{b}} = {{result}}"
+      },
+      "commonDenominator": "Trouver un dénominateur commun : PPCM({{da}}, {{db}}) = {{lcd}}",
+      "rewrite": "Réécrire les deux fractions : {{fx}} = {{na}}/{{lcd}} et {{fy}} = {{nb}}/{{lcd}}",
+      "numerators": {
+        "add": "Additionner les numérateurs : {{a}} {{sym}} {{b}} = {{n}}, ce qui donne {{n}}/{{d}}",
+        "subtract": "Soustraire les numérateurs : {{a}} {{sym}} {{b}} = {{n}}, ce qui donne {{n}}/{{d}}"
+      },
+      "multiplyBoth": "Multiplier les numérateurs et les dénominateurs : ({{xn}} × {{yn}}) / ({{xd}} × {{yd}}) = {{n}}/{{d}}",
+      "reciprocal": "Diviser par {{fy}} revient à multiplier par son inverse {{yd}}/{{yn}}",
+      "multiply": "Multiplier : ({{xn}} × {{yd}}) / ({{xd}} × {{yn}}) = {{n}}/{{d}}",
+      "asMixed": "En nombre fractionnaire : {{mixed}}",
+      "zero": "0 divisé par un nombre non nul donne 0",
+      "findGcd": "Trouver le plus grand commun diviseur de {{a}} et {{b}} avec l'algorithme d'Euclide :",
+      "gcd": "PGCD = {{gcd}}",
+      "divideBoth": "Diviser les deux par {{g}} : {{n}} ÷ {{g}} = {{nq}}, {{d}} ÷ {{g}} = {{dq}}",
+      "gcdOne": "Le PGCD vaut 1 : la fraction est déjà irréductible",
+      "decimalPlaces": {
+        "many": "{{raw}} a {{places}} décimales : on l'écrit sur 10^{{places}} = {{d}} : {{n}}/{{d}}",
+        "one": "{{raw}} a {{places}} décimale : on l'écrit sur 10^{{places}} = {{d}} : {{n}}/{{d}}",
+        "other": "{{raw}} a {{places}} décimales : on l'écrit sur 10^{{places}} = {{d}} : {{n}}/{{d}}"
+      },
+      "wholeNumber": "{{raw}} est un nombre entier : {{n}}/1",
+      "gcdOf": "PGCD({{a}}, {{d}}) = {{g}}",
+      "divideBothShort": "Diviser les deux par {{g}} : {{n}}/{{d}}"
+    },
+    "result": {
+      "lowestTerms": "{{input}} sous forme irréductible",
+      "asFraction": "{{input}} sous forme de fraction"
+    },
+    "stats": {
+      "simplified": "Fraction simplifiée",
+      "mixed": "Nombre fractionnaire",
+      "decimal": "Décimal"
+    }
+  }
+}

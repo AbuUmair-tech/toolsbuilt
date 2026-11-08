@@ -1,0 +1,262 @@
+{
+  "listing": {
+    "name": "Gerador de slug para URL",
+    "shortName": "Gerador de slug",
+    "description": "Transforme títulos em slugs de URL limpos e em minúsculas: sem acentos, com hífens ou sublinhados, remoção opcional de stop words e modo em lote.",
+    "shortDescription": "Slugs de URL otimizados para SEO a partir de títulos, um ou vários de uma vez.",
+    "keywords": [
+      "gerador de slug",
+      "slug de url",
+      "slugify online",
+      "url amigável seo",
+      "gerador de permalink",
+      "converter título em slug",
+      "url amigável"
+    ]
+  },
+  "title": "Gerador de slug para URL: slugs amigáveis para SEO",
+  "description": "Gerador de slug: transforme títulos em slugs de URL limpos, em minúsculas e sem acentos, com hífens, remoção de stop words, limite de tamanho e lote.",
+  "h1": "Gerador de slug para URL",
+  "quickAnswer": "Um slug de URL é a parte legível do endereço que identifica uma página, como percentage-change-calculator. Para criar um com o gerador de slug, coloque o título em minúsculas, tire os acentos, troque espaços e pontuação por hífens e apare as pontas: 'Héllo, Wörld! 2026' vira hello-world-2026. Use slugs curtos e descritivos e não os altere depois que a página for publicada.",
+  "formula": {
+    "title": "Como um slug é montado",
+    "expression": "Título → normalização NFD e remoção de acentos → minúsculas → o que não for letra ou dígito vira separador → junta repetições → apara as pontas",
+    "explanation": "A normalização Unicode NFD separa letras como é em e mais um sinal de acento, e os sinais são removidos. Letras que não se separam (ß, æ, ø, ł) são escritas como ss, ae, o e l, e & vira 'and'. Tudo o que não é letra nem dígito vira um único separador, e os separadores no início ou no fim são removidos. Etapas opcionais retiram stop words comuns do inglês e cortam o slug no limite de uma palavra para que ele não passe do tamanho máximo. Letras de alfabetos não latinos são mantidas, porque os navegadores as exibem, mas talvez você prefira traduzir o título antes.",
+    "variables": [
+      {
+        "name": "Separador",
+        "description": "Hífens (-) são a escolha mais comum em URLs; sublinhados (_) combinam com nomes de arquivo e alguns sistemas."
+      },
+      {
+        "name": "Stop words",
+        "description": "Palavras curtas como a, the, and, of, to, que raramente ajudam uma URL. Pelo menos uma palavra é sempre mantida."
+      },
+      {
+        "name": "Tamanho máximo",
+        "description": "Corta o slug antes da palavra que passaria do limite, para que nenhuma palavra seja cortada ao meio."
+      }
+    ]
+  },
+  "workedExamples": [
+    {
+      "title": "Acentos e pontuação",
+      "inputs": [
+        "Título: Héllo, Wörld! 2026"
+      ],
+      "steps": [
+        "Remover os acentos: Hello, World! 2026",
+        "Passar para minúsculas e trocar pontuação e espaços: hello-world-2026"
+      ],
+      "result": "hello-world-2026"
+    },
+    {
+      "title": "Espaços extras e sublinhados",
+      "inputs": [
+        "Título: '  Multiple   Spaces  '",
+        "Separador: hífen e, depois, sublinhado para 'Hello World'"
+      ],
+      "steps": [
+        "Sequências de espaços viram um único separador e as pontas são aparadas"
+      ],
+      "result": "multiple-spaces, e hello_world com o separador sublinhado"
+    },
+    {
+      "title": "Tamanho máximo no limite de uma palavra",
+      "inputs": [
+        "Título: percentage change calculator",
+        "Tamanho máximo: 10"
+      ],
+      "steps": [
+        "'percentage' tem 10 caracteres; somar '-change' daria 17"
+      ],
+      "result": "percentage"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Mudar o slug de uma página já publicada",
+      "description": "Um novo slug é uma nova URL. Links, favoritos e resultados de busca que apontam para o endereço antigo quebram, a menos que você configure um redirecionamento permanente (301). Escolha o slug com cuidado antes de publicar."
+    },
+    {
+      "title": "Encher o slug de palavras-chave",
+      "description": "melhor-calculadora-gratis-barata-online-calculadora-ferramenta parece spam. Um slug curto e preciso, que combine com o título da página, é mais fácil de ler e compartilhar."
+    },
+    {
+      "title": "Usar datas que vão ficar desatualizadas",
+      "description": "Um slug como melhores-notebooks-2024 parece velho no ano seguinte, e mudá-lo depois exige um redirecionamento. Deixe as datas de fora, a menos que a página trate de um ano específico."
+    },
+    {
+      "title": "Misturar maiúsculas e minúsculas",
+      "description": "Em muitos servidores, os caminhos diferenciam maiúsculas de minúsculas, então /Sobre-Nos e /sobre-nos podem ser páginas diferentes. Slugs em minúsculas evitam URLs duplicadas."
+    },
+    {
+      "title": "Usar sublinhados em endereços da web",
+      "description": "As orientações do Google recomendam hífens para separar palavras em URLs; palavras unidas por sublinhado podem ser lidas como uma só."
+    }
+  ],
+  "sources": [
+    {
+      "name": "Google Search Central: práticas recomendadas para a estrutura de URLs"
+    },
+    {
+      "name": "RFC 3986: Uniform Resource Identifier (URI) Generic Syntax"
+    },
+    {
+      "name": "Unicode Standard Annex #15: Unicode Normalization Forms"
+    },
+    {
+      "name": "Google Search Central: redirecionamentos e a Pesquisa Google"
+    }
+  ],
+  "howto": {
+    "name": "Como criar um slug de URL",
+    "description": "Transforme o título de uma página em um slug de URL limpo e amigável para SEO.",
+    "steps": [
+      {
+        "name": "Digite o título",
+        "text": "Digite o título da página ou do post, ou mude para o modo em lote e cole um título por linha."
+      },
+      {
+        "name": "Escolha as opções",
+        "text": "Escolha hífens ou sublinhados e, se quiser, remova stop words ou defina um tamanho máximo."
+      },
+      {
+        "name": "Copie o slug",
+        "text": "Copie o slug e use-o como a última parte da URL da página."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "O que é um slug de URL?",
+      "a": "É a parte do endereço da web que dá nome a uma página específica, geralmente depois da última barra. Em toolsbuilt.com/tools/slug-generator/ o slug é slug-generator."
+    },
+    {
+      "q": "Devo usar hífens ou sublinhados em URLs?",
+      "a": "Use hífens. O Google recomenda hífens para separar palavras em URLs, e eles são a convenção mais comum. Sublinhados servem bem para nomes de arquivo."
+    },
+    {
+      "q": "Devo remover stop words como 'the' e 'and' dos slugs?",
+      "a": "Muitas vezes, sim, quando isso deixa o slug mais curto sem perder o sentido, como write-best-guide em vez de how-to-write-the-best-guide. Mantenha-as se o slug ficar estranho sem elas. A opção remove apenas stop words em inglês."
+    },
+    {
+      "q": "Qual deve ser o tamanho de um slug de URL?",
+      "a": "Não há limite fixo, mas de três a cinco palavras significativas é uma boa meta. Use a opção de tamanho máximo para manter os slugs dentro de um limite sem cortar palavras."
+    },
+    {
+      "q": "Como acentos e caracteres especiais são tratados?",
+      "a": "Os acentos são removidos com a normalização Unicode, então é vira e e ü vira u; ß vira ss e & vira 'and'. Outros símbolos se transformam no separador."
+    },
+    {
+      "q": "Posso criar slugs para vários títulos de uma vez?",
+      "a": "Sim. Use o modo em lote e cole um título por linha. Ative a numeração única para acrescentar -2, -3 e assim por diante aos slugs repetidos."
+    },
+    {
+      "q": "Mudar um slug afeta o SEO?",
+      "a": "Mudar a URL de uma página existente obriga os buscadores a encontrar o novo endereço. Use um redirecionamento 301 a partir do slug antigo para que links e posições sejam transferidos."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Gerador de slug para URL",
+      "tool-div1": "Único ou em lote"
+    },
+    "text": {
+      "tab-single": "Um título",
+      "tab-bulk": "Em lote (um por linha)",
+      "copy-slug-btn": "Copiar",
+      "download-btn": "Baixar .txt",
+      "slug-examples-caption": "Exemplos de slugs de URL bons e fracos"
+    },
+    "label": {
+      "slug-input": "Título",
+      "slug-bulk": "Títulos (um por linha)",
+      "slug-sep": "Separador",
+      "slug-max": "Tamanho máximo <span class=\"label-hint\">(0 = sem limite)</span>",
+      "slug-output": "Slugs"
+    },
+    "option": {
+      "slug-sep": {
+        "-": "Hífen -",
+        "_": "Sublinhado _"
+      }
+    },
+    "content": {
+      "tool": {
+        "label1": "<input type=\"checkbox\" id=\"slug-lower\" checked><span>Minúsculas</span>",
+        "label2": "<input type=\"checkbox\" id=\"slug-stop\"><span>Remover stop words em inglês</span>",
+        "label3": "<input type=\"checkbox\" id=\"slug-unique\" checked><span>Numerar slugs repetidos (-2, -3 …)</span>",
+        "div1": "<span id=\"result-header-text\">Slug</span>"
+      },
+      "good-and-bad-slugs": {
+        "heading": "Slugs bons e ruins",
+        "th1": "Página",
+        "th2": "Slug fraco",
+        "th3": "Slug melhor",
+        "td1": "Como fazer pão de fermentação natural em casa",
+        "td2": "post?id=4172",
+        "td3": "pao-de-fermentacao-natural-em-casa",
+        "td4": "Nossa política de reembolso",
+        "td5": "Nossa_Politica_de_Reembolso",
+        "td6": "politica-de-reembolso",
+        "td7": "Horário de funcionamento do café",
+        "td8": "hor%C3%A1rio-do-caf%C3%A9",
+        "td9": "horario-do-cafe",
+        "td10": "10 melhores notebooks para estudantes",
+        "td11": "10-melhores-notebooks-para-estudantes-2024-barato-melhor",
+        "td12": "notebooks-para-estudantes"
+      },
+      "slug-checklist": {
+        "heading": "Checklist de slugs",
+        "li1": "<strong>Curto e descritivo:</strong> quem lê deve adivinhar o assunto da página só pela URL.",
+        "li2": "<strong>Minúsculas com hífens:</strong> padronizado, fácil de digitar e recomendado pelo Google.",
+        "li3": "<strong>Sem datas ou números que vão mudar:</strong> a menos que façam parte do assunto da página.",
+        "li4": "<strong>Estável:</strong> depois de publicado, mantenha o slug. Se precisar mudá-lo, redirecione a URL antiga de forma permanente.",
+        "li5": "<strong>Único:</strong> duas páginas na mesma pasta não podem ter o mesmo slug; o modo em lote numera as repetições para você.",
+        "p1": "O ToolsBuilt segue essas regras nas próprias páginas, como /tools/remove-duplicate-lines/ e /tools/text-diff-checker/. Tudo nesta página funciona no seu navegador e nada do que você digita é armazenado."
+      }
+    },
+    "value": {
+      "slug-input": "Héllo, Wörld! 2026",
+      "slug-bulk": "10 dicas para dormir melhor\nCardápio e preços do café\nComo escrever o melhor guia\n10 dicas para dormir melhor"
+    }
+  },
+  "client": {
+    "errors": {
+      "maxLength": "O tamanho máximo deve ser um número inteiro de 0 (sem limite) a 500."
+    },
+    "result": {
+      "single": "Slug",
+      "bulk": "Slugs em lote",
+      "count": {
+        "many": "{{n}} slugs",
+        "one": "{{n}} slug",
+        "other": "{{n}} slugs"
+      }
+    },
+    "note": {
+      "noLetters": "Este título não tem letras nem números para usar. Acrescente algumas palavras.",
+      "empty": "Digite um título para obter o slug.",
+      "length": {
+        "many": "{{n}} caracteres · /{{slug}}/",
+        "one": "{{n}} caractere · /{{slug}}/",
+        "other": "{{n}} caracteres · /{{slug}}/"
+      },
+      "repeated": {
+        "many": "{{n}} títulos geraram um slug que já tinha sido usado.",
+        "one": "{{n}} título gerou um slug que já tinha sido usado.",
+        "other": "{{n}} títulos geraram um slug que já tinha sido usado."
+      },
+      "repeatedNumbered": {
+        "many": "{{n}} títulos geraram um slug que já tinha sido usado, então um número foi acrescentado.",
+        "one": "{{n}} título gerou um slug que já tinha sido usado, então um número foi acrescentado.",
+        "other": "{{n}} títulos geraram um slug que já tinha sido usado, então um número foi acrescentado."
+      },
+      "allUnique": "Cada título tem o seu próprio slug."
+    },
+    "copied": {
+      "single": "Slug copiado",
+      "bulk": "Slugs copiados"
+    }
+  }
+}

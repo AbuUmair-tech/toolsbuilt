@@ -1,0 +1,281 @@
+{
+  "listing": {
+    "name": "Text Diff Checker",
+    "shortName": "Text Diff",
+    "description": "Compare two texts line by line with word-level highlights, side-by-side or inline, ignoring case, whitespace or blank lines.",
+    "shortDescription": "Compare two texts and see added, removed and changed lines and words.",
+    "keywords": [
+      "text diff",
+      "diff checker",
+      "compare text",
+      "compare two texts",
+      "text compare online",
+      "find differences",
+      "diff tool"
+    ]
+  },
+  "title": "Text Diff Checker: Compare Two Texts Online",
+  "description": "Compare two texts line by line and see what was added, removed or changed, with word-level highlights and side-by-side or inline views, privately.",
+  "h1": "Text Diff Checker",
+  "quickAnswer": "Paste the original text on the left and the changed text on the right, then press Compare. Removed lines are shown in red, added lines in green, and inside a changed line the exact words that differ are highlighted. You can ignore case, whitespace or blank lines, and the comparison runs entirely in your browser.",
+  "formula": {
+    "title": "How the Comparison Works",
+    "expression": "Diff = shortest edit script that turns the original lines into the changed lines (Myers' O(ND) algorithm)",
+    "explanation": "Both texts are split into lines, and each distinct line is given a number so lines can be compared instantly. Lines that are the same at the very start and end are matched first. The rest is compared with Eugene Myers' difference algorithm, the same approach used by git and GNU diff, which finds the smallest set of lines to remove and add. When a removed line is followed by an added line, the two are compared again word by word so only the changed words are highlighted. Very large rewrites are split at lines that appear exactly once in both texts (the 'patience' technique) so the result stays readable. The work runs in a background thread, so long documents do not freeze the page.",
+    "variables": [
+      {
+        "name": "Removed",
+        "description": "Lines in the original text that are not in the changed text."
+      },
+      {
+        "name": "Added",
+        "description": "Lines in the changed text that are not in the original."
+      },
+      {
+        "name": "Changed",
+        "description": "A removed line paired with the added line that replaced it, with word-level highlights."
+      }
+    ]
+  },
+  "workedExamples": [
+    {
+      "title": "One line replaced",
+      "inputs": [
+        "Original: a / b / c",
+        "Changed: a / x / c"
+      ],
+      "steps": [
+        "a and c are in both texts and stay unchanged",
+        "b was removed and x was added in its place"
+      ],
+      "result": "1 removed, 1 added, 2 unchanged"
+    },
+    {
+      "title": "A word changed inside a sentence",
+      "inputs": [
+        "Original: The quick brown fox",
+        "Changed: The slow brown fox"
+      ],
+      "steps": [
+        "The lines differ, so the line counts as changed",
+        "Word by word, only 'quick' was replaced by 'slow'"
+      ],
+      "result": "One changed line with 'quick' and 'slow' highlighted"
+    },
+    {
+      "title": "Ignoring case and spacing",
+      "inputs": [
+        "Original: Hello   World",
+        "Changed: hello world",
+        "Ignore case and ignore whitespace: on"
+      ],
+      "steps": [
+        "Both lines become 'helloworld' for the comparison"
+      ],
+      "result": "The texts are reported as identical"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Comparing text with different line endings",
+      "description": "Files from Windows use CR LF line endings and files from macOS or Linux use LF. The checker treats all line endings as the same, but some other tools report every line as changed."
+    },
+    {
+      "title": "Forgetting invisible whitespace",
+      "description": "Trailing spaces and tabs make two lines that look identical count as different. Turn on Ignore whitespace when only the words matter, and leave it off for code where indentation is meaningful."
+    },
+    {
+      "title": "Reading a moved paragraph as a change",
+      "description": "A line diff shows a paragraph that moved as removed in one place and added in another. Look for the same text in both colours before assuming it was rewritten."
+    },
+    {
+      "title": "Pasting the two versions the wrong way round",
+      "description": "The left box is treated as the original. If additions show as removals, use Swap to exchange the two texts."
+    },
+    {
+      "title": "Using a diff to compare formatted documents",
+      "description": "Copying from a word processor or PDF can change line breaks, which makes whole paragraphs look different. Compare plain text, or turn on Ignore whitespace and Ignore blank lines."
+    }
+  ],
+  "sources": [
+    {
+      "name": "Eugene W. Myers (1986): An O(ND) Difference Algorithm and Its Variations, Algorithmica 1",
+      "url": "https://link.springer.com/article/10.1007/BF01840446"
+    },
+    {
+      "name": "GNU Diffutils manual",
+      "url": "https://www.gnu.org/software/diffutils/manual/"
+    },
+    {
+      "name": "Git documentation: git diff (diff algorithms)",
+      "url": "https://git-scm.com/docs/git-diff"
+    },
+    {
+      "name": "WHATWG HTML Standard: Web Workers",
+      "url": "https://html.spec.whatwg.org/multipage/workers.html"
+    }
+  ],
+  "howto": {
+    "name": "How to Compare Two Texts",
+    "description": "Find every line and word that differs between two versions of a text.",
+    "steps": [
+      {
+        "name": "Paste the original",
+        "text": "Paste or type the original version in the first box."
+      },
+      {
+        "name": "Paste the changed version",
+        "text": "Paste the new version in the second box."
+      },
+      {
+        "name": "Choose options",
+        "text": "Ignore case, whitespace or blank lines if those differences do not matter, and pick side-by-side or inline view."
+      },
+      {
+        "name": "Compare",
+        "text": "Press Compare to see added, removed and changed lines with the changed words highlighted."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "How do I compare two texts for differences?",
+      "a": "Paste the original version in the first box and the new version in the second, then press Compare. Added lines are green, removed lines are red, and changed words inside a line are highlighted."
+    },
+    {
+      "q": "Is this text compare tool private?",
+      "a": "Yes. The comparison runs in your browser, in a background thread on this page. The texts are not uploaded, stored, or added to the page address."
+    },
+    {
+      "q": "What is the difference between side-by-side and inline view?",
+      "a": "Side-by-side shows the original on the left and the changed text on the right, line by line. Inline shows one list with removed lines followed by the lines that replaced them, which is easier to read on a phone."
+    },
+    {
+      "q": "Can I ignore case and whitespace when comparing?",
+      "a": "Yes. Ignore case treats 'Hello' and 'hello' as the same; Ignore whitespace ignores spaces and tabs inside and around lines; Ignore blank lines leaves empty lines out of the comparison."
+    },
+    {
+      "q": "How large a text can I compare?",
+      "a": "Texts of many thousands of lines work. The diff runs in a background thread, and for long documents you can show only the changes with a few lines of context."
+    },
+    {
+      "q": "What algorithm does the diff checker use?",
+      "a": "It uses Eugene Myers' O(ND) difference algorithm, the method behind GNU diff and git, with word-level comparison inside changed lines."
+    },
+    {
+      "q": "Can I compare code with this tool?",
+      "a": "Yes. Paste any plain text, including source code, JSON or CSV. Leave Ignore whitespace off if indentation matters."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Text Diff Checker",
+      "diff-summary": "Summary",
+      "diff-output": "Differences"
+    },
+    "label": {
+      "diff-old": "Original text",
+      "diff-new": "Changed text"
+    },
+    "placeholder": {
+      "diff-old": "Paste the original version here",
+      "diff-new": "Paste the changed version here"
+    },
+    "text": {
+      "old-count": "0 lines",
+      "new-count": "0 lines",
+      "swap-btn": "Swap",
+      "example-btn": "Try an example",
+      "clear-btn": "Clear"
+    },
+    "content": {
+      "tool": {
+        "label1": "<input type=\"checkbox\" id=\"opt-case\"><span>Ignore case</span>",
+        "label2": "<input type=\"checkbox\" id=\"opt-space\"><span>Ignore whitespace</span>",
+        "label3": "<input type=\"checkbox\" id=\"opt-blank\"><span>Ignore blank lines</span>",
+        "label4": "<input type=\"checkbox\" id=\"opt-context\"><span>Show only changes (with 3 lines of context)</span>",
+        "legend1": "View",
+        "label5": "<input type=\"radio\" name=\"diff-view\" value=\"split\" checked><span>Side by side</span>",
+        "label6": "<input type=\"radio\" name=\"diff-view\" value=\"inline\"><span>Inline</span>",
+        "button1": "Compare",
+        "div1": "<span id=\"result-header-text\">Differences</span>"
+      },
+      "reading-the-result": {
+        "heading": "Reading the Result",
+        "caption1": "What each colour and marker means",
+        "th1": "Marker",
+        "th2": "Meaning",
+        "td1": "− red line",
+        "td2": "The line is in the original text but not in the changed text.",
+        "td3": "+ green line",
+        "td4": "The line is in the changed text but not in the original.",
+        "td5": "Highlighted words",
+        "td6": "Inside a changed line, only the words that differ are marked.",
+        "td7": "Plain line",
+        "td8": "The line is the same in both texts.",
+        "td9": "… unchanged lines",
+        "td10": "With \"Show only changes\" on, long runs of identical lines are folded.",
+        "p1": "Line numbers on each side refer to the original and the changed text, so you can find the same place in your own files. If the two texts are identical, or identical once the ignore options are applied, the checker says so instead of showing a list."
+      },
+      "when-to-use-a-diff-checker": {
+        "heading": "When to Use a Diff Checker",
+        "li1": "<strong>Contracts and policies:</strong> see exactly which sentences changed between two drafts before you sign or publish.",
+        "li2": "<strong>Writing and editing:</strong> compare your text with an editor's version and accept or reject each change knowingly.",
+        "li3": "<strong>Code and configuration:</strong> spot the one changed setting between two versions of a config file or a pasted snippet.",
+        "li4": "<strong>Data:</strong> compare two exports of a list or CSV; for removing repeated lines first, use the <a href=\"/tools/remove-duplicate-lines/\">duplicate line remover</a>.",
+        "p1": "Everything you paste stays on your device. The comparison runs in a Web Worker, a background thread inside this page, and nothing is saved when you leave."
+      }
+    }
+  },
+  "client": {
+    "example": {
+      "old": "Refund policy\n\nItems can be returned within 14 days of delivery.\nRefunds are paid to the original payment method.\nShipping costs are not refunded.\nContact support to start a return.",
+      "new": "Refund policy\n\nItems can be returned within 30 days of delivery.\nRefunds are paid to the original payment method within 5 working days.\nContact support to start a return.\nDigital products cannot be returned."
+    },
+    "lines": {
+      "one": "{{n}} line",
+      "other": "{{n}} lines"
+    },
+    "fold": {
+      "one": "… {{n}} unchanged line",
+      "other": "… {{n}} unchanged lines"
+    },
+    "errors": {
+      "empty": "Paste the original text and the changed text to compare them.",
+      "tooLarge": "These texts are too large to compare here (over 5 million characters together).",
+      "failed": "The comparison failed."
+    },
+    "aria": {
+      "removed": "Removed line {{no}}: {{text}}",
+      "added": "Added line {{no}}: {{text}}"
+    },
+    "summary": {
+      "added": "+{{n}} added",
+      "removed": "−{{n}} removed",
+      "unchanged": "{{n}} unchanged"
+    },
+    "result": {
+      "comparing": "Comparing…",
+      "identical": "No differences",
+      "differ": {
+        "one": "{{n}} line differs",
+        "other": "{{n}} lines differ"
+      }
+    },
+    "ignored": {
+      "case": "case",
+      "whitespace": "whitespace",
+      "blankLines": "blank lines",
+      "separator": ", "
+    },
+    "note": {
+      "identical": "The two texts are identical.",
+      "identicalIgnoring": {
+        "one": "The texts are identical when {{list}} is ignored.",
+        "other": "The texts are identical when {{list}} are ignored."
+      },
+      "approximate": "These texts are very different, so part of the result lists whole blocks as removed and added rather than the smallest possible set of changes."
+    },
+    "copySummary": "{{added}} added, {{removed}} removed, {{unchanged}} unchanged lines"
+  }
+}

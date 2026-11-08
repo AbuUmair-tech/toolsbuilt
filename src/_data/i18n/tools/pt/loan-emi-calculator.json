@@ -1,0 +1,269 @@
+{
+  "listing": {
+    "name": "Calculadora de EMI de empréstimo",
+    "shortName": "Calculadora de EMI",
+    "description": "Calcule a parcela mensal (EMI) do empréstimo, o total de juros, a tabela de amortização completa e a economia com pagamentos extras mensais.",
+    "shortDescription": "Calcule a parcela mensal (EMI), o total de juros, a tabela de amortização e a economia com pagamentos extras.",
+    "keywords": [
+      "calculadora de empréstimo",
+      "calculadora de parcela de empréstimo",
+      "tabela de amortização",
+      "simulador de financiamento imobiliário",
+      "simulador de financiamento de carro",
+      "amortização extra empréstimo"
+    ]
+  },
+  "title": "Calculadora de EMI de empréstimo - Parcelas e amortização",
+  "description": "Calculadora de EMI de empréstimo grátis: parcela mensal, total de juros, tabela de amortização completa e economia com pagamentos extras mensais.",
+  "h1": "Calculadora de EMI de empréstimo",
+  "quickAnswer": "Na calculadora de EMI de empréstimo, a EMI (Equated Monthly Installment, a parcela mensal fixa) é calculada pela fórmula da tabela Price: EMI = P × r × (1 + r)^n ÷ ((1 + r)^n − 1), em que P é o valor principal, r a taxa de juros mensal (taxa anual ÷ 1200) e n o total de meses. O total de juros é (EMI × n) − P. Pagamentos extras mensais reduzem o principal diretamente, cortando o total de juros e o prazo do empréstimo.",
+  "formula": {
+    "title": "Fórmula da EMI do empréstimo",
+    "explanation": "P é o valor principal do empréstimo, r é a taxa de juros mensal (taxa de juros anual ÷ 1200) e n é o prazo do empréstimo em meses."
+  },
+  "workedExamples": [
+    {
+      "title": "Financiamento imobiliário de $200,000 a 6.5% por 30 anos (360 meses)",
+      "inputs": [
+        "Valor principal (P): $200,000",
+        "Taxa de juros anual: 6.5%",
+        "Prazo: 30 anos (360 meses)",
+        "Pagamento extra mensal: $0"
+      ],
+      "steps": [
+        "Taxa mensal r = 6.5 ÷ 1200 ≈ 0.0054167",
+        "EMI mensal = 200,000 × 0.0054167 × (1.0054167)^360 ÷ ((1.0054167)^360 − 1)",
+        "EMI mensal = $1,264.14",
+        "Total pago = $1,264.14 × 360 = $455,088.94",
+        "Total de juros = $455,088.94 − $200,000 = $255,088.94"
+      ],
+      "result": "Parcela mensal de $1,264.14 ($255,088.94 de juros no total)"
+    },
+    {
+      "title": "Financiamento de carro de $25,000 a 5.0% por 5 anos (60 meses)",
+      "inputs": [
+        "Valor principal: $25,000",
+        "Taxa de juros anual: 5.0%",
+        "Prazo: 5 anos (60 meses)"
+      ],
+      "steps": [
+        "Taxa mensal r = 5.0 ÷ 1200 ≈ 0.0041667",
+        "EMI mensal = $471.78",
+        "Total pago = $471.78 × 60 = $28,306.86",
+        "Total de juros = $3,306.86"
+      ],
+      "result": "Parcela mensal de $471.78 ($3,306.86 de juros no total)"
+    },
+    {
+      "title": "Quitação antecipada com $100 extras por mês",
+      "inputs": [
+        "Empréstimo base: $200,000 a 6.5% por 30 anos (EMI base de $1,264.14)",
+        "Pagamento extra mensal: $100 ($1,364.14 por mês no total)"
+      ],
+      "steps": [
+        "Os $100 extras vão direto para reduzir o saldo devedor a cada mês",
+        "Empréstimo quitado em 304 meses (25.3 anos) em vez de 360 meses (30 anos)",
+        "Prazo reduzido em 56 meses (4.7 anos)",
+        "Juros economizados = $46,419.00"
+      ],
+      "result": "Quitado 4.7 anos antes ($46,419.00 de juros economizados)"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Olhar só para a parcela mensal",
+      "description": "Aumentar o prazo do empréstimo reduz a parcela mensal, mas faz o total de juros explodir. Avalie sempre o custo total do empréstimo junto com o impacto no orçamento mensal."
+    },
+    {
+      "title": "Confundir APR com a taxa de juros base",
+      "description": "A APR (taxa anual efetiva, parecida com o CET) inclui tarifas, pontos e custos de fechamento, enquanto a taxa nominal do contrato é a que define o cálculo exato da amortização mensal."
+    },
+    {
+      "title": "Supor que o principal cai igualmente",
+      "description": "Nos primeiros anos do empréstimo, a maior parte de cada parcela vai para os juros. A redução do principal só acelera na segunda metade da tabela de amortização."
+    }
+  ],
+  "sources": [
+    {
+      "label": "Consumer Financial Protection Bureau (CFPB) - noções básicas de empréstimos"
+    },
+    {
+      "label": "Federal Reserve Board - guia do consumidor sobre financiamentos imobiliários"
+    },
+    {
+      "label": "Bank for International Settlements - padrões de crédito"
+    }
+  ],
+  "howto": {
+    "name": "Como calcular a EMI e a amortização de um empréstimo",
+    "description": "Instruções passo a passo para calcular parcelas mensais, juros e o cronograma de quitação antecipada.",
+    "steps": [
+      {
+        "name": "Escolha a moeda e o valor do empréstimo",
+        "text": "Escolha o símbolo da moeda e informe o valor principal emprestado."
+      },
+      {
+        "name": "Informe a taxa de juros anual",
+        "text": "Digite a taxa de juros anual (APR) cobrada pela instituição."
+      },
+      {
+        "name": "Informe o prazo do empréstimo",
+        "text": "Informe o prazo de pagamento e alterne entre anos e meses."
+      },
+      {
+        "name": "Adicione um pagamento extra (opcional)",
+        "text": "Se quiser, informe um pagamento mensal extra no principal para ver quantos meses e quanto de juros você economiza."
+      },
+      {
+        "name": "Confira a EMI mensal e baixe a tabela",
+        "text": "Veja a parcela mensal, o total de juros e a tabela de amortização interativa, e exporte a tabela em CSV."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "O que é EMI (Equated Monthly Installment)?",
+      "a": "A Equated Monthly Installment (EMI) é uma parcela mensal fixa paga pelo tomador à instituição em uma data definida. Cada parcela cobre os juros do mês e uma parte do saldo principal, como na tabela Price."
+    },
+    {
+      "q": "Qual é a fórmula padrão para calcular a EMI de um empréstimo?",
+      "a": "A fórmula padrão da EMI é: EMI = P × r × (1 + r)^n / ((1 + r)^n - 1), em que P é o valor principal, r a taxa de juros mensal (taxa anual dividida por 1200) e n o número total de parcelas mensais."
+    },
+    {
+      "q": "Como pagar um extra por mês encurta o prazo do empréstimo?",
+      "a": "Todo valor acima da EMI exigida é abatido integralmente do saldo devedor. Com um principal menor, os juros dos meses seguintes diminuem, o que acelera a quitação e economiza bastante em juros."
+    },
+    {
+      "q": "Esta calculadora de empréstimo aceita várias moedas?",
+      "a": "Sim. Você pode alternar entre PKR, INR, USD, EUR, GBP, AED e SAR sem mudar a fórmula matemática da série de pagamentos."
+    },
+    {
+      "q": "Posso exportar a tabela de amortização completa?",
+      "a": "Sim. Clique no botão 'Baixar tabela (CSV)' para exportar a tabela completa, mês a mês, de parcelas, juros, principal e saldo como uma planilha CSV."
+    },
+    {
+      "q": "Os dados do meu empréstimo são enviados a algum servidor?",
+      "a": "Não. Todos os cálculos do empréstimo rodam 100% localmente no seu navegador. Nenhum número financeiro ou valor de empréstimo é transmitido ou salvo."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Formulário da calculadora de EMI de empréstimo",
+      "tenure-unit": "Unidade do prazo",
+      "copy-result-btn": "Copiar o resumo do cálculo",
+      "full-loan-amortization-schedule-div1": "Tabela de amortização do empréstimo (com rolagem)",
+      "full-loan-amortization-schedule-table1": "Tabela de amortização"
+    },
+    "label": {
+      "loan-amount": "Valor do empréstimo <span class=\"text-accent\">*</span>",
+      "interest-rate": "Taxa de juros anual (%) <span class=\"text-accent\">*</span>",
+      "tenure-value": "Prazo do empréstimo <span class=\"text-accent\">*</span>",
+      "extra-payment": "Pagamento extra mensal opcional <span class=\"label-hint\">(antecipa a quitação)</span>"
+    },
+    "option": {
+      "tenure-unit": {
+        "years": "Anos",
+        "months": "Meses"
+      }
+    },
+    "content": {
+      "tool": {
+        "button1": "Calcular EMI",
+        "div1": "Parcela mensal (EMI)",
+        "div2": "Total de juros cobrados",
+        "div3": "Valor total pago",
+        "div4": "Prazo de pagamento"
+      },
+      "extra-payment-payoff-accelerator": {
+        "heading": "Antecipação com pagamento extra",
+        "span1": "<svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><polyline points=\"20 6 9 17 4 12\"></polyline></svg>\n              Quitação mais rápida",
+        "div1": "Total de juros economizados",
+        "div2": "Tempo de pagamento economizado",
+        "div3": "Novo prazo de quitação"
+      },
+      "full-loan-amortization-schedule": {
+        "heading": "Tabela de amortização completa",
+        "p1": "Redução do principal e juros cobrados mês a mês.",
+        "th1": "Mês",
+        "th2": "Parcela <span class=\"table-currency-symbol\">($)</span>",
+        "th3": "Principal <span class=\"table-currency-symbol\">($)</span>",
+        "th4": "Juros <span class=\"table-currency-symbol\">($)</span>",
+        "th5": "Juros acumulados <span class=\"table-currency-symbol\">($)</span>",
+        "th6": "Saldo <span class=\"table-currency-symbol\">($)</span>"
+      },
+      "how-when-to-use-the-loan": {
+        "li1": "<strong>Financiamento imobiliário:</strong> compare financiamentos de 15 e de 30 anos para pesar a parcela mensal contra o total de juros pagos.",
+        "li2": "<strong>Financiamento de veículos:</strong> estime as parcelas do carro com diferentes taxas e valores de entrada antes de ir à concessionária.",
+        "li3": "<strong>Empréstimos pessoais e consolidação de dívidas:</strong> descubra a parcela mensal exata necessária para quitar saldos de cartão de crédito com juros mais altos.",
+        "li4": "<strong>Quitação antecipada:</strong> simule pagamentos extras no principal (como $50, $100 ou $200 por mês) para descobrir quantos anos de dívida você elimina."
+      }
+    },
+    "text": {
+      "reset-btn": "Redefinir",
+      "result-header-text": "Resumo do pagamento do empréstimo",
+      "copy-result-btn": "<span data-icon=\"copy\"></span> Copiar resumo",
+      "result-primary-text": "EMI mensal: $0.00",
+      "stat-tenure": "0 meses",
+      "stat-months-saved": "0 meses",
+      "stat-new-tenure": "0 meses",
+      "download-csv-btn": "<svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4\"></path><polyline points=\"7 10 12 15 17 10\"></polyline><line x1=\"12\" y1=\"15\" x2=\"12\" y2=\"3\"></line></svg>\n                Baixar tabela (CSV)",
+      "how-to-use-heading": "Como e quando usar a calculadora de EMI de empréstimo"
+    },
+    "title": {
+      "copy-result-btn": "Copiar o resumo do cálculo"
+    }
+  },
+  "client": {
+    "currencies": {
+      "USD": "Dólar americano ($)",
+      "PKR": "Rupia paquistanesa (₨)",
+      "INR": "Rupia indiana (₹)",
+      "EUR": "Euro (€)",
+      "GBP": "Libra esterlina (£)",
+      "AED": "Dirham dos Emirados (AED)",
+      "SAR": "Rial saudita (SAR)"
+    },
+    "errors": {
+      "amountMin": "Informe um valor de empréstimo válido, maior que zero.",
+      "rateMin": "Informe uma taxa de juros anual válida (0% ou mais).",
+      "tenureMin": "Informe um prazo de empréstimo válido, maior que zero.",
+      "extraMin": "O pagamento extra mensal deve ser 0 ou mais.",
+      "tenureRange": "O prazo do empréstimo deve ficar entre 1 mês e 50 anos (600 meses).",
+      "amountRequired": "Informe um valor de empréstimo válido.",
+      "amountPositive": "O valor do empréstimo deve ser maior que zero.",
+      "rateRequired": "Informe uma taxa de juros anual.",
+      "rateNegative": "A taxa de juros não pode ser negativa.",
+      "tenureRequired": "Informe o prazo do empréstimo.",
+      "tenurePositive": "O prazo deve ser maior que zero."
+    },
+    "csv": {
+      "month": "Mês",
+      "payment": "Parcela ({{symbol}})",
+      "principal": "Principal pago ({{symbol}})",
+      "interest": "Juros pagos ({{symbol}})",
+      "totalInterest": "Juros acumulados ({{symbol}})",
+      "balance": "Saldo devedor ({{symbol}})"
+    },
+    "result": {
+      "primary": "EMI mensal: {{value}}",
+      "tenure": "{{months}} meses ({{years}} anos)",
+      "newTenure": "{{months}} meses (antes eram {{from}})"
+    },
+    "summary": {
+      "title": "Resumo do cálculo da EMI do empréstimo:",
+      "principal": "Valor principal: {{value}}",
+      "rate": "Taxa de juros: {{rate}}%",
+      "tenure": "Prazo: {{months}} meses ({{years}} anos)",
+      "emi": "EMI mensal: {{value}}",
+      "totalInterest": "Total de juros: {{value}}",
+      "totalPayment": "Total pago: {{value}}",
+      "extra": "Pagamento extra mensal: {{value}}",
+      "monthsSaved": "Meses economizados: {{months}} meses",
+      "interestSaved": "Juros economizados: {{value}}",
+      "newPayoff": "Novo prazo de quitação: {{months}} meses"
+    },
+    "toast": {
+      "copied": "Cálculo do empréstimo copiado para a área de transferência!"
+    }
+  }
+}

@@ -1,0 +1,109 @@
+/* weighted-average-calculator: layout only. Colours, borders and type live in assets/css/tools.css. */
+
+.wavg-type {
+  margin-bottom: var(--space-4);
+}
+
+.wavg-type .choice-toggle-options {
+  gap: var(--space-1);
+  padding: var(--space-1);
+}
+
+.wavg-rows {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.wavg-head {
+  display: none;
+}
+
+.wavg-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) auto;
+  gap: var(--space-2);
+  padding: var(--space-3);
+}
+
+.wavg-name {
+  grid-column: 1 / 3;
+}
+
+.wavg-remove {
+  grid-column: 3;
+  grid-row: 1;
+  align-self: start;
+}
+
+.wavg-cell {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  min-width: 0;
+}
+
+@media (min-width: 640px) {
+  .wavg-rows {
+    gap: var(--space-2);
+  }
+
+  .wavg-head,
+    .wavg-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) minmax(0, 1fr) 2.75rem;
+    gap: var(--space-3);
+    align-items: center;
+  }
+
+  .wavg-row {
+    padding: 0;
+  }
+
+  .wavg-name,
+    .wavg-remove {
+    grid-column: auto;
+    grid-row: auto;
+  }
+
+  .wavg-remove {
+    align-self: center;
+  }
+
+  .wavg-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+}
+
+.wavg-table-wrapper {
+  margin-top: var(--space-4);
+}
+
+.wavg-table th,
+.wavg-table td {
+  padding: var(--space-2) var(--space-3);
+}
+
+@media (max-width: 479px) {
+  .wavg-table .wide-only {
+    display: none;
+  }
+}
+
+.wavg-steps-title {
+  margin: var(--space-6) 0 var(--space-2);
+}
+
+.wavg-steps {
+  margin: 0;
+  padding-inline-start: var(--space-6);
+  overflow-wrap: anywhere;
+}
+
+.wavg-steps li + li {
+  margin-top: var(--space-1);
+}

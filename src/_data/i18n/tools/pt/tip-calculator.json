@@ -1,0 +1,259 @@
+{
+  "listing": {
+    "name": "Calculadora de gorjeta e divisão de conta",
+    "shortName": "Calculadora de gorjeta",
+    "description": "Calcule a gorjeta e divida a conta entre quantas pessoas quiser, com gorjeta sobre o valor sem imposto e arredondamento por pessoa.",
+    "shortDescription": "Valor da gorjeta, total e parte de cada pessoa, com porcentagens prontas ou personalizadas.",
+    "keywords": [
+      "calculadora de gorjeta",
+      "dividir a conta",
+      "calculadora para dividir conta",
+      "gorjeta por pessoa",
+      "calcular 10% do garçom",
+      "gorjeta restaurante",
+      "quanto dar de gorjeta"
+    ]
+  },
+  "title": "Calculadora de gorjeta: divida a conta por pessoa",
+  "description": "Calculadora de gorjeta: calcule a gorjeta e divida a conta entre várias pessoas. Gorjeta em % pronta ou livre, sem imposto e com arredondamento.",
+  "h1": "Calculadora de gorjeta e divisão de conta",
+  "quickAnswer": "Na calculadora de gorjeta, gorjeta = conta × % de gorjeta ÷ 100, total = conta + gorjeta, e cada pessoa paga total ÷ número de pessoas. Uma conta de 85.50 com 18% de gorjeta dá 15.39 de gorjeta e 100.89 no total, então três pessoas pagam 33.63 cada. Para dar gorjeta só sobre a comida e a bebida, tire primeiro o imposto da conta.",
+  "formula": {
+    "title": "Fórmula da gorjeta e da divisão",
+    "expression": "Gorjeta = conta × gorjeta% ÷ 100   ·   Total = conta + gorjeta   ·   Por pessoa = total ÷ pessoas",
+    "explanation": "A gorjeta é arredondada para o centavo mais próximo, somada à conta, e o total é dividido entre as pessoas. Se o total não se dividir por igual, a calculadora diz quantas pessoas pagam um centavo a mais para que as partes somem exatamente o total. Com a gorjeta sobre o valor sem imposto ativada, o imposto é retirado da conta primeiro: valor sem imposto = conta ÷ (1 + imposto% ÷ 100), e a gorjeta é calculada só sobre esse valor.",
+    "variables": [
+      {
+        "name": "Conta",
+        "description": "O total do recibo, com impostos, mas antes da gorjeta."
+      },
+      {
+        "name": "Gorjeta %",
+        "description": "A porcentagem que você quer deixar, escolhida nas opções prontas ou digitada."
+      },
+      {
+        "name": "Arredondar",
+        "description": "Arredonda a parte de cada pessoa para cima, até a próxima unidade inteira da moeda. O valor extra vai para a gorjeta, e a calculadora mostra a porcentagem de gorjeta resultante."
+      }
+    ]
+  },
+  "workedExamples": [
+    {
+      "title": "Jantar para três com 18%",
+      "inputs": [
+        "Conta: 85.50",
+        "Gorjeta: 18%",
+        "Pessoas: 3"
+      ],
+      "steps": [
+        "Gorjeta: 85.50 × 18 ÷ 100 = 15.39",
+        "Total: 85.50 + 15.39 = 100.89",
+        "Por pessoa: 100.89 ÷ 3 = 33.63"
+      ],
+      "result": "Gorjeta 15.39, total 100.89, 33.63 cada"
+    },
+    {
+      "title": "O mesmo jantar, arredondando por pessoa",
+      "inputs": [
+        "Conta: 85.50, gorjeta 18%, 3 pessoas",
+        "Arredondar por pessoa: ativado"
+      ],
+      "steps": [
+        "Parte exata: 33.63, arredondada para 34.00",
+        "Arrecadado: 3 × 34.00 = 102.00",
+        "Gorjeta realmente deixada: 102.00 − 85.50 = 16.50, ou seja, 19.3% da conta"
+      ],
+      "result": "34.00 cada, gorjeta 16.50 (19.3%)"
+    },
+    {
+      "title": "Gorjeta sobre o valor sem imposto",
+      "inputs": [
+        "Conta: 108.00 com 8% de imposto sobre vendas incluído",
+        "Gorjeta: 20% sobre o valor sem imposto",
+        "Pessoas: 2"
+      ],
+      "steps": [
+        "Valor sem imposto: 108.00 ÷ 1.08 = 100.00 (imposto 8.00)",
+        "Gorjeta: 100.00 × 20% = 20.00 em vez de 21.60 sobre a conta toda",
+        "Total: 108.00 + 20.00 = 128.00, ou seja, 64.00 cada"
+      ],
+      "result": "Gorjeta 20.00, total 128.00, 64.00 cada"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Dar gorjeta sobre uma taxa de serviço já incluída",
+      "description": "Alguns restaurantes já incluem a taxa de serviço na conta, muitas vezes para grupos grandes. Confira o recibo antes de somar uma gorjeta, senão você pode pagar a gorjeta duas vezes."
+    },
+    {
+      "title": "Dividir a conta antes de somar a gorjeta",
+      "description": "Se cada um divide a conta da comida e depois arredonda a própria gorjeta, a gorjeta total muitas vezes fica menor do que o pretendido. Some a gorjeta à conta inteira primeiro e depois divida o total."
+    },
+    {
+      "title": "Arredondar todas as partes para baixo",
+      "description": "Arredondar 33.63 para 33 entre três pessoas deixa a mesa com 1.89 a menos. Arredonde as partes para cima ou use o valor exato e deixe a calculadora distribuir os centavos que sobram."
+    },
+    {
+      "title": "Supor que o costume de gorjeta é igual em todo lugar",
+      "description": "Se a gorjeta é esperada, e quanto, varia de país para país, de tipo de negócio e até de cidade. Em viagens, procure orientações locais ou pergunte; em alguns lugares o serviço já está incluído nos preços."
+    },
+    {
+      "title": "Esquecer o imposto ao dar gorjeta sobre o subtotal",
+      "description": "Se você quer dar gorjeta sobre o valor sem imposto, use o subtotal do recibo ou ative a opção sem imposto e informe a alíquota, em vez de calcular sobre o total da conta."
+    }
+  ],
+  "sources": [
+    {
+      "name": "Departamento do Trabalho dos EUA: empregados que recebem gorjeta pela FLSA (Fact Sheet #15)"
+    },
+    {
+      "name": "IRS: registro e declaração de gorjetas"
+    },
+    {
+      "name": "GOV.UK: gorjetas no trabalho"
+    }
+  ],
+  "howto": {
+    "name": "Como calcular a gorjeta e dividir a conta",
+    "description": "Calcule a gorjeta, o total e quanto cada pessoa deve pagar.",
+    "steps": [
+      {
+        "name": "Informe a conta",
+        "text": "Digite o valor do recibo e escolha a moeda."
+      },
+      {
+        "name": "Escolha a gorjeta",
+        "text": "Escolha 10, 15, 18, 20 ou 25%, ou digite qualquer porcentagem."
+      },
+      {
+        "name": "Informe o número de pessoas",
+        "text": "Informe quantas pessoas vão dividir a conta."
+      },
+      {
+        "name": "Ajuste as opções",
+        "text": "Dê a gorjeta sobre o valor sem imposto, se preferir, e arredonde a parte de cada um para um valor inteiro, se for mais fácil pagar."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Como calcular a gorjeta?",
+      "a": "Multiplique a conta pela porcentagem de gorjeta e divida por 100. Para uma conta de 60 e 15% de gorjeta: 60 × 15 ÷ 100 = 9, então o total é 69. Um truque rápido para 20% é andar com a vírgula uma casa para a esquerda e dobrar o valor."
+    },
+    {
+      "q": "Como dividir uma conta com gorjeta entre várias pessoas?",
+      "a": "Some a gorjeta à conta para obter o total e divida pelo número de pessoas. Se não der uma divisão exata até o centavo, algumas pessoas pagam um centavo a mais; a calculadora diz quantas."
+    },
+    {
+      "q": "Quanto é 18% de 85.50?",
+      "a": "18% de 85.50 é 15.39. O total com gorjeta é 100.89, ou seja, 33.63 para cada uma de três pessoas."
+    },
+    {
+      "q": "Devo dar gorjeta sobre o total antes ou depois do imposto?",
+      "a": "Os guias de etiqueta divergem. Muita gente dá gorjeta sobre o subtotal sem imposto, porque o imposto não faz parte do serviço. Ative 'Gorjeta sobre o valor sem imposto' e informe a alíquota para ver os dois valores."
+    },
+    {
+      "q": "Quanto devo dar de gorjeta?",
+      "a": "Depende de onde você está e do tipo de serviço. Os costumes vão de nenhuma gorjeta a uma porcentagem fixa. Escolha uma opção pronta ou digite a sua porcentagem; a calculadora não supõe nenhum país."
+    },
+    {
+      "q": "O que faz o arredondamento por pessoa?",
+      "a": "Ele arredonda a parte de cada pessoa para cima, até a próxima unidade inteira (por exemplo, 33.63 para 34.00). Os centavos extras vão para a gorjeta, e o resultado mostra a porcentagem de gorjeta que você está realmente deixando."
+    },
+    {
+      "q": "Taxa de serviço é o mesmo que gorjeta?",
+      "a": "Nem sempre. A taxa de serviço é cobrada pelo estabelecimento e pode ser repartida de forma diferente de uma gorjeta voluntária. As regras sobre quem recebe taxas de serviço e gorjetas variam de país para país, então confira as orientações locais."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Calculadora de gorjeta",
+      "copy-result-btn": "Copiar o resultado para a área de transferência"
+    },
+    "label": {
+      "bill": "Valor da conta <span class=\"text-accent\">*</span>",
+      "tip-percent": "Gorjeta % <span class=\"label-hint\">(ou digite um valor)</span>",
+      "people": "Número de pessoas",
+      "tax-percent": "Imposto incluído na conta (%)"
+    },
+    "content": {
+      "tool": {
+        "legend1": "Porcentagem de gorjeta",
+        "label1": "<input type=\"checkbox\" id=\"pretax\" data-param=\"pretax\" aria-controls=\"tax-group\">\n            <span>Gorjeta sobre o valor sem imposto</span>",
+        "label2": "<input type=\"checkbox\" id=\"round-up\" data-param=\"round\">\n            <span>Arredondar a parte de cada pessoa para cima, até um valor inteiro</span>",
+        "button1": "Calcular gorjeta"
+      },
+      "quick-tip-percentages": {
+        "heading": "Porcentagens rápidas de gorjeta",
+        "p1": "Para uma estimativa sem calculadora, comece por 10%, que é a conta com a vírgula andando uma casa para a esquerda. Todo o resto sai daí:",
+        "caption1": "Atalhos mentais para porcentagens comuns de gorjeta em uma conta de 64.00",
+        "th1": "Gorjeta",
+        "th2": "Atalho",
+        "th3": "Em uma conta de 64.00",
+        "td1": "Ande com a vírgula uma casa para a esquerda",
+        "td2": "10% mais a metade disso",
+        "td3": "20% menos 2%",
+        "td4": "10% vezes dois",
+        "td5": "Um quarto da conta"
+      },
+      "tipping-customs-differ": {
+        "heading": "Os costumes de gorjeta variam",
+        "p1": "Não existe uma regra única para gorjetas. Em alguns países a gorjeta é grande parte da renda de quem atende e é esperada; em outros o serviço já está incluído nos preços do cardápio ou aparece uma taxa de serviço na conta, e a gorjeta é só um pequeno extra pelo bom atendimento. Hotéis, táxis, entregas e cabeleireiros costumam ter os seus próprios costumes. Como esses costumes variam e mudam, esta calculadora não sugere uma porcentagem para nenhum país. Procure orientações locais em viagens e veja se há taxa de serviço no recibo antes de somar uma gorjeta.",
+        "p2": "As regras trabalhistas sobre gorjetas também variam. Nos Estados Unidos, o Departamento do Trabalho define regras para empregados que recebem gorjeta e para a divisão de gorjetas, e o IRS trata as gorjetas como renda tributável do trabalhador. No Reino Unido, os empregadores devem repassar todas as gorjetas e taxas de serviço aos trabalhadores, sem descontos. As fontes abaixo levam a essas páginas oficiais."
+      },
+      "splitting-fairly": {
+        "heading": "Dividindo de forma justa",
+        "li1": "<strong>Divisão igual:</strong> ideal quando todos pediram valores parecidos. A calculadora divide até o centavo e diz se alguém precisa pagar um centavo a mais.",
+        "li2": "<strong>Divisão por consumo:</strong> se os pedidos forem muito diferentes, use a calculadora uma vez por pessoa, com o subtotal de cada uma e uma pessoa só, usando a mesma porcentagem de gorjeta.",
+        "li3": "<strong>Pagamento em dinheiro:</strong> ative o arredondamento para cima para que todos paguem um valor inteiro; o extra vai para a gorjeta."
+      }
+    },
+    "text": {
+      "reset-btn": "Redefinir",
+      "result-header-text": "Cada pessoa paga",
+      "copy-result-btn": "<span data-icon=\"copy\"></span> Copiar resultado"
+    },
+    "title": {
+      "copy-result-btn": "Copiar o resultado para a área de transferência"
+    }
+  },
+  "client": {
+    "errors": {
+      "billEmpty": "Informe o valor da conta.",
+      "billInvalid": "A conta deve ser um número maior que 0.",
+      "tipEmpty": "Informe uma porcentagem de gorjeta ou escolha uma opção pronta.",
+      "tipNegative": "A gorjeta deve ser 0% ou mais.",
+      "tipOver100": "A gorjeta não pode passar de 100% da conta.",
+      "people": "O número de pessoas deve ser um número inteiro igual ou maior que 1.",
+      "peopleMax": "Divida entre no máximo mil pessoas.",
+      "tax": "A alíquota do imposto deve ficar entre 0% e 100%."
+    },
+    "result": {
+      "eachPays": "Cada uma das {{people}} pessoas paga",
+      "totalToPay": "Total a pagar"
+    },
+    "stats": {
+      "tipRounded": "Gorjeta ({{pct}}% após o arredondamento)",
+      "tip": "Gorjeta ({{pct}}%)",
+      "total": "Total com gorjeta",
+      "perPerson": "Por pessoa",
+      "tipPerPerson": "Gorjeta por pessoa",
+      "tipBase": "Base da gorjeta (sem imposto)",
+      "tax": "Imposto na conta"
+    },
+    "notes": {
+      "uneven": {
+        "many": "{{total}} não se divide por igual: {{count}} pessoas pagam {{high}} e as demais pagam {{low}}.",
+        "one": "{{total}} não se divide por igual: {{count}} pessoa paga {{high}} e as demais pagam {{low}}.",
+        "other": "{{total}} não se divide por igual: {{count}} pessoas pagam {{high}} e as demais pagam {{low}}."
+      },
+      "roundingExtra": "O arredondamento para cima soma {{amount}} à gorjeta."
+    },
+    "copy": {
+      "bill": "Conta: {{amount}}",
+      "tip": "Gorjeta: {{amount}}",
+      "total": "Total: {{amount}}",
+      "perPerson": "Por pessoa ({{people}}): {{amount}}"
+    }
+  }
+}

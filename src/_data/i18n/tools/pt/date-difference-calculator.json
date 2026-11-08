@@ -1,0 +1,221 @@
+{
+  "listing": {
+    "name": "Calculadora de diferença entre datas",
+    "shortName": "Diferença entre datas",
+    "description": "Calcule o total de dias, os dias úteis (seg-sex) e o intervalo de tempo entre duas datas quaisquer do calendário.",
+    "shortDescription": "Calcule o total de dias, os dias úteis (seg-sex) e o intervalo de tempo entre duas datas quaisquer do calendário.",
+    "keywords": [
+      "calcular dias entre datas",
+      "diferença entre datas",
+      "dias úteis entre datas",
+      "contar dias entre duas datas",
+      "contador de dias úteis"
+    ]
+  },
+  "title": "Calculadora de diferença entre datas - Dias entre datas",
+  "description": "Calculadora de diferença entre datas grátis: veja o número exato de dias, dias úteis, semanas, meses e anos entre duas datas quaisquer.",
+  "h1": "Calculadora de diferença entre datas",
+  "quickAnswer": "Para calcular a diferença entre datas, escolha a data inicial e a data final e marque se o último dia deve ou não entrar na conta. A calculadora mostra o total de dias corridos, os dias úteis, os fins de semana, as semanas e os meses. Todos os cálculos rodam no navegador em UTC, o que evita erros por causa do horário de verão.",
+  "formula": {
+    "title": "Fórmula do intervalo entre datas",
+    "expression": "Duração = (data final UTC ms - data inicial UTC ms) / 86,400,000 ms [± 1 dia se inclusivo]",
+    "explanation": "A duração no calendário mede intervalos completos de 24 horas em UTC entre duas datas. No modo inclusivo, soma-se 1 dia para contar as duas datas das pontas. Os dias úteis avaliam cada dia do intervalo, contando de segunda a sexta e pulando os fins de semana."
+  },
+  "workedExamples": [
+    {
+      "title": "Mês de trabalho padrão (exclusivo)",
+      "inputs": [
+        "Data inicial: 1 de outubro de 2026 (quinta-feira)",
+        "Data final: 31 de outubro de 2026 (sábado)",
+        "Inclusivo: não"
+      ],
+      "steps": [
+        "Calcular o intervalo em dias corridos: 30 dias",
+        "Contar os dias úteis de segunda a sexta: 22 dias",
+        "Contar os dias de fim de semana: 8 dias (4 fins de semana completos)"
+      ],
+      "result": "30 dias no total (22 dias úteis, 8 dias de fim de semana, 4 semanas e 2 dias)"
+    },
+    {
+      "title": "Duração inclusiva de um evento (congresso / aluguel)",
+      "inputs": [
+        "Data inicial: 1 de novembro de 2026 (domingo)",
+        "Data final: 5 de novembro de 2026 (quinta-feira)",
+        "Inclusivo: sim"
+      ],
+      "steps": [
+        "Calcular o intervalo bruto: 4 dias",
+        "Somar 1 dia pela data final inclusiva: 5 dias",
+        "Contar os dias úteis (seg-qui): 4 dias úteis, 1 dia de fim de semana (domingo)"
+      ],
+      "result": "5 dias no total (4 dias úteis, 1 dia de fim de semana, 120 horas)"
+    },
+    {
+      "title": "Duração entre trimestres atravessando a virada do ano",
+      "inputs": [
+        "Data inicial: 15 de dezembro de 2025 (segunda-feira)",
+        "Data final: 15 de março de 2026 (domingo)",
+        "Inclusivo: não"
+      ],
+      "steps": [
+        "Calcular os dias corridos atravessando a virada do ano: 90 dias",
+        "Decompor em meses do calendário: exatamente 3 meses (0 dias restantes)",
+        "Somar os dias úteis: 65 dias úteis, 25 dias de fim de semana"
+      ],
+      "result": "90 dias no total (3 meses, 12 semanas e 6 dias, 2,160 horas)"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "O problema da cerca (inclusivo x exclusivo)",
+      "description": "Uma hospedagem de sexta a domingo são 2 noites (exclusivo), mas abrange 3 dias do calendário (inclusivo). Não definir claramente as pontas do intervalo causa divergências em reservas."
+    },
+    {
+      "title": "Tratar os dias úteis como cerca de 5/7 dos dias",
+      "description": "Os dias úteis não podem ser estimados como 5/7 dos dias corridos, porque a posição dos fins de semana muda muito a contagem em intervalos curtos."
+    },
+    {
+      "title": "Supor que os feriados são excluídos",
+      "description": "O contador de dias úteis exclui sábados e domingos. Os feriados nacionais, estaduais e municipais variam conforme o local e não são removidos automaticamente."
+    },
+    {
+      "title": "Mudanças de horário no fuso local",
+      "description": "Calcular a diferença de dias com timestamps da meia-noite local pode gerar erros de 23 ou 25 horas nas trocas do horário de verão."
+    }
+  ],
+  "sources": [
+    {
+      "name": "Normas de data e hora ISO 8601"
+    },
+    {
+      "name": "Aritmética do calendário gregoriano do US Naval Observatory"
+    },
+    {
+      "name": "Nota do W3C sobre formatos de data e hora"
+    }
+  ],
+  "howto": {
+    "name": "Como calcular a diferença entre duas datas",
+    "description": "Instruções passo a passo para calcular a duração e os dias úteis entre duas datas.",
+    "steps": [
+      {
+        "name": "Informe as datas inicial e final",
+        "text": "Escolha a data inicial e a data final nos campos de calendário."
+      },
+      {
+        "name": "Escolha a opção inclusiva",
+        "text": "Se quiser, marque 'Incluir a data final na contagem' quando o seu cálculo precisar contar os dois dias das pontas."
+      },
+      {
+        "name": "Veja o detalhamento",
+        "text": "Confira o total de dias corridos, os dias úteis (seg–sex), os dias de fim de semana e a divisão em anos, meses e semanas."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Qual é a diferença entre dias corridos e dias úteis?",
+      "a": "Os dias corridos incluem os 7 dias de cada semana (de segunda a domingo), enquanto os dias úteis contam só os dias normais de trabalho, de segunda a sexta, sem os fins de semana."
+    },
+    {
+      "q": "Quando devo marcar 'Incluir a data final na contagem'?",
+      "a": "Marque essa opção se a sua atividade ou locação inclui os dois dias das pontas. Por exemplo, um congresso de segunda a quarta tem 3 dias de evento (inclusivo), mas dura 2 dias se você medir o tempo decorrido (exclusivo)."
+    },
+    {
+      "q": "O que acontece se a data final for anterior à data inicial?",
+      "a": "A calculadora detecta datas invertidas, troca a ordem para calcular o intervalo positivo e mostra um aviso informando que as datas foram ordenadas automaticamente."
+    },
+    {
+      "q": "Como os anos bissextos são tratados em intervalos de vários anos?",
+      "a": "Os cálculos usam timestamps da meia-noite UTC e consideram cada dia bissexto (29 de fevereiro) dentro do intervalo, garantindo que os anos de 366 dias sejam contados com precisão total. Se um dia não existir em um mês (por exemplo, o dia 31), é usado o último dia desse mês."
+    },
+    {
+      "q": "Alguma das minhas datas é enviada a um servidor externo?",
+      "a": "Não. Todos os cálculos de data são feitos inteiramente no seu navegador. Nenhuma data é transmitida ou armazenada remotamente."
+    },
+    {
+      "q": "Posso usar esta ferramenta para contar dias úteis para faturamento?",
+      "a": "Sim. A contagem de dias úteis dá o número exato de dias que não caem no fim de semana entre a data inicial e a data final, ideal para prazos de pagamento de 30 dias ou acompanhamento de SLA."
+    },
+    {
+      "q": "Como a ferramenta divide os dias em meses e semanas?",
+      "a": "Primeiro ela calcula os meses completos do calendário que se passaram e depois expressa o restante em semanas e dias, além de mostrar o total absoluto de dias e de horas."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Formulário da calculadora de diferença entre datas",
+      "copy-result-btn": "Copiar o resultado para a área de transferência"
+    },
+    "label": {
+      "start-date": "Data inicial <span class=\"text-accent\">*</span>",
+      "end-date": "Data final <span class=\"text-accent\">*</span>"
+    },
+    "content": {
+      "tool": {
+        "label1": "<input type=\"checkbox\" id=\"include-end-date\" data-param=\"inc\">\n            <span>Incluir a data final na contagem (cálculo inclusivo)</span>",
+        "button1": "Calcular diferença",
+        "div1": "Total de dias corridos",
+        "div2": "Dias úteis",
+        "div3": "Anos, meses e dias",
+        "div4": "Semanas e dias",
+        "div5": "Total de horas decorridas"
+      },
+      "how-when-to-use-the-date": {
+        "heading": "Como e quando usar a calculadora de diferença entre datas",
+        "p1": "Saber a duração exata entre duas datas é útil para:",
+        "li1": "<strong>Folha de pagamento e faturamento:</strong> descubra os dias úteis faturáveis entre o início e a conclusão de um projeto.",
+        "li2": "<strong>Imóveis comerciais e contratos de aluguel:</strong> calcule a duração exata da locação, o aluguel proporcional ou o prazo de devolução da caução.",
+        "li3": "<strong>Prazos legais e de compliance:</strong> acompanhe prazos de resposta, prazos processuais ou prazos de prescrição.",
+        "li4": "<strong>Roteiros de viagem e hospedagem:</strong> confira o número de diárias do hotel (exclusivo) em comparação com o total de dias de viagem (inclusivo)."
+      }
+    },
+    "text": {
+      "reset-btn": "Redefinir",
+      "result-header-text": "Resultado da diferença entre datas",
+      "copy-result-btn": "<span data-icon=\"copy\"></span> Copiar resultado",
+      "result-primary-text": "-- dias"
+    },
+    "title": {
+      "copy-result-btn": "Copiar o resultado para a área de transferência"
+    }
+  },
+  "client": {
+    "errors": {
+      "invalidStart": "Escolha uma data inicial válida (AAAA-MM-DD).",
+      "invalidEnd": "Escolha uma data final válida (AAAA-MM-DD).",
+      "missingStart": "Escolha uma data inicial válida.",
+      "missingEnd": "Escolha uma data final válida."
+    },
+    "result": {
+      "days": {
+        "many": "{{n}} dias",
+        "one": "{{n}} dia",
+        "other": "{{n}} dias"
+      },
+      "header": "Diferença entre as datas",
+      "headerSwapped": "Diferença entre as datas (datas ordenadas automaticamente do início ao fim)"
+    },
+    "stats": {
+      "totalDays": "{{n}} dias",
+      "businessDays": "{{n}} dias úteis ({{weekend}} dias de fim de semana)",
+      "ymd": "{{years}} anos, {{months}} meses, {{days}} dias",
+      "weeks": {
+        "many": "{{n}} semanas",
+        "one": "{{n}} semana",
+        "other": "{{n}} semanas"
+      },
+      "days": {
+        "many": "{{n}} dias",
+        "one": "{{n}} dia",
+        "other": "{{n}} dias"
+      },
+      "totalHours": "{{n}} horas no total"
+    },
+    "copy": {
+      "result": "Duração total: {{total}}. Dias úteis: {{business}} dias. Equivale a: {{weeks}} sem {{weekDays}} d ({{years}} a {{months}} m {{days}} d).",
+      "resultSwapped": "Duração total: {{total}} (datas ordenadas automaticamente do início ao fim). Dias úteis: {{business}} dias. Equivale a: {{weeks}} sem {{weekDays}} d ({{years}} a {{months}} m {{days}} d).",
+      "toast": "Diferença entre datas copiada para a área de transferência"
+    }
+  }
+}

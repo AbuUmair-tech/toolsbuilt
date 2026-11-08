@@ -498,7 +498,7 @@ try {
   });
   assert(
     hpInteractionOutput.includes('All homepage Playwright interaction tests passed successfully!'),
-    'Homepage interactions: hero live search, Enter to open top match, recent-tools row + Clear, jump pills, no 375px overflow'
+    'Homepage interactions: hero search opens palette, Enter opens top match, ?q= prefill, category cards, no 375px overflow'
   );
 } catch (e) {
   assert(false, `Homepage interaction tests failed: ${e.message}\n${e.stdout || ''}${e.stderr || ''}`);
@@ -695,6 +695,100 @@ try {
   assert(false, `Blog tooling verification failed: ${e.message}\n${e.stdout || ''}${e.stderr || ''}`);
   const cleanupFile = path.join(ROOT, 'src', 'blog', 'automated-verification-draft-post.md');
   if (fs.existsSync(cleanupFile)) fs.unlinkSync(cleanupFile);
+}
+
+// -----------------------------------------------------------------
+// Test 23: External Resource Guard (everything self-hosted)
+// -----------------------------------------------------------------
+console.log('\n--- 23. External Resource Guard ---');
+try {
+  const externalOutput = execSync('node scripts/check-external.js', {
+    cwd: ROOT,
+    encoding: 'utf8',
+    stdio: 'pipe'
+  });
+  assert(
+    externalOutput.includes('External resource check PASSED'),
+    'External resources: no third-party scripts, styles, fonts, images or iframes (GA loader allowlisted)'
+  );
+} catch (e) {
+  assert(false, `External resource check failed: ${e.message}\n${e.stdout || ''}${e.stderr || ''}`);
+}
+
+// -----------------------------------------------------------------
+// Test 24: Theme Consistency (header, footer and stylesheets match the homepage)
+// -----------------------------------------------------------------
+console.log('\n--- 24. Theme Consistency Guard ---');
+try {
+  const themeOutput = execSync('node scripts/check-theme-consistency.js', {
+    cwd: ROOT,
+    encoding: 'utf8',
+    stdio: 'pipe'
+  });
+  assert(
+    themeOutput.includes('Theme consistency check PASSED'),
+    'Theme: every page uses the homepage header/footer, only approved stylesheets, no inline styles'
+  );
+} catch (e) {
+  assert(false, `Theme consistency check failed: ${e.message}\n${e.stdout || ''}${e.stderr || ''}`);
+}
+
+// -----------------------------------------------------------------
+// Test 25: Multilingual safety (English unchanged, lang/dir, no translation services)
+// -----------------------------------------------------------------
+console.log('\n--- 25. Multilingual Safety Check ---');
+try {
+  const i18nOutput = execSync('node scripts/check-i18n.js', {
+    cwd: ROOT,
+    encoding: 'utf8',
+    stdio: 'pipe'
+  });
+  assert(
+    i18nOutput.includes('i18n check PASSED'),
+    'i18n: English pages match the pre-i18n build, every page has the right lang/dir, no translation services'
+  );
+} catch (e) {
+  assert(false, `i18n check failed: ${e.message}\n${e.stdout || ''}${e.stderr || ''}`);
+}
+
+// -----------------------------------------------------------------
+// Test 25b: Translation data (missing keys, placeholders, English copies in sync)
+// -----------------------------------------------------------------
+console.log('\n--- 25b. Translation Data Check ---');
+try {
+  const trOutput = execSync('node scripts/check-translations.js --quiet', { cwd: ROOT, encoding: 'utf8', stdio: 'pipe' });
+  assert(trOutput.includes('Translation check PASSED'), 'Translations: no missing keys or broken placeholders; tools.json/categories.json copies in sync');
+} catch (e) {
+  assert(false, `Translation check failed: ${e.message}\n${e.stdout || ''}${e.stderr || ''}`);
+}
+
+// -----------------------------------------------------------------
+// Test 26: Playwright Language Picker & Banner
+// -----------------------------------------------------------------
+console.log('\n--- 26. Language Picker & Banner Interactions ---');
+try {
+  const langMenuOutput = execSync('node scripts/test-language-menu.js', {
+    cwd: ROOT,
+    encoding: 'utf8',
+    stdio: 'pipe'
+  });
+  assert(
+    langMenuOutput.includes('Language menu tests PASSED'),
+    'Language picker: listbox, search, keyboard, phone sheet, switching and banner'
+  );
+} catch (e) {
+  assert(false, `Language picker tests failed: ${e.message}\n${e.stdout || ''}${e.stderr || ''}`);
+}
+
+// -----------------------------------------------------------------
+// Test 27: Translated pages (results, errors, number formats, language switch)
+// -----------------------------------------------------------------
+console.log('\n--- 27. Translated Language Pages ---');
+try {
+  const langOutput = execSync('node scripts/test-i18n-languages.js', { cwd: ROOT, encoding: 'utf8', stdio: 'pipe' });
+  assert(langOutput.includes('Language page tests PASSED'), 'Every enabled language: translated results, errors, number formats and language switching');
+} catch (e) {
+  assert(false, `Language page tests failed: ${e.message}\n${e.stdout || ''}${e.stderr || ''}`);
 }
 
 console.log('\n========================================================');

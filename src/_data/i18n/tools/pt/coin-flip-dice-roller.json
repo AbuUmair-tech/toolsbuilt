@@ -1,0 +1,227 @@
+{
+  "listing": {
+    "name": "Cara ou Coroa e Rolador de Dados",
+    "shortName": "Cara ou Coroa e Dados",
+    "description": "Jogue até 100 moedas ou role até 10 dados (d4 a d20) com aleatoriedade segura, totais, contagem de caras e coroas e histórico de resultados.",
+    "shortDescription": "Jogue moedas ou role dados d4-d20 com totais e histórico.",
+    "keywords": [
+      "cara ou coroa",
+      "jogar moeda online",
+      "rolar dados online",
+      "dado virtual",
+      "cara ou coroa online",
+      "rolar d20",
+      "rolar 2d6"
+    ]
+  },
+  "title": "Cara ou Coroa e Rolador de Dados Online",
+  "description": "Cara ou coroa online: jogue até 100 moedas ou role até 10 dados (d4, d6, d8, d10, d12, d20) com aleatoriedade segura, totais, contagens e histórico.",
+  "h1": "Cara ou Coroa e Rolador de Dados",
+  "quickAnswer": "No cara ou coroa online, escolha Moeda ou Dados, defina a quantidade e clique em Jogar ou Rolar. Cada moeda tem exatamente 50% de chance de dar cara, e cada face de um dado é igualmente provável, porque os resultados vêm do gerador aleatório seguro do seu navegador com amostragem por rejeição. Os dados mostram cada face e o total, e os últimos 20 resultados ficam no histórico.",
+  "formula": {
+    "title": "Probabilidades",
+    "expression": "P(cara) = 1/2   ·   P(qualquer face de um dN) = 1/N   ·   A soma de k dados vai de k a k × N",
+    "explanation": "Cada lançamento é independente: resultados anteriores não alteram o próximo. Em um único dado todas as faces são igualmente prováveis, mas as somas de vários dados não: com 2d6 há 36 combinações igualmente prováveis, seis das quais somam 7, então 7 é o total mais comum (1 em 6) e 2 ou 12 os mais raros (1 em 36). O total médio de k dados com N lados é k × (N + 1) ÷ 2.",
+    "variables": [
+      {
+        "name": "dN",
+        "description": "Um dado com N faces numeradas de 1 a N: d4, d6, d8, d10, d12 ou d20."
+      },
+      {
+        "name": "kdN",
+        "description": "Notação de dados para rolar k dados de N lados, por exemplo 2d6 ou 1d20."
+      },
+      {
+        "name": "Independência",
+        "description": "Cada resultado é sorteado do zero; uma sequência de caras não torna a coroa mais provável no próximo lançamento."
+      }
+    ]
+  },
+  "workedExamples": [
+    {
+      "title": "Rolar 2d6",
+      "inputs": [
+        "Dados: 2, tipo d6"
+      ],
+      "steps": [
+        "Cada dado mostra de 1 a 6, por exemplo 4 e 3",
+        "Total = 4 + 3 = 7; os totais possíveis vão de 2 a 12"
+      ],
+      "result": "Total 7 (o total mais provável em 2d6, probabilidade 6/36)"
+    },
+    {
+      "title": "Rolar um d20",
+      "inputs": [
+        "Dados: 1, tipo d20"
+      ],
+      "steps": [
+        "Um número de 1 a 20, cada um com probabilidade 1/20 = 5%"
+      ],
+      "result": "Por exemplo 14; um 20 natural sai em 5% das vezes"
+    },
+    {
+      "title": "Jogar 100 moedas",
+      "inputs": [
+        "Moedas: 100"
+      ],
+      "steps": [
+        "Cada moeda dá cara ou coroa com probabilidade 1/2",
+        "Caras + coroas sempre somam 100"
+      ],
+      "result": "Cerca de 50 caras; qualquer valor entre 40 e 60 é comum (cerca de 96% das vezes)"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "A falácia do apostador",
+      "description": "Depois de cinco caras seguidas, a chance de coroa continua sendo exatamente 50%. Moedas e dados não têm memória, então resultados anteriores nunca fazem um resultado específico \"estar para sair\"."
+    },
+    {
+      "title": "Achar que todos os totais de dados são igualmente prováveis",
+      "description": "Com dois dados, o 7 sai seis vezes mais que o 2 ou o 12. Só os resultados de um único dado são distribuídos por igual."
+    },
+    {
+      "title": "Esperar exatamente 50 caras em 100 lançamentos",
+      "description": "Exatamente 50 caras acontece só em cerca de 8% das vezes. Resultados entre 40 e 60 são normais; são necessários muitos milhares de lançamentos para a proporção se estabilizar perto de 50%."
+    },
+    {
+      "title": "Usar uma fonte aleatória previsível",
+      "description": "Geradores simples como Math.random() servem para animações, mas não para nada em que a justiça importe. Esta ferramenta usa crypto.getRandomValues com amostragem por rejeição, para que nenhuma face seja favorecida."
+    }
+  ],
+  "sources": [
+    {
+      "name": "W3C Web Cryptography API: getRandomValues()"
+    },
+    {
+      "name": "NIST/SEMATECH e-Handbook of Statistical Methods: distribuição binomial"
+    },
+    {
+      "name": "W3C Media Queries Level 5: prefers-reduced-motion"
+    }
+  ],
+  "howto": {
+    "name": "Como jogar cara ou coroa ou rolar dados online",
+    "description": "Jogue moedas ou role dados com aleatoriedade segura e mantenha um histórico dos resultados.",
+    "steps": [
+      {
+        "name": "Escolha moeda ou dados",
+        "text": "Escolha Moeda para jogar moedas ou Dados para rolar dados."
+      },
+      {
+        "name": "Defina a quantidade",
+        "text": "Escolha de 1 a 100 moedas, ou de 1 a 10 dados e o tipo de dado."
+      },
+      {
+        "name": "Jogue ou role",
+        "text": "Clique no botão para ver cada moeda ou dado, a contagem de caras e coroas ou o total."
+      },
+      {
+        "name": "Confira o histórico",
+        "text": "Seus últimos 20 resultados aparecem listados abaixo do resultado."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "O cara ou coroa online é justo?",
+      "a": "Sim. Cada lançamento usa o gerador aleatório criptograficamente seguro do seu navegador, então cara e coroa têm exatamente 50% de chance cada, e nenhum lançamento depende do anterior."
+    },
+    {
+      "q": "Como rolar 2d6 online?",
+      "a": "Escolha Dados, defina a quantidade de dados como 2 e o tipo como d6, depois clique em Rolar. Você verá os dois dados e o total, que pode ir de 2 a 12."
+    },
+    {
+      "q": "Qual é o total mais comum com dois dados?",
+      "a": "7. Seis das 36 combinações somam 7 (1+6, 2+5, 3+4, 4+3, 5+2, 6+1), então ele sai em média 1 vez a cada 6."
+    },
+    {
+      "q": "Quais dados posso rolar?",
+      "a": "d4, d6, d8, d10, d12 e d20, até 10 dados de uma vez: o conjunto padrão usado em RPGs de mesa."
+    },
+    {
+      "q": "Quantas moedas posso jogar de uma vez?",
+      "a": "Até 100. O resultado mostra cada moeda e conta as caras e coroas."
+    },
+    {
+      "q": "Posso ver meus resultados anteriores?",
+      "a": "Sim. O histórico guarda seus últimos 20 lançamentos nesta página. Ele é apagado quando você sai ou clica em Limpar histórico."
+    },
+    {
+      "q": "Posso desativar a animação?",
+      "a": "A animação de lançamento é pulada automaticamente se o seu dispositivo estiver configurado para reduzir movimento."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Cara ou coroa e rolador de dados",
+      "tool-div1": "Moeda ou dados",
+      "cd-pieces": "Cada moeda ou dado"
+    },
+    "text": {
+      "tab-coin": "Cara ou coroa",
+      "tab-dice": "Rolar dados",
+      "go-btn": "Jogar",
+      "clear-history-btn": "Limpar histórico",
+      "history-title": "Histórico (últimos 20)",
+      "history-empty": "Nenhum resultado ainda."
+    },
+    "label": {
+      "coin-count": "Número de moedas",
+      "dice-count": "Número de dados",
+      "dice-sides": "Tipo de dado"
+    },
+    "content": {
+      "tool": {
+        "div1": "<span id=\"result-header-text\">Resultado</span>"
+      },
+      "dice-odds-at-a-glance": {
+        "heading": "Probabilidades dos dados em resumo",
+        "p1": "Um único dado dá a mesma chance a todas as faces. Ao adicionar mais dados, os totais se concentram no meio, e é por isso que o 7 é o número a observar em jogos de tabuleiro com dois dados de seis lados.",
+        "caption1": "Intervalos, médias e chances de cada face para os dados mais comuns",
+        "th1": "Rolagem",
+        "th2": "Intervalo",
+        "th3": "Média",
+        "th4": "Chance de um valor",
+        "td4": "7: 16.67%, 2 ou 12: 2.78%"
+      },
+      "when-to-flip-a-coin-or": {
+        "heading": "Quando jogar uma moeda ou rolar um dado online",
+        "li1": "<strong>Tomar uma decisão:</strong> o cara ou coroa é o desempate justo clássico entre duas opções.",
+        "li2": "<strong>Jogos de tabuleiro e RPGs:</strong> substitua dados perdidos ou role rapidamente vários d6 ou um d20 com o total já calculado.",
+        "li3": "<strong>Ensinar probabilidade:</strong> jogue 100 moedas várias vezes para mostrar como a contagem de caras varia, ou compare os totais de 2d6 com a tabela de probabilidades acima.",
+        "li4": "<strong>Escolhas aleatórias:</strong> para escolher entre mais de seis opções, use o <a href=\"/tools/random-number-generator/\">gerador de números aleatórios</a> ou o <a href=\"/tools/random-name-picker/\">sorteador de nomes</a>.",
+        "p1": "Moedas e dados físicos podem ter um leve viés por causa do formato e da forma como são lançados. Um gerador seguro em software não tem esse problema: todos os resultados são exatamente igualmente prováveis. Os resultados são gerados no seu navegador e o histórico fica apenas nesta página."
+      }
+    }
+  },
+  "client": {
+    "errors": {
+      "noCrypto": "Números aleatórios seguros não estão disponíveis neste navegador.",
+      "coins": "Jogue entre 1 e {{max}} moedas.",
+      "dice": "Role entre 1 e {{max}} dados.",
+      "sides": "Escolha um dado d{{dice}}."
+    },
+    "buttons": {
+      "roll": "Rolar",
+      "flip": "Jogar"
+    },
+    "coin": {
+      "headerOne": "Cara ou coroa",
+      "headerMany": "{{count}} lançamentos de moeda",
+      "heads": "Cara",
+      "tails": "Coroa",
+      "counts": "{{heads}} caras · {{tails}} coroas",
+      "note": "Cara {{headsPct}}%, coroa {{tailsPct}}%.",
+      "historyOne": "Moeda: {{side}}",
+      "historyMany": "{{count}} moedas: {{heads}} caras, {{tails}} coroas",
+      "summaryMany": "{{heads}} caras, {{tails}} coroas"
+    },
+    "dice": {
+      "header": "Rolou {{notation}}",
+      "total": "Total {{sum}}",
+      "noteMany": "{{rolls}} = {{sum}} (possível {{min}}–{{max}}).",
+      "noteOne": "Possível 1–{{sides}}."
+    }
+  }
+}

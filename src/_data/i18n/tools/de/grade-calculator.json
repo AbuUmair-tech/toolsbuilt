@@ -1,0 +1,259 @@
+{
+  "listing": {
+    "name": "Notenrechner",
+    "shortName": "Notenrechner",
+    "description": "Berechne deine aktuelle gewichtete Kursnote und die genaue Punktzahl, die du in der Abschlussprüfung für deine Wunschnote brauchst.",
+    "shortDescription": "Berechne deine aktuelle gewichtete Kursnote und die genaue Punktzahl, die du in der Abschlussprüfung für deine Wunschnote brauchst.",
+    "keywords": [
+      "notenrechner",
+      "gewichtete note berechnen",
+      "endnote berechnen",
+      "kursnote berechnen",
+      "benötigte punktzahl abschlussprüfung"
+    ]
+  },
+  "title": "Notenrechner - Gewichtete Noten & Ziel für die Prüfung",
+  "description": "Notenrechner: Berechne deine aktuelle gewichtete Kursnote über alle Leistungen und die genaue Punktzahl, die du in der Abschlussprüfung brauchst.",
+  "h1": "Notenrechner",
+  "quickAnswer": "Mit dem Notenrechner berechnest du deine gewichtete Note: Multipliziere jedes Ergebnis mit seiner Gewichtung laut Lehrplan, summiere die gewichteten Punkte und teile durch das abgeschlossene Gesamtgewicht: Gewichtete Note = Σ(Ergebnis × Gewicht) ÷ Σ(Gewicht). Die nötige Punktzahl in der Abschlussprüfung ist: Benötigtes Ergebnis = (Zielnote − aktuelle Notenpunkte) ÷ Gewicht der Abschlussprüfung. Alles läuft clientseitig.",
+  "formula": {
+    "title": "Formel für die gewichtete Note",
+    "expression": "Gewichtete Note = Σ(Ergebnis × Gewicht) ÷ Σ(Gewicht)",
+    "explanation": "Multipliziere jedes Ergebnis mit seiner prozentualen Gewichtung laut Lehrplan, summiere die Punkte und teile durch das abgeschlossene Gesamtgewicht. Die nötige Note in der Abschlussprüfung: Benötigtes Ergebnis = [Zielnote × 100 − aktuelle gewichtete Punkte] ÷ Gewicht der Abschlussprüfung."
+  },
+  "workedExamples": [
+    {
+      "title": "Gewichteter Kursdurchschnitt",
+      "inputs": [
+        "Hausaufgaben (20% Gewicht): 95%",
+        "Zwischenprüfung 1 (25% Gewicht): 84%",
+        "Zwischenprüfung 2 (25% Gewicht): 88%"
+      ],
+      "steps": [
+        "Punkte Hausaufgaben: 95 × 0.20 = 19.0",
+        "Punkte Zwischenprüfung 1: 84 × 0.25 = 21.0",
+        "Punkte Zwischenprüfung 2: 88 × 0.25 = 22.0",
+        "Aktuelle Punkte: 19.0 + 21.0 + 22.0 = 62.0 bei 70% abgeschlossen",
+        "Aktuelle normierte Note: 62.0 ÷ 0.70 = 88.57% (B+)"
+      ],
+      "result": "88.57% aktuelle gewichtete Note (B+)"
+    },
+    {
+      "title": "Nötige Punktzahl in der Abschlussprüfung für ein „A“",
+      "inputs": [
+        "Ziel-Kursnote: 90.0% (A)",
+        "Aktuelle gewichtete Punkte: 62.0 Punkte bei 70% abgeschlossen",
+        "Gewicht der Abschlussprüfung: 30%"
+      ],
+      "steps": [
+        "Benötigte Zielpunkte: 90.0 Punkte insgesamt",
+        "Noch nötige Punkte aus der Abschlussprüfung: 90.0 − 62.0 = 28.0 Punkte",
+        "Nötiges Ergebnis in der Abschlussprüfung: 28.0 ÷ 0.30 = 93.33%"
+      ],
+      "result": "93.33% in der Abschlussprüfung für ein A nötig"
+    },
+    {
+      "title": "Bestehen bereits sicher (0% nötig)",
+      "inputs": [
+        "Ziel-Kursnote: 70.0% (C)",
+        "Aktuelle gewichtete Punkte: 72.5 Punkte bei 80% abgeschlossen",
+        "Gewicht der Abschlussprüfung: 20%"
+      ],
+      "steps": [
+        "Nötige Punkte: 70.0 − 72.5 = −2.5 Punkte",
+        "Da die aktuellen Punkte über dem Ziel liegen, ist das nötige Ergebnis ≤ 0%"
+      ],
+      "result": "0.0% nötig (Bestehen bereits gesichert)"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Einfacher Durchschnitt statt Gewichtung",
+      "description": "Ein einfacher Durchschnitt der Testergebnisse übersieht, dass ein 20-minütiger Test und eine umfassende Zwischenprüfung im Lehrplan völlig unterschiedlich gewichtet sind."
+    },
+    {
+      "title": "Unvollständige Semester nicht normieren",
+      "description": "Sind erst 50% der Leistungen erbracht, bedeuten 42 gesammelte Punkte nicht 42% (F). Du musst durch 0.50 teilen, was 84% (B) ergibt."
+    },
+    {
+      "title": "Vor der Abschlussprüfung 100% Gewicht annehmen",
+      "description": "Deine abgeschlossenen Leistungen ergeben selten 100%, bevor die Abschlussprüfung bewertet ist. Berücksichtige beim aktuellen Stand immer das verbleibende Gewicht der Abschlussprüfung."
+    }
+  ],
+  "sources": [
+    {
+      "label": "AACRAO: Bewertungspraxis und Standards für Leistungsnachweise"
+    },
+    {
+      "label": "Carnegie Mellon Eberly Center: Strategien für Bewertung und Prüfung"
+    },
+    {
+      "label": "Indiana University Bloomington: Berechnung gewichteter Noten"
+    }
+  ],
+  "howto": {
+    "name": "So berechnest du gewichtete Kursnoten und das Ziel für die Abschlussprüfung",
+    "description": "Schritt-für-Schritt-Anleitung, um gewichtete Kursdurchschnitte und die nötige Punktzahl in der Abschlussprüfung zu berechnen.",
+    "steps": [
+      {
+        "name": "Erbrachte Leistungen eingeben",
+        "text": "Gib für jede Kategorie den Namen, dein Ergebnis in Prozent und ihre Gewichtung laut Lehrplan ein."
+      },
+      {
+        "name": "Ziel-Kursnote festlegen",
+        "text": "Gib deine gewünschte Gesamtnote ein (z. B. 90% für ein A) und das Gewicht der Abschlussprüfung in Prozent."
+      },
+      {
+        "name": "Nötiges Ergebnis ansehen",
+        "text": "Sieh sofort deinen aktuellen gewichteten Durchschnitt, die Buchstabennote und das nötige Ergebnis in der Abschlussprüfung."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Wie wird eine gewichtete Note berechnet?",
+      "a": "Multipliziere jedes Ergebnis mit seiner prozentualen Gewichtung, addiere alle so entstandenen Punkte und teile durch das abgeschlossene Gesamtgewicht. Als Formel: Gewichtete Note = Σ(Ergebnis × Gewicht) ÷ Σ(Gewicht)."
+    },
+    {
+      "q": "Wie berechne ich, welche Punktzahl ich in der Abschlussprüfung brauche?",
+      "a": "Zieh deine aktuellen gewichteten Punkte von den insgesamt nötigen Punkten ab und teile durch das Gewicht der Abschlussprüfung: Benötigtes Ergebnis = (Zielpunkte - aktuelle Punkte) ÷ Gewicht der Abschlussprüfung. Brauchst du zum Beispiel 30 Punkte und zählt die Prüfung 30% des Kurses, brauchst du 30 ÷ 0.30 = 100% in der Prüfung."
+    },
+    {
+      "q": "Was, wenn die Gewichte der Leistungen nicht 100% ergeben?",
+      "a": "Unser Rechner teilt deine gesammelten Punkte automatisch durch die Summe der abgeschlossenen Gewichte. So wird dein Ergebnis normiert und zeigt zu jedem Zeitpunkt im Semester deinen tatsächlichen Stand."
+    },
+    {
+      "q": "Was tun, wenn mein Lehrplan Punkte statt Prozente nutzt?",
+      "a": "Nutzt dein Lehrplan Punkte (z. B. Hausaufgaben 200, Zwischenprüfung 300, Abschlussprüfung 500 von 1000), teile die Punkte jeder Kategorie durch die Gesamtpunkte des Kurses, um das Gewicht zu erhalten: 200 ÷ 1000 = 20% Gewicht."
+    },
+    {
+      "q": "Was bedeutet es, wenn ich laut Rechner über 100% in der Abschlussprüfung brauche?",
+      "a": "Liegt das nötige Ergebnis über 100%, reicht selbst eine perfekte Abschlussprüfung nicht für deine Zielnote. Du bräuchtest Zusatzpunkte oder eine Notenkurve, um das Ziel zu erreichen."
+    },
+    {
+      "q": "Was bedeutet es, wenn ich laut Rechner 0% oder weniger brauche?",
+      "a": "Du hast im Lauf des Semesters bereits genug gewichtete Punkte gesammelt, sodass dir die Zielnote rechnerisch sicher ist, selbst mit null Punkten in der Abschlussprüfung."
+    },
+    {
+      "q": "Speichert dieser Notenrechner meine privaten Noten?",
+      "a": "Nein. Alle Notenberechnungen laufen ausschließlich clientseitig in deinem lokalen Browserfenster. Keine Leistungsnamen, Testergebnisse oder persönlichen Leistungsdaten werden übertragen oder gespeichert."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Formular des Notenrechners",
+      "tool-table1": "Tabelle der gewichteten Leistungen",
+      "tool-button1": "Zeile Hausaufgaben entfernen",
+      "tool-button3": "Zeile Zwischenprüfung entfernen",
+      "tool-button5": "Zeile Projektarbeit entfernen",
+      "tool-button7": "Zeile Tests entfernen",
+      "copy-result-btn": "Ergebnis in die Zwischenablage kopieren"
+    },
+    "content": {
+      "tool": {
+        "th1": "Leistung / Kategorie",
+        "th2": "Ergebnis (%)",
+        "th3": "Gewicht (%)",
+        "th4": "Aktion"
+      },
+      "final-exam-target-setting": {
+        "heading": "Ziel für die Abschlussprüfung",
+        "button1": "Note berechnen"
+      },
+      "how-when-to-use-the-grade": {
+        "li1": "<strong>Zwischenstand prüfen:</strong> Ermittle deinen echten Kursstand zur Semestermitte, wenn erst Hausaufgaben und Tests bewertet sind.",
+        "li2": "<strong>Strategie für die Prüfungswoche:</strong> Bestimme genau, welches Ergebnis du in der Abschlussprüfung brauchst, um ein A zu halten oder nicht unter die Bestehensgrenze zu fallen.",
+        "li3": "<strong>Lernplanung nach Gewichtung:</strong> Plane deine Lernzeit, indem du erkennst, welche hoch gewichteten Leistungen (etwa Gruppenprojekte mit 30% oder Prüfungen mit 25%) den größten Einfluss haben.",
+        "li4": "<strong>Kumulativer Studien-GPA:</strong> Du willst deine Leistung über mehrere Semester verfolgen? Kombiniere dieses Tool mit unserem <a href=\"/tools/gpa-calculator/\">GPA-Rechner</a>."
+      }
+    },
+    "title": {
+      "tool-button2": "Zeile entfernen",
+      "tool-button4": "Zeile entfernen",
+      "tool-button6": "Zeile entfernen",
+      "tool-button8": "Zeile entfernen",
+      "copy-result-btn": "Ergebnis in die Zwischenablage kopieren"
+    },
+    "text": {
+      "add-assignment-btn": "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><line x1=\"12\" y1=\"5\" x2=\"12\" y2=\"19\"></line><line x1=\"5\" y1=\"12\" x2=\"19\" y2=\"12\"></line></svg>\n          Zeile hinzufügen",
+      "reset-grade-form": "Alles zurücksetzen",
+      "result-header-text": "Aktuelle Note &amp; Ziel für die Prüfung",
+      "copy-result-btn": "<svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"9\" y=\"9\" width=\"13\" height=\"13\" rx=\"2\" ry=\"2\"></rect><path d=\"M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1\"></path></svg>\n            <span>Kopieren</span>",
+      "how-to-use-heading": "Wie &amp; wann du den Notenrechner nutzt"
+    },
+    "label": {
+      "target-grade-val": "Gewünschte Gesamtnote des Kurses (%) <span class=\"text-accent\">*</span>",
+      "final-weight-val": "Gewicht der Abschlussprüfung (%) <span class=\"text-accent\">*</span>"
+    },
+    "assignments": {
+      "nameLabel": "Name der Leistung",
+      "scoreLabel": "Ergebnis in Prozent",
+      "weightLabel": "Gewicht in Prozent",
+      "homework": {
+        "name": "Hausaufgaben",
+        "placeholder": "z. B. Hausaufgaben"
+      },
+      "midterm": {
+        "name": "Zwischenprüfung",
+        "placeholder": "z. B. Zwischenprüfung"
+      },
+      "project": {
+        "name": "Projektarbeit",
+        "placeholder": "z. B. Projektarbeit"
+      },
+      "quizzes": {
+        "name": "Tests",
+        "placeholder": "z. B. Tests"
+      }
+    }
+  },
+  "client": {
+    "assignmentName": "Leistung {{n}}",
+    "itemName": "Eintrag {{n}}",
+    "errors": {
+      "noAssignments": "Bitte gib mindestens eine Leistung an.",
+      "negativeWeight": "Das Gewicht einer Leistung darf nicht negativ sein.",
+      "noValidGrades": "Keine gültigen Noten eingegeben.",
+      "zeroWeight": "Das abgeschlossene Gesamtgewicht darf nicht 0% sein.",
+      "invalidTarget": "Bitte gib gültige Zahlen für Ziel, aktuelle Note und Gewichte ein.",
+      "finalWeight": "Das Gewicht der Abschlussprüfung muss über 0% liegen.",
+      "keepOneRow": "Mindestens eine Zeile muss bleiben."
+    },
+    "final": {
+      "achievable": "Du brauchst {{needed}}% in der Abschlussprüfung, um {{target}}% in diesem Kurs zu sichern.",
+      "alreadyAchieved": "Du hast {{target}}% als Kursnote bereits sicher, selbst mit 0% in der Abschlussprüfung!",
+      "extraCredit": "Du brauchst {{needed}}% in der Abschlussprüfung. Dieses Ziel erfordert Zusatzpunkte über 100% hinaus."
+    },
+    "copy": {
+      "text": "Aktuelle Note: {{current}}% ({{letter}}) bei {{weight}}% abgeschlossenem Kursgewicht. Zielnote: {{target}}%. Nötig in der Abschlussprüfung ({{finalWeight}}% Gewicht): {{needed}}%.",
+      "copied": "<span>Kopiert!</span>"
+    },
+    "result": {
+      "header": "Aktuelle Note & Ziel für die Prüfung"
+    },
+    "stats": {
+      "currentGrade": "Aktuelle Note",
+      "weightCompleted": "Abgeschlossenes Gewicht",
+      "targetGrade": "Ziel-Gesamtnote",
+      "neededOnFinal": "Nötig in der Abschlussprüfung"
+    },
+    "formula": {
+      "guidance": "<strong>Hinweis zur Abschlussprüfung:</strong>",
+      "formula": "Formel: Nötiges Ergebnis = [Ziel × (abgeschl. Gewicht + Prüfungsgewicht) - aktuelle Punkte] ÷ Prüfungsgewicht",
+      "calculation": "Rechnung: [{{target}} × {{weight}}% - {{points}}] ÷ {{finalWeight}}% = <strong>{{needed}}%</strong>"
+    },
+    "rows": {
+      "placeholder": "z. B. Projekt 1",
+      "nameLabel": "Name der Leistung",
+      "scoreLabel": "Ergebnis in Prozent",
+      "weightLabel": "Gewicht in Prozent",
+      "remove": "Zeile entfernen"
+    },
+    "defaults": {
+      "homework": "Hausaufgaben",
+      "midterm": "Zwischenprüfung",
+      "project": "Projektarbeit",
+      "quizzes": "Tests"
+    }
+  }
+}

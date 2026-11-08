@@ -10,6 +10,7 @@
  * - Missing <link rel="canonical"> tags
  * - JSON-LD blocks that fail JSON.parse
  * - og:image pointing to a PNG/JPG (not SVG) and resolving on disk
+ * - Every tool linked from the homepage, its category page and /tools/
  * - Environment-aware robots / noindex verification:
  *     In production: NO page has noindex, robots.txt allows all
  *     In staging/dev: EVERY page has noindex, robots.txt disallows all
@@ -304,7 +305,7 @@ function checkSearchIndex() {
   try {
     const raw = fs.readFileSync(path.join(assetsDir, indexFile), 'utf8');
     const tools = JSON.parse(raw);
-    const expectedTools = JSON.parse(fs.readFileSync(path.join(ROOT, 'src', '_data', 'tools.json'), 'utf8'));
+    const expectedTools = JSON.parse(fs.readFileSync(path.join(ROOT, 'src', '_data', 'tools.json'), 'utf8')).filter(t => t.listed !== false);
     if (!Array.isArray(tools) || tools.length !== expectedTools.length) {
       errors.push(`[ERROR] Search index must contain ${expectedTools.length} tools, found ${tools ? tools.length : 0}`);
       return;
@@ -360,6 +361,39 @@ function checkRobotsTxt() {
   }
 }
 
+// Every listed tool must be one click from the homepage, its category hub and /tools/; an unlisted
+// tool (a salary tax country page) one click from its parent tool's page and from none of the lists
+function checkToolHubLinks() {
+  const tools = JSON.parse(fs.readFileSync(path.join(ROOT, 'src', '_data', 'tools.json'), 'utf8'));
+  const read = rel => {
+    const file = path.join(SITE_DIR, rel);
+    return fs.existsSync(file) ? fs.readFileSync(file, 'utf8') : null;
+  };
+  const home = read('index.html');
+  const directory = read(path.join('tools', 'index.html'));
+  for (const t of tools.filter(x => x.listed === false)) {
+    const href = `href="/tools/${t.slug}/"`;
+    const parent = read(path.join('tools', t.parent || '', 'index.html'));
+    if (!t.parent || parent === null) errors.push(`[ERROR] Unlisted /tools/${t.slug}/ needs an existing parent tool`);
+    else if (!parent.includes(href)) errors.push(`[ERROR] Unlisted /tools/${t.slug}/ is not linked from its parent /tools/${t.parent}/`);
+    for (const [label, html] of [['homepage', home], ['/tools/', directory]]) {
+      if (html && html.includes(href)) errors.push(`[ERROR] Unlisted /tools/${t.slug}/ is linked from ${label}`);
+    }
+  }
+  for (const t of tools.filter(x => x.listed !== false)) {
+    const href = `href="/tools/${t.slug}/"`;
+    const hub = read(path.join('category', t.category, 'index.html'));
+    const hubs = [['homepage', home], [`/category/${t.category}/`, hub], ['/tools/', directory]];
+    for (const [label, html] of hubs) {
+      if (html === null) {
+        errors.push(`[ERROR] Hub page missing for ${label}`);
+      } else if (!html.includes(href)) {
+        errors.push(`[ERROR] /tools/${t.slug}/ is not linked from ${label}`);
+      }
+    }
+  }
+}
+
 // Run analysis
 console.log('\n=== ToolsBuilt Link & Quality Checker ===');
 console.log(`Target directory: ${SITE_DIR}`);
@@ -386,6 +420,7 @@ for (const [title, files] of titles.entries()) {
 }
 
 checkSearchIndex();
+checkToolHubLinks();
 checkSitemap();
 checkRobotsTxt();
 

@@ -1,0 +1,344 @@
+{
+  "listing": {
+    "name": "Conversor de timestamp Unix",
+    "shortName": "Timestamp Unix",
+    "description": "Converta timestamps Unix (epoch) em datas UTC e locais, ISO 8601 e RFC 2822, ou datas de volta em segundos e milissegundos.",
+    "shortDescription": "Segundos ou milissegundos desde a época Unix em data legível e vice-versa, com o timestamp atual ao vivo.",
+    "keywords": [
+      "conversor de timestamp unix",
+      "conversor epoch",
+      "epoch para data",
+      "converter timestamp em data",
+      "converter data em timestamp",
+      "unix time atual",
+      "problema do ano 2038"
+    ]
+  },
+  "title": "Conversor de timestamp Unix (epoch para data e vice-versa)",
+  "description": "Conversor de timestamp Unix: transforme epoch em data UTC e local, ISO 8601 e RFC 2822, ou data em segundos e milissegundos. Timestamp atual ao vivo.",
+  "h1": "Conversor de timestamp Unix",
+  "quickAnswer": "No conversor de timestamp Unix, um timestamp Unix é o número de segundos desde 1970-01-01 00:00:00 UTC, sem contar os segundos bissextos. 1700000000 é 2023-11-14T22:13:20Z, e o mesmo instante em milissegundos é 1700000000000. Um número de 10 dígitos quase sempre está em segundos e um de 13 dígitos em milissegundos; este conversor detecta qual você colou.",
+  "formula": {
+    "title": "Fórmula de conversão do epoch",
+    "expression": "Data (UTC) = 1970-01-01T00:00:00Z + timestamp em segundos   ·   Timestamp = (data − 1970-01-01T00:00:00Z) em segundos",
+    "explanation": "Todo dia Unix tem exatamente 86.400 segundos, então a data é obtida dividindo por 86.400 para achar o número do dia desde 1 de janeiro de 1970 e usando o resto como hora do dia. Milissegundos são segundos × 1.000. A unidade é detectada pelo tamanho do número: abaixo de 100.000.000.000 é tratado como segundos (o que chega ao ano 5138), até 14 dígitos como milissegundos, e depois microssegundos e nanossegundos.",
+    "variables": [
+      {
+        "name": "Segundos",
+        "description": "O Unix time clássico, usado pela maioria dos servidores, bancos de dados e pelo comando date."
+      },
+      {
+        "name": "Milissegundos",
+        "description": "Usados pelo JavaScript (Date.now()), pelo Java (System.currentTimeMillis()) e por muitas APIs: segundos × 1.000."
+      },
+      {
+        "name": "Hora local",
+        "description": "O mesmo instante mostrado com o fuso horário do seu dispositivo. O timestamp em si nunca muda com o fuso horário."
+      }
+    ]
+  },
+  "workedExamples": [
+    {
+      "title": "A época Unix",
+      "inputs": [
+        "Timestamp: 0"
+      ],
+      "steps": [
+        "0 segundos depois da época Unix"
+      ],
+      "result": "1970-01-01T00:00:00Z (quinta-feira, 1 de janeiro de 1970, meia-noite UTC)"
+    },
+    {
+      "title": "Um timestamp de 10 dígitos em segundos",
+      "inputs": [
+        "Timestamp: 1700000000"
+      ],
+      "steps": [
+        "1,700,000,000 ÷ 86,400 = 19,675 dias inteiros, resto 80,000 segundos",
+        "O dia 19,675 depois de 1 de janeiro de 1970 é 14 de novembro de 2023",
+        "80,000 segundos = 22 horas, 13 minutos e 20 segundos"
+      ],
+      "result": "2023-11-14T22:13:20Z (Tue, 14 Nov 2023 22:13:20 +0000)"
+    },
+    {
+      "title": "Um timestamp de 13 dígitos em milissegundos",
+      "inputs": [
+        "Timestamp: 1700000000000"
+      ],
+      "steps": [
+        "13 dígitos, então é lido como milissegundos",
+        "1,700,000,000,000 ÷ 1,000 = 1,700,000,000 segundos"
+      ],
+      "result": "2023-11-14T22:13:20Z, o mesmo instante do exemplo anterior"
+    },
+    {
+      "title": "O último segundo do tempo em 32 bits",
+      "inputs": [
+        "Timestamp: 2147483647 (2³¹ − 1)"
+      ],
+      "steps": [
+        "O maior valor que um inteiro de 32 bits com sinal consegue guardar",
+        "2,147,483,647 segundos depois da época Unix"
+      ],
+      "result": "2038-01-19T03:14:07Z, um segundo antes de os relógios de 32 bits estourarem"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Tratar milissegundos como segundos",
+      "description": "Passar 1700000000000 para uma função que espera segundos dá uma data cerca de 54 mil anos no futuro, e passar segundos para o <code>new Date()</code> do JavaScript dá uma data em janeiro de 1970. Conte os dígitos: 10 para segundos, 13 para milissegundos."
+    },
+    {
+      "title": "Achar que um timestamp tem fuso horário",
+      "description": "Um timestamp Unix é sempre contado a partir da meia-noite UTC, então o mesmo número é o mesmo instante em qualquer lugar. Só a forma de exibição muda. Se dois sistemas divergem em horas inteiras, um deles está formatando no horário local."
+    },
+    {
+      "title": "Criar um timestamp a partir do horário local sem querer",
+      "description": "Converter \"2026-03-01 09:00\" sem dizer em que fuso horário está usa, sem avisar, o fuso do próprio computador. Escolha explicitamente UTC ou horário local ao converter uma data em timestamp."
+    },
+    {
+      "title": "Guardar o tempo em um inteiro de 32 bits com sinal",
+      "description": "Um contador de segundos de 32 bits com sinal estoura depois de 2038-01-19T03:14:07Z e volta para dezembro de 1901. Use inteiros de 64 bits (BIGINT, int64, time_t em sistemas modernos de 64 bits) para qualquer coisa que possa guardar datas depois de 2038, incluindo datas de vencimento e financiamentos."
+    },
+    {
+      "title": "Esperar segundos bissextos",
+      "description": "O Unix time ignora os segundos bissextos: todo dia tem exatamente 86.400 segundos. Por isso, subtrair dois timestamps dá o tempo civil decorrido, que pode diferir do tempo real em segundos pelos 27 segundos bissextos acrescentados desde 1972."
+    }
+  ],
+  "sources": [
+    {
+      "name": "The Open Group Base Specifications: segundos desde a época (POSIX)"
+    },
+    {
+      "name": "RFC 3339: data e hora na internet (perfil da ISO 8601)"
+    },
+    {
+      "name": "RFC 2822: formato de mensagens da internet (especificação de data e hora)"
+    },
+    {
+      "name": "IERS Bulletin C: anúncios de segundos bissextos"
+    }
+  ],
+  "howto": {
+    "name": "Como converter um timestamp Unix",
+    "description": "Transforme um timestamp epoch em uma data legível, ou uma data em timestamp.",
+    "steps": [
+      {
+        "name": "Cole o timestamp",
+        "text": "Informe o número em segundos ou milissegundos. A unidade é detectada pelo número de dígitos, ou escolha-a no menu Unidade."
+      },
+      {
+        "name": "Veja a data",
+        "text": "Veja a data em UTC e no seu horário local, além do formato ISO 8601, do RFC 2822 e de quanto tempo atrás ou à frente ela está."
+      },
+      {
+        "name": "Converta uma data de volta",
+        "text": "Escolha uma data e hora, indique se está em UTC ou no seu horário local e veja o timestamp em segundos e milissegundos."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "O que é um timestamp Unix?",
+      "a": "É o número de segundos que se passaram desde 00:00:00 UTC de 1 de janeiro de 1970 (a época Unix), ignorando os segundos bissextos. Também é chamado de epoch time, POSIX time ou Unix time."
+    },
+    {
+      "q": "Como converter um timestamp Unix em data?",
+      "a": "Cole-o no conversor acima. Em código: JavaScript new Date(ts * 1000).toISOString(); Python datetime.fromtimestamp(ts, tz=timezone.utc); no Linux date -u -d @1700000000; no Excel =ts/86400 + DATA(1970;1;1)."
+    },
+    {
+      "q": "Como obter o timestamp Unix atual?",
+      "a": "O contador ao vivo no topo da ferramenta mostra o valor em segundos e milissegundos. Em código: Math.floor(Date.now() / 1000) em JavaScript, int(time.time()) em Python, date +%s em um shell Unix."
+    },
+    {
+      "q": "Meu timestamp está em segundos ou em milissegundos?",
+      "a": "Conte os dígitos. Os timestamps atuais em segundos têm 10 dígitos (1.7xx.xxx.xxx) e em milissegundos têm 13. O conversor detecta isso automaticamente, e você pode forçar uma unidade no menu Unidade."
+    },
+    {
+      "q": "O que é o problema do ano 2038?",
+      "a": "Sistemas que guardam o Unix time em um inteiro de 32 bits com sinal só conseguem contar até 2.147.483.647 segundos, o que corresponde a 03:14:07 UTC de 19 de janeiro de 2038. Um segundo depois, o valor estoura para um número negativo e a data volta para 13 de dezembro de 1901. Valores de tempo de 64 bits evitam isso."
+    },
+    {
+      "q": "Um timestamp Unix depende do fuso horário?",
+      "a": "Não. O timestamp é o mesmo em todo lugar no mesmo instante. O fuso horário só importa quando você o transforma em uma data legível, e por isso o conversor mostra tanto o UTC quanto o seu horário local."
+    },
+    {
+      "q": "Um timestamp Unix pode ser negativo?",
+      "a": "Sim. Valores negativos são datas antes de 1970: −86400 é 31 de dezembro de 1969 00:00:00 UTC. A maioria das linguagens modernas aceita isso, mas alguns sistemas antigos e planilhas não."
+    },
+    {
+      "q": "Qual é a diferença entre as datas ISO 8601 e RFC 2822?",
+      "a": "A ISO 8601 (2023-11-14T22:13:20Z) é o formato ordenável usado em JSON e APIs. A RFC 2822 (Tue, 14 Nov 2023 22:13:20 +0000) é o formato usado no cabeçalho Date de e-mails e em muitos feeds HTTP e RSS."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Conversor de timestamp Unix",
+      "tool-div1": "Timestamp Unix atual",
+      "copy-result-btn": "Copiar o resultado para a área de transferência"
+    },
+    "content": {
+      "tool": {
+        "div1": "<span class=\"epoch-now-label\">Timestamp atual (segundos)</span>\n          <span class=\"epoch-now-value tabular-nums\" id=\"now-seconds\">–</span>",
+        "div2": "<span class=\"epoch-now-label\">Milissegundos</span>\n          <span class=\"epoch-now-value tabular-nums\" id=\"now-ms\">–</span>",
+        "button1": "Copiar segundos",
+        "button2": "Copiar ms"
+      },
+      "timestamp-to-date": {
+        "heading": "Timestamp para data",
+        "button1": "Converter em data"
+      },
+      "date-to-timestamp": {
+        "heading": "Data para timestamp"
+      },
+      "the-year-2038-problem-explained": {
+        "heading": "O problema do ano 2038 explicado",
+        "p1": "Os primeiros sistemas Unix guardavam o tempo em um <code>time_t</code> que era um inteiro de 32 bits com sinal. O maior número que ele comporta é 2.147.483.647, e essa quantidade de segundos depois da época Unix é <strong>03:14:07 UTC de terça-feira, 19 de janeiro de 2038</strong>. Um segundo depois, o contador estoura para −2.147.483.648, que o software lê como 20:45:52 UTC de 13 de dezembro de 1901.",
+        "p2": "É parecido com o bug do ano 2000, mas mais difícil de perceber: o problema não está em como os anos são escritos, e sim no tamanho binário de um número escondido em sistemas de arquivos, bancos de dados, dispositivos embarcados e formatos de arquivo. Cálculos que olham para o futuro, como financiamentos de 30 anos, datas de vencimento de certificados ou agendamentos de longo prazo, podem falhar muito antes de 2038.",
+        "li1": "<strong>Já resolvido:</strong> Linux, macOS e Windows de 64 bits e as linguagens modernas usam tempo de 64 bits, que dura cerca de 292 bilhões de anos. O kernel Linux 5.6 também acrescentou tempo de 64 bits para arquiteturas de 32 bits.",
+        "li2": "<strong>Ainda em risco:</strong> sistemas embarcados antigos de 32 bits, colunas <code>TIMESTAMP</code> do MySQL (limitadas a 2038-01-19 03:14:07 UTC), formatos de arquivo com campos de tempo de 32 bits e código que converte timestamps para <code>int</code>.",
+        "li3": "<strong>Como verificar:</strong> converta 2147483648 acima. Se o seu sistema mostrar uma data em 2038 para ele, ele lida com tempos depois do limite."
+      },
+      "timestamps-in-common-languages": {
+        "heading": "Timestamps nas linguagens mais comuns",
+        "caption1": "Como obter e converter timestamps Unix em código",
+        "th1": "Linguagem",
+        "th2": "Timestamp atual",
+        "th3": "Timestamp para data",
+        "td1": "JavaScript",
+        "td2": "<code>Math.floor(Date.now() / 1000)</code>",
+        "td3": "<code>new Date(ts * 1000)</code>",
+        "td4": "Python",
+        "td5": "<code>int(time.time())</code>",
+        "td6": "<code>datetime.fromtimestamp(ts, timezone.utc)</code>",
+        "td7": "PHP",
+        "td8": "<code>time()</code>",
+        "td9": "<code>date('c', $ts)</code>",
+        "td10": "Java",
+        "td11": "<code>Instant.now().getEpochSecond()</code>",
+        "td12": "<code>Instant.ofEpochSecond(ts)</code>",
+        "td13": "Shell (GNU)",
+        "td14": "<code>date +%s</code>",
+        "td15": "<code>date -u -d @1700000000</code>",
+        "td16": "SQL (PostgreSQL)",
+        "td17": "<code>extract(epoch from now())</code>",
+        "td18": "<code>to_timestamp(1700000000)</code>",
+        "p1": "Tudo nesta página roda no seu navegador: o timestamp atual vem do relógio do seu dispositivo, e o horário local usa o fuso horário configurado nele. Se o contador ao vivo parecer errado, confira se o relógio do seu computador está sincronizado."
+      }
+    },
+    "text": {
+      "now-pause": "Pausar",
+      "ts-now-btn": "Agora",
+      "ts-hint": "10 dígitos = segundos, 13 dígitos = milissegundos. Valores negativos são datas antes de 1970.",
+      "reset-btn": "Redefinir",
+      "result-header-text": "Data e hora",
+      "copy-result-btn": "<span data-icon=\"copy\"></span> Copiar resultado"
+    },
+    "label": {
+      "ts-input": "Timestamp Unix <span class=\"text-accent\">*</span>",
+      "ts-unit": "Unidade",
+      "date-input": "Data e hora <span class=\"text-accent\">*</span>",
+      "date-zone": "O horário acima está em"
+    },
+    "option": {
+      "ts-unit": {
+        "auto": "Detectar automaticamente",
+        "s": "Segundos",
+        "ms": "Milissegundos",
+        "us": "Microssegundos",
+        "ns": "Nanossegundos"
+      },
+      "date-zone": {
+        "utc": "UTC",
+        "local": "Meu horário local"
+      }
+    },
+    "title": {
+      "copy-result-btn": "Copiar o resultado para a área de transferência"
+    }
+  },
+  "client": {
+    "units": {
+      "s": "segundos",
+      "ms": "milissegundos",
+      "us": "microssegundos",
+      "ns": "nanossegundos"
+    },
+    "errors": {
+      "empty": "Informe um timestamp Unix, por exemplo 1700000000.",
+      "notNumber": "Um timestamp Unix é um número inteiro de segundos (ou milissegundos), como 1700000000. Remova letras e outros símbolos.",
+      "unknownUnit": "Unidade desconhecida.",
+      "outOfRange": "Esse timestamp está fora do intervalo que uma data consegue representar (cerca de ±275 mil anos a partir de 1970).",
+      "invalidDateTime": "Informe uma data e hora válidas, por exemplo 2023-11-14 22:13:20.",
+      "dateOutOfRange": "Essa data está fora do intervalo suportado.",
+      "pickDateTime": "Escolha uma data e hora para converter."
+    },
+    "relative": {
+      "justNow": "agora mesmo",
+      "past": "há {{text}}",
+      "future": "daqui a {{text}}",
+      "year": {
+        "many": "{{n}} anos",
+        "one": "{{n}} ano",
+        "other": "{{n}} anos"
+      },
+      "month": {
+        "many": "{{n}} meses",
+        "one": "{{n}} mês",
+        "other": "{{n}} meses"
+      },
+      "week": {
+        "many": "{{n}} semanas",
+        "one": "{{n}} semana",
+        "other": "{{n}} semanas"
+      },
+      "day": {
+        "many": "{{n}} dias",
+        "one": "{{n}} dia",
+        "other": "{{n}} dias"
+      },
+      "hour": {
+        "many": "{{n}} horas",
+        "one": "{{n}} hora",
+        "other": "{{n}} horas"
+      },
+      "minute": {
+        "many": "{{n}} minutos",
+        "one": "{{n}} minuto",
+        "other": "{{n}} minutos"
+      },
+      "second": {
+        "many": "{{n}} segundos",
+        "one": "{{n}} segundo",
+        "other": "{{n}} segundos"
+      }
+    },
+    "yourTimeZone": "seu fuso horário",
+    "buttons": {
+      "pause": "Pausar",
+      "resume": "Continuar",
+      "copy": "Copiar"
+    },
+    "copy": {
+      "copiedValue": "{{value}} copiado",
+      "ariaLabel": "Copiar {{label}}",
+      "copiedLabel": "{{label}} copiado"
+    },
+    "detected": {
+      "auto": "Detectado como {{unit}}",
+      "forced": "Lido como {{unit}}",
+      "beyond2038": "depois do limite de 32 bits de 2038-01-19T03:14:07Z"
+    },
+    "rows": {
+      "localTime": "Horário local ({{zone}})",
+      "isoUtc": "ISO 8601 (UTC)",
+      "isoLocal": "ISO 8601 (fuso local)",
+      "relative": "Relativo",
+      "seconds": "Segundos",
+      "milliseconds": "Milissegundos",
+      "timestampSeconds": "Timestamp (segundos)",
+      "inLocal": "No seu horário local ({{zone}})",
+      "inUtc": "Em UTC"
+    }
+  }
+}

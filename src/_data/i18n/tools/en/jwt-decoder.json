@@ -1,0 +1,346 @@
+{
+  "listing": {
+    "name": "JWT Decoder",
+    "shortName": "JWT Decoder",
+    "description": "Decode JSON Web Token headers and payloads locally, see iat, nbf and exp as dates, and verify HS256, HS384 and HS512 signatures.",
+    "shortDescription": "Decode JWTs, check expiry and verify HMAC signatures in your browser.",
+    "keywords": [
+      "jwt decoder",
+      "decode jwt",
+      "json web token",
+      "jwt parser",
+      "verify jwt signature",
+      "jwt expiry",
+      "hs256"
+    ]
+  },
+  "title": "JWT Decoder: Decode JSON Web Tokens Locally",
+  "description": "Decode a JSON Web Token's header and payload in your browser, see iat, nbf and exp as dates, check expiry, and verify HS256/384/512 signatures locally.",
+  "h1": "JWT Decoder",
+  "quickAnswer": "A JWT is three Base64URL-encoded parts separated by dots: a header, a payload of claims, and a signature. Decoding the first two parts shows their JSON, but it does not prove the token is genuine; only checking the signature with the right key does. This decoder runs entirely in your browser and can verify HS256, HS384 and HS512 signatures with a secret you type.",
+  "formula": {
+    "title": "How a JWT Is Decoded and Verified",
+    "expression": "JWT = Base64URL(header) . Base64URL(payload) . Base64URL(signature)   ·   HS256 signature = HMAC-SHA256(secret, header + '.' + payload)",
+    "explanation": "Each part uses Base64URL encoding (RFC 4648), which swaps + and / for - and _ and drops = padding. Decoding the header and payload gives UTF-8 JSON. The time claims iat (issued at), nbf (not before) and exp (expires) are NumericDate values: seconds since 1970-01-01T00:00:00Z, shown here as UTC and local dates. For HMAC algorithms, the signature is recomputed over the exact header and payload text with the secret, using the browser's Web Crypto API, and compared in constant time. Tokens signed with RS256, ES256 or other public-key algorithms need the issuer's public key and are not verified here.",
+    "variables": [
+      {
+        "name": "Header",
+        "description": "Metadata such as alg (the signing algorithm) and typ (usually JWT)."
+      },
+      {
+        "name": "Payload",
+        "description": "The claims: who the token is about (sub), who issued it (iss), the audience (aud), times and any custom data."
+      },
+      {
+        "name": "Signature",
+        "description": "Proof that the header and payload were created by someone holding the key and were not changed."
+      }
+    ]
+  },
+  "workedExamples": [
+    {
+      "title": "The jwt.io example token",
+      "inputs": [
+        "Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+      ],
+      "steps": [
+        "Header: {\"alg\": \"HS256\", \"typ\": \"JWT\"}",
+        "Payload: {\"sub\": \"1234567890\", \"name\": \"John Doe\", \"iat\": 1516239022}",
+        "iat 1516239022 = 2018-01-18T01:30:22Z; there is no exp claim"
+      ],
+      "result": "Decoded; with the secret your-256-bit-secret the HS256 signature is valid"
+    },
+    {
+      "title": "A token with only two parts",
+      "inputs": [
+        "Token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIn0"
+      ],
+      "steps": [
+        "Splitting on dots gives 2 parts instead of 3"
+      ],
+      "result": "Error: the signature part is missing"
+    },
+    {
+      "title": "An expired token",
+      "inputs": [
+        "Payload contains exp: 1700000000"
+      ],
+      "steps": [
+        "1700000000 = 2023-11-14T22:13:20Z, which is in the past"
+      ],
+      "result": "Marked as expired; a server checking exp would reject it"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Trusting a decoded token",
+      "description": "Anyone can create a token with any payload. Decoding only reads it. Your server must verify the signature with the correct key and algorithm, and check exp, nbf, iss and aud, before trusting any claim."
+    },
+    {
+      "title": "Putting secrets in the payload",
+      "description": "A signed JWT is encoded, not encrypted: anyone who has the token can read the payload. Never put passwords, card numbers or other secrets in it."
+    },
+    {
+      "title": "Accepting alg: none or switching algorithms",
+      "description": "Libraries must only accept the algorithms you expect. Allowing 'none', or letting an attacker switch from RS256 to HS256, are classic JWT vulnerabilities listed by OWASP."
+    },
+    {
+      "title": "Pasting production tokens into websites",
+      "description": "A valid token is a password for as long as it lasts. Only paste tokens into tools that run locally, like this one, and prefer expired or test tokens."
+    },
+    {
+      "title": "Using a weak HMAC secret",
+      "description": "HS256 secrets such as 'secret' can be guessed offline from any token. Use a long random key, at least 256 bits for HS256, as RFC 7518 requires."
+    }
+  ],
+  "sources": [
+    {
+      "name": "RFC 7519: JSON Web Token (JWT)",
+      "url": "https://www.rfc-editor.org/rfc/rfc7519"
+    },
+    {
+      "name": "RFC 7515: JSON Web Signature (JWS)",
+      "url": "https://www.rfc-editor.org/rfc/rfc7515"
+    },
+    {
+      "name": "RFC 7518: JSON Web Algorithms (JWA)",
+      "url": "https://www.rfc-editor.org/rfc/rfc7518"
+    },
+    {
+      "name": "RFC 8725: JSON Web Token Best Current Practices",
+      "url": "https://www.rfc-editor.org/rfc/rfc8725"
+    },
+    {
+      "name": "OWASP Cheat Sheet Series: JSON Web Token",
+      "url": "https://cheatsheetseries.owasp.org/cheatsheets/JSON_Web_Token_Cheat_Sheet.html"
+    },
+    {
+      "name": "OWASP Web Security Testing Guide: Testing JSON Web Tokens",
+      "url": "https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/06-Session_Management_Testing/10-Testing_JSON_Web_Tokens"
+    }
+  ],
+  "howto": {
+    "name": "How to Decode a JSON Web Token",
+    "description": "Read a JWT's header and claims and optionally check its HMAC signature, locally.",
+    "steps": [
+      {
+        "name": "Paste the token",
+        "text": "Paste the JWT, with or without a 'Bearer ' prefix."
+      },
+      {
+        "name": "Read the header and payload",
+        "text": "See both parts as formatted JSON and the time claims as UTC and local dates."
+      },
+      {
+        "name": "Check expiry",
+        "text": "The status shows whether the token has expired or is not valid yet."
+      },
+      {
+        "name": "Verify the signature (HS256/384/512)",
+        "text": "Type the shared secret and press Verify to check the signature locally."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "How do I decode a JWT?",
+      "a": "Paste the token into the box. The header and payload are Base64URL-decoded and shown as formatted JSON, with time claims converted to dates."
+    },
+    {
+      "q": "Is it safe to paste my JWT here?",
+      "a": "Decoding and signature checks run in your browser. The token and secret are not sent anywhere, stored, logged or added to the page address. Even so, avoid pasting live production tokens into any website you do not control."
+    },
+    {
+      "q": "Does decoding a JWT verify it?",
+      "a": "No. Decoding only reads the contents. A token is trustworthy only after its signature has been verified with the right key, and its expiry and audience have been checked."
+    },
+    {
+      "q": "How do I check if a JWT is expired?",
+      "a": "Look at the exp claim: it is a Unix timestamp in seconds. If it is earlier than the current time, the token has expired. The decoder shows exp as a date and marks expired tokens."
+    },
+    {
+      "q": "How do I verify an HS256 JWT signature?",
+      "a": "Enter the shared secret in the signature section and press Verify. The HMAC is recomputed locally with Web Crypto. For the jwt.io example token the secret is your-256-bit-secret."
+    },
+    {
+      "q": "Can I verify RS256 or ES256 tokens here?",
+      "a": "Not at the moment. Those use public-key signatures and need the issuer's public key (often from a JWKS URL). Verify them in your application with a maintained JWT library."
+    },
+    {
+      "q": "What is the difference between JWT, JWS and JWE?",
+      "a": "A JWT is a set of claims. When signed it is a JWS (three parts) and its payload is readable; when encrypted it is a JWE (five parts) and the payload can only be read with the decryption key."
+    },
+    {
+      "q": "What do iat, nbf and exp mean?",
+      "a": "iat is when the token was issued, nbf is the earliest time it may be used, and exp is when it expires. All three are seconds since 1 January 1970 UTC."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "JWT Decoder",
+      "jwt-header": "Decoded header",
+      "jwt-payload": "Decoded payload"
+    },
+    "text": {
+      "jwt-privacy": "Your token and secret stay in this browser tab. They are not sent, stored or added to the URL.",
+      "example-btn": "Use the jwt.io example",
+      "clear-btn": "Clear",
+      "toggle-secret": "Show",
+      "verify-btn": "Verify signature"
+    },
+    "label": {
+      "jwt-input": "JSON Web Token",
+      "jwt-secret": "Secret",
+      "jwt-secret-enc": "Secret format"
+    },
+    "placeholder": {
+      "jwt-input": "eyJhbGciOi…"
+    },
+    "content": {
+      "tool": {
+        "div1": "<span id=\"result-header-text\">Decoded token</span>",
+        "p1": "<strong>Decoded, NOT verified.</strong> Anyone can create a token with these contents. Trust it only after its signature has been checked with the right key.",
+        "span1": "Header",
+        "button1": "Copy",
+        "span2": "Payload",
+        "button2": "Copy",
+        "caption1": "Time claims",
+        "th1": "Claim",
+        "th2": "When (UTC, then local)",
+        "p2": "Check the signature"
+      },
+      "common-jwt-claims": {
+        "heading": "Common JWT Claims",
+        "caption1": "Registered claim names from RFC 7519",
+        "th1": "Claim",
+        "th2": "Name",
+        "th3": "Meaning",
+        "td1": "<code>iss</code>",
+        "td2": "Issuer",
+        "td3": "Who created and signed the token",
+        "td4": "<code>sub</code>",
+        "td5": "Subject",
+        "td6": "Who the token is about, often a user ID",
+        "td7": "<code>aud</code>",
+        "td8": "Audience",
+        "td9": "Which service the token is meant for",
+        "td10": "<code>exp</code>",
+        "td11": "Expiration time",
+        "td12": "After this time the token must be rejected",
+        "td13": "<code>nbf</code>",
+        "td14": "Not before",
+        "td15": "Before this time the token must be rejected",
+        "td16": "<code>iat</code>",
+        "td17": "Issued at",
+        "td18": "When the token was created",
+        "td19": "<code>jti</code>",
+        "td20": "JWT ID",
+        "td21": "A unique ID, used to stop a token being replayed"
+      },
+      "decoding-is-not-verifying": {
+        "heading": "Decoding Is Not Verifying",
+        "p1": "The header and payload of a signed JWT are only encoded, so they can be read by anyone and changed by anyone. What stops tampering is the signature: if a single character of the header or payload changes, the signature no longer matches. A server must therefore:",
+        "li1": "<strong>Verify the signature</strong> with the expected key and an allow-list of algorithms, never the algorithm named in the token alone.",
+        "li2": "<strong>Check the times</strong>: reject tokens past <code>exp</code> or before <code>nbf</code>, allowing only a small clock skew.",
+        "li3": "<strong>Check who it is for</strong>: <code>iss</code> and <code>aud</code> must match your issuer and service.",
+        "li4": "<strong>Keep tokens short-lived</strong> and send them only over HTTPS, as RFC 8725 recommends.",
+        "p2": "This page is for reading and debugging tokens. HMAC signatures are checked with the browser's Web Crypto API, and the token and secret are kept only in memory while the page is open. For generating random secrets, see the <a href=\"/tools/password-generator/\">password generator</a>; for hashing text, the <a href=\"/tools/hash-generator/\">hash generator</a>."
+      }
+    },
+    "option": {
+      "jwt-secret-enc": {
+        "utf8": "Plain text",
+        "base64url": "Base64 / Base64URL"
+      }
+    }
+  },
+  "client": {
+    "errors": {
+      "empty": "Paste a JSON Web Token (three parts separated by dots).",
+      "tooLong": "That token is too long to decode here.",
+      "whitespace": "A JWT cannot contain spaces or line breaks. Copy the token again without them.",
+      "jwe": "This looks like an encrypted JWT (JWE, five parts). Its payload cannot be read without the decryption key.",
+      "partCount": "A JWT has three parts separated by dots (header.payload.signature), but this one has {{count}}.",
+      "header": {
+        "notBase64Url": "The header is not valid Base64URL.",
+        "notUtf8": "The header is not valid UTF-8 text.",
+        "notObject": "The header must be a JSON object.",
+        "notJson": "The header is not valid JSON."
+      },
+      "payload": {
+        "notBase64Url": "The payload is not valid Base64URL.",
+        "notUtf8": "The payload is not valid UTF-8 text.",
+        "notObject": "The payload must be a JSON object.",
+        "notJson": "The payload is not valid JSON."
+      },
+      "signatureNotBase64Url": "The signature is not valid Base64URL.",
+      "noWebCrypto": "Signature checks need the Web Crypto API, which this browser does not provide.",
+      "unsupportedAlgorithm": "This token uses {{alg}}. Only HS256, HS384 and HS512 (shared-secret) signatures can be checked here.",
+      "noAlgorithm": "no algorithm",
+      "noSecret": "Enter the secret to check the signature.",
+      "secretNotBase64": "The secret is not valid Base64 / Base64URL.",
+      "noSignature": "The token has no signature to check."
+    },
+    "relative": {
+      "year": {
+        "one": "{{n}} year",
+        "other": "{{n}} years"
+      },
+      "day": {
+        "one": "{{n}} day",
+        "other": "{{n}} days"
+      },
+      "hour": {
+        "one": "{{n}} hour",
+        "other": "{{n}} hours"
+      },
+      "minute": {
+        "one": "{{n}} minute",
+        "other": "{{n}} minutes"
+      },
+      "second": {
+        "one": "{{n}} second",
+        "other": "{{n}} seconds"
+      },
+      "ago": "{{time}} ago",
+      "in": "in {{time}}",
+      "now": "now"
+    },
+    "result": {
+      "noAlgorithm": "No algorithm"
+    },
+    "status": {
+      "expired": "Expired {{when}}",
+      "notYetValid": "Not valid yet: usable {{when}}",
+      "validTime": "Not expired: expires {{when}}",
+      "noExp": "No expiry (exp) claim: this token does not expire by itself"
+    },
+    "claims": {
+      "iat": "Issued at (iat)",
+      "nbf": "Not before (nbf)",
+      "exp": "Expires (exp)"
+    },
+    "times": {
+      "invalid": "Not a valid NumericDate: {{value}}"
+    },
+    "verify": {
+      "unsigned": "This token is unsigned (alg \"none\" or an empty signature). It proves nothing about who created it.",
+      "hmac": "This token uses {{alg}}, an HMAC signature with a shared secret. Type the secret to check it here, in your browser.",
+      "other": "This token uses {{alg}}. Only HS256, HS384 and HS512 can be checked here; public-key algorithms such as RS256 need the issuer's public key in your application.",
+      "unknownAlgorithm": "an unknown algorithm",
+      "checking": "Checking…",
+      "failed": "The signature could not be checked.",
+      "valid": "✓ Signature valid: this {{alg}} token was signed with this secret.",
+      "invalid": "✗ Signature invalid: the token was not signed with this secret, or it has been changed."
+    },
+    "copy": {
+      "decoded": "Header:\n{{header}}\n\nPayload:\n{{payload}}",
+      "header": "Header copied",
+      "payload": "Payload copied"
+    },
+    "toggle": {
+      "hide": "Hide",
+      "show": "Show"
+    }
+  }
+}

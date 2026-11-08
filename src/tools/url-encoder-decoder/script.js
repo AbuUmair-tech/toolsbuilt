@@ -7,6 +7,8 @@
 document.addEventListener('DOMContentLoaded', () => {
   const logic = window.UrlEncoderLogic;
   if (!logic) return;
+  const T = ToolsBuilt.scope('url-encoder-decoder');
+  const locale = ToolsBuilt.pageLocale();
 
   const directionRadios = document.querySelectorAll('input[name="url-direction"]');
   const modeRadios = document.querySelectorAll('input[name="url-mode"]');
@@ -39,20 +41,18 @@ document.addEventListener('DOMContentLoaded', () => {
   function updateLabels() {
     const dir = getDirection();
     const mode = getMode();
-    const modeName = mode === 'full' ? 'Full URL (encodeURI)' : 'Component (encodeURIComponent)';
+    const modeName = T(mode === 'full' ? 'modeName.full' : 'modeName.component');
 
     if (dir === 'encode') {
-      if (inputLabel) inputLabel.textContent = `Text or URL to Encode (${modeName}):`;
-      if (outputLabel) outputLabel.textContent = `Encoded URL Output:`;
-      if (convertBtn) convertBtn.textContent = 'Encode URL';
-      urlInput.placeholder = mode === 'full'
-        ? 'Paste full URL here... e.g. https://example.com/search?q=toolsbuilt & more=yes'
-        : 'Paste parameter or text here... e.g. hello world & symbols=?';
+      if (inputLabel) inputLabel.textContent = T('labels.encode.input', { mode: modeName });
+      if (outputLabel) outputLabel.textContent = T('labels.encode.output');
+      if (convertBtn) convertBtn.textContent = T('labels.encode.button');
+      urlInput.placeholder = T(mode === 'full' ? 'labels.encode.placeholderFull' : 'labels.encode.placeholderComponent');
     } else {
-      if (inputLabel) inputLabel.textContent = `Encoded URL to Decode:`;
-      if (outputLabel) outputLabel.textContent = `Decoded Plain Text:`;
-      if (convertBtn) convertBtn.textContent = 'Decode URL';
-      urlInput.placeholder = 'Paste encoded URL or string here... e.g. https%3A%2F%2Fexample.com%3Fq%3Dtoolsbuilt';
+      if (inputLabel) inputLabel.textContent = T('labels.decode.input');
+      if (outputLabel) outputLabel.textContent = T('labels.decode.output');
+      if (convertBtn) convertBtn.textContent = T('labels.decode.button');
+      urlInput.placeholder = T('labels.decode.placeholder');
     }
   }
 
@@ -62,13 +62,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const max = logic.MAX_INPUT_BYTES;
     const kb = (len / 1024).toFixed(1);
     const maxMb = (max / (1024 * 1024)).toFixed(0);
-    sizeMeter.textContent = `${kb} KB / ${maxMb} MB`;
+    sizeMeter.textContent = T('sizeMeter', { kb, max: maxMb });
     if (len > max) {
-      sizeMeter.style.color = 'var(--text-danger, #ef4444)';
-      sizeMeter.style.fontWeight = 'bold';
+      sizeMeter.classList.add('is-over-limit');
     } else {
-      sizeMeter.style.color = 'var(--text-muted)';
-      sizeMeter.style.fontWeight = 'normal';
+      sizeMeter.classList.remove('is-over-limit');
     }
   }
 
@@ -101,19 +99,19 @@ document.addEventListener('DOMContentLoaded', () => {
     if (params.length === 0) {
       queryTableContainer.setAttribute('hidden', '');
       queryTableBody.innerHTML = '';
-      if (queryCountBadge) queryCountBadge.textContent = '0 parameters';
+      if (queryCountBadge) queryCountBadge.textContent = T('params.other', { n: 0 });
       return;
     }
 
     queryTableContainer.removeAttribute('hidden');
-    if (queryCountBadge) queryCountBadge.textContent = `${params.length} parameter${params.length === 1 ? '' : 's'}`;
+    if (queryCountBadge) queryCountBadge.textContent = T(params.length === 1 ? 'params.one' : 'params.other', { n: params.length });
 
     let html = '';
     params.forEach((p, idx) => {
       html += `<tr>
-        <td style="font-family: monospace; font-weight: 600; word-break: break-all;">${escapeHtml(p.key)}</td>
-        <td style="font-family: monospace; font-size: 0.85rem; word-break: break-all; color: var(--text-muted);">${escapeHtml(p.encodedValue)}</td>
-        <td style="font-family: monospace; font-size: 0.85rem; word-break: break-all;">${escapeHtml(p.decodedValue)}</td>
+        <td class="font-mono font-semibold break-words">${escapeHtml(p.key)}</td>
+        <td class="font-mono text-sm break-words text-secondary">${escapeHtml(p.encodedValue)}</td>
+        <td class="font-mono text-sm break-words">${escapeHtml(p.decodedValue)}</td>
       </tr>`;
     });
     queryTableBody.innerHTML = html;
@@ -146,7 +144,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const res = logic.encode(text, mode);
       if (res.success) {
         urlOutput.value = res.result;
-        showStatus(`✓ Encoded using ${res.mode}: ${res.stats.inputChars.toLocaleString()} &rarr; ${res.stats.outputChars.toLocaleString()} characters`, 'success');
+        showStatus(T('status.encoded', { mode: res.mode, input: res.stats.inputChars.toLocaleString(locale), output: res.stats.outputChars.toLocaleString(locale) }), 'success');
       } else {
         showStatus(res.error, 'error');
       }
@@ -154,7 +152,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const res = logic.decode(text, mode);
       if (res.success) {
         urlOutput.value = res.result;
-        showStatus(`✓ Decoded using ${res.mode}: ${res.stats.inputChars.toLocaleString()} &rarr; ${res.stats.outputChars.toLocaleString()} characters`, 'success');
+        showStatus(T('status.decoded', { mode: res.mode, input: res.stats.inputChars.toLocaleString(locale), output: res.stats.outputChars.toLocaleString(locale) }), 'success');
       } else {
         showStatus(res.error, 'error');
       }
@@ -216,12 +214,12 @@ document.addEventListener('DOMContentLoaded', () => {
       const textToCopy = urlOutput.value;
       if (!textToCopy) {
         if (window.ToolsBuilt && window.ToolsBuilt.toast) {
-          window.ToolsBuilt.toast('Nothing to copy. Enter text first.');
+          window.ToolsBuilt.toast(T('toast.nothingToCopy'));
         }
         return;
       }
       if (window.ToolsBuilt && window.ToolsBuilt.copy) {
-        window.ToolsBuilt.copy(textToCopy, 'Result copied to clipboard');
+        window.ToolsBuilt.copy(textToCopy, T('toast.copied'));
       }
     });
   }

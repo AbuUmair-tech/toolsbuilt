@@ -1,0 +1,262 @@
+{
+  "listing": {
+    "name": "Zinseszinsrechner",
+    "shortName": "Zinseszinsrechner",
+    "description": "Zinseszins mit täglicher, monatlicher, vierteljährlicher oder jährlicher Verzinsung und optionalen Sparraten berechnen, mit Wachstumsdiagramm.",
+    "shortDescription": "Zinseszins bei täglicher, monatlicher oder jährlicher Verzinsung mit regelmäßigen Einzahlungen berechnen.",
+    "keywords": [
+      "zinseszinsrechner",
+      "zinseszins berechnen",
+      "zinseszins monatlich",
+      "sparrechner",
+      "zinsrechner sparplan"
+    ]
+  },
+  "title": "Zinseszinsrechner: tägliche Zinsen & Sparraten",
+  "description": "Kostenloser Zinseszinsrechner: Zinseszins bei täglicher, monatlicher, vierteljährlicher oder jährlicher Verzinsung mit Sparraten und Diagramm berechnen.",
+  "h1": "Zinseszinsrechner",
+  "quickAnswer": "Der Zinseszinsrechner nutzt die Formel A = P(1 + r/n)^(nt). Dabei ist P das Anfangskapital, r der jährliche Zinssatz (als Dezimalzahl), n die Anzahl der Zinsperioden pro Jahr und t die Laufzeit in Jahren. Bei regelmäßigen monatlichen Einzahlungen PMT wächst der Endwert zusätzlich nach der Rentenformel: PMT × [((1 + r/n)^(nt) - 1) / (r/n)]. Alle Berechnungen und Diagramme laufen in deinem Browser.",
+  "formula": {
+    "title": "Zinseszinsformel",
+    "explanation": "Ohne Einzahlungen wächst der Endwert A aus dem Anfangskapital P mit dem jährlichen Zinssatz r, n-mal pro Jahr verzinst über t Jahre. Dabei werden auch auf bereits angesammelte Zinsen Zinsen gezahlt."
+  },
+  "workedExamples": [
+    {
+      "title": "$10,000 Anfangskapital zu 7% über 10 Jahre (jährliche Verzinsung)",
+      "inputs": [
+        "Anfangskapital (P): $10,000",
+        "Jährlicher Zinssatz (r): 7%",
+        "Zinsperioden (n): jährlich (1/Jahr)",
+        "Laufzeit (t): 10 Jahre",
+        "Monatliche Einzahlung: $0"
+      ],
+      "steps": [
+        "Formel: A = 10,000 × (1 + 0.07/1)^(1 × 10)",
+        null,
+        "Endwert gesamt = $19,671.51",
+        "Zinsertrag gesamt = $19,671.51 − $10,000 = $9,671.51"
+      ],
+      "result": "$19,671.51 Endguthaben ($9,671.51 Zinsertrag)"
+    },
+    {
+      "title": "$5,000 Anfangskapital mit $200 monatlicher Sparrate zu 8% über 5 Jahre",
+      "inputs": [
+        "Anfangskapital: $5,000",
+        "Jährlicher Zinssatz: 8% (monatliche Verzinsung)",
+        "Monatliche Einzahlung: $200",
+        "Laufzeit: 5 Jahre"
+      ],
+      "steps": [
+        "Wachstum des Anfangskapitals: 5,000 × (1 + 0.08/12)^60 = $7,449.23",
+        "Wachstum der Einzahlungen: 200 × [((1 + 0.08/12)^60 - 1) / (0.08/12)] = $14,695.37",
+        "Endwert gesamt = $7,449.23 + $14,695.37 = $22,144.60",
+        "Einzahlungen gesamt = $5,000 + ($200 × 60) = $17,000"
+      ],
+      "result": "$22,144.60 Guthaben ($5,144.60 Zinsertrag)"
+    },
+    {
+      "title": "Vergleich tägliche Verzinsung ($10,000 zu 5% für 1 Jahr)",
+      "inputs": [
+        "Anfangskapital: $10,000",
+        "Zinssatz: 5%",
+        "Häufigkeit: täglich (365-mal pro Jahr)",
+        "Laufzeit: 1 Jahr"
+      ],
+      "steps": [
+        "Effektiver Jahreszins (APY) = (1 + 0.05/365)^365 − 1 ≈ 5.127%",
+        "Endwert = 10,000 × (1 + 0.05/365)^365 = $10,512.67",
+        "Bringt $12.67 mehr als einfache jährliche Verzinsung ($10,500.00)"
+      ],
+      "result": "$10,512.67 (5.13% APY)"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Nominalzins (APR) direkt mit Effektivzins (APY) vergleichen",
+      "description": "Eine Bank, die 5.00% Nominalzins (APR) mit täglicher Verzinsung bewirbt, zahlt tatsächlich 5.13% Effektivzins (APY). Vergleiche für einen fairen Vergleich immer Effektivzins mit Effektivzins."
+    },
+    {
+      "title": "Einzahlungen hinauszögern",
+      "description": "Dank des exponentiellen Wachstums bringen frühe Einzahlungen mit Anfang zwanzig weit mehr Vermögen als doppelt so hohe Einzahlungen erst mit Anfang vierzig."
+    },
+    {
+      "title": "Inflation und Steuern ignorieren",
+      "description": "Hohe Nominalzinsen müssen um die Inflation und die jährlichen Steuern auf Zinserträge bereinigt werden, um den realen Zuwachs an Kaufkraft einzuschätzen."
+    }
+  ],
+  "sources": [
+    {
+      "label": "U.S. Securities and Exchange Commission (SEC) - Compound Interest Calculator"
+    },
+    {
+      "label": "Consumer Financial Protection Bureau - Erklärung zu APY und Sparen"
+    },
+    {
+      "label": "Federal Deposit Insurance Corporation (FDIC) - Einlagenkonten"
+    }
+  ],
+  "howto": {
+    "name": "So berechnest du das Wachstum durch Zinseszins",
+    "description": "Schritt-für-Schritt-Anleitung zur Berechnung von Zinsperioden, regelmäßigen Einzahlungen und effektivem Jahreszins (APY).",
+    "steps": [
+      {
+        "name": "Anfangskapital eingeben",
+        "text": "Gib deine einmalige Anlage oder dein Sparguthaben zu Beginn ein (kann $0 sein, wenn du nur mit regelmäßigen Einzahlungen startest)."
+      },
+      {
+        "name": "Jährlichen Zinssatz eingeben",
+        "text": "Gib den nominalen Jahreszins (APR) deines Tagesgeldkontos, Festgelds oder deiner Geldanlage ein."
+      },
+      {
+        "name": "Zinsperiode wählen",
+        "text": "Wähle, wie oft die Zinsen deinem Kapital gutgeschrieben werden: täglich, monatlich, vierteljährlich oder jährlich."
+      },
+      {
+        "name": "Anlagedauer festlegen",
+        "text": "Gib an, wie viele Jahre dein Geld unangetastet verzinst werden soll."
+      },
+      {
+        "name": "Optionale monatliche Einzahlungen hinzufügen",
+        "text": "Gib bei Bedarf regelmäßige monatliche Einzahlungen ein, um das exponentielle Wachstum eines Sparplans zu berechnen."
+      },
+      {
+        "name": "Wachstumsdiagramm und Guthaben prüfen",
+        "text": "Sieh dir den Endwert, den gesamten Zinsertrag, den effektiven Jahreszins (APY) und das interaktive SVG-Wachstumsdiagramm an."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Was ist der Unterschied zwischen einfachen Zinsen und Zinseszins?",
+      "a": "Bei einfachen Zinsen werden Zinsen nur auf das ursprüngliche Kapital berechnet. Beim Zinseszins werden Zinsen auf das Anfangskapital und auf die bereits angesammelten Zinsen früherer Perioden berechnet, wodurch das Wachstum mit der Zeit exponentiell zunimmt."
+    },
+    {
+      "q": "Wie lautet die mathematische Zinseszinsformel?",
+      "a": "Ohne regelmäßige Einzahlungen lautet die Formel: A = P × (1 + r/n)^(n×t). Dabei ist P das Anfangskapital, r der nominale Jahreszins als Dezimalzahl, n die Anzahl der Zinsperioden pro Jahr und t die Laufzeit in Jahren."
+    },
+    {
+      "q": "Was ist der Unterschied zwischen APR und APY?",
+      "a": "APR (Annual Percentage Rate, Nominalzins) ist der angegebene Jahreszins ohne Berücksichtigung der Verzinsung innerhalb des Jahres. APY (Annual Percentage Yield, effektiver Jahreszins) gibt die tatsächliche jährliche Rendite inklusive Zinseszinseffekt an: APY = (1 + r/n)^n - 1."
+    },
+    {
+      "q": "Wie oft sollten Zinsen für maximales Wachstum gutgeschrieben werden?",
+      "a": "Je häufiger verzinst wird, desto höher die effektive Rendite. Tägliche Verzinsung (365-mal pro Jahr) bringt bei gleichem Nominalzins etwas mehr Zinsen als monatliche (12-mal) oder jährliche (1-mal) Verzinsung."
+    },
+    {
+      "q": "Werden Anlage- oder Kontostände gespeichert?",
+      "a": "Nein. Alle Zinseszinsberechnungen und SVG-Diagramme werden ausschließlich im Speicher deines Browsers erstellt. Keine privaten Finanzdaten verlassen dein Gerät."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Formular Zinseszinsrechner",
+      "copy-result-btn": "Zusammenfassung der Berechnung kopieren",
+      "annual-balance-interest-schedule-div1": "Zinseszins-Aufstellung (scrollbar)",
+      "annual-balance-interest-schedule-table1": "Tabelle des Zinseszins-Wachstums Jahr für Jahr"
+    },
+    "label": {
+      "principal": "Anfangskapital <span class=\"text-accent\">*</span>",
+      "interest-rate": "Jährlicher Zinssatz (%) <span class=\"text-accent\">*</span>",
+      "years": "Anlagedauer (Jahre) <span class=\"text-accent\">*</span>",
+      "compounding-frequency": "Zinsperiode",
+      "regular-contribution": "Optionale monatliche Einzahlung <span class=\"label-hint\">(Einzahlung zu Monatsbeginn)</span>"
+    },
+    "option": {
+      "compounding-frequency": {
+        "daily": "Täglich (365-mal/Jahr)",
+        "monthly": "Monatlich (12-mal/Jahr)",
+        "quarterly": "Vierteljährlich (4-mal/Jahr)",
+        "annual": "Jährlich (1-mal/Jahr)"
+      }
+    },
+    "content": {
+      "tool": {
+        "button1": "Wachstum berechnen",
+        "div1": "Endwert",
+        "div2": "Eingezahltes Kapital gesamt",
+        "div3": "Zinseszinsen gesamt",
+        "div4": "Effektivzins (APY)"
+      },
+      "balance-growth-over-time": {
+        "heading": "Entwicklung des Guthabens",
+        "div1": "<span class=\"legend-item\"><span class=\"legend-dot principal\"></span> Eingezahltes Kapital</span>\n              <span class=\"legend-item\"><span class=\"legend-dot balance\"></span> Guthaben gesamt</span>"
+      },
+      "annual-balance-interest-schedule": {
+        "heading": "Jährliche Übersicht über Guthaben &amp; Zinsen",
+        "th1": "Jahr",
+        "th2": "Einzahlungen im Jahr",
+        "th3": "Kapital gesamt",
+        "th4": "Zinsertrag",
+        "th5": "Guthaben am Jahresende"
+      },
+      "how-when-to-use-the-compound": {
+        "li1": "<strong>Tagesgeld &amp; Festgeld:</strong> Vergleiche tägliche und monatliche Verzinsung bei Onlinebanken, um den höchsten effektiven Jahreszins zu finden.",
+        "li2": "<strong>Langfristige Altersvorsorge:</strong> Berechne, wie monatliche Einzahlungen in Indexfonds über 20, 30 oder 40 Berufsjahre wachsen.",
+        "li3": "<strong>Ausbildungssparen für Kinder &amp; 529-Pläne:</strong> Schätze den Endwert eines Startbetrags, ergänzt durch regelmäßige monatliche Einzahlungen.",
+        "li4": "<strong>72er-Regel überprüfen:</strong> Prüfe, wie lange es dauert, bis sich dein Geld bei verschiedenen Zinssätzen und Zinsperioden verdoppelt."
+      }
+    },
+    "text": {
+      "reset-btn": "Zurücksetzen",
+      "result-header-text": "Prognose des Zinseszins-Wachstums",
+      "copy-result-btn": "<span data-icon=\"copy\"></span> Zusammenfassung kopieren",
+      "result-primary-text": "Endwert: $0.00",
+      "stat-effective-apy": "0.00% APY",
+      "how-to-use-heading": "Wie &amp; wann du den Zinseszinsrechner nutzt"
+    },
+    "title": {
+      "copy-result-btn": "Zusammenfassung der Berechnung kopieren"
+    }
+  },
+  "client": {
+    "freq": {
+      "daily": "täglich (365/Jahr)",
+      "monthly": "monatlich (12/Jahr)",
+      "quarterly": "vierteljährlich (4/Jahr)",
+      "annual": "jährlich (1/Jahr)"
+    },
+    "errors": {
+      "frequency": "Ungültige Zinsperiode",
+      "principalMin": "Das Anfangskapital muss 0 oder größer sein.",
+      "rateMin": "Der Zinssatz muss 0% oder größer sein.",
+      "horizonMin": "Die Anlagedauer muss größer als null sein.",
+      "horizonMax": "Die Anlagedauer darf 60 Jahre nicht überschreiten.",
+      "contributionMin": "Die Einzahlung muss 0 oder größer sein.",
+      "principalOrContribution": "Bitte gib ein Anfangskapital oder eine regelmäßige Einzahlung ein.",
+      "principalRequired": "Bitte gib ein Anfangskapital ein (0 oder größer).",
+      "principalNegative": "Das Anfangskapital darf nicht negativ sein.",
+      "rateRequired": "Bitte gib einen jährlichen Zinssatz ein.",
+      "rateNegative": "Der Zinssatz darf nicht negativ sein.",
+      "yearsRequired": "Bitte gib die Anlagedauer in Jahren ein.",
+      "yearsMin": "Die Dauer muss größer als null sein.",
+      "principalOrContributionRequired": "Bitte gib ein Anfangskapital oder eine regelmäßige Einzahlung ein."
+    },
+    "chart": {
+      "yearTick": "J. {{year}}",
+      "pointTitle": "Jahr {{year}}: Guthaben {{symbol}}{{balance}}, Kapital {{symbol}}{{principal}}",
+      "ariaLabel": "Diagramm zur Vermögensentwicklung durch Zinseszins",
+      "desc": "Entwicklung des eingezahlten Kapitals im Vergleich zum Guthaben mit Zinseszins über {{count}} Jahre."
+    },
+    "result": {
+      "primary": "Endwert: {{value}}",
+      "apy": "{{apy}}% APY"
+    },
+    "summary": {
+      "title": "Zusammenfassung Zinseszins-Wachstum:",
+      "principal": "Anfangskapital: {{value}}",
+      "rate": "Zinssatz: {{rate}}% (Verzinsung {{frequency}})",
+      "apy": "Effektivzins (APY): {{apy}}%",
+      "horizon": "Laufzeit: {{years}} Jahre",
+      "contribution": "Monatliche Einzahlung: {{value}}",
+      "totalPrincipal": "Eingezahltes Kapital gesamt: {{value}}",
+      "totalInterest": "Zinseszinsen gesamt: {{value}}",
+      "futureValue": "Endwert: {{value}}"
+    },
+    "table": {
+      "year": "Jahr {{year}}"
+    },
+    "toast": {
+      "copied": "Zinseszinsberechnung in die Zwischenablage kopiert!"
+    }
+  }
+}

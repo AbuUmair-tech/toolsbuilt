@@ -1,0 +1,88 @@
+---
+layout: layouts/tool.njk
+toolSlug: password-strength-checker
+permalink: /tools/password-strength-checker/
+extraCss: "/tools/password-strength-checker/style.css"
+lastReviewed: "2026-10-31"
+---
+<script type="application/json" id="zxcvbn-scripts">{{ [vendor.packages.zxcvbnCore.entry, vendor.packages.zxcvbnCommon.entry, vendor.packages.zxcvbnEn.entry] | dump | safe }}</script>
+
+    <!-- Tool Form Container -->
+    <section class="tool-container" aria-label="{{ 'ariaLabel.tool-section1' | pt }}">
+      <form id="pw-form" autocomplete="off" novalidate>
+        <div class="form-group">
+          <label for="pw-input">{{ 'label.pw-input' | pt }}</label>
+          <div class="input-with-button">
+            <input type="password" id="pw-input" class="form-control pw-input" autocomplete="off" autocapitalize="off" spellcheck="false" maxlength="256" aria-describedby="pw-privacy pw-status">
+            <button type="button" class="btn btn-secondary" id="toggle-pw" aria-pressed="false" aria-controls="pw-input">{{ 'text.toggle-pw' | pt }}</button>
+          </div>
+          <p class="form-hint" id="pw-privacy">{{ 'text.pw-privacy' | pt }}</p>
+          <p class="form-hint pw-status" id="pw-status" role="status"></p>
+        </div>
+      </form>
+
+      <div id="error-box" class="hidden form-error" role="alert"></div>
+
+      <div id="result-box" class="result-box" aria-live="polite">
+        <div class="result-header">
+          {{ 'content.tool.div1' | pt }}
+        </div>
+        <div class="result-primary" id="result-primary-text">--</div>
+        <div class="pw-meter" id="pw-meter" data-score="" role="meter" aria-label="{{ 'ariaLabel.pw-meter' | pt }}" aria-valuemin="0" aria-valuemax="4" aria-valuenow="0">
+          <span></span><span></span><span></span><span></span>
+        </div>
+        <div class="result-grid pw-grid">
+          <div class="result-stat-card">
+            <div class="result-stat-label">{{ 'content.tool.div2' | pt }}</div>
+            <div class="result-stat-value" id="pw-online">--</div>
+          </div>
+          <div class="result-stat-card">
+            <div class="result-stat-label">{{ 'content.tool.div3' | pt }}</div>
+            <div class="result-stat-value" id="pw-offline">--</div>
+          </div>
+          <div class="result-stat-card">
+            <div class="result-stat-label">{{ 'content.tool.div4' | pt }}</div>
+            <div class="result-stat-value" id="pw-length">--</div>
+          </div>
+          <div class="result-stat-card">
+            <div class="result-stat-label">{{ 'content.tool.div5' | pt }}</div>
+            <div class="result-stat-value" id="pw-guesses">--</div>
+          </div>
+        </div>
+        <!-- Variable-length feedback comes after the fixed-size figures, so a late result does not push them around -->
+        <p class="pw-warning" id="pw-warning" hidden></p>
+        <ul class="pw-suggestions" id="pw-suggestions"></ul>
+        <p class="form-hint" id="pw-sets"></p>
+        <p class="pw-generator-link">{{ 'content.tool.p1' | pt }}</p>
+      </div>
+    </section>
+
+    <!-- tool-end -->
+
+    <section class="content-section">
+      <h2>{{ 'content.what-nist-says-about-passwords-in.heading' | pt }}</h2>
+      <p>{{ 'content.what-nist-says-about-passwords-in.p1' | pt }}</p>
+      <ul class="content-list">
+        <li>{{ 'content.what-nist-says-about-passwords-in.li1' | pt }}</li>
+        <li>{{ 'content.what-nist-says-about-passwords-in.li2' | pt }}</li>
+        <li>{{ 'content.what-nist-says-about-passwords-in.li3' | pt }}</li>
+        <li>{{ 'content.what-nist-says-about-passwords-in.li4' | pt }}</li>
+        <li>{{ 'content.what-nist-says-about-passwords-in.li5' | pt }}</li>
+      </ul>
+
+      <h2>{{ 'content.score-guide.heading' | pt }}</h2>
+      <div class="table-wrapper" tabindex="0" role="region" aria-labelledby="score-guide-caption">
+        <table class="table">
+          <caption class="visually-hidden" id="score-guide-caption">{{ 'text.score-guide-caption' | pt }}</caption>
+          <thead><tr><th scope="col">{{ 'content.score-guide.th1' | pt }}</th><th scope="col">{{ 'content.score-guide.th2' | pt }}</th><th scope="col">{{ 'content.score-guide.th3' | pt }}</th></tr></thead>
+          <tbody>
+            <tr><td>{{ 'content.score-guide.td1' | pt }}</td><td>{{ 'content.score-guide.td2' | pt }}</td><td>{{ 'content.score-guide.td3' | pt }}</td></tr>
+            <tr><td>{{ 'content.score-guide.td4' | pt }}</td><td>{{ 'content.score-guide.td5' | pt }}</td><td>{{ 'content.score-guide.td6' | pt }}</td></tr>
+            <tr><td>{{ 'content.score-guide.td7' | pt }}</td><td>{{ 'content.score-guide.td8' | pt }}</td><td>{{ 'content.score-guide.td9' | pt }}</td></tr>
+            <tr><td>{{ 'content.score-guide.td10' | pt }}</td><td>{{ 'content.score-guide.td11' | pt }}</td><td>{{ 'content.score-guide.td12' | pt }}</td></tr>
+            <tr><td>{{ 'content.score-guide.td13' | pt }}</td><td>{{ 'content.score-guide.td14' | pt }}</td><td>{{ 'content.score-guide.td15' | pt }}</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>{{ 'content.score-guide.p1' | pt }}</p>
+    </section>

@@ -1,0 +1,254 @@
+{
+  "listing": {
+    "name": "Generator Slug URL",
+    "shortName": "Generator Slug",
+    "description": "Ubah judul menjadi slug URL huruf kecil yang bersih tanpa aksen, dengan tanda hubung atau garis bawah, opsi hapus stop word, dan mode massal.",
+    "shortDescription": "Slug URL ramah SEO dari judul, satu atau banyak sekaligus.",
+    "keywords": [
+      "generator slug",
+      "slug url",
+      "slugify",
+      "url ramah seo",
+      "generator permalink",
+      "judul ke slug",
+      "teks ramah url"
+    ]
+  },
+  "title": "Generator Slug URL: Slug yang Ramah SEO",
+  "description": "Generator slug URL: ubah judul menjadi slug huruf kecil yang bersih tanpa aksen, spasi dan tanda baca jadi tanda hubung, hapus stop word, dan mode massal.",
+  "h1": "Generator Slug URL",
+  "quickAnswer": "Slug URL adalah bagian alamat web yang mudah dibaca dan mengidentifikasi suatu halaman, seperti percentage-change-calculator. Untuk membuatnya, ubah judul menjadi huruf kecil, hapus aksen, ganti spasi dan tanda baca dengan tanda hubung, lalu rapikan kedua ujungnya: 'Héllo, Wörld! 2026' menjadi hello-world-2026. Dengan generator slug URL ini, buat slug yang singkat dan deskriptif, dan jangan mengubahnya setelah halaman dipublikasikan.",
+  "formula": {
+    "title": "Cara Slug Dibuat",
+    "expression": "Judul → normalisasi NFD dan hapus aksen → huruf kecil → selain huruf dan angka menjadi pemisah → ringkas pengulangan → rapikan ujung",
+    "explanation": "Normalisasi Unicode NFD memecah huruf seperti é menjadi e ditambah tanda aksen, lalu tanda aksennya dihapus. Huruf yang tidak terpecah (ß, æ, ø, ł) ditulis sebagai ss, ae, o, dan l, dan & menjadi 'and'. Semua yang bukan huruf atau angka menjadi satu pemisah, dan pemisah di awal atau akhir dihapus. Langkah opsional membuang stop word umum bahasa Inggris dan memotong slug di batas kata agar tetap dalam panjang maksimum. Huruf dari aksara non-Latin tetap dipertahankan karena browser menampilkannya, tetapi Anda mungkin lebih suka menerjemahkan judulnya terlebih dahulu.",
+    "variables": [
+      {
+        "name": "Pemisah",
+        "description": "Tanda hubung (-) adalah pilihan umum untuk URL; garis bawah (_) cocok untuk nama berkas dan beberapa sistem."
+      },
+      {
+        "name": "Stop word",
+        "description": "Kata pendek bahasa Inggris seperti a, the, and, of, to yang jarang membantu URL. Minimal satu kata selalu dipertahankan."
+      },
+      {
+        "name": "Panjang maksimum",
+        "description": "Memotong slug sebelum kata yang akan melewati batas, sehingga kata tidak pernah terpotong di tengah."
+      }
+    ]
+  },
+  "workedExamples": [
+    {
+      "title": "Aksen dan tanda baca",
+      "inputs": [
+        "Judul: Héllo, Wörld! 2026"
+      ],
+      "steps": [
+        "Hapus aksen: Hello, World! 2026",
+        "Ubah ke huruf kecil dan ganti tanda baca serta spasi: hello-world-2026"
+      ],
+      "result": "hello-world-2026"
+    },
+    {
+      "title": "Spasi berlebih dan garis bawah",
+      "inputs": [
+        "Judul: '  Multiple   Spaces  '",
+        "Pemisah: tanda hubung, lalu garis bawah untuk 'Hello World'"
+      ],
+      "steps": [
+        "Deretan spasi menjadi satu pemisah dan kedua ujung dirapikan"
+      ],
+      "result": "multiple-spaces, dan hello_world dengan pemisah garis bawah"
+    },
+    {
+      "title": "Panjang maksimum di batas kata",
+      "inputs": [
+        "Judul: percentage change calculator",
+        "Panjang maksimum: 10"
+      ],
+      "steps": [
+        "'percentage' terdiri atas 10 karakter; menambah '-change' akan menjadi 17"
+      ],
+      "result": "percentage"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Mengubah slug halaman yang sudah tayang",
+      "description": "Slug baru berarti URL baru. Tautan, bookmark, dan hasil pencarian yang mengarah ke alamat lama akan rusak kecuali Anda membuat redirect permanen (301). Pilih slug dengan cermat sebelum memublikasikan."
+    },
+    {
+      "title": "Menjejalkan kata kunci ke dalam slug",
+      "description": "best-cheap-free-calculator-online-calculator-tool terlihat seperti spam. Slug yang singkat, akurat, dan sesuai dengan judul halaman lebih mudah dibaca dan dibagikan."
+    },
+    {
+      "title": "Memakai tanggal yang akan kedaluwarsa",
+      "description": "Slug seperti best-laptops-2024 terlihat basi pada tahun berikutnya, dan mengubahnya nanti berarti perlu redirect. Jangan cantumkan tanggal kecuali halamannya memang tentang tahun tertentu."
+    },
+    {
+      "title": "Mencampur huruf besar dan kecil",
+      "description": "Path di banyak server peka huruf besar-kecil, jadi /About-Us dan /about-us bisa menjadi halaman berbeda. Slug huruf kecil mencegah URL duplikat."
+    },
+    {
+      "title": "Memakai garis bawah di alamat web",
+      "description": "Panduan Google menyarankan tanda hubung untuk memisahkan kata di URL; kata yang digabung dengan garis bawah bisa dibaca sebagai satu kata."
+    }
+  ],
+  "sources": [
+    {
+      "name": "Google Search Central: Praktik terbaik struktur URL"
+    },
+    {
+      "name": "RFC 3986: Uniform Resource Identifier (URI) Generic Syntax"
+    },
+    {
+      "name": "Unicode Standard Annex #15: Bentuk Normalisasi Unicode"
+    },
+    {
+      "name": "Google Search Central: Redirect dan Google Penelusuran"
+    }
+  ],
+  "howto": {
+    "name": "Cara Membuat Slug URL",
+    "description": "Ubah judul halaman menjadi slug URL yang bersih dan ramah SEO.",
+    "steps": [
+      {
+        "name": "Ketik judulnya",
+        "text": "Masukkan judul halaman atau postingan, atau beralih ke mode Massal dan tempelkan satu judul per baris."
+      },
+      {
+        "name": "Pilih opsinya",
+        "text": "Pilih tanda hubung atau garis bawah, dan jika perlu hapus stop word atau tetapkan panjang maksimum."
+      },
+      {
+        "name": "Salin slugnya",
+        "text": "Salin slug dan gunakan sebagai bagian terakhir URL halaman."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Apa itu slug URL?",
+      "a": "Slug adalah bagian alamat web yang menamai halaman tertentu, biasanya setelah garis miring terakhir. Pada toolsbuilt.com/tools/slug-generator/ slugnya adalah slug-generator."
+    },
+    {
+      "q": "Sebaiknya memakai tanda hubung atau garis bawah di URL?",
+      "a": "Gunakan tanda hubung. Google menyarankan tanda hubung untuk memisahkan kata di URL, dan itu adalah konvensi yang umum. Garis bawah cocok untuk nama berkas."
+    },
+    {
+      "q": "Perlukah menghapus stop word seperti 'the' dan 'and' dari slug?",
+      "a": "Sering kali ya, jika slug menjadi lebih pendek tanpa kehilangan makna, seperti write-best-guide alih-alih how-to-write-the-best-guide. Pertahankan jika slug terbaca janggal tanpanya. Opsi ini hanya mengenali stop word bahasa Inggris; untuk judul berbahasa Indonesia, hapus kata seperti 'dan', 'yang', atau 'di' secara manual jika perlu."
+    },
+    {
+      "q": "Berapa panjang slug URL yang ideal?",
+      "a": "Tidak ada batas pasti, tetapi tiga hingga lima kata bermakna adalah target yang baik. Gunakan opsi panjang maksimum agar slug tetap dalam batas tanpa memotong kata."
+    },
+    {
+      "q": "Bagaimana aksen dan karakter khusus ditangani?",
+      "a": "Aksen dihapus dengan normalisasi Unicode, jadi é menjadi e dan ü menjadi u; ß menjadi ss, dan & menjadi 'and'. Simbol lain berubah menjadi pemisah."
+    },
+    {
+      "q": "Bisakah saya membuat slug untuk banyak judul sekaligus?",
+      "a": "Bisa. Gunakan mode Massal dan tempelkan satu judul per baris. Aktifkan penomoran unik untuk menambahkan -2, -3, dan seterusnya pada slug yang berulang."
+    },
+    {
+      "q": "Apakah mengubah slug memengaruhi SEO?",
+      "a": "Mengubah URL halaman yang sudah ada berarti mesin pencari harus menemukan alamat barunya. Gunakan redirect 301 dari slug lama agar tautan dan peringkat ikut berpindah."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Generator Slug URL",
+      "tool-div1": "Tunggal atau massal"
+    },
+    "text": {
+      "tab-single": "Satu judul",
+      "tab-bulk": "Massal (satu per baris)",
+      "copy-slug-btn": "Salin",
+      "download-btn": "Unduh .txt",
+      "slug-examples-caption": "Contoh slug URL yang baik dan yang lemah"
+    },
+    "label": {
+      "slug-input": "Judul",
+      "slug-bulk": "Judul (satu per baris)",
+      "slug-sep": "Pemisah",
+      "slug-max": "Panjang maksimum <span class=\"label-hint\">(0 = tanpa batas)</span>",
+      "slug-output": "Slug"
+    },
+    "option": {
+      "slug-sep": {
+        "-": "Tanda hubung -",
+        "_": "Garis bawah _"
+      }
+    },
+    "content": {
+      "tool": {
+        "label1": "<input type=\"checkbox\" id=\"slug-lower\" checked><span>Huruf kecil</span>",
+        "label2": "<input type=\"checkbox\" id=\"slug-stop\"><span>Hapus stop word bahasa Inggris</span>",
+        "label3": "<input type=\"checkbox\" id=\"slug-unique\" checked><span>Beri nomor pada slug berulang (-2, -3 …)</span>",
+        "div1": "<span id=\"result-header-text\">Slug</span>"
+      },
+      "good-and-bad-slugs": {
+        "heading": "Slug yang Baik dan yang Buruk",
+        "th1": "Halaman",
+        "th2": "Slug lemah",
+        "th3": "Slug lebih baik",
+        "td1": "Cara Membuat Roti Sourdough di Rumah",
+        "td2": "post?id=4172",
+        "td3": "roti-sourdough-di-rumah",
+        "td4": "Kebijakan Pengembalian Dana Kami",
+        "td5": "Kebijakan_Pengembalian_Dana_Kami",
+        "td6": "kebijakan-pengembalian-dana",
+        "td7": "Jam Buka Café",
+        "td8": "jam-buka-caf%C3%A9",
+        "td9": "jam-buka-cafe",
+        "td10": "10 Laptop Terbaik untuk Pelajar",
+        "td11": "10-laptop-terbaik-untuk-pelajar-2024-murah-terbaik",
+        "td12": "laptop-terbaik-pelajar"
+      },
+      "slug-checklist": {
+        "heading": "Daftar Periksa Slug",
+        "li1": "<strong>Singkat dan deskriptif:</strong> pembaca harus bisa menebak isi halaman hanya dari URL-nya.",
+        "li2": "<strong>Huruf kecil dengan tanda hubung:</strong> konsisten, mudah diketik, dan disarankan oleh Google.",
+        "li3": "<strong>Tanpa tanggal atau angka yang akan berubah:</strong> kecuali memang bagian dari isi halaman.",
+        "li4": "<strong>Stabil:</strong> setelah dipublikasikan, pertahankan slugnya. Jika terpaksa mengubahnya, alihkan URL lama secara permanen.",
+        "li5": "<strong>Unik:</strong> dua halaman di folder yang sama tidak boleh memakai slug yang sama; mode massal memberi nomor pada pengulangan untuk Anda.",
+        "p1": "ToolsBuilt mengikuti aturan ini untuk halamannya sendiri, seperti /tools/remove-duplicate-lines/ dan /tools/text-diff-checker/. Semua yang ada di halaman ini berjalan di browser Anda dan tidak ada yang Anda ketik yang disimpan."
+      }
+    },
+    "value": {
+      "slug-input": "Héllo, Wörld! 2026",
+      "slug-bulk": "10 Tips Tidur Lebih Nyenyak\nMenu & Harga Café\nCara Menulis Panduan Terbaik\n10 Tips Tidur Lebih Nyenyak"
+    }
+  },
+  "client": {
+    "errors": {
+      "maxLength": "Panjang maksimum harus bilangan bulat dari 0 (tanpa batas) hingga 500."
+    },
+    "result": {
+      "single": "Slug",
+      "bulk": "Slug massal",
+      "count": {
+        "other": "{{n}} slug"
+      }
+    },
+    "note": {
+      "noLetters": "Judul ini tidak memiliki huruf atau angka yang bisa dipakai. Tambahkan beberapa kata.",
+      "empty": "Ketik judul untuk mendapatkan slugnya.",
+      "length": {
+        "other": "{{n}} karakter · /{{slug}}/"
+      },
+      "repeated": {
+        "other": "{{n}} judul menghasilkan slug yang sudah dipakai."
+      },
+      "repeatedNumbered": {
+        "other": "{{n}} judul menghasilkan slug yang sudah dipakai, jadi ditambahkan nomor."
+      },
+      "allUnique": "Setiap judul memiliki slugnya sendiri."
+    },
+    "copied": {
+      "single": "Slug disalin",
+      "bulk": "Slug disalin"
+    }
+  }
+}

@@ -1,0 +1,271 @@
+{
+  "listing": {
+    "name": "Weighted Average Calculator",
+    "shortName": "Weighted Average",
+    "description": "Calculate a weighted average from values and weights as percentages or plain numbers, with each row’s contribution and the steps.",
+    "shortDescription": "Weighted average with % or plain weights, contributions and working.",
+    "keywords": [
+      "weighted average calculator",
+      "weighted mean",
+      "weighted grade calculator",
+      "calculate weighted average",
+      "weighted score",
+      "sumproduct average",
+      "weighted percentage"
+    ]
+  },
+  "title": "Weighted Average Calculator (Step by Step)",
+  "description": "Calculate a weighted average from values and weights given as percentages or plain numbers, with each row's contribution and the working shown.",
+  "h1": "Weighted Average Calculator",
+  "quickAnswer": "A weighted average multiplies each value by its weight, adds the products, and divides by the total weight. Scores of 90 (30%), 80 (50%) and 70 (20%) give 27 + 40 + 14 = 81. With plain-number weights the method is the same: 90 with weight 2 and 80 with weight 3 give (180 + 240) ÷ 5 = 84.",
+  "formula": {
+    "title": "Weighted Average Formula",
+    "expression": "Weighted average = Σ(value × weight) ÷ Σ(weight)",
+    "explanation": "Each value counts in proportion to its weight. When the weights are percentages that add up to 100, dividing by the total weight is the same as dividing by 100, so each row's contribution is simply value × weight%. If percentage weights add up to something other than 100, the calculator divides by their actual total instead (normalises them) and tells you, which is the same as scaling every weight so that they add up to 100.",
+    "variables": [
+      {
+        "name": "Value",
+        "description": "The score, grade, price or measurement for each item."
+      },
+      {
+        "name": "Weight",
+        "description": "How much each value counts: a percentage, credit hours, a quantity or any other positive number."
+      },
+      {
+        "name": "Contribution",
+        "description": "value × weight ÷ total weight: how many points of the final average come from that row."
+      }
+    ]
+  },
+  "workedExamples": [
+    {
+      "title": "Course grade from percentage weights",
+      "inputs": [
+        "Assignments: 90, weight 30%",
+        "Midterm: 80, weight 50%",
+        "Quizzes: 70, weight 20%"
+      ],
+      "steps": [
+        "90 × 30 = 2,700; 80 × 50 = 4,000; 70 × 20 = 1,400",
+        "Sum of products: 8,100; sum of weights: 100",
+        "8,100 ÷ 100 = 81"
+      ],
+      "result": "Weighted average 81",
+      "link": "/tools/weighted-average-calculator/?wt=percent&v1=90&w1=30&v2=80&w2=50&v3=70&w3=20#tool"
+    },
+    {
+      "title": "Plain-number weights",
+      "inputs": [
+        "90 with weight 2",
+        "80 with weight 3"
+      ],
+      "steps": [
+        "90 × 2 = 180; 80 × 3 = 240",
+        "(180 + 240) ÷ (2 + 3) = 420 ÷ 5"
+      ],
+      "result": "Weighted average 84",
+      "link": "/tools/weighted-average-calculator/?wt=number&v1=90&w1=2&v2=80&w2=3#tool"
+    },
+    {
+      "title": "Percentage weights that do not add up to 100",
+      "inputs": [
+        "90 with weight 30%",
+        "80 with weight 50%"
+      ],
+      "steps": [
+        "The weights total 80%, so they are normalised",
+        "(90 × 30 + 80 × 50) ÷ 80 = 6,700 ÷ 80"
+      ],
+      "result": "Weighted average 83.75 (equivalent to weights of 37.5% and 62.5%)",
+      "link": "/tools/weighted-average-calculator/?wt=percent&v1=90&w1=30&v2=80&w2=50#tool"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Taking a simple average instead",
+      "description": "The plain average of 90, 80 and 70 is 80, but if the 90 counts for 30% and the 70 for only 20%, the weighted average is 81. Use the plain average only when every item counts equally."
+    },
+    {
+      "title": "Dividing by the number of items",
+      "description": "A weighted average divides by the total weight, not by how many values there are. Dividing 420 by 2 items instead of 5 weight units gives 210, which is meaningless."
+    },
+    {
+      "title": "Forgetting missing weight",
+      "description": "If assessments worth 20% have not happened yet, your weights add up to 80%. The normalised result shows your average so far; it is not your final grade until the remaining 20% is added."
+    },
+    {
+      "title": "Mixing weight types",
+      "description": "Use one kind of weight for every row: all percentages, or all credit hours, or all quantities. Mixing a 30% weight with a 3-credit weight gives a wrong answer."
+    },
+    {
+      "title": "Using weights on different scales of values",
+      "description": "Make sure every value is on the same scale, for example all percentages. A score of 18/20 should be entered as 90, not 18, if the others are out of 100."
+    }
+  ],
+  "sources": [
+    {
+      "name": "NIST/SEMATECH e-Handbook of Statistical Methods: Measures of location",
+      "url": "https://www.itl.nist.gov/div898/handbook/eda/section3/eda351.htm"
+    },
+    {
+      "name": "Microsoft Support: SUMPRODUCT function",
+      "url": "https://support.microsoft.com/en-us/office/sumproduct-function-16753e75-9f68-4874-94ac-4d2145a2fd2e"
+    },
+    {
+      "name": "U.S. Bureau of Labor Statistics: How the CPI uses weights (relative importance)",
+      "url": "https://www.bls.gov/cpi/tables/relative-importance/"
+    }
+  ],
+  "howto": {
+    "name": "How to Calculate a Weighted Average",
+    "description": "Enter values and weights to get a weighted average with the working shown.",
+    "steps": [
+      {
+        "name": "Choose the weight type",
+        "text": "Pick percentages if the weights are % of a total, or plain numbers for credit hours, quantities and so on."
+      },
+      {
+        "name": "Enter values and weights",
+        "text": "Fill in a value and weight on each row, adding rows as needed. A name for each row is optional."
+      },
+      {
+        "name": "Read the result",
+        "text": "See the weighted average, total weight, each row's contribution and every step of the calculation."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "How do you calculate a weighted average?",
+      "a": "Multiply each value by its weight, add all the products, then divide by the sum of the weights. For 90 (30%), 80 (50%) and 70 (20%): (2,700 + 4,000 + 1,400) ÷ 100 = 81."
+    },
+    {
+      "q": "What is the difference between a weighted average and a normal average?",
+      "a": "A normal (arithmetic) average gives every value the same importance. A weighted average lets some values count more than others according to their weights."
+    },
+    {
+      "q": "Do weights have to add up to 100?",
+      "a": "No. Any positive weights work because the formula divides by their total. If you choose percentage weights that do not add up to 100, the calculator normalises them and tells you."
+    },
+    {
+      "q": "How do I calculate my grade with weighted categories?",
+      "a": "Enter each category's average as a value and its percentage of the course as the weight. The result is your overall grade; the contribution column shows how many points each category adds."
+    },
+    {
+      "q": "How do I calculate a weighted average in Excel?",
+      "a": "Use =SUMPRODUCT(values, weights)/SUM(weights). For values in A2:A4 and weights in B2:B4: =SUMPRODUCT(A2:A4,B2:B4)/SUM(B2:B4)."
+    },
+    {
+      "q": "Can a weight be zero?",
+      "a": "Yes. A row with weight 0 has no effect on the result. If every weight is zero there is nothing to average, so the calculator shows an error."
+    },
+    {
+      "q": "What is a weighted average used for?",
+      "a": "Course grades, GPA by credit hours, average purchase price across orders of different sizes, portfolio returns, survey results and index numbers all use weighted averages."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Weighted Average Calculator",
+      "wavg-rows": "Values and weights",
+      "copy-result-btn": "Copy result to clipboard"
+    },
+    "content": {
+      "tool": {
+        "legend1": "Weights are",
+        "label1": "<input type=\"radio\" name=\"wt\" value=\"percent\" data-param=\"wt\" checked>\n              <span>Percentages (%)</span>",
+        "label2": "<input type=\"radio\" name=\"wt\" value=\"number\" data-param=\"wt\">\n              <span>Plain numbers</span>",
+        "div1": "<span>Name (optional)</span><span>Value</span><span id=\"weight-head\">Weight (%)</span><span></span>",
+        "button1": "Calculate Weighted Average",
+        "caption1": "Each row's share of the total weight and contribution to the average",
+        "th1": "Row",
+        "th2": "Value",
+        "th3": "Weight",
+        "th4": "Share",
+        "th5": "Adds",
+        "summary1": "Step by step"
+      },
+      "simple-vs-weighted-average": {
+        "heading": "Simple vs Weighted Average",
+        "p1": "A simple average treats every number the same. A weighted average lets each number count according to how important it is, which is how most course grades, GPAs and price averages are worked out.",
+        "caption1": "Simple and weighted averages of the same scores",
+        "th1": "Assessment",
+        "th2": "Score",
+        "th3": "Weight",
+        "th4": "Contribution",
+        "td1": "Assignments",
+        "td2": "Midterm",
+        "td3": "Quizzes",
+        "td4": "<strong>Total</strong>",
+        "td5": "Simple average 80",
+        "td6": "<strong>Weighted 81</strong>",
+        "p2": "The weighted result is higher because the strongest score (90) carries more weight than the weakest (70)."
+      },
+      "where-weighted-averages-are-used": {
+        "heading": "Where Weighted Averages Are Used",
+        "li1": "<strong>Grades:</strong> coursework, midterm and final exam weights from a syllabus. For grades by letter, the <a href=\"/tools/grade-calculator/\">grade calculator</a> and <a href=\"/tools/gpa-calculator/\">GPA calculator</a> do this with credit hours.",
+        "li2": "<strong>Average cost:</strong> if you buy 10 units at 5 and 30 units at 6, the average price is (50 + 180) ÷ 40 = 5.75, not 5.50.",
+        "li3": "<strong>Admissions:</strong> merit and aggregate formulas weight school results and entry tests; the <a href=\"/tools/merit-calculator/\">merit calculator</a> handles marks out of different totals.",
+        "li4": "<strong>Statistics:</strong> price indexes such as the Consumer Price Index weight each category by its share of household spending.",
+        "p1": "All calculations run in your browser. You can share a link that reopens your exact rows."
+      }
+    },
+    "text": {
+      "add-row-btn": "+ Add row",
+      "reset-btn": "Reset",
+      "result-header-text": "Weighted average",
+      "copy-result-btn": "<span data-icon=\"copy\"></span> Copy Result"
+    },
+    "title": {
+      "copy-result-btn": "Copy result to clipboard"
+    },
+    "rowTemplate": {
+      "name": "Name",
+      "namePlaceholder": "e.g. Midterm",
+      "value": "Value",
+      "weight": "Weight (%)",
+      "remove": "Remove row"
+    }
+  },
+  "client": {
+    "rowName": "Row {{n}}",
+    "errors": {
+      "addRow": "Add at least one value and weight.",
+      "tooMany": "Use {{max}} rows or fewer.",
+      "enterValue": "{{name}}: enter a value for this weight.",
+      "enterWeight": "{{name}}: enter a weight for this value.",
+      "valueNumber": "{{name}}: the value must be a number.",
+      "weightPositive": "{{name}}: the weight must be 0 or a positive number.",
+      "allZero": "All the weights are zero, so there is nothing to average. Give at least one row a weight above 0."
+    },
+    "steps": {
+      "multiply": "Multiply each value by its weight: {{products}}",
+      "addProducts": "Add the products: {{sum}} = {{total}}",
+      "addWeights": "Add the weights: {{sum}} = {{total}}",
+      "divide": "Divide: {{sum}} ÷ {{weights}} = {{average}}",
+      "normalised": "The percentage weights add up to {{total}}%, not 100%, so each weight was treated as its share of {{total}}."
+    },
+    "defaults": {
+      "assignments": "Assignments",
+      "midterm": "Midterm",
+      "quizzes": "Quizzes"
+    },
+    "rows": {
+      "remove": "Remove row {{n}}",
+      "weightPercent": "Weight (%)",
+      "weight": "Weight"
+    },
+    "result": {
+      "header": {
+        "one": "Weighted average of {{count}} value",
+        "other": "Weighted average of {{count}} values"
+      },
+      "normalised": "Your percentage weights add up to {{total}}%, not 100%, so they were normalised: each weight counts as its share of {{total}}.",
+      "totalWeight": "Total weight: {{total}}."
+    },
+    "copy": {
+      "row": "{{label}}: {{value}} × {{weight}}",
+      "average": "Weighted average: {{average}}"
+    }
+  }
+}

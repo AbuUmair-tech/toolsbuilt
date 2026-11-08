@@ -1,0 +1,257 @@
+{
+  "listing": {
+    "name": "Kalkulator Tip & Pembagi Tagihan",
+    "shortName": "Kalkulator Tip",
+    "description": "Hitung tip dan bagi tagihan untuk berapa pun jumlah orang, dengan opsi tip dari jumlah sebelum pajak dan pembulatan ke atas per orang.",
+    "shortDescription": "Jumlah tip, total, dan bagian setiap orang, dengan persentase tip pilihan atau kustom.",
+    "keywords": [
+      "kalkulator tip",
+      "split bill",
+      "bagi tagihan",
+      "tip per orang",
+      "hitung patungan",
+      "tip restoran",
+      "berapa tip yang pantas"
+    ]
+  },
+  "title": "Kalkulator Tip: Split Bill & Tip per Orang",
+  "description": "Kalkulator tip untuk menghitung tip dan membagi tagihan (split bill) ke berapa pun orang. Tip % pilihan atau kustom, tip sebelum pajak, dan pembulatan.",
+  "h1": "Kalkulator Tip & Pembagi Tagihan",
+  "quickAnswer": "Tip = tagihan × tip % ÷ 100, total = tagihan + tip, dan setiap orang membayar total ÷ jumlah orang. Tagihan 85.50 dengan tip 18% berarti tip 15.39 dan total 100.89, jadi tiga orang membayar masing-masing 33.63. Dengan kalkulator tip ini, jika ingin memberi tip hanya dari makanan dan minuman, keluarkan dulu pajak dari tagihan.",
+  "formula": {
+    "title": "Rumus Tip dan Pembagian",
+    "expression": "Tip = Tagihan × Tip% ÷ 100   ·   Total = Tagihan + Tip   ·   Per orang = Total ÷ Jumlah Orang",
+    "explanation": "Tip dibulatkan ke sen terdekat, ditambahkan ke tagihan, lalu totalnya dibagi di antara orang yang patungan. Jika total tidak terbagi rata, kalkulator memberi tahu berapa orang yang membayar satu sen lebih agar jumlah bagiannya pas. Jika opsi tip dari jumlah sebelum pajak diaktifkan, pajak dikeluarkan dulu dari tagihan: jumlah sebelum pajak = tagihan ÷ (1 + pajak% ÷ 100), dan tip hanya dihitung dari jumlah tersebut.",
+    "variables": [
+      {
+        "name": "Tagihan",
+        "description": "Total di struk, termasuk pajak tetapi sebelum tip."
+      },
+      {
+        "name": "Tip %",
+        "description": "Persentase yang ingin Anda berikan, dari pilihan cepat atau diketik sendiri."
+      },
+      {
+        "name": "Bulatkan ke atas",
+        "description": "Membulatkan bagian setiap orang ke atas ke satuan mata uang utuh berikutnya. Kelebihannya masuk ke tip, dan kalkulator menampilkan persentase tip yang dihasilkan."
+      }
+    ]
+  },
+  "workedExamples": [
+    {
+      "title": "Makan malam bertiga dengan tip 18%",
+      "inputs": [
+        "Tagihan: 85.50",
+        "Tip: 18%",
+        "Jumlah orang: 3"
+      ],
+      "steps": [
+        "Tip: 85.50 × 18 ÷ 100 = 15.39",
+        "Total: 85.50 + 15.39 = 100.89",
+        "Per orang: 100.89 ÷ 3 = 33.63"
+      ],
+      "result": "Tip 15.39, total 100.89, masing-masing 33.63"
+    },
+    {
+      "title": "Makan malam yang sama, dibulatkan ke atas per orang",
+      "inputs": [
+        "Tagihan: 85.50, tip 18%, 3 orang",
+        "Bulatkan ke atas per orang: aktif"
+      ],
+      "steps": [
+        "Bagian tepat: 33.63, dibulatkan ke atas menjadi 34.00",
+        "Terkumpul: 3 × 34.00 = 102.00",
+        "Tip yang sebenarnya diberikan: 102.00 − 85.50 = 16.50, yaitu 19.3% dari tagihan"
+      ],
+      "result": "Masing-masing 34.00, tip 16.50 (19.3%)"
+    },
+    {
+      "title": "Tip dari jumlah sebelum pajak",
+      "inputs": [
+        "Tagihan: 108.00 termasuk pajak penjualan 8%",
+        "Tip: 20% dari jumlah sebelum pajak",
+        "Jumlah orang: 2"
+      ],
+      "steps": [
+        "Jumlah sebelum pajak: 108.00 ÷ 1.08 = 100.00 (pajak 8.00)",
+        "Tip: 100.00 × 20% = 20.00, bukan 21.60 dari tagihan penuh",
+        "Total: 108.00 + 20.00 = 128.00, jadi masing-masing 64.00"
+      ],
+      "result": "Tip 20.00, total 128.00, masing-masing 64.00"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Memberi tip padahal biaya layanan sudah termasuk",
+      "description": "Beberapa restoran menambahkan biaya layanan (service charge) ke tagihan, sering kali untuk rombongan besar. Periksa struk sebelum menambahkan tip, agar Anda tidak memberi tip dua kali."
+    },
+    {
+      "title": "Membagi tagihan sebelum menambahkan tip",
+      "description": "Jika semua orang membagi tagihan makanan lalu membulatkan tip masing-masing, total tip sering lebih kecil dari yang dimaksud. Tambahkan tip ke seluruh tagihan dulu, baru bagi totalnya."
+    },
+    {
+      "title": "Membulatkan setiap bagian ke bawah",
+      "description": "Membulatkan 33.63 ke bawah menjadi 33 untuk tiga orang membuat pembayaran kurang 1.89. Bulatkan bagian ke atas, atau gunakan jumlah tepat dan biarkan kalkulator membagikan sisa sennya."
+    },
+    {
+      "title": "Menganggap kebiasaan memberi tip sama di mana-mana",
+      "description": "Apakah tip diharapkan, dan berapa besarnya, berbeda menurut negara, jenis usaha, bahkan kota. Saat bepergian, cek panduan setempat atau tanyakan; di beberapa tempat layanan sudah termasuk dalam harga."
+    },
+    {
+      "title": "Lupa pajak saat memberi tip dari subtotal",
+      "description": "Jika Anda ingin memberi tip dari jumlah sebelum pajak, gunakan subtotal di struk atau aktifkan opsi sebelum pajak dan masukkan tarif pajaknya, alih-alih memberi tip dari total tagihan."
+    }
+  ],
+  "sources": [
+    {
+      "name": "U.S. Department of Labor: Tipped employees under the FLSA (Fact Sheet #15)"
+    },
+    {
+      "name": "IRS: Pencatatan dan pelaporan tip"
+    },
+    {
+      "name": "GOV.UK: Tips at work"
+    }
+  ],
+  "howto": {
+    "name": "Cara Menghitung Tip dan Membagi Tagihan",
+    "description": "Hitung tip, total, dan berapa yang harus dibayar setiap orang.",
+    "steps": [
+      {
+        "name": "Masukkan tagihan",
+        "text": "Ketik jumlah di struk dan pilih mata uang Anda."
+      },
+      {
+        "name": "Pilih tip",
+        "text": "Pilih 10, 15, 18, 20, atau 25%, atau ketik persentase apa pun."
+      },
+      {
+        "name": "Masukkan jumlah orang",
+        "text": "Masukkan berapa orang yang ikut membayar tagihan."
+      },
+      {
+        "name": "Sesuaikan opsi",
+        "text": "Beri tip dari jumlah sebelum pajak jika Anda mau, dan bulatkan bagian setiap orang ke atas ke jumlah utuh jika lebih mudah dibayar."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Bagaimana cara menghitung tip?",
+      "a": "Kalikan tagihan dengan persentase tip lalu bagi 100. Untuk tagihan 60 dan tip 15%: 60 × 15 ÷ 100 = 9, jadi totalnya 69. Trik cepat untuk 20% adalah menggeser koma desimal satu tempat ke kiri lalu menggandakannya."
+    },
+    {
+      "q": "Bagaimana cara membagi tagihan beserta tip ke beberapa orang?",
+      "a": "Tambahkan tip ke tagihan untuk mendapatkan total, lalu bagi dengan jumlah orang. Jika tidak terbagi rata sampai ke sen, beberapa orang membayar satu sen lebih; kalkulator memberi tahu berapa orang."
+    },
+    {
+      "q": "Berapa 18% dari 85.50?",
+      "a": "18% dari 85.50 adalah 15.39. Total dengan tip adalah 100.89, yaitu 33.63 per orang untuk tiga orang."
+    },
+    {
+      "q": "Sebaiknya memberi tip dari total sebelum atau sesudah pajak?",
+      "a": "Panduan etiket berbeda-beda. Banyak orang memberi tip dari subtotal sebelum pajak karena pajak bukan bagian dari layanan. Aktifkan 'Tip dari jumlah sebelum pajak' dan masukkan tarif pajak untuk melihat kedua angkanya."
+    },
+    {
+      "q": "Berapa tip yang sebaiknya saya berikan?",
+      "a": "Tergantung di mana Anda berada dan jenis layanannya. Kebiasaannya beragam, dari tanpa tip sama sekali hingga persentase tertentu. Pilih persentase yang tersedia atau ketik sendiri; kalkulator tidak mengasumsikan negara tertentu."
+    },
+    {
+      "q": "Apa fungsi bulatkan ke atas per orang?",
+      "a": "Opsi ini membulatkan bagian setiap orang ke atas ke satuan utuh berikutnya (misalnya 33.63 menjadi 34.00). Kelebihan sennya masuk ke tip, dan hasilnya menampilkan persentase tip yang sebenarnya Anda berikan."
+    },
+    {
+      "q": "Apakah biaya layanan sama dengan tip?",
+      "a": "Tidak selalu. Biaya layanan ditambahkan oleh pihak usaha dan bisa dibagikan dengan cara yang berbeda dari tip sukarela. Aturan tentang siapa yang menerima biaya layanan dan tip berbeda di setiap negara, jadi cek panduan setempat."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Kalkulator Tip",
+      "copy-result-btn": "Salin hasil ke papan klip"
+    },
+    "label": {
+      "bill": "Jumlah tagihan <span class=\"text-accent\">*</span>",
+      "tip-percent": "Tip % <span class=\"label-hint\">(atau ketik nilai sendiri)</span>",
+      "people": "Jumlah orang",
+      "tax-percent": "Pajak yang termasuk dalam tagihan (%)"
+    },
+    "content": {
+      "tool": {
+        "legend1": "Persentase tip",
+        "label1": "<input type=\"checkbox\" id=\"pretax\" data-param=\"pretax\" aria-controls=\"tax-group\">\n            <span>Tip dari jumlah sebelum pajak</span>",
+        "label2": "<input type=\"checkbox\" id=\"round-up\" data-param=\"round\">\n            <span>Bulatkan bagian setiap orang ke atas ke jumlah utuh</span>",
+        "button1": "Hitung Tip"
+      },
+      "quick-tip-percentages": {
+        "heading": "Persentase Tip Cepat",
+        "p1": "Untuk perkiraan kasar tanpa kalkulator, mulailah dari 10%, yaitu tagihan dengan koma desimal digeser satu tempat ke kiri. Persentase lain bisa dihitung dari situ:",
+        "caption1": "Trik hitung cepat untuk persentase tip umum pada tagihan 64.00",
+        "th1": "Tip",
+        "th2": "Trik",
+        "th3": "Pada tagihan 64.00",
+        "td1": "Geser koma desimal satu tempat ke kiri",
+        "td2": "10% ditambah setengahnya",
+        "td3": "20% dikurangi 2%",
+        "td4": "10% dikali dua",
+        "td5": "Seperempat tagihan"
+      },
+      "tipping-customs-differ": {
+        "heading": "Kebiasaan Memberi Tip Berbeda-beda",
+        "p1": "Tidak ada satu aturan baku untuk memberi tip. Di beberapa negara, tip merupakan bagian besar dari penghasilan pelayan dan memang diharapkan; di negara lain layanan sudah termasuk dalam harga menu atau ada biaya layanan di tagihan, dan tip hanya tambahan kecil untuk layanan yang baik. Hotel, taksi, layanan antar, dan salon sering punya kebiasaan sendiri. Karena kebiasaan ini beragam dan bisa berubah, kalkulator ini tidak menyarankan persentase untuk negara mana pun. Cek panduan setempat saat bepergian, dan periksa apakah ada biaya layanan di struk sebelum menambahkan tip.",
+        "p2": "Aturan ketenagakerjaan tentang tip juga berbeda-beda. Di Amerika Serikat, Department of Labor menetapkan aturan untuk pekerja penerima tip dan tip pool, dan IRS memperlakukan tip sebagai penghasilan kena pajak bagi pekerja. Di Inggris, pemberi kerja wajib meneruskan semua tip, gratifikasi, dan biaya layanan kepada pekerja tanpa potongan. Sumber di bawah ini menautkan ke halaman resmi tersebut."
+      },
+      "splitting-fairly": {
+        "heading": "Membagi Secara Adil",
+        "li1": "<strong>Bagi rata:</strong> paling cocok jika semua orang memesan dengan nilai yang mirip. Kalkulator membagi hingga ke sen dan memberi tahu jika ada yang perlu membayar satu sen lebih.",
+        "li2": "<strong>Bagi per item:</strong> jika pesanan sangat berbeda, jalankan kalkulator sekali untuk setiap orang dengan subtotal masing-masing dan jumlah orang 1, menggunakan persentase tip yang sama.",
+        "li3": "<strong>Bayar tunai:</strong> aktifkan pembulatan ke atas agar semua orang membayar jumlah utuh; kelebihannya ditambahkan ke tip."
+      }
+    },
+    "text": {
+      "reset-btn": "Atur Ulang",
+      "result-header-text": "Setiap orang membayar",
+      "copy-result-btn": "<span data-icon=\"copy\"></span> Salin Hasil"
+    },
+    "title": {
+      "copy-result-btn": "Salin hasil ke papan klip"
+    }
+  },
+  "client": {
+    "errors": {
+      "billEmpty": "Masukkan jumlah tagihan.",
+      "billInvalid": "Tagihan harus berupa angka lebih dari 0.",
+      "tipEmpty": "Masukkan persentase tip atau pilih yang tersedia.",
+      "tipNegative": "Tip harus 0% atau lebih.",
+      "tipOver100": "Tip tidak boleh lebih dari 100% tagihan.",
+      "people": "Jumlah orang harus bilangan bulat 1 atau lebih.",
+      "peopleMax": "Bagi untuk paling banyak 1,000 orang.",
+      "tax": "Tarif pajak harus antara 0% dan 100%."
+    },
+    "result": {
+      "eachPays": "Setiap orang dari {{people}} orang membayar",
+      "totalToPay": "Total yang dibayar"
+    },
+    "stats": {
+      "tipRounded": "Tip ({{pct}}% setelah pembulatan)",
+      "tip": "Tip ({{pct}}%)",
+      "total": "Total dengan tip",
+      "perPerson": "Per orang",
+      "tipPerPerson": "Tip per orang",
+      "tipBase": "Dasar tip (sebelum pajak)",
+      "tax": "Pajak dalam tagihan"
+    },
+    "notes": {
+      "uneven": {
+        "other": "{{total}} tidak terbagi rata: {{count}} orang membayar {{high}} dan sisanya membayar {{low}}."
+      },
+      "roundingExtra": "Pembulatan ke atas menambah {{amount}} ke tip."
+    },
+    "copy": {
+      "bill": "Tagihan: {{amount}}",
+      "tip": "Tip: {{amount}}",
+      "total": "Total: {{amount}}",
+      "perPerson": "Per orang ({{people}}): {{amount}}"
+    }
+  }
+}

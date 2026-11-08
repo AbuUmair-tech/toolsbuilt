@@ -5,7 +5,7 @@
  * 1. Global container alignment at 1280, 1440, 1920px
  * 2. No horizontal scroll at 375, 768, 1024, 1280, 1440, 1920px across all page types
  * 3. Exactly one visible search button per breakpoint & no overlap with logo
- * 4. Popular chips have visible icons, exactly 6 popular tools, no "1 tools" plural bugs
+ * 4. Homepage: one card per category, popular tools (max 8), every tool in the All tools list
  * 5. Tool pages: actions bar within 200px below result, 1 copy control, no duplicate related tools, TOC non-intersecting & sticky
  * 6. Byline contains human-readable date without TODO_
  * 7. Privacy claims audit: fails if "no tracking" or "zero tracking" in built HTML with analytics present
@@ -207,19 +207,22 @@ async function run() {
     await page.close();
   }
 
-  console.log('\n--- 5. Hero Popular Chips & Tool Card Integrity ---');
+  console.log('\n--- 5. Homepage Categories, Popular & All Tools ---');
   {
     const page = await browser.newPage({ viewport: { width: 1280, height: 900 } });
     await page.goto(`${baseUrl}/`, { waitUntil: 'networkidle' });
 
-    const chipCount = await page.locator('.hero-quick-access .quick-chip').count();
-    assert(chipCount === 6, `Hero quick-access has exactly 6 chips (found ${chipCount})`);
+    const categories = require(path.join(ROOT, 'src', '_data', 'categories.json'));
+    const cardCount = await page.locator('.category-grid .category-card').count();
+    assert(cardCount === categories.length, `Category grid renders one card per category (found ${cardCount})`);
 
-    const chipsWithIcons = await page.locator('.hero-quick-access .quick-chip svg, .hero-quick-access .quick-chip .quick-chip-icon').count();
-    assert(chipsWithIcons >= 6, `Every popular chip has a visible icon`);
+    const listedTools = tools.filter(t => t.listed !== false);
+    const expectedPopular = Math.min(8, listedTools.filter(t => t.popular).length);
+    const popularCount = await page.locator('#popular-tools .tool-card').count();
+    assert(popularCount === expectedPopular, `Popular tools lists ${expectedPopular} links (found ${popularCount})`);
 
-    const popularCardsCount = await page.locator('#popular-tools .tool-card').count();
-    assert(popularCardsCount === 6, `Popular Tools section renders exactly 6 cards (found ${popularCardsCount})`);
+    const allToolsLinks = await page.locator('#all-tools .all-tools-list a').count();
+    assert(allToolsLinks === listedTools.length, `All tools list links every listed tool (${allToolsLinks}/${listedTools.length})`);
 
     await page.close();
   }

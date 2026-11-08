@@ -6,6 +6,8 @@
 
 document.addEventListener('DOMContentLoaded', () => {
   const logic = window.PercentageCalculatorLogic;
+  const T = ToolsBuilt.scope('percentage-calculator');
+  const locale = ToolsBuilt.pageLocale();
   const tabBtns = document.querySelectorAll('.mode-tab-btn');
   const modeForms = document.querySelectorAll('.calculator-mode-form');
   const resultBox = document.getElementById('result-box');
@@ -91,8 +93,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (formulaBox) {
       if (formulaSteps && formulaSteps.length > 0) {
         formulaBox.innerHTML = `
-          <strong>Step-by-Step Calculation:</strong>
-          <ul style="margin: 0.5rem 0 0 1.25rem; padding: 0;">
+          <strong>${T('steps.heading')}</strong>
+          <ul class="mt-2 mb-0 ml-4 p-0">
             ${formulaSteps.map(st => `<li>${st}</li>`).join('')}
           </ul>
         `;
@@ -106,6 +108,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (actionCopyBtn) {
       actionCopyBtn.setAttribute('data-copy-text', lastResultText);
     }
+
+    ToolsBuilt.resultLink.update(document.getElementById(`${activeMode}-form`));
   }
 
   // Mode 1: What is X% of Y?
@@ -119,21 +123,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (isNaN(p) || isNaN(y)) {
       if (percentInput.value === '' && totalInput.value === '') return;
-      showError('Please enter valid numeric values for both percentage and total.', isNaN(p) ? percentInput : totalInput);
+      showError(T('errors.mode1Fields'), isNaN(p) ? percentInput : totalInput);
       return;
     }
 
     try {
       const res = logic.calculatePercentOf(p, y);
-      lastResultText = `${res.percent}% of ${res.total} is ${res.result}.`;
+      lastResultText = T('result.copyMode1', { percent: res.percent, total: res.total, result: res.result });
 
       renderResult({
-        header: 'Percentage Result',
-        primary: res.result.toLocaleString(),
+        header: T('result.headerMode1'),
+        primary: res.result.toLocaleString(locale),
         stats: [
-          { label: 'Percentage', value: `${res.percent}%` },
-          { label: 'Base Amount (Y)', value: res.total.toLocaleString() },
-          { label: 'Calculated Amount (X)', value: res.result.toLocaleString() }
+          { label: T('stats.percentage'), value: `${res.percent}%` },
+          { label: T('stats.baseAmount'), value: res.total.toLocaleString(locale) },
+          { label: T('stats.calculatedAmount'), value: res.result.toLocaleString(locale) }
         ],
         formulaSteps: res.steps
       });
@@ -153,21 +157,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (isNaN(x) || isNaN(y)) {
       if (partInput.value === '' && wholeInput.value === '') return;
-      showError('Please enter valid numeric values for both part and whole.', isNaN(x) ? partInput : wholeInput);
+      showError(T('errors.mode2Fields'), isNaN(x) ? partInput : wholeInput);
       return;
     }
 
     try {
       const res = logic.calculateWhatPercentIs(x, y);
-      lastResultText = `${res.part} is ${res.formattedPercent} of ${res.whole}.`;
+      lastResultText = T('result.copyMode2', { part: res.part, pct: res.formattedPercent, whole: res.whole });
 
       renderResult({
-        header: 'Proportion Result',
+        header: T('result.headerMode2'),
         primary: res.formattedPercent,
         stats: [
-          { label: 'Part Value (X)', value: res.part.toLocaleString() },
-          { label: 'Total Value (Y)', value: res.whole.toLocaleString() },
-          { label: 'Percentage Proportion', value: res.formattedPercent }
+          { label: T('stats.partValue'), value: res.part.toLocaleString(locale) },
+          { label: T('stats.totalValue'), value: res.whole.toLocaleString(locale) },
+          { label: T('stats.proportion'), value: res.formattedPercent }
         ],
         formulaSteps: res.steps
       });
@@ -189,22 +193,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (isNaN(baseVal) || isNaN(percentVal)) {
       if (baseInput.value === '' && percentInput.value === '') return;
-      showError('Please enter valid numeric values for starting number and percentage.', isNaN(baseVal) ? baseInput : percentInput);
+      showError(T('errors.mode3Fields'), isNaN(baseVal) ? baseInput : percentInput);
       return;
     }
 
     try {
       const res = logic.calculateIncreaseDecrease(baseVal, percentVal, isDecrease);
-      const actionWord = isDecrease ? 'Decreased' : 'Increased';
-      lastResultText = `${res.base} ${actionWord} by ${res.percent}% = ${res.result} (difference of ${isDecrease ? '-' : '+'}${res.delta}).`;
+      const actionWord = isDecrease ? T('result.decreased') : T('result.increased');
+      lastResultText = T('result.copyMode3', {
+        base: res.base, action: actionWord, percent: res.percent, result: res.result, sign: isDecrease ? '-' : '+', delta: res.delta
+      });
 
       renderResult({
-        header: `${actionWord} Value Result`,
-        primary: res.result.toLocaleString(),
+        header: T('result.headerMode3', { action: actionWord }),
+        primary: res.result.toLocaleString(locale),
         stats: [
-          { label: 'Starting Value', value: res.base.toLocaleString() },
-          { label: isDecrease ? 'Subtracted Amount' : 'Added Amount', value: `${isDecrease ? '-' : '+'}${res.delta.toLocaleString()}` },
-          { label: 'Final Value', value: res.result.toLocaleString() }
+          { label: T('stats.startingValue'), value: res.base.toLocaleString(locale) },
+          { label: isDecrease ? T('stats.subtractedAmount') : T('stats.addedAmount'), value: `${isDecrease ? '-' : '+'}${res.delta.toLocaleString(locale)}` },
+          { label: T('stats.finalValue'), value: res.result.toLocaleString(locale) }
         ],
         formulaSteps: res.steps
       });
@@ -226,21 +232,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (isNaN(val) || isNaN(percent)) {
       if (valInput.value === '' && percentInput.value === '') return;
-      showError('Please enter valid numeric values for both fields.', isNaN(val) ? valInput : percentInput);
+      showError(T('errors.mode4Fields'), isNaN(val) ? valInput : percentInput);
       return;
     }
 
     try {
       const res = logic.calculateOriginalValue(val, percent, type);
-      lastResultText = `Original value before ${res.percent}% ${type === 'increase' ? 'markup' : (type === 'decrease' ? 'discount' : 'proportion')} is ${res.result}.`;
+      const copyKey = type === 'increase' ? 'increase' : (type === 'decrease' ? 'decrease' : 'of');
+      lastResultText = T(`result.copyMode4.${copyKey}`, { percent: res.percent, result: res.result });
 
       renderResult({
-        header: 'Original Base Value Result',
-        primary: res.result.toLocaleString(),
+        header: T('result.headerMode4'),
+        primary: res.result.toLocaleString(locale),
         stats: [
-          { label: 'Known Value', value: res.value.toLocaleString() },
-          { label: 'Percentage Applied', value: `${res.percent}%` },
-          { label: 'Calculated Original Value', value: res.result.toLocaleString() }
+          { label: T('stats.knownValue'), value: res.value.toLocaleString(locale) },
+          { label: T('stats.percentApplied'), value: `${res.percent}%` },
+          { label: T('stats.originalValue'), value: res.result.toLocaleString(locale) }
         ],
         formulaSteps: res.steps
       });
@@ -311,7 +318,7 @@ document.addEventListener('DOMContentLoaded', () => {
       try {
         await navigator.clipboard.writeText(lastResultText);
         const originalHtml = copyBtn.innerHTML;
-        copyBtn.innerHTML = '<span>Copied!</span>';
+        copyBtn.innerHTML = `<span>${T('result.copied')}</span>`;
         setTimeout(() => {
           copyBtn.innerHTML = originalHtml;
         }, 2000);
@@ -321,6 +328,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Initial calculation
-  calculateActiveMode();
+  // Result links open the matching mode; otherwise show the default calculation
+  const filled = ToolsBuilt.resultLink.restore(els => {
+    switchMode(els[0].closest('.calculator-mode-form').id.replace('-form', ''));
+  });
+  if (!filled.length) calculateActiveMode();
 });

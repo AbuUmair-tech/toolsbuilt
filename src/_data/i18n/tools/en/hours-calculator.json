@@ -1,0 +1,335 @@
+{
+  "listing": {
+    "name": "Hours Calculator",
+    "shortName": "Hours Calculator",
+    "description": "Calculate hours between two times with breaks and overnight shifts, or total a weekly timesheet with pay and overtime.",
+    "shortDescription": "Hours between two times, decimal hours, and a weekly timesheet with pay and overtime.",
+    "keywords": [
+      "hours calculator",
+      "time duration calculator",
+      "work hours calculator",
+      "timesheet calculator",
+      "hours worked",
+      "decimal hours",
+      "overtime calculator"
+    ]
+  },
+  "title": "Hours Calculator: Time Duration & Work Hours",
+  "description": "Calculate hours between two times, including overnight shifts and unpaid breaks, or total a weekly timesheet with hourly pay and overtime.",
+  "h1": "Hours Calculator",
+  "quickAnswer": "To calculate hours worked, subtract the start time from the end time, then subtract any unpaid break. 9:00 AM to 5:30 PM with a 30-minute break is 8 hours 30 minutes minus 30 minutes = 8:00, or 8.00 decimal hours. If the end time is earlier than the start time, the shift crossed midnight, so add 24 hours to the end time first.",
+  "formula": {
+    "title": "Hours Worked Formula",
+    "expression": "Hours worked = (End time − Start time [+ 24 h if the end is earlier]) − Unpaid break",
+    "explanation": "Both times are converted to minutes after midnight. If the end is earlier than the start, the shift ran past midnight and 1,440 minutes (24 hours) are added to the end. The unpaid break is subtracted, and the result is shown as hours and minutes (h:mm) and as decimal hours (minutes ÷ 60). For pay, hours up to the weekly overtime threshold are paid at the hourly rate, and hours above it at the rate times the overtime multiplier.",
+    "variables": [
+      {
+        "name": "Decimal hours",
+        "description": "Minutes ÷ 60. 45 minutes is 0.75 hours, so 8 hours 45 minutes is 8.75 hours."
+      },
+      {
+        "name": "Regular pay",
+        "description": "min(total hours, overtime threshold) × hourly rate."
+      },
+      {
+        "name": "Overtime pay",
+        "description": "max(0, total hours − overtime threshold) × hourly rate × overtime multiplier."
+      }
+    ]
+  },
+  "workedExamples": [
+    {
+      "title": "Day shift with a 30-minute lunch",
+      "inputs": [
+        "Start: 09:00",
+        "End: 17:30",
+        "Unpaid break: 30 minutes"
+      ],
+      "steps": [
+        "17:30 − 09:00 = 8 hours 30 minutes (510 minutes)",
+        "510 − 30 minute break = 480 minutes",
+        "480 ÷ 60 = 8.00 decimal hours"
+      ],
+      "result": "8:00 (8.00 hours)",
+      "link": "/tools/hours-calculator/?mode=single&start=09%3A00&end=17%3A30&brk=30#tool"
+    },
+    {
+      "title": "Night shift that crosses midnight",
+      "inputs": [
+        "Start: 22:00",
+        "End: 06:00 (next morning)",
+        "Unpaid break: none"
+      ],
+      "steps": [
+        "The end time is earlier than the start, so add 24 hours: 06:00 becomes 30:00",
+        "30:00 − 22:00 = 8 hours"
+      ],
+      "result": "8:00 (8.00 hours)",
+      "link": "/tools/hours-calculator/?mode=single&start=22%3A00&end=06%3A00&brk=0#tool"
+    },
+    {
+      "title": "Converting 8 hours 45 minutes to decimal",
+      "inputs": [
+        "Start: 08:15",
+        "End: 17:30",
+        "Unpaid break: 30 minutes"
+      ],
+      "steps": [
+        "17:30 − 08:15 = 9 hours 15 minutes (555 minutes)",
+        "555 − 30 = 525 minutes = 8 hours 45 minutes",
+        "45 ÷ 60 = 0.75, so 8:45 = 8.75 decimal hours"
+      ],
+      "result": "8:45 (8.75 hours)",
+      "link": "/tools/hours-calculator/?mode=single&start=08%3A15&end=17%3A30&brk=30#tool"
+    },
+    {
+      "title": "45-hour week at 20 per hour with overtime",
+      "inputs": [
+        "Monday to Friday: 08:00 to 17:00, no break (9 hours a day)",
+        "Hourly rate: 20",
+        "Overtime after 40 hours at 1.5×"
+      ],
+      "steps": [
+        "Total: 5 × 9 = 45 hours",
+        "Regular: 40 × 20 = 800",
+        "Overtime: 5 × 20 × 1.5 = 150"
+      ],
+      "result": "Total pay 950 (800 regular + 150 overtime)",
+      "link": "/tools/hours-calculator/?mode=week&mon_s=08%3A00&mon_e=17%3A00&mon_b=0&tue_s=08%3A00&tue_e=17%3A00&tue_b=0&wed_s=08%3A00&wed_e=17%3A00&wed_b=0&thu_s=08%3A00&thu_e=17%3A00&thu_b=0&fri_s=08%3A00&fri_e=17%3A00&fri_b=0&rate=20&ot=1&ota=40&otm=1.5#tool"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Writing 8:45 as 8.45 on a timesheet",
+      "description": "8 hours 45 minutes is 8.75 decimal hours, not 8.45. Payroll systems multiply decimal hours by the rate, so 8.45 underpays 18 minutes of work. Divide the minutes by 60: 15 min = 0.25, 30 min = 0.5, 45 min = 0.75."
+    },
+    {
+      "title": "Getting a negative result for night shifts",
+      "description": "A shift from 22:00 to 06:00 looks like −16 hours if you subtract directly. When the end time is earlier than the start, the shift ran into the next day: add 24 hours to the end time. This calculator does that automatically."
+    },
+    {
+      "title": "Subtracting paid breaks",
+      "description": "Only unpaid breaks should be deducted. Under US federal rules, short rest breaks of about 5 to 20 minutes are generally counted as paid working time, while bona fide meal periods of 30 minutes or more usually are not. Check your contract or local law."
+    },
+    {
+      "title": "Working out overtime per day when the rule is per week",
+      "description": "The US Fair Labor Standards Act sets overtime at 1.5× the regular rate for hours over 40 in a workweek, not per day. Some states (such as California) and many contracts add daily overtime, so a weekly total alone may not match your payslip."
+    },
+    {
+      "title": "Mixing 12-hour and 24-hour times",
+      "description": "5:30 written without AM or PM is ambiguous. Use 24-hour times (17:30) or make sure the AM/PM setting on the time field is right, otherwise a shift can come out 12 hours too short or too long."
+    }
+  ],
+  "sources": [
+    {
+      "name": "U.S. Department of Labor: Overtime Pay (FLSA)",
+      "url": "https://www.dol.gov/agencies/whd/overtime"
+    },
+    {
+      "name": "U.S. Department of Labor: Breaks and Meal Periods",
+      "url": "https://www.dol.gov/general/topic/workhours/breaks"
+    },
+    {
+      "name": "U.S. Department of Labor: Hours Worked fact sheet #22",
+      "url": "https://www.dol.gov/agencies/whd/fact-sheets/22-flsa-hours-worked"
+    },
+    {
+      "name": "GOV.UK: Maximum weekly working hours",
+      "url": "https://www.gov.uk/maximum-weekly-working-hours"
+    }
+  ],
+  "howto": {
+    "name": "How to Calculate Hours Worked",
+    "description": "Work out the hours between two times, or total a weekly timesheet with pay and overtime.",
+    "steps": [
+      {
+        "name": "Choose a mode",
+        "text": "Use Time duration for a single shift, or Weekly timesheet to add up Monday to Sunday."
+      },
+      {
+        "name": "Enter start and end times",
+        "text": "Type or pick the start and end time. If the end is earlier than the start, the shift is treated as running past midnight."
+      },
+      {
+        "name": "Enter the unpaid break",
+        "text": "Add the unpaid break in minutes. Leave it at 0 if breaks are paid."
+      },
+      {
+        "name": "Add pay details (optional)",
+        "text": "In the timesheet, enter an hourly rate and the overtime threshold and multiplier to see regular, overtime and total pay."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "How do I calculate hours worked between two times?",
+      "a": "Subtract the start time from the end time, then subtract unpaid breaks. For 8:30 AM to 5:00 PM with a 30-minute lunch: 17:00 − 8:30 = 8 hours 30 minutes, minus 30 minutes = 8 hours."
+    },
+    {
+      "q": "How do I convert hours and minutes to decimal hours?",
+      "a": "Divide the minutes by 60 and add them to the hours. 7 hours 20 minutes = 7 + 20/60 = 7.33 hours; 8 hours 45 minutes = 8.75 hours; 6 hours 15 minutes = 6.25 hours."
+    },
+    {
+      "q": "How many hours is 9 to 5?",
+      "a": "9:00 AM to 5:00 PM is 8 hours. With an unpaid 30-minute lunch it is 7.5 hours (7:30); with an unpaid one-hour lunch it is 7 hours."
+    },
+    {
+      "q": "How do you calculate hours for a shift that goes past midnight?",
+      "a": "Add 24 hours to the end time before subtracting. 10:00 PM to 6:00 AM becomes 22:00 to 30:00, which is 8 hours. The calculator detects this when the end time is earlier than the start time."
+    },
+    {
+      "q": "How is overtime pay calculated?",
+      "a": "Hours above the threshold (40 per week under the US FLSA) are paid at the regular rate times the multiplier, usually 1.5. For 45 hours at 20 per hour: 40 × 20 = 800 plus 5 × 30 = 150, so 950 in total."
+    },
+    {
+      "q": "How many hours is a full-time work week?",
+      "a": "It depends on the country and employer. 40 hours (five 8-hour days) is common in the US, 37.5 hours is common in the UK, and 35 hours is the legal reference week in France. Enter your own hours and threshold in the timesheet."
+    },
+    {
+      "q": "Should lunch breaks be deducted from hours worked?",
+      "a": "Deduct only unpaid breaks. If your employer pays for the break, leave the break field at 0 so it counts as working time."
+    },
+    {
+      "q": "Does this hours calculator save my timesheet?",
+      "a": "Your entries stay in this browser only. They are kept in the page address so you can bookmark or copy a link to the result, and nothing is sent to a server."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Hours Calculator",
+      "tool-div1": "Calculator mode",
+      "tool-div2": "Weekly timesheet",
+      "copy-result-btn": "Copy result to clipboard",
+      "day-total": "{{day}} hours"
+    },
+    "text": {
+      "tab-single": "Time duration",
+      "tab-week": "Weekly timesheet",
+      "reset-btn": "Reset",
+      "reset-week-btn": "Reset",
+      "result-header-text": "Hours worked",
+      "copy-result-btn": "<span data-icon=\"copy\"></span> Copy Result"
+    },
+    "label": {
+      "start-time": "Start time <span class=\"text-accent\">*</span>",
+      "end-time": "End time <span class=\"text-accent\">*</span>",
+      "break-min": "Unpaid break (minutes)",
+      "hourly-rate": "Hourly rate",
+      "ot-after": "Overtime after (hours per week)",
+      "ot-mult": "Overtime rate multiplier",
+      "day-start": "Start",
+      "day-end": "End",
+      "day-break": "Break (min)"
+    },
+    "content": {
+      "tool": {
+        "p1": "If the end time is earlier than the start time, the shift is counted as finishing the next day.",
+        "button1": "Calculate Hours",
+        "div1": "<span>Day</span><span>Start</span><span>End</span><span>Break (min)</span><span>Hours</span>",
+        "p2": "Leave both times empty for a day off.",
+        "legend1": "Pay and overtime (optional)",
+        "label1": "<input type=\"checkbox\" id=\"ot-enabled\" data-param=\"ot\" checked>\n            <span>Pay overtime above the weekly threshold</span>",
+        "button2": "Total My Week"
+      },
+      "hours-and-minutes-vs-decimal-hours": {
+        "heading": "Hours and Minutes vs Decimal Hours",
+        "p1": "Clocks count in base 60 but payroll counts in base 10, which is where most timesheet errors come from. A shift of 7 hours 30 minutes is written <strong>7:30</strong> on a clock and <strong>7.5</strong> in decimal hours. To convert, divide the minutes by 60:",
+        "caption1": "Minutes to decimal hours",
+        "th1": "Minutes",
+        "th2": "Decimal",
+        "th3": "Minutes",
+        "th4": "Decimal",
+        "p2": "The calculator shows both forms side by side, so you can copy the clock format into a timesheet and the decimal format into a payroll or invoicing system."
+      },
+      "when-to-use-the-weekly-timesheet": {
+        "heading": "When to Use the Weekly Timesheet",
+        "li1": "<strong>Hourly employees:</strong> check that your payslip matches the hours you worked, including overtime above 40 hours.",
+        "li2": "<strong>Freelancers and contractors:</strong> total billable hours for the week and multiply by your rate for an invoice.",
+        "li3": "<strong>Shift workers:</strong> night shifts that end the next morning are handled per row, so a Friday 22:00 to Saturday 06:00 shift counts as 8 hours on Friday.",
+        "li4": "<strong>Managers and small businesses:</strong> sanity-check rota hours before running payroll.",
+        "p1": "Overtime rules differ by country. In the US, the Fair Labor Standards Act requires 1.5 times the regular rate for hours over 40 in a workweek for non-exempt employees. In the UK there is no legal overtime premium, but the Working Time Regulations cap average working time at 48 hours a week unless you opt out. Set the threshold and multiplier to match your contract, or untick overtime to pay every hour at the same rate."
+      }
+    },
+    "placeholder": {
+      "hourly-rate": "e.g. 15"
+    },
+    "title": {
+      "copy-result-btn": "Copy result to clipboard"
+    },
+    "day": {
+      "mon": "Monday",
+      "tue": "Tuesday",
+      "wed": "Wednesday",
+      "thu": "Thursday",
+      "fri": "Friday",
+      "sat": "Saturday",
+      "sun": "Sunday"
+    }
+  },
+  "client": {
+    "days": {
+      "mon": "Monday",
+      "tue": "Tuesday",
+      "wed": "Wednesday",
+      "thu": "Thursday",
+      "fri": "Friday",
+      "sat": "Saturday",
+      "sun": "Sunday"
+    },
+    "dayN": "Day {{n}}",
+    "errors": {
+      "invalidStart": "Enter a valid start time, for example 09:00.",
+      "invalidEnd": "Enter a valid end time, for example 17:30.",
+      "negativeBreak": "The break must be zero or a positive number of minutes.",
+      "breakTooLong": "The break ({{breakMin}} min) is longer than the time between start and end ({{span}}).",
+      "overtimeAfter": "Overtime must start after zero or more hours.",
+      "multiplier": "The overtime multiplier must be 1 or more (for example 1.5).",
+      "noRows": "No timesheet rows were given.",
+      "rowIncomplete": "{{day}}: enter both a start and an end time, or leave both empty.",
+      "rowError": "{{day}}: {{error}}",
+      "missingStart": "Enter a start time, for example 09:00.",
+      "missingEnd": "Enter an end time, for example 17:30.",
+      "rate": "The hourly rate must be zero or a positive number."
+    },
+    "result": {
+      "headerSingle": "Hours worked",
+      "headerWeek": {
+        "one": "Weekly total ({{count}} day worked)",
+        "other": "Weekly total ({{count}} days worked)"
+      },
+      "hours": "{{hhmm}} hours",
+      "hoursAndPay": "{{hhmm}} hours · {{pay}} pay"
+    },
+    "notes": {
+      "crossesMidnight": "The end time is earlier than the start, so the shift is counted as finishing the next day.",
+      "sameTime": "Start and end are the same time, so the duration is 0. For a full 24-hour shift, enter 00:00 to 23:59 and add one minute.",
+      "overnight": "{{days}}: shift runs past midnight and is counted on the day it started.",
+      "addRate": "Add an hourly rate to see regular, overtime and total pay."
+    },
+    "stats": {
+      "hoursAndMinutes": "Hours and minutes",
+      "decimalHours": "Decimal hours",
+      "totalMinutes": "Total minutes",
+      "timeOnSite": "Time on site",
+      "unpaidBreak": "Unpaid break",
+      "minutesValue": "{{n}} min",
+      "hoursValue": "{{hhmm}} ({{decimal}} h)",
+      "totalHours": "Total hours",
+      "regularHours": "Regular hours",
+      "overtimeHours": "Overtime hours",
+      "regularPay": "Regular pay",
+      "overtimePay": "Overtime pay",
+      "totalPay": "Total pay",
+      "payAtRate": "{{pay}} ({{rate}}/h)"
+    },
+    "copy": {
+      "single": "{{start}} to {{end}}, {{breakMin}} min break: {{hhmm}} hours ({{decimal}} decimal hours)",
+      "singleNextDay": "{{start}} to {{end}} (next day), {{breakMin}} min break: {{hhmm}} hours ({{decimal}} decimal hours)",
+      "dayLine": "{{day}}: {{hhmm}}",
+      "total": "Total: {{hhmm}} ({{decimal}} h)",
+      "regularPay": "Regular pay: {{pay}}",
+      "overtimePay": "Overtime pay: {{pay}}",
+      "totalPay": "Total pay: {{pay}}"
+    }
+  }
+}

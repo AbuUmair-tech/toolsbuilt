@@ -1,0 +1,141 @@
+---
+layout: layouts/tool.njk
+toolSlug: hours-calculator
+permalink: /tools/hours-calculator/
+extraCss: "/tools/hours-calculator/style.css"
+lastReviewed: "2026-10-31"
+---
+
+    <!-- Tool Form Container -->
+    <section class="tool-container" aria-label="{{ 'ariaLabel.tool-section1' | pt }}">
+      <div class="segmented-control mb-6" role="tablist" aria-label="{{ 'ariaLabel.tool-div1' | pt }}">
+        <button type="button" class="btn btn-sm mode-tab-btn active" id="tab-single" data-mode="single" role="tab" aria-selected="true" aria-controls="single-form">{{ 'text.tab-single' | pt }}</button>
+        <button type="button" class="btn btn-sm mode-tab-btn" id="tab-week" data-mode="week" role="tab" aria-selected="false" aria-controls="week-form" tabindex="-1">{{ 'text.tab-week' | pt }}</button>
+      </div>
+      <input type="hidden" id="mode" data-param="mode" value="single">
+
+      <!-- Mode 1: single duration -->
+      <form id="single-form" class="hours-mode-form" role="tabpanel" aria-labelledby="tab-single" novalidate>
+        <div class="form-grid hours-single-grid">
+          <div class="form-group">
+            <label for="start-time">{{ 'label.start-time' | pt }}</label>
+            <input type="time" id="start-time" data-param="start" class="form-control" value="09:00" required aria-required="true">
+          </div>
+          <div class="form-group">
+            <label for="end-time">{{ 'label.end-time' | pt }}</label>
+            <input type="time" id="end-time" data-param="end" class="form-control" value="17:30" required aria-required="true">
+          </div>
+          <div class="form-group">
+            <label for="break-min">{{ 'label.break-min' | pt }}</label>
+            <input type="number" inputmode="numeric" min="0" step="1" id="break-min" data-param="brk" class="form-control" value="30">
+          </div>
+        </div>
+        <p class="form-hint">{{ 'content.tool.p1' | pt }}</p>
+
+        <div class="button-group mt-6">
+          <button type="submit" class="btn btn-primary">{{ 'content.tool.button1' | pt }}</button>
+          <button type="button" class="btn btn-secondary" id="reset-btn">{{ 'text.reset-btn' | pt }}</button>
+        </div>
+      </form>
+
+      <!-- Mode 2: weekly timesheet -->
+      <form id="week-form" class="hours-mode-form" role="tabpanel" aria-labelledby="tab-week" hidden novalidate>
+        <div class="timesheet" role="group" aria-label="{{ 'ariaLabel.tool-div2' | pt }}">
+          <div class="timesheet-head" aria-hidden="true">
+            {{ 'content.tool.div1' | pt }}
+          </div>
+          {% set days = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"] %}
+          {% for d in days %}{% set dayName = ("day." + d) | pt %}
+          <div class="timesheet-row" data-day="{{ loop.index0 }}">
+            <span class="timesheet-day" id="day-{{ d }}">{{ dayName }}</span>
+            <div class="timesheet-cell">
+              <label class="timesheet-label" for="{{ d }}-start">{{ 'label.day-start' | pt }}</label>
+              <input type="time" id="{{ d }}-start" class="form-control ts-start" data-param="{{ d }}_s" aria-describedby="day-{{ d }}"{% if loop.index0 < 5 %} value="09:00"{% endif %}>
+            </div>
+            <div class="timesheet-cell">
+              <label class="timesheet-label" for="{{ d }}-end">{{ 'label.day-end' | pt }}</label>
+              <input type="time" id="{{ d }}-end" class="form-control ts-end" data-param="{{ d }}_e" aria-describedby="day-{{ d }}"{% if loop.index0 < 5 %} value="17:30"{% endif %}>
+            </div>
+            <div class="timesheet-cell">
+              <label class="timesheet-label" for="{{ d }}-break">{{ 'label.day-break' | pt }}</label>
+              <input type="number" inputmode="numeric" min="0" step="1" id="{{ d }}-break" class="form-control ts-break" data-param="{{ d }}_b" aria-describedby="day-{{ d }}"{% if loop.index0 < 5 %} value="30"{% endif %}>
+            </div>
+            <output class="timesheet-total tabular-nums" id="{{ d }}-total" for="{{ d }}-start {{ d }}-end {{ d }}-break" aria-label="{{ 'ariaLabel.day-total' | pt({ day: dayName }) }}">–</output>
+          </div>
+          {% endfor %}
+        </div>
+        <p class="form-hint">{{ 'content.tool.p2' | pt }}</p>
+
+        <fieldset class="hours-fieldset">
+          <legend>{{ 'content.tool.legend1' | pt }}</legend>
+          <div class="form-grid hours-pay-grid">
+            <div class="form-group">
+              <label for="hourly-rate">{{ 'label.hourly-rate' | pt }}</label>
+              <input type="number" inputmode="decimal" min="0" step="any" id="hourly-rate" data-param="rate" class="form-control" placeholder="{{ 'placeholder.hourly-rate' | pt }}">
+            </div>
+            <div class="form-group">
+              <label for="ot-after">{{ 'label.ot-after' | pt }}</label>
+              <input type="number" inputmode="decimal" min="0" step="any" id="ot-after" data-param="ota" class="form-control" value="40">
+            </div>
+            <div class="form-group">
+              <label for="ot-mult">{{ 'label.ot-mult' | pt }}</label>
+              <input type="number" inputmode="decimal" min="1" step="any" id="ot-mult" data-param="otm" class="form-control" value="1.5">
+            </div>
+          </div>
+          <label class="checkbox-label">
+            {{ 'content.tool.label1' | pt }}
+          </label>
+        </fieldset>
+
+        <div class="button-group mt-6">
+          <button type="submit" class="btn btn-primary">{{ 'content.tool.button2' | pt }}</button>
+          <button type="button" class="btn btn-secondary" id="reset-week-btn">{{ 'text.reset-week-btn' | pt }}</button>
+        </div>
+      </form>
+
+      <div id="error-box" class="hidden form-error" role="alert"></div>
+
+      <!-- Result Box -->
+      <div id="result-box" class="result-box is-visible" aria-live="polite">
+        <div class="result-header">
+          <span id="result-header-text">{{ 'text.result-header-text' | pt }}</span>
+          <button type="button" class="btn btn-sm btn-ghost" id="copy-result-btn" title="{{ 'title.copy-result-btn' | pt }}" aria-label="{{ 'ariaLabel.copy-result-btn' | pt }}">
+            {{ 'text.copy-result-btn' | pt }}
+          </button>
+        </div>
+        <div class="result-primary" id="result-primary-text">--</div>
+        <p class="form-hint" id="result-note"></p>
+        <div class="result-grid" id="result-stats"></div>
+      </div>
+    </section>
+
+    <!-- tool-end -->
+
+    <section class="content-section">
+      <h2>{{ 'content.hours-and-minutes-vs-decimal-hours.heading' | pt }}</h2>
+      <p>{{ 'content.hours-and-minutes-vs-decimal-hours.p1' | pt }}</p>
+      <div class="table-wrapper">
+        <table class="table">
+          <caption class="visually-hidden">{{ 'content.hours-and-minutes-vs-decimal-hours.caption1' | pt }}</caption>
+          <thead><tr><th scope="col">{{ 'content.hours-and-minutes-vs-decimal-hours.th1' | pt }}</th><th scope="col">{{ 'content.hours-and-minutes-vs-decimal-hours.th2' | pt }}</th><th scope="col">{{ 'content.hours-and-minutes-vs-decimal-hours.th3' | pt }}</th><th scope="col">{{ 'content.hours-and-minutes-vs-decimal-hours.th4' | pt }}</th></tr></thead>
+          <tbody>
+            <tr><td>5</td><td>0.08</td><td>35</td><td>0.58</td></tr>
+            <tr><td>10</td><td>0.17</td><td>40</td><td>0.67</td></tr>
+            <tr><td>15</td><td>0.25</td><td>45</td><td>0.75</td></tr>
+            <tr><td>20</td><td>0.33</td><td>50</td><td>0.83</td></tr>
+            <tr><td>25</td><td>0.42</td><td>55</td><td>0.92</td></tr>
+            <tr><td>30</td><td>0.50</td><td>60</td><td>1.00</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>{{ 'content.hours-and-minutes-vs-decimal-hours.p2' | pt }}</p>
+
+      <h2>{{ 'content.when-to-use-the-weekly-timesheet.heading' | pt }}</h2>
+      <ul class="content-list">
+        <li>{{ 'content.when-to-use-the-weekly-timesheet.li1' | pt }}</li>
+        <li>{{ 'content.when-to-use-the-weekly-timesheet.li2' | pt }}</li>
+        <li>{{ 'content.when-to-use-the-weekly-timesheet.li3' | pt }}</li>
+        <li>{{ 'content.when-to-use-the-weekly-timesheet.li4' | pt }}</li>
+      </ul>
+      <p>{{ 'content.when-to-use-the-weekly-timesheet.p1' | pt }}</p>
+    </section>

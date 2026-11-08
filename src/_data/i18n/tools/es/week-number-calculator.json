@@ -1,0 +1,270 @@
+{
+  "listing": {
+    "name": "Calculadora de número de semana",
+    "shortName": "Número de semana",
+    "description": "Consulta el número de semana ISO 8601 de hoy, la semana de cualquier fecha y las fechas de lunes a domingo de cualquier semana.",
+    "shortDescription": "Número de semana ISO de cualquier fecha, fechas de cada semana y años de 52 o 53 semanas.",
+    "keywords": [
+      "número de semana",
+      "en qué semana estamos",
+      "número de semana iso",
+      "calculadora de número de semana",
+      "semana actual del año",
+      "cuántas semanas tiene un año",
+      "semana 53"
+    ]
+  },
+  "title": "Calculadora de número de semana: ¿en qué semana estamos?",
+  "description": "Calculadora de número de semana ISO 8601: ve la semana de hoy o de cualquier fecha, las fechas de lunes a domingo y si un año tiene 52 o 53 semanas.",
+  "h1": "Calculadora de número de semana",
+  "quickAnswer": "Según esta calculadora de número de semana, las semanas ISO 8601 empiezan en lunes y la semana 1 es la que contiene el primer jueves del año (es decir, la semana que incluye el 4 de enero). Así, el 1 de enero de 2026 está en 2026-W01, pero el 1 de enero de 2027 sigue en 2026-W53, y el 30 de diciembre de 2024 ya pertenece a 2025-W01. La mayoría de los años tienen 52 semanas ISO; 2026 tiene 53.",
+  "formula": {
+    "title": "Regla del número de semana ISO 8601",
+    "expression": "Semana ISO = ⌊(día del año del jueves de esa semana − 1) ÷ 7⌋ + 1, en el año que contiene ese jueves",
+    "explanation": "Busca el jueves de la semana de lunes a domingo de la fecha (suma 4 menos el día de la semana ISO, donde el lunes es 1 y el domingo 7). El año en el que cae ese jueves es el año ISO de la semana, y contar las semanas completas desde el 1 de enero de ese año da el número de semana. Un año tiene 53 semanas ISO cuando empieza en jueves, o cuando es bisiesto y empieza en miércoles; el 28 de diciembre siempre está en la última semana.",
+    "variables": [
+      {
+        "name": "Día de la semana ISO",
+        "description": "Lunes = 1, martes = 2 … domingo = 7. Se escribe después de la semana, como en 2026-W44-6 para un sábado."
+      },
+      {
+        "name": "Año ISO de la semana",
+        "description": "El año al que pertenece la semana. Es distinto del año de calendario durante unos pocos días alrededor del 1 de enero."
+      },
+      {
+        "name": "Número de semana de EE. UU.",
+        "description": "Otra convención: las semanas empiezan en domingo y la semana 1 es la que contiene el 1 de enero, así que el número puede diferir en uno del ISO."
+      }
+    ]
+  },
+  "workedExamples": [
+    {
+      "title": "1 de enero de 2026 (jueves)",
+      "inputs": [
+        "Fecha: 2026-01-01"
+      ],
+      "steps": [
+        "La fecha es jueves, así que el jueves de su semana está en 2026",
+        "Ese jueves es el primero del año"
+      ],
+      "result": "2026-W01 (del lunes 29 de diciembre de 2025 al domingo 4 de enero de 2026)"
+    },
+    {
+      "title": "1 de enero de 2027 (viernes)",
+      "inputs": [
+        "Fecha: 2027-01-01"
+      ],
+      "steps": [
+        "El jueves de su semana es el 31 de diciembre de 2026",
+        "Así que la semana pertenece al año ISO 2026 y es su última semana"
+      ]
+    },
+    {
+      "title": "30 de diciembre de 2024 (lunes)",
+      "inputs": [
+        "Fecha: 2024-12-30"
+      ],
+      "steps": [
+        "El jueves de su semana es el 2 de enero de 2025",
+        "Así que la semana es la primera del año ISO 2025"
+      ]
+    },
+    {
+      "title": "Fechas de la semana 53 de 2026",
+      "inputs": [
+        "Año: 2026",
+        "Semana: 53"
+      ],
+      "steps": [
+        "2026 empieza en jueves, así que tiene 53 semanas ISO",
+        "La semana 1 empieza el lunes 29 de diciembre de 2025; suma 52 × 7 días"
+      ],
+      "result": "Del lunes 28 de diciembre de 2026 al domingo 3 de enero de 2027"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Suponer que la semana 1 empieza el 1 de enero",
+      "description": "En ISO 8601, la semana 1 puede empezar desde el 29 de diciembre hasta el 4 de enero. Los días del principio o del final del año suelen pertenecer a una semana del año vecino."
+    },
+    {
+      "title": "Usar el año de calendario con la semana ISO",
+      "description": "El 1 de enero de 2027 está en la semana 53 de 2026, no en la semana 53 de 2027. Escribe siempre el año ISO junto con la semana (2026-W53). En código, usa el formato de año ISO de la semana (<code>%G</code> con <code>%V</code> en strftime, o <code>IYYY</code> con <code>IW</code> en PostgreSQL y Oracle) en lugar del año de calendario."
+    },
+    {
+      "title": "Mezclar números de semana de EE. UU. e ISO",
+      "description": "Los calendarios de EE. UU. y algunas hojas de cálculo empiezan la semana en domingo y cuentan como semana 1 la que contiene el 1 de enero. Así, la misma fecha puede caer en semanas distintas en cada sistema. La función <code>WEEKNUM</code> (NUM.DE.SEMANA) de Excel usa por defecto la regla de EE. UU.; <code>ISOWEEKNUM</code> (ISO.NUM.DE.SEMANA) usa ISO 8601."
+    },
+    {
+      "title": "Suponer que todos los años tienen 52 semanas",
+      "description": "52 × 7 = 364 días, así que los uno o dos días sobrantes acaban sumando una semana ISO 53 cada cinco o seis años. 2020, 2026 y 2032 tienen 53 semanas, lo que importa en nóminas semanales, informes y calendarios fiscales."
+    },
+    {
+      "title": "Calcular con la hora local cerca de medianoche",
+      "description": "Si el código calcula la semana a partir de una marca de tiempo en UTC mientras el usuario está en otra zona horaria, la noche del domingo o la mañana del lunes pueden caer en la semana equivocada. Convierte primero a la fecha local del usuario y luego obtén el número de semana."
+    }
+  ],
+  "sources": [
+    {
+      "name": "ISO 8601: formato de fecha y hora (ISO)"
+    },
+    {
+      "name": "Estándar HTML del W3C: semanas (cadena de semana válida)"
+    },
+    {
+      "name": "Soporte de Microsoft: función ISO.NUM.DE.SEMANA (ISOWEEKNUM)"
+    },
+    {
+      "name": "Soporte de Microsoft: función NUM.DE.SEMANA (WEEKNUM)"
+    }
+  ],
+  "howto": {
+    "name": "Cómo saber el número de semana de una fecha",
+    "description": "Consulta la semana ISO 8601 de cualquier fecha o las fechas de cualquier semana.",
+    "steps": [
+      {
+        "name": "Consulta la semana actual",
+        "text": "La parte superior de la herramienta muestra la semana ISO actual y sus fechas de lunes a domingo."
+      },
+      {
+        "name": "Introduce una fecha",
+        "text": "Elige cualquier fecha para ver su semana ISO, el año ISO de la semana, el número del día de la semana y el número de semana al estilo de EE. UU."
+      },
+      {
+        "name": "Consulta las fechas de una semana",
+        "text": "Introduce un año y un número de semana para ver las fechas de lunes a domingo de esa semana ISO y si el año tiene 52 o 53 semanas."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "¿En qué número de semana estamos hoy?",
+      "a": "El recuadro de la parte superior de la calculadora muestra el número de semana ISO 8601 de hoy, según la fecha de tu dispositivo, junto con las fechas del lunes y el domingo."
+    },
+    {
+      "q": "¿Cómo se calculan los números de semana?",
+      "a": "Según ISO 8601, las semanas van de lunes a domingo y la semana 1 es la que contiene el primer jueves del año. Cada semana pertenece al año en el que cae su jueves."
+    },
+    {
+      "q": "¿Qué años tienen 53 semanas?",
+      "a": "Un año tiene 53 semanas ISO si el 1 de enero es jueves, o si es bisiesto y el 1 de enero es miércoles. Ejemplos recientes y próximos son 2015, 2020, 2026, 2032 y 2037."
+    },
+    {
+      "q": "¿La semana empieza en lunes o en domingo?",
+      "a": "ISO 8601, que se usa en Europa, Latinoamérica y gran parte de Asia, empieza las semanas en lunes. En EE. UU., Canadá y algunos otros países, los calendarios suelen empezar la semana en domingo. La calculadora muestra el número ISO y, por separado, el número al estilo de EE. UU."
+    },
+    {
+      "q": "¿Qué fechas tiene la semana 1 de 2026?",
+      "a": "La semana ISO 1 de 2026 va del lunes 29 de diciembre de 2025 al domingo 4 de enero de 2026."
+    },
+    {
+      "q": "¿Qué diferencia hay entre ISO.NUM.DE.SEMANA y NUM.DE.SEMANA en Excel?",
+      "a": "ISO.NUM.DE.SEMANA (ISOWEEKNUM) devuelve la semana ISO 8601 (inicio en lunes, regla del primer jueves). NUM.DE.SEMANA (WEEKNUM) con su tipo predeterminado cuenta las semanas desde el domingo, y la semana 1 es la que contiene el 1 de enero, lo que coincide con el número al estilo de EE. UU. de esta página."
+    },
+    {
+      "q": "¿Cómo se escribe una fecha de semana ISO?",
+      "a": "Escribe el año ISO de la semana, W, el número de semana con dos dígitos y, opcionalmente, el día de la semana: 2026-W44 para la semana o 2026-W44-6 para su sábado. La forma compacta es 2026W446."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Calculadora de número de semana",
+      "copy-result-btn": "Copiar el resultado al portapapeles"
+    },
+    "text": {
+      "week-today": "<span class=\"week-today-label\">Esta semana (ISO 8601)</span>\n        <span class=\"week-today-value\" id=\"today-week\">–</span>\n        <span class=\"week-today-range\" id=\"today-range\"></span>",
+      "today-btn": "Hoy",
+      "reset-btn": "Restablecer",
+      "result-header-text": "Semana ISO",
+      "copy-result-btn": "<span data-icon=\"copy\"></span> Copiar resultado"
+    },
+    "content": {
+      "week-number-of-a-date": {
+        "heading": "Número de semana de una fecha",
+        "button1": "Buscar número de semana"
+      },
+      "dates-in-a-week": {
+        "heading": "Fechas de una semana"
+      },
+      "how-many-weeks-are-in-a": {
+        "heading": "¿Cuántas semanas tiene un año?",
+        "p1": "La mayoría de los años tienen 52 semanas ISO. Aparece una semana 53 cuando el año empieza en jueves, o cuando un año bisiesto empieza en miércoles, porque entonces el año tiene 53 jueves. Esto ocurre 71 veces cada 400 años, más o menos cada cinco o seis años.",
+        "caption1": "Semanas ISO por año, de 2024 a 2032",
+        "th1": "Año ISO",
+        "th2": "Semanas",
+        "th3": "Empieza la semana 1",
+        "th4": "El 1 de enero es",
+        "td1": "Lun 1 ene 2024",
+        "td2": "Lunes",
+        "td3": "Lun 30 dic 2024",
+        "td4": "Miércoles",
+        "td5": "Lun 29 dic 2025",
+        "td6": "Jueves",
+        "td7": "Lun 4 ene 2027",
+        "td8": "Viernes",
+        "td9": "Lun 3 ene 2028",
+        "td10": "Sábado",
+        "td11": "Lun 1 ene 2029",
+        "td12": "Lunes",
+        "td13": "Lun 31 dic 2029",
+        "td14": "Martes",
+        "td15": "Lun 30 dic 2030",
+        "td16": "Miércoles",
+        "td17": "Lun 29 dic 2031",
+        "td18": "Jueves"
+      },
+      "iso-vs-us-week-numbers": {
+        "heading": "Números de semana ISO frente a los de EE. UU.",
+        "p1": "El sistema ISO se usa en la planificación empresarial, la fabricación, la logística y las estadísticas oficiales de Europa y gran parte del mundo. Cada semana tiene exactamente siete días y pertenece a un solo año, lo que hace que los informes semanales cuadren. La convención de EE. UU. es más fácil de leer en un calendario de pared, pero produce semanas incompletas: la semana 1 puede ser un solo sábado, y un año puede tener 53 o incluso 54 semanas numeradas.",
+        "li1": "<strong>Planificación entre países:</strong> di \"semana ISO\" en correos y contratos, e incluye el año de la semana (2026-W53) para evitar ambigüedades a fin de año.",
+        "li2": "<strong>Hojas de cálculo:</strong> usa <code>ISOWEEKNUM</code> (ISO.NUM.DE.SEMANA) en Excel y Google Sheets para semanas ISO, o <code>WEEKNUM(date, 21)</code>, que también sigue ISO 8601.",
+        "li3": "<strong>Código:</strong> JavaScript no tiene número de semana integrado, Python ofrece <code>date.isocalendar()</code> y PostgreSQL tiene <code>extract(week from date)</code> con <code>isoyear</code> para el año de la semana.",
+        "li4": "<strong>Formularios HTML:</strong> el campo <code>&lt;input type=\"week\"&gt;</code> usa el formato ISO, como 2026-W44."
+      }
+    },
+    "label": {
+      "week-date": "Fecha <span class=\"text-accent\">*</span>",
+      "range-year": "Año ISO <span class=\"text-accent\">*</span>",
+      "range-week": "Número de semana <span class=\"text-accent\">*</span>"
+    },
+    "title": {
+      "copy-result-btn": "Copiar el resultado al portapapeles"
+    }
+  },
+  "client": {
+    "errors": {
+      "yearRange": "Introduce un año entre 1 y 9999.",
+      "weekRange": "{{year}} tiene {{max}} semanas ISO. Introduce un número de semana del 1 al {{max}}.",
+      "invalidDate": "Introduce una fecha válida (AAAA-MM-DD).",
+      "pickDate": "Elige una fecha para ver su número de semana.",
+      "year": "Introduce un año de cuatro dígitos, por ejemplo 2026.",
+      "week": "Introduce un número de semana del 1 al 53."
+    },
+    "today": {
+      "week": "Semana {{week}}",
+      "range": "{{label}} · {{start}} – {{end}} · hoy es {{weekday}} (día {{day}})"
+    },
+    "result": {
+      "header": "{{date}} está en la semana ISO {{week}}",
+      "weekYearDiffers": "Esta fecha es de {{year}}, pero su semana pertenece al año ISO {{weekYear}} porque el jueves de esa semana cae en {{weekYear}}."
+    },
+    "stats": {
+      "week": "Semana (lun – dom)",
+      "isoWeekDate": "Fecha de semana ISO",
+      "isoWeekYear": "Año ISO de la semana",
+      "isoWeekYearValue": "{{year}} ({{weeks}} semanas)",
+      "weekday": "Día de la semana",
+      "weekdayValue": "{{weekday}} (día ISO {{day}})",
+      "usWeek": "Semana estilo EE. UU. (empieza en domingo, la semana 1 incluye el 1 de enero)",
+      "usWeekValue": "Semana {{week}} de {{year}}",
+      "dayOfYear": "Día del año",
+      "dayOfYearValue": "{{day}} de {{total}}"
+    },
+    "copy": {
+      "result": "{{date}} está en la semana ISO {{label}} (del {{start}} al {{end}}). Semana estilo EE. UU.: {{usWeek}}."
+    },
+    "range": {
+      "summary": "{{label}}: del {{start}} al {{end}} · {{year}} tiene {{weeks}} semanas ISO"
+    }
+  }
+}

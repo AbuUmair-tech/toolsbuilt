@@ -4,7 +4,7 @@ on:
   push:
     branches: [main, staging]
   pull_request:
-    branches: [staging]
+    branches: [staging, main]
 
 permissions:
   contents: read
@@ -36,7 +36,8 @@ jobs:
 
   deploy:
     needs: build-and-test
-    if: github.ref == 'refs/heads/main'
+    # Deploy only on a push to main (merges), never for pull requests
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     environment:
       name: github-pages
@@ -58,6 +59,8 @@ jobs:
         run: SITE_ENV=production node scripts/check-schema.js
       - name: Check SEO (production)
         run: SITE_ENV=production node scripts/check-seo.js
+      - name: Check no external resources (production)
+        run: SITE_ENV=production node scripts/check-external.js
       - name: Assert no noindex in homepage & robots.txt allows all
         run: |
           if grep -qi 'noindex' _site/index.html; then

@@ -1,0 +1,211 @@
+{
+  "listing": {
+    "name": "JSON-Formatierer & Validator",
+    "shortName": "JSON-Formatierer",
+    "description": "JSON formatieren, minifizieren, validieren und Schlüssel sortieren, mit Fehlermeldungen samt Zeile und Spalte.",
+    "shortDescription": "JSON formatieren, minifizieren, validieren und Schlüssel sortieren, mit Fehlermeldungen samt Zeile und Spalte.",
+    "keywords": [
+      "json formatierer",
+      "json validator",
+      "json formatieren",
+      "json minifizieren",
+      "json syntax prüfen"
+    ]
+  },
+  "title": "JSON-Formatierer & Validator: JSON formatieren & prüfen",
+  "description": "JSON-Formatierer & Validator: JSON mit 2/4 Leerzeichen oder Tabs formatieren, minifizieren, Schlüssel sortieren, Fehler mit Zeilennummer finden.",
+  "h1": "JSON-Formatierer & Validator",
+  "quickAnswer": "Um JSON zu formatieren und zu validieren, füge deinen Rohtext in den Editor ein. Der JSON-Formatierer parst den Text mit JSON.parse(), prüft die Syntax, zeigt bei ungültigem JSON die genaue Zeile und Spalte des Fehlers an und formatiert die Struktur mit 2 Leerzeichen, 4 Leerzeichen oder Tabs. Du kannst auch minifizieren, um Leerraum zu entfernen, oder die Schlüssel alphabetisch sortieren. Alles läuft zu 100% in deinem Browser.",
+  "workedExamples": [
+    {
+      "title": "Kompaktes JSON mit 2 Leerzeichen Einrückung formatieren",
+      "inputs": [
+        "Eingabe: {\"name\":\"ToolsBuilt\",\"tools\":23,\"free\":true}",
+        "Einrückung: 2 Leerzeichen",
+        "Schlüssel sortieren: deaktiviert"
+      ],
+      "steps": [
+        "Text in eine Baumstruktur im Speicher parsen",
+        "Mit 2 Leerzeichen Einrückung und Zeilenumbrüchen serialisieren"
+      ],
+      "result": "{\n  \"name\": \"ToolsBuilt\",\n  \"tools\": 23,\n  \"free\": true\n}"
+    },
+    {
+      "title": "Schlüssel alphabetisch sortieren (verschachteltes Objekt)",
+      "inputs": [
+        "Eingabe: {\"z\": 1, \"a\": {\"y\": 2, \"b\": 3}}",
+        "Schlüssel sortieren: aktiviert"
+      ],
+      "steps": [
+        "JSON-Objekt rekursiv durchlaufen",
+        "Schlüssel der obersten Ebene ordnen: 'a' vor 'z'",
+        "Unterschlüssel in 'a' ordnen: 'b' vor 'y'"
+      ]
+    },
+    {
+      "title": "JSON für Netzwerk-Payloads minifizieren",
+      "inputs": [
+        "Eingabe: formatiertes JSON mit Leerraum und mehrzeiliger Formatierung",
+        "Aktion: Minifizieren"
+      ],
+      "steps": [
+        "Alle unnötigen Leerzeichen, Tabs und Zeilenumbrüche außerhalb von String-Literalen entfernen",
+        "Payload-Größe in Bytes für eine effiziente HTTP-Übertragung verringern"
+      ],
+      "result": "{\"name\":\"ToolsBuilt\",\"tools\":23,\"free\":true}"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Nachgestellte Kommas",
+      "description": "Ein Komma nach dem letzten Element eines Arrays (<code>[1, 2, 3,]</code>) oder Objekts (<code>{\"a\": 1,}</code>) ist in modernem JavaScript erlaubt, löst in Standard-JSON aber sofort einen Syntaxfehler aus."
+    },
+    {
+      "title": "Einfache Anführungszeichen bei Strings",
+      "description": "JSON verlangt zwingend doppelte Anführungszeichen (<code>\"key\": \"value\"</code>). Einfache Anführungszeichen (<code>'key': 'value'</code>) werden von allen standardkonformen JSON-Parsern abgelehnt."
+    },
+    {
+      "title": "Schlüssel ohne Anführungszeichen",
+      "description": "In JavaScript dürfen Schlüssel ohne Anführungszeichen stehen (<code>{name: \"value\"}</code>). In JSON müssen Schlüssel immer in doppelten Anführungszeichen stehen."
+    },
+    {
+      "title": "Nicht maskierte Steuerzeichen",
+      "description": "Echte Tabulatorzeichen oder rohe Zeilenumbrüche in String-Werten machen das JSON ungültig und müssen als <code>\\t</code> bzw. <code>\\n</code> maskiert werden."
+    }
+  ],
+  "sources": [
+    {
+      "label": "ECMA-404: The JSON Data Interchange Standard"
+    },
+    {
+      "label": "RFC 8259: The JavaScript Object Notation (JSON) Data Interchange Format"
+    },
+    {
+      "label": "MDN Web Docs: Spezifikation von JSON.parse()"
+    }
+  ],
+  "howto": {
+    "name": "So formatierst und validierst du JSON online",
+    "description": "Schritt-für-Schritt-Anleitung, um JSON in deinem Browser zu formatieren, die Syntax zu prüfen und zu minifizieren.",
+    "steps": [
+      {
+        "name": "JSON einfügen oder eingeben",
+        "text": "Füge deinen JSON-Code in das Eingabefeld ein oder klicke auf „Beispiel laden“."
+      },
+      {
+        "name": "Formatierungsoptionen wählen",
+        "text": "Wähle die gewünschte Einrückung (2 Leerzeichen, 4 Leerzeichen oder Tab) und aktiviere bei Bedarf die alphabetische Sortierung der Schlüssel."
+      },
+      {
+        "name": "Formatieren, validieren oder herunterladen",
+        "text": "Sieh dir das formatierte Ergebnis in Echtzeit an, prüfe Syntaxfehler mit Zeilen- und Spaltennummer oder klicke auf Kopieren/Herunterladen."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Was sind die häufigsten Ursachen für JSON-Syntaxfehler?",
+      "a": "Die häufigsten JSON-Syntaxfehler sind nachgestellte Kommas nach dem letzten Array-Element oder der letzten Objekteigenschaft, Schlüssel ohne Anführungszeichen, einfache statt doppelter Anführungszeichen und nicht maskierte Zeilenumbrüche in Strings."
+    },
+    {
+      "q": "Sortiert dieser JSON-Formatierer die Schlüssel rekursiv?",
+      "a": "Ja. Wenn „Schlüssel alphabetisch sortieren“ aktiviert ist, werden die Schlüssel auf der obersten Ebene und in allen verschachtelten Unterobjekten alphabetisch sortiert."
+    },
+    {
+      "q": "Wie groß darf die Datei zum Formatieren maximal sein?",
+      "a": "Damit der Browser stabil und flüssig bleibt, gilt eine Sicherheitsgrenze von 1 MB (1,048,576 Zeichen). Große Eingaben werden verzögert verarbeitet, damit die Oberfläche nicht ruckelt."
+    },
+    {
+      "q": "Werden meine JSON-Daten auf einen externen Server hochgeladen?",
+      "a": "Nein. Formatieren, Sortieren, Validieren und Minifizieren laufen zu 100% lokal im Speicher deines Browsers. Vertrauliche API-Schlüssel, Payload-Dumps und Konfigurationsdateien werden nie über das Netzwerk gesendet."
+    },
+    {
+      "q": "Was ist der Unterschied zwischen Formatieren und Minifizieren von JSON?",
+      "a": "Beim Formatieren werden Einrückungen und Zeilenumbrüche hinzugefügt, damit Entwickler die Daten leicht lesen und debuggen können. Beim Minifizieren wird jeder unnötige Leerraum entfernt, um die übertragene Datenmenge im Netzwerk möglichst klein zu halten."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Formular JSON-Formatierer &amp; Validator",
+      "example-1-unformatted-input-pre1": "Beispiel für unformatiertes JSON",
+      "example-2-formatted-2-spaces-pre1": "Beispiel für formatiertes JSON mit 2 Leerzeichen Einrückung"
+    },
+    "label": {
+      "indent-select": "Einrückung:",
+      "json-input": "Eingabe-JSON:",
+      "json-output": "Formatierte / minifizierte Ausgabe:"
+    },
+    "option": {
+      "indent-select": {
+        "2": "2 Leerzeichen",
+        "4": "4 Leerzeichen",
+        "tab": "Tab"
+      }
+    },
+    "content": {
+      "tool": {
+        "label1": "<input type=\"checkbox\" id=\"sort-keys-toggle\" class=\"cursor-pointer\">\n            <span>Schlüssel alphabetisch sortieren</span>"
+      },
+      "how-when-to-use-the-json": {
+        "li1": "<strong>REST- &amp; GraphQL-APIs debuggen:</strong> Einzeilige API-Antworten aus cURL oder Postman in lesbare, verschachtelte Strukturen umwandeln.",
+        "li2": "<strong>Konfigurationsdateien prüfen:</strong> <code>tsconfig.json</code>, <code>package.json</code> oder Kubernetes-Konfigurationen vor dem Deployment schnell auf Syntaxfehler prüfen.",
+        "li3": "<strong>Payload-Größe optimieren:</strong> JSON-Dateien vor dem Bundling oder der Übertragung minifizieren, um Übertragungsgröße und Bandbreite zu sparen.",
+        "li4": "<strong>Schlüssel deterministisch vergleichen:</strong> Mit alphabetischer Sortierung zwei JSON-Dokumente vereinheitlichen, damit du Unterschiede ohne falsche Abweichungen durch die Schlüsselreihenfolge vergleichen kannst."
+      },
+      "json-formatting-standards-indentation-formulas": {
+        "p1": "JavaScript Object Notation (JSON) ist ein striktes, textbasiertes Datenaustauschformat, das in ECMA-404 und RFC 8259 festgelegt ist. Anders als JavaScript-Objektliterale verlangt JSON doppelte Anführungszeichen um alle Schlüssel und Strings und verbietet nachgestellte Kommas, Kommentare und Bezeichner ohne Anführungszeichen."
+      },
+      "example-1-unformatted-input": {
+        "heading": "Beispiel 1: Unformatierte Eingabe",
+        "p1": "Kompakter einzeiliger Payload:"
+      },
+      "example-2-formatted-2-spaces": {
+        "heading": "Beispiel 2: Formatiert (2 Leerzeichen)",
+        "p1": "Mit Standardeinrückung verschönert:"
+      },
+      "example-3-key-sorting-comparison": {
+        "heading": "Beispiel 3: Vergleich mit sortierten Schlüsseln",
+        "p1": "Die alphabetische Sortierung ordnet Schlüssel einheitlich:",
+        "li1": "Vorher: <code>{\"z\": 1, \"a\": 2}</code>",
+        "li2": "Nachher: <code>{\"a\": 2, \"z\": 1}</code>",
+        "li3": "Ermöglicht deterministisches Hashing und saubere Diffs in der Versionskontrolle."
+      }
+    },
+    "text": {
+      "sample-btn": "Beispiel laden",
+      "clear-btn": "Leeren",
+      "size-meter": "0.0 KB / 1 MB",
+      "format-btn": "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><polyline points=\"16 18 22 12 16 6\"></polyline><polyline points=\"8 6 2 12 8 18\"></polyline></svg>\n          JSON formatieren",
+      "minify-btn": "JSON minifizieren",
+      "validate-btn": "Syntax prüfen",
+      "copy-btn": "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"9\" y=\"9\" width=\"13\" height=\"13\" rx=\"2\" ry=\"2\"></rect><path d=\"M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1\"></path></svg>\n          Ausgabe kopieren",
+      "download-btn": "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4\"></path><polyline points=\"7 10 12 15 17 10\"></polyline><line x1=\"12\" y1=\"15\" x2=\"12\" y2=\"3\"></line></svg>\n          .json herunterladen",
+      "how-to-use-heading": "Wie &amp; wann du den JSON-Formatierer nutzt",
+      "article-heading": "JSON-Formatierungsstandards, Einrückung &amp; Regeln"
+    },
+    "placeholder": {
+      "json-output": "Die formatierte Ausgabe erscheint hier live, während du tippst ..."
+    }
+  },
+  "client": {
+    "sizeMeter": "{{kb}} KB / {{max}} MB",
+    "status": {
+      "formatted": "✓ Gültiges JSON: {{lines}} Zeilen formatiert ({{kb}} KB)",
+      "minified": "✓ JSON minifiziert: 1 Zeile ({{chars}} Zeichen)",
+      "valid": "✓ Gültige JSON-Syntax: {{lines}} Zeilen ({{kb}} KB)"
+    },
+    "errors": {
+      "invalid": "Ungültiges JSON",
+      "empty": "Die JSON-Eingabe ist leer. Füge JSON ein oder tippe es ein, um es zu prüfen.",
+      "tooLarge": "Die Eingabe überschreitet die Sicherheitsgrenze von 1 MB (max. 1,048,576 Zeichen). Aktuelle Größe: {{size}} Zeichen.",
+      "syntax": "Syntaxfehler: {{message}} in Zeile {{line}}, Spalte {{column}}"
+    },
+    "toast": {
+      "nothingToCopy": "Nichts zu kopieren. Gib zuerst gültiges JSON ein.",
+      "copied": "JSON in die Zwischenablage kopiert",
+      "nothingToDownload": "Nichts herunterzuladen. Gib zuerst gültiges JSON ein.",
+      "downloaded": "{{file}} heruntergeladen",
+      "downloadFailed": "Download fehlgeschlagen. Nutze stattdessen Kopieren."
+    }
+  }
+}

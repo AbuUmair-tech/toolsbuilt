@@ -1,152 +1,79 @@
 ---
 layout: layouts/tool.njk
 toolSlug: word-counter
-title: "Word Counter - Character & Reading Time Counter"
-description: "Free online word counter and character count tool. Calculate words, characters, sentences, reading time, and top words live as you type."
 permalink: /tools/word-counter/
-h1: "Word & Character Counter"
-quickAnswer: "To analyze your text, type or paste content directly into the editor. The tool live-counts words, characters with and without spaces, sentences, paragraphs, and reading time based on 225 words per minute. Everything processes locally with full Unicode support, ensuring your writing remains private and secure."
-formula:
-  title: "Lexical Analysis & Reading Speed Formulas"
-  expression: "Word Count = Total Unicode Word Tokens (\\p{L}\\p{N}+)  |  Reading Time = Words / 225 wpm"
-  explanation: "Words are tokenized by matching contiguous sequences of Unicode letters and numbers, properly recognizing contractions and multi-script characters. Estimated silent reading time applies the peer-reviewed cognitive benchmark of 225 words per minute (Brysbaert 2019 meta-analysis)."
-workedExamples:
-  - title: "Short Social Media Post"
-    inputs:
-      - "Text: 'ToolsBuilt provides instant calculators that run entirely in your browser without data collection.'"
-    steps:
-      - "Extract Unicode word tokens: 13 words"
-      - "Count total characters with spaces: 98 characters"
-      - "Count printable characters without whitespace: 86 characters"
-      - "Calculate silent reading time (13 / 225 wpm): 3 seconds"
-    result: "13 words | 98 characters (86 no spaces) | 1 sentence | 3 sec reading time"
-  - title: "Unicode Multilingual Text with Emoji"
-    inputs:
-      - "Text: 'Café au lait costs €4.50 in Paris! ☕'"
-    steps:
-      - "Tokenize accented words and numbers: ['Café', 'au', 'lait', 'costs', '4', '50', 'in', 'Paris'] = 8 words"
-      - "Count Unicode code points (emoji counted as 1 glyph): 36 characters"
-      - "Count characters without whitespace: 29 characters"
-    result: "8 words | 36 characters (29 no spaces) | 1 sentence | 2 sec reading time"
-  - title: "Long Form Essay Timing (450 Words)"
-    inputs:
-      - "Text: 450 words of body text"
-    steps:
-      - "Tally total words: 450 words"
-      - "Calculate silent reading duration: 450 ÷ 225 wpm = 2 min 0 sec"
-      - "Calculate conversational speaking duration: 450 ÷ 140 wpm = 3 min 13 sec"
-    result: "450 words | Reading Time: 2 min 0 sec | Speaking Time: 3 min 13 sec"
-commonMistakes:
-  - title: "Relying on Simple Whitespace Splitting"
-    description: "Using text.split(' ') counts standalone punctuation, double spaces, and emojis as separate words. Accurate counts require Unicode letter tokenization."
-  - title: "Assuming 300 WPM Reading Speed"
-    description: "While 300 wpm is commonly claimed, empirical cognitive meta-analyses (Brysbaert 2019) establish the standard adult silent reading benchmark at 225 wpm."
-  - title: "Confusing Characters With and Without Spaces"
-    description: "Social media, translation agencies, and character-limited forms distinguish between total glyphs with spaces and printable characters without spaces."
-  - title: "Miscounting UTF-16 Emoji Surrogate Pairs"
-    description: "In basic JavaScript, emoji surrogates register as 2 characters. Accurate length calculation requires Array.from(text) or regex unicode code point counting."
-sources:
-  - name: "Unicode Standard Annex #29: Unicode Text Segmentation"
-    url: "https://unicode.org/reports/tr29/"
-  - name: "W3C Internationalization Working Group"
-    url: "https://www.w3.org/International/"
-  - name: "Brysbaert, M. (2019) How many words do we read per minute? A review and meta-analysis"
-    url: "https://doi.org/10.1016/j.jml.2019.104047"
-lastReviewed: "October 24, 2026"
-howto:
-  name: "How to Count Words and Characters Online"
-  description: "Step-by-step guide to using the free ToolsBuilt Word Counter."
-  steps:
-    - name: "Enter or Paste Text"
-      text: "Type or paste your text into the main input area."
-    - name: "View Real-Time Metrics"
-      text: "Read the automatically updated word count, character counts, sentences, and estimated reading time."
-    - name: "Copy or Clear Text"
-      text: "Use the Copy Text button to copy your text to the clipboard or Clear Text to reset."
-faqs:
-  - q: "How does the Word & Character Counter calculate word count?"
-    a: "The tool uses Unicode-aware word tokenization (matching consecutive letters and digits across all alphabets, including accented characters). Hyphens and punctuation boundaries are parsed in accordance with standard typographical conventions."
-  - q: "What is the difference between characters with and without spaces?"
-    a: "Characters with spaces count every glyph, whitespace gap, and newline. Characters without spaces exclude whitespace gaps, counting only visible printable characters."
-  - q: "How are reading and speaking times estimated?"
-    a: "Reading time is based on the standard adult reading benchmark of 225 words per minute (wpm), established in cognitive psychology studies. Speaking time uses a conversational presentation benchmark of 140 words per minute."
-  - q: "Why are common stop words excluded from keyword density?"
-    a: "Common grammatical words like 'the', 'is', 'at', and 'and' occur frequently in nearly all English text. Filtering out stop words reveals the meaningful topical keywords in your content."
-  - q: "Is my typed text saved or transmitted to a server?"
-    a: "No. All text analysis runs 100% locally in your browser memory. Your writing is never transmitted, stored, or analyzed on any external server."
-  - q: "How does the tool count sentences and paragraphs?"
-    a: "Sentences are identified by standard terminal punctuation marks (. ! ?). Paragraphs are counted based on consecutive line break transitions."
-  - q: "Can I use this word counter on mobile devices?"
-    a: "Yes. The tool is fully responsive and executes instantly on smartphones and tablets directly within any mobile browser."
+lastReviewed: "2026-10-24"
 ---
 
     <!-- Tool Form Container -->
-    <section class="tool-container" aria-label="Word &amp; Character Counter Form">
+    <section class="tool-container" aria-label="{{ 'ariaLabel.tool-section1' | pt }}">
       <div class="form-group">
-        <label for="text-input" style="display: flex; justify-content: space-between; align-items: center;">
-          <span>Type or Paste Your Text Below:</span>
+        <label for="text-input" class="row-between">
+          {{ 'label.text-input' | pt }}
         </label>
-        <textarea id="text-input" class="form-control" rows="8" placeholder="Start typing or paste your content here to calculate real-time word and character statistics..." style="font-family: inherit; line-height: 1.6; resize: vertical; min-height: 180px;"></textarea>
+        <textarea id="text-input" class="form-control textarea-tall" rows="8" placeholder="{{ 'placeholder.text-input' | pt }}"></textarea>
       </div>
 
-      <div class="button-group" style="margin-top: 1rem;">
-        <button type="button" class="btn btn-primary" id="copy-btn"><span data-icon="copy"></span> Copy Text</button>
-        <button type="button" class="btn btn-secondary" id="copy-stats-btn">Copy Stats Summary</button>
-        <button type="button" class="btn btn-ghost" id="clear-btn">Clear Text</button>
+      <div class="button-group mt-4">
+        <button type="button" class="btn btn-primary" id="copy-btn">{{ 'text.copy-btn' | pt }}</button>
+        <button type="button" class="btn btn-secondary" id="copy-stats-btn">{{ 'text.copy-stats-btn' | pt }}</button>
+        <button type="button" class="btn btn-ghost" id="clear-btn">{{ 'text.clear-btn' | pt }}</button>
       </div>
 
       <!-- Live Results Cards -->
-      <div style="margin-top: 2rem; border-top: 1px solid var(--border-subtle); padding-top: 1.5rem;" aria-live="polite">
-        <h3 style="font-size: 1.15rem; margin-bottom: 1rem;">Live Text Statistics</h3>
+      <div class="section-divider" aria-live="polite">
+        <h3 class="text-md mb-4">{{ 'content.live-text-statistics.heading' | pt }}</h3>
         
         <div class="result-grid">
           <div class="result-stat-card">
-            <div class="result-stat-label">Total Words</div>
+            <div class="result-stat-label">{{ 'content.live-text-statistics.div1' | pt }}</div>
             <div class="result-stat-value" id="stat-words">0</div>
           </div>
           <div class="result-stat-card">
-            <div class="result-stat-label">Characters (with spaces)</div>
+            <div class="result-stat-label">{{ 'content.live-text-statistics.div2' | pt }}</div>
             <div class="result-stat-value" id="stat-chars-space">0</div>
           </div>
           <div class="result-stat-card">
-            <div class="result-stat-label">Characters (no spaces)</div>
+            <div class="result-stat-label">{{ 'content.live-text-statistics.div3' | pt }}</div>
             <div class="result-stat-value" id="stat-chars-nospace">0</div>
           </div>
           <div class="result-stat-card">
-            <div class="result-stat-label">Sentences</div>
+            <div class="result-stat-label">{{ 'content.live-text-statistics.div4' | pt }}</div>
             <div class="result-stat-value" id="stat-sentences">0</div>
           </div>
           <div class="result-stat-card">
-            <div class="result-stat-label">Paragraphs</div>
+            <div class="result-stat-label">{{ 'content.live-text-statistics.div5' | pt }}</div>
             <div class="result-stat-value" id="stat-paragraphs">0</div>
           </div>
           <div class="result-stat-card">
-            <div class="result-stat-label">Est. Reading Time (225 wpm)</div>
-            <div class="result-stat-value" id="stat-reading-time">0 sec</div>
+            <div class="result-stat-label">{{ 'content.live-text-statistics.div6' | pt }}</div>
+            <div class="result-stat-value" id="stat-reading-time">{{ 'text.stat-reading-time' | pt }}</div>
           </div>
           <div class="result-stat-card">
-            <div class="result-stat-label">Est. Speaking Time (140 wpm)</div>
-            <div class="result-stat-value" id="stat-speaking-time">0 sec</div>
+            <div class="result-stat-label">{{ 'content.live-text-statistics.div7' | pt }}</div>
+            <div class="result-stat-value" id="stat-speaking-time">{{ 'text.stat-speaking-time' | pt }}</div>
           </div>
         </div>
 
-        <div style="margin-top: 1.75rem; background-color: var(--surface-muted); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
-          <h4 style="font-size: 1rem; margin-bottom: 0.75rem; color: var(--text-main);">Top 5 Keywords (Stop Words Excluded)</h4>
-          <ul id="top-words-list" style="list-style: none; padding: 0; margin: 0;">
-            <li style="color: var(--text-muted); font-size: 0.9rem;">Type or paste text to see keyword density.</li>
+        <div class="panel-muted mt-6">
+          <h4 class="text-base mb-3 text-primary">{{ 'content.live-text-statistics.heading-2' | pt }}</h4>
+          <ul id="top-words-list" class="list-none p-0 m-0">
+            <li class="text-secondary text-sm">{{ 'content.live-text-statistics.li1' | pt }}</li>
           </ul>
         </div>
 
       </div>
     </section>
 
+    <!-- tool-end -->
+
     <!-- When to Use Section -->
-    <section style="margin: 2.5rem 0;">
-      <h2>How &amp; When to Use the Word Counter</h2>
-      <ul style="color: var(--text-muted); line-height: 1.8; margin-left: 1.25rem;">
-        <li><strong>Social Media Character Limits:</strong> Check character counts before posting to platforms like X / Twitter (280 characters), LinkedIn posts (3,000 characters), or Instagram captions (2,200 characters).</li>
-        <li><strong>Academic &amp; Essay Writing:</strong> Ensure essays, abstracts, and term papers meet mandatory length constraints (e.g. 500-word personal statements or 250-word journal abstracts).</li>
-        <li><strong>Speech &amp; Presentation Rehearsal:</strong> Estimate presentation duration accurately using the 140-wpm speaking benchmark to ensure you fit within allocated speaking slots.</li>
-        <li><strong>SEO Meta Descriptions &amp; Page Titles:</strong> Keep meta descriptions within the recommended 150–160 character window to avoid search engine snippet truncation.</li>
+    <section class="content-section">
+      <h2>{{ 'content.how-when-to-use-the-word.heading' | pt }}</h2>
+      <ul class="content-list">
+        <li>{{ 'content.how-when-to-use-the-word.li1' | pt }}</li>
+        <li>{{ 'content.how-when-to-use-the-word.li2' | pt }}</li>
+        <li>{{ 'content.how-when-to-use-the-word.li3' | pt }}</li>
+        <li>{{ 'content.how-when-to-use-the-word.li4' | pt }}</li>
       </ul>
     </section>

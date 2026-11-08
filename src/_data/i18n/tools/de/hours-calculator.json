@@ -1,0 +1,320 @@
+{
+  "listing": {
+    "name": "Stundenrechner",
+    "shortName": "Stundenrechner",
+    "description": "Berechne die Stunden zwischen zwei Uhrzeiten mit Pausen und Nachtschichten oder summiere einen Wochenstundenzettel mit Lohn und Überstunden.",
+    "shortDescription": "Stunden zwischen zwei Uhrzeiten, Dezimalstunden und Wochenstundenzettel mit Lohn und Überstunden.",
+    "keywords": [
+      "stundenrechner",
+      "zeitdauer berechnen",
+      "arbeitszeitrechner",
+      "stundenzettel rechner",
+      "arbeitsstunden berechnen",
+      "industrieminuten dezimalstunden",
+      "überstunden berechnen"
+    ]
+  },
+  "title": "Stundenrechner: Arbeitszeit & Stunden berechnen",
+  "description": "Stundenrechner: Berechne die Stunden zwischen zwei Uhrzeiten, auch über Mitternacht und mit Pausen, oder summiere deine Woche mit Lohn und Überstunden.",
+  "h1": "Stundenrechner",
+  "quickAnswer": "Mit dem Stundenrechner ermittelst du deine Arbeitsstunden: Zieh die Startzeit von der Endzeit ab und dann die unbezahlte Pause. 9:00 bis 17:30 mit 30 Minuten Pause sind 8 Stunden 30 Minuten minus 30 Minuten = 8:00, also 8.00 Dezimalstunden. Liegt die Endzeit vor der Startzeit, ging die Schicht über Mitternacht; addiere dann zuerst 24 Stunden zur Endzeit.",
+  "formula": {
+    "title": "Formel für Arbeitsstunden",
+    "expression": "Arbeitsstunden = (Endzeit − Startzeit [+ 24 h, wenn das Ende früher liegt]) − unbezahlte Pause",
+    "explanation": "Beide Uhrzeiten werden in Minuten nach Mitternacht umgerechnet. Liegt das Ende vor dem Start, lief die Schicht über Mitternacht, und 1,440 Minuten (24 Stunden) werden zum Ende addiert. Die unbezahlte Pause wird abgezogen, und das Ergebnis wird als Stunden und Minuten (h:mm) und als Dezimalstunden (Minuten ÷ 60) angezeigt. Beim Lohn werden Stunden bis zur wöchentlichen Überstundengrenze mit dem Stundenlohn bezahlt, Stunden darüber mit dem Stundenlohn mal Überstundenfaktor.",
+    "variables": [
+      {
+        "name": "Dezimalstunden",
+        "description": "Minuten ÷ 60. 45 Minuten sind 0.75 Stunden, 8 Stunden 45 Minuten also 8.75 Stunden."
+      },
+      {
+        "name": "Regulärer Lohn",
+        "description": "min(Gesamtstunden, Überstundengrenze) × Stundenlohn."
+      },
+      {
+        "name": "Überstundenlohn",
+        "description": "max(0, Gesamtstunden − Überstundengrenze) × Stundenlohn × Überstundenfaktor."
+      }
+    ]
+  },
+  "workedExamples": [
+    {
+      "title": "Tagschicht mit 30 Minuten Mittagspause",
+      "inputs": [
+        "Start: 09:00",
+        "Ende: 17:30",
+        "Unbezahlte Pause: 30 Minuten"
+      ],
+      "steps": [
+        "17:30 − 09:00 = 8 Stunden 30 Minuten (510 Minuten)",
+        "510 − 30 Minuten Pause = 480 Minuten",
+        "480 ÷ 60 = 8.00 Dezimalstunden"
+      ],
+      "result": "8:00 (8.00 Stunden)"
+    },
+    {
+      "title": "Nachtschicht über Mitternacht",
+      "inputs": [
+        "Start: 22:00",
+        "Ende: 06:00 (am nächsten Morgen)",
+        "Unbezahlte Pause: keine"
+      ],
+      "steps": [
+        "Die Endzeit liegt vor der Startzeit, also 24 Stunden addieren: aus 06:00 wird 30:00",
+        "30:00 − 22:00 = 8 Stunden"
+      ],
+      "result": "8:00 (8.00 Stunden)"
+    },
+    {
+      "title": "8 Stunden 45 Minuten in Dezimalstunden umrechnen",
+      "inputs": [
+        "Start: 08:15",
+        "Ende: 17:30",
+        "Unbezahlte Pause: 30 Minuten"
+      ],
+      "steps": [
+        "17:30 − 08:15 = 9 Stunden 15 Minuten (555 Minuten)",
+        "555 − 30 = 525 Minuten = 8 Stunden 45 Minuten",
+        "45 ÷ 60 = 0.75, also 8:45 = 8.75 Dezimalstunden"
+      ],
+      "result": "8:45 (8.75 Stunden)"
+    },
+    {
+      "title": "45-Stunden-Woche mit 20 pro Stunde und Überstunden",
+      "inputs": [
+        "Montag bis Freitag: 08:00 bis 17:00, ohne Pause (9 Stunden pro Tag)",
+        "Stundenlohn: 20",
+        "Überstunden ab 40 Stunden mit 1.5×"
+      ],
+      "steps": [
+        "Gesamt: 5 × 9 = 45 Stunden",
+        "Regulär: 40 × 20 = 800",
+        "Überstunden: 5 × 20 × 1.5 = 150"
+      ],
+      "result": "Gesamtlohn 950 (800 regulär + 150 Überstunden)"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "8:45 als 8.45 auf den Stundenzettel schreiben",
+      "description": "8 Stunden 45 Minuten sind 8.75 Dezimalstunden, nicht 8.45. Lohnsysteme multiplizieren Dezimalstunden mit dem Stundenlohn, mit 8.45 fehlen also 18 Minuten Arbeit. Teile die Minuten durch 60: 15 Min. = 0.25, 30 Min. = 0.5, 45 Min. = 0.75."
+    },
+    {
+      "title": "Negative Ergebnisse bei Nachtschichten",
+      "description": "Eine Schicht von 22:00 bis 06:00 ergibt beim direkten Abziehen −16 Stunden. Liegt die Endzeit vor der Startzeit, lief die Schicht in den nächsten Tag: Addiere 24 Stunden zur Endzeit. Dieser Rechner macht das automatisch."
+    },
+    {
+      "title": "Bezahlte Pausen abziehen",
+      "description": "Zieh nur unbezahlte Pausen ab. Nach US-Bundesrecht gelten kurze Ruhepausen von etwa 5 bis 20 Minuten meist als bezahlte Arbeitszeit, echte Essenspausen ab 30 Minuten dagegen meist nicht. In Deutschland sind gesetzliche Ruhepausen in der Regel unbezahlt. Prüfe deinen Vertrag oder das geltende Recht."
+    },
+    {
+      "title": "Überstunden pro Tag berechnen, obwohl die Regel pro Woche gilt",
+      "description": "Der US Fair Labor Standards Act sieht für Stunden über 40 pro Arbeitswoche das 1.5-Fache des regulären Lohns vor, nicht pro Tag. Manche Bundesstaaten (etwa Kalifornien) und viele Verträge sehen zusätzlich tägliche Überstunden vor, sodass eine reine Wochensumme nicht zu deiner Abrechnung passen muss."
+    },
+    {
+      "title": "12- und 24-Stunden-Format mischen",
+      "description": "5:30 ohne AM oder PM ist mehrdeutig. Nutze 24-Stunden-Zeiten (17:30) oder achte auf die richtige AM/PM-Einstellung im Zeitfeld, sonst wird eine Schicht 12 Stunden zu kurz oder zu lang."
+    }
+  ],
+  "sources": [
+    {
+      "name": "U.S. Department of Labor: Overtime Pay (FLSA)"
+    },
+    {
+      "name": "U.S. Department of Labor: Pausen und Essenszeiten"
+    },
+    {
+      "name": "U.S. Department of Labor: Merkblatt #22 zur Arbeitszeit"
+    },
+    {
+      "name": "GOV.UK: Maximale wöchentliche Arbeitszeit"
+    }
+  ],
+  "howto": {
+    "name": "So berechnest du deine Arbeitsstunden",
+    "description": "Berechne die Stunden zwischen zwei Uhrzeiten oder summiere einen Wochenstundenzettel mit Lohn und Überstunden.",
+    "steps": [
+      {
+        "name": "Modus wählen",
+        "text": "Nutze Zeitdauer für eine einzelne Schicht oder Wochenstundenzettel, um Montag bis Sonntag zu summieren."
+      },
+      {
+        "name": "Start- und Endzeit eingeben",
+        "text": "Tippe oder wähle Start- und Endzeit. Liegt das Ende vor dem Start, gilt die Schicht als über Mitternacht laufend."
+      },
+      {
+        "name": "Unbezahlte Pause eingeben",
+        "text": "Gib die unbezahlte Pause in Minuten ein. Lass sie bei 0, wenn Pausen bezahlt werden."
+      },
+      {
+        "name": "Lohndaten hinzufügen (optional)",
+        "text": "Gib im Stundenzettel einen Stundenlohn sowie Überstundengrenze und -faktor ein, um regulären Lohn, Überstundenlohn und Gesamtlohn zu sehen."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Wie berechne ich die Arbeitsstunden zwischen zwei Uhrzeiten?",
+      "a": "Zieh die Startzeit von der Endzeit ab und dann unbezahlte Pausen. Für 8:30 bis 17:00 mit 30 Minuten Mittagspause: 17:00 − 8:30 = 8 Stunden 30 Minuten, minus 30 Minuten = 8 Stunden."
+    },
+    {
+      "q": "Wie rechne ich Stunden und Minuten in Dezimalstunden um?",
+      "a": "Teile die Minuten durch 60 und addiere sie zu den Stunden. 7 Stunden 20 Minuten = 7 + 20/60 = 7.33 Stunden; 8 Stunden 45 Minuten = 8.75 Stunden; 6 Stunden 15 Minuten = 6.25 Stunden."
+    },
+    {
+      "q": "Wie viele Stunden sind 9 bis 17 Uhr?",
+      "a": "9:00 bis 17:00 Uhr sind 8 Stunden. Mit 30 Minuten unbezahlter Mittagspause sind es 7.5 Stunden (7:30), mit einer Stunde unbezahlter Pause 7 Stunden."
+    },
+    {
+      "q": "Wie berechnet man Stunden für eine Schicht über Mitternacht?",
+      "a": "Addiere vor dem Abziehen 24 Stunden zur Endzeit. 22:00 bis 6:00 wird zu 22:00 bis 30:00, also 8 Stunden. Der Rechner erkennt das, wenn die Endzeit vor der Startzeit liegt."
+    },
+    {
+      "q": "Wie wird der Überstundenlohn berechnet?",
+      "a": "Stunden über der Grenze (40 pro Woche nach dem US-FLSA) werden mit dem regulären Lohn mal Faktor bezahlt, meist 1.5. Für 45 Stunden zu 20 pro Stunde: 40 × 20 = 800 plus 5 × 30 = 150, insgesamt also 950."
+    },
+    {
+      "q": "Wie viele Stunden hat eine Vollzeitwoche?",
+      "a": "Das hängt von Land und Arbeitgeber ab. 40 Stunden (fünf 8-Stunden-Tage) sind in den USA üblich, in Deutschland liegen viele Tarifverträge zwischen 35 und 40 Stunden, im Vereinigten Königreich sind 37.5 Stunden verbreitet und in Frankreich sind 35 Stunden die gesetzliche Referenzwoche. Gib deine eigenen Stunden und deine Grenze im Stundenzettel ein."
+    },
+    {
+      "q": "Sollte die Mittagspause von der Arbeitszeit abgezogen werden?",
+      "a": "Zieh nur unbezahlte Pausen ab. Bezahlt dein Arbeitgeber die Pause, lass das Pausenfeld bei 0, damit sie als Arbeitszeit zählt."
+    },
+    {
+      "q": "Speichert dieser Stundenrechner meinen Stundenzettel?",
+      "a": "Deine Eingaben bleiben nur in diesem Browser. Sie stehen in der Seitenadresse, damit du ein Lesezeichen setzen oder einen Link zum Ergebnis kopieren kannst, und nichts wird an einen Server gesendet."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Stundenrechner",
+      "tool-div1": "Modus des Rechners",
+      "tool-div2": "Wochenstundenzettel",
+      "copy-result-btn": "Ergebnis in die Zwischenablage kopieren",
+      "day-total": "Stunden am {{day}}"
+    },
+    "text": {
+      "tab-single": "Zeitdauer",
+      "tab-week": "Wochenstundenzettel",
+      "reset-btn": "Zurücksetzen",
+      "reset-week-btn": "Zurücksetzen",
+      "result-header-text": "Arbeitsstunden",
+      "copy-result-btn": "<span data-icon=\"copy\"></span> Ergebnis kopieren"
+    },
+    "label": {
+      "start-time": "Startzeit <span class=\"text-accent\">*</span>",
+      "end-time": "Endzeit <span class=\"text-accent\">*</span>",
+      "break-min": "Unbezahlte Pause (Minuten)",
+      "hourly-rate": "Stundenlohn",
+      "ot-after": "Überstunden ab (Stunden pro Woche)",
+      "ot-mult": "Überstundenfaktor",
+      "day-start": "Start",
+      "day-end": "Ende",
+      "day-break": "Pause (Min.)"
+    },
+    "content": {
+      "tool": {
+        "p1": "Liegt die Endzeit vor der Startzeit, wird die Schicht als am nächsten Tag endend gezählt.",
+        "button1": "Stunden berechnen",
+        "div1": "<span>Tag</span><span>Start</span><span>Ende</span><span>Pause (Min.)</span><span>Stunden</span>",
+        "p2": "Lass beide Zeiten leer für einen freien Tag.",
+        "legend1": "Lohn und Überstunden (optional)",
+        "label1": "<input type=\"checkbox\" id=\"ot-enabled\" data-param=\"ot\" checked>\n            <span>Überstunden über der Wochengrenze vergüten</span>",
+        "button2": "Woche summieren"
+      },
+      "hours-and-minutes-vs-decimal-hours": {
+        "heading": "Stunden und Minuten vs. Dezimalstunden",
+        "p1": "Uhren zählen zur Basis 60, Lohnabrechnungen zur Basis 10 – daher kommen die meisten Fehler auf Stundenzetteln. Eine Schicht von 7 Stunden 30 Minuten schreibt man auf der Uhr <strong>7:30</strong> und in Dezimalstunden <strong>7.5</strong>. Zum Umrechnen teilst du die Minuten durch 60:",
+        "caption1": "Minuten in Dezimalstunden",
+        "th1": "Minuten",
+        "th2": "Dezimal",
+        "th3": "Minuten",
+        "th4": "Dezimal",
+        "p2": "Der Rechner zeigt beide Formen nebeneinander, sodass du das Uhrzeitformat in einen Stundenzettel und das Dezimalformat in ein Lohn- oder Rechnungssystem übernehmen kannst."
+      },
+      "when-to-use-the-weekly-timesheet": {
+        "heading": "Wann du den Wochenstundenzettel nutzt",
+        "li1": "<strong>Beschäftigte mit Stundenlohn:</strong> Prüfe, ob deine Lohnabrechnung zu deinen Arbeitsstunden passt, einschließlich Überstunden über 40 Stunden.",
+        "li2": "<strong>Freiberufler und Selbstständige:</strong> Summiere die abrechenbaren Stunden der Woche und multipliziere sie für eine Rechnung mit deinem Satz.",
+        "li3": "<strong>Schichtarbeit:</strong> Nachtschichten, die am nächsten Morgen enden, werden pro Zeile verarbeitet, eine Schicht von Freitag 22:00 bis Samstag 06:00 zählt also als 8 Stunden am Freitag.",
+        "li4": "<strong>Führungskräfte und kleine Betriebe:</strong> Prüfe die Stunden im Dienstplan, bevor du die Lohnabrechnung machst.",
+        "p1": "Überstundenregeln unterscheiden sich je nach Land. In den USA verlangt der Fair Labor Standards Act für nicht freigestellte Beschäftigte das 1.5-Fache des regulären Lohns für Stunden über 40 pro Arbeitswoche. Im Vereinigten Königreich gibt es keinen gesetzlichen Überstundenzuschlag, aber die Working Time Regulations begrenzen die durchschnittliche Arbeitszeit auf 48 Stunden pro Woche, sofern man nicht widerspricht. In Deutschland begrenzt das Arbeitszeitgesetz die werktägliche Arbeitszeit grundsätzlich auf 8 Stunden. Stelle Grenze und Faktor passend zu deinem Vertrag ein oder deaktiviere Überstunden, um jede Stunde gleich zu vergüten."
+      }
+    },
+    "title": {
+      "copy-result-btn": "Ergebnis in die Zwischenablage kopieren"
+    },
+    "day": {
+      "mon": "Montag",
+      "tue": "Dienstag",
+      "wed": "Mittwoch",
+      "thu": "Donnerstag",
+      "fri": "Freitag",
+      "sat": "Samstag",
+      "sun": "Sonntag"
+    }
+  },
+  "client": {
+    "days": {
+      "mon": "Montag",
+      "tue": "Dienstag",
+      "wed": "Mittwoch",
+      "thu": "Donnerstag",
+      "fri": "Freitag",
+      "sat": "Samstag",
+      "sun": "Sonntag"
+    },
+    "dayN": "Tag {{n}}",
+    "errors": {
+      "invalidStart": "Gib eine gültige Startzeit ein, zum Beispiel 09:00.",
+      "invalidEnd": "Gib eine gültige Endzeit ein, zum Beispiel 17:30.",
+      "negativeBreak": "Die Pause muss null oder eine positive Zahl an Minuten sein.",
+      "breakTooLong": "Die Pause ({{breakMin}} Min.) ist länger als die Zeit zwischen Start und Ende ({{span}}).",
+      "overtimeAfter": "Überstunden müssen nach null oder mehr Stunden beginnen.",
+      "multiplier": "Der Überstundenfaktor muss 1 oder mehr sein (zum Beispiel 1.5).",
+      "noRows": "Es wurden keine Zeilen im Stundenzettel angegeben.",
+      "rowIncomplete": "{{day}}: Gib Start- und Endzeit ein oder lass beide leer.",
+      "missingStart": "Gib eine Startzeit ein, zum Beispiel 09:00.",
+      "missingEnd": "Gib eine Endzeit ein, zum Beispiel 17:30.",
+      "rate": "Der Stundenlohn muss null oder eine positive Zahl sein."
+    },
+    "result": {
+      "headerSingle": "Arbeitsstunden",
+      "headerWeek": {
+        "one": "Wochensumme ({{count}} Arbeitstag)",
+        "other": "Wochensumme ({{count}} Arbeitstage)"
+      },
+      "hours": "{{hhmm}} Stunden",
+      "hoursAndPay": "{{hhmm}} Stunden · {{pay}} Lohn"
+    },
+    "notes": {
+      "crossesMidnight": "Die Endzeit liegt vor der Startzeit, daher wird die Schicht als am nächsten Tag endend gezählt.",
+      "sameTime": "Start und Ende sind gleich, die Dauer ist also 0. Für eine volle 24-Stunden-Schicht gib 00:00 bis 23:59 ein und addiere eine Minute.",
+      "overnight": "{{days}}: Schicht läuft über Mitternacht und wird dem Tag ihres Beginns zugerechnet.",
+      "addRate": "Gib einen Stundenlohn ein, um regulären Lohn, Überstundenlohn und Gesamtlohn zu sehen."
+    },
+    "stats": {
+      "hoursAndMinutes": "Stunden und Minuten",
+      "decimalHours": "Dezimalstunden",
+      "totalMinutes": "Minuten gesamt",
+      "timeOnSite": "Anwesenheitszeit",
+      "unpaidBreak": "Unbezahlte Pause",
+      "minutesValue": "{{n}} Min.",
+      "totalHours": "Stunden gesamt",
+      "regularHours": "Reguläre Stunden",
+      "overtimeHours": "Überstunden",
+      "regularPay": "Regulärer Lohn",
+      "overtimePay": "Überstundenlohn",
+      "totalPay": "Gesamtlohn"
+    },
+    "copy": {
+      "single": "{{start}} bis {{end}}, {{breakMin}} Min. Pause: {{hhmm}} Stunden ({{decimal}} Dezimalstunden)",
+      "singleNextDay": "{{start}} bis {{end}} (nächster Tag), {{breakMin}} Min. Pause: {{hhmm}} Stunden ({{decimal}} Dezimalstunden)",
+      "total": "Gesamt: {{hhmm}} ({{decimal}} h)",
+      "regularPay": "Regulärer Lohn: {{pay}}",
+      "overtimePay": "Überstundenlohn: {{pay}}",
+      "totalPay": "Gesamtlohn: {{pay}}"
+    }
+  }
+}

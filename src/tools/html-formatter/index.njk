@@ -1,0 +1,79 @@
+---
+layout: layouts/tool.njk
+toolSlug: html-formatter
+permalink: /tools/html-formatter/
+lastReviewed: "2026-10-31"
+---
+{% from "partials/code-formatter.njk" import codeFormatter with context %}
+
+    {% call codeFormatter({ language: "HTML", importMap: vendor.importMaps.html, engine: "Prettier " + vendor.packages.prettier.version, sample: "<!doctype html><html lang=\"en\"><head><meta charset=\"utf-8\"><title>Order summary</title><style>body{font-family:system-ui;margin:0}.total{font-weight:700;color:#14532d}</style></head><body><main class=\"card\"><h1>Order #1042</h1><p>Thanks for your order, <strong>Sam</strong>. Here is what you bought:</p><ul><li>Notebook <span class=\"qty\">x2</span></li><li>Pen set <span class=\"qty\">x1</span></li></ul><p class=\"total\">Total: $18.50</p><a href=\"#orders\">View all orders</a></main><script>document.querySelector('.total').addEventListener('click',function(){alert('Paid by card')})</script></body></html>\n" }) %}
+      <div class="form-group">
+        <label for="opt-mode">{{ 'label.opt-mode' | pt }}</label>
+        <select id="opt-mode" class="form-control" data-option="mode">
+          <option value="format" selected>{{ 'option.opt-mode.format' | pt }}</option>
+          <option value="minify">{{ 'option.opt-mode.minify' | pt }}</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="opt-indent">{{ 'label.opt-indent' | pt }}</label>
+        <select id="opt-indent" class="form-control" data-option="indentWidth">
+          <option value="2" selected>{{ 'option.opt-indent.2' | pt }}</option>
+          <option value="4">{{ 'option.opt-indent.4' | pt }}</option>
+          <option value="tab">{{ 'option.opt-indent.tab' | pt }}</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="opt-print-width">{{ 'label.opt-print-width' | pt }}</label>
+        <select id="opt-print-width" class="form-control" data-option="printWidth">
+          <option value="80" selected>80</option>
+          <option value="100">100</option>
+          <option value="120">120</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="opt-whitespace">{{ 'label.opt-whitespace' | pt }}</label>
+        <select id="opt-whitespace" class="form-control" data-option="whitespace">
+          <option value="css" selected>{{ 'option.opt-whitespace.css' | pt }}</option>
+          <option value="strict">{{ 'option.opt-whitespace.strict' | pt }}</option>
+          <option value="ignore">{{ 'option.opt-whitespace.ignore' | pt }}</option>
+        </select>
+      </div>
+    {% endcall %}
+
+    <!-- tool-end -->
+
+    <section class="content-section" aria-labelledby="conventions-heading">
+      <h2 id="conventions-heading">{{ 'text.conventions-heading' | pt }}</h2>
+      <p>{{ 'content.html-formatting-conventions.p1' | pt }}</p>
+      <ul class="content-list">
+        <li>{{ 'content.html-formatting-conventions.li1' | pt }}</li>
+        <li>{{ 'content.html-formatting-conventions.li2' | pt }}</li>
+        <li>{{ 'content.html-formatting-conventions.li3' | pt }}</li>
+        <li>{{ 'content.html-formatting-conventions.li4' | pt }}</li>
+        <li>{{ 'content.html-formatting-conventions.li5' | pt }}</li>
+      </ul>
+      <p>{{ 'content.html-formatting-conventions.p2' | pt }}</p>
+    </section>
+
+    <section class="content-section" aria-labelledby="whitespace-heading">
+      <h2 id="whitespace-heading">{{ 'text.whitespace-heading' | pt }}</h2>
+      <p>{{ 'content.why-inline-elements-are-whitespace-sensitive.p1' | pt }}</p>
+      <p>{{ 'content.why-inline-elements-are-whitespace-sensitive.p2' | pt }}</p>
+    </section>
+
+    <section class="content-section" aria-labelledby="minify-heading">
+      <h2 id="minify-heading">{{ 'text.minify-heading' | pt }}</h2>
+      <p>{{ 'content.what-minify-does-and-what-it.p1' | pt }}</p>
+      <ul class="content-list">
+        <li>{{ 'content.what-minify-does-and-what-it.li1' | pt }}</li>
+        <li>{{ 'content.what-minify-does-and-what-it.li2' | pt }}</li>
+        <li>{{ 'content.what-minify-does-and-what-it.li3' | pt }}</li>
+        <li>{{ 'content.what-minify-does-and-what-it.li4' | pt }}</li>
+      </ul>
+      <p>{{ 'content.what-minify-does-and-what-it.p2' | pt }}</p>
+    </section>
+
+    <section class="content-section" aria-labelledby="related-heading">
+      <h2 id="related-heading">{{ 'text.related-heading' | pt }}</h2>
+      <p>{{ 'content.other-code-tools.p1' | pt }}</p>
+    </section>

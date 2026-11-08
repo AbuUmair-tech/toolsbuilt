@@ -1,0 +1,256 @@
+{
+  "listing": {
+    "name": "Kalkulator Rata-rata Tertimbang",
+    "shortName": "Rata-rata Tertimbang",
+    "description": "Hitung rata-rata tertimbang dari nilai dan bobot dalam persentase atau angka biasa, lengkap dengan kontribusi setiap baris dan langkahnya.",
+    "shortDescription": "Rata-rata tertimbang dengan bobot % atau angka biasa, kontribusi, dan langkah pengerjaan.",
+    "keywords": [
+      "kalkulator rata-rata tertimbang",
+      "rata-rata berbobot",
+      "kalkulator nilai berbobot",
+      "cara menghitung rata-rata tertimbang",
+      "skor tertimbang",
+      "rata-rata sumproduct",
+      "persentase berbobot"
+    ]
+  },
+  "title": "Kalkulator Rata-rata Tertimbang (Langkah demi Langkah)",
+  "description": "Kalkulator rata-rata tertimbang dari nilai dan bobot berupa persentase atau angka biasa, dengan kontribusi setiap baris dan langkah pengerjaannya.",
+  "h1": "Kalkulator Rata-rata Tertimbang",
+  "quickAnswer": "Rata-rata tertimbang mengalikan setiap nilai dengan bobotnya, menjumlahkan hasil kalinya, lalu membaginya dengan total bobot. Nilai 90 (30%), 80 (50%), dan 70 (20%) menghasilkan 27 + 40 + 14 = 81. Kalkulator rata-rata tertimbang ini memakai cara yang sama untuk bobot berupa angka biasa: 90 dengan bobot 2 dan 80 dengan bobot 3 menghasilkan (180 + 240) ÷ 5 = 84.",
+  "formula": {
+    "title": "Rumus Rata-rata Tertimbang",
+    "expression": "Rata-rata tertimbang = Σ(nilai × bobot) ÷ Σ(bobot)",
+    "explanation": "Setiap nilai dihitung sebanding dengan bobotnya. Jika bobotnya berupa persentase yang berjumlah 100, membagi dengan total bobot sama dengan membagi dengan 100, sehingga kontribusi setiap baris cukup nilai × bobot%. Jika bobot persentase berjumlah selain 100, kalkulator membaginya dengan total sebenarnya (menormalkannya) dan memberi tahu Anda, yang sama dengan menskalakan setiap bobot agar jumlahnya 100.",
+    "variables": [
+      {
+        "name": "Nilai",
+        "description": "Skor, nilai, harga, atau ukuran untuk setiap item."
+      },
+      {
+        "name": "Bobot",
+        "description": "Seberapa besar setiap nilai diperhitungkan: persentase, SKS, kuantitas, atau angka positif lainnya."
+      },
+      {
+        "name": "Kontribusi",
+        "description": "nilai × bobot ÷ total bobot: berapa poin dari rata-rata akhir yang berasal dari baris tersebut."
+      }
+    ]
+  },
+  "workedExamples": [
+    {
+      "title": "Nilai mata kuliah dari bobot persentase",
+      "inputs": [
+        "Tugas: 90, bobot 30%",
+        "UTS: 80, bobot 50%",
+        "Kuis: 70, bobot 20%"
+      ],
+      "steps": [
+        null,
+        "Jumlah hasil kali: 8,100; jumlah bobot: 100"
+      ],
+      "result": "Rata-rata tertimbang 81"
+    },
+    {
+      "title": "Bobot berupa angka biasa",
+      "inputs": [
+        "90 dengan bobot 2",
+        "80 dengan bobot 3"
+      ],
+      "result": "Rata-rata tertimbang 84"
+    },
+    {
+      "title": "Bobot persentase yang jumlahnya bukan 100",
+      "inputs": [
+        "90 dengan bobot 30%",
+        "80 dengan bobot 50%"
+      ],
+      "steps": [
+        "Total bobot 80%, jadi bobotnya dinormalkan"
+      ],
+      "result": "Rata-rata tertimbang 83.75 (setara dengan bobot 37.5% dan 62.5%)"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Memakai rata-rata biasa",
+      "description": "Rata-rata biasa dari 90, 80, dan 70 adalah 80, tetapi jika 90 berbobot 30% dan 70 hanya 20%, rata-rata tertimbangnya 81. Gunakan rata-rata biasa hanya jika setiap item berbobot sama."
+    },
+    {
+      "title": "Membagi dengan banyaknya item",
+      "description": "Rata-rata tertimbang dibagi dengan total bobot, bukan banyaknya nilai. Membagi 420 dengan 2 item alih-alih 5 satuan bobot menghasilkan 210, yang tidak bermakna."
+    },
+    {
+      "title": "Lupa ada bobot yang belum terisi",
+      "description": "Jika penilaian senilai 20% belum dilaksanakan, bobot Anda hanya berjumlah 80%. Hasil yang dinormalkan menunjukkan rata-rata Anda sejauh ini; itu belum nilai akhir sampai 20% sisanya ditambahkan."
+    },
+    {
+      "title": "Mencampur jenis bobot",
+      "description": "Gunakan satu jenis bobot untuk setiap baris: semuanya persentase, semuanya SKS, atau semuanya kuantitas. Mencampur bobot 30% dengan bobot 3 SKS menghasilkan jawaban yang salah."
+    },
+    {
+      "title": "Menggunakan nilai dengan skala yang berbeda",
+      "description": "Pastikan setiap nilai berada pada skala yang sama, misalnya semuanya persentase. Skor 18/20 harus dimasukkan sebagai 90, bukan 18, jika nilai lainnya dari skala 100."
+    }
+  ],
+  "sources": [
+    {
+      "name": "NIST/SEMATECH e-Handbook of Statistical Methods: Measures of location"
+    },
+    {
+      "name": "Microsoft Support: Fungsi SUMPRODUCT"
+    },
+    {
+      "name": "U.S. Bureau of Labor Statistics: Cara CPI menggunakan bobot (kepentingan relatif)"
+    }
+  ],
+  "howto": {
+    "name": "Cara Menghitung Rata-rata Tertimbang",
+    "description": "Masukkan nilai dan bobot untuk mendapatkan rata-rata tertimbang beserta langkah pengerjaannya.",
+    "steps": [
+      {
+        "name": "Pilih jenis bobot",
+        "text": "Pilih persentase jika bobotnya adalah % dari total, atau angka biasa untuk SKS, kuantitas, dan sebagainya."
+      },
+      {
+        "name": "Masukkan nilai dan bobot",
+        "text": "Isi nilai dan bobot di setiap baris, tambahkan baris sesuai kebutuhan. Nama untuk setiap baris bersifat opsional."
+      },
+      {
+        "name": "Baca hasilnya",
+        "text": "Lihat rata-rata tertimbang, total bobot, kontribusi setiap baris, dan setiap langkah perhitungannya."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Bagaimana cara menghitung rata-rata tertimbang?",
+      "a": "Kalikan setiap nilai dengan bobotnya, jumlahkan semua hasil kalinya, lalu bagi dengan jumlah bobot. Untuk 90 (30%), 80 (50%), dan 70 (20%): (2,700 + 4,000 + 1,400) ÷ 100 = 81."
+    },
+    {
+      "q": "Apa perbedaan rata-rata tertimbang dan rata-rata biasa?",
+      "a": "Rata-rata biasa (aritmetika) memberi setiap nilai tingkat kepentingan yang sama. Rata-rata tertimbang membuat sebagian nilai lebih diperhitungkan daripada yang lain sesuai bobotnya."
+    },
+    {
+      "q": "Apakah jumlah bobot harus 100?",
+      "a": "Tidak. Bobot positif apa pun bisa dipakai karena rumusnya membagi dengan totalnya. Jika Anda memilih bobot persentase yang jumlahnya bukan 100, kalkulator menormalkannya dan memberi tahu Anda."
+    },
+    {
+      "q": "Bagaimana cara menghitung nilai saya dengan kategori berbobot?",
+      "a": "Masukkan rata-rata setiap kategori sebagai nilai dan persentasenya dalam mata kuliah sebagai bobot. Hasilnya adalah nilai keseluruhan Anda; kolom kontribusi menunjukkan berapa poin yang ditambahkan setiap kategori."
+    },
+    {
+      "q": "Bagaimana cara menghitung rata-rata tertimbang di Excel?",
+      "a": "Gunakan =SUMPRODUCT(nilai, bobot)/SUM(bobot). Untuk nilai di A2:A4 dan bobot di B2:B4: =SUMPRODUCT(A2:A4,B2:B4)/SUM(B2:B4)."
+    },
+    {
+      "q": "Bolehkah bobot bernilai nol?",
+      "a": "Boleh. Baris dengan bobot 0 tidak memengaruhi hasil. Jika semua bobot nol, tidak ada yang bisa dirata-ratakan, sehingga kalkulator menampilkan pesan kesalahan."
+    },
+    {
+      "q": "Untuk apa rata-rata tertimbang digunakan?",
+      "a": "Nilai mata kuliah, IPK berdasarkan SKS, harga beli rata-rata dari pesanan dengan jumlah berbeda, imbal hasil portofolio, hasil survei, dan angka indeks semuanya menggunakan rata-rata tertimbang."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Kalkulator Rata-rata Tertimbang",
+      "wavg-rows": "Nilai dan bobot",
+      "copy-result-btn": "Salin hasil ke papan klip"
+    },
+    "content": {
+      "tool": {
+        "legend1": "Bobot berupa",
+        "label1": "<input type=\"radio\" name=\"wt\" value=\"percent\" data-param=\"wt\" checked>\n              <span>Persentase (%)</span>",
+        "label2": "<input type=\"radio\" name=\"wt\" value=\"number\" data-param=\"wt\">\n              <span>Angka biasa</span>",
+        "div1": "<span>Nama (opsional)</span><span>Nilai</span><span id=\"weight-head\">Bobot (%)</span><span></span>",
+        "button1": "Hitung Rata-rata Tertimbang",
+        "caption1": "Bagian setiap baris dari total bobot dan kontribusinya terhadap rata-rata",
+        "th1": "Baris",
+        "th2": "Nilai",
+        "th3": "Bobot",
+        "th4": "Porsi",
+        "th5": "Menambah",
+        "summary1": "Langkah demi langkah"
+      },
+      "simple-vs-weighted-average": {
+        "heading": "Rata-rata Biasa vs Rata-rata Tertimbang",
+        "p1": "Rata-rata biasa memperlakukan setiap angka sama. Rata-rata tertimbang membuat setiap angka diperhitungkan sesuai tingkat kepentingannya, dan begitulah sebagian besar nilai mata kuliah, IPK, dan harga rata-rata dihitung.",
+        "caption1": "Rata-rata biasa dan tertimbang dari skor yang sama",
+        "th1": "Penilaian",
+        "th2": "Skor",
+        "th3": "Bobot",
+        "th4": "Kontribusi",
+        "td1": "Tugas",
+        "td2": "UTS",
+        "td3": "Kuis",
+        "td4": "<strong>Total</strong>",
+        "td5": "Rata-rata biasa 80",
+        "td6": "<strong>Tertimbang 81</strong>",
+        "p2": "Hasil tertimbang lebih tinggi karena skor terbaik (90) memiliki bobot lebih besar daripada skor terendah (70)."
+      },
+      "where-weighted-averages-are-used": {
+        "heading": "Di Mana Rata-rata Tertimbang Digunakan",
+        "li1": "<strong>Nilai:</strong> bobot tugas, UTS, dan UAS dari silabus. Untuk nilai huruf, <a href=\"/tools/grade-calculator/\">kalkulator nilai</a> dan <a href=\"/tools/gpa-calculator/\">kalkulator GPA</a> melakukannya dengan SKS.",
+        "li2": "<strong>Biaya rata-rata:</strong> jika Anda membeli 10 unit seharga 5 dan 30 unit seharga 6, harga rata-ratanya (50 + 180) ÷ 40 = 5.75, bukan 5.50.",
+        "li3": "<strong>Penerimaan mahasiswa:</strong> rumus merit dan agregat memberi bobot pada nilai sekolah dan tes masuk; <a href=\"/tools/merit-calculator/\">kalkulator merit</a> menangani nilai dari total yang berbeda-beda.",
+        "li4": "<strong>Statistik:</strong> indeks harga seperti Indeks Harga Konsumen memberi bobot setiap kategori sesuai porsinya dalam pengeluaran rumah tangga.",
+        "p1": "Semua perhitungan berjalan di browser Anda. Anda dapat membagikan tautan yang membuka kembali baris-baris Anda persis seperti semula."
+      }
+    },
+    "text": {
+      "add-row-btn": "+ Tambah baris",
+      "reset-btn": "Atur Ulang",
+      "result-header-text": "Rata-rata tertimbang",
+      "copy-result-btn": "<span data-icon=\"copy\"></span> Salin Hasil"
+    },
+    "title": {
+      "copy-result-btn": "Salin hasil ke papan klip"
+    },
+    "rowTemplate": {
+      "name": "Nama",
+      "namePlaceholder": "mis. UTS",
+      "weight": "Bobot (%)",
+      "remove": "Hapus baris"
+    }
+  },
+  "client": {
+    "rowName": "Baris {{n}}",
+    "errors": {
+      "addRow": "Tambahkan minimal satu nilai dan bobot.",
+      "tooMany": "Gunakan paling banyak {{max}} baris.",
+      "enterValue": "{{name}}: masukkan nilai untuk bobot ini.",
+      "enterWeight": "{{name}}: masukkan bobot untuk nilai ini.",
+      "valueNumber": "{{name}}: nilai harus berupa angka.",
+      "weightPositive": "{{name}}: bobot harus 0 atau angka positif.",
+      "allZero": "Semua bobot nol, jadi tidak ada yang bisa dirata-ratakan. Beri setidaknya satu baris bobot di atas 0."
+    },
+    "steps": {
+      "multiply": "Kalikan setiap nilai dengan bobotnya: {{products}}",
+      "addProducts": "Jumlahkan hasil kalinya: {{sum}} = {{total}}",
+      "addWeights": "Jumlahkan bobotnya: {{sum}} = {{total}}",
+      "divide": "Bagi: {{sum}} ÷ {{weights}} = {{average}}",
+      "normalised": "Bobot persentase berjumlah {{total}}%, bukan 100%, sehingga setiap bobot dihitung sebagai bagiannya dari {{total}}."
+    },
+    "defaults": {
+      "assignments": "Tugas",
+      "midterm": "UTS",
+      "quizzes": "Kuis"
+    },
+    "rows": {
+      "remove": "Hapus baris {{n}}",
+      "weightPercent": "Bobot (%)",
+      "weight": "Bobot"
+    },
+    "result": {
+      "header": {
+        "other": "Rata-rata tertimbang dari {{count}} nilai"
+      },
+      "normalised": "Bobot persentase Anda berjumlah {{total}}%, bukan 100%, sehingga dinormalkan: setiap bobot dihitung sebagai bagiannya dari {{total}}.",
+      "totalWeight": "Total bobot: {{total}}."
+    },
+    "copy": {
+      "average": "Rata-rata tertimbang: {{average}}"
+    }
+  }
+}

@@ -1,0 +1,304 @@
+{
+  "listing": {
+    "name": "Calculadora de frações",
+    "shortName": "Calculadora de frações",
+    "description": "Some, subtraia, multiplique e divida frações e números mistos com o passo a passo, simplifique frações e converta decimais.",
+    "shortDescription": "Frações e números mistos com passo a passo, simplificação e decimal para fração.",
+    "keywords": [
+      "calculadora de frações",
+      "soma de frações",
+      "calculadora de números mistos",
+      "simplificar frações",
+      "decimal para fração",
+      "divisão de frações",
+      "multiplicação de frações"
+    ]
+  },
+  "title": "Calculadora de frações: some, subtraia, multiplique e divida",
+  "description": "Calculadora de frações: some, subtraia, multiplique e divida frações e números mistos com passo a passo. Simplifique e converta decimais em frações.",
+  "h1": "Calculadora de frações",
+  "quickAnswer": "Na calculadora de frações, para somar ou subtrair frações, reescreva-as com um denominador comum e combine os numeradores: 1/2 + 1/3 = 3/6 + 2/6 = 5/6. Para multiplicar, multiplique numeradores e denominadores; para dividir, multiplique pelo inverso: 3/4 ÷ 1/2 = 3/4 × 2/1 = 6/4 = 3/2 = 1 1/2. No final, sempre divida o numerador e o denominador pelo máximo divisor comum.",
+  "formula": {
+    "title": "Regras das frações",
+    "explanation": "Na soma e na subtração, a calculadora usa o mínimo múltiplo comum dos denominadores, o que mantém os números pequenos, e depois soma ou subtrai os numeradores reescritos. A multiplicação multiplica direto, em linha. A divisão multiplica pelo inverso da segunda fração, o que é impossível se essa fração for zero. O resultado é simplificado pelo máximo divisor comum (encontrado pelo algoritmo de Euclides) e também aparece como número misto e como decimal, com os dígitos que se repetem entre parênteses.",
+    "variables": [
+      {
+        "name": "Número misto",
+        "description": "Um número inteiro mais uma fração, como 2 1/3. Ele é convertido primeiro em fração imprópria: (2 × 3 + 1)/3 = 7/3."
+      },
+      {
+        "name": "MMC",
+        "description": "Mínimo múltiplo comum: o menor número divisível pelos dois denominadores, usado como denominador comum."
+      },
+      {
+        "name": "MDC",
+        "description": "Máximo divisor comum: o maior número que divide o numerador e o denominador, usado para simplificar."
+      }
+    ]
+  },
+  "workedExamples": [
+    {
+      "steps": [
+        "MMC(2, 3) = 6",
+        "1/2 = 3/6 e 1/3 = 2/6",
+        "3/6 + 2/6 = 5/6, já na forma irredutível"
+      ]
+    },
+    {
+      "steps": [
+        "Multiplicar pelo inverso: 3/4 × 2/1",
+        null,
+        "MDC(6, 4) = 2, então 6/4 = 3/2"
+      ]
+    },
+    {
+      "steps": [
+        null,
+        null,
+        "MDC(21, 21) = 21, então a resposta é 1"
+      ]
+    },
+    {
+      "title": "Simplificar 6/8 e converter 0.375",
+      "inputs": [
+        "Simplificar: 6/8",
+        "Decimal para fração: 0.375"
+      ],
+      "steps": [
+        "MDC(6, 8) = 2, então 6/8 = 3/4",
+        "0.375 = 375/1000; MDC(375, 1000) = 125, então 375/1000 = 3/8"
+      ],
+      "result": "6/8 = 3/4 e 0.375 = 3/8"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Somar os denominadores",
+      "description": "1/2 + 1/3 não é 2/5. Os denominadores dizem o tamanho das partes, então precisam ser iguais antes de somar: 3/6 + 2/6 = 5/6."
+    },
+    {
+      "title": "Dividir sem inverter a segunda fração",
+      "description": "Para dividir por uma fração, multiplique pelo inverso dela (inverta só a segunda fração). 3/4 ÷ 1/2 = 3/4 × 2/1 = 3/2, e não 3/8."
+    },
+    {
+      "title": "Multiplicar separado a parte inteira de um número misto",
+      "description": "2 1/3 × 3/7 não é (2 × 3/7) mais (1/3), nem 2 × 1/3 × 3/7. Converta 2 1/3 em 7/3 primeiro e depois multiplique."
+    },
+    {
+      "title": "Parar antes de simplificar a fração",
+      "description": "6/4 está correto, mas não terminado. Divida o numerador e o denominador pelo máximo divisor comum (2) para obter 3/2, ou 1 1/2 como número misto."
+    },
+    {
+      "title": "Perder o sinal de menos de um número misto",
+      "description": "−1 1/2 significa −(1 + 1/2) = −3/2, e não −1 + 1/2 = −1/2. Mantenha o sinal fora do número misto inteiro."
+    }
+  ],
+  "sources": [
+    {
+      "name": "Common Core State Standards for Mathematics: números e operações — frações"
+    },
+    {
+      "name": "Os Elementos de Euclides, Livro VII, Proposição 2 (máxima medida comum)"
+    },
+    {
+      "name": "NIST Digital Library of Mathematical Functions: §27.1 Teoria dos números, MDC"
+    }
+  ],
+  "howto": {
+    "name": "Como usar a calculadora de frações",
+    "description": "Faça contas com frações e números mistos, simplifique frações e converta decimais em frações.",
+    "steps": [
+      {
+        "name": "Escolha um modo",
+        "text": "Calcule com duas frações, simplifique uma fração ou converta um decimal em fração."
+      },
+      {
+        "name": "Digite os números",
+        "text": "Informe frações como 3/4, números mistos como 2 1/3, números inteiros ou decimais."
+      },
+      {
+        "name": "Escolha a operação",
+        "text": "Escolha somar, subtrair, multiplicar ou dividir."
+      },
+      {
+        "name": "Veja a resposta e as etapas",
+        "text": "Veja a fração simplificada, o número misto, o decimal e cada etapa do cálculo."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Como somar frações com denominadores diferentes?",
+      "a": "Encontre um denominador comum (o mínimo múltiplo comum dos denominadores), reescreva cada fração com ele e some os numeradores. 1/2 + 1/3 = 3/6 + 2/6 = 5/6."
+    },
+    {
+      "q": "Como dividir frações?",
+      "a": "Mantenha a primeira fração, troque ÷ por × e inverta a segunda fração. 3/4 ÷ 1/2 = 3/4 × 2/1 = 6/4 = 3/2."
+    },
+    {
+      "q": "Como multiplicar números mistos?",
+      "a": "Converta cada número misto em fração imprópria, multiplique os numeradores e os denominadores e simplifique. 2 1/3 × 3/7 = 7/3 × 3/7 = 21/21 = 1."
+    },
+    {
+      "q": "Como simplificar uma fração?",
+      "a": "Divida o numerador e o denominador pelo máximo divisor comum. Em 6/8 o MDC é 2, então 6/8 = 3/4."
+    },
+    {
+      "q": "Como transformar um decimal em fração?",
+      "a": "Escreva os dígitos depois do ponto decimal sobre 10, 100, 1000 e assim por diante, e simplifique. 0.375 = 375/1000, e dividindo os dois por 125 obtemos 3/8."
+    },
+    {
+      "q": "Como digitar um número misto?",
+      "a": "Digite o número inteiro, um espaço e depois a fração: 2 1/3. Números mistos negativos são escritos -2 1/3. Números inteiros (5) e decimais (0.75, com ponto) também funcionam."
+    },
+    {
+      "q": "O que significa um número entre parênteses no decimal?",
+      "a": "Os dígitos entre parênteses se repetem para sempre (dízima periódica). 5/6 = 0.8(3) significa 0.8333…, e 1/7 = 0.(142857) significa 0.142857142857…."
+    },
+    {
+      "q": "Por que não posso dividir por zero?",
+      "a": "Dividir por uma fração é multiplicar pelo inverso dela, e o 0 não tem inverso. Nenhum número vezes 0 dá um resultado diferente de zero, então a divisão por zero é indefinida."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Calculadora de frações",
+      "tool-div1": "Modo da calculadora",
+      "copy-result-btn": "Copiar o resultado para a área de transferência"
+    },
+    "text": {
+      "tab-calc": "Calcular",
+      "tab-simplify": "Simplificar",
+      "tab-dec": "Decimal",
+      "frac-hint": "Digite frações (3/4), números mistos com um espaço (2 1/3), números inteiros (5) ou decimais com ponto (0.75).",
+      "reset-btn": "Redefinir",
+      "result-header-text": "Resposta",
+      "copy-result-btn": "<span data-icon=\"copy\"></span> Copiar resultado"
+    },
+    "label": {
+      "frac-a": "Primeiro número",
+      "frac-op": "Operação",
+      "frac-b": "Segundo número",
+      "frac-s": "Fração a simplificar",
+      "frac-dec": "Decimal"
+    },
+    "option": {
+      "frac-op": {
+        "add": "+ somar",
+        "subtract": "− subtrair",
+        "multiply": "× multiplicar",
+        "divide": "÷ dividir"
+      }
+    },
+    "content": {
+      "tool": {
+        "p1": "Só decimais exatos, como 0.375 ou 2.5.",
+        "button1": "Calcular",
+        "summary1": "Passo a passo"
+      },
+      "fraction-rules-in-one-table": {
+        "heading": "As regras das frações em uma tabela",
+        "caption1": "Como somar, subtrair, multiplicar e dividir frações",
+        "th1": "Operação",
+        "th2": "O que fazer",
+        "th3": "Exemplo",
+        "td1": "Somar",
+        "td2": "Denominador comum, somar os numeradores",
+        "td3": "Subtrair",
+        "td4": "Denominador comum, subtrair os numeradores",
+        "td5": "Multiplicar",
+        "td6": "Numerador × numerador, denominador × denominador",
+        "td7": "Dividir",
+        "td8": "Multiplicar pelo inverso da segunda fração",
+        "td9": "Simplificar",
+        "td10": "Dividir numerador e denominador pelo MDC",
+        "td11": "18/24: MDC(18, 24) = 6, então 18/24 = 3/4"
+      },
+      "mixed-numbers-improper-fractions-and-decimals": {
+        "heading": "Números mistos, frações impróprias e decimais",
+        "p1": "Uma fração imprópria tem o numerador maior ou igual ao denominador, como 7/3. Um número misto escreve o mesmo valor como um número inteiro mais uma fração própria: 7 ÷ 3 = 2 com resto 1, então 7/3 = 2 1/3. As contas são mais fáceis com frações impróprias, e por isso a calculadora converte primeiro os números mistos e volta para eles no final.",
+        "p2": "Toda fração também é um decimal. Se o denominador simplificado não tiver fatores primos além de 2 e 5, o decimal termina (3/8 = 0.375). Caso contrário, ele se repete para sempre, e a calculadora coloca o bloco que se repete entre parênteses: 1/3 = 0.(3), 5/6 = 0.8(3), 1/7 = 0.(142857). No sentido inverso, só decimais exatos podem ser digitados com precisão, então 0.333 vira 333/1000, e não 1/3."
+      },
+      "how-euclid-s-algorithm-finds-the": {
+        "heading": "Como o algoritmo de Euclides encontra o MDC",
+        "p1": "Para simplificar 84/126, divida o número maior pelo menor e guarde o resto: 126 = 1 × 84 + 42, depois 84 = 2 × 42 + 0. Quando o resto chega a 0, o último divisor (42) é o máximo divisor comum, então 84/126 = 2/3. O modo Simplificar mostra cada uma dessas linhas, o que ajuda a conferir a lição de casa feita à mão.",
+        "p2": "Todas as contas usam aritmética exata com números inteiros no seu navegador, então nem numeradores e denominadores muito grandes são arredondados."
+      }
+    },
+    "title": {
+      "copy-result-btn": "Copiar o resultado para a área de transferência"
+    }
+  },
+  "client": {
+    "errors": {
+      "empty": "Informe um número ou uma fração, por exemplo 3/4 ou 2 1/3.",
+      "tooLong": "Esse número é longo demais para ser calculado aqui.",
+      "zeroDenominator": "\"{{raw}}\" tem denominador 0, o que é indefinido.",
+      "notUnderstood": "\"{{raw}}\" não é um número que esta calculadora entende. Use formatos como 3/4, 2 1/3, 5 ou 0.75.",
+      "chooseOperation": "Escolha uma operação: +, −, × ou ÷.",
+      "firstNumber": "Primeiro número: {{error}}",
+      "secondNumber": "Segundo número: {{error}}",
+      "divideByZero": "Não é possível dividir por zero: o segundo número é 0, e a divisão por 0 é indefinida.",
+      "decimalEmpty": "Informe um decimal como 0.375.",
+      "notTerminating": "\"{{raw}}\" não é um decimal exato. Digite dígitos com um ponto decimal opcional, como 0.375 ou 2.5. Dízimas periódicas como 0.333… não podem ser digitadas com precisão.",
+      "decimalTooLong": "Esse decimal é longo demais para ser calculado aqui."
+    },
+    "steps": {
+      "convert": {
+        "mixed": {
+          "first": "Escrever o primeiro número {{text}} como fração imprópria: {{sign}}({{whole}} × {{d}} + {{partN}}) / {{d}} = {{n}}/{{d}}",
+          "second": "Escrever o segundo número {{text}} como fração imprópria: {{sign}}({{whole}} × {{d}} + {{partN}}) / {{d}} = {{n}}/{{d}}",
+          "single": "Escrever o número {{text}} como fração imprópria: {{sign}}({{whole}} × {{d}} + {{partN}}) / {{d}} = {{n}}/{{d}}"
+        },
+        "whole": {
+          "first": "Escrever o primeiro número {{text}} como fração: {{n}}/1",
+          "second": "Escrever o segundo número {{text}} como fração: {{n}}/1",
+          "single": "Escrever o número {{text}} como fração: {{n}}/1"
+        },
+        "decimal": {
+          "first": "Escrever o primeiro número {{text}} como fração: {{n}}/{{d}}",
+          "second": "Escrever o segundo número {{text}} como fração: {{n}}/{{d}}",
+          "single": "Escrever o número {{text}} como fração: {{n}}/{{d}}"
+        }
+      },
+      "simplify": "Simplificar: MDC({{absN}}, {{d}}) = {{g}}, então {{n}}/{{d}} = {{simplified}}",
+      "lowestTerms": "{{n}}/{{d}} já está na forma irredutível (MDC = 1)",
+      "sameDenominator": {
+        "add": "Os denominadores já são iguais ({{d}}), então some os numeradores: {{a}} {{sym}} {{b}} = {{result}}",
+        "subtract": "Os denominadores já são iguais ({{d}}), então subtraia os numeradores: {{a}} {{sym}} {{b}} = {{result}}"
+      },
+      "commonDenominator": "Encontrar um denominador comum: MMC({{da}}, {{db}}) = {{lcd}}",
+      "rewrite": "Reescrever as duas frações: {{fx}} = {{na}}/{{lcd}} e {{fy}} = {{nb}}/{{lcd}}",
+      "numerators": {
+        "add": "Somar os numeradores: {{a}} {{sym}} {{b}} = {{n}}, o que dá {{n}}/{{d}}",
+        "subtract": "Subtrair os numeradores: {{a}} {{sym}} {{b}} = {{n}}, o que dá {{n}}/{{d}}"
+      },
+      "multiplyBoth": "Multiplicar os numeradores e os denominadores: ({{xn}} × {{yn}}) / ({{xd}} × {{yd}}) = {{n}}/{{d}}",
+      "reciprocal": "Dividir por {{fy}} é o mesmo que multiplicar pelo seu inverso {{yd}}/{{yn}}",
+      "multiply": "Multiplicar: ({{xn}} × {{yd}}) / ({{xd}} × {{yn}}) = {{n}}/{{d}}",
+      "asMixed": "Como número misto: {{mixed}}",
+      "zero": "0 dividido por qualquer número diferente de zero é 0",
+      "findGcd": "Encontrar o máximo divisor comum de {{a}} e {{b}} pelo algoritmo de Euclides:",
+      "gcd": "MDC = {{gcd}}",
+      "divideBoth": "Dividir os dois por {{g}}: {{n}} ÷ {{g}} = {{nq}}, {{d}} ÷ {{g}} = {{dq}}",
+      "gcdOne": "O MDC é 1, então a fração já está na forma irredutível",
+      "decimalPlaces": {
+        "many": "{{raw}} tem {{places}} casas decimais, então escreva sobre 10^{{places}} = {{d}}: {{n}}/{{d}}",
+        "one": "{{raw}} tem {{places}} casa decimal, então escreva sobre 10^{{places}} = {{d}}: {{n}}/{{d}}",
+        "other": "{{raw}} tem {{places}} casas decimais, então escreva sobre 10^{{places}} = {{d}}: {{n}}/{{d}}"
+      },
+      "wholeNumber": "{{raw}} é um número inteiro: {{n}}/1",
+      "gcdOf": "MDC({{a}}, {{d}}) = {{g}}",
+      "divideBothShort": "Dividir os dois por {{g}}: {{n}}/{{d}}"
+    },
+    "result": {
+      "lowestTerms": "{{input}} na forma irredutível",
+      "asFraction": "{{input}} como fração"
+    },
+    "stats": {
+      "simplified": "Fração simplificada",
+      "mixed": "Número misto",
+      "decimal": "Decimal"
+    }
+  }
+}

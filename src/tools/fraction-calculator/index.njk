@@ -1,0 +1,101 @@
+---
+layout: layouts/tool.njk
+toolSlug: fraction-calculator
+permalink: /tools/fraction-calculator/
+extraCss: "/tools/fraction-calculator/style.css"
+lastReviewed: "2026-10-31"
+---
+
+    <!-- Tool Form Container -->
+    <section class="tool-container" aria-label="{{ 'ariaLabel.tool-section1' | pt }}">
+      <div class="segmented-control mb-6" role="tablist" aria-label="{{ 'ariaLabel.tool-div1' | pt }}">
+        <button type="button" class="btn btn-sm mode-tab-btn active" id="tab-calc" data-mode="calc" role="tab" aria-selected="true" aria-controls="calculator-form">{{ 'text.tab-calc' | pt }}</button>
+        <button type="button" class="btn btn-sm mode-tab-btn" id="tab-simplify" data-mode="simplify" role="tab" aria-selected="false" aria-controls="calculator-form" tabindex="-1">{{ 'text.tab-simplify' | pt }}</button>
+        <button type="button" class="btn btn-sm mode-tab-btn" id="tab-dec" data-mode="dec" role="tab" aria-selected="false" aria-controls="calculator-form" tabindex="-1">{{ 'text.tab-dec' | pt }}</button>
+      </div>
+
+      <form id="calculator-form" role="tabpanel" aria-labelledby="tab-calc" novalidate>
+        <input type="hidden" id="mode" data-param="mode" value="calc">
+
+        <div class="fraction-expr" data-mode-field="calc">
+          <div class="form-group">
+            <label for="frac-a">{{ 'label.frac-a' | pt }}</label>
+            <input type="text" inputmode="text" autocomplete="off" spellcheck="false" id="frac-a" data-param="a" class="form-control fraction-input" value="1/2" aria-describedby="frac-hint">
+          </div>
+          <div class="form-group fraction-op">
+            <label for="frac-op">{{ 'label.frac-op' | pt }}</label>
+            <select id="frac-op" data-param="op" class="form-control">
+              <option value="add" selected>{{ 'option.frac-op.add' | pt }}</option>
+              <option value="subtract">{{ 'option.frac-op.subtract' | pt }}</option>
+              <option value="multiply">{{ 'option.frac-op.multiply' | pt }}</option>
+              <option value="divide">{{ 'option.frac-op.divide' | pt }}</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="frac-b">{{ 'label.frac-b' | pt }}</label>
+            <input type="text" inputmode="text" autocomplete="off" spellcheck="false" id="frac-b" data-param="b" class="form-control fraction-input" value="1/3" aria-describedby="frac-hint">
+          </div>
+        </div>
+        <p class="form-hint" id="frac-hint" data-mode-field="calc">{{ 'text.frac-hint' | pt }}</p>
+
+        <div class="form-group" data-mode-field="simplify" hidden>
+          <label for="frac-s">{{ 'label.frac-s' | pt }}</label>
+          <input type="text" autocomplete="off" spellcheck="false" id="frac-s" data-param="s" class="form-control fraction-input" value="6/8">
+        </div>
+
+        <div class="form-group" data-mode-field="dec" hidden>
+          <label for="frac-dec">{{ 'label.frac-dec' | pt }}</label>
+          <input type="text" inputmode="decimal" autocomplete="off" spellcheck="false" id="frac-dec" data-param="dec" class="form-control fraction-input" value="0.375">
+          <p class="form-hint">{{ 'content.tool.p1' | pt }}</p>
+        </div>
+
+        <div class="button-group mt-6">
+          <button type="submit" class="btn btn-primary">{{ 'content.tool.button1' | pt }}</button>
+          <button type="button" class="btn btn-secondary" id="reset-btn">{{ 'text.reset-btn' | pt }}</button>
+        </div>
+      </form>
+
+      <div id="error-box" class="hidden form-error" role="alert"></div>
+
+      <div id="result-box" class="result-box is-visible" aria-live="polite">
+        <div class="result-header">
+          <span id="result-header-text">{{ 'text.result-header-text' | pt }}</span>
+          <button type="button" class="btn btn-sm btn-ghost" id="copy-result-btn" title="{{ 'title.copy-result-btn' | pt }}" aria-label="{{ 'ariaLabel.copy-result-btn' | pt }}">
+            {{ 'text.copy-result-btn' | pt }}
+          </button>
+        </div>
+        <div class="result-primary fraction-primary" id="result-primary-text">--</div>
+        <div class="result-grid" id="result-stats"></div>
+        <details class="result-steps">
+          <summary>{{ 'content.tool.summary1' | pt }}</summary>
+          <ol class="fraction-steps" id="result-steps"></ol>
+        </details>
+      </div>
+    </section>
+
+    <!-- tool-end -->
+
+    <section class="content-section">
+      <h2>{{ 'content.fraction-rules-in-one-table.heading' | pt }}</h2>
+      <div class="table-wrapper">
+        <table class="table">
+          <caption class="visually-hidden">{{ 'content.fraction-rules-in-one-table.caption1' | pt }}</caption>
+          <thead><tr><th scope="col">{{ 'content.fraction-rules-in-one-table.th1' | pt }}</th><th scope="col">{{ 'content.fraction-rules-in-one-table.th2' | pt }}</th><th scope="col">{{ 'content.fraction-rules-in-one-table.th3' | pt }}</th></tr></thead>
+          <tbody>
+            <tr><td>{{ 'content.fraction-rules-in-one-table.td1' | pt }}</td><td>{{ 'content.fraction-rules-in-one-table.td2' | pt }}</td><td>1/4 + 2/3 = 3/12 + 8/12 = 11/12</td></tr>
+            <tr><td>{{ 'content.fraction-rules-in-one-table.td3' | pt }}</td><td>{{ 'content.fraction-rules-in-one-table.td4' | pt }}</td><td>5/6 − 1/4 = 10/12 − 3/12 = 7/12</td></tr>
+            <tr><td>{{ 'content.fraction-rules-in-one-table.td5' | pt }}</td><td>{{ 'content.fraction-rules-in-one-table.td6' | pt }}</td><td>2/3 × 3/5 = 6/15 = 2/5</td></tr>
+            <tr><td>{{ 'content.fraction-rules-in-one-table.td7' | pt }}</td><td>{{ 'content.fraction-rules-in-one-table.td8' | pt }}</td><td>2/3 ÷ 4/9 = 2/3 × 9/4 = 18/12 = 3/2</td></tr>
+            <tr><td>{{ 'content.fraction-rules-in-one-table.td9' | pt }}</td><td>{{ 'content.fraction-rules-in-one-table.td10' | pt }}</td><td>{{ 'content.fraction-rules-in-one-table.td11' | pt }}</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>{{ 'content.mixed-numbers-improper-fractions-and-decimals.heading' | pt }}</h2>
+      <p>{{ 'content.mixed-numbers-improper-fractions-and-decimals.p1' | pt }}</p>
+      <p>{{ 'content.mixed-numbers-improper-fractions-and-decimals.p2' | pt }}</p>
+
+      <h2>{{ 'content.how-euclid-s-algorithm-finds-the.heading' | pt }}</h2>
+      <p>{{ 'content.how-euclid-s-algorithm-finds-the.p1' | pt }}</p>
+      <p>{{ 'content.how-euclid-s-algorithm-finds-the.p2' | pt }}</p>
+    </section>

@@ -66,29 +66,35 @@ eleventyComputed:
 {% endblock %}
 
   <!-- Main Content -->
-  <main class="container page-container" id="main-content">
-    
-    <!-- Breadcrumb Navigation -->
-    <nav class="breadcrumb" aria-label="Breadcrumb">
-      <ol>
-        <li><a href="/">Home</a></li>
-        <li aria-current="page">Blog</li>
-      </ol>
-    </nav>
+  <main id="main-content">
+    <section class="page-hero">
+      <div class="container">
 
-    <!-- Blog Hero Header -->
-    <div class="category-hero-header">
-      <div class="category-hero-meta">
-        <span class="tool-category-chip" data-cat="tech">Guides &amp; Articles</span>
-        <span class="category-count-badge">{{ collections.post | length }} {{ collections.post | length | pluralize('article') }}</span>
+        <!-- Breadcrumb Navigation -->
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <ol>
+            <li><a href="/">Home</a></li>
+            <li aria-current="page">Blog</li>
+          </ol>
+        </nav>
+
+        <!-- Blog Hero Header -->
+        <div class="category-hero-header">
+          <div class="category-hero-meta section-label">
+            <span class="tool-category-chip" data-cat="tech">Guides &amp; Articles</span>
+            <span class="category-count-badge">{{ collections.post | length }} {{ collections.post | length | pluralize('article') }}</span>
+          </div>
+          <h1 class="category-hero-title">ToolsBuilt Blog</h1>
+          <p class="category-hero-intro">In-depth guides, mathematical methodologies, security practices, and engineering insights into building fast, private client-side calculators.</p>
+        </div>
       </div>
-      <h1 class="category-hero-title">ToolsBuilt Blog</h1>
-      <p class="category-hero-intro">In-depth guides, mathematical methodologies, security practices, and engineering insights into building fast, private client-side calculators.</p>
-    </div>
+    </section>
+
+    <div class="container page-container">
 
     <!-- Blog Posts Grid -->
     <section class="category-tools-section" aria-labelledby="blog-list-heading">
-      <div class="section-title-row" style="margin-bottom: var(--space-4);">
+      <div class="section-title-row mb-4">
         <h2 id="blog-list-heading" class="section-title">Latest Articles</h2>
         <span class="section-badge">{{ collections.post | length }} {{ collections.post | length | pluralize('article') }}</span>
       </div>
@@ -97,19 +103,19 @@ eleventyComputed:
         {% for post in posts %}
         <a href="{{ post.url }}" class="tool-card blog-card">
           <div class="tool-card-header">
-            <div class="tool-icon-tile" style="background: var(--accent-1); color: var(--accent-primary);">
+            <div class="tool-icon-tile blog-card-tile">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
             </div>
-            <div style="display: flex; gap: var(--space-2); align-items: center;">
+            <div class="flex gap-2 items-center">
               {% if post.data.draft %}
-              <span class="badge badge-warning" style="font-size: var(--font-size-2xs); font-weight: 700; text-transform: uppercase; padding: 2px 6px; border-radius: 4px; background: #d97706; color: #ffffff;">DRAFT</span>
+              <span class="badge badge-draft">DRAFT</span>
               {% endif %}
               <span class="tool-category-chip" data-cat="tech">{{ post.data.category or "Guides" }}</span>
             </div>
           </div>
-          <h3 class="tool-title" style="font-size: var(--font-size-lg);">{{ post.data.title }}</h3>
+          <h3 class="tool-title text-md">{{ post.data.title }}</h3>
           <p class="tool-desc">{{ post.data.description }}</p>
-          <div class="blog-card-meta" style="display: flex; gap: var(--space-3); font-size: var(--font-size-xs); color: var(--text-tertiary); margin-top: auto; padding-top: var(--space-3);">
+          <div class="blog-card-meta">
             <time datetime="{{ post.date | isoDate }}">{{ post.date | readableDate }}</time>
             <span>&bull;</span>
             <span>{{ post.templateContent | readingTime }}</span>
@@ -124,12 +130,12 @@ eleventyComputed:
 
       <!-- Pagination Navigation -->
       {% if pagination.pages.length > 1 %}
-      <nav class="pagination-nav" aria-label="Blog pagination" style="margin-top: var(--space-10); display: flex; justify-content: center; gap: var(--space-2); align-items: center;">
+      <nav class="pagination-nav mt-12 flex justify-center gap-2 items-center" aria-label="Blog pagination">
         {% if pagination.href.previous %}
         <a href="{{ pagination.href.previous }}" class="btn btn-secondary btn-sm" aria-label="Previous page">&larr; Previous</a>
         {% endif %}
         
-        <span style="font-size: var(--font-size-sm); color: var(--text-secondary); padding: 0 var(--space-3);">
+        <span class="text-sm text-secondary py-0 px-3">
           Page {{ pagination.pageNumber + 1 }} of {{ pagination.pages.length }}
         </span>
 
@@ -139,4 +145,5 @@ eleventyComputed:
       </nav>
       {% endif %}
     </section>
+    </div>
   </main>

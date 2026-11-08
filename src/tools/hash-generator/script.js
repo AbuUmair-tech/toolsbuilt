@@ -11,6 +11,7 @@
     console.error('HashLogic module not loaded.');
     return;
   }
+  const T = ToolsBuilt.scope('hash-generator');
 
   // DOM Elements
   const inputText = document.getElementById('hash-input-text');
@@ -44,13 +45,13 @@
     if (!inputText || !byteCounter) return;
     const text = inputText.value;
     const bytes = new TextEncoder().encode(text).length;
-    byteCounter.textContent = `${text.length} chars / ${bytes} bytes`;
+    byteCounter.textContent = T('counter', { chars: text.length, bytes });
   }
 
   function showToast(btn) {
     if (!btn) return;
     const prevHtml = btn.innerHTML;
-    btn.innerHTML = '✓ Copied!';
+    btn.innerHTML = T('copy.copied');
     btn.classList.add('btn-success');
     setTimeout(() => {
       btn.innerHTML = prevHtml;
@@ -82,7 +83,7 @@
       document.execCommand('copy');
       showToast(triggerBtn);
     } catch (e) {
-      alert('Copying failed.');
+      alert(T('copy.failed'));
     }
     document.body.removeChild(ta);
   }
@@ -115,21 +116,21 @@
     });
 
     if (!target) {
-      compareStatus.innerHTML = '<span style="color: var(--text-muted);">Paste a hash above to verify match against calculated values.</span>';
+      compareStatus.innerHTML = `<span class="text-secondary">${T('compare.prompt')}</span>`;
       return;
     }
 
     const matchInfo = logic.findMatchingAlgorithm(currentHashes, target);
 
     if (matchInfo.matched) {
-      compareStatus.innerHTML = `<span class="hash-match-pill matched">✓ MATCH CONFIRMED (${matchInfo.algorithm})</span>`;
+      compareStatus.innerHTML = `<span class="hash-match-pill matched">${T('compare.match', { algorithm: matchInfo.algorithm })}</span>`;
       // Highlight matched card
       if (matchInfo.algorithm === 'SHA-256' && cardSha256) cardSha256.classList.add('matched-highlight');
       if (matchInfo.algorithm === 'SHA-512' && cardSha512) cardSha512.classList.add('matched-highlight');
       if (matchInfo.algorithm === 'SHA-384' && cardSha384) cardSha384.classList.add('matched-highlight');
       if (matchInfo.algorithm === 'SHA-1' && cardSha1) cardSha1.classList.add('matched-highlight');
     } else {
-      compareStatus.innerHTML = '<span class="hash-match-pill unmatched">✕ NO MATCH FOUND</span>';
+      compareStatus.innerHTML = `<span class="hash-match-pill unmatched">${T('compare.noMatch')}</span>`;
     }
   }
 
@@ -184,7 +185,7 @@
 
   // Initial Run on Default / Sample Text
   if (inputText && !inputText.value) {
-    inputText.value = 'Hello ToolsBuilt!';
+    inputText.value = T('sampleInput');
   }
   updateByteCount();
   updateHashes();

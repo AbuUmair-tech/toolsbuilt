@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+{% set currentLanguage = lang | languageInfo %}<html lang="{{ currentLanguage.hreflang }}" dir="{{ dir }}"{% if currentLanguage.prefix %} data-locale-prefix="/{{ currentLanguage.prefix }}"{% endif %}{% if currentLanguage.intlLocale %} data-intl-locale="{{ currentLanguage.intlLocale }}"{% endif %}>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{{ title }}</title>
   <meta name="description" content="{{ description }}">
   <link rel="canonical" href="{{ canonical or ('https://toolsbuilt.com' + page.url) }}">
-  {% if pagination and pagination.href.previous %}
+  {% if pagination and not noPageLinks and pagination.href.previous %}
   <link rel="prev" href="https://toolsbuilt.com{{ pagination.href.previous }}">
   {% endif %}
-  {% if pagination and pagination.href.next %}
+  {% if pagination and not noPageLinks and pagination.href.next %}
   <link rel="next" href="https://toolsbuilt.com{{ pagination.href.next }}">
   {% endif %}
   {% if alternates and alternates.length %}
@@ -17,6 +17,9 @@
   <link rel="alternate" hreflang="{{ alt.lang }}" href="{{ alt.url }}">
   {% endfor %}
   {% endif %}
+  {%- for alt in page.url | localeAlternates %}
+  <link rel="alternate" hreflang="{{ alt.hreflang }}" href="{{ alt.url }}">
+  {%- endfor %}
   {% block extraHead %}{% endblock %}
   {% if (not env.isProduction) or noindex or draft %}<meta name="robots" content="noindex, nofollow">{% endif %}
   <meta name="color-scheme" content="light dark">
@@ -24,14 +27,14 @@
   <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#090a0f">
 
   <link rel="manifest" href="/manifest.webmanifest">
-  <link rel="alternate" type="application/atom+xml" title="ToolsBuilt - New &amp; Updated Tools" href="/feed.xml">
+  <link rel="alternate" type="application/atom+xml" title="{{ 'base.title.tool-link1' | t }}" href="/feed.xml">
   <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png">
   
   <!-- Open Graph & Social Cards -->
-  {% set computedOgImage = ogImage %}
+  {% set computedOgImage = ogImage %}{% set ogDir = '' if lang == 'en' else (currentLanguage.prefix + '/') %}
   {% if not computedOgImage %}
     {% if toolSlug %}
-      {% set computedOgImage = "https://toolsbuilt.com/assets/og/" + toolSlug + ".png" %}
+      {% set computedOgImage = "https://toolsbuilt.com/assets/og/" + ogDir + toolSlug + ".png" %}
     {% elif category and category.slug %}
       {% set computedOgImage = "https://toolsbuilt.com/assets/og/category-" + category.slug + ".png" %}
     {% elif page.url == "/tools/" %}
@@ -49,7 +52,9 @@
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="{{ ogImageAlt or (title + ' - ToolsBuilt') }}">
-  <meta property="og:locale" content="en_US">
+  <meta property="og:locale" content="{{ currentLanguage.ogLocale }}">
+  {%- for alt in page.url | localeAlternates %}{% if alt.ogLocale and alt.ogLocale != currentLanguage.ogLocale %}
+  <meta property="og:locale:alternate" content="{{ alt.ogLocale }}">{% endif %}{% endfor %}
   
   <!-- Twitter Card -->
   <meta name="twitter:card" content="{{ twitterCard or 'summary_large_image' }}">
@@ -79,7 +84,8 @@
     })();
   </script>
 
-  {% block jsonLd %}{% endblock %}
+  {% if lang != 'en' %}<script>window.I18N = {{ [toolSlug, toolScript | toolDir, toolLogic | toolDir, 'salary-tax-calculator' if taxEngine] | clientStrings }};</script>
+  {% endif %}{% block jsonLd %}{% endblock %}
 
   <!-- Google Analytics & Cookie Consent initialization -->
   <script>
@@ -108,24 +114,26 @@
     })();
   </script>
 </head>
-<body{% if toolSlug or slug %} data-tool-id="{{ toolSlug or slug }}"{% endif %}>
-  <a href="#main-content" class="skip-link">Skip to main content</a>
+{% set bodyTool = tools | findTool(toolSlug or slug) if (toolSlug or slug) else null -%}
+<body{% if toolSlug or slug %} data-tool-id="{{ toolSlug or slug }}"{% endif %}{% if bodyTool and bodyTool.parent %} data-parent-tool="{{ bodyTool.parent }}"{% endif %}>
+  <a href="#main-content" class="skip-link">{{ 'base.content.tool.a1' | t }}</a>
 
   {% include "partials/header.njk" %}
+  {%- include "partials/language-banner.njk" %}
 
   {{ content | safe }}
 
   {% include "partials/footer.njk" %}
 
   <!-- Lightweight Privacy Cookie Consent Banner -->
-  <aside id="cookie-consent-banner" class="cookie-banner" role="region" aria-label="Cookie Consent" style="display:none">
-    <div class="cookie-banner-content" style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:var(--space-4);">
-      <div class="cookie-banner-text" style="flex:1 1 300px;font-size:var(--font-size-sm);color:var(--text-secondary);line-height:var(--line-height-relaxed);">
-        We respect your privacy. Our tools run completely client-side in your browser. We only use cookies for aggregated traffic analytics with your explicit consent. Read our <a href="/privacy-policy/" style="color:var(--accent-primary);text-decoration:underline;">Privacy Policy</a>.
+  <aside id="cookie-consent-banner" class="cookie-banner" role="region" aria-label="{{ 'base.ariaLabel.cookie-consent-banner' | t }}" hidden>
+    <div class="cookie-banner-content">
+      <div class="cookie-banner-text">
+        {{ 'base.content.tool.div1' | t }}
       </div>
-      <div class="cookie-banner-actions" style="display:flex;gap:var(--space-2);flex-shrink:0;">
-        <button type="button" class="btn btn-sm btn-secondary" id="cookie-reject-btn">Decline</button>
-        <button type="button" class="btn btn-sm btn-primary" id="cookie-accept-btn">Accept</button>
+      <div class="cookie-banner-actions">
+        <button type="button" class="btn btn-sm btn-secondary" id="cookie-reject-btn">{{ 'base.text.cookie-reject-btn' | t }}</button>
+        <button type="button" class="btn btn-sm btn-primary" id="cookie-accept-btn">{{ 'base.text.cookie-accept-btn' | t }}</button>
       </div>
     </div>
   </aside>
@@ -138,11 +146,11 @@
       var settingsBtn = document.getElementById('open-cookie-settings');
 
       function showBanner() {
-        if (banner) banner.style.display = 'block';
+        if (banner) banner.hidden = false;
       }
 
       function hideBanner() {
-        if (banner) banner.style.display = 'none';
+        if (banner) banner.hidden = true;
       }
 
       try {
@@ -185,8 +193,10 @@
   {% if includeToolsData %}<script src="/assets/js/tools-data.js"></script>{% endif %}
   <script src="/assets/js/common.js"></script>
   <script src="/assets/js/layout.js" defer></script>
+  <script src="/assets/js/language-menu.js" defer></script>
   {% if toolSlug == "password-generator" %}<script src="/tools/password-generator/eff-words.js"></script>{% endif %}
-  {% if toolSlug %}<script src="/tools/{{ toolSlug }}/logic.js"></script>{% endif %}
+  {% if taxEngine %}<script src="/tools/salary-tax-calculator/logic.js"></script>{% endif %}
+  {% if toolLogic %}<script src="{{ toolLogic }}"></script>{% elif toolSlug %}<script src="/tools/{{ toolSlug }}/logic.js"></script>{% endif %}
   {% if toolScript %}<script src="{{ toolScript }}"></script>{% elif toolSlug %}<script src="/tools/{{ toolSlug }}/script.js"></script>{% endif %}
 </body>
 </html>

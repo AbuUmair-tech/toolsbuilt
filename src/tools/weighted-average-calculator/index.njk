@@ -1,0 +1,107 @@
+---
+layout: layouts/tool.njk
+toolSlug: weighted-average-calculator
+permalink: /tools/weighted-average-calculator/
+extraCss: "/tools/weighted-average-calculator/style.css"
+lastReviewed: "2026-10-31"
+---
+
+    <!-- Tool Form Container -->
+    <section class="tool-container" aria-label="{{ 'ariaLabel.tool-section1' | pt }}">
+      <form id="calculator-form" novalidate>
+        <fieldset class="choice-toggle wavg-type">
+          <legend>{{ 'content.tool.legend1' | pt }}</legend>
+          <div class="choice-toggle-options">
+            <label class="choice-toggle-option">
+              {{ 'content.tool.label1' | pt }}
+            </label>
+            <label class="choice-toggle-option">
+              {{ 'content.tool.label2' | pt }}
+            </label>
+          </div>
+        </fieldset>
+
+        <div class="wavg-rows" id="wavg-rows" role="group" aria-label="{{ 'ariaLabel.wavg-rows' | pt }}">
+          <div class="wavg-head" aria-hidden="true">{{ 'content.tool.div1' | pt }}</div>
+        </div>
+        <template id="row-template">
+          <div class="wavg-row">
+            <div class="wavg-cell wavg-name">
+              <label class="wavg-label" data-for="name">{{ 'rowTemplate.name' | pt }}</label>
+              <input type="text" class="form-control row-name" autocomplete="off" placeholder="{{ 'rowTemplate.namePlaceholder' | pt }}">
+            </div>
+            <div class="wavg-cell">
+              <label class="wavg-label" data-for="value">{{ 'rowTemplate.value' | pt }}</label>
+              <input type="number" inputmode="decimal" step="any" class="form-control row-value">
+            </div>
+            <div class="wavg-cell">
+              <label class="wavg-label wavg-weight-label" data-for="weight">{{ 'rowTemplate.weight' | pt }}</label>
+              <input type="number" inputmode="decimal" step="any" min="0" class="form-control row-weight">
+            </div>
+            <button type="button" class="btn btn-sm btn-ghost wavg-remove" aria-label="{{ 'rowTemplate.remove' | pt }}">✕</button>
+          </div>
+        </template>
+
+        <div class="button-group mt-4">
+          <button type="button" class="btn btn-sm btn-secondary" id="add-row-btn">{{ 'text.add-row-btn' | pt }}</button>
+        </div>
+
+        <div class="button-group mt-6">
+          <button type="submit" class="btn btn-primary">{{ 'content.tool.button1' | pt }}</button>
+          <button type="button" class="btn btn-secondary" id="reset-btn">{{ 'text.reset-btn' | pt }}</button>
+        </div>
+      </form>
+
+      <div id="error-box" class="hidden form-error" role="alert"></div>
+
+      <div id="result-box" class="result-box is-visible" aria-live="polite">
+        <div class="result-header">
+          <span id="result-header-text">{{ 'text.result-header-text' | pt }}</span>
+          <button type="button" class="btn btn-sm btn-ghost" id="copy-result-btn" title="{{ 'title.copy-result-btn' | pt }}" aria-label="{{ 'ariaLabel.copy-result-btn' | pt }}">
+            {{ 'text.copy-result-btn' | pt }}
+          </button>
+        </div>
+        <div class="result-primary" id="result-primary-text">--</div>
+        <p class="form-hint" id="result-note" hidden></p>
+        <div class="table-wrapper wavg-table-wrapper">
+          <table class="table wavg-table">
+            <caption class="visually-hidden">{{ 'content.tool.caption1' | pt }}</caption>
+            <thead><tr><th scope="col">{{ 'content.tool.th1' | pt }}</th><th scope="col" class="wide-only">{{ 'content.tool.th2' | pt }}</th><th scope="col" class="wide-only">{{ 'content.tool.th3' | pt }}</th><th scope="col">{{ 'content.tool.th4' | pt }}</th><th scope="col">{{ 'content.tool.th5' | pt }}</th></tr></thead>
+            <tbody id="contrib-rows"></tbody>
+          </table>
+        </div>
+        <details class="result-steps">
+          <summary>{{ 'content.tool.summary1' | pt }}</summary>
+          <ol class="wavg-steps" id="result-steps"></ol>
+        </details>
+      </div>
+    </section>
+
+    <!-- tool-end -->
+
+    <section class="content-section">
+      <h2>{{ 'content.simple-vs-weighted-average.heading' | pt }}</h2>
+      <p>{{ 'content.simple-vs-weighted-average.p1' | pt }}</p>
+      <div class="table-wrapper">
+        <table class="table">
+          <caption class="visually-hidden">{{ 'content.simple-vs-weighted-average.caption1' | pt }}</caption>
+          <thead><tr><th scope="col">{{ 'content.simple-vs-weighted-average.th1' | pt }}</th><th scope="col">{{ 'content.simple-vs-weighted-average.th2' | pt }}</th><th scope="col">{{ 'content.simple-vs-weighted-average.th3' | pt }}</th><th scope="col">{{ 'content.simple-vs-weighted-average.th4' | pt }}</th></tr></thead>
+          <tbody>
+            <tr><td>{{ 'content.simple-vs-weighted-average.td1' | pt }}</td><td>90</td><td>30%</td><td>27</td></tr>
+            <tr><td>{{ 'content.simple-vs-weighted-average.td2' | pt }}</td><td>80</td><td>50%</td><td>40</td></tr>
+            <tr><td>{{ 'content.simple-vs-weighted-average.td3' | pt }}</td><td>70</td><td>20%</td><td>14</td></tr>
+            <tr><td>{{ 'content.simple-vs-weighted-average.td4' | pt }}</td><td>{{ 'content.simple-vs-weighted-average.td5' | pt }}</td><td>100%</td><td>{{ 'content.simple-vs-weighted-average.td6' | pt }}</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>{{ 'content.simple-vs-weighted-average.p2' | pt }}</p>
+
+      <h2>{{ 'content.where-weighted-averages-are-used.heading' | pt }}</h2>
+      <ul class="content-list">
+        <li>{{ 'content.where-weighted-averages-are-used.li1' | pt }}</li>
+        <li>{{ 'content.where-weighted-averages-are-used.li2' | pt }}</li>
+        <li>{{ 'content.where-weighted-averages-are-used.li3' | pt }}</li>
+        <li>{{ 'content.where-weighted-averages-are-used.li4' | pt }}</li>
+      </ul>
+      <p>{{ 'content.where-weighted-averages-are-used.p1' | pt }}</p>
+    </section>

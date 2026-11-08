@@ -1,0 +1,330 @@
+{
+  "listing": {
+    "name": "Konverter Unix Timestamp",
+    "shortName": "Unix Timestamp",
+    "description": "Konversi Unix epoch timestamp ke tanggal UTC dan lokal, ISO 8601, dan RFC 2822, atau tanggal kembali ke detik dan milidetik.",
+    "shortDescription": "Detik atau milidetik epoch ke tanggal yang mudah dibaca dan sebaliknya, dengan timestamp saat ini secara langsung.",
+    "keywords": [
+      "konverter unix timestamp",
+      "konverter epoch",
+      "epoch ke tanggal",
+      "timestamp ke tanggal",
+      "tanggal ke timestamp",
+      "waktu unix saat ini",
+      "masalah tahun 2038"
+    ]
+  },
+  "title": "Konverter Unix Timestamp (Epoch ke Tanggal & Sebaliknya)",
+  "description": "Konverter Unix timestamp: ubah epoch ke tanggal UTC dan lokal, ISO 8601, dan RFC 2822, atau tanggal ke detik dan milidetik. Timestamp saat ini langsung.",
+  "h1": "Konverter Unix Timestamp",
+  "quickAnswer": "Unix timestamp adalah jumlah detik sejak 1970-01-01 00:00:00 UTC, tanpa menghitung detik kabisat. 1700000000 adalah 2023-11-14T22:13:20Z, dan momen yang sama dalam milidetik adalah 1700000000000. Angka 10 digit hampir selalu dalam detik dan angka 13 digit dalam milidetik; konverter Unix timestamp ini mendeteksi satuan yang Anda tempelkan.",
+  "formula": {
+    "title": "Rumus Konversi Epoch",
+    "expression": "Tanggal (UTC) = 1970-01-01T00:00:00Z + detik timestamp   ·   Timestamp = (Tanggal − 1970-01-01T00:00:00Z) dalam detik",
+    "explanation": "Setiap hari Unix tepat 86,400 detik, jadi tanggal didapat dengan membagi 86,400 untuk mendapatkan nomor hari sejak 1 Januari 1970 dan memakai sisanya sebagai jam dalam hari itu. Milidetik adalah detik × 1,000. Satuan dideteksi dari besarnya angka: di bawah 100,000,000,000 dianggap detik (mencapai tahun 5138), hingga 14 digit sebagai milidetik, lalu mikrodetik dan nanodetik.",
+    "variables": [
+      {
+        "name": "Detik",
+        "description": "Waktu Unix klasik yang dipakai sebagian besar server, database, dan perintah date."
+      },
+      {
+        "name": "Milidetik",
+        "description": "Dipakai oleh JavaScript (Date.now()), Java (System.currentTimeMillis()), dan banyak API: detik × 1,000."
+      },
+      {
+        "name": "Waktu lokal",
+        "description": "Momen yang sama ditampilkan dengan selisih zona waktu perangkat Anda. Timestamp itu sendiri tidak pernah berubah karena zona waktu."
+      }
+    ]
+  },
+  "workedExamples": [
+    {
+      "title": "Epoch Unix",
+      "inputs": [
+        "Timestamp: 0"
+      ],
+      "steps": [
+        "0 detik setelah epoch"
+      ],
+      "result": "1970-01-01T00:00:00Z (Kamis, 1 Januari 1970, tengah malam UTC)"
+    },
+    {
+      "title": "Timestamp 10 digit dalam detik",
+      "inputs": [
+        "Timestamp: 1700000000"
+      ],
+      "steps": [
+        "1,700,000,000 ÷ 86,400 = 19,675 hari penuh, sisa 80,000 detik",
+        "Hari ke-19,675 setelah 1 Januari 1970 adalah 14 November 2023",
+        "80,000 detik = 22 jam 13 menit 20 detik"
+      ],
+      "result": "2023-11-14T22:13:20Z (Tue, 14 Nov 2023 22:13:20 +0000)"
+    },
+    {
+      "title": "Timestamp 13 digit dalam milidetik",
+      "inputs": [
+        "Timestamp: 1700000000000"
+      ],
+      "steps": [
+        "13 digit, jadi dibaca sebagai milidetik",
+        "1,700,000,000,000 ÷ 1,000 = 1,700,000,000 detik"
+      ],
+      "result": "2023-11-14T22:13:20Z, momen yang sama dengan contoh sebelumnya"
+    },
+    {
+      "title": "Detik terakhir waktu 32-bit",
+      "inputs": [
+        "Timestamp: 2147483647 (2³¹ − 1)"
+      ],
+      "steps": [
+        "Nilai terbesar yang bisa disimpan integer 32-bit bertanda",
+        "2,147,483,647 detik setelah epoch"
+      ],
+      "result": "2038-01-19T03:14:07Z, satu detik sebelum jam 32-bit meluap"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Menganggap milidetik sebagai detik",
+      "description": "Memberikan 1700000000000 ke fungsi yang mengharapkan detik menghasilkan tanggal sekitar 54,000 tahun di masa depan, dan memberikan detik ke <code>new Date()</code> di JavaScript menghasilkan tanggal di Januari 1970. Hitung digitnya: 10 untuk detik, 13 untuk milidetik."
+    },
+    {
+      "title": "Mengira timestamp memiliki zona waktu",
+      "description": "Unix timestamp selalu dihitung dari tengah malam UTC, jadi angka yang sama adalah momen yang sama di mana pun. Hanya cara menampilkannya yang berubah. Jika dua sistem berselisih beberapa jam penuh, salah satunya memformat dalam waktu lokal."
+    },
+    {
+      "title": "Tanpa sengaja membuat timestamp dari waktu lokal",
+      "description": "Mengonversi \"2026-03-01 09:00\" tanpa menyebut zona waktunya diam-diam memakai zona komputer itu sendiri. Pilih UTC atau waktu lokal secara eksplisit saat mengubah tanggal menjadi timestamp."
+    },
+    {
+      "title": "Menyimpan waktu dalam integer 32-bit bertanda",
+      "description": "Penghitung detik 32-bit bertanda meluap setelah 2038-01-19T03:14:07Z dan kembali ke Desember 1901. Gunakan integer 64-bit (BIGINT, int64, time_t di sistem 64-bit modern) untuk apa pun yang mungkin menyimpan tanggal setelah 2038, termasuk tanggal kedaluwarsa dan KPR."
+    },
+    {
+      "title": "Mengharapkan detik kabisat",
+      "description": "Waktu Unix mengabaikan detik kabisat: setiap hari tepat 86,400 detik. Jadi selisih dua timestamp memberikan waktu sipil yang berlalu, yang bisa berbeda dari detik yang benar-benar berlalu sebanyak 27 detik kabisat yang ditambahkan sejak 1972."
+    }
+  ],
+  "sources": [
+    {
+      "name": "The Open Group Base Specifications: Seconds Since the Epoch (POSIX)"
+    },
+    {
+      "name": "RFC 3339: Date and Time on the Internet (profil ISO 8601)"
+    },
+    {
+      "name": "RFC 2822: Internet Message Format (spesifikasi tanggal dan waktu)"
+    },
+    {
+      "name": "IERS Bulletin C: pengumuman detik kabisat"
+    }
+  ],
+  "howto": {
+    "name": "Cara Mengonversi Unix Timestamp",
+    "description": "Ubah epoch timestamp menjadi tanggal yang mudah dibaca, atau tanggal menjadi timestamp.",
+    "steps": [
+      {
+        "name": "Tempelkan timestamp",
+        "text": "Masukkan angka dalam detik atau milidetik. Satuan dideteksi dari jumlah digitnya, atau pilih dari menu Satuan."
+      },
+      {
+        "name": "Baca tanggalnya",
+        "text": "Lihat tanggal dalam UTC dan waktu lokal Anda, serta ISO 8601, RFC 2822, dan berapa lama yang lalu atau berapa lama lagi."
+      },
+      {
+        "name": "Ubah tanggal kembali",
+        "text": "Pilih tanggal dan waktu, tentukan apakah itu UTC atau waktu lokal Anda, lalu baca timestamp-nya dalam detik dan milidetik."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Apa itu Unix timestamp?",
+      "a": "Unix timestamp adalah jumlah detik yang telah berlalu sejak 00:00:00 UTC pada 1 Januari 1970 (epoch Unix), tanpa menghitung detik kabisat. Disebut juga epoch time, POSIX time, atau Unix time."
+    },
+    {
+      "q": "Bagaimana cara mengubah Unix timestamp menjadi tanggal?",
+      "a": "Tempelkan ke konverter di atas. Dalam kode: JavaScript new Date(ts * 1000).toISOString(); Python datetime.fromtimestamp(ts, tz=timezone.utc); di Linux date -u -d @1700000000; di Excel =ts/86400 + DATE(1970,1,1)."
+    },
+    {
+      "q": "Bagaimana cara mendapatkan Unix timestamp saat ini?",
+      "a": "Penghitung langsung di bagian atas alat menampilkannya dalam detik dan milidetik. Dalam kode: Math.floor(Date.now() / 1000) di JavaScript, int(time.time()) di Python, date +%s di shell Unix."
+    },
+    {
+      "q": "Apakah timestamp saya dalam detik atau milidetik?",
+      "a": "Hitung digitnya. Timestamp saat ini dalam detik memiliki 10 digit (1,7xx,xxx,xxx) dan dalam milidetik 13 digit. Konverter mendeteksinya otomatis, dan Anda bisa memaksa satuan tertentu lewat menu Satuan."
+    },
+    {
+      "q": "Apa itu masalah Tahun 2038?",
+      "a": "Sistem yang menyimpan waktu Unix dalam integer 32-bit bertanda hanya bisa menghitung hingga 2,147,483,647 detik, yaitu 03:14:07 UTC pada 19 Januari 2038. Satu detik kemudian nilainya meluap menjadi angka negatif dan tanggal melompat mundur ke 13 Desember 1901. Nilai waktu 64-bit menghindari masalah ini."
+    },
+    {
+      "q": "Apakah Unix timestamp bergantung pada zona waktu?",
+      "a": "Tidak. Timestamp-nya sama di mana pun pada momen yang sama. Zona waktu hanya berpengaruh saat Anda mengubahnya menjadi tanggal yang mudah dibaca, itulah sebabnya konverter menampilkan UTC sekaligus waktu lokal Anda."
+    },
+    {
+      "q": "Bisakah Unix timestamp bernilai negatif?",
+      "a": "Bisa. Nilai negatif adalah tanggal sebelum 1970: −86400 adalah 31 Desember 1969 00:00:00 UTC. Sebagian besar bahasa pemrograman modern bisa menanganinya, tetapi beberapa sistem lama dan spreadsheet tidak."
+    },
+    {
+      "q": "Apa perbedaan tanggal ISO 8601 dan RFC 2822?",
+      "a": "ISO 8601 (2023-11-14T22:13:20Z) adalah format yang bisa diurutkan dan dipakai di JSON serta API. RFC 2822 (Tue, 14 Nov 2023 22:13:20 +0000) adalah format yang dipakai di header Date email dan banyak feed HTTP dan RSS."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Konverter Unix Timestamp",
+      "tool-div1": "Unix timestamp saat ini",
+      "copy-result-btn": "Salin hasil ke papan klip"
+    },
+    "content": {
+      "tool": {
+        "div1": "<span class=\"epoch-now-label\">Timestamp saat ini (detik)</span>\n          <span class=\"epoch-now-value tabular-nums\" id=\"now-seconds\">–</span>",
+        "div2": "<span class=\"epoch-now-label\">Milidetik</span>\n          <span class=\"epoch-now-value tabular-nums\" id=\"now-ms\">–</span>",
+        "button1": "Salin detik",
+        "button2": "Salin ms"
+      },
+      "timestamp-to-date": {
+        "heading": "Timestamp ke tanggal",
+        "button1": "Ubah ke Tanggal"
+      },
+      "date-to-timestamp": {
+        "heading": "Tanggal ke timestamp"
+      },
+      "the-year-2038-problem-explained": {
+        "heading": "Penjelasan Masalah Tahun 2038",
+        "p1": "Sistem Unix awal menyimpan waktu dalam <code>time_t</code> berupa integer 32-bit bertanda. Angka terbesar yang bisa disimpannya adalah 2,147,483,647, dan sebanyak itu detik setelah epoch adalah <strong>03:14:07 UTC pada Selasa, 19 Januari 2038</strong>. Satu detik kemudian penghitungnya meluap menjadi −2,147,483,648, yang dibaca perangkat lunak sebagai 20:45:52 UTC pada 13 Desember 1901.",
+        "p2": "Masalah ini mirip dengan bug Y2K, tetapi lebih sulit dikenali: masalahnya bukan pada cara penulisan tahun, melainkan pada lebar biner sebuah angka jauh di dalam sistem berkas, database, perangkat tertanam, dan format berkas. Perhitungan yang melihat ke masa depan, seperti jadwal pinjaman 30 tahun, tanggal kedaluwarsa sertifikat, atau penjadwalan jangka panjang, bisa gagal jauh sebelum 2038.",
+        "li1": "<strong>Sudah diperbaiki:</strong> Linux, macOS, Windows 64-bit, dan bahasa pemrograman modern memakai waktu 64-bit, yang cukup untuk sekitar 292 miliar tahun. Kernel Linux 5.6 juga menambahkan waktu 64-bit untuk arsitektur 32-bit.",
+        "li2": "<strong>Masih berisiko:</strong> sistem tertanam 32-bit lama, kolom <code>TIMESTAMP</code> MySQL (terbatas hingga 2038-01-19 03:14:07 UTC), format berkas dengan kolom waktu 32-bit, dan kode yang mengubah timestamp menjadi <code>int</code>.",
+        "li3": "<strong>Cara memeriksa:</strong> konversi 2147483648 di atas. Jika sistem Anda menampilkan tanggal tahun 2038 untuk angka itu, berarti sistem dapat menangani waktu setelah batas tersebut."
+      },
+      "timestamps-in-common-languages": {
+        "heading": "Timestamp dalam Bahasa Pemrograman Populer",
+        "caption1": "Mengambil dan mengonversi Unix timestamp dalam kode",
+        "th1": "Bahasa",
+        "th2": "Timestamp saat ini",
+        "th3": "Timestamp ke tanggal",
+        "td1": "JavaScript",
+        "td2": "<code>Math.floor(Date.now() / 1000)</code>",
+        "td3": "<code>new Date(ts * 1000)</code>",
+        "td4": "Python",
+        "td5": "<code>int(time.time())</code>",
+        "td6": "<code>datetime.fromtimestamp(ts, timezone.utc)</code>",
+        "td7": "PHP",
+        "td8": "<code>time()</code>",
+        "td9": "<code>date('c', $ts)</code>",
+        "td10": "Java",
+        "td11": "<code>Instant.now().getEpochSecond()</code>",
+        "td12": "<code>Instant.ofEpochSecond(ts)</code>",
+        "td13": "Shell (GNU)",
+        "td14": "<code>date +%s</code>",
+        "td15": "<code>date -u -d @1700000000</code>",
+        "td16": "SQL (PostgreSQL)",
+        "td17": "<code>extract(epoch from now())</code>",
+        "td18": "<code>to_timestamp(1700000000)</code>",
+        "p1": "Semua yang ada di halaman ini berjalan di browser Anda: timestamp saat ini berasal dari jam perangkat Anda, dan waktu lokal memakai pengaturan zona waktu perangkat Anda. Jika penghitung langsung terlihat salah, pastikan jam komputer Anda sudah tersinkronisasi."
+      }
+    },
+    "text": {
+      "now-pause": "Jeda",
+      "ts-now-btn": "Sekarang",
+      "ts-hint": "10 digit = detik, 13 digit = milidetik. Nilai negatif adalah tanggal sebelum 1970.",
+      "reset-btn": "Atur Ulang",
+      "result-header-text": "Tanggal dan waktu",
+      "copy-result-btn": "<span data-icon=\"copy\"></span> Salin Hasil"
+    },
+    "label": {
+      "ts-input": "Unix timestamp <span class=\"text-accent\">*</span>",
+      "ts-unit": "Satuan",
+      "date-input": "Tanggal dan waktu <span class=\"text-accent\">*</span>",
+      "date-zone": "Waktu di atas dalam"
+    },
+    "option": {
+      "ts-unit": {
+        "auto": "Deteksi otomatis",
+        "s": "Detik",
+        "ms": "Milidetik",
+        "us": "Mikrodetik",
+        "ns": "Nanodetik"
+      },
+      "date-zone": {
+        "utc": "UTC",
+        "local": "Waktu lokal saya"
+      }
+    },
+    "title": {
+      "copy-result-btn": "Salin hasil ke papan klip"
+    }
+  },
+  "client": {
+    "units": {
+      "s": "detik",
+      "ms": "milidetik",
+      "us": "mikrodetik",
+      "ns": "nanodetik"
+    },
+    "errors": {
+      "empty": "Masukkan Unix timestamp, misalnya 1700000000.",
+      "notNumber": "Unix timestamp adalah bilangan bulat dalam detik (atau milidetik), seperti 1700000000. Hapus huruf dan simbol lainnya.",
+      "unknownUnit": "Satuan tidak dikenal.",
+      "outOfRange": "Timestamp itu di luar rentang yang bisa diwakili tanggal (sekitar ±275,000 tahun dari 1970).",
+      "invalidDateTime": "Masukkan tanggal dan waktu yang valid, misalnya 2023-11-14 22:13:20.",
+      "dateOutOfRange": "Tanggal itu di luar rentang yang didukung.",
+      "pickDateTime": "Pilih tanggal dan waktu untuk dikonversi."
+    },
+    "relative": {
+      "justNow": "baru saja",
+      "past": "{{text}} yang lalu",
+      "future": "{{text}} lagi",
+      "year": {
+        "other": "{{n}} tahun"
+      },
+      "month": {
+        "other": "{{n}} bulan"
+      },
+      "week": {
+        "other": "{{n}} minggu"
+      },
+      "day": {
+        "other": "{{n}} hari"
+      },
+      "hour": {
+        "other": "{{n}} jam"
+      },
+      "minute": {
+        "other": "{{n}} menit"
+      },
+      "second": {
+        "other": "{{n}} detik"
+      }
+    },
+    "yourTimeZone": "zona waktu Anda",
+    "buttons": {
+      "pause": "Jeda",
+      "resume": "Lanjutkan",
+      "copy": "Salin"
+    },
+    "copy": {
+      "copiedValue": "{{value}} disalin",
+      "ariaLabel": "Salin {{label}}",
+      "copiedLabel": "{{label}} disalin"
+    },
+    "detected": {
+      "auto": "Terdeteksi sebagai {{unit}}",
+      "forced": "Dibaca sebagai {{unit}}",
+      "beyond2038": "setelah batas 32-bit 2038-01-19T03:14:07Z"
+    },
+    "rows": {
+      "localTime": "Waktu lokal ({{zone}})",
+      "isoUtc": "ISO 8601 (UTC)",
+      "isoLocal": "ISO 8601 (selisih lokal)",
+      "relative": "Relatif",
+      "seconds": "Detik",
+      "milliseconds": "Milidetik",
+      "timestampSeconds": "Timestamp (detik)",
+      "inLocal": "Dalam waktu lokal Anda ({{zone}})",
+      "inUtc": "Dalam UTC"
+    }
+  }
+}

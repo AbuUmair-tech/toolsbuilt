@@ -1,0 +1,208 @@
+{
+  "listing": {
+    "name": "Random Name Picker Wheel",
+    "shortName": "Random Name Picker",
+    "description": "Spin an interactive wheel to randomly pick winners from a list of names. Uses crypto-secure randomness.",
+    "shortDescription": "Spin an interactive wheel to randomly pick winners from a list of names. Uses crypto-secure randomness.",
+    "keywords": [
+      "random name picker",
+      "wheel of names",
+      "name picker wheel",
+      "random choice generator",
+      "picker wheel"
+    ]
+  },
+  "title": "Random Name Picker Wheel | ToolsBuilt",
+  "description": "Free online random name picker wheel. Enter names, spin to select unbiased winners for raffles, classrooms, and giveaways. Powered by Web Crypto API.",
+  "h1": "Random Name Picker Wheel",
+  "quickAnswer": "To pick a random name or winner from a list, paste or type your candidates, choose whether to remove duplicates, and click pick. The tool uses cryptographically secure hardware randomness to ensure equal winning probability without bias. It supports single-winner draws and multi-prize raffles without replacement.",
+  "formula": {
+    "title": "Fair Selection & Probability Formula",
+    "expression": "P(Selection) = 1 / Total Candidate Pool Size  |  Index = CryptoRandomUint() % PoolSize",
+    "explanation": "Every candidate possesses a mathematically identical probability of selection. Drawing uses native browser Web Crypto API hardware entropy with rejection sampling to eliminate modulo bias. For multi-tier raffles without replacement, selected winners are removed sequentially from the pool."
+  },
+  "workedExamples": [
+    {
+      "title": "Single Winner Draw from 5 Candidates",
+      "inputs": [
+        "Candidates: Alice, Bob, Charlie, David, Emma (5 candidates)",
+        "Mode: Single Winner"
+      ],
+      "steps": [
+        "Tokenize names into 5 distinct entries",
+        "Assign uniform probability P = 1/5 (20.00%) to each participant",
+        "Draw uniform random index in range [0, 4] using crypto.getRandomValues"
+      ],
+      "result": "Winner drawn with exact 20.0% probability"
+    },
+    {
+      "title": "Multi-Prize Raffle Without Replacement",
+      "inputs": [
+        "Candidates: Alice, Bob, Charlie, David (4 candidates)",
+        "Prizes to Award: 2 winners without replacement"
+      ],
+      "steps": [
+        "Round 1: Pick 1st winner from 4 candidates (P = 1/4 = 25.0%)",
+        "Remove 1st winner from active pool (3 candidates remain)",
+        "Round 2: Pick 2nd winner from 3 remaining candidates (P = 1/3 = 33.3%)"
+      ],
+      "result": "2 unique winners awarded, 2 candidates remaining"
+    },
+    {
+      "title": "Deduplication of Raw Spreadsheet Entries",
+      "inputs": [
+        "Raw Input: Alice, Bob, Alice, Charlie (4 entries)",
+        "Options: Deduplicate = True"
+      ],
+      "steps": [
+        "Parse entries across commas and newlines",
+        "Filter duplicate 'Alice' through Set deduplication",
+        "Form clean pool of 3 unique names (Alice, Bob, Charlie)"
+      ],
+      "result": "3 unique participants eligible (P = 33.3% each)"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Using Predictable Math.random() in Real Contests",
+      "description": "Standard pseudo-random Math.random() is susceptible to statistical patterns. Giveaways require cryptographic hardware randomness via crypto.getRandomValues."
+    },
+    {
+      "title": "Allowing Accidental Duplicate Entries",
+      "description": "When pasting entries from spreadsheets, duplicate names double an entrant's winning odds. Always use the Deduplicate button before spinning."
+    },
+    {
+      "title": "Drawing With Replacement in Tiered Giveaways",
+      "description": "Failing to remove previous winners during multi-prize draws allows the same participant to win multiple prizes."
+    },
+    {
+      "title": "Modulo Skew in Candidate Indexing",
+      "description": "Simple modulo operations on random integers introduce slight mathematical bias toward lower index values. Rejection sampling ensures exact uniform fairness."
+    }
+  ],
+  "sources": [
+    {
+      "name": "W3C Web Cryptography API Specification",
+      "url": "https://www.w3.org/TR/WebCryptoAPI/"
+    },
+    {
+      "name": "NIST SP 800-90A: Recommendation for Random Number Generation",
+      "url": "https://csrc.nist.gov/publications/detail/sp/800-90a/rev-1/final"
+    },
+    {
+      "name": "RFC 7929: Guidelines for Cryptographic Random Number Generation",
+      "url": "https://www.rfc-editor.org/rfc/rfc7929"
+    }
+  ],
+  "howto": {
+    "name": "How to Pick a Random Name Using the Wheel",
+    "description": "Step-by-step instructions for selecting random winners using cryptographically unbiased wheel spins.",
+    "steps": [
+      {
+        "name": "Enter Participant Names",
+        "text": "Type or paste your list of names into the text box (one name per line, or comma-separated)."
+      },
+      {
+        "name": "Configure Settings",
+        "text": "Optionally click Deduplicate to remove duplicate entries, or check 'Remove winner automatically after spin' for multi-round draws."
+      },
+      {
+        "name": "Spin Wheel to Pick Winner",
+        "text": "Click Spin Wheel to initiate the spin animation or instant selection if reduced motion is preferred."
+      },
+      {
+        "name": "Announce and Copy Winner",
+        "text": "View the winning name in the modal announcement dialog and copy the winner's name to your clipboard."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "How does the random name picker ensure fair and unbiased selection?",
+      "a": "The tool utilizes your browser's native Web Crypto API via crypto.getRandomValues with rejection sampling to eliminate modulo bias. Unlike standard Math.random algorithms, hardware-level OS entropy ensures uniform probability distribution across all entries. Every name has an equal mathematical chance of being chosen on each spin."
+    },
+    {
+      "q": "Can I remove winning names automatically after each spin?",
+      "a": "Yes. Simply enable the 'Remove winner automatically after spin' checkbox, or click 'Remove Winner & Close' in the announcement modal. The tool removes the chosen entry immediately and redraws the wheel geometry for subsequent rounds."
+    },
+    {
+      "q": "Does the wheel accommodate users with motion sensitivity or vestibular disorders?",
+      "a": "Yes. The random name picker respects your device's system-level accessibility preferences. When 'prefers-reduced-motion' is active, spinning animations are bypassed entirely. The tool computes the winning slice instantly and opens the winner dialog immediately."
+    },
+    {
+      "q": "Is there a limit on how many names I can paste into the wheel?",
+      "a": "You can enter hundreds of names into the text box. The generator automatically calculates slice angles and fits labels on the wheel. Each slice remains mathematically distinct throughout the cryptographic selection process."
+    },
+    {
+      "q": "Are my participant names stored on remote servers or tracked?",
+      "a": "No. All name lists, spin computations, and winner selections operate exclusively in local browser memory. None of your entered names are transmitted to external servers, logged in databases, or stored in URLs."
+    },
+    {
+      "q": "Can I paste comma-separated or semicolon-separated names?",
+      "a": "Yes. The input parser splits entries automatically across newlines, commas, and semicolons, trimming extra whitespace around each name."
+    },
+    {
+      "q": "How do I ensure fair odds when multiple tickets per person are allowed?",
+      "a": "Leave the Deduplicate option unchecked so entrants who purchased multiple tickets retain their multiple entries in the candidate pool."
+    }
+  ],
+  "body": {
+    "label": {
+      "namesInput": "Names List (one per line):"
+    },
+    "text": {
+      "nameCount": "8 entries",
+      "spinBtn": "Spin Wheel!",
+      "shuffleBtn": "Shuffle",
+      "dedupeBtn": "Deduplicate",
+      "clearBtn": "Clear",
+      "winnerTitle": "🎉 We Have a Winner!",
+      "copyWinnerBtn": "<span data-icon=\"copy\"></span> Copy Winner",
+      "removeWinnerBtn": "Remove Winner &amp; Close",
+      "closeModalBtn": "Keep in List &amp; Close",
+      "when-to-use-heading": "When to Use the Random Name Picker Wheel"
+    },
+    "placeholder": {
+      "namesInput": "Enter names here..."
+    },
+    "content": {
+      "tool": {
+        "p1": "Names are separated by <strong>new lines</strong>, <strong>commas</strong>, or <strong>semicolons</strong> — so <code>Smith, John</code> becomes two names: <em>Smith</em> and <em>John</em>.",
+        "label1": "<input type=\"checkbox\" id=\"removeWinner\">\n          <span>Remove winner automatically after spin</span>"
+      },
+      "when-to-use-the-random-name": {
+        "li1": "<strong>Classrooms &amp; Student Participation:</strong> Ensure equal, tension-free student selection by having a neutral spinning wheel choose speakers.",
+        "li2": "<strong>Raffles &amp; Social Giveaways:</strong> Run live-streamed giveaway draws where participants can visually confirm the fairness of the draw.",
+        "li3": "<strong>Team Standups &amp; Agile Retrospectives:</strong> Randomly determine speaking order during daily standup meetings or code review assignments.",
+        "li4": "<strong>Fair Decision Making:</strong> Choose between competing projects, restaurants, or chores with complete impartial randomness."
+      },
+      "why-use-a-digital-random-name": {
+        "heading": "Why Use a Digital Random Name Picker Wheel?",
+        "p1": "Whether you are running a social media giveaway, choosing students for classroom participation, organizing team secret Santa exchanges, or deciding who pays for coffee, choosing fairly is essential. Physical drawings with paper slips take time to assemble and can raise suspicions of bias. Digital spinning wheels provide a transparent, engaging, and verifiably fair method for picking winners in real time."
+      },
+      "cryptographically-secure-randomness": {
+        "heading": "Cryptographically Secure Randomness",
+        "p1": "Many online wheels rely on standard pseudorandom number generators like <code>Math.random()</code>, which are fine for basic games but exhibit predictable mathematical patterns over repeated runs. Our tool utilizes the browser's native <strong>Web Crypto API (<code>crypto.getRandomValues</code>)</strong>. This provides hardware-level entropy and cryptographically strong randomness, guaranteeing that every single spin is completely independent and unbiased."
+      }
+    },
+    "ariaLabel": {
+      "wheelCanvas": "Random Name Wheel"
+    }
+  },
+  "client": {
+    "count": {
+      "one": "{{count}} entry",
+      "other": "{{count}} entries"
+    },
+    "wheel": {
+      "empty": "Enter names to build wheel",
+      "spin": "SPIN"
+    },
+    "toast": {
+      "winner": "Winner: {{name}}!",
+      "deduplicated": "Removed duplicate names",
+      "copied": "Winner name copied to clipboard"
+    },
+    "defaultNames": "Emma\nLiam\nOlivia\nNoah\nAva\nEthan\nSophia\nMason"
+  }
+}

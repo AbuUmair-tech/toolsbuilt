@@ -13,6 +13,11 @@
 })(typeof globalThis !== 'undefined' ? globalThis : this, function () {
   'use strict';
 
+  // Default names come from the tool's translation data
+  const T = (typeof ToolsBuilt !== 'undefined' && ToolsBuilt.scope)
+    ? ToolsBuilt.scope('gpa-calculator')
+    : require('../../../scripts/i18n-client.js').scope('gpa-calculator');
+
   const GRADE_POINTS_PLUS_MINUS = {
     'A+': 4.0,
     'A': 4.0,
@@ -120,7 +125,7 @@
         const sem = semesters[i];
         const res = calculateSemesterGpa(sem.courses, usePlusMinus);
         semesterResults.push({
-          name: sem.name || `Semester ${i + 1}`,
+          name: sem.name || T('semesterName', { n: i + 1 }),
           ...res
         });
         grandCredits += res.totalCredits;

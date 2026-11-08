@@ -5,6 +5,7 @@
 
 document.addEventListener('DOMContentLoaded', () => {
   const logic = window.GpaCalculatorLogic;
+  const T = ToolsBuilt.scope('gpa-calculator');
   const semestersContainer = document.getElementById('semesters-container');
   const addSemesterBtn = document.getElementById('add-semester-btn');
   const togglePlusMinus = document.getElementById('toggle-plus-minus');
@@ -45,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     return list.map(g => `
-      <option value="${g}" ${g === cleanSelected ? 'selected' : ''}>${g} (${logic.getGradePoint(g, usePlusMinus).toFixed(1)} pts)</option>
+      <option value="${g}" ${g === cleanSelected ? 'selected' : ''}>${T('gradeOption', { grade: g, points: logic.getGradePoint(g, usePlusMinus).toFixed(1) })}</option>
     `).join('');
   }
 
@@ -60,19 +61,19 @@ document.addEventListener('DOMContentLoaded', () => {
   function createCourseRow(name = '', grade = 'A', credits = 3) {
     const tr = document.createElement('tr');
     tr.innerHTML = `
-      <td style="padding: 0.5rem;">
-        <input type="text" class="form-control course-name" placeholder="e.g. Calculus I" value="${name}" aria-label="Course Name">
+      <td class="p-2">
+        <input type="text" class="form-control course-name" placeholder="${T('course.placeholder')}" value="${name}" aria-label="${T('course.nameLabel')}">
       </td>
-      <td style="padding: 0.5rem;">
-        <select class="form-control course-grade" aria-label="Course Grade">
+      <td class="p-2">
+        <select class="form-control course-grade" aria-label="${T('course.gradeLabel')}">
           ${getGradeOptionsHtml(grade)}
         </select>
       </td>
-      <td style="padding: 0.5rem;">
-        <input type="number" step="any" min="0.5" max="30" class="form-control course-credits" placeholder="3" value="${credits}" required aria-label="Course Credits">
+      <td class="p-2">
+        <input type="number" step="any" min="0.5" max="30" class="form-control course-credits" placeholder="3" value="${credits}" required aria-label="${T('course.creditsLabel')}">
       </td>
-      <td style="padding: 0.5rem; text-align: center;">
-        <button type="button" class="btn btn-sm btn-ghost remove-course-btn" aria-label="Remove Course" title="Remove Course">
+      <td class="p-2 text-center">
+        <button type="button" class="btn btn-sm btn-ghost remove-course-btn" aria-label="${T('course.remove')}" title="${T('course.remove')}">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
         </button>
       </td>
@@ -84,7 +85,7 @@ document.addEventListener('DOMContentLoaded', () => {
         tr.remove();
         triggerDebounced();
       } else {
-        showError('Each semester must have at least one course row.');
+        showError(T('errors.keepOneCourse'));
       }
     });
 
@@ -96,37 +97,37 @@ document.addEventListener('DOMContentLoaded', () => {
     const card = document.createElement('div');
     card.className = 'semester-card';
     card.id = semId;
-    card.style.cssText = 'background: var(--surface-default); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem; margin-bottom: 1.5rem;';
+    card.classList.add('panel-card', 'mb-6');
 
     card.innerHTML = `
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem;">
-        <div style="display: flex; align-items: center; gap: 0.75rem;">
-          <input type="text" class="form-control semester-title" value="${title}" aria-label="Semester Title" style="font-weight: 700; width: 180px; font-size: 1.05rem;">
-          <span class="badge semester-gpa-badge" style="background: var(--surface-muted); padding: 0.25rem 0.6rem; border-radius: var(--radius-sm); font-size: 0.85rem; font-weight: 600;">Term GPA: --</span>
+      <div class="flex justify-between items-center mb-4 flex-wrap gap-2">
+        <div class="flex items-center gap-3">
+          <input type="text" class="form-control semester-title w-col-xl font-bold text-md" value="${title}" aria-label="${T('semester.titleLabel')}">
+          <span class="badge semester-gpa-badge bg-muted py-1 px-2 rounded-md text-sm font-semibold">${T('semester.badgeEmpty')}</span>
         </div>
-        <button type="button" class="btn btn-sm btn-ghost remove-semester-btn" aria-label="Remove ${title}" title="Remove this semester">
+        <button type="button" class="btn btn-sm btn-ghost remove-semester-btn" aria-label="${T('semester.removeLabel', { title })}" title="${T('semester.removeTitle')}">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
-          Remove Term
+          ${T('semester.remove')}
         </button>
       </div>
 
-      <div style="overflow-x: auto;">
-        <table class="table" style="width: 100%; border-collapse: collapse; min-width: 440px;">
+      <div class="overflow-x-auto">
+        <table class="table table-min">
           <thead>
-            <tr style="border-bottom: 1px solid var(--border-subtle); text-align: left;">
-              <th scope="col" style="padding: 0.5rem; font-size: 0.85rem;">Course Title</th>
-              <th scope="col" style="padding: 0.5rem; font-size: 0.85rem; width: 140px;">Grade</th>
-              <th scope="col" style="padding: 0.5rem; font-size: 0.85rem; width: 100px;">Credits</th>
-              <th scope="col" style="padding: 0.5rem; font-size: 0.85rem; width: 50px; text-align: center;">Action</th>
+            <tr class="text-left">
+              <th scope="col" class="p-2 text-sm">${T('semester.thCourse')}</th>
+              <th scope="col" class="p-2 text-sm w-col-lg">${T('semester.thGrade')}</th>
+              <th scope="col" class="p-2 text-sm w-col-md">${T('semester.thCredits')}</th>
+              <th scope="col" class="p-2 text-sm w-col-sm text-center">${T('semester.thAction')}</th>
             </tr>
           </thead>
           <tbody class="courses-tbody"></tbody>
         </table>
       </div>
 
-      <button type="button" class="btn btn-sm btn-secondary add-course-btn" style="margin-top: 1rem;">
+      <button type="button" class="btn btn-sm btn-secondary add-course-btn mt-4">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-        Add Course
+        ${T('semester.addCourse')}
       </button>
     `;
 
@@ -134,9 +135,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if (initialCourses && initialCourses.length > 0) {
       initialCourses.forEach(c => tbody.appendChild(createCourseRow(c.name, c.grade, c.credits)));
     } else {
-      tbody.appendChild(createCourseRow('Course 1', 'A', 3));
-      tbody.appendChild(createCourseRow('Course 2', 'B+', 3));
-      tbody.appendChild(createCourseRow('Course 3', 'A-', 4));
+      tbody.appendChild(createCourseRow(T('courseName', { n: 1 }), 'A', 3));
+      tbody.appendChild(createCourseRow(T('courseName', { n: 2 }), 'B+', 3));
+      tbody.appendChild(createCourseRow(T('courseName', { n: 3 }), 'A-', 4));
     }
 
     card.querySelector('.add-course-btn').addEventListener('click', () => {
@@ -150,7 +151,7 @@ document.addEventListener('DOMContentLoaded', () => {
         card.remove();
         triggerDebounced();
       } else {
-        showError('You must maintain at least one semester.');
+        showError(T('errors.keepOneSemester'));
       }
     });
 
@@ -163,7 +164,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     cards.forEach((card, idx) => {
       const titleInput = card.querySelector('.semester-title');
-      const title = titleInput ? titleInput.value.trim() : `Semester ${idx + 1}`;
+      const title = titleInput ? titleInput.value.trim() : T('semesterName', { n: idx + 1 });
       const rows = card.querySelectorAll('.courses-tbody tr');
       const courses = [];
 
@@ -197,11 +198,11 @@ document.addEventListener('DOMContentLoaded', () => {
       const termRes = res.semesterResults[idx];
       const badge = sem.cardElement.querySelector('.semester-gpa-badge');
       if (badge && termRes) {
-        badge.textContent = `Term GPA: ${termRes.gpa.toFixed(2)} (${termRes.totalCredits} cr)`;
+        badge.textContent = T('semester.badge', { gpa: termRes.gpa.toFixed(2), credits: termRes.totalCredits });
       }
     });
 
-    lastResultText = `Cumulative GPA: ${res.cumulativeGpa.toFixed(2)} across ${res.cumulativeCredits} total credit hours (${res.cumulativePoints.toFixed(1)} grade points).`;
+    lastResultText = T('copy.text', { gpa: res.cumulativeGpa.toFixed(2), credits: res.cumulativeCredits, points: res.cumulativePoints.toFixed(1) });
 
     renderResult(res);
   }
@@ -215,42 +216,42 @@ document.addEventListener('DOMContentLoaded', () => {
     const statsGrid = document.getElementById('result-stats-grid');
     const formulaBox = document.getElementById('formula-explanation');
 
-    if (headerEl) headerEl.textContent = 'Cumulative GPA Result';
+    if (headerEl) headerEl.textContent = T('result.header');
     if (primaryEl) {
-      primaryEl.textContent = `${res.cumulativeGpa.toFixed(2)} / 4.00`;
+      primaryEl.textContent = T('result.primary', { gpa: res.cumulativeGpa.toFixed(2) });
     }
 
     if (statsGrid) {
       statsGrid.innerHTML = `
         <div class="result-stat-card">
-          <span class="stat-label">Cumulative GPA</span>
-          <span class="stat-value" style="color: var(--accent-primary); font-weight: 800;">${res.cumulativeGpa.toFixed(2)}</span>
+          <span class="stat-label">${T('stats.cumulativeGpa')}</span>
+          <span class="stat-value text-accent font-extrabold">${res.cumulativeGpa.toFixed(2)}</span>
         </div>
         <div class="result-stat-card">
-          <span class="stat-label">Total Credit Hours</span>
-          <span class="stat-value">${res.cumulativeCredits} cr</span>
+          <span class="stat-label">${T('stats.totalCredits')}</span>
+          <span class="stat-value">${T('stats.creditsValue', { credits: res.cumulativeCredits })}</span>
         </div>
         <div class="result-stat-card">
-          <span class="stat-label">Total Grade Points</span>
-          <span class="stat-value">${res.cumulativePoints.toFixed(2)} pts</span>
+          <span class="stat-label">${T('stats.totalPoints')}</span>
+          <span class="stat-value">${T('stats.pointsValue', { points: res.cumulativePoints.toFixed(2) })}</span>
         </div>
         <div class="result-stat-card">
-          <span class="stat-label">3-Decimal Exact GPA</span>
+          <span class="stat-label">${T('stats.exactGpa')}</span>
           <span class="stat-value">${res.cumulativeGpaFull.toFixed(3)}</span>
         </div>
       `;
     }
 
     if (formulaBox) {
-      const termsList = res.semesterResults.map(t => `<li><strong>${t.name}:</strong> GPA ${t.gpa.toFixed(2)} (${t.totalCredits} credits, ${t.totalPoints.toFixed(1)} points)</li>`).join('');
+      const termsList = res.semesterResults.map(t => T('breakdown.term', { name: t.name, gpa: t.gpa.toFixed(2), credits: t.totalCredits, points: t.totalPoints.toFixed(1) })).join('');
       formulaBox.innerHTML = `
-        <strong>Semester Breakdown &amp; Academic Details:</strong>
-        <ul style="margin: 0.5rem 0 0.5rem 1.25rem; padding: 0;">
-          ${res.priorCredits > 0 ? `<li><strong>Prior Academic History:</strong> GPA ${res.priorGpa.toFixed(2)} (${res.priorCredits} credits, ${(res.priorGpa * res.priorCredits).toFixed(1)} points)</li>` : ''}
+        ${T('breakdown.heading')}
+        <ul class="mt-2 mb-2 ml-4 p-0">
+          ${res.priorCredits > 0 ? T('breakdown.prior', { gpa: res.priorGpa.toFixed(2), credits: res.priorCredits, points: (res.priorGpa * res.priorCredits).toFixed(1) }) : ''}
           ${termsList}
         </ul>
-        <div style="font-size: 0.85rem; color: var(--text-muted);">
-          Formula: Cumulative GPA = Total Grade Points (${res.cumulativePoints.toFixed(2)}) ÷ Total Credit Hours (${res.cumulativeCredits}) = <strong>${res.cumulativeGpa.toFixed(2)}</strong>.
+        <div class="text-sm text-secondary">
+          ${T('breakdown.formula', { points: res.cumulativePoints.toFixed(2), credits: res.cumulativeCredits, gpa: res.cumulativeGpa.toFixed(2) })}
         </div>
       `;
       formulaBox.classList.remove('hidden');
@@ -281,10 +282,10 @@ document.addEventListener('DOMContentLoaded', () => {
   if (addSemesterBtn) {
     addSemesterBtn.addEventListener('click', () => {
       const count = semestersContainer.querySelectorAll('.semester-card').length + 1;
-      const card = createSemesterCard(`Semester ${count}`, [
-        { name: 'Course 1', grade: 'A', credits: 3 },
-        { name: 'Course 2', grade: 'A', credits: 3 },
-        { name: 'Course 3', grade: 'B+', credits: 3 }
+      const card = createSemesterCard(T('semesterName', { n: count }), [
+        { name: T('courseName', { n: 1 }), grade: 'A', credits: 3 },
+        { name: T('courseName', { n: 2 }), grade: 'A', credits: 3 },
+        { name: T('courseName', { n: 3 }), grade: 'B+', credits: 3 }
       ]);
       semestersContainer.appendChild(card);
       triggerDebounced();
@@ -333,7 +334,7 @@ document.addEventListener('DOMContentLoaded', () => {
       try {
         await navigator.clipboard.writeText(lastResultText);
         const origText = copyBtn.innerHTML;
-        copyBtn.innerHTML = '<span>Copied!</span>';
+        copyBtn.innerHTML = T('copy.copied');
         setTimeout(() => { copyBtn.innerHTML = origText; }, 2000);
       } catch (e) {
         console.error('Copy failed:', e);
@@ -342,11 +343,11 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function initDefaultSemesters() {
-    const sem1 = createSemesterCard('Semester 1', [
-      { name: 'English Composition', grade: 'A', credits: 3 },
-      { name: 'Calculus I', grade: 'B+', credits: 4 },
-      { name: 'Introduction to Psychology', grade: 'A', credits: 3 },
-      { name: 'Computer Science I', grade: 'A-', credits: 4 }
+    const sem1 = createSemesterCard(T('semesterName', { n: 1 }), [
+      { name: T('defaults.english'), grade: 'A', credits: 3 },
+      { name: T('defaults.calculus'), grade: 'B+', credits: 4 },
+      { name: T('defaults.psychology'), grade: 'A', credits: 3 },
+      { name: T('defaults.computerScience'), grade: 'A-', credits: 4 }
     ]);
     semestersContainer.appendChild(sem1);
   }

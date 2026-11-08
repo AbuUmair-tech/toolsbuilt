@@ -1,0 +1,268 @@
+{
+  "listing": {
+    "name": "Tip Calculator & Bill Splitter",
+    "shortName": "Tip Calculator",
+    "description": "Work out the tip and split the bill between any number of people, with tip on the pre-tax amount and rounding up per person.",
+    "shortDescription": "Tip amount, total and each person’s share, with preset or custom tip percentages.",
+    "keywords": [
+      "tip calculator",
+      "split the bill",
+      "bill splitter",
+      "tip per person",
+      "gratuity calculator",
+      "restaurant tip",
+      "how much to tip"
+    ]
+  },
+  "title": "Tip Calculator: Split the Bill & Tip Per Person",
+  "description": "Work out the tip and split the bill between any number of people. Preset or custom tip %, tip on the pre-tax amount, and round each share up.",
+  "h1": "Tip Calculator & Bill Splitter",
+  "quickAnswer": "Tip = bill × tip % ÷ 100, total = bill + tip, and each person pays total ÷ number of people. An 85.50 bill with an 18% tip is 15.39 in tip and 100.89 in total, so three people pay 33.63 each. To tip only on the food and drink, take the tax out of the bill first.",
+  "formula": {
+    "title": "Tip and Split Formula",
+    "expression": "Tip = Bill × Tip% ÷ 100   ·   Total = Bill + Tip   ·   Per person = Total ÷ People",
+    "explanation": "The tip is rounded to the nearest cent, added to the bill, and the total is divided between the people sharing it. If the total does not divide evenly, the calculator says how many people pay one extra cent so the shares add up exactly. With tip on pre-tax amount switched on, the tax is backed out of the bill first: pre-tax amount = bill ÷ (1 + tax% ÷ 100), and the tip is worked out on that amount only.",
+    "variables": [
+      {
+        "name": "Bill",
+        "description": "The total on the receipt, including any tax but before the tip."
+      },
+      {
+        "name": "Tip %",
+        "description": "The percentage you want to leave, from a preset or typed in."
+      },
+      {
+        "name": "Round up",
+        "description": "Rounds each share up to the next whole currency unit. The extra goes to the tip, and the calculator shows the tip percentage that results."
+      }
+    ]
+  },
+  "workedExamples": [
+    {
+      "title": "Dinner for three at 18%",
+      "inputs": [
+        "Bill: 85.50",
+        "Tip: 18%",
+        "People: 3"
+      ],
+      "steps": [
+        "Tip: 85.50 × 18 ÷ 100 = 15.39",
+        "Total: 85.50 + 15.39 = 100.89",
+        "Per person: 100.89 ÷ 3 = 33.63"
+      ],
+      "result": "Tip 15.39, total 100.89, 33.63 each",
+      "link": "/tools/tip-calculator/?bill=85.5&tip=18&people=3&cur=USD#tool"
+    },
+    {
+      "title": "Same dinner, rounded up per person",
+      "inputs": [
+        "Bill: 85.50, tip 18%, 3 people",
+        "Round up per person: on"
+      ],
+      "steps": [
+        "Exact share: 33.63, rounded up to 34.00",
+        "Collected: 3 × 34.00 = 102.00",
+        "Tip actually left: 102.00 − 85.50 = 16.50, which is 19.3% of the bill"
+      ],
+      "result": "34.00 each, tip 16.50 (19.3%)",
+      "link": "/tools/tip-calculator/?bill=85.5&tip=18&people=3&round=1&cur=USD#tool"
+    },
+    {
+      "title": "Tip on the amount before tax",
+      "inputs": [
+        "Bill: 108.00 including 8% sales tax",
+        "Tip: 20% on the pre-tax amount",
+        "People: 2"
+      ],
+      "steps": [
+        "Pre-tax amount: 108.00 ÷ 1.08 = 100.00 (tax 8.00)",
+        "Tip: 100.00 × 20% = 20.00 instead of 21.60 on the full bill",
+        "Total: 108.00 + 20.00 = 128.00, so 64.00 each"
+      ],
+      "result": "Tip 20.00, total 128.00, 64.00 each",
+      "link": "/tools/tip-calculator/?bill=108&tip=20&people=2&pretax=1&tax=8&cur=USD#tool"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Tipping on a service charge that is already included",
+      "description": "Some restaurants add a service charge or gratuity to the bill, often for larger groups. Check the receipt before adding a tip on top, or you may tip twice."
+    },
+    {
+      "title": "Splitting the bill before adding the tip",
+      "description": "If everyone divides the food bill and then rounds their own tip, the total tip is often less than intended. Add the tip to the whole bill first, then split the total."
+    },
+    {
+      "title": "Rounding every share down",
+      "description": "Rounding 33.63 down to 33 for three people leaves the table 1.89 short. Round shares up, or use the exact amount and let the calculator assign the odd cents."
+    },
+    {
+      "title": "Assuming the same tipping custom everywhere",
+      "description": "Whether a tip is expected, and how much, varies by country, by type of business and even by city. When travelling, check local guidance or ask; in some places service is included in prices."
+    },
+    {
+      "title": "Forgetting tax when tipping on the subtotal",
+      "description": "If you want to tip on the pre-tax amount, use the subtotal from the receipt or turn on the pre-tax option and enter the tax rate, rather than tipping on the bill total."
+    }
+  ],
+  "sources": [
+    {
+      "name": "U.S. Department of Labor: Tipped employees under the FLSA (Fact Sheet #15)",
+      "url": "https://www.dol.gov/agencies/whd/fact-sheets/15-tipped-employees-flsa"
+    },
+    {
+      "name": "IRS: Tip recordkeeping and reporting",
+      "url": "https://www.irs.gov/businesses/small-businesses-self-employed/tip-recordkeeping-and-reporting"
+    },
+    {
+      "name": "GOV.UK: Tips at work",
+      "url": "https://www.gov.uk/tips-at-work"
+    }
+  ],
+  "howto": {
+    "name": "How to Calculate a Tip and Split the Bill",
+    "description": "Work out the tip, the total and what each person owes.",
+    "steps": [
+      {
+        "name": "Enter the bill",
+        "text": "Type the amount on the receipt and choose your currency."
+      },
+      {
+        "name": "Choose the tip",
+        "text": "Pick 10, 15, 18, 20 or 25%, or type any percentage."
+      },
+      {
+        "name": "Enter the number of people",
+        "text": "Enter how many people are sharing the bill."
+      },
+      {
+        "name": "Adjust the options",
+        "text": "Tip on the pre-tax amount if you prefer, and round each share up to a whole amount if that is easier to pay."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "How do I calculate a tip?",
+      "a": "Multiply the bill by the tip percentage and divide by 100. For a 60 bill and a 15% tip: 60 × 15 ÷ 100 = 9, so the total is 69. A quick mental trick for 20% is to move the decimal point one place left and double it."
+    },
+    {
+      "q": "How do you split a bill with tip between people?",
+      "a": "Add the tip to the bill to get the total, then divide by the number of people. If it does not divide evenly to the cent, some people pay one cent more; the calculator tells you how many."
+    },
+    {
+      "q": "What is 18% of 85.50?",
+      "a": "18% of 85.50 is 15.39. The total with tip is 100.89, which is 33.63 each for three people."
+    },
+    {
+      "q": "Should I tip on the total before or after tax?",
+      "a": "Etiquette guides differ. Many people tip on the pre-tax subtotal because tax is not part of the service. Switch on 'Tip on the pre-tax amount' and enter the tax rate to see both figures."
+    },
+    {
+      "q": "How much should I tip?",
+      "a": "It depends on where you are and the type of service. Customs range from no tip at all to a set percentage. Choose a preset or type your own percentage; the calculator does not assume a country."
+    },
+    {
+      "q": "What does round up per person do?",
+      "a": "It rounds each share up to the next whole unit (for example 33.63 to 34.00). The extra cents go to the tip, and the result shows the tip percentage you are actually leaving."
+    },
+    {
+      "q": "Is a service charge the same as a tip?",
+      "a": "Not always. A service charge is added by the business and may be shared differently from a voluntary tip. Rules on who receives service charges and tips vary by country, so check local guidance."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Tip Calculator",
+      "copy-result-btn": "Copy result to clipboard"
+    },
+    "label": {
+      "bill": "Bill amount <span class=\"text-accent\">*</span>",
+      "tip-percent": "Tip % <span class=\"label-hint\">(or type a custom value)</span>",
+      "people": "Number of people",
+      "tax-percent": "Tax included in the bill (%)"
+    },
+    "placeholder": {
+      "bill": "e.g. 85.50",
+      "tax-percent": "e.g. 8"
+    },
+    "content": {
+      "tool": {
+        "legend1": "Tip percentage",
+        "label1": "<input type=\"checkbox\" id=\"pretax\" data-param=\"pretax\" aria-controls=\"tax-group\">\n            <span>Tip on the pre-tax amount</span>",
+        "label2": "<input type=\"checkbox\" id=\"round-up\" data-param=\"round\">\n            <span>Round each person's share up to a whole amount</span>",
+        "button1": "Calculate Tip"
+      },
+      "quick-tip-percentages": {
+        "heading": "Quick Tip Percentages",
+        "p1": "For a rough figure without a calculator, start from 10%, which is the bill with the decimal point moved one place to the left. Everything else can be built from it:",
+        "caption1": "Mental shortcuts for common tip percentages on a 64.00 bill",
+        "th1": "Tip",
+        "th2": "Shortcut",
+        "th3": "On a 64.00 bill",
+        "td1": "Move the decimal point one place left",
+        "td2": "10% plus half of it",
+        "td3": "20% minus 2%",
+        "td4": "10% doubled",
+        "td5": "A quarter of the bill"
+      },
+      "tipping-customs-differ": {
+        "heading": "Tipping Customs Differ",
+        "p1": "There is no single rule for tipping. In some countries a tip is a large part of a server's income and is expected; in others service is included in menu prices or a service charge appears on the bill, and a tip is only a small extra for good service. Hotels, taxis, delivery and hairdressers often have their own customs. Because these customs vary and change, this calculator does not suggest a percentage for any country. Check local guidance when travelling, and look at the receipt for a service charge before adding a tip.",
+        "p2": "Employment rules on tips also vary. In the United States, the Department of Labor sets rules for tipped employees and tip pools, and the IRS treats tips as taxable income for the worker. In the UK, employers must pass all tips, gratuities and service charges to workers without deductions. The sources below link to these official pages."
+      },
+      "splitting-fairly": {
+        "heading": "Splitting Fairly",
+        "li1": "<strong>Even split:</strong> best when everyone ordered similar amounts. The calculator divides to the cent and tells you if anyone needs to pay a cent more.",
+        "li2": "<strong>Itemised split:</strong> if orders differ a lot, run the calculator once per person with their own subtotal and a single person count, using the same tip percentage.",
+        "li3": "<strong>Paying in cash:</strong> turn on rounding up so everyone puts in a whole amount; the extra is added to the tip."
+      }
+    },
+    "text": {
+      "reset-btn": "Reset",
+      "result-header-text": "Each person pays",
+      "copy-result-btn": "<span data-icon=\"copy\"></span> Copy Result"
+    },
+    "title": {
+      "copy-result-btn": "Copy result to clipboard"
+    }
+  },
+  "client": {
+    "errors": {
+      "billEmpty": "Enter the bill amount.",
+      "billInvalid": "The bill must be a number greater than 0.",
+      "tipEmpty": "Enter a tip percentage or choose a preset.",
+      "tipNegative": "The tip must be 0% or more.",
+      "tipOver100": "The tip cannot be more than 100% of the bill.",
+      "people": "The number of people must be a whole number of 1 or more.",
+      "peopleMax": "Split between 1,000 people or fewer.",
+      "tax": "The tax rate must be between 0% and 100%."
+    },
+    "result": {
+      "eachPays": "Each of {{people}} people pays",
+      "totalToPay": "Total to pay"
+    },
+    "stats": {
+      "tipRounded": "Tip ({{pct}}% after rounding)",
+      "tip": "Tip ({{pct}}%)",
+      "total": "Total with tip",
+      "perPerson": "Per person",
+      "tipPerPerson": "Tip per person",
+      "tipBase": "Tip based on (before tax)",
+      "tax": "Tax in the bill"
+    },
+    "notes": {
+      "uneven": {
+        "one": "{{total}} does not split evenly: {{count}} person pays {{high}} and the rest pay {{low}}.",
+        "other": "{{total}} does not split evenly: {{count}} people pay {{high}} and the rest pay {{low}}."
+      },
+      "roundingExtra": "Rounding up adds {{amount}} to the tip."
+    },
+    "copy": {
+      "bill": "Bill: {{amount}}",
+      "tip": "Tip: {{amount}}",
+      "total": "Total: {{amount}}",
+      "perPerson": "Per person ({{people}}): {{amount}}"
+    }
+  }
+}

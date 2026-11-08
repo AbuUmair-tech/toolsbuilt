@@ -1,0 +1,223 @@
+{
+  "listing": {
+    "name": "Calculateur de remise",
+    "shortName": "Calculateur de remise",
+    "description": "Calculez le prix soldé final, l'économie totale, des remises cumulées et le prix final taxe de vente comprise.",
+    "shortDescription": "Calculez le prix soldé final, l'économie totale, des remises cumulées et le prix final taxe de vente comprise.",
+    "keywords": [
+      "calculateur de remise",
+      "calcul prix soldé",
+      "calcul réduction pourcentage",
+      "calcul économie",
+      "double remise avec taxe"
+    ]
+  },
+  "title": "Calculateur de remise - Prix soldé et économies",
+  "description": "Calculateur de remise gratuit : prix soldé final, montant économisé, remises cumulées et taxe de vente, calculés instantanément.",
+  "h1": "Calculateur de remise",
+  "quickAnswer": "Pour connaître le prix soldé final et l'économie totale, saisissez le prix d'origine et le pourcentage de remise. Ce calculateur de remise vous permet d'ajouter un second coupon cumulé et la taxe de vente locale pour voir ce que vous paierez réellement. Les montants sont arrondis au centime le plus proche (demi supérieur), comme en caisse.",
+  "formula": {
+    "title": "Formule de calcul de la remise et de la taxe",
+    "expression": "Prix final = [(Prix d'origine - (Prix d'origine × Remise1%)) - Remise cumulée] × (1 + Taxe%)",
+    "explanation": "Appliquez d'abord la remise principale au prix d'origine pour obtenir la première économie. Appliquez ensuite l'éventuel coupon cumulé au sous-total réduit (de façon multiplicative, et non additive). Enfin, calculez la taxe de vente sur le sous-total remisé, en arrondissant au centime le plus proche (demi supérieur)."
+  },
+  "workedExamples": [
+    {
+      "title": "Solde simple de 25%",
+      "inputs": [
+        "Prix d'origine : $100.00",
+        "Remise principale : 25%",
+        "Coupon cumulé : 0%",
+        "Taxe de vente : 0%"
+      ],
+      "steps": [
+        "Calculer l'économie : $100.00 × 0.25 = $25.00",
+        "Soustraire la remise du prix d'origine : $100.00 - $25.00 = $75.00"
+      ],
+      "result": "Prix final : $75.00 (économie totale : $25.00 / 25.00%)"
+    },
+    {
+      "title": "Solde de 20% + coupon magasin de 10% cumulés",
+      "inputs": [
+        "Prix d'origine : $80.00",
+        "Remise principale : 20%",
+        "Coupon cumulé : 10%",
+        "Taxe de vente : 0%"
+      ],
+      "steps": [
+        "Appliquer la remise principale de 20% : $80.00 - $16.00 = $64.00 de sous-total",
+        "Appliquer le coupon de 10% au sous-total réduit : $64.00 × 0.10 = $6.40 d'économie",
+        "Soustraire le second coupon : $64.00 - $6.40 = $57.60 de prix final",
+        "Calculer l'économie totale : $16.00 + $6.40 = $22.40 (remise effective : 28.00%, et non 30%)"
+      ],
+      "result": "Prix final : $57.60 (économie totale : $22.40 / remise effective de 28.00%)"
+    },
+    {
+      "title": "Remise de 15% avec 8% de taxe de vente",
+      "inputs": [
+        "Prix d'origine : $50.00",
+        "Remise principale : 15%",
+        "Coupon cumulé : 0%",
+        "Taxe de vente : 8%"
+      ],
+      "steps": [
+        "Appliquer la remise de 15% : $50.00 × 0.15 = $7.50 d'économie",
+        "Sous-total net remisé : $50.00 - $7.50 = $42.50",
+        "Calculer la taxe de vente de 8% sur le sous-total remisé : $42.50 × 0.08 = $3.40",
+        "Ajouter la taxe au sous-total : $42.50 + $3.40 = $45.90"
+      ],
+      "result": "Prix final : $45.90 (économie nette : $7.50, taxe ajoutée : $3.40)"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Additionner directement des remises cumulées",
+      "description": "Une idée reçue courante consiste à additionner les taux de remise (par ex. 20% de remise + coupon de 10% = 30% de remise). Le second coupon s'applique au sous-total déjà remisé, ce qui donne 28% d'économie au total."
+    },
+    {
+      "title": "Appliquer la taxe de vente avant les remises",
+      "description": "Dans presque toutes les juridictions fiscales, la taxe de vente s'applique uniquement au prix net payé après coupons, et non au prix d'origine affiché."
+    },
+    {
+      "title": "Écarts d'arrondi au centime",
+      "description": "Les caisses arrondissent au centime le plus proche à chaque étape. N'arrondir que le total final peut produire de petits écarts de 1 centime par rapport au ticket de caisse."
+    },
+    {
+      "title": "Confondre pourcentage de remise et pourcentage du prix d'origine",
+      "description": "Une remise de 25% signifie que vous payez 75% du prix d'origine, et non 25% du prix d'origine."
+    }
+  ],
+  "sources": [
+    {
+      "name": "Federal Trade Commission - Guides Against Deceptive Pricing"
+    },
+    {
+      "name": "NIST : normes mathématiques des prix à la consommation"
+    },
+    {
+      "name": "ISO 80000-2 : signes et symboles mathématiques"
+    }
+  ],
+  "howto": {
+    "name": "Comment calculer un prix soldé et l'économie réalisée",
+    "description": "Instructions pas à pas pour calculer des remises, des coupons cumulés et la taxe de vente.",
+    "steps": [
+      {
+        "name": "Choisir la devise et le prix d'origine",
+        "text": "Choisissez le symbole de votre devise et saisissez le prix d'origine affiché de l'article."
+      },
+      {
+        "name": "Saisir le taux de remise principal",
+        "text": "Saisissez le pourcentage de remise annoncé (par ex. 20%)."
+      },
+      {
+        "name": "Ajouter des coupons cumulés ou la taxe (facultatif)",
+        "text": "Ajoutez si besoin un code promo supplémentaire et le taux de taxe de vente local."
+      },
+      {
+        "name": "Vérifier le coût final et l'économie totale",
+        "text": "Consultez le prix final à payer, le montant total économisé et le détail du calcul étape par étape."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Comment calculer le prix final remisé d'un article ?",
+      "a": "Multipliez le prix d'origine par le pourcentage de remise divisé par 100 pour obtenir l'économie, puis soustrayez cette économie du prix d'origine pour obtenir le prix soldé final."
+    },
+    {
+      "q": "Pourquoi un solde de 20% plus un coupon de 10% ne font-ils pas 30% de remise ?",
+      "a": "Parce que le coupon cumulé s'applique au sous-total déjà soldé, et non au prix d'origine. Un article à $100 soldé à 20% passe à $80 ; 10% de remise sur $80 font $8 d'économie, soit un prix final de $72 (28% d'économie au total, et non 30%)."
+    },
+    {
+      "q": "La taxe de vente est-elle calculée avant ou après les remises ?",
+      "a": "Lors d'un achat en magasin, la taxe de vente est calculée sur le sous-total net, après application de toutes les remises promotionnelles et de tous les coupons."
+    },
+    {
+      "q": "Puis-je calculer une double remise cumulée avec cet outil ?",
+      "a": "Oui. Saisissez le pourcentage de la remise principale dans le premier champ et celui du coupon magasin dans le champ facultatif de remise cumulée."
+    },
+    {
+      "q": "Des données financières sont-elles envoyées à un serveur ?",
+      "a": "Non. Tous les calculs de remise s'exécutent localement dans votre navigateur, en JavaScript. Aucun prix ni aucune donnée financière ne quitte votre appareil."
+    },
+    {
+      "q": "Ce calculateur prend-il en charge des devises comme la livre ou l'euro ?",
+      "a": "Oui. Utilisez la liste des devises pour passer du dollar ($) à la livre (£), à l'euro (€), au yen (¥) ou à la roupie (₹)."
+    },
+    {
+      "q": "Qu'est-ce que le pourcentage de remise effectif ?",
+      "a": "Le pourcentage de remise effectif correspond à votre économie totale divisée par le prix d'origine, exprimée sous la forme d'un seul pourcentage équivalent."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Formulaire du calculateur de remise",
+      "copy-result-btn": "Copier le résultat dans le presse-papiers"
+    },
+    "label": {
+      "original-price": "Prix d'origine <span class=\"text-accent\">*</span>",
+      "discount-percent": "Remise principale (%) <span class=\"text-accent\">*</span>",
+      "stacked-discount-percent": "2e remise cumulée (%) <span class=\"label-hint\">(facultatif)</span>",
+      "tax-percent": "Taxe de vente (%) <span class=\"label-hint\">(facultatif)</span>"
+    },
+    "content": {
+      "tool": {
+        "button1": "Calculer l'économie",
+        "div1": "Coût final à payer",
+        "div2": "Montant total économisé",
+        "div3": "Sous-total (hors taxe)",
+        "div4": "Taxe de vente ajoutée"
+      },
+      "how-when-to-use-the-discount": {
+        "heading": "Comment et quand utiliser le calculateur de remise",
+        "li1": "<strong>Achats en magasin et déstockage :</strong> déterminez rapidement ce que donne réellement en caisse une étiquette « 30% de remise ».",
+        "li2": "<strong>Cumul de coupons en ligne :</strong> voyez ce qui se passe quand vous combinez un solde de 20% sur tout le site avec un code promo supplémentaire de 15%.",
+        "li3": "<strong>Vente en gros et marges :</strong> calculez les remises sur volume des distributeurs et les prix nets avant facturation.",
+        "li4": "<strong>Budget avec taxe de vente locale :</strong> voyez le vrai total à payer, taxe régionale comprise, avant de sortir votre carte."
+      }
+    },
+    "text": {
+      "reset-btn": "Réinitialiser",
+      "result-header-text": "Résultat du calcul de remise",
+      "copy-result-btn": "<span data-icon=\"copy\"></span> Copier le résultat",
+      "result-primary-text": "Prix final : $0.00"
+    },
+    "title": {
+      "copy-result-btn": "Copier le résultat dans le presse-papiers"
+    }
+  },
+  "client": {
+    "errors": {
+      "originalPrice": "Veuillez saisir un prix d'origine valide (0 ou plus).",
+      "primaryDiscount": "Veuillez saisir un pourcentage de remise principale valide (0-100%).",
+      "primaryOver100": "Le pourcentage de remise principale ne peut pas dépasser 100%.",
+      "stackedNegative": "La remise cumulée doit être de 0 ou plus.",
+      "stackedOver100": "La remise cumulée ne peut pas dépasser 100%.",
+      "taxNegative": "Le pourcentage de taxe doit être de 0 ou plus.",
+      "price": "Veuillez saisir un prix d'origine valide.",
+      "discount": "Veuillez saisir un pourcentage de remise valide.",
+      "negative": "Le prix, la remise et la taxe ne peuvent pas être négatifs."
+    },
+    "breakdown": {
+      "originalPrice": "Prix d'origine",
+      "primaryDiscount": "Remise principale ({{pct}}%)",
+      "stackedCoupon": "Coupon cumulé ({{pct}}%)",
+      "salesTax": "Taxe de vente ({{pct}}%)"
+    },
+    "result": {
+      "primary": "Prix final : {{final}}",
+      "totalSaved": "{{saved}} ({{pct}}% au total)",
+      "copy": "Prix final : {{final}}. Économie totale : {{saved}} ({{pct}}% de remise). Prix hors taxe : {{beforeTax}}. Taxe de vente : {{tax}}.",
+      "copied": "Calcul de remise copié dans le presse-papiers"
+    },
+    "steps": {
+      "heading": "<strong>Détail du calcul :</strong><br>",
+      "original": "1. Prix d'origine : <code>{{price}}</code><br>",
+      "primary": "2. Remise principale ({{pct}}%) : économie de <code>{{saved}}</code> → sous-total : <code>{{subtotal}}</code><br>",
+      "stacked": "3. 2e remise cumulée ({{pct}}% sur {{base}}) : économie supplémentaire de <code>{{saved}}</code> → sous-total : <code>{{subtotal}}</code><br>",
+      "tax": "4. Taxe de vente ({{pct}}%) : ajout de <code>{{tax}}</code><br>",
+      "total": "5. Total à payer : <strong>{{final}}</strong> (économie totale : <strong>{{saved}}</strong>)"
+    }
+  }
+}

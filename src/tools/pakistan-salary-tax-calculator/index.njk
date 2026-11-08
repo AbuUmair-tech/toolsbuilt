@@ -1,0 +1,92 @@
+---
+layout: layouts/tool.njk
+toolSlug: pakistan-salary-tax-calculator
+toolLogic: "/tools/salary-tax-calculator/logic.js"
+toolScript: "/tools/salary-tax-calculator/calculator.js"
+applicationCategory: FinanceApplication
+areaServed: Pakistan
+countryCode: PK
+permalink: /tools/pakistan-salary-tax-calculator/
+extraCss: "/tools/salary-tax-calculator/style.css"
+lastReviewed: "2026-10-31"
+---
+
+{% from "partials/currency-select.njk" import countryData with context %}
+{{ countryData(countries) }}
+{% from "partials/salary-tax-calculator.njk" import salaryTaxCalculator with context %}
+{{ salaryTaxCalculator({ country: "PK", year: pakistanSalaryTax.taxYear }) }}
+
+    <!-- tool-end -->
+
+{% from "partials/salary-tax-links.njk" import otherCountries with context %}
+    {{ otherCountries("PK") }}
+
+    <section class="content-section stc-rate-tables" aria-label="{{ 'slabs.title' | pt({ year: pakistanSalaryTax.taxYear }) }}">
+      <!-- Slab tables, rendered from logic.js data (the calculator above shows the visitor's own slab) -->
+      {% for table in [
+        { year: pakistanSalaryTax.taxYear, rows: pakistanSalaryTax.current },
+        { year: pakistanSalaryTax.previousTaxYear, rows: pakistanSalaryTax.previous }
+      ] %}
+      <div class="slab-table-block" data-year="{{ table.year }}">
+        <h2 class="slab-table-title">{{ 'slabs.title' | pt({ year: table.year }) }}</h2>
+        <div class="table-wrapper" tabindex="0" role="region" aria-label="{{ 'slabs.ariaLabel' | pt({ year: table.year }) }}">
+          <table class="table slab-table">
+            <caption class="visually-hidden">{{ 'slabs.caption' | pt({ year: table.year }) }}</caption>
+            <thead>
+              <tr>
+                <th scope="col">{{ 'content.tool.th1' | pt }}</th>
+                <th scope="col">{{ 'content.tool.th2' | pt }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for row in table.rows %}
+              <tr data-slab="{{ row.index }}">
+                <td>{% if row.to %}{{ 'slabs.range' | pt({ from: row.from, to: row.to }) }}{% else %}{{ 'slabs.above' | pt({ over: row.over }) }}{% endif %}</td>
+                <td>{% if row.isZero %}0%{% elif row.fixed == 0 %}{{ 'slabs.rate' | pt({ rate: row.rate, over: row.over }) }}{% else %}{{ 'slabs.fixedRate' | pt({ fixed: row.fixedText, rate: row.rate, over: row.over }) }}{% endif %}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        {% if table.year == pakistanSalaryTax.previousTaxYear and pakistanSalaryTax.previousSurcharge %}
+        <p class="slab-table-note">{{ 'slabs.surcharge' | pt({ rate: (pakistanSalaryTax.previousSurcharge.rate * 100) | round }) }}</p>
+        {% elif table.year == pakistanSalaryTax.taxYear %}
+        <p class="slab-table-note">{{ 'slabs.noSurcharge' | pt({ year: table.year }) }}</p>
+        {% endif %}
+      </div>
+      {% endfor %}
+
+    </section>
+
+
+    <section class="content-section" aria-labelledby="how-calculated-heading">
+      <h2 id="how-calculated-heading">{{ 'text.how-calculated-heading' | pt }}</h2>
+      <p>{{ 'content.how-salary-tax-is-calculated-in.p1' | pt }}</p>
+      <ul class="content-list">
+        <li>{{ 'content.how-salary-tax-is-calculated-in.li1' | pt }}</li>
+        <li>{{ 'content.how-salary-tax-is-calculated-in.li2' | pt }}</li>
+        <li>{{ 'content.how-salary-tax-is-calculated-in.li3' | pt }}</li>
+      </ul>
+      <p>{{ 'content.how-salary-tax-is-calculated-in.p2' | pt }}</p>
+    </section>
+
+    <section class="content-section" aria-labelledby="budget-changes-heading">
+      <h2 id="budget-changes-heading">{{ 'text.budget-changes-heading' | pt }}</h2>
+      <p>{{ 'content.what-changed-in-budget-2026-27.p1' | pt }}</p>
+      <ul class="content-list">
+        <li>{{ 'content.what-changed-in-budget-2026-27.li1' | pt }}</li>
+        <li>{{ 'content.what-changed-in-budget-2026-27.li2' | pt }}</li>
+        <li>{{ 'content.what-changed-in-budget-2026-27.li3' | pt }}</li>
+      </ul>
+      <p>{{ 'content.what-changed-in-budget-2026-27.p2' | pt }}</p>
+    </section>
+
+    <section class="content-section" aria-labelledby="estimate-heading">
+      <h2 id="estimate-heading">{{ 'text.estimate-heading' | pt }}</h2>
+      <p>{{ 'content.what-this-calculator-does-not-include.p1' | pt }}</p>
+    </section>
+
+    <section class="content-section" aria-labelledby="other-countries-heading">
+      <h2 id="other-countries-heading">{{ 'text.other-countries-heading' | pt }}</h2>
+      <p>{{ 'content.working-outside-pakistan.p1' | pt }}</p>
+    </section>

@@ -1,0 +1,88 @@
+---
+layout: layouts/tool.njk
+toolSlug: remove-duplicate-lines
+permalink: /tools/remove-duplicate-lines/
+extraCss: "/tools/remove-duplicate-lines/style.css"
+lastReviewed: "2026-10-31"
+---
+
+    <!-- Tool Form Container -->
+    <section class="tool-container" aria-label="{{ 'ariaLabel.tool-section1' | pt }}">
+      <form id="dedupe-form" novalidate>
+        <div class="form-group">
+          <label for="dedupe-input">{{ 'label.dedupe-input' | pt }}</label>
+          <textarea id="dedupe-input" class="form-control dedupe-textarea" rows="10" spellcheck="false" autocomplete="off" placeholder="{{ 'placeholder.dedupe-input' | pt }}"></textarea>
+        </div>
+
+        <div class="dedupe-options">
+          <label class="checkbox-label">{{ 'content.tool.label1' | pt }}</label>
+          <label class="checkbox-label">{{ 'content.tool.label2' | pt }}</label>
+          <label class="checkbox-label">{{ 'content.tool.label3' | pt }}</label>
+          <label class="checkbox-label">{{ 'content.tool.label4' | pt }}</label>
+        </div>
+        <div class="form-grid two-col dedupe-selects">
+          <div class="form-group">
+            <label for="opt-keep">{{ 'label.opt-keep' | pt }}</label>
+            <select id="opt-keep" class="form-control">
+              <option value="first" selected>{{ 'option.opt-keep.first' | pt }}</option>
+              <option value="last">{{ 'option.opt-keep.last' | pt }}</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="opt-sort">{{ 'label.opt-sort' | pt }}</label>
+            <select id="opt-sort" class="form-control">
+              <option value="none" selected>{{ 'option.opt-sort.none' | pt }}</option>
+              <option value="asc">{{ 'option.opt-sort.asc' | pt }}</option>
+              <option value="desc">{{ 'option.opt-sort.desc' | pt }}</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="button-group">
+          <button type="button" class="btn btn-secondary" id="example-btn">{{ 'text.example-btn' | pt }}</button>
+          <button type="button" class="btn btn-ghost" id="clear-btn">{{ 'text.clear-btn' | pt }}</button>
+        </div>
+      </form>
+
+      <div id="result-box" class="result-box" aria-live="polite">
+        <div class="result-header">
+          {{ 'content.tool.div1' | pt }}
+        </div>
+        <div class="result-primary" id="result-primary-text">--</div>
+        <p class="form-hint" id="dedupe-note"></p>
+        <label for="dedupe-output" class="dedupe-output-label">{{ 'label.dedupe-output' | pt }}</label>
+        <textarea id="dedupe-output" class="form-control dedupe-textarea" rows="10" readonly spellcheck="false"></textarea>
+        <div class="button-group mt-4">
+          <button type="button" class="btn btn-sm btn-secondary" id="copy-output-btn">{{ 'text.copy-output-btn' | pt }}</button>
+          <button type="button" class="btn btn-sm btn-secondary" id="download-btn">{{ 'text.download-btn' | pt }}</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- tool-end -->
+
+    <section class="content-section">
+      <h2>{{ 'content.which-options-to-use.heading' | pt }}</h2>
+      <div class="table-wrapper">
+        <table class="table">
+          <caption class="visually-hidden">{{ 'content.which-options-to-use.caption1' | pt }}</caption>
+          <thead><tr><th scope="col">{{ 'content.which-options-to-use.th1' | pt }}</th><th scope="col">{{ 'content.which-options-to-use.th2' | pt }}</th></tr></thead>
+          <tbody>
+            <tr><td>{{ 'content.which-options-to-use.td1' | pt }}</td><td>{{ 'content.which-options-to-use.td2' | pt }}</td></tr>
+            <tr><td>{{ 'content.which-options-to-use.td3' | pt }}</td><td>{{ 'content.which-options-to-use.td4' | pt }}</td></tr>
+            <tr><td>{{ 'content.which-options-to-use.td5' | pt }}</td><td>{{ 'content.which-options-to-use.td6' | pt }}</td></tr>
+            <tr><td>{{ 'content.which-options-to-use.td7' | pt }}</td><td>{{ 'content.which-options-to-use.td8' | pt }}</td></tr>
+            <tr><td>{{ 'content.which-options-to-use.td9' | pt }}</td><td>{{ 'content.which-options-to-use.td10' | pt }}</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>{{ 'content.which-options-to-use.p1' | pt }}</p>
+
+      <h2>{{ 'content.other-ways-to-remove-duplicates.heading' | pt }}</h2>
+      <ul class="content-list">
+        <li>{{ 'content.other-ways-to-remove-duplicates.li1' | pt }}</li>
+        <li>{{ 'content.other-ways-to-remove-duplicates.li2' | pt }}</li>
+        <li>{{ 'content.other-ways-to-remove-duplicates.li3' | pt }}</li>
+      </ul>
+      <p>{{ 'content.other-ways-to-remove-duplicates.p1' | pt }}</p>
+    </section>

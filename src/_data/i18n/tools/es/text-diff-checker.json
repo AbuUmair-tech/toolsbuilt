@@ -1,0 +1,280 @@
+{
+  "listing": {
+    "name": "Comparador de textos",
+    "shortName": "Comparador de textos",
+    "description": "Compara dos textos línea por línea con resaltado de palabras, en vista lado a lado o en línea, ignorando mayúsculas, espacios o líneas en blanco.",
+    "shortDescription": "Compara dos textos y ve las líneas y palabras añadidas, eliminadas y cambiadas.",
+    "keywords": [
+      "comparador de textos",
+      "comparar dos textos",
+      "comparar textos online",
+      "encontrar diferencias entre textos",
+      "diff online",
+      "comparar documentos",
+      "herramienta diff"
+    ]
+  },
+  "title": "Comparador de textos: compara dos textos en línea",
+  "description": "Comparador de textos: compara dos textos línea por línea y ve qué se añadió, eliminó o cambió, con resaltado de palabras y vista lado a lado o en línea.",
+  "h1": "Comparador de textos",
+  "quickAnswer": "Con este comparador de textos, pega el texto original a la izquierda y el texto modificado a la derecha, y pulsa Comparar. Las líneas eliminadas se muestran en rojo, las añadidas en verde y, dentro de una línea cambiada, se resaltan las palabras exactas que difieren. Puedes ignorar mayúsculas, espacios o líneas en blanco, y la comparación se ejecuta por completo en tu navegador.",
+  "formula": {
+    "title": "Cómo funciona la comparación",
+    "expression": "Diff = el script de edición más corto que convierte las líneas originales en las líneas modificadas (algoritmo O(ND) de Myers)",
+    "explanation": "Ambos textos se dividen en líneas, y a cada línea distinta se le asigna un número para poder compararlas al instante. Primero se emparejan las líneas iguales del principio y del final. El resto se compara con el algoritmo de diferencias de Eugene Myers, el mismo enfoque que usan git y GNU diff, que encuentra el conjunto más pequeño de líneas que hay que eliminar y añadir. Cuando a una línea eliminada le sigue una línea añadida, ambas se comparan de nuevo palabra por palabra para resaltar solo las palabras cambiadas. Las reescrituras muy grandes se dividen en las líneas que aparecen exactamente una vez en ambos textos (la técnica 'patience') para que el resultado siga siendo legible. El trabajo se hace en un hilo en segundo plano, así que los documentos largos no bloquean la página.",
+    "variables": [
+      {
+        "name": "Eliminadas",
+        "description": "Líneas del texto original que no están en el texto modificado."
+      },
+      {
+        "name": "Añadidas",
+        "description": "Líneas del texto modificado que no están en el original."
+      },
+      {
+        "name": "Cambiadas",
+        "description": "Una línea eliminada emparejada con la línea añadida que la reemplazó, con resaltado de palabras."
+      }
+    ]
+  },
+  "workedExamples": [
+    {
+      "title": "Una línea reemplazada",
+      "inputs": [
+        "Original: a / b / c",
+        "Modificado: a / x / c"
+      ],
+      "steps": [
+        "a y c están en ambos textos y no cambian",
+        "b se eliminó y x se añadió en su lugar"
+      ],
+      "result": "1 eliminada, 1 añadida, 2 sin cambios"
+    },
+    {
+      "title": "Una palabra cambiada dentro de una frase",
+      "inputs": [
+        "Original: El veloz zorro marrón",
+        "Modificado: El lento zorro marrón"
+      ],
+      "steps": [
+        "Las líneas difieren, así que la línea cuenta como cambiada",
+        "Palabra por palabra, solo 'veloz' se reemplazó por 'lento'"
+      ],
+      "result": "Una línea cambiada con 'veloz' y 'lento' resaltadas"
+    },
+    {
+      "title": "Ignorar mayúsculas y espacios",
+      "inputs": [
+        "Original: Hola   Mundo",
+        "Modificado: hola mundo",
+        "Ignorar mayúsculas e ignorar espacios: activados"
+      ],
+      "steps": [
+        "Ambas líneas se convierten en 'holamundo' para la comparación"
+      ],
+      "result": "Los textos se consideran idénticos"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Comparar textos con distintos finales de línea",
+      "description": "Los archivos de Windows usan finales de línea CR LF y los de macOS o Linux usan LF. El comparador trata todos los finales de línea como iguales, pero otras herramientas marcan todas las líneas como cambiadas."
+    },
+    {
+      "title": "Olvidar los espacios invisibles",
+      "description": "Los espacios y tabulaciones al final hacen que dos líneas que se ven idénticas cuenten como distintas. Activa Ignorar espacios cuando solo importen las palabras, y déjalo desactivado en código donde la sangría tiene significado."
+    },
+    {
+      "title": "Interpretar un párrafo movido como un cambio",
+      "description": "Un diff por líneas muestra un párrafo que se movió como eliminado en un lugar y añadido en otro. Busca el mismo texto en ambos colores antes de suponer que se reescribió."
+    },
+    {
+      "title": "Pegar las dos versiones al revés",
+      "description": "El cuadro de la izquierda se trata como el original. Si las adiciones aparecen como eliminaciones, usa Intercambiar para invertir los dos textos."
+    },
+    {
+      "title": "Usar un diff para comparar documentos con formato",
+      "description": "Copiar desde un procesador de textos o un PDF puede cambiar los saltos de línea, lo que hace que párrafos enteros parezcan distintos. Compara texto plano, o activa Ignorar espacios e Ignorar líneas en blanco."
+    }
+  ],
+  "sources": [
+    {
+      "name": "Eugene W. Myers (1986): An O(ND) Difference Algorithm and Its Variations, Algorithmica 1"
+    },
+    {
+      "name": "Manual de GNU Diffutils"
+    },
+    {
+      "name": "Documentación de Git: git diff (algoritmos de diff)"
+    },
+    {
+      "name": "WHATWG HTML Standard: Web Workers"
+    }
+  ],
+  "howto": {
+    "name": "Cómo comparar dos textos",
+    "description": "Encuentra cada línea y palabra que difiere entre dos versiones de un texto.",
+    "steps": [
+      {
+        "name": "Pega el original",
+        "text": "Pega o escribe la versión original en el primer cuadro."
+      },
+      {
+        "name": "Pega la versión modificada",
+        "text": "Pega la nueva versión en el segundo cuadro."
+      },
+      {
+        "name": "Elige las opciones",
+        "text": "Ignora mayúsculas, espacios o líneas en blanco si esas diferencias no importan, y elige la vista lado a lado o en línea."
+      },
+      {
+        "name": "Compara",
+        "text": "Pulsa Comparar para ver las líneas añadidas, eliminadas y cambiadas, con las palabras cambiadas resaltadas."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "¿Cómo comparo dos textos para encontrar diferencias?",
+      "a": "Pega la versión original en el primer cuadro y la nueva en el segundo, y pulsa Comparar. Las líneas añadidas aparecen en verde, las eliminadas en rojo y las palabras cambiadas dentro de una línea se resaltan."
+    },
+    {
+      "q": "¿Este comparador de textos es privado?",
+      "a": "Sí. La comparación se ejecuta en tu navegador, en un hilo en segundo plano de esta página. Los textos no se suben, no se guardan ni se añaden a la dirección de la página."
+    },
+    {
+      "q": "¿Cuál es la diferencia entre la vista lado a lado y la vista en línea?",
+      "a": "La vista lado a lado muestra el original a la izquierda y el texto modificado a la derecha, línea por línea. La vista en línea muestra una sola lista con las líneas eliminadas seguidas de las líneas que las reemplazaron, lo que es más fácil de leer en un teléfono."
+    },
+    {
+      "q": "¿Puedo ignorar mayúsculas y espacios al comparar?",
+      "a": "Sí. Ignorar mayúsculas trata 'Hola' y 'hola' como iguales; Ignorar espacios ignora los espacios y tabulaciones dentro y alrededor de las líneas; Ignorar líneas en blanco deja fuera de la comparación las líneas vacías."
+    },
+    {
+      "q": "¿Qué tamaño de texto puedo comparar?",
+      "a": "Funciona con textos de muchos miles de líneas. El diff se ejecuta en un hilo en segundo plano y, en documentos largos, puedes mostrar solo los cambios con unas pocas líneas de contexto."
+    },
+    {
+      "q": "¿Qué algoritmo usa el comparador de textos?",
+      "a": "Usa el algoritmo de diferencias O(ND) de Eugene Myers, el método en el que se basan GNU diff y git, con comparación palabra por palabra dentro de las líneas cambiadas."
+    },
+    {
+      "q": "¿Puedo comparar código con esta herramienta?",
+      "a": "Sí. Pega cualquier texto plano, incluido código fuente, JSON o CSV. Deja desactivado Ignorar espacios si la sangría importa."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Comparador de textos",
+      "diff-summary": "Resumen",
+      "diff-output": "Diferencias"
+    },
+    "label": {
+      "diff-old": "Texto original",
+      "diff-new": "Texto modificado"
+    },
+    "placeholder": {
+      "diff-old": "Pega aquí la versión original",
+      "diff-new": "Pega aquí la versión modificada"
+    },
+    "text": {
+      "old-count": "0 líneas",
+      "new-count": "0 líneas",
+      "swap-btn": "Intercambiar",
+      "example-btn": "Probar un ejemplo",
+      "clear-btn": "Borrar"
+    },
+    "content": {
+      "tool": {
+        "label1": "<input type=\"checkbox\" id=\"opt-case\"><span>Ignorar mayúsculas</span>",
+        "label2": "<input type=\"checkbox\" id=\"opt-space\"><span>Ignorar espacios</span>",
+        "label3": "<input type=\"checkbox\" id=\"opt-blank\"><span>Ignorar líneas en blanco</span>",
+        "label4": "<input type=\"checkbox\" id=\"opt-context\"><span>Mostrar solo los cambios (con 3 líneas de contexto)</span>",
+        "legend1": "Vista",
+        "label5": "<input type=\"radio\" name=\"diff-view\" value=\"split\" checked><span>Lado a lado</span>",
+        "label6": "<input type=\"radio\" name=\"diff-view\" value=\"inline\"><span>En línea</span>",
+        "button1": "Comparar",
+        "div1": "<span id=\"result-header-text\">Diferencias</span>"
+      },
+      "reading-the-result": {
+        "heading": "Cómo leer el resultado",
+        "caption1": "Qué significa cada color y marcador",
+        "th1": "Marcador",
+        "th2": "Significado",
+        "td1": "− línea roja",
+        "td2": "La línea está en el texto original, pero no en el modificado.",
+        "td3": "+ línea verde",
+        "td4": "La línea está en el texto modificado, pero no en el original.",
+        "td5": "Palabras resaltadas",
+        "td6": "Dentro de una línea cambiada, solo se marcan las palabras que difieren.",
+        "td7": "Línea normal",
+        "td8": "La línea es igual en ambos textos.",
+        "td9": "… líneas sin cambios",
+        "td10": "Con \"Mostrar solo los cambios\" activado, los tramos largos de líneas idénticas se contraen.",
+        "p1": "Los números de línea de cada lado corresponden al texto original y al modificado, para que encuentres el mismo lugar en tus propios archivos. Si los dos textos son idénticos, o lo son al aplicar las opciones de ignorar, el comparador lo indica en lugar de mostrar una lista."
+      },
+      "when-to-use-a-diff-checker": {
+        "heading": "Cuándo usar un comparador de textos",
+        "li1": "<strong>Contratos y políticas:</strong> ve exactamente qué frases cambiaron entre dos borradores antes de firmar o publicar.",
+        "li2": "<strong>Redacción y edición:</strong> compara tu texto con la versión de un editor y acepta o rechaza cada cambio con conocimiento.",
+        "li3": "<strong>Código y configuración:</strong> detecta el único ajuste que cambió entre dos versiones de un archivo de configuración o un fragmento pegado.",
+        "li4": "<strong>Datos:</strong> compara dos exportaciones de una lista o un CSV; para quitar antes las líneas repetidas, usa la herramienta para <a href=\"/tools/remove-duplicate-lines/\">eliminar líneas duplicadas</a>.",
+        "p1": "Todo lo que pegas se queda en tu dispositivo. La comparación se ejecuta en un Web Worker, un hilo en segundo plano dentro de esta página, y no se guarda nada cuando sales."
+      }
+    }
+  },
+  "client": {
+    "example": {
+      "old": "Política de reembolsos\n\nLos artículos se pueden devolver en un plazo de 14 días desde la entrega.\nLos reembolsos se pagan con el método de pago original.\nLos gastos de envío no se reembolsan.\nContacta con soporte para iniciar una devolución.",
+      "new": "Política de reembolsos\n\nLos artículos se pueden devolver en un plazo de 30 días desde la entrega.\nLos reembolsos se pagan con el método de pago original en un plazo de 5 días hábiles.\nContacta con soporte para iniciar una devolución.\nLos productos digitales no se pueden devolver."
+    },
+    "lines": {
+      "many": "{{n}} líneas",
+      "one": "{{n}} línea",
+      "other": "{{n}} líneas"
+    },
+    "fold": {
+      "many": "… {{n}} líneas sin cambios",
+      "one": "… {{n}} línea sin cambios",
+      "other": "… {{n}} líneas sin cambios"
+    },
+    "errors": {
+      "empty": "Pega el texto original y el texto modificado para compararlos.",
+      "tooLarge": "Estos textos son demasiado grandes para compararlos aquí (más de 5 millones de caracteres en total).",
+      "failed": "La comparación falló."
+    },
+    "aria": {
+      "removed": "Línea {{no}} eliminada: {{text}}",
+      "added": "Línea {{no}} añadida: {{text}}"
+    },
+    "summary": {
+      "added": "+{{n}} añadidas",
+      "removed": "−{{n}} eliminadas",
+      "unchanged": "{{n}} sin cambios"
+    },
+    "result": {
+      "comparing": "Comparando…",
+      "identical": "Sin diferencias",
+      "differ": {
+        "many": "{{n}} líneas difieren",
+        "one": "{{n}} línea difiere",
+        "other": "{{n}} líneas difieren"
+      }
+    },
+    "ignored": {
+      "case": "las mayúsculas",
+      "whitespace": "los espacios",
+      "blankLines": "las líneas en blanco"
+    },
+    "note": {
+      "identical": "Los dos textos son idénticos.",
+      "identicalIgnoring": {
+        "many": "Los textos son idénticos al ignorar {{list}}.",
+        "one": "Los textos son idénticos al ignorar {{list}}.",
+        "other": "Los textos son idénticos al ignorar {{list}}."
+      },
+      "approximate": "Estos textos son muy distintos, así que parte del resultado muestra bloques enteros como eliminados y añadidos en lugar del conjunto de cambios más pequeño posible."
+    },
+    "copySummary": "Líneas: {{added}} añadidas, {{removed}} eliminadas, {{unchanged}} sin cambios"
+  }
+}

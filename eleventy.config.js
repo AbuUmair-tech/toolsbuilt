@@ -4,6 +4,7 @@ const { execSync } = require('child_process');
 const { buildCss } = require('./scripts/bundle-css.js');
 const { buildSearchIndex } = require('./scripts/build-search-index.js');
 const { generateAllCards } = require('./scripts/generate-og-cards.js');
+const { syncEnglishCopies } = require('./scripts/i18n-sync.js');
 
 function syncToolsDataJs() {
   const toolsPath = path.join(__dirname, 'src', '_data', 'tools.json');
@@ -13,7 +14,8 @@ function syncToolsDataJs() {
     const tools = JSON.parse(fs.readFileSync(toolsPath, 'utf8'));
     const cats = JSON.parse(fs.readFileSync(catPath, 'utf8'));
     const catMap = new Map(cats.map(c => [c.slug, c.name]));
-    const data = tools.map(t => ({
+    // Listed tools only: country pages (listed: false) live under their parent tool
+    const data = tools.filter(t => t.listed !== false).map(t => ({
       id: t.slug,
       name: t.name,
       url: `/tools/${t.slug}/`,
@@ -25,7 +27,10 @@ function syncToolsDataJs() {
       related: t.related || []
     }));
     const content = `/**\n * Shared Registry of ToolsBuilt Tools (Generated from tools.json & categories.json)\n */\n\nwindow.TOOLS_DATA = ${JSON.stringify(data, null, 2)};\n`;
-    fs.writeFileSync(outPath, content, 'utf8');
+    // Only write when changed: this file lives in src/, so an unconditional write
+    // retriggers the --serve watcher after every build and loops forever.
+    const current = fs.existsSync(outPath) ? fs.readFileSync(outPath, 'utf8') : null;
+    if (current !== content) fs.writeFileSync(outPath, content, 'utf8');
   }
 }
 
@@ -36,31 +41,39 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addWatchTarget('src/assets/css/');
 
   // Initial CSS, tools-data, and search index build to get hashes before any template renders
+  // (tools.json / categories.json English text is regenerated from src/_data/i18n first)
+  syncEnglishCopies();
   syncToolsDataJs();
   let cssBundle = buildCss({ isProduction });
-  let searchBundle = buildSearchIndex();
+  const builtLanguages = require('./scripts/i18n.js').loadLanguages().filter(l => l.enabled).map(l => l.code);
+  const buildSearchIndexes = () => Object.fromEntries(builtLanguages.map(code => [code, buildSearchIndex({ lang: code })]));
+  let searchBundles = buildSearchIndexes();
 
   eleventyConfig.on('eleventy.before', async () => {
+    syncEnglishCopies();
     syncToolsDataJs();
     cssBundle = buildCss({ isProduction });
-    searchBundle = buildSearchIndex();
+    searchBundles = buildSearchIndexes();
     await generateAllCards();
   });
 
   eleventyConfig.on('eleventy.after', async () => {
     syncToolsDataJs();
     buildCss({ isProduction });
-    buildSearchIndex();
+    buildSearchIndexes();
   });
+
+  // Languages: lang/dir data, localized page copies and URL filters
+  eleventyConfig.addPlugin(require('./scripts/i18n.js'));
 
   // Shortcode for referencing content-hashed main CSS
   eleventyConfig.addShortcode('mainCss', function() {
     return cssBundle.cssPath;
   });
 
-  // Shortcode for referencing content-hashed search index
-  eleventyConfig.addShortcode('searchIndexUrl', function() {
-    return searchBundle.searchIndexPath;
+  // Content-hashed search index for a language: {{ lang | searchIndexUrl }}
+  eleventyConfig.addFilter('searchIndexUrl', function(lang) {
+    return (searchBundles[lang] || searchBundles.en).searchIndexPath;
   });
 
   // Global data for environment
@@ -76,6 +89,11 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPassthroughCopy({ 'src/google5758f81e977de6a2.html': 'google5758f81e977de6a2.html' });
   eleventyConfig.addPassthroughCopy({ 'src/manifest.webmanifest': 'manifest.webmanifest' });
   eleventyConfig.addPassthroughCopy({ 'src/assets': 'assets' });
+
+  // Self-hosted formatter engines: pinned npm files -> /assets/vendor/<package>-<version>/
+  for (const [src, dest] of Object.entries(require('./src/_data/vendor.js').passthrough)) {
+    eleventyConfig.addPassthroughCopy({ [src]: dest });
+  }
 
   // Passthrough tool-specific scripts and styles
   eleventyConfig.addPassthroughCopy('src/tools/**/*.js');
@@ -107,35 +125,108 @@ module.exports = function(eleventyConfig) {
   // which is invalid inside <script type="application/ld+json">.
   // Usage in template:  "name": {{ myVar | jsonStr }}
   const nunjucks = require('nunjucks');
+  // Whole-unit money in the currency's home format, as ToolsBuilt.formatMoney does in the browser:
+  // {{ 1200000 | money("INR") }} -> "₹12,00,000"
+  eleventyConfig.addFilter('money', function(amount, currency) {
+    const countries = JSON.parse(fs.readFileSync(path.join(__dirname, 'src', '_data', 'countries.json'), 'utf8'));
+    const home = countries.find(c => c.currency === currency);
+    const locale = home ? (home.lakhGrouping ? 'en-IN' : home.locale) : 'en-US';
+    return new Intl.NumberFormat(locale, { style: 'currency', currency, maximumFractionDigits: 0 }).format(Number(amount) || 0);
+  });
+
+  // Rate as a percentage without trailing zeros: 0.2 -> "20%", 0.035 -> "3.5%"
+  eleventyConfig.addFilter('pct', function(rate) {
+    return `${Number((Number(rate) * 100).toFixed(4))}%`;
+  });
+
+  // Unified salary tax calculator data for the browser (#stc-data): every country, and every tax
+  // dataset without its page text, with status labels in the page language where translated
+  eleventyConfig.addFilter('salaryCalcData', function(countries, tax, noTax, lang) {
+    const i18nData = require('./scripts/i18n-data.js');
+    const countryPages = (i18nData.tool(lang || 'en', 'salary-tax-calculator') || {}).countryPages || {};
+    const datasets = {};
+    for (const d of Object.values(tax || {})) {
+      const { page, notes, officialExamples, ...rates } = d;
+      const out = JSON.parse(JSON.stringify(rates));
+      const cp = countryPages[d.country] || {};
+      out.sources = (d.sources || []).map(s => ({ url: s.url }));
+      out.defaults = d.defaults || (page ? { salary: page.defaultSalary, period: page.defaultPeriod } : null);
+      if (cp.statusLabel) out.statusLabel = cp.statusLabel;
+      if (out.statuses && cp.statuses) {
+        for (const [id, st] of Object.entries(out.statuses)) if (cp.statuses[id] && cp.statuses[id].label) st.label = cp.statuses[id].label;
+      }
+      datasets[`${d.country}:${d.taxYear}`] = out;
+    }
+    const statements = Object.fromEntries((noTax || []).map(c => [c.code, { url: c.source.url, verifiedOn: c.verifiedOn }]));
+    return {
+      countries: countries.map(({ code, name, currency, rules, years, currentYear, page }) => ({ code, name, currency, rules, years, currentYear, page })),
+      datasets,
+      noTax: statements
+    };
+  });
+
+  // Country name in the page language: {{ "GB" | regionName }} -> "United Kingdom" / "Vereinigtes Königreich"
+  eleventyConfig.addFilter('regionName', function(code) {
+    const lang = (this.ctx && this.ctx.lang) || 'en';
+    try { return new Intl.DisplayNames([lang], { type: 'region' }).of(code) || code; } catch (e) { return code; }
+  });
+
+  // First item with a matching `code` (countries, VAT presets, grading scales)
+  eleventyConfig.addFilter('byCode', function(list, code) {
+    return (list || []).find(item => item.code === code);
+  });
+
+  // Currencies offered by the shared currency selector: one per currency, in countries.json order
+  eleventyConfig.addFilter('currencyOptions', function(countries) {
+    // Currency names in the page language
+    const names = new Intl.DisplayNames([(this.ctx && this.ctx.lang) || 'en'], { type: 'currency' });
+    const seen = new Set();
+    return (countries || []).filter(c => !seen.has(c.currency) && seen.add(c.currency)).map(c => {
+      const symbol = new Intl.NumberFormat('en', { style: 'currency', currency: c.currency, currencyDisplay: 'narrowSymbol' })
+        .formatToParts(1).find(part => part.type === 'currency').value;
+      return { code: c.currency, country: c.code, symbol, name: names.of(c.currency) };
+    });
+  });
+
   eleventyConfig.addFilter('jsonStr', function(value) {
     if (value === null || value === undefined) return 'null';
     // Nunjucks auto-escapes values before filters run, so unescape HTML entities first.
-    const unescaped = String(value)
+    const unescape = v => String(v)
       .replace(/&amp;/g, '&')
       .replace(/&quot;/g, '"')
       .replace(/&#39;/g, "'")
       .replace(/&lt;/g, '<')
       .replace(/&gt;/g, '>');
+    // Arrays (e.g. sameAs) become JSON arrays of strings.
+    const unescaped = Array.isArray(value) ? value.map(unescape) : unescape(value);
     // Return as SafeString so Nunjucks doesn't double-escape the JSON quotes.
     return new nunjucks.runtime.SafeString(JSON.stringify(unescaped));
   });
 
+  // Tools shown in lists, counts, search and related blocks. A tool with `listed: false` (the
+  // salary tax country pages) keeps its page, sitemap and llms.txt entry but is reached through
+  // its `parent` tool.
+  const isListed = t => !!t && t.listed !== false;
+  eleventyConfig.addFilter('listed', function(tools) {
+    return Array.isArray(tools) ? tools.filter(isListed) : [];
+  });
+
   eleventyConfig.addFilter('filterByCategory', function(tools, catSlug) {
     if (!tools || !Array.isArray(tools)) return [];
-    return tools.filter(t => t.category === catSlug);
+    return tools.filter(t => t.category === catSlug && isListed(t));
   });
 
   eleventyConfig.addFilter('getRelatedTools', function(tool, allTools) {
     if (!tool || !tool.related || !Array.isArray(allTools)) return [];
     return tool.related
       .map(slug => allTools.find(t => t.slug === slug))
-      .filter(Boolean);
+      .filter(isListed);
   });
 
   eleventyConfig.addFilter('getCategoryOtherTools', function(tool, allTools, limit = 4) {
     if (!tool || !Array.isArray(allTools)) return [];
     return allTools
-      .filter(t => t.category === tool.category && t.slug !== tool.slug)
+      .filter(t => t.category === tool.category && t.slug !== tool.slug && isListed(t))
       .slice(0, limit);
   });
 
@@ -163,7 +254,7 @@ module.exports = function(eleventyConfig) {
 
   eleventyConfig.addFilter('filterPopular', function(tools, limit) {
     if (!tools || !Array.isArray(tools)) return [];
-    const popular = tools.filter(t => t.popular).sort((a, b) => (a.order || 99) - (b.order || 99));
+    const popular = tools.filter(t => t.popular && isListed(t)).sort((a, b) => (a.order || 99) - (b.order || 99));
     return limit ? popular.slice(0, limit) : popular;
   });
 
@@ -192,10 +283,21 @@ module.exports = function(eleventyConfig) {
     return Number(count) === 1 ? word : word + 's';
   });
 
+  // Tool pages: split rendered body at <!-- tool-end --> into [tool, long-form]
+  eleventyConfig.addFilter('splitToolContent', function(content) {
+    const marker = '<!-- tool-end -->';
+    const i = (content || '').indexOf(marker);
+    return i === -1 ? [content || '', ''] : [content.slice(0, i), content.slice(i + marker.length)];
+  });
+
+  const languages = require('./scripts/i18n.js').loadLanguages();
+  // In the page language (en-GB style for English)
   eleventyConfig.addFilter('humanDate', function(str) {
     if (!str) return '';
     const d = new Date(str);
-    return isNaN(d.getTime()) ? str : d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+    const lang = (this.ctx && this.ctx.lang) || 'en';
+    const locale = lang === 'en' ? 'en-GB' : ((languages.find(l => l.code === lang) || {}).intlLocale || lang);
+    return isNaN(d.getTime()) ? str : d.toLocaleDateString(locale, { day: 'numeric', month: 'long', year: 'numeric' });
   });
 
   // Blog Filters: readingTime, isoDate, readableDate, jsonStr
@@ -277,7 +379,7 @@ module.exports = function(eleventyConfig) {
       for (const slug of currentTool.related) {
         if (!addedSlugs.has(slug)) {
           const match = allTools.find(t => t.slug === slug);
-          if (match) {
+          if (isListed(match)) {
             result.push(match);
             addedSlugs.add(slug);
             if (result.length >= limit) return result;
@@ -287,7 +389,7 @@ module.exports = function(eleventyConfig) {
     }
 
     for (const tool of allTools) {
-      if (tool.category === currentTool.category && !addedSlugs.has(tool.slug)) {
+      if (tool.category === currentTool.category && !addedSlugs.has(tool.slug) && isListed(tool)) {
         result.push(tool);
         addedSlugs.add(tool.slug);
         if (result.length >= limit) return result;
@@ -295,7 +397,7 @@ module.exports = function(eleventyConfig) {
     }
 
     for (const tool of allTools) {
-      if (!addedSlugs.has(tool.slug)) {
+      if (!addedSlugs.has(tool.slug) && isListed(tool)) {
         result.push(tool);
         addedSlugs.add(tool.slug);
         if (result.length >= limit) return result;
@@ -306,6 +408,21 @@ module.exports = function(eleventyConfig) {
   });
 
   eleventyConfig.addGlobalData('buildDate', () => new Date().toISOString().split('T')[0]);
+  eleventyConfig.addGlobalData('currentYear', () => new Date().getFullYear());
+  // Hyphenated data files are not valid Nunjucks names; expose them under camelCase too
+  const readData = (file) => JSON.parse(fs.readFileSync(path.join(__dirname, 'src', '_data', file), 'utf8'));
+  eleventyConfig.addGlobalData('vatRates', () => readData('vat-rates.json'));
+  eleventyConfig.addGlobalData('gradingScales', () => readData('grading-scales.json'));
+
+  // Non-empty values of an object, e.g. site.social -> ["https://github.com/..."]
+  eleventyConfig.addFilter('presentValues', function(obj) {
+    return Object.values(obj || {}).filter(Boolean);
+  });
+
+  // "30+" style label: tool count rounded down to the nearest 5 (never hard-coded)
+  eleventyConfig.addFilter('roundDownTo', function(n, step = 5) {
+    return Math.floor(Number(n) / step) * step;
+  });
 
   eleventyConfig.addFilter('limit', function(arr, count) {
     if (!Array.isArray(arr)) return [];

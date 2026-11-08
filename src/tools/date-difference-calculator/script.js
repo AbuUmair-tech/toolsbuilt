@@ -5,6 +5,7 @@
  */
 document.addEventListener('DOMContentLoaded', () => {
   const logic = window.DateDifferenceLogic || window.DateDifferenceCalculatorLogic;
+  const T = ToolsBuilt.scope('date-difference-calculator');
   const form = document.getElementById('calculator-form');
   const startDateInput = document.getElementById('start-date');
   const endDateInput = document.getElementById('end-date');
@@ -34,17 +35,8 @@ document.addEventListener('DOMContentLoaded', () => {
   ].join('-');
 
   function initInputs() {
-    const params = new URLSearchParams(window.location.search);
-    const urlStart = params.get('start');
-    const urlEnd = params.get('end');
-    const urlInc = params.get('inc');
-
-    if (urlStart && urlEnd) {
-      startDateInput.value = urlStart;
-      endDateInput.value = urlEnd;
-      includeEndCheckbox.checked = (urlInc === '1' || urlInc === 'true');
-      return;
-    }
+    // Result links (?from=&to=&inc=) take priority over saved state
+    if (ToolsBuilt.resultLink.restore().length) return;
 
     try {
       const saved = localStorage.getItem(STORAGE_KEY);
@@ -66,23 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
       localStorage.setItem(STORAGE_KEY, JSON.stringify({ start, end, inc }));
     } catch (e) {}
 
-    const url = new URL(window.location.href);
-    if (start && start !== defaultStart) {
-      url.searchParams.set('start', start);
-    } else {
-      url.searchParams.delete('start');
-    }
-    if (end && end !== defaultEnd) {
-      url.searchParams.set('end', end);
-    } else {
-      url.searchParams.delete('end');
-    }
-    if (inc) {
-      url.searchParams.set('inc', '1');
-    } else {
-      url.searchParams.delete('inc');
-    }
-    window.history.replaceState({}, '', url.toString());
+    ToolsBuilt.resultLink.update();
   }
 
   function clearError() {
@@ -112,11 +88,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const includeEnd = includeEndCheckbox.checked;
 
     if (!rawStart) {
-      showError('Please select a valid start date.', startDateInput);
+      showError(T('errors.missingStart'), startDateInput);
       return;
     }
     if (!rawEnd) {
-      showError('Please select a valid end date.', endDateInput);
+      showError(T('errors.missingEnd'), endDateInput);
       return;
     }
 
@@ -130,11 +106,20 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function renderResult(res) {
-    const numFormatter = new Intl.NumberFormat('en-US');
-    const primaryStr = `${numFormatter.format(res.totalDays)} Day${res.totalDays === 1 ? '' : 's'}`;
-    const swapNotice = res.isReversed ? ' (Dates automatically ordered start to end)' : '';
-    
-    lastResultText = `Total Duration: ${primaryStr}${swapNotice}. Working Business Days: ${numFormatter.format(res.businessDays)} days. Equivalent: ${res.totalWeeks}w ${res.remainingDaysAfterWeeks}d (${res.years}y ${res.months}m ${res.days}d).`;
+    const numFormatter = new Intl.NumberFormat(ToolsBuilt.pageLocale('en-US'));
+    const plural = (n) => (n === 1 ? 'one' : 'other');
+    const primaryStr = T(`result.days.${plural(res.totalDays)}`, { n: numFormatter.format(res.totalDays) });
+    const swapKey = res.isReversed ? 'Swapped' : '';
+
+    lastResultText = T(`copy.result${swapKey}`, {
+      total: primaryStr,
+      business: numFormatter.format(res.businessDays),
+      weeks: res.totalWeeks,
+      weekDays: res.remainingDaysAfterWeeks,
+      years: res.years,
+      months: res.months,
+      days: res.days
+    });
 
     const resultHeader = document.getElementById('result-header-text');
     const resultPrimary = document.getElementById('result-primary-text');
@@ -144,13 +129,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const statWeeksDays = document.getElementById('stat-weeks-days');
     const statMonthsDays = document.getElementById('stat-months-days');
 
-    resultHeader.textContent = `Date Span Difference${swapNotice}`;
+    resultHeader.textContent = T(`result.header${swapKey}`);
     resultPrimary.textContent = primaryStr;
-    statTotalDays.textContent = `${numFormatter.format(res.totalDays)} Days`;
-    statBusinessDays.textContent = `${numFormatter.format(res.businessDays)} Business Days (${numFormatter.format(res.weekendDays)} Weekend Days)`;
-    statYMD.textContent = `${res.years} Years, ${res.months} Months, ${res.days} Days`;
-    statWeeksDays.textContent = `${res.totalWeeks} Week${res.totalWeeks === 1 ? '' : 's'}, ${res.remainingDaysAfterWeeks} Day${res.remainingDaysAfterWeeks === 1 ? '' : 's'}`;
-    statMonthsDays.textContent = `${numFormatter.format(res.totalHours)} Total Hours`;
+    statTotalDays.textContent = T('stats.totalDays', { n: numFormatter.format(res.totalDays) });
+    statBusinessDays.textContent = T('stats.businessDays', { n: numFormatter.format(res.businessDays), weekend: numFormatter.format(res.weekendDays) });
+    statYMD.textContent = T('stats.ymd', { years: res.years, months: res.months, days: res.days });
+    statWeeksDays.textContent = T('stats.weeksDays', {
+      weeks: T(`stats.weeks.${plural(res.totalWeeks)}`, { n: res.totalWeeks }),
+      days: T(`stats.days.${plural(res.remainingDaysAfterWeeks)}`, { n: res.remainingDaysAfterWeeks })
+    });
+    statMonthsDays.textContent = T('stats.totalHours', { n: numFormatter.format(res.totalHours) });
 
     resultBox.classList.add('is-visible');
   }
@@ -182,7 +170,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (copyBtn) {
     copyBtn.addEventListener('click', () => {
       if (lastResultText && window.ToolsBuilt && window.ToolsBuilt.copy) {
-        window.ToolsBuilt.copy(lastResultText, 'Date difference copied to clipboard');
+        window.ToolsBuilt.copy(lastResultText, T('copy.toast'));
       }
     });
   }

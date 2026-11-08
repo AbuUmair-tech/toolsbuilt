@@ -1,0 +1,242 @@
+{
+  "listing": {
+    "name": "Convertisseur de casse",
+    "shortName": "Convertisseur de casse",
+    "description": "Convertissez instantanément du texte en MAJUSCULES, minuscules, Casse de titre, Casse de phrase, camelCase, snake_case et kebab-case.",
+    "shortDescription": "Convertissez instantanément du texte en MAJUSCULES, minuscules, Casse de titre, Casse de phrase, camelCase, snake_case et kebab-case.",
+    "keywords": [
+      "convertisseur de casse",
+      "majuscules en minuscules",
+      "mettre en majuscules",
+      "convertisseur camelcase",
+      "snake case"
+    ]
+  },
+  "title": "Convertisseur de casse - MAJUSCULES et minuscules",
+  "description": "Convertissez du texte en MAJUSCULES, minuscules, Casse de titre, Casse de phrase, camelCase, PascalCase, snake_case ou kebab-case, gratuitement.",
+  "h1": "Convertisseur de casse",
+  "quickAnswer": "Pour changer la casse d'un texte, collez votre contenu dans la zone de saisie et choisissez un style de transformation. Ce convertisseur de casse transforme instantanément le texte en MAJUSCULES, minuscules, Casse de titre, Casse de phrase, camelCase, PascalCase, snake_case, kebab-case et plus encore, en préservant la ponctuation et les caractères Unicode, entièrement dans votre navigateur.",
+  "formula": {
+    "title": "Règles de transformation de la casse et de découpage en mots",
+    "expression": "Texte transformé = ApplyCaseTransform(TokenizeWords(InputString, UnicodeRegex), StyleRule)",
+    "explanation": "Le texte saisi est découpé en mots à l'aide des propriétés Unicode des lettres (\\p{L}). Les mots sont ensuite restructurés selon des règles de style précises : règles des mots mineurs du Chicago Manual of Style pour la Casse de titre (règles anglaises), ou séparateurs tiret bas/tiret pour les identifiants de programmation."
+  },
+  "workedExamples": [
+    {
+      "title": "Titre en Casse de titre style Chicago",
+      "inputs": [
+        "Entrée : 'the quick brown fox jumps over the lazy dog'",
+        "Style cible : Casse de titre"
+      ],
+      "steps": [
+        "Découper les mots selon les espaces Unicode",
+        "Mettre une majuscule au premier et au dernier mot ('The', 'Dog')",
+        "Mettre une majuscule aux mots principaux ('Quick', 'Brown', 'Fox', 'Jumps', 'Lazy')",
+        "Garder en minuscules les prépositions et articles mineurs ('over', 'the')"
+      ],
+      "result": "'The Quick Brown Fox Jumps Over the Lazy Dog'"
+    },
+    {
+      "title": "Titre en camelCase (identifiant JavaScript)",
+      "inputs": [
+        "Entrée : 'user profile setting'",
+        "Style cible : camelCase"
+      ],
+      "steps": [
+        "Extraire les mots alphanumériques : ['user', 'profile', 'setting']",
+        "Mettre le premier mot en minuscules : 'user'",
+        "Mettre une majuscule à la première lettre des mots suivants : 'Profile', 'Setting'",
+        "Concaténer sans espaces"
+      ],
+      "result": "'userProfileSetting'"
+    },
+    {
+      "title": "Titre en kebab-case (slug d'URL)",
+      "inputs": [
+        "Entrée : 'Annual Financial Report 2026'",
+        "Style cible : kebab-case"
+      ],
+      "steps": [
+        "Découper en mots : ['Annual', 'Financial', 'Report', '2026']",
+        "Convertir tous les caractères en minuscules",
+        "Relier les mots par des tirets (-)"
+      ],
+      "result": "'annual-financial-report-2026'"
+    },
+    {
+      "title": "Majuscules en Casse de phrase",
+      "inputs": [
+        "Entrée : 'hello world! this is a test. here is another one.'",
+        "Style cible : Casse de phrase"
+      ],
+      "steps": [
+        "Repérer les fins de phrase (. ! ?)",
+        "Mettre une majuscule à la première lettre de chaque phrase",
+        "Garder le reste de la phrase en minuscules"
+      ],
+      "result": "'Hello world! This is a test. Here is another one.'"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Mettre une majuscule aux prépositions mineures en Casse de titre",
+      "description": "Dans les styles Chicago et AP (anglais), les prépositions, articles et conjonctions mineurs de moins de quatre lettres (par ex. « in », « on », « the », « and », « for ») restent en minuscules, sauf en début de phrase. En français, l'usage est plutôt de ne mettre une majuscule qu'au premier mot d'un titre."
+    },
+    {
+      "title": "Casser les caractères Unicode et accentués",
+      "description": "Une conversion naïve avec des expressions régulières ASCII standard échoue sur les lettres accentuées comme « é » ou les alphabets non latins ; il faut utiliser les propriétés Unicode (\\p{L})."
+    },
+    {
+      "title": "Perdre les séparateurs en convertissant du code",
+      "description": "Convertir du code en camelCase ou snake_case en Casse de phrase supprime les séparateurs de programmation. Gardez une copie ou utilisez le bouton Annuler."
+    },
+    {
+      "title": "Casse de titre sur un texte tout en majuscules",
+      "description": "Si un texte tout en majuscules est passé dans un moteur de Casse de titre sans être d'abord mis en minuscules, les prépositions mineures restent en majuscules. Notre algorithme normalise d'abord les mots."
+    }
+  ],
+  "sources": [
+    {
+      "name": "The Chicago Manual of Style : règles de capitalisation des titres"
+    },
+    {
+      "name": "Unicode Standard Annex #29 : segmentation du texte Unicode"
+    },
+    {
+      "name": "W3C Internationalization (i18n) : normes de conversion de casse"
+    }
+  ],
+  "howto": {
+    "name": "Comment changer la casse d'un texte en ligne",
+    "description": "Guide pas à pas pour convertir la casse d'un texte dans 12 formats différents avec ToolsBuilt.",
+    "steps": [
+      {
+        "name": "Coller votre contenu",
+        "text": "Collez ou tapez votre texte dans la zone de texte."
+      },
+      {
+        "name": "Choisir un style de casse",
+        "text": "Cliquez sur l'un des 12 boutons de transformation (comme Casse de titre, MAJUSCULES, camelCase ou CONSTANT_CASE)."
+      },
+      {
+        "name": "Copier ou annuler",
+        "text": "Cliquez sur Copier le texte pour copier le résultat dans le presse-papiers, ou sur Annuler pour revenir en arrière."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Comment changer la casse d'un texte en ligne ?",
+      "a": "Collez votre texte dans le convertisseur et cliquez sur un bouton de transformation comme MAJUSCULES, minuscules, Casse de titre ou Casse de phrase. Le texte est mis à jour immédiatement dans votre navigateur."
+    },
+    {
+      "q": "Quelle est la différence entre Casse de titre et Majuscule à chaque mot ?",
+      "a": "La Casse de titre met une majuscule aux mots principaux mais garde en minuscules les articles et prépositions mineurs (comme « in », « the », « of », « and », « for ») sauf s'ils sont en premier ou en dernier. Majuscule à chaque mot met systématiquement une majuscule à la première lettre de chaque mot."
+    },
+    {
+      "q": "Quelle est la différence entre camelCase, PascalCase, snake_case et kebab-case ?",
+      "a": "Le camelCase commence en minuscule et met une majuscule aux mots suivants, sans espaces (par ex. « myVariable »). Le PascalCase met une majuscule à tous les mots, y compris le premier (« MyVariable »). Le snake_case sépare les mots en minuscules par des tirets bas (« my_variable »). Le kebab-case les sépare par des tirets (« my-variable »)."
+    },
+    {
+      "q": "Puis-je annuler une conversion si le résultat ne me convient pas ?",
+      "a": "Oui. Cliquez sur le bouton Annuler pour revenir à tout moment à l'état précédent de votre texte."
+    },
+    {
+      "q": "Mon texte reste-t-il privé quand j'utilise le convertisseur ?",
+      "a": "Oui. Toute la logique de transformation s'exécute uniquement dans la mémoire locale du navigateur, en JavaScript côté client. Votre texte n'est jamais placé dans l'URL, jamais enregistré dans des cookies et jamais envoyé à des serveurs distants."
+    },
+    {
+      "q": "Le convertisseur prend-il en charge les langues étrangères et les caractères accentués ?",
+      "a": "Oui. Le moteur utilise les propriétés Unicode (\\p{L}) pour gérer sans problème les accents, les trémas et les alphabets internationaux comme l'espagnol, le français et l'allemand."
+    },
+    {
+      "q": "À quoi sert le CONSTANT_CASE ?",
+      "a": "Le CONSTANT_CASE convertit le texte en majuscules avec des tirets bas : c'est la convention de nommage standard des variables globales, des constantes et des variables d'environnement en programmation."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Formulaire du convertisseur de casse"
+    },
+    "label": {
+      "text-input": "<span>Tapez ou collez votre texte ci-dessous :</span>"
+    },
+    "placeholder": {
+      "text-input": "Tapez ou collez votre texte ici, puis cliquez sur un style de casse ci-dessous..."
+    },
+    "text": {
+      "char-stats": "0 caractère (0 sans espaces) | 0 mot | 0 ligne",
+      "copy-btn": "<span data-icon=\"copy\"></span> Copier le texte",
+      "undo-btn": "Annuler",
+      "clear-btn": "Effacer le texte"
+    },
+    "content": {
+      "tool": {
+        "label1": "Choisissez un style de conversion (12 disponibles) :",
+        "button1": "MAJUSCULES",
+        "button2": "minuscules",
+        "button3": "Casse de titre",
+        "button4": "Casse de phrase",
+        "button5": "Majuscule À Chaque Mot",
+        "button6": "camelCase",
+        "button7": "PascalCase",
+        "button8": "snake_case",
+        "button9": "kebab-case",
+        "button10": "CONSTANT_CASE",
+        "button11": "dot.case",
+        "button12": "aLtErNé"
+      },
+      "how-when-to-use-the-text": {
+        "heading": "Comment et quand utiliser le convertisseur de casse",
+        "li1": "<strong>Développement logiciel :</strong> convertissez des saisies ou des définitions de schéma selon les conventions de code (par ex. `camelCase` pour les variables JavaScript, `snake_case` pour Python et les colonnes de base de données, ou `CONSTANT_CASE` pour les variables d'environnement globales).",
+        "li2": "<strong>Titres d'articles et de blogs :</strong> transformez des titres de brouillon en Casse de titre élégante de style Chicago, avec les prépositions mineures en minuscules.",
+        "li3": "<strong>Corriger un VERROUILLAGE MAJUSCULES involontaire :</strong> rétablissez des phrases tapées avec la touche majuscules verrouillée sans avoir à tout retaper.",
+        "li4": "<strong>Slugs d'URL pour le SEO :</strong> transformez des titres d'articles en slugs `kebab-case` adaptés aux moteurs de recherche pour les URL de votre site."
+      },
+      "case-style-reference-developer-conventions": {
+        "heading": "Référence des styles de casse et conventions de développement",
+        "th1": "Style de casse",
+        "th2": "Exemple de résultat",
+        "th3": "Usage courant",
+        "td1": "MAJUSCULES",
+        "td2": "<code>HELLO WORLD</code>",
+        "td3": "Gros titres, avertissements, sigles",
+        "td4": "minuscules",
+        "td5": "<code>hello world</code>",
+        "td6": "Adresses e-mail, normalisation des recherches",
+        "td7": "Casse de titre",
+        "td8": "<code>The Return of the King</code>",
+        "td9": "Titres de livres et d'articles (en anglais)",
+        "td10": "Casse de phrase",
+        "td11": "<code>Hello world. Good morning.</code>",
+        "td12": "Texte courant, documentation utilisateur",
+        "td13": "camelCase",
+        "td14": "<code>helloWorld</code>",
+        "td15": "Noms de variables et de méthodes JavaScript et Java",
+        "td16": "PascalCase",
+        "td17": "<code>HelloWorld</code>",
+        "td18": "Classes en C#, Java, Python, TypeScript",
+        "td19": "snake_case",
+        "td20": "<code>hello_world</code>",
+        "td21": "Variables Python, colonnes de bases de données SQL",
+        "td22": "kebab-case",
+        "td23": "<code>hello-world</code>",
+        "td24": "Slugs d'URL, classes CSS, attributs HTML",
+        "td25": "CONSTANT_CASE",
+        "td26": "<code>HELLO_WORLD</code>",
+        "td27": "Variables d'environnement, constantes",
+        "td28": "dot.case",
+        "td29": "<code>hello.world</code>",
+        "td30": "Chemins de propriétés, clés de configuration"
+      }
+    }
+  },
+  "client": {
+    "stats": "{{characters}} caractères ({{noSpaces}} sans espaces) | {{words}} mots | {{lines}} lignes",
+    "toast": {
+      "converted": "Converti en {{style}}",
+      "restored": "Texte précédent rétabli",
+      "copied": "Texte converti copié dans le presse-papiers"
+    }
+  }
+}

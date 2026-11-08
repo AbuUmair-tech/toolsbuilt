@@ -1,0 +1,88 @@
+---
+layout: layouts/tool.njk
+toolSlug: text-diff-checker
+permalink: /tools/text-diff-checker/
+extraCss: "/tools/text-diff-checker/style.css"
+lastReviewed: "2026-10-31"
+---
+
+    <!-- Tool Form Container -->
+    <section class="tool-container" aria-label="{{ 'ariaLabel.tool-section1' | pt }}">
+      <form id="diff-form" novalidate>
+        <div class="diff-inputs">
+          <div class="form-group">
+            <label for="diff-old">{{ 'label.diff-old' | pt }}</label>
+            <textarea id="diff-old" class="form-control diff-textarea" rows="10" spellcheck="false" autocomplete="off" placeholder="{{ 'placeholder.diff-old' | pt }}"></textarea>
+            <p class="form-hint" id="old-count">{{ 'text.old-count' | pt }}</p>
+          </div>
+          <div class="form-group">
+            <label for="diff-new">{{ 'label.diff-new' | pt }}</label>
+            <textarea id="diff-new" class="form-control diff-textarea" rows="10" spellcheck="false" autocomplete="off" placeholder="{{ 'placeholder.diff-new' | pt }}"></textarea>
+            <p class="form-hint" id="new-count">{{ 'text.new-count' | pt }}</p>
+          </div>
+        </div>
+
+        <div class="diff-options">
+          <label class="checkbox-label">{{ 'content.tool.label1' | pt }}</label>
+          <label class="checkbox-label">{{ 'content.tool.label2' | pt }}</label>
+          <label class="checkbox-label">{{ 'content.tool.label3' | pt }}</label>
+          <label class="checkbox-label">{{ 'content.tool.label4' | pt }}</label>
+        </div>
+
+        <fieldset class="choice-toggle diff-view">
+          <legend>{{ 'content.tool.legend1' | pt }}</legend>
+          <div class="choice-toggle-options">
+            <label class="choice-toggle-option">{{ 'content.tool.label5' | pt }}</label>
+            <label class="choice-toggle-option">{{ 'content.tool.label6' | pt }}</label>
+          </div>
+        </fieldset>
+
+        <div class="button-group">
+          <button type="submit" class="btn btn-primary">{{ 'content.tool.button1' | pt }}</button>
+          <button type="button" class="btn btn-secondary" id="swap-btn">{{ 'text.swap-btn' | pt }}</button>
+          <button type="button" class="btn btn-secondary" id="example-btn">{{ 'text.example-btn' | pt }}</button>
+          <button type="button" class="btn btn-ghost" id="clear-btn">{{ 'text.clear-btn' | pt }}</button>
+        </div>
+      </form>
+
+      <div id="error-box" class="hidden form-error" role="alert"></div>
+
+      <div id="result-box" class="result-box" aria-live="polite">
+        <div class="result-header">
+          {{ 'content.tool.div1' | pt }}
+        </div>
+        <div class="result-primary diff-primary" id="result-primary-text">--</div>
+        <ul class="diff-summary" id="diff-summary" aria-label="{{ 'ariaLabel.diff-summary' | pt }}"></ul>
+        <p class="form-hint" id="diff-note" hidden></p>
+        <div class="diff-output" id="diff-output" tabindex="0" role="region" aria-label="{{ 'ariaLabel.diff-output' | pt }}"></div>
+      </div>
+    </section>
+
+    <!-- tool-end -->
+
+    <section class="content-section">
+      <h2>{{ 'content.reading-the-result.heading' | pt }}</h2>
+      <div class="table-wrapper">
+        <table class="table">
+          <caption class="visually-hidden">{{ 'content.reading-the-result.caption1' | pt }}</caption>
+          <thead><tr><th scope="col">{{ 'content.reading-the-result.th1' | pt }}</th><th scope="col">{{ 'content.reading-the-result.th2' | pt }}</th></tr></thead>
+          <tbody>
+            <tr><td>{{ 'content.reading-the-result.td1' | pt }}</td><td>{{ 'content.reading-the-result.td2' | pt }}</td></tr>
+            <tr><td>{{ 'content.reading-the-result.td3' | pt }}</td><td>{{ 'content.reading-the-result.td4' | pt }}</td></tr>
+            <tr><td>{{ 'content.reading-the-result.td5' | pt }}</td><td>{{ 'content.reading-the-result.td6' | pt }}</td></tr>
+            <tr><td>{{ 'content.reading-the-result.td7' | pt }}</td><td>{{ 'content.reading-the-result.td8' | pt }}</td></tr>
+            <tr><td>{{ 'content.reading-the-result.td9' | pt }}</td><td>{{ 'content.reading-the-result.td10' | pt }}</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>{{ 'content.reading-the-result.p1' | pt }}</p>
+
+      <h2>{{ 'content.when-to-use-a-diff-checker.heading' | pt }}</h2>
+      <ul class="content-list">
+        <li>{{ 'content.when-to-use-a-diff-checker.li1' | pt }}</li>
+        <li>{{ 'content.when-to-use-a-diff-checker.li2' | pt }}</li>
+        <li>{{ 'content.when-to-use-a-diff-checker.li3' | pt }}</li>
+        <li>{{ 'content.when-to-use-a-diff-checker.li4' | pt }}</li>
+      </ul>
+      <p>{{ 'content.when-to-use-a-diff-checker.p1' | pt }}</p>
+    </section>

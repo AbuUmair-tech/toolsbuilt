@@ -1,0 +1,288 @@
+{
+  "listing": {
+    "name": "Calculateur de moyenne, médiane, mode et écart type",
+    "shortName": "Moyenne, médiane et mode",
+    "description": "Obtenez la moyenne, la médiane, le mode, l'étendue, les quartiles, la variance et l'écart type d'une liste de nombres, avec le détail du calcul.",
+    "shortDescription": "Moyenne, médiane, mode, quartiles et écart type avec calcul détaillé.",
+    "keywords": [
+      "calcul moyenne médiane mode",
+      "calculateur d'écart type",
+      "calcul de moyenne",
+      "calcul de variance",
+      "calcul des quartiles",
+      "calculateur statistique",
+      "écart type échantillon"
+    ]
+  },
+  "title": "Calcul de moyenne, médiane, mode et écart type",
+  "description": "Collez une liste de nombres pour obtenir moyenne, médiane, mode, étendue, quartiles, variance et écart type (population et échantillon), avec le détail.",
+  "h1": "Calculateur de moyenne, médiane, mode et écart type",
+  "quickAnswer": "La moyenne est la somme divisée par l'effectif, la médiane est la valeur du milieu une fois les nombres triés, et le mode est la valeur la plus fréquente. Pour 2, 4, 4, 4, 5, 5, 7, 9, la moyenne vaut 40 ÷ 8 = 5, la médiane (4 + 5) ÷ 2 = 4.5 et le mode 4. L'écart type de la population vaut 2, et l'écart type de l'échantillon (en divisant par n − 1) vaut 2.1381. Ce calculateur de moyenne, médiane, mode et écart type fait tout le calcul pour vous.",
+  "formula": {
+    "title": "Formules statistiques",
+    "expression": "Moyenne x̄ = Σx ÷ n   ·   Écart type population σ = √(Σ(x − x̄)² ÷ n)   ·   Écart type échantillon s = √(Σ(x − x̄)² ÷ (n − 1))",
+    "explanation": "La médiane est la valeur du milieu de la liste triée, ou la moyenne des deux valeurs du milieu quand l'effectif est pair. Le mode est la valeur la plus fréquente ; si plusieurs valeurs sont à égalité, ce sont toutes des modes, et si toutes les valeurs apparaissent autant de fois, il n'y a pas de mode. Les quartiles sont calculés par la méthode des médianes des moitiés : Q1 est la médiane de la moitié inférieure et Q3 celle de la moitié supérieure, en excluant la médiane globale quand l'effectif est impair. La variance est la moyenne des carrés des écarts à la moyenne, et l'écart type sa racine carrée.",
+    "variables": [
+      {
+        "name": "Population (σ, division par n)",
+        "description": "À utiliser quand vos nombres constituent tout le groupe étudié, par exemple toutes les notes d'une classe."
+      },
+      {
+        "name": "Échantillon (s, division par n − 1)",
+        "description": "À utiliser quand vos nombres sont un échantillon d'un groupe plus large dont vous voulez estimer la dispersion (correction de Bessel)."
+      },
+      {
+        "name": "IQR",
+        "description": "Écart interquartile, Q3 − Q1 : la dispersion de la moitié centrale des données."
+      }
+    ]
+  },
+  "workedExamples": [
+    {
+      "inputs": [
+        "8 valeurs"
+      ],
+      "steps": [
+        "Moyenne : (2 + 4 + 4 + 4 + 5 + 5 + 7 + 9) ÷ 8 = 40 ÷ 8 = 5",
+        "Médiane : 8 valeurs, on fait la moyenne de la 4e et de la 5e : (4 + 5) ÷ 2 = 4.5",
+        "Mode : 4 apparaît 3 fois, plus que toute autre valeur",
+        "Carrés des écarts : 9, 1, 1, 1, 0, 0, 4, 16 ; somme = 32",
+        "Écart type population : √(32 ÷ 8) = √4 = 2 ; écart type échantillon : √(32 ÷ 7) = 2.1381"
+      ],
+      "result": "Moyenne 5, médiane 4.5, mode 4, σ = 2, s = 2.1381"
+    },
+    {
+      "title": "1, 2, 3 (pas de mode)",
+      "inputs": [
+        "3 valeurs"
+      ],
+      "steps": [
+        "Moyenne : 6 ÷ 3 = 2 ; médiane : la valeur du milieu, 2",
+        "Chaque valeur apparaît une fois : il n'y a donc pas de mode",
+        "Écart type population : √(2 ÷ 3) = 0.8165 ; écart type échantillon : √(2 ÷ 2) = 1"
+      ],
+      "result": "Moyenne 2, médiane 2, pas de mode"
+    },
+    {
+      "title": "Quartiles de 1, 3, 5, 7, 9",
+      "inputs": [
+        "5 valeurs (effectif impair)"
+      ],
+      "steps": [
+        "Médiane : 5 (la 3e valeur)",
+        "Moitié inférieure sans la médiane : 1, 3, donc Q1 = 2",
+        "Moitié supérieure sans la médiane : 7, 9, donc Q3 = 8"
+      ],
+      "result": "Q1 = 2, Q3 = 8, IQR = 6"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Oublier de trier avant de chercher la médiane",
+      "description": "La médiane est le milieu de la liste <em>triée</em>. Le milieu de 9, 2, 5 tel que saisi est 2, mais la médiane est 5."
+    },
+    {
+      "title": "Utiliser la formule de la population pour un échantillon",
+      "description": "Diviser par n sous-estime la dispersion lorsque vos données sont un échantillon d'un groupe plus large. Utilisez l'écart type de l'échantillon (n − 1) pour les sondages, les expériences et les mesures sur un sous-ensemble."
+    },
+    {
+      "title": "S'attendre à un seul mode",
+      "description": "Des données peuvent avoir un mode, plusieurs modes ou aucun. 1, 1, 2, 2, 3 a deux modes (1 et 2) ; 1, 2, 3 n'en a aucun."
+    },
+    {
+      "title": "Comparer des quartiles issus d'outils différents",
+      "description": "Il existe plusieurs méthodes reconnues pour calculer les quartiles, qui peuvent donner des résultats légèrement différents pour les mêmes données. Les tableurs interpolent souvent (QUARTILE.INCLURE d'Excel) ; ce calculateur utilise la méthode des médianes des moitiés enseignée dans de nombreux cours."
+    },
+    {
+      "title": "Utiliser la virgule comme séparateur décimal",
+      "description": "Ici, la virgule sépare les valeurs : 2,5 est donc lu comme deux nombres, 2 et 5. Utilisez un point pour les décimales : 2.5."
+    }
+  ],
+  "sources": [
+    {
+      "name": "NIST/SEMATECH e-Handbook of Statistical Methods : mesures de position"
+    },
+    {
+      "name": "NIST/SEMATECH e-Handbook of Statistical Methods : mesures de dispersion"
+    },
+    {
+      "name": "Support Microsoft : fonctions ECARTYPE.PEARSON et ECARTYPE.STANDARD"
+    },
+    {
+      "name": "Support Microsoft : fonction QUARTILE.INCLURE (méthode de quartiles par interpolation)"
+    }
+  ],
+  "howto": {
+    "name": "Comment calculer la moyenne, la médiane, le mode et l'écart type",
+    "description": "Collez vos nombres pour obtenir toutes les statistiques descriptives avec le détail du calcul.",
+    "steps": [
+      {
+        "name": "Saisir vos nombres",
+        "text": "Tapez ou collez des valeurs séparées par des virgules, des espaces ou des retours à la ligne."
+      },
+      {
+        "name": "Choisir le nombre de décimales",
+        "text": "Choisissez combien de décimales afficher dans les résultats."
+      },
+      {
+        "name": "Lire les statistiques",
+        "text": "Consultez l'effectif, la somme, la moyenne, la médiane, le mode, l'étendue, les quartiles, la variance et l'écart type."
+      },
+      {
+        "name": "Vérifier le calcul",
+        "text": "Suivez les étapes du calcul de la moyenne, de la médiane et de l'écart type, ainsi que les données triées."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Comment trouver la moyenne, la médiane et le mode ?",
+      "a": "Moyenne : additionnez toutes les valeurs et divisez par leur nombre. Médiane : triez les valeurs et prenez celle du milieu, ou la moyenne des deux du milieu. Mode : la valeur qui apparaît le plus souvent."
+    },
+    {
+      "q": "Quelle est la différence entre l'écart type d'une population et celui d'un échantillon ?",
+      "a": "L'écart type de la population divise la somme des carrés des écarts par n et décrit un groupe complet. L'écart type de l'échantillon divise par n − 1 et estime la dispersion d'une population plus large à partir d'un échantillon : il est donc légèrement plus grand."
+    },
+    {
+      "q": "Comment calculer un écart type à la main ?",
+      "a": "Calculez la moyenne, soustrayez-la de chaque valeur et élevez le résultat au carré, additionnez ces carrés, divisez par n (population) ou n − 1 (échantillon), puis prenez la racine carrée. Le calculateur affiche chacune de ces étapes."
+    },
+    {
+      "q": "Et s'il n'y a pas de mode ?",
+      "a": "Si toutes les valeurs apparaissent le même nombre de fois, aucune n'est plus fréquente que les autres et les données n'ont pas de mode. 1, 2, 3 n'a pas de mode."
+    },
+    {
+      "q": "Une série de données peut-elle avoir plusieurs modes ?",
+      "a": "Oui. Si deux valeurs ou plus sont à égalité pour la fréquence la plus élevée, ce sont toutes des modes. 1, 1, 2, 2, 3 est bimodale, avec les modes 1 et 2."
+    },
+    {
+      "q": "Comment les quartiles sont-ils calculés ?",
+      "a": "Ce calculateur utilise la méthode des médianes des moitiés : on partage les données triées en une moitié inférieure et une moitié supérieure (en excluant la médiane quand l'effectif est impair) et on prend la médiane de chaque moitié comme Q1 et Q3."
+    },
+    {
+      "q": "Comment saisir mes nombres ?",
+      "a": "Séparez les nombres par des virgules, des espaces, des points-virgules ou des retours à la ligne, et utilisez un point pour les décimales. Vous pouvez coller directement une colonne de tableur."
+    },
+    {
+      "q": "Vaut-il mieux utiliser la médiane ou la moyenne ?",
+      "a": "La moyenne utilise toutes les valeurs mais est tirée par les valeurs aberrantes ; la médiane est la valeur du milieu et n'est pas affectée par quelques nombres extrêmes. Pour des données asymétriques comme les revenus ou les prix de l'immobilier, la médiane est généralement plus représentative."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Calculateur statistique",
+      "copy-result-btn": "Copier le résultat dans le presse-papiers"
+    },
+    "label": {
+      "data": "Nombres <span class=\"text-accent\">*</span>",
+      "dp": "Décimales"
+    },
+    "text": {
+      "data-hint": "Séparez les valeurs par des virgules, des espaces ou des retours à la ligne. Utilisez un point pour les décimales (2.5).",
+      "reset-btn": "Réinitialiser",
+      "result-header-text": "Résumé",
+      "copy-result-btn": "<span data-icon=\"copy\"></span> Copier le résultat"
+    },
+    "content": {
+      "tool": {
+        "button1": "Calculer",
+        "summary1": "Données triées et détail du calcul",
+        "p1": "Données triées",
+        "p2": "Moyenne",
+        "p3": "Médiane",
+        "p4": "Écart type"
+      },
+      "mean-median-or-mode-which-average": {
+        "heading": "Moyenne, médiane ou mode : quelle valeur centrale utiliser ?",
+        "caption1": "Quand utiliser la moyenne, la médiane et le mode",
+        "th1": "Mesure",
+        "th2": "Ce qu'elle indique",
+        "th3": "Idéale pour",
+        "td1": "Moyenne",
+        "td2": "Le point d'équilibre de toutes les valeurs",
+        "td3": "Des données symétriques sans valeurs extrêmes, comme des tailles ou des notes",
+        "td4": "Médiane",
+        "td5": "La valeur du milieu : la moitié des valeurs est au-dessus, l'autre en dessous",
+        "td6": "Des données asymétriques ou avec des valeurs aberrantes, comme les revenus et les prix de l'immobilier",
+        "td7": "Mode",
+        "td8": "La valeur la plus fréquente",
+        "td9": "Des catégories et des valeurs répétées, comme des pointures ou des réponses à un sondage",
+        "p1": "Une valeur aberrante peut beaucoup déplacer la moyenne tout en laissant la médiane presque inchangée. Pour les valeurs 30, 32, 35, 38 et 40, la moyenne et la médiane valent toutes deux 35. Remplacez 40 par 400 : la médiane reste à 35, mais la moyenne bondit à 107. C'est pourquoi les statistiques officielles sur les revenus donnent généralement la médiane."
+      },
+      "reading-the-standard-deviation": {
+        "heading": "Interpréter l'écart type",
+        "p1": "L'écart type mesure la distance typique des valeurs par rapport à la moyenne, dans la même unité que les données. Un petit écart type signifie que les valeurs sont resserrées ; un grand, qu'elles sont dispersées. Pour des données en forme de courbe en cloche, environ 68% des valeurs se situent à moins d'un écart type de la moyenne et environ 95% à moins de deux.",
+        "li1": "<strong>La variance</strong> est le carré de l'écart type. Elle sert dans d'autres calculs mais s'exprime en unités au carré, ce qui la rend plus difficile à interpréter directement.",
+        "li2": "<strong>L'étendue</strong> (max − min) est rapide à calculer mais ne dépend que des deux valeurs les plus extrêmes.",
+        "li3": "<strong>L'écart interquartile</strong> (Q3 − Q1) couvre la moitié centrale des données et ignore les valeurs aberrantes. Une règle courante signale comme valeurs aberrantes possibles celles situées à plus de 1.5 × IQR en dessous de Q1 ou au-dessus de Q3.",
+        "p2": "Dans les tableurs, ECARTYPE.PEARSON (STDEV.P) et VAR.P.N (VAR.P) correspondent aux valeurs de population ci-dessus, et ECARTYPE.STANDARD (STDEV.S) et VAR.S à celles de l'échantillon. Tous les calculs s'exécutent dans votre navigateur : vous pouvez coller des données privées en toute sécurité."
+      }
+    },
+    "title": {
+      "copy-result-btn": "Copier le résultat dans le presse-papiers"
+    }
+  },
+  "client": {
+    "errors": {
+      "empty": "Saisissez au moins un nombre. Séparez les valeurs par des virgules, des espaces ou des retours à la ligne.",
+      "notNumber": {
+        "one": "{{shown}} n'est pas un nombre. Utilisez des chiffres avec un point pour les décimales (2.5), séparés par des virgules, des espaces ou des retours à la ligne.",
+        "other": "{{shown}} ne sont pas des nombres. Utilisez des chiffres avec un point pour les décimales (2.5), séparés par des virgules, des espaces ou des retours à la ligne.",
+        "more": "{{shown}} et {{more}} autres ne sont pas des nombres. Utilisez des chiffres avec un point pour les décimales (2.5), séparés par des virgules, des espaces ou des retours à la ligne."
+      },
+      "tooMany": "Saisissez au maximum {{max}} valeurs.",
+      "tooLarge": "L'une des valeurs est trop grande pour être traitée.",
+      "noNumbers": "Saisissez au moins un nombre.",
+      "notAllNumbers": "Chaque valeur doit être un nombre."
+    },
+    "quartileMethod": "Médianes des moitiés : Q1 est la médiane de la moitié inférieure et Q3 celle de la moitié supérieure, en excluant la médiane globale quand l'effectif est impair.",
+    "quartileNote": "Méthode des quartiles : {{method}}",
+    "more": "… ({{count}} de plus)",
+    "steps": {
+      "add": {
+        "many": "Additionner les {{count}} valeurs : {{values}} = {{sum}}",
+        "one": "Additionner la valeur ({{count}}) : {{values}} = {{sum}}",
+        "other": "Additionner les {{count}} valeurs : {{values}} = {{sum}}"
+      },
+      "divide": "Diviser par l'effectif : {{sum}} ÷ {{count}} = {{mean}}",
+      "sort": "Trier les valeurs : {{values}}",
+      "odd": "{{count}} est impair : la médiane est la valeur du milieu, la n° {{position}} : {{median}}",
+      "even": "{{count}} est pair : la médiane est la moyenne des valeurs n° {{first}} et n° {{second}} : ({{a}} + {{b}}) ÷ 2 = {{median}}",
+      "deviations": "Soustraire la moyenne de chaque valeur et élever au carré : {{deviations}}",
+      "sumOfSquares": "Additionner les carrés des écarts : somme des carrés = {{ss}}",
+      "populationVariance": "Variance de la population σ² = {{ss}} ÷ {{count}} = {{variance}}, donc σ = √{{variance}} = {{sd}}",
+      "sampleVariance": "Variance de l'échantillon s² = {{ss}} ÷ ({{count}} − 1) = {{variance}}, donc s = √{{variance}} = {{sd}}",
+      "sampleNeedsTwo": "L'écart type de l'échantillon nécessite au moins 2 valeurs (il divise par n − 1)."
+    },
+    "stats": {
+      "modeValue": "{{modes}} (apparaît {{count}} fois)",
+      "noMode": "Pas de mode",
+      "needsTwo": "2 valeurs minimum",
+      "count": "Effectif (n)",
+      "sum": "Somme",
+      "mean": "Moyenne",
+      "median": "Médiane",
+      "mode": "Mode",
+      "modes": "Modes",
+      "min": "Minimum",
+      "max": "Maximum",
+      "range": "Étendue",
+      "populationSD": "Écart type population (σ)",
+      "sampleSD": "Écart type échantillon (s)",
+      "populationVariance": "Variance population (σ²)",
+      "sampleVariance": "Variance échantillon (s²)",
+      "q1": "Q1 (premier quartile)",
+      "q3": "Q3 (troisième quartile)",
+      "iqr": "Écart interquartile"
+    },
+    "result": {
+      "header": {
+        "many": "Résumé de {{count}} valeurs",
+        "one": "Résumé de {{count}} valeur",
+        "other": "Résumé de {{count}} valeurs"
+      },
+      "primary": "Moyenne {{mean}} · Médiane {{median}} · {{mode}}",
+      "mode": "Mode {{modes}}"
+    }
+  }
+}

@@ -12,6 +12,11 @@
 })(typeof globalThis !== 'undefined' ? globalThis : this, function () {
   'use strict';
 
+  // Messages come from the tool's translation data
+  const T = (typeof ToolsBuilt !== 'undefined' && ToolsBuilt.scope)
+    ? ToolsBuilt.scope('grade-calculator')
+    : require('../../../scripts/i18n-client.js').scope('grade-calculator');
+
   function roundSensible(num, maxDecimals = 4) {
     if (!isFinite(num)) return num;
     const factor = Math.pow(10, maxDecimals);
@@ -20,7 +25,7 @@
 
   function getLetterGrade(percentage) {
     const p = parseFloat(percentage);
-    if (isNaN(p)) return 'N/A';
+    if (isNaN(p)) return T('grade.na');
     if (p >= 97) return 'A+';
     if (p >= 93) return 'A';
     if (p >= 90) return 'A-';
@@ -42,7 +47,7 @@
    */
   function calculateCurrentGrade(assignments) {
     if (!Array.isArray(assignments) || assignments.length === 0) {
-      throw new Error('Please provide at least one assignment.');
+      throw new Error(T('errors.noAssignments'));
     }
 
     let totalWeight = 0;
@@ -59,13 +64,13 @@
       }
 
       if (weight < 0) {
-        throw new Error('Assignment weight cannot be negative.');
+        throw new Error(T('errors.negativeWeight'));
       }
 
       totalWeight += weight;
       weightedPointsSum += (score * (weight / 100));
       validRows.push({
-        name: item.name || `Assignment ${i + 1}`,
+        name: item.name || T('assignmentName', { n: i + 1 }),
         score,
         weight,
         contribution: roundSensible(score * (weight / 100), 4)
@@ -73,11 +78,11 @@
     }
 
     if (validRows.length === 0) {
-      throw new Error('No valid numeric grades entered.');
+      throw new Error(T('errors.noValidGrades'));
     }
 
     if (totalWeight === 0) {
-      throw new Error('Total completed weight cannot be 0%.');
+      throw new Error(T('errors.zeroWeight'));
     }
 
     // Current weighted percentage is points divided by fraction of completed weight
@@ -107,11 +112,11 @@
     const finW = parseFloat(finalWeight);
 
     if (isNaN(target) || isNaN(compW) || isNaN(curG) || isNaN(finW)) {
-      throw new Error('Please enter valid numbers for target, current grade, and weights.');
+      throw new Error(T('errors.invalidTarget'));
     }
 
     if (finW <= 0) {
-      throw new Error('Final exam weight must be greater than 0%.');
+      throw new Error(T('errors.finalWeight'));
     }
 
     const currentContribution = curG * (compW / 100);
@@ -122,14 +127,14 @@
     const roundedNeeded = roundSensible(neededFinalScore, 2);
 
     let status = 'achievable';
-    let message = `You need a score of ${roundedNeeded}% on the final exam to secure a ${target}% in this course.`;
+    let message = T('final.achievable', { needed: roundedNeeded, target });
 
     if (roundedNeeded <= 0) {
       status = 'already-achieved';
-      message = `You have already secured a ${target}% course grade even with a 0% on the final exam!`;
+      message = T('final.alreadyAchieved', { target });
     } else if (roundedNeeded > 100) {
       status = 'extra-credit';
-      message = `You need a ${roundedNeeded}% on the final exam. This target requires extra credit beyond 100%.`;
+      message = T('final.extraCredit', { needed: roundedNeeded });
     }
 
     return {

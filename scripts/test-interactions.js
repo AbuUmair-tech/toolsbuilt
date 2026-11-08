@@ -2,6 +2,7 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 const { chromium } = require('playwright');
+const CATEGORIES_DATA = require(path.join(__dirname, '..', 'src', '_data', 'categories.json'));
 
 const ROOT = path.resolve(__dirname, '..');
 const SITE_DIR = path.join(ROOT, '_site');
@@ -72,17 +73,29 @@ async function runTests() {
     const desktopPage = await desktopContext.newPage();
     await desktopPage.goto('http://localhost:8086/', { waitUntil: 'networkidle' });
 
-    // Mega-Menu test
-    const megaTrigger = desktopPage.locator('#mega-menu-trigger');
-    const megaPanel = desktopPage.locator('#tools-mega-menu');
-    assert(await megaTrigger.isVisible(), 'Desktop Tools mega-menu trigger is visible');
-    await megaTrigger.click();
-    await desktopPage.waitForTimeout(150);
-    assert(await megaPanel.isVisible(), 'Clicking Tools trigger opens mega-menu panel');
-    assert(await megaTrigger.getAttribute('aria-expanded') === 'true', 'Mega-menu trigger has aria-expanded="true"');
+    // Header: Home, All Tools and Categories dropdowns, About, Contact; theme toggle and search
+    for (const href of ['/', '/about/', '/contact/']) {
+      assert(await desktopPage.locator(`#main-nav a.nav-link[href="${href}"]`).isVisible(), `Desktop header shows ${href} link`);
+    }
+    assert(await desktopPage.locator('#theme-toggle').isVisible(), 'Desktop header shows theme toggle');
+    const headerHeight = await desktopPage.$eval('#site-header', el => el.getBoundingClientRect().height);
+    assert(headerHeight <= 80, `Header is one row (${Math.round(headerHeight)}px tall)`);
+
+    // Dropdowns: open with the keyboard, list every category, close on Escape and outside click
+    const catMenu = desktopPage.locator('details.nav-menu').nth(1);
+    await catMenu.locator('summary').focus();
+    await desktopPage.keyboard.press('Enter');
+    assert(await catMenu.evaluate(d => d.open), 'Categories dropdown opens with Enter');
+    const catLinks = await catMenu.locator('.nav-menu-link').count();
+    assert(catLinks === CATEGORIES_DATA.length, `Categories dropdown lists every category (${catLinks})`);
     await desktopPage.keyboard.press('Escape');
-    await desktopPage.waitForTimeout(150);
-    assert(!(await megaPanel.isVisible()), 'Pressing Escape closes mega-menu');
+    assert(!(await catMenu.evaluate(d => d.open)), 'Escape closes the dropdown');
+    assert(await catMenu.locator('summary').evaluate(el => el === document.activeElement), 'Focus returns to the dropdown trigger');
+    const toolsMenu = desktopPage.locator('details.nav-menu').first();
+    await toolsMenu.locator('summary').click();
+    assert(await toolsMenu.evaluate(d => d.open) && await toolsMenu.locator('a[href="/tools/"]').isVisible(), 'All Tools dropdown shows "View all tools"');
+    await desktopPage.mouse.click(5, 400);
+    assert(!(await toolsMenu.evaluate(d => d.open)), 'Clicking outside closes the dropdown');
 
     // Search Trigger button click
     const searchTrigger = desktopPage.locator('#header-search-trigger');
@@ -174,20 +187,25 @@ async function runTests() {
       assert(true, 'Focus trap successfully keeps Tab navigation inside mobile drawer');
     }
 
-    // Accordion inside drawer
-    const catAccordion = mobilePage.locator('#mobile-cat-btn-date-time');
-    const catContent = mobilePage.locator('#mobile-cat-panel-date-time');
-    assert(await catAccordion.isVisible(), 'Date & Time category accordion is present in drawer');
-    await catAccordion.click();
-    await mobilePage.waitForTimeout(150);
-    assert(await catContent.isVisible(), 'Clicking category accordion expands tool list');
-    assert(await catAccordion.getAttribute('aria-expanded') === 'true', 'Accordion trigger has aria-expanded="true"');
+    // Menu is a plain list: every category plus All tools, Blog, About
+    const menuHrefs = await drawer.locator('a.mobile-drawer-link').evaluateAll(els => els.map(a => a.getAttribute('href')));
+    const expectedHrefs = ['/', '/tools/', '/about/', '/contact/', ...CATEGORIES_DATA.map(c => `/category/${c.slug}/`)];
+    const missingHrefs = expectedHrefs.filter(h => !menuHrefs.includes(h));
+    assert(missingHrefs.length === 0, `Mobile menu lists Home, All Tools, every category, About and Contact (missing: ${missingHrefs.join(', ') || 'none'})`);
 
     // Close drawer with Escape and verify focus restoration
     await mobilePage.keyboard.press('Escape');
     await mobilePage.waitForTimeout(300);
     assert(!(await drawer.isVisible()), 'Pressing Escape closes mobile drawer');
     assert(await isFocused(hamburger), 'Focus returns to hamburger trigger button after drawer closes');
+
+    // Header search icon opens the palette on mobile
+    const mobileSearch = mobilePage.locator('#mobile-search-trigger');
+    assert(await mobileSearch.isVisible(), 'Mobile header shows search icon');
+    await mobileSearch.click();
+    await mobilePage.waitForTimeout(250);
+    assert(await mobilePage.locator('#search-modal').isVisible(), 'Mobile search icon opens Command Palette');
+    await mobilePage.keyboard.press('Escape');
 
     await mobileContext.close();
 

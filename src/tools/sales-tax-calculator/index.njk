@@ -1,0 +1,164 @@
+---
+layout: layouts/tool.njk
+toolSlug: sales-tax-calculator
+permalink: /tools/sales-tax-calculator/
+extraCss: "/tools/sales-tax-calculator/style.css"
+lastReviewed: "2026-10-31"
+---
+{% from "partials/currency-select.njk" import currencySelect, countryData with context %}
+{{ countryData(countries) }}
+
+    <!-- Tool Form Container -->
+    <script type="application/json" id="vat-data">{{ vatRates.countries | dump | safe }}</script>
+    <section class="tool-container" aria-label="{{ 'ariaLabel.tool-section1' | pt }}">
+      <form id="calculator-form" novalidate>
+        <fieldset class="form-group choice-toggle">
+          <legend>{{ 'content.tool.legend1' | pt }}</legend>
+          <div class="segmented-control choice-toggle-options">
+            <label class="choice-toggle-option">
+              {{ 'content.tool.label1' | pt }}
+            </label>
+            <label class="choice-toggle-option">
+              {{ 'content.tool.label2' | pt }}
+            </label>
+          </div>
+        </fieldset>
+
+        <div class="form-grid two-col">
+          <div class="form-group">
+            <label for="tax-price" id="price-label">{{ 'label.tax-price' | pt }}</label>
+            <input type="number" inputmode="decimal" step="any" min="0" id="tax-price" data-param="price" class="form-control" placeholder="{{ 'placeholder.tax-price' | pt }}" required aria-required="true">
+          </div>
+          <div class="form-group">
+            <label for="tax-qty">{{ 'label.tax-qty' | pt }}</label>
+            <input type="number" inputmode="numeric" step="any" min="0" id="tax-qty" data-param="qty" class="form-control" value="1">
+          </div>
+          <div class="form-group col-span-full">
+            <label for="tax-country">{{ 'label.tax-country' | pt }}</label>
+            <select id="tax-country" data-param="country" class="form-control" data-country-remember aria-describedby="tax-country-note">
+              {% for c in vatRates.countries %}{% set v = text.client.vat[c.code] %}
+              <option value="{{ c.code }}"{% if c.code == "PK" %} selected{% endif %}>{% if c.rates.length %}{{ 'vat.optionWithRate' | pt({ name: v.name, taxName: v.taxName, rate: c.rates[0].rate }) }}{% else %}{{ 'vat.optionVaries' | pt({ name: v.name, taxName: v.taxName | lower }) }}{% endif %}</option>
+              {% endfor %}
+            </select>
+            {% set pk = vatRates.countries | byCode("PK") %}
+            <p class="form-hint" id="tax-country-note">{{ 'vat.countryNote' | pt({ notes: text.client.vat.PK.notes, url: pk.source.url, source: text.client.vat.PK.source, date: pk.verifiedOn | humanDate }) }}</p>
+          </div>
+          <div class="form-group">
+            <label for="tax-rate-preset">{{ 'label.tax-rate-preset' | pt }}</label>
+            <select id="tax-rate-preset" data-param="rate" class="form-control">
+              <option value="18" selected>{{ 'option.tax-rate-preset.18' | pt }}</option>
+              <option value="5">5%</option>
+              <option value="10">10%</option>
+              <option value="15">15%</option>
+              <option value="custom">{{ 'option.tax-rate-preset.custom' | pt }}</option>
+            </select>
+          </div>
+          <div class="form-group" id="custom-rate-group" hidden>
+            <label for="tax-rate-custom">{{ 'label.tax-rate-custom' | pt }}</label>
+            <input type="number" inputmode="decimal" step="any" min="0" max="100" id="tax-rate-custom" data-param="custom" class="form-control" placeholder="{{ 'placeholder.tax-rate-custom' | pt }}">
+          </div>
+          {{ currencySelect({ id: "tax-currency", param: "cur", selected: "PKR" }) }}
+        </div>
+
+        <div class="button-group">
+          <button type="submit" class="btn btn-primary">{{ 'content.tool.button1' | pt }}</button>
+          <button type="button" class="btn btn-secondary" id="reset-btn">{{ 'text.reset-btn' | pt }}</button>
+        </div>
+      </form>
+
+      <div id="error-box" class="hidden form-error" role="alert"></div>
+
+      <!-- Result Box -->
+      <div id="result-box" class="result-box" aria-live="polite">
+        <div class="result-header">
+          <span id="result-header-text">{{ 'text.result-header-text' | pt }}</span>
+          <button type="button" class="btn btn-sm btn-ghost" id="copy-result-btn" title="{{ 'title.copy-result-btn' | pt }}" aria-label="{{ 'ariaLabel.copy-result-btn' | pt }}">
+            {{ 'text.copy-result-btn' | pt }}
+          </button>
+        </div>
+        <div class="result-primary" id="result-primary-text">{{ 'text.result-primary-text' | pt }}</div>
+
+        <div class="result-grid">
+          <div class="result-stat-card">
+            <div class="result-stat-label">{{ 'content.tool.div1' | pt }}</div>
+            <div class="result-stat-value" id="stat-net">{{ 'text.stat-net' | pt }}</div>
+          </div>
+          <div class="result-stat-card">
+            <div class="result-stat-label" id="stat-tax-label">{{ 'text.stat-tax-label' | pt }}</div>
+            <div class="result-stat-value" id="stat-tax">{{ 'text.stat-tax' | pt }}</div>
+          </div>
+          <div class="result-stat-card">
+            <div class="result-stat-label">{{ 'content.tool.div2' | pt }}</div>
+            <div class="result-stat-value" id="stat-gross">{{ 'text.stat-gross' | pt }}</div>
+          </div>
+        </div>
+        <p class="tax-per-item" id="per-item-line" hidden></p>
+
+        <div class="formula-box content-panel" id="formula-breakdown-box">
+          <!-- Formula and steps inserted by script.js -->
+        </div>
+      </div>
+
+      <div class="tool-note">
+        <h3 class="tool-note-title">{{ 'content.check-the-official-rate.heading' | pt }}</h3>
+        <p>{{ 'content.check-the-official-rate.p1' | pt }}</p>
+      </div>
+    </section>
+
+    <!-- tool-end -->
+
+    <section class="content-section" aria-labelledby="vat-rates-heading">
+      <h2 id="vat-rates-heading">{{ 'text.vat-rates-heading' | pt }}</h2>
+      <p>{{ 'content.vat-and-gst-rates-by-country.p1' | pt }}</p>
+      <div class="table-wrapper" tabindex="0" role="region" aria-label="{{ 'ariaLabel.vat-and-gst-rates-by-country-div1' | pt }}">
+        <table class="table">
+          <caption class="visually-hidden">{{ 'content.vat-and-gst-rates-by-country.caption1' | pt }}</caption>
+          <thead>
+            <tr>
+              <th scope="col">{{ 'content.vat-and-gst-rates-by-country.th1' | pt }}</th>
+              <th scope="col">{{ 'content.vat-and-gst-rates-by-country.th2' | pt }}</th>
+              <th scope="col">{{ 'content.vat-and-gst-rates-by-country.th3' | pt }}</th>
+              <th scope="col">{{ 'content.vat-and-gst-rates-by-country.th4' | pt }}</th>
+              <th scope="col">{{ 'content.vat-and-gst-rates-by-country.th5' | pt }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for c in vatRates.countries %}{% set v = text.client.vat[c.code] %}
+            <tr>
+              <th scope="row">{{ v.name }}</th>
+              <td>{{ v.taxName }}</td>
+              <td>{% if c.rates.length %}{{ c.rates[0].rate }}%{% else %}{{ 'vat.noPresetRate' | pt }}{% endif %}</td>
+              <td>{% for r in c.rates %}{% if not loop.first %}{{ 'vat.otherRate' | pt({ rate: r.rate, label: v.rates[loop.index0] }) }}{% if not loop.last %}; {% endif %}{% endif %}{% endfor %}</td>
+              <td>{% if c.source %}<a href="{{ c.source.url }}" target="_blank" rel="noopener noreferrer">{{ v.source }}</a> ({{ c.verifiedOn | humanDate }}){% else %}–{% endif %}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="content-section" aria-labelledby="inclusive-heading">
+      <h2 id="inclusive-heading">{{ 'text.inclusive-heading' | pt }}</h2>
+      <p>{{ 'content.tax-exclusive-and-tax-inclusive-prices.p1' | pt }}</p>
+      <ul class="content-list">
+        <li>{{ 'content.tax-exclusive-and-tax-inclusive-prices.li1' | pt }}</li>
+        <li>{{ 'content.tax-exclusive-and-tax-inclusive-prices.li2' | pt }}</li>
+      </ul>
+      <p>{{ 'content.tax-exclusive-and-tax-inclusive-prices.p2' | pt }}</p>
+    </section>
+
+    <section class="content-section" aria-labelledby="reverse-heading">
+      <h2 id="reverse-heading">{{ 'text.reverse-heading' | pt }}</h2>
+      <p>{{ 'content.why-you-divide-by-1-rate.p1' | pt }}</p>
+      <p>{{ 'content.why-you-divide-by-1-rate.p2' | pt }}</p>
+    </section>
+
+    <section class="content-section" aria-labelledby="gst-vat-heading">
+      <h2 id="gst-vat-heading">{{ 'text.gst-vat-heading' | pt }}</h2>
+      <p>{{ 'content.gst-vat-and-us-sales-tax.p1' | pt }}</p>
+    </section>
+
+    <section class="content-section" aria-labelledby="rates-heading">
+      <h2 id="rates-heading">{{ 'text.rates-heading' | pt }}</h2>
+      <p>{{ 'content.rates-vary-check-the-official-rate.p1' | pt }}</p>
+    </section>

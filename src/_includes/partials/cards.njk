@@ -1,0 +1,38 @@
+{#
+  Shared cards for the homepage, category pages, /tools/ and related tools.
+    {% import "partials/cards.njk" as cards %}
+    {{ cards.categoryCard(cat, count) }}
+    {{ cards.toolCard(tool, category) }}
+  Icons come from the self-hosted sprite (/assets/icons.svg) or the tool's own inline SVG.
+#}
+{% macro arrow(className="card-arrow") %}
+<svg class="{{ className }}" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="/assets/icons.svg#icon-arrow-right"></use></svg>
+{% endmacro %}
+
+{% macro categoryTile(cat, size=22, extraClass="") %}
+<span class="icon-tile{% if extraClass %} {{ extraClass }}{% endif %}" data-color="{{ cat.color }}" aria-hidden="true"><svg width="{{ size }}" height="{{ size }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href="/assets/icons.svg#icon-{{ cat.icon }}"></use></svg></span>
+{% endmacro %}
+
+{% macro categoryCard(cat, count) %}
+<a href="/category/{{ cat.slug }}/" class="category-card">
+  {{ categoryTile(cat) }}
+  <span class="category-card-body">
+    <span class="category-card-title">{{ cat.name }}</span>
+    <span class="category-card-desc">{{ cat.tagline }}</span>
+    <span class="category-card-count">{{ 'common.tools' | tp(count) }}</span>
+  </span>
+  {{ arrow() }}
+</a>
+{% endmacro %}
+
+{% macro toolCard(tool, cat) %}
+<a href="/tools/{{ tool.slug }}/" class="tool-card" data-slug="{{ tool.slug }}" data-category="{{ tool.category }}">
+  <span class="tool-card-top">
+    <span class="icon-tile" data-color="{{ cat.color if cat else 'blue' }}" aria-hidden="true">{{ tool.icon | safe }}</span>
+    {{ arrow() }}
+  </span>
+  <span class="tool-title">{{ tool.name }}</span>
+  <span class="tool-desc">{{ tool.shortDescription or tool.description }}</span>
+  <span class="tool-card-action">{{ 'cards.useTool' | t }} {{ arrow("") }}</span>
+</a>
+{% endmacro %}

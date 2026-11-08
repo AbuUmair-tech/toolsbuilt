@@ -7,6 +7,8 @@
 document.addEventListener('DOMContentLoaded', () => {
   const logic = window.LoremIpsumLogic;
   if (!logic) return;
+  const T = ToolsBuilt.scope('lorem-ipsum-generator');
+  const numFmt = new Intl.NumberFormat(ToolsBuilt.pageLocale('en-US'));
 
   const countInput = document.getElementById('count-input');
   const unitRadios = document.querySelectorAll('input[name="lorem-unit"]');
@@ -51,8 +53,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function updateStats(stats) {
     if (!statsDisplay) return;
-    const numFmt = new Intl.NumberFormat('en-US');
-    statsDisplay.textContent = `${numFmt.format(stats.words)} words | ${numFmt.format(stats.characters)} characters | ${numFmt.format(stats.paragraphs)} paragraph${stats.paragraphs === 1 ? '' : 's'}`;
+    statsDisplay.textContent = T(stats.paragraphs === 1 ? 'stats.one' : 'stats.other', {
+      words: numFmt.format(stats.words),
+      characters: numFmt.format(stats.characters),
+      paragraphs: numFmt.format(stats.paragraphs)
+    });
   }
 
   function runGeneration() {
@@ -110,7 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const text = loremOutput.value;
       if (!text) return;
       if (window.ToolsBuilt && window.ToolsBuilt.copy) {
-        window.ToolsBuilt.copy(text, 'Lorem ipsum copied to clipboard');
+        window.ToolsBuilt.copy(text, T('copied'));
       }
     });
   }
@@ -118,7 +123,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (clearBtn) {
     clearBtn.addEventListener('click', () => {
       loremOutput.value = '';
-      if (statsDisplay) statsDisplay.textContent = '0 words | 0 characters | 0 paragraphs';
+      if (statsDisplay) statsDisplay.textContent = T('stats.other', { words: numFmt.format(0), characters: numFmt.format(0), paragraphs: numFmt.format(0) });
       countInput.focus();
     });
   }

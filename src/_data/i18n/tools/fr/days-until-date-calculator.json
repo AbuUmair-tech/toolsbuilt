@@ -1,0 +1,231 @@
+{
+  "listing": {
+    "name": "Calculateur de jours restants avant une date",
+    "shortName": "Jours restants",
+    "description": "Calculez le nombre exact de jours, de semaines et de mois restants avant un événement, un anniversaire ou des vacances.",
+    "shortDescription": "Calculez le nombre exact de jours, de semaines et de mois restants avant un événement, un anniversaire ou des vacances.",
+    "keywords": [
+      "jours restants avant une date",
+      "compte à rebours événement",
+      "combien de jours avant",
+      "compte à rebours jours",
+      "nombre de jours restants"
+    ]
+  },
+  "title": "Jours restants avant une date : compte à rebours",
+  "description": "Calculez le nombre exact de jours, semaines et mois restants avant une date ou un événement. Compte à rebours en ligne gratuit, sans inscription.",
+  "h1": "Calculateur de jours restants avant une date",
+  "quickAnswer": "Pour savoir combien de jours il reste avant un événement, choisissez la date cible dans le calendrier. Le calculateur de jours restants compare cette date à celle du jour et affiche le nombre total de jours, de semaines, de mois et d'heures restants. Il fonctionne aussi à l'envers pour calculer les jours écoulés depuis une date ou un anniversaire passé.",
+  "formula": {
+    "title": "Formule du compte à rebours",
+    "expression": "Jours restants = ⌊(Date cible UTC ms - Date actuelle UTC ms) / 86,400,000 ms⌋",
+    "explanation": "Les deux dates sont évaluées à minuit UTC pour éviter les décalages dus au changement d'heure. Une valeur positive indique un compte à rebours vers le futur, une valeur négative le temps écoulé depuis un événement passé."
+  },
+  "workedExamples": [
+    {
+      "title": "Échéance de projet à 30 jours",
+      "inputs": [
+        "Date cible : 23 novembre 2026 (lundi)",
+        "Date de référence : 24 octobre 2026 (samedi)"
+      ],
+      "steps": [
+        "Calculer l'écart entre les minuits UTC : 30 jours",
+        "Décomposer en semaines : 4 semaines et 2 jours",
+        "Calculer les heures : 30 × 24 = 720 heures"
+      ],
+      "result": "30 jours restants (4 semaines et 2 jours, 720 heures, lundi)"
+    },
+    {
+      "title": "Compte à rebours du Nouvel An",
+      "inputs": [
+        "Date cible : 1er janvier 2027 (vendredi)",
+        "Date de référence : 24 octobre 2026 (samedi)"
+      ],
+      "steps": [
+        "Calculer le total de jours : 69 jours calendaires",
+        "Décomposer en mois et jours : 2 mois et 8 jours (9 semaines et 6 jours)",
+        "Calculer les heures : 69 × 24 = 1,656 heures"
+      ],
+      "result": "69 jours restants (2 mois et 8 jours, 1,656 heures, vendredi)"
+    },
+    {
+      "title": "Temps écoulé depuis une date passée",
+      "inputs": [
+        "Date cible : 24 septembre 2026 (jeudi)",
+        "Date de référence : 24 octobre 2026 (samedi)"
+      ],
+      "steps": [
+        "La date cible est passée : écart de -30 jours",
+        "Évaluer la durée écoulée en valeur absolue : il y a 30 jours",
+        "Décomposer : il y a 1 mois (4 semaines et 2 jours, 720 heures)"
+      ],
+      "result": "Il y a 30 jours (il y a 1 mois, 720 heures écoulées, jeudi)"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Utiliser des nombres de jours figés",
+      "description": "Compter les jours avant une fête annuelle avec une estimation figée ne fonctionne pas, car l'écart change toutes les 24 heures. Utilisez toujours un calcul de calendrier dynamique."
+    },
+    {
+      "title": "Décalage de date lié au fuseau horaire local",
+      "description": "Comparer des dates à partir du minuit local peut provoquer des erreurs d'un jour selon les fuseaux horaires. Ramener les horodatages à minuit UTC évite ces décalages."
+    },
+    {
+      "title": "Confondre jours écoulés et jours restants",
+      "description": "Une date future donne un nombre positif, tandis qu'un anniversaire passé donne des jours écoulés qui doivent être présentés comme tels."
+    },
+    {
+      "title": "Négliger les différences de longueur des mois",
+      "description": "Décomposer 60 jours en mois impose de vérifier la longueur réelle des mois concernés (par exemple, février compte 28 ou 29 jours, tandis que juillet et août en comptent 31)."
+    }
+  ],
+  "sources": [
+    {
+      "name": "NIST Time and Frequency Division"
+    },
+    {
+      "name": "ISO 8601 : normes de dates et d'heures"
+    },
+    {
+      "name": "Note du groupe de travail W3C sur les formats de date et d'heure"
+    }
+  ],
+  "howto": {
+    "name": "Comment calculer le nombre de jours avant une date",
+    "description": "Instructions pas à pas pour calculer le nombre de jours restants avant un événement futur.",
+    "steps": [
+      {
+        "name": "Choisir la date cible",
+        "text": "Choisissez la date de votre événement avec le sélecteur de date."
+      },
+      {
+        "name": "Ajouter un nom d'événement",
+        "text": "Saisissez si vous le souhaitez un nom d'événement comme Vacances, Anniversaire ou Échéance de projet."
+      },
+      {
+        "name": "Consulter le détail du compte à rebours",
+        "text": "Consultez le nombre total de jours restants, l'équivalent en semaines et jours, en mois, et le jour de la semaine de la date cible."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Comment fonctionne le calculateur de jours restants ?",
+      "a": "Le calculateur mesure l'écart calendaire exact entre la date du jour et la date cible choisie. Tous les calculs utilisent des horodatages à minuit UTC pour éliminer les décalages dus au changement d'heure, souvent responsables d'erreurs d'un jour dans d'autres calculateurs."
+    },
+    {
+      "q": "Ce calculateur tient-il compte des années bissextiles ?",
+      "a": "Oui. L'algorithme prend entièrement en compte les années bissextiles de 366 jours (29 février compris) pour les périodes qui s'étendent sur plusieurs années."
+    },
+    {
+      "q": "Puis-je calculer le nombre de jours écoulés depuis une date passée ?",
+      "a": "Oui. Si vous choisissez une date passée, l'outil le détecte automatiquement et affiche le temps écoulé depuis cette date en jours, en semaines et en mois."
+    },
+    {
+      "q": "Comment les mois et les jours sont-ils décomposés ?",
+      "a": "Les mois sont calculés à partir des passages complets d'un mois à l'autre. Les jours restants sont ajustés à la longueur exacte du mois précédent, ce qui gère correctement les mois de 28, 29, 30 ou 31 jours."
+    },
+    {
+      "q": "La date saisie est-elle enregistrée ou envoyée à un serveur ?",
+      "a": "Non. Toute la logique de calcul s'exécute uniquement dans votre navigateur, en JavaScript standard. Aucune date personnelle ni aucun nom d'événement ne quitte votre appareil."
+    },
+    {
+      "q": "Le compte à rebours se met-il à jour si je laisse la page ouverte ?",
+      "a": "Le calcul s'exécute chaque fois que vous choisissez une date ou rechargez la page. Pour une mise à jour après minuit, rechargez la page afin d'actualiser la date de référence."
+    },
+    {
+      "q": "Puis-je utiliser ce calculateur pour préparer un mariage ou une retraite ?",
+      "a": "Oui. Saisissez la date de votre mariage ou de votre départ à la retraite pour voir le temps restant décomposé en jours, en semaines et en mois."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Outil de calcul des jours restants avant une date"
+    },
+    "label": {
+      "target-date": "Choisir la date cible <span class=\"text-accent\">*</span>",
+      "event-name": "Nom de l'événement <span class=\"label-hint\">(facultatif)</span>"
+    },
+    "placeholder": {
+      "event-name": "ex. Vacances, Lancement produit, Mariage..."
+    },
+    "text": {
+      "calculate-btn": "Calculer les jours",
+      "reset-btn": "Réinitialiser",
+      "result-primary-text": "-- jours avant la date"
+    },
+    "content": {
+      "tool": {
+        "div1": "<span id=\"result-header-text\">Résultat du compte à rebours</span>",
+        "div2": "Total de jours",
+        "div3": "Semaines et jours",
+        "div4": "Mois et jours",
+        "div5": "Jour de la semaine"
+      },
+      "how-when-to-use-the-days": {
+        "heading": "Comment et quand utiliser le calculateur de jours restants",
+        "p1": "Suivre le temps restant avant une date est utile pour s'organiser, que ce soit sur le plan personnel, financier ou professionnel :",
+        "li1": "<strong>Gestion de projet et sprints :</strong> calculez le nombre exact de jours et de semaines restants avant un jalon client ou une date de livraison.",
+        "li2": "<strong>Préavis de contrats et de baux :</strong> déterminez les échéances des préavis de 30, 60 ou 90 jours pour un renouvellement de bail ou une notification légale.",
+        "li3": "<strong>Événements et voyages :</strong> suivez le nombre de jours restants avant un vol, des vacances, une conférence ou un mariage.",
+        "li4": "<strong>Échéances financières :</strong> suivez les dates limites de déclaration d'impôts, les acomptes trimestriels et les dates d'échéance d'obligations."
+      }
+    }
+  },
+  "client": {
+    "errors": {
+      "invalidTarget": "Veuillez saisir une date cible valide (AAAA-MM-JJ).",
+      "invalidBase": "Veuillez saisir une date de référence valide (AAAA-MM-JJ).",
+      "missingTarget": "Veuillez choisir une date cible valide."
+    },
+    "units": {
+      "weeks": {
+        "many": "{{n}} semaines",
+        "one": "{{n}} semaine",
+        "other": "{{n}} semaines"
+      },
+      "months": {
+        "many": "{{n}} mois",
+        "one": "{{n}} mois",
+        "other": "{{n}} mois"
+      },
+      "days": {
+        "many": "{{n}} jours",
+        "one": "{{n}} jour",
+        "other": "{{n}} jours"
+      }
+    },
+    "result": {
+      "defaultSubject": "la date cible",
+      "headerToday": "État de l'événement",
+      "headerPast": "Calcul du temps écoulé",
+      "headerFuture": "Résultat du compte à rebours",
+      "today": "C'est aujourd'hui ! ({{subject}})",
+      "since": {
+        "many": "{{n}} jours depuis {{subject}}",
+        "one": "{{n}} jour depuis {{subject}}",
+        "other": "{{n}} jours depuis {{subject}}"
+      },
+      "until": {
+        "many": "{{n}} jours avant {{subject}}",
+        "one": "{{n}} jour avant {{subject}}",
+        "other": "{{n}} jours avant {{subject}}"
+      }
+    },
+    "stats": {
+      "zeroDays": "0 jour",
+      "zeroWeeksDays": "0 semaine, 0 jour",
+      "zeroMonthsDays": "0 mois, 0 jour",
+      "days": "{{n}} jours",
+      "daysAgo": "Il y a {{n}} jours",
+      "weeksDaysAgo": "Il y a {{weeks}}, {{days}}",
+      "monthsDaysAgo": "Il y a {{months}}, {{days}}"
+    },
+    "copy": {
+      "past": "{{result}} ({{n}} jours écoulés au {{date}}).",
+      "future": "{{result}} ({{n}} jours, {{weeks}} sem. {{days}} j avant le {{date}}).",
+      "toast": "Résultat du compte à rebours copié dans le presse-papiers"
+    }
+  }
+}

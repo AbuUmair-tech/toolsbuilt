@@ -13,14 +13,20 @@
 })(typeof globalThis !== 'undefined' ? globalThis : this, function () {
   'use strict';
 
+  // Messages, currency names and CSV headers come from the tool's translation data
+  const T = (typeof ToolsBuilt !== 'undefined' && ToolsBuilt.scope)
+    ? ToolsBuilt.scope('loan-emi-calculator')
+    : require('../../../scripts/i18n-client.js').scope('loan-emi-calculator');
+  const locale = (english) => (typeof ToolsBuilt !== 'undefined' && ToolsBuilt.pageLocale) ? ToolsBuilt.pageLocale(english) : english;
+
   const CURRENCY_MAP = {
-    USD: { code: 'USD', symbol: '$', name: 'US Dollar ($)' },
-    PKR: { code: 'PKR', symbol: '₨', name: 'Pakistani Rupee (₨)' },
-    INR: { code: 'INR', symbol: '₹', name: 'Indian Rupee (₹)' },
-    EUR: { code: 'EUR', symbol: '€', name: 'Euro (€)' },
-    GBP: { code: 'GBP', symbol: '£', name: 'British Pound (£)' },
-    AED: { code: 'AED', symbol: 'AED', name: 'UAE Dirham (AED)' },
-    SAR: { code: 'SAR', symbol: 'SAR', name: 'Saudi Riyal (SAR)' }
+    USD: { code: 'USD', symbol: '$', name: T('currencies.USD') },
+    PKR: { code: 'PKR', symbol: '₨', name: T('currencies.PKR') },
+    INR: { code: 'INR', symbol: '₹', name: T('currencies.INR') },
+    EUR: { code: 'EUR', symbol: '€', name: T('currencies.EUR') },
+    GBP: { code: 'GBP', symbol: '£', name: T('currencies.GBP') },
+    AED: { code: 'AED', symbol: 'AED', name: T('currencies.AED') },
+    SAR: { code: 'SAR', symbol: 'SAR', name: T('currencies.SAR') }
   };
 
   /**
@@ -37,7 +43,7 @@
   function formatCurrency(amount, currencyCode = 'USD') {
     const curr = CURRENCY_MAP[currencyCode] || CURRENCY_MAP.USD;
     const rounded = roundCents(amount);
-    const formattedNum = rounded.toLocaleString('en-US', {
+    const formattedNum = rounded.toLocaleString(locale('en-US'), {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2
     });
@@ -64,21 +70,21 @@
     const curr = CURRENCY_MAP[currencyCode] || CURRENCY_MAP.USD;
 
     if (isNaN(P) || P <= 0) {
-      throw new Error('Please enter a valid loan amount greater than zero.');
+      throw new Error(T('errors.amountMin'));
     }
     if (isNaN(R) || R < 0) {
-      throw new Error('Please enter a valid annual interest rate (0% or greater).');
+      throw new Error(T('errors.rateMin'));
     }
     if (isNaN(rawTenure) || rawTenure <= 0) {
-      throw new Error('Please enter a valid loan tenure greater than zero.');
+      throw new Error(T('errors.tenureMin'));
     }
     if (isNaN(extraPayment) || extraPayment < 0) {
-      throw new Error('Extra monthly payment must be 0 or greater.');
+      throw new Error(T('errors.extraMin'));
     }
 
     const n = tenureUnit === 'months' ? Math.round(rawTenure) : Math.round(rawTenure * 12);
     if (n < 1 || n > 600) {
-      throw new Error('Loan tenure must be between 1 month and 50 years (600 months).');
+      throw new Error(T('errors.tenureRange'));
     }
 
     const r = R / 1200; // monthly fractional rate
@@ -204,12 +210,12 @@
   function generateAmortizationCsv(schedule, currencySymbol = '$') {
     if (!Array.isArray(schedule) || schedule.length === 0) return '';
     const headers = [
-      'Month',
-      `Payment (${currencySymbol})`,
-      `Principal Paid (${currencySymbol})`,
-      `Interest Paid (${currencySymbol})`,
-      `Total Interest to Date (${currencySymbol})`,
-      `Remaining Balance (${currencySymbol})`
+      T('csv.month'),
+      T('csv.payment', { symbol: currencySymbol }),
+      T('csv.principal', { symbol: currencySymbol }),
+      T('csv.interest', { symbol: currencySymbol }),
+      T('csv.totalInterest', { symbol: currencySymbol }),
+      T('csv.balance', { symbol: currencySymbol })
     ];
 
     const rows = schedule.map(row => [

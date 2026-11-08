@@ -1,0 +1,52 @@
+/* week-number-calculator: layout only. Colours, borders and type live in assets/css/tools.css. */
+
+.week-today {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: var(--space-4);
+  margin-bottom: var(--space-6);
+}
+
+.week-heading {
+  margin: var(--space-8) 0 var(--space-4);
+}
+
+.week-today + .week-heading {
+  margin-top: 0;
+}
+
+.week-date-grid {
+  grid-template-columns: 1fr;
+  margin-bottom: var(--space-4);
+}
+
+.week-range-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-bottom: var(--space-2);
+}
+
+@media (min-width: 640px) {
+  .week-date-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+}
+
+.week-range-summary {
+  margin: var(--space-2) 0 var(--space-3);
+}
+
+.week-days {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(8.5rem, 1fr));
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.week-days li {
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-2) var(--space-3);
+}

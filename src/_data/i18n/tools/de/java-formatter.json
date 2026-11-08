@@ -1,0 +1,180 @@
+{
+  "listing": {
+    "name": "Java-Formatierer",
+    "shortName": "Java-Formatierer",
+    "description": "Formatiere Java-Code online mit Prettier und prettier-plugin-java. Wähle 2 oder 4 Leerzeichen Einrückung und die Zeilenbreite; läuft privat in deinem Browser.",
+    "shortDescription": "Formatiere Java-Code mit Prettier und prettier-plugin-java, privat in deinem Browser.",
+    "keywords": [
+      "java formatierer",
+      "java code online formatieren",
+      "java code beautifier",
+      "prettier java",
+      "java code schön formatieren",
+      "google java style formatter",
+      "java einrückung korrigieren"
+    ]
+  },
+  "title": "Java-Formatierer: Java-Code online formatieren (Prettier)",
+  "description": "Java-Formatierer: Formatiere Java-Code online mit Prettier und prettier-plugin-java, 2 oder 4 Leerzeichen, wählbare Zeilenbreite. Code bleibt im Browser.",
+  "h1": "Java-Formatierer",
+  "quickAnswer": "Füge im Java-Formatierer eine Java-Klasse ein und drücke Formatieren. Prettier mit prettier-plugin-java setzt öffnende Klammern in dieselbe Zeile, rückt jeden Block um 4 Leerzeichen ein (oder 2 im Google-Stil), setzt Leerzeichen um Operatoren und nach Kommas und bricht lange Ausdrücke bei der gewählten Zeilenbreite um. Lässt sich der Code nicht parsen, etwa wegen eines fehlenden Semikolons oder einer fehlenden Klammer, meldet er stattdessen Zeile und Spalte.",
+  "workedExamples": [
+    {
+      "title": "Eine Klasse in einer Zeile",
+      "before": "public class  OrderTotal{private final List<Integer> prices;public OrderTotal(List<Integer> prices){this.prices=prices;}public int total(){int sum=0;for(int p:prices){sum+=p;}return sum;}}",
+      "after": "public class OrderTotal {\n\n    private final List<Integer> prices;\n\n    public OrderTotal(List<Integer> prices) {\n        this.prices = prices;\n    }\n\n    public int total() {\n        int sum = 0;\n        for (int p : prices) {\n            sum += p;\n        }\n        return sum;\n    }\n}",
+      "result": "Jedes Element kommt in eine eigene Zeile, Klammern öffnen in derselben Zeile wie die Deklaration, Blöcke werden um 4 Leerzeichen eingerückt und eine Leerzeile trennt die Elemente."
+    },
+    {
+      "title": "Eine for-Schleife mit einem if darin",
+      "before": "class Report{void print(List<String> items){for(int i=0;i<items.size();i++){if(items.get(i).isEmpty()){continue;}System.out.println(i+\": \"+items.get(i));}}}",
+      "after": "class Report {\n\n    void print(List<String> items) {\n        for (int i = 0; i < items.size(); i++) {\n            if (items.get(i).isEmpty()) {\n                continue;\n            }\n            System.out.println(i + \": \" + items.get(i));\n        }\n    }\n}",
+      "result": "Der Schleifenkopf bekommt Leerzeichen nach jedem Semikolon und um Operatoren, und der Rumpf wird auf eigene, eingerückte Zeilen verteilt."
+    },
+    {
+      "title": "Ein Stream mit Lambdas",
+      "before": "class Adults{List<String> names(List<Person> people){return people.stream().filter(p->p.getAge()>=18).map(p->p.getName().toUpperCase()).sorted().collect(Collectors.toList());}}",
+      "after": "class Adults {\n\n    List<String> names(List<Person> people) {\n        return people\n            .stream()\n            .filter(p -> p.getAge() >= 18)\n            .map(p -> p.getName().toUpperCase())\n            .sorted()\n            .collect(Collectors.toList());\n    }\n}",
+      "result": "Die Kette ist zu lang für eine Zeile, also kommt jeder Aufruf in eine eigene Zeile, und jedes Lambda bekommt Leerzeichen um den Pfeil und den Vergleich."
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Fehlendes Semikolon oder fehlende Klammer",
+      "description": "Java lässt sich ohne Semikolons und passende Klammern nicht parsen, daher stoppt der Formatierer und meldet, wo der Parser eines erwartet hat. Eine fehlende schließende Klammer wird oft am Dateiende gemeldet, weil dem Parser dort der Code ausgeht."
+    },
+    {
+      "title": "Ein Fragment statt einer Klasse einfügen",
+      "description": "Prettier formatiert vollständigen Java-Quellcode. Fügst du nur ein paar Anweisungen ein, setze sie in eine Klasse und Methode (zum Beispiel class Example { void run() { ... } }), damit sie geparst werden können."
+    },
+    {
+      "title": "Projekte mit 2 und 4 Leerzeichen mischen",
+      "description": "Die Konventionen von Oracle nutzen 4 Leerzeichen, der Google Java Style 2. Wähle die Einrückung, die dein Projekt schon nutzt, sonst zeigt jede formatierte Datei im Review reine Leerraum-Änderungen."
+    },
+    {
+      "title": "Erwarten, dass Importe sortiert oder entfernt werden",
+      "description": "Der Formatierer behält Importe in deiner Reihenfolge und entfernt keine ungenutzten. Nutze dafür die Funktion „Importe organisieren“ deiner IDE oder einen Linter."
+    },
+    {
+      "title": "Erwarten, dass Namen korrigiert werden",
+      "description": "Formatieren benennt nie Klassen, Methoden oder Variablen um. Java-Namenskonventionen wie UpperCamelCase für Klassen und lowerCamelCase für Methoden sind Sache von dir und deinem Linter."
+    }
+  ],
+  "sources": [
+    {
+      "name": "Code Conventions for the Java Programming Language (Oracle, archiviert)"
+    },
+    {
+      "name": "Google Java Style Guide"
+    }
+  ],
+  "howto": {
+    "name": "So formatierst du Java-Code online",
+    "description": "Java-Quellcode mit Prettier und prettier-plugin-java in deinem Browser formatieren.",
+    "steps": [
+      {
+        "name": "Code einfügen",
+        "text": "Füge eine Java-Klasse oder -Datei in das Eingabefeld ein oder lade das Beispiel."
+      },
+      {
+        "name": "Optionen wählen",
+        "text": "Wähle 4 Leerzeichen (Oracle) oder 2 Leerzeichen (Google) Einrückung und eine Zeilenbreite von 80, 100 oder 120."
+      },
+      {
+        "name": "Formatieren",
+        "text": "Drücke Formatieren oder Strg+Enter. Lässt sich der Code nicht parsen, korrigiere ihn an der gemeldeten Zeile und Spalte."
+      },
+      {
+        "name": "Ergebnis kopieren",
+        "text": "Kopiere den formatierten Code aus dem Ausgabefeld."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Wie formatiere ich Java-Code online?",
+      "a": "Füge deine Java-Klasse in das Feld ein, wähle Einrückung und Zeilenbreite und drücke Formatieren oder Strg+Enter. Der formatierte Code erscheint darunter, bereit zum Kopieren. Alles läuft in deinem Browser, dein Code wird nicht hochgeladen."
+    },
+    {
+      "q": "Sollte Java mit 2 oder 4 Leerzeichen eingerückt werden?",
+      "a": "Beides ist verbreitet. Die ursprünglichen Java-Code-Konventionen von Oracle nutzen 4 Leerzeichen, der Google Java Style Guide 2 Leerzeichen bei maximal 100 Spalten. Nimm, was dein Projekt schon nutzt."
+    },
+    {
+      "q": "Welche Zeilenlänge gilt im Google Java Style Guide?",
+      "a": "Der Google Java Style hat eine Spaltengrenze von 100 Zeichen. Wähle hier 2 Leerzeichen und eine Zeilenbreite von 100, um ihm zu folgen."
+    },
+    {
+      "q": "Wohin gehören öffnende Klammern in Java?",
+      "a": "In dieselbe Zeile wie die Klasse, Methode oder Anweisung, die den Block öffnet; die schließende Klammer steht in einer eigenen Zeile. Die Oracle-Konventionen und der Google Java Style nutzen beide dieses Layout, und der Formatierer wendet es an."
+    },
+    {
+      "q": "Warum sagt der Formatierer, der Code könne nicht geparst werden?",
+      "a": "Der Code ist kein gültiges Java, oft wegen eines fehlenden Semikolons, einer unausgeglichenen Klammer oder eines Fragments außerhalb einer Klasse. Der Fehler zeigt Zeile und Spalte, an der das Parsen fehlschlug."
+    },
+    {
+      "q": "Sortiert der Formatierer meine Importe?",
+      "a": "Nein. Importe behalten deine Reihenfolge. Die meisten IDEs können Importe für dich organisieren, und der Google Java Style setzt statische und nicht-statische Importe in je eine eigene Gruppe, jeweils in ASCII-Reihenfolge."
+    },
+    {
+      "q": "Wird mein Code auf einen Server hochgeladen?",
+      "a": "Nein. Prettier, sein Java-Plugin und die Java-Grammatik kommen von dieser Website und laufen in deinem Browser, nachdem sie beim ersten Formatieren heruntergeladen wurden."
+    }
+  ],
+  "body": {
+    "label": {
+      "opt-indent": "Einrückung",
+      "opt-print-width": "Zeilenbreite"
+    },
+    "option": {
+      "opt-indent": {
+        "2": "2 Leerzeichen (Google)",
+        "4": "4 Leerzeichen (Oracle)"
+      },
+      "opt-print-width": {
+        "100": "100 (Google)"
+      }
+    },
+    "text": {
+      "conventions-heading": "Konventionen für die Java-Formatierung",
+      "naming-heading": "Namenskonventionen und Importe",
+      "java-errors-heading": "Wenn sich der Code nicht formatieren lässt",
+      "java-privacy-heading": "Datenschutz durch Technik"
+    },
+    "content": {
+      "java-formatting-conventions": {
+        "p1": "Für Java gibt es zwei weit verbreitete Stilreferenzen. Oracles <em>Code Conventions for the Java Programming Language</em> stammen von 1999 und sind inzwischen archiviert, doch der meiste Java-Code folgt noch ihrem Layout. Der <em>Google Java Style Guide</em> ist ein neuerer, strengerer Standard, den viele Teams und Open-Source-Projekte nutzen. Beide stimmen in den Grundlagen überein, die dieser Formatierer anwendet:",
+        "li1": "<strong>Klammern in derselben Zeile.</strong> Die öffnende Klammer steht am Ende der Zeile, die Klasse, Methode, <code>if</code>, <code>for</code> oder <code>try</code> beginnt; die schließende Klammer steht in einer eigenen Zeile, bündig mit dem Anfang der Anweisung.",
+        "li2": "<strong>Einheitliche Einrückung.</strong> Die Oracle-Konventionen nutzen 4 Leerzeichen pro Ebene und halten Zeilen unter 80 Zeichen. Der Google Java Style nutzt 2 Leerzeichen pro Block und eine Grenze von 100 Spalten.",
+        "li3": "<strong>Eine Anweisung pro Zeile,</strong> mit Leerzeichen um binäre Operatoren, nach Kommas und nach Schlüsselwörtern wie <code>if</code> und <code>for</code>.",
+        "li4": "<strong>Umbrochene lange Ausdrücke.</strong> Methodenketten wie Streams werden mit einem Aufruf pro Zeile umbrochen, damit jeder Schritt gut lesbar ist.",
+        "p2": "Der Java-Stil von Prettier liegt nah an beiden, ist aber ein eigener, einheitlicher Stil: Er wählt Zeilenumbrüche automatisch und versucht nicht, jedes Detail eines der beiden Leitfäden nachzubilden. Nimm 4 Leerzeichen und 80 Spalten für ein Oracle-ähnliches Layout oder 2 Leerzeichen und 100 Spalten für ein Google-ähnliches."
+      },
+      "naming-conventions-and-imports": {
+        "p1": "Ein Formatierer ändert nur das Layout, die Namensgebung bleibt deine Sache. Die üblichen Java-Konventionen sind <code>UpperCamelCase</code> für Klassen und Interfaces (<code>OrderTotal</code>), <code>lowerCamelCase</code> für Methoden und Variablen (<code>calculateTotal</code>, <code>itemCount</code>), <code>UPPER_SNAKE_CASE</code> für Konstanten (<code>MAX_RETRIES</code>) und Paketnamen in Kleinbuchstaben (<code>com.example.billing</code>).",
+        "p2": "Importe bleiben in deiner Reihenfolge, und ungenutzte Importe werden nicht entfernt. Der Google Java Style setzt alle statischen Importe in einen Block und alle nicht-statischen in einen anderen, jeweils in ASCII-Reihenfolge und ohne Wildcard-Importe. Die meisten IDEs können Importe so für dich organisieren."
+      },
+      "when-the-code-will-not-format": {
+        "p1": "Prettier muss deinen Code parsen, bevor es ihn neu ausgeben kann. Versteht der Parser ihn nicht, rät der Formatierer nicht, sondern meldet Zeile und Spalte des ersten fehlenden oder unerwarteten Tokens, und der Cursor springt im Eingabefeld dorthin. Die üblichen Ursachen sind:",
+        "li1": "<strong>Ein fehlendes Semikolon</strong> am Ende einer Anweisung, gemeldet als fehlendes <code>;</code> direkt dahinter.",
+        "li2": "<strong>Eine unausgeglichene Klammer.</strong> Eine fehlende schließende Klammer wird oft am Ende des Codes gemeldet, wo dem Parser die Eingabe ausgeht.",
+        "li3": "<strong>Ein Fragment außerhalb einer Klasse.</strong> Anweisungen müssen in einer Methode stehen und Methoden in einer Klasse."
+      },
+      "private-by-design": {
+        "p1": "Diese Seite führt Prettier mit prettier-plugin-java aus, das Java mit einer zu WebAssembly kompilierten tree-sitter-Grammatik parst. Alles kommt von dieser Website und wird erst geladen, wenn du auf dieser Seite zum ersten Mal Code formatierst; danach läuft es in deinem Browser, dein Quellcode verlässt also nie dein Gerät. Für Python nutze den <a href=\"/tools/python-formatter/\">Python-Formatierer</a>."
+      }
+    },
+    "value": {
+      "engine": "Prettier {{prettier}} mit prettier-plugin-java {{plugin}}"
+    }
+  },
+  "client": {
+    "errors": {
+      "empty": "Füge Java-Code zum Formatieren ein.",
+      "missing": "\"{{token}}\" fehlt",
+      "unexpected": "unerwarteter Code",
+      "at": "Zeile {{line}}, Spalte {{column}}: {{reason}}. Der Code konnte nicht als Java geparst werden.",
+      "unparsed": "Der Code konnte nicht als Java geparst werden. Prüfe auf ein fehlendes Semikolon oder eine fehlende Klammer.",
+      "unsupportedOption": "Nicht unterstützt: {{key}} = {{value}}. Wähle eines von {{choices}}."
+    }
+  }
+}

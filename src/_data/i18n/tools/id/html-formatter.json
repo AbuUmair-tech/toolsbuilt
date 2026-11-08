@@ -1,0 +1,226 @@
+{
+  "listing": {
+    "name": "HTML Formatter",
+    "shortName": "HTML Formatter",
+    "description": "Format dan rapikan HTML dengan Prettier, termasuk CSS dan JavaScript inline, dengan kesalahan penguraian per baris dan mode minify yang hati-hati.",
+    "shortDescription": "Rapikan atau minify HTML dengan indentasi bersih dan baris kesalahan.",
+    "keywords": [
+      "html formatter",
+      "html beautifier",
+      "format html online",
+      "merapikan html",
+      "html minifier",
+      "indentasi html",
+      "pretty print html"
+    ]
+  },
+  "title": "HTML Formatter Online: Rapikan & Format Kode HTML",
+  "description": "Rapikan HTML yang berantakan dengan Prettier: indentasi bersih, CSS dan JavaScript inline ikut diformat, kesalahan dengan nomor baris, dan mode minify.",
+  "h1": "HTML Formatter",
+  "quickAnswer": "Tempelkan HTML Anda lalu tekan Format. HTML formatter ini memakai Prettier untuk menaruh setiap elemen blok di barisnya sendiri, mengindentasi elemen bersarang 2 spasi (atau 4, atau tab), memformat CSS di dalam tag style dan JavaScript di dalam tag script, dan sebisa mungkin menjaga elemen inline seperti span dan a tetap di baris yang sama. Jika markup tidak dapat diurai, misalnya tag penutup yang tidak cocok, Anda mendapatkan baris dan kolomnya.",
+  "formula": {
+    "title": "Cara HTML Diformat",
+    "expression": "Urai HTML → pohon elemen → cetak dengan indentasi dan lebar baris, sambil mempertahankan spasi di tempat browser akan menampilkannya",
+    "explanation": "Halaman ini memakai printer HTML Prettier, yang dimuat dari situs ini saat pertama kali Anda memformat. Markup diurai menjadi pohon, lalu elemen blok (div, p, ul, section …) dicetak di barisnya sendiri dengan satu tingkat indentasi per tingkat sarang, dan baris panjang dipatahkan pada lebar cetak yang Anda pilih. Elemen inline (span, a, strong, em …) peka terhadap spasi: baris baru di antaranya tampil sebagai spasi di halaman, jadi secara default Prettier hanya menambah baris baru di tempat yang aman menurut nilai display CSS. CSS di dalam <style> diformat dengan printer CSS Prettier dan JavaScript di dalam <script> dengan printer JavaScript-nya. Elemen yang tidak pernah ditutup akan ditutup oleh parser dan dilaporkan sebagai peringatan beserta nomor barisnya.",
+    "variables": [
+      {
+        "name": "Indentasi",
+        "description": "2 spasi (pilihan paling umum untuk HTML), 4 spasi, atau tab."
+      },
+      {
+        "name": "Lebar cetak",
+        "description": "Panjang baris yang dituju Prettier sebelum mematahkan atribut atau konten."
+      },
+      {
+        "name": "Kepekaan spasi",
+        "description": "css menghormati display default setiap elemen; strict menganggap semua spasi bermakna; ignore menganggap tidak ada yang bermakna."
+      }
+    ]
+  },
+  "workedExamples": [
+    {
+      "title": "Elemen bersarang dalam satu baris",
+      "before": "<div><p>Hi<span>there</span></p></div>",
+      "after": "<div>\n  <p>Hi<span>there</span></p>\n</div>",
+      "steps": [
+        "div dan p adalah blok, jadi masing-masing memulai baris baru dan p diindentasi",
+        "span adalah inline dan menempel pada teks, jadi menambah baris baru akan menambah spasi yang terlihat; span tetap di tempatnya"
+      ]
+    },
+    {
+      "title": "CSS dan JavaScript inline",
+      "before": "<style>body{margin:0;color:#222}</style><script>function hi(name){return 'Hi '+name}</script>",
+      "after": "<style>\n  body {\n    margin: 0;\n    color: #222;\n  }\n</style>\n<script>\n  function hi(name) {\n    return \"Hi \" + name;\n  }\n</script>",
+      "steps": [
+        "Isi style dan script diserahkan ke printer CSS dan JavaScript Prettier"
+      ]
+    },
+    {
+      "title": "div di dalam paragraf",
+      "before": "<p>Intro\n<div>Block</div>\n</p>",
+      "steps": [
+        "p tidak boleh berisi div: parser menutup p saat div dimulai",
+        "</p> terakhir kemudian tidak memiliki p terbuka untuk ditutup"
+      ],
+      "result": "Baris 3, kolom 1: Tag penutup \"p\" tidak terduga"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Menaruh elemen blok di dalam paragraf",
+      "description": "<code>&lt;p&gt;</code> hanya boleh berisi konten frasa. <code>&lt;div&gt;</code>, <code>&lt;ul&gt;</code>, atau <code>&lt;table&gt;</code> di dalamnya mengakhiri paragraf lebih awal, sehingga gaya dan skrip yang ditujukan ke paragraf tidak mengenai sisa kontennya. Gunakan <code>&lt;div&gt;</code> sebagai pembungkus."
+    },
+    {
+      "title": "Membiarkan elemen tidak ditutup",
+      "description": "Browser memperbaiki tag penutup yang hilang, tetapi tidak selalu di tempat yang Anda harapkan, sehingga konten berikutnya bisa masuk ke elemen yang salah. Hanya beberapa elemen, seperti <code>&lt;li&gt;</code>, <code>&lt;p&gt;</code>, dan <code>&lt;td&gt;</code>, yang tag penutupnya opsional."
+    },
+    {
+      "title": "Menambah baris baru di antara elemen inline",
+      "description": "<code>&lt;a&gt;Home&lt;/a&gt;&lt;a&gt;About&lt;/a&gt;</code> dan tautan yang sama di dua baris ditampilkan berbeda: baris baru menjadi spasi. Itulah sebabnya formatter kadang menjaga elemen inline tetap bersama atau memakai penempatan <code>&gt;</code> yang tidak biasa di awal baris berikutnya."
+    },
+    {
+      "title": "Mengharapkan minify mengoptimalkan semuanya",
+      "description": "Minify di sini hanya menghapus komentar dan spasi di antara tag. Minify tidak memperpendek CSS atau JavaScript inline, tidak menghapus tag atau tanda kutip opsional, dan tidak menulis ulang atribut. Gunakan build tool untuk minifikasi produksi."
+    },
+    {
+      "title": "Memformat template sebagai HTML biasa",
+      "description": "Sintaks template seperti <code>{{ }}</code>, <code>{% %}</code>, atau JSX bukan HTML. Formatter bisa memindahkan atau merusaknya. Format template dengan alat yang memahami bahasa template tersebut."
+    }
+  ],
+  "sources": [
+    {
+      "name": "WHATWG HTML Living Standard: Optional tags"
+    },
+    {
+      "name": "WHATWG HTML Living Standard: The p element (content model)"
+    },
+    {
+      "name": "MDN Web Docs: Cara spasi ditangani oleh HTML, CSS, dan di DOM"
+    },
+    {
+      "name": "MDN Web Docs: Konten tingkat inline"
+    },
+    {
+      "name": "Dokumentasi Prettier: HTML whitespace sensitivity"
+    }
+  ],
+  "howto": {
+    "name": "Cara Memformat HTML",
+    "description": "Rapikan HTML yang berantakan dengan indentasi yang konsisten.",
+    "steps": [
+      {
+        "name": "Tempelkan HTML Anda",
+        "text": "Tempelkan halaman atau potongan ke kotak input, atau muat contohnya."
+      },
+      {
+        "name": "Pilih opsi",
+        "text": "Pilih Format atau Minify, indentasi, lebar cetak, dan kepekaan spasi."
+      },
+      {
+        "name": "Format",
+        "text": "Tekan Format kode atau Ctrl+Enter. Kesalahan menampilkan baris dan kolom; peringatan mencantumkan elemen yang tidak pernah ditutup."
+      },
+      {
+        "name": "Salin hasilnya",
+        "text": "Salin HTML yang sudah diformat dari kotak output."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Bagaimana cara memformat HTML secara online?",
+      "a": "Tempelkan HTML ke kotak lalu tekan Format, atau Ctrl+Enter. Pilih dulu indentasi, lebar cetak, dan kepekaan spasi jika Anda membutuhkan gaya tertentu."
+    },
+    {
+      "q": "Mengapa formatter tidak menaruh setiap tag di barisnya sendiri?",
+      "a": "Elemen inline seperti span, a, dan strong peka terhadap spasi: baris baru di antaranya bisa tampil sebagai spasi yang terlihat. Dengan kepekaan default css, Prettier hanya mematahkan baris di tempat yang tidak mengubah tampilan halaman. Pilih ignore jika Anda tidak keberatan dengan perubahan spasi kecil."
+    },
+    {
+      "q": "Apakah alat ini memformat CSS dan JavaScript di dalam HTML?",
+      "a": "Ya. Isi tag style diformat sebagai CSS dan isi tag script sebagai JavaScript. Jika kode itu memiliki kesalahan sintaks, kode dibiarkan seperti semula."
+    },
+    {
+      "q": "Apa arti \"Unexpected closing tag\"?",
+      "a": "Parser menemukan tag penutup tanpa elemen pembuka yang cocok, biasanya karena elemen ditutup dengan urutan yang salah atau elemen blok seperti div ditaruh di dalam p, yang menutup p lebih awal. Pesan kesalahannya menyebutkan baris dan kolom."
+    },
+    {
+      "q": "Bisakah saya meminifikasi HTML di sini?",
+      "a": "Bisa, pilih Minify. Mode ini menghapus komentar dan spasi di antara tag, menyisakan satu spasi di antara elemen inline, dan tidak menyentuh pre, textarea, script, serta style. CSS atau JavaScript inline tidak dimampatkan."
+    },
+    {
+      "q": "Mana yang lebih baik untuk HTML, 2 atau 4 spasi?",
+      "a": "Keduanya umum. 2 spasi paling banyak dipakai untuk HTML karena markup bersarang dalam; panduan gaya HTML Google memakai 2 spasi. Pilih salah satu dan gunakan secara konsisten."
+    },
+    {
+      "q": "Apakah HTML saya diunggah?",
+      "a": "Tidak. Formatter diunduh dari situs ini dan berjalan di browser Anda. Kode Anda tidak dikirim, disimpan, atau ditambahkan ke alamat halaman; hanya pilihan opsi Anda yang diingat di perangkat ini."
+    }
+  ],
+  "body": {
+    "label": {
+      "opt-mode": "Mode",
+      "opt-indent": "Indentasi",
+      "opt-print-width": "Lebar cetak",
+      "opt-whitespace": "Spasi"
+    },
+    "option": {
+      "opt-mode": {
+        "format": "Format (rapikan)",
+        "minify": "Minify"
+      },
+      "opt-indent": {
+        "2": "2 spasi",
+        "4": "4 spasi",
+        "tab": "Tab"
+      },
+      "opt-whitespace": {
+        "css": "css (default aman)",
+        "strict": "strict",
+        "ignore": "ignore"
+      }
+    },
+    "text": {
+      "conventions-heading": "Konvensi format HTML",
+      "whitespace-heading": "Mengapa elemen inline peka terhadap spasi",
+      "minify-heading": "Apa yang dilakukan minify, dan apa yang tidak",
+      "related-heading": "Alat kode lainnya"
+    },
+    "content": {
+      "html-formatting-conventions": {
+        "p1": "HTML tidak memiliki satu panduan gaya resmi, tetapi sebagian besar tim dan panduan gaya, termasuk panduan gaya HTML/CSS Google, sepakat pada beberapa kebiasaan yang membuat markup mudah dibaca dan ditinjau:",
+        "li1": "<strong>Satu elemen blok per baris,</strong> dengan anak-anaknya diindentasi satu tingkat. Elemen pendek yang kontennya muat dalam satu baris, seperti <code>&lt;li&gt;Notebook&lt;/li&gt;</code>, tetap satu baris.",
+        "li2": "<strong>Indentasi yang konsisten,</strong> biasanya 2 spasi karena HTML bersarang dalam. Jangan pernah mencampur tab dan spasi dalam satu berkas.",
+        "li3": "<strong>Nama elemen dan atribut huruf kecil</strong> serta nilai atribut dengan tanda kutip ganda, seperti <code>&lt;a href=\"/contact/\"&gt;</code>.",
+        "li4": "<strong>Tag panjang dipatahkan satu atribut per baris</strong> jika melewati lebar baris, dengan penutup <code>&gt;</code> di barisnya sendiri.",
+        "li5": "<strong>CSS dan JavaScript tersemat</strong> diindentasi di dalam tag <code>&lt;style&gt;</code> dan <code>&lt;script&gt;</code> serta diformat seperti berkas CSS atau JavaScript lainnya.",
+        "p2": "Formatter hanya mengubah tata letak. Formatter tidak mengganti nama kelas, mengubah urutan atribut, atau memperbaiki susunan yang tidak valid, dan halaman tetap terlihat sama setelahnya, kecuali jika Anda memilih pengaturan spasi ignore."
+      },
+      "why-inline-elements-are-whitespace-sensitive": {
+        "p1": "Browser meringkas deretan spasi, tab, dan baris baru dalam teks menjadi satu spasi, tetapi tidak menghapus spasi itu sepenuhnya. Jadi <code>&lt;b&gt;Price:&lt;/b&gt;&lt;span&gt;$5&lt;/span&gt;</code> tampil sebagai \"Price:$5\", sedangkan dua elemen yang sama di baris terpisah tampil sebagai \"Price: $5\". Untuk elemen blok seperti <code>&lt;div&gt;</code> dan <code>&lt;p&gt;</code> spasinya tidak terlihat, jadi menambah baris baru di sekitarnya selalu aman.",
+        "p2": "Pengaturan <strong>css</strong> di Prettier memakai nilai display CSS default setiap elemen untuk menentukan di mana baris baru aman. Itulah sebabnya Anda kadang melihat penutup <code>&gt;</code> dipindahkan ke awal baris berikutnya: dengan begitu baris baru berada di dalam tag, tempat ia tidak bisa menjadi spasi. <strong>strict</strong> memperlakukan setiap elemen sebagai inline, yang paling aman untuk halaman yang mengubah display dengan CSS. <strong>ignore</strong> memformat dengan bebas dan cocok untuk markup yang tidak terpengaruh perubahan spasi kecil."
+      },
+      "what-minify-does-and-what-it": {
+        "p1": "Mode minify sengaja dibuat konservatif agar tidak pernah mengubah tampilan halaman:",
+        "li1": "Menghapus komentar HTML, kecuali komentar kondisional seperti <code>&lt;!--[if IE]&gt;</code>.",
+        "li2": "Menghapus spasi di sebelah elemen blok dan meringkas spasi di antara elemen inline dan teks menjadi satu spasi.",
+        "li3": "Membiarkan <code>&lt;pre&gt;</code>, <code>&lt;textarea&gt;</code>, <code>&lt;script&gt;</code>, dan <code>&lt;style&gt;</code> persis seperti ditulis.",
+        "li4": "Tidak meminifikasi CSS atau JavaScript inline, tidak menghapus tag opsional atau tanda kutip atribut, dan tidak memperpendek URL. Build tool seperti html-minifier-terser melakukannya sebagai bagian dari build produksi.",
+        "p2": "Server biasanya sudah memampatkan HTML dengan gzip atau Brotli, sehingga sebagian besar manfaat penghapusan spasi hilang. Minify manual paling berguna untuk potongan kecil, seperti template email atau kode sematan."
+      },
+      "other-code-tools": {
+        "p1": "Format JSON dengan <a href=\"/tools/json-formatter/\">JSON formatter</a>, Python dengan <a href=\"/tools/python-formatter/\">Python formatter</a>, dan Java dengan <a href=\"/tools/java-formatter/\">Java formatter</a>. Untuk membandingkan dua versi berkas, gunakan <a href=\"/tools/text-diff-checker/\">pembanding teks</a>."
+      }
+    }
+  },
+  "client": {
+    "errors": {
+      "empty": "Tempelkan HTML untuk diformat.",
+      "at": "Baris {{line}}, kolom {{column}}: {{reason}}",
+      "unparsed": "HTML tidak dapat diurai. {{reason}}",
+      "unsupportedOption": "{{key}} tidak didukung: {{value}}. Pilih salah satu dari {{choices}}."
+    },
+    "warnings": {
+      "unclosed": "Baris {{line}}: <{{tag}}> tidak pernah ditutup. Browser menutupnya di akhir elemen induknya, yang mungkin bukan tempat yang Anda maksud."
+    }
+  }
+}

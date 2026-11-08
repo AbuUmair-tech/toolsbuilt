@@ -1,0 +1,206 @@
+{
+  "listing": {
+    "name": "Roue de tirage au sort de noms",
+    "shortName": "Tirage au sort de noms",
+    "description": "Faites tourner une roue interactive pour tirer au sort des gagnants dans une liste de noms. Aléa cryptographiquement sûr.",
+    "shortDescription": "Faites tourner une roue interactive pour tirer au sort des gagnants dans une liste de noms. Aléa cryptographiquement sûr.",
+    "keywords": [
+      "tirage au sort de noms",
+      "roue des noms",
+      "roue aléatoire",
+      "générateur de choix aléatoire",
+      "tirage au sort en ligne"
+    ]
+  },
+  "title": "Roue de tirage au sort de noms | ToolsBuilt",
+  "description": "Roue de tirage au sort de noms gratuite : saisissez des noms et faites tourner la roue pour tirer des gagnants impartiaux. Basée sur l'API Web Crypto.",
+  "h1": "Roue de tirage au sort de noms",
+  "quickAnswer": "Pour un tirage au sort de noms, collez ou saisissez la liste des participants, choisissez de supprimer ou non les doublons, puis lancez la roue. L'outil utilise un aléa matériel cryptographiquement sûr pour garantir à chacun la même probabilité de gagner, sans biais. Il gère les tirages à un seul gagnant et les tombolas à plusieurs lots sans remise.",
+  "formula": {
+    "title": "Formule de sélection équitable et de probabilité",
+    "expression": "P(sélection) = 1 / Nombre total de participants  |  Index = CryptoRandomUint() % PoolSize",
+    "explanation": "Chaque participant a exactement la même probabilité d'être choisi. Le tirage utilise l'entropie matérielle de l'API native Web Crypto du navigateur, avec un échantillonnage par rejet qui élimine le biais du modulo. Pour les tombolas à plusieurs lots sans remise, les gagnants sont retirés au fur et à mesure de la liste."
+  },
+  "workedExamples": [
+    {
+      "title": "Tirage d'un gagnant parmi 5 participants",
+      "inputs": [
+        "Participants : Alice, Bob, Charlie, David, Emma (5 participants)",
+        "Mode : un seul gagnant"
+      ],
+      "steps": [
+        "Découper les noms en 5 entrées distinctes",
+        "Attribuer une probabilité uniforme P = 1/5 (20.00%) à chaque participant",
+        "Tirer un index aléatoire uniforme dans l'intervalle [0, 4] avec crypto.getRandomValues"
+      ],
+      "result": "Gagnant tiré avec une probabilité exacte de 20.0%"
+    },
+    {
+      "title": "Tombola à plusieurs lots sans remise",
+      "inputs": [
+        "Participants : Alice, Bob, Charlie, David (4 participants)",
+        "Lots à attribuer : 2 gagnants sans remise"
+      ],
+      "steps": [
+        "Tour 1 : tirer le 1er gagnant parmi 4 participants (P = 1/4 = 25.0%)",
+        "Retirer le 1er gagnant de la liste (il reste 3 participants)",
+        "Tour 2 : tirer le 2e gagnant parmi les 3 participants restants (P = 1/3 = 33.3%)"
+      ],
+      "result": "2 gagnants différents désignés, 2 participants restants"
+    },
+    {
+      "title": "Suppression des doublons d'une liste issue d'un tableur",
+      "inputs": [
+        "Saisie brute : Alice, Bob, Alice, Charlie (4 entrées)",
+        "Options : supprimer les doublons = oui"
+      ],
+      "steps": [
+        "Découper les entrées selon les virgules et les retours à la ligne",
+        "Supprimer le doublon « Alice » grâce à un Set",
+        "Obtenir une liste propre de 3 noms uniques (Alice, Bob, Charlie)"
+      ],
+      "result": "3 participants uniques éligibles (P = 33.3% chacun)"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Utiliser Math.random(), prévisible, pour un vrai concours",
+      "description": "Le pseudo-aléatoire standard Math.random() peut présenter des motifs statistiques. Un concours exige un aléa matériel cryptographique via crypto.getRandomValues."
+    },
+    {
+      "title": "Laisser passer des doublons par erreur",
+      "description": "Quand vous collez des entrées depuis un tableur, un nom en double double les chances de ce participant. Utilisez toujours le bouton Supprimer les doublons avant de lancer la roue."
+    },
+    {
+      "title": "Tirer avec remise lors d'un concours à plusieurs lots",
+      "description": "Ne pas retirer les gagnants précédents lors d'un tirage à plusieurs lots permet au même participant de gagner plusieurs lots."
+    },
+    {
+      "title": "Biais du modulo dans le choix de l'index",
+      "description": "Une simple opération modulo sur des entiers aléatoires introduit un léger biais en faveur des index les plus bas. L'échantillonnage par rejet garantit une équité uniforme exacte."
+    }
+  ],
+  "sources": [
+    {
+      "name": "Spécification W3C de l'API Web Cryptography"
+    },
+    {
+      "name": "NIST SP 800-90A : Recommendation for Random Number Generation"
+    },
+    {
+      "name": "RFC 7929 : Guidelines for Cryptographic Random Number Generation"
+    }
+  ],
+  "howto": {
+    "name": "Comment tirer un nom au sort avec la roue",
+    "description": "Instructions pas à pas pour tirer au sort des gagnants avec une roue cryptographiquement impartiale.",
+    "steps": [
+      {
+        "name": "Saisir les noms des participants",
+        "text": "Tapez ou collez votre liste de noms dans la zone de texte (un nom par ligne, ou séparés par des virgules)."
+      },
+      {
+        "name": "Régler les options",
+        "text": "Cliquez si besoin sur Supprimer les doublons, ou cochez « Retirer automatiquement le gagnant après chaque tirage » pour un tirage en plusieurs tours."
+      },
+      {
+        "name": "Faire tourner la roue",
+        "text": "Cliquez sur Tourner la roue pour lancer l'animation, ou obtenir une sélection instantanée si les animations réduites sont activées."
+      },
+      {
+        "name": "Annoncer et copier le gagnant",
+        "text": "Le nom du gagnant s'affiche dans la fenêtre d'annonce ; copiez-le dans votre presse-papiers."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Comment le tirage au sort de noms garantit-il une sélection équitable et impartiale ?",
+      "a": "L'outil utilise l'API native Web Crypto de votre navigateur via crypto.getRandomValues, avec un échantillonnage par rejet qui élimine le biais du modulo. Contrairement aux algorithmes Math.random standard, l'entropie matérielle du système d'exploitation garantit une distribution uniforme sur toutes les entrées. Chaque nom a exactement la même chance d'être choisi à chaque tirage."
+    },
+    {
+      "q": "Puis-je retirer automatiquement les gagnants après chaque tirage ?",
+      "a": "Oui. Cochez simplement « Retirer automatiquement le gagnant après chaque tirage », ou cliquez sur « Retirer le gagnant et fermer » dans la fenêtre d'annonce. L'outil supprime immédiatement l'entrée choisie et redessine la roue pour les tours suivants."
+    },
+    {
+      "q": "La roue convient-elle aux personnes sensibles aux mouvements ou souffrant de troubles vestibulaires ?",
+      "a": "Oui. Le tirage au sort de noms respecte les préférences d'accessibilité de votre appareil. Lorsque « prefers-reduced-motion » est activé, l'animation de rotation est entièrement supprimée : l'outil calcule instantanément la part gagnante et ouvre directement la fenêtre du gagnant."
+    },
+    {
+      "q": "Le nombre de noms que je peux coller dans la roue est-il limité ?",
+      "a": "Vous pouvez saisir des centaines de noms dans la zone de texte. Le générateur calcule automatiquement l'angle de chaque part et ajuste les libellés sur la roue. Chaque part reste distincte tout au long de la sélection cryptographique."
+    },
+    {
+      "q": "Les noms des participants sont-ils stockés sur des serveurs ou suivis ?",
+      "a": "Non. Toutes les listes de noms, les calculs de rotation et la sélection des gagnants se font exclusivement dans la mémoire locale du navigateur. Aucun nom saisi n'est transmis à des serveurs externes, enregistré dans une base de données ou placé dans une URL."
+    },
+    {
+      "q": "Puis-je coller des noms séparés par des virgules ou des points-virgules ?",
+      "a": "Oui. L'analyseur sépare automatiquement les entrées selon les retours à la ligne, les virgules et les points-virgules, et supprime les espaces superflus autour de chaque nom."
+    },
+    {
+      "q": "Comment garantir des chances équitables quand une personne peut avoir plusieurs tickets ?",
+      "a": "Ne supprimez pas les doublons : les participants qui ont acheté plusieurs tickets conservent ainsi leurs multiples entrées dans la liste."
+    }
+  ],
+  "body": {
+    "label": {
+      "namesInput": "Liste de noms (un par ligne) :"
+    },
+    "text": {
+      "nameCount": "8 entrées",
+      "spinBtn": "Tourner la roue !",
+      "shuffleBtn": "Mélanger",
+      "dedupeBtn": "Supprimer les doublons",
+      "clearBtn": "Effacer",
+      "winnerTitle": "🎉 Nous avons un gagnant !",
+      "copyWinnerBtn": "<span data-icon=\"copy\"></span> Copier le gagnant",
+      "removeWinnerBtn": "Retirer le gagnant et fermer",
+      "closeModalBtn": "Garder dans la liste et fermer",
+      "when-to-use-heading": "Quand utiliser la roue de tirage au sort de noms"
+    },
+    "placeholder": {
+      "namesInput": "Saisissez les noms ici..."
+    },
+    "content": {
+      "tool": {
+        "p1": "Les noms sont séparés par des <strong>retours à la ligne</strong>, des <strong>virgules</strong> ou des <strong>points-virgules</strong> : <code>Smith, John</code> donne donc deux noms, <em>Smith</em> et <em>John</em>.",
+        "label1": "<input type=\"checkbox\" id=\"removeWinner\">\n          <span>Retirer automatiquement le gagnant après chaque tirage</span>"
+      },
+      "when-to-use-the-random-name": {
+        "li1": "<strong>En classe :</strong> désignez les élèves qui prennent la parole de façon équitable et sans tension, grâce à une roue neutre.",
+        "li2": "<strong>Tombolas et concours sur les réseaux sociaux :</strong> organisez des tirages en direct où les participants peuvent constater l'équité du tirage.",
+        "li3": "<strong>Réunions d'équipe et rétrospectives agiles :</strong> déterminez au hasard l'ordre de passage lors des points quotidiens ou l'attribution des revues de code.",
+        "li4": "<strong>Décisions équitables :</strong> choisissez entre plusieurs projets, restaurants ou corvées en toute impartialité."
+      },
+      "why-use-a-digital-random-name": {
+        "heading": "Pourquoi utiliser une roue de tirage au sort numérique ?",
+        "p1": "Que vous organisiez un concours sur les réseaux sociaux, choisissiez des élèves pour participer en classe, prépariez un « Secret Santa » en équipe ou décidiez qui paie le café, choisir équitablement est essentiel. Les tirages avec des papiers prennent du temps à préparer et peuvent éveiller des soupçons de partialité. Une roue numérique offre une méthode transparente, ludique et vérifiablement équitable pour désigner des gagnants en temps réel."
+      },
+      "cryptographically-secure-randomness": {
+        "heading": "Un aléa cryptographiquement sûr",
+        "p1": "De nombreuses roues en ligne reposent sur des générateurs pseudo-aléatoires standard comme <code>Math.random()</code>, suffisants pour des jeux simples mais présentant des motifs mathématiques prévisibles sur de nombreux tirages. Notre outil utilise l'<strong>API native Web Crypto du navigateur (<code>crypto.getRandomValues</code>)</strong>, qui fournit une entropie matérielle et un aléa cryptographiquement fort : chaque tirage est totalement indépendant et impartial."
+      }
+    },
+    "ariaLabel": {
+      "wheelCanvas": "Roue de tirage au sort de noms"
+    }
+  },
+  "client": {
+    "count": {
+      "many": "{{count}} entrées",
+      "one": "{{count}} entrée",
+      "other": "{{count}} entrées"
+    },
+    "wheel": {
+      "empty": "Saisissez des noms pour créer la roue",
+      "spin": "TOURNER"
+    },
+    "toast": {
+      "winner": "Gagnant : {{name}} !",
+      "deduplicated": "Doublons supprimés",
+      "copied": "Nom du gagnant copié dans le presse-papiers"
+    },
+    "defaultNames": "Emma\nGabriel\nJade\nLouis\nLouise\nRaphaël\nAmbre\nArthur"
+  }
+}
