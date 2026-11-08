@@ -27,6 +27,11 @@ and other data always come from English.
    examples that differ) must be reviewed; they are fine only for names that stay the same.
 5. Enable the language in `src/_data/languages.json` once it passes.
 
+New English text that may go live before every language has it (e.g. the unified salary tax
+calculator's `body.calc` / `client.calc`) is listed in `src/_data/i18n/fallback.json`: pages show
+English there, and the checker reports it as a warning instead of an error. Translate those keys
+like any other, then remove the prefix from `fallback.json` once every enabled language has them.
+
 ## Quality rules
 
 ### Write like a native speaker

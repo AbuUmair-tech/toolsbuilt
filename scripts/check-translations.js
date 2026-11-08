@@ -13,6 +13,8 @@
  *     - plural forms missing for a category the language needs (Intl.PluralRules)
  *     - page title over 60 or description over 155 characters
  *   WARNINGS:
+ *     - missing keys listed in src/_data/i18n/fallback.json (new English text that may wait for a
+ *       translation: the page shows English there)
  *     - extra keys that English does not have
  *     - text identical to English (possibly untranslated), except brand names and other
  *       glossary terms, formulas and strings without words
@@ -42,6 +44,13 @@ else codes = languages.filter(l => l.enabled && l.code !== 'en').map(l => l.code
 
 const errors = [];
 const warnings = [];
+// Key path prefixes per file that may stay untranslated for now (English is shown)
+const FALLBACK = (readJson(path.join(I18N_DIR, 'fallback.json')) || {}).keys || {};
+const mayFallBack = (where, keyPath) => (FALLBACK[where] || []).some(p => keyPath === p || keyPath.startsWith(`${p}.`) || keyPath.startsWith(`${p}[`));
+function missing(code, where, keyPath, at) {
+  if (mayFallBack(where, keyPath)) warnings.push(`[${code}] ${at}: not translated yet, English is shown (fallback.json)`);
+  else errors.push(`[${code}] ${at}: missing`);
+}
 
 function hasFiles(code) {
   return fs.existsSync(path.join(I18N_DIR, 'ui', `${code}.json`)) ||
@@ -85,21 +94,21 @@ function compare(en, tr, where, keyPath, code) {
     return;
   }
   if (Array.isArray(en)) {
-    if (tr === undefined) { if (containsText(en)) errors.push(`[${code}] ${at}: missing`); return; }
+    if (tr === undefined) { if (containsText(en)) missing(code, where, keyPath, at); return; }
     if (!Array.isArray(tr)) { errors.push(`[${code}] ${at}: should be a list`); return; }
     if (tr.length > en.length) warnings.push(`[${code}] ${at}: ${tr.length - en.length} extra item(s)`);
     en.forEach((item, i) => compare(item, tr[i], where, `${keyPath}[${i}]`.replace(/^\./, ''), code));
     return;
   }
   if (isObject(en)) {
-    if (tr === undefined) { if (containsText(en)) errors.push(`[${code}] ${at}: missing`); return; }
+    if (tr === undefined) { if (containsText(en)) missing(code, where, keyPath, at); return; }
     if (!isObject(tr)) { errors.push(`[${code}] ${at}: should be an object`); return; }
     for (const key of Object.keys(en)) compare(en[key], tr[key], where, keyPath ? `${keyPath}.${key}` : key, code);
     for (const key of Object.keys(tr)) if (!(key in en)) warnings.push(`[${code}] ${at ? at + '.' : ''}${key}: extra key (not in English)`);
     return;
   }
   if (typeof en === 'string') {
-    if (tr === undefined) { if (needsTranslation(en)) errors.push(`[${code}] ${at}: missing`); return; }
+    if (tr === undefined) { if (needsTranslation(en)) missing(code, where, keyPath, at); return; }
     checkString(en, tr, at, keyPath, code);
   }
 }

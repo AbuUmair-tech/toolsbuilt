@@ -1357,6 +1357,94 @@ const salesTaxLogic = require(path.join(ROOT, 'src/tools/sales-tax-calculator/lo
   assert(near(engine.calculate(GB, 36000, { status: 'scotland' }).annualTax, 4711.07), 'TaxGB: £36,000 in Scotland -> £4,711.07');
   assert(near(engine.calculate(GB, 200000, { status: 'rUK' }).annualTax, 76203), 'TaxGB: £200,000 -> £76,203 (no allowance)');
 
+  // Unified calculator: take-home pay with contributions (calculatePay). Expected figures are
+  // worked out by hand from the rates in each dataset and match HMRC, IRS/SSA and Income Tax
+  // Department examples where those publish one.
+  const pay = (d, amount, input) => engine.calculatePay(d, { amount, period: 'annual', ...(input || {}) });
+  const line = (r, id) => (r.lines.find(l => l.id === id) || { amount: 0 }).amount;
+
+  // UK 2026-27: Income Tax + Class 1 NI (8% from £12,570 to £50,270, 2% above), student loans, pension
+  const gb50 = pay(GB, 50000);
+  assert(near(line(gb50, 'incomeTax'), 7486) && near(line(gb50, 'nationalInsurance'), 2994.4) && near(gb50.net, 39519.6),
+    `PayGB: £50,000 -> tax £7,486, NI £2,994.40, take-home £39,519.60 (got ${gb50.net})`);
+  const gb60 = pay(GB, 60000);
+  assert(near(line(gb60, 'incomeTax'), 11432) && near(line(gb60, 'nationalInsurance'), 3210.6), 'PayGB: £60,000 -> tax £11,432, NI £3,210.60 (2% above the UEL)');
+  assert(near(gb60.marginalRate, 42), `PayGB: £60,000 marginal rate 40% + 2% NI (got ${gb60.marginalRate})`);
+  assert(near(pay(GB, 110000).marginalRate, 62), 'PayGB: £110,000 marginal rate 62% inside the allowance taper');
+  assert(near(line(pay(GB, 36000, { status: 'scotland' }), 'nationalInsurance'), 1874.4), 'PayGB: Scotland pays the same UK-wide NI (£36,000 -> £1,874.40)');
+  assert(near(line(pay(GB, 12570), 'nationalInsurance'), 0), 'PayGB official: no employee NI up to the Primary Threshold £12,570');
+  const gbLoans = pay(GB, 36000, { options: { studentLoan: 'plan2', postgraduateLoan: true } });
+  assert(near(line(gbLoans, 'plan2'), 595.35) && near(line(gbLoans, 'postgraduateLoan'), 900), 'PayGB: £36,000 -> Plan 2 £595.35 (9% over £29,385), Postgraduate £900 (6% over £21,000)');
+  ['plan1', 'plan4', 'plan5'].forEach((plan, i) => {
+    const expected = [(36000 - 26900) * 0.09, (36000 - 33795) * 0.09, (36000 - 25000) * 0.09][i];
+    assert(near(line(pay(GB, 36000, { options: { studentLoan: plan } }), plan), expected), `PayGB: £36,000 -> ${plan} repayment ${expected.toFixed(2)}`);
+  });
+  assert(line(pay(GB, 36000), 'plan2') === 0, 'PayGB: no student loan line unless a plan is chosen');
+  const gbPension = pay(GB, 36000, { options: { pension: 5 } });
+  assert(near(line(gbPension, 'incomeTax'), 4326) && near(line(gbPension, 'pension'), 1800) && near(line(gbPension, 'nationalInsurance'), 1874.4),
+    'PayGB: 5% pension (net pay arrangement) cuts Income Tax to £4,326, not NI; £1,800 comes off take-home');
+  assert(near(line(pay(GB, 110000, { options: { pension: 10 } }), 'incomeTax'), 27032), 'PayGB: £110,000 with 10% pension keeps the full allowance (adjusted net income £99,000) -> £27,032');
+
+  // US 2026: federal income tax + FICA
+  const us72 = pay(US, 72000);
+  assert(near(line(us72, 'socialSecurity'), 4464) && near(line(us72, 'medicare'), 1044) && near(us72.net, 59482), `PayUS: single $72,000 -> SS $4,464, Medicare $1,044, take-home $59,482 (got ${us72.net})`);
+  const us250 = pay(US, 250000);
+  assert(near(line(us250, 'socialSecurity'), 11439) && near(line(us250, 'medicare'), 3625) && near(line(us250, 'additionalMedicare'), 450),
+    'PayUS: single $250,000 -> SS capped at the $184,500 wage base ($11,439), Medicare $3,625, Additional Medicare $450');
+  assert(line(pay(US, 250000, { status: 'married_joint' }), 'additionalMedicare') === 0, 'PayUS: MFJ $250,000 -> no Additional Medicare Tax (threshold $250,000)');
+  assert(near(line(pay(US, 150000, { status: 'married_separate' }), 'additionalMedicare'), 225), 'PayUS: MFS $150,000 -> Additional Medicare $225 (threshold $125,000)');
+  assert(near(line(pay(US, 104000, { status: 'head_of_household' }), 'incomeTax'), 10468), 'PayUS: head of household $104,000 -> $10,468 ($24,150 standard deduction)');
+
+  // India FY 2025-26: new and old regime
+  assert(near(line(pay(IN, 1675000), 'incomeTax'), 124800), 'PayIN: new regime is the default status (₹16.75 lakh -> ₹1,24,800)');
+  const inOld = pay(IN, 1000000, { status: 'old', options: { deduction80C: 200000, deduction80D: 25000 } });
+  assert(near(inOld.taxableIncome, 775000) && near(line(inOld, 'incomeTax'), 70200), `PayIN: old regime ₹10 lakh, 80C capped at ₹1.5 lakh, 80D ₹25,000 -> taxable ₹7,75,000, tax ₹70,200 (got ${line(inOld, 'incomeTax')})`);
+  assert(near(inOld.net, 1000000 - 70200), 'PayIN: 80C and 80D are deductions, not money taken out of pay');
+  assert(line(pay(IN, 550000, { status: 'old' }), 'incomeTax') === 0, 'PayIN: old regime 87A rebate -> nil tax at ₹5 lakh taxable');
+  assert(near(line(pay(IN, 560000, { status: 'old' }), 'incomeTax'), 15080), 'PayIN: old regime has no marginal relief above ₹5 lakh (₹5.1 lakh taxable -> ₹15,080)');
+  assert(near(line(pay(IN, 1000000, { status: 'new', options: { deduction80C: 150000 } }), 'incomeTax'), 0), 'PayIN: 80C is ignored under the new regime');
+
+  // Pakistan 2026-27 and periods
+  const pk = ds('pk-2026-27.json');
+  const pk250 = engine.calculatePay(pk, { amount: 250000, period: 'monthly' });
+  assert(near(pk250.views.totalTaxes.monthly, 23000) && near(pk250.views.net.monthly, 227000), 'PayPK: Rs 250,000 a month -> tax Rs 23,000, take-home Rs 227,000');
+  assert(engine.toAnnual(20, 'hourly', 37.5) === 39000 && engine.toAnnual(500, 'weekly') === 26000 && engine.toAnnual(1000, 'monthly') === 12000, 'PayPeriods: hourly × hours × 52, weekly × 52, monthly × 12');
+  assert(near(pk250.views.net.weekly * 52, pk250.net), 'PayPeriods: weekly view is the annual amount / 52');
+  let hoursThrew = false;
+  try { engine.toAnnual(20, 'hourly', 0); } catch (e) { hoursThrew = true; }
+  assert(hoursThrew, 'PayPeriods: hourly pay needs hours per week');
+
+  // Custom Tax Mode
+  const customEur = engine.customDataset({ currency: 'EUR', brackets: [{ from: 0, to: 10000, rate: 0 }, { from: 10000, to: '', rate: 20 }], social: 10, levies: [{ label: 'Levy', rate: 5, base: 'incomeTax' }] });
+  const c30 = pay(customEur, 30000);
+  assert(near(line(c30, 'incomeTax'), 4000) && near(line(c30, 'social'), 3000) && near(line(c30, 'levy1'), 200), 'PayCustom: 20% over 10,000, 10% social, 5% levy on tax -> 4,000 / 3,000 / 200');
+  const gaps = engine.customDataset({ brackets: [{ from: 10000, to: 20000, rate: 10 }] });
+  assert(near(line(pay(gaps, 30000), 'incomeTax'), 1000), 'PayCustom: below the first bracket and above a capped last bracket is 0%');
+  const capped = engine.customDataset({ brackets: [{ from: 0, to: '', rate: 0 }], social: 10, socialCap: 50000, allowance: 5000, deduction: 1000, pension: 5 });
+  const cap80 = pay(capped, 80000);
+  assert(near(line(cap80, 'social'), 5000) && near(line(cap80, 'pension'), 4000), 'PayCustom: social security stops at the cap; pension % comes off pay');
+  let customErrors = 0;
+  [[{ from: 0, to: 100, rate: 10 }, { from: 50, to: '', rate: 20 }], [{ from: 0, to: '', rate: 120 }], [{ from: 100, to: 50, rate: 10 }], []].forEach(brackets => {
+    try { engine.customDataset({ brackets }); } catch (e) { customErrors++; }
+  });
+  assert(customErrors === 4, 'PayCustom: overlapping brackets, a rate over 100%, "to" below "from" and no brackets are rejected');
+  const settings = { currency: 'CHF', brackets: [{ from: '0', to: '', rate: '12.5' }], allowance: '1000', deduction: '', social: '5.3', socialCap: '', pension: '', levies: [{ label: 'Church tax_*~!', rate: '8', base: 'incomeTax' }] };
+  assert(JSON.stringify(engine.decodeCustom(engine.encodeCustom(settings))) === JSON.stringify(settings), 'PayCustom: settings survive the URL encoding');
+  assert(engine.decodeCustom('garbage') === null, 'PayCustom: an invalid custom parameter is ignored');
+  const copied = engine.customFromDataset(US, 'single');
+  assert(copied.brackets.length === 7 && copied.deduction === 16100 && copied.currency === 'USD', 'PayCustom: "copy a country" template takes its brackets, deduction and currency');
+  assert(near(line(pay(engine.customDataset(copied), 72000), 'incomeTax'), 7010), 'PayCustom: a copied US template gives the same federal tax ($72,000 -> $7,010)');
+
+  // Country list: every country once, valid currencies, built-in rules for every dataset
+  const stcCountries = require(path.join(ROOT, 'src/_data/salaryTaxCountries.js'))();
+  assert(new Set(stcCountries.map(c => c.code)).size === stcCountries.length && stcCountries.length > 230, `StcCountries: ${stcCountries.length} unique countries`);
+  assert(stcCountries.every(c => { try { new Intl.NumberFormat('en', { style: 'currency', currency: c.currency }); return /^[A-Z]{3}$/.test(c.currency); } catch (e) { return false; } }), 'StcCountries: every currency is a valid ISO 4217 code');
+  datasets.forEach(({ d }) => {
+    const c = stcCountries.find(x => x.code === d.country);
+    assert(c && c.rules === 'builtin' && c.years.includes(d.taxYear), `StcCountries: ${d.country} ${d.taxYear} is offered with built-in rules`);
+  });
+  require(path.join(ROOT, 'src/_data/noSalaryTax.json')).countries.forEach(n => assert(stcCountries.find(c => c.code === n.code).rules === 'noTax', `StcCountries: ${n.code} is a no-income-tax country`));
+
   // Engine errors
   let threw = false;
   try { engine.calculate(US, 50000, { status: 'head' }); } catch (e) { threw = true; }

@@ -74,6 +74,7 @@ src/
 │   ├── countries.json       # ISO code, name, slug, currency, locale, lakh grouping, time zones
 │   ├── tax/<cc>-<year>.json # Salary tax datasets (rates, sources, verifiedOn, page content)
 │   ├── salaryTaxPages.js    # One page per current non-Pakistan tax dataset
+│   ├── salaryTaxCountries.js # Every country for the salary tax calculator (currency, built-in / no tax / custom)
 │   ├── noSalaryTax.json     # Countries with no salary tax, with official statements
 │   ├── vat-rates.json       # Sales tax / VAT / GST presets with sources
 │   ├── grading-scales.json  # Marks grading presets with sources
@@ -197,6 +198,53 @@ Every country-specific number lives in a data file with its official source and 
 **New tax year:** copy the current file to `<cc>-<newyear>.json`, change the rates from the new finance law, update `sources`, `verifiedOn` and `officialExamples`, set `"current": true` on the new file and `false` on the old one, and update the page text (title, examples, FAQs). Pakistan keeps two years (current and previous) for its comparison; its `logic.js` reads both files. Then run `npm test`: `scripts/test-tool-logic.js` checks that every dataset has official sources, continuous slabs, published fixed amounts that match the slabs, the official examples, and a `tools.json` entry for its page. Update the tool's `updated` date in `tools.json`.
 
 **Country guess:** `ToolsBuilt.guessCountry()` uses only the browser time zone and `navigator.languages`; a visitor's choice is saved in `localStorage` (`toolsbuilt:country`). There is no IP lookup or network request.
+
+---
+
+## Global Salary Tax Calculator
+
+One calculator serves every salary tax page: the hub `/tools/salary-tax-calculator/` (country picker) and the landing pages `/tools/pakistan-salary-tax-calculator/`, `/tools/india-salary-tax-calculator/`, `/tools/uk-salary-tax-calculator/` and `/tools/us-salary-tax-calculator/`, which preselect their country and year and keep their own title, H1, rate tables, sections and FAQs.
+
+| Piece | File |
+| :--- | :--- |
+| Form and result markup | `src/_includes/partials/salary-tax-calculator.njk` (`{{ salaryTaxCalculator({ country: "GB", year: "2026-27" }) }}`) |
+| Tax engine (pure, no country logic) | `src/tools/salary-tax-calculator/logic.js` |
+| Browser controller | `src/tools/salary-tax-calculator/calculator.js` |
+| Rules, one file per country and tax year | `src/_data/tax/<cc>-<year>.json` |
+| Every country, its currency and what the calculator can do there | `src/_data/salaryTaxCountries.js` |
+| Text | `src/_data/i18n/tools/<lang>/salary-tax-calculator.json` (`body.calc` server, `client.calc` browser) |
+| Tests | `scripts/test-tool-logic.js` (sections `TaxData`, `Tax<CC>`, `Pay<CC>`, `PayCustom`, `StcCountries`) |
+
+Countries with a dataset use **built-in rules**; countries in `noSalaryTax.json` show zero income tax with the official statement; every other country opens **Custom Tax Mode** (own brackets, allowance, deductions, social security, pension and levies, saved per country in `localStorage` and shared in the URL as `?custom=`). Result links carry `country`, `year`, `salary`, `period`, `hours`, `status` and `o-<option id>`.
+
+### How to add a new country / tax year
+
+1. Create `src/_data/tax/<cc>-<year>.json` (lower-case ISO code). The engine reads these blocks (all optional except `slabs`; see the comment at the top of `logic.js`):
+   ```json
+   {
+     "country": "CA", "taxYear": "2026", "label": "Tax year 2026", "currency": "CAD", "current": true,
+     "slabs": [{ "over": 0, "upTo": 58523, "rate": 0.14 }, { "over": 58523, "upTo": null, "rate": 0.205 }],
+     "personalAllowance": { "amount": 16452 },
+     "statuses": { "<id>": { "label": "…", "slabs": [], "standardDeduction": 0 } },
+     "options": [{ "id": "pension", "label": "Pension (% of salary)", "type": "percent", "default": 0, "deduction": { "fromPay": true } }],
+     "contributions": [{ "id": "cpp", "label": "CPP", "base": "gross", "bands": [{ "over": 3500, "upTo": 74600, "rate": 0.0595 }] }],
+     "defaults": { "salary": 6000, "period": "monthly" },
+     "sources": [{ "url": "https://www.canada.ca/…" }], "verifiedOn": "2026-11-08",
+     "officialExamples": []
+   }
+   ```
+   (Numbers above only show the shape; take real ones from the official source.) A `status` replaces any block of the same name, so a regime or filing status can bring its own slabs, deductions, rebate, surcharge, options and contributions. `contributions[].when: { "option": "<id>", "is": <value> }` turns a line on from an option; `bandsByStatus` changes its bands per status.
+2. Every `sources[].url` must be an official government URL and `verifiedOn` the date you checked it. Add at least two `officialExamples` and matching `Pay<CC>` tests in `scripts/test-tool-logic.js`.
+3. Nothing else is required: the country moves from Custom Tax Mode to built-in rules in the picker, its years appear in the tax year selector, and its statuses and options render from the file. Labels come from the file in English; translations can override them under `client.calc.statuses.<CC>.<id>`, `client.calc.options.<id>`, `client.calc.lines.<id>` and `client.calc.years.<CC>.<year>`.
+4. Optional landing page: add a `page` block (`slug`, `placeholder`, `defaultSalary`, `defaultPeriod`), a `tools.json` entry and `countryPages.<CC>` text (title, description, H1, FAQs, sections, worked examples) in the English translation file; `country.njk` builds the page.
+5. **New tax year** for an existing country: as above under *Country Data*: add the new file with `"current": true` and set the old one to `false`. The year selector lists both, and the result compares the two years.
+
+### How to add a new language
+
+1. Export what the language needs: `node scripts/i18n-strings.js export <code> all --out i18n-export` (add `--missing` after English changes). The calculator's strings are in `tools/salary-tax-calculator.json`.
+2. Translate, import (`node scripts/i18n-strings.js import …`), then `node scripts/check-translations.js --lang <code>`. Full workflow and quality rules: `docs/i18n/TRANSLATION_GUIDE.md`.
+3. Enable it in `src/_data/languages.json`. Right-to-left languages (`"dir": "rtl"`: Arabic, Urdu, Persian, Hebrew) get `dir="rtl"` on the page; the calculator's CSS uses logical properties, so it mirrors without extra styles.
+4. **English fallback:** a translation file only needs the keys it translates; anything missing is shown in English. New English strings that may ship before they are translated are listed in `src/_data/i18n/fallback.json`; `check-translations.js` reports those as warnings instead of failing the build. Remove a prefix there once every enabled language has it.
 
 ---
 

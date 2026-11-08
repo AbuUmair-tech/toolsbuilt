@@ -4,7 +4,8 @@
   pagination: { data: "salaryTaxPages", size: 1, alias: "tx" },
   permalink: (data) => `/tools/${data.tx.page.slug}/`,
   toolLogic: "/tools/salary-tax-calculator/logic.js",
-  toolScript: "/tools/salary-tax-calculator/country.js",
+  toolScript: "/tools/salary-tax-calculator/calculator.js",
+  applicationCategory: "FinanceApplication",
   extraCss: "/tools/salary-tax-calculator/style.css",
   noPageLinks: true,
   eleventyComputed: (() => {
@@ -37,108 +38,22 @@
 {%- set cur = tx.currency -%}
 {% from "partials/currency-select.njk" import countryData with context %}
 {{ countryData(countries) }}
-<script type="application/json" id="tax-datasets">{{ [tx.engineData] | dump | safe }}</script>
+{% from "partials/salary-tax-calculator.njk" import salaryTaxCalculator with context %}
+{{ salaryTaxCalculator({ country: tx.country, year: tx.taxYear }) }}
 
-    <!-- Tool Form Container -->
-    <section class="tool-container" aria-label="{{ 'country.formLabel' | pt({ country: tx.countryName }) }}">
-      <form id="calculator-form" novalidate>
-        <div class="form-group">
-          <label for="salary-amount">{{ 'country.salaryLabel' | pt({ currency: cur }) }}</label>
-          <input type="number" inputmode="decimal" min="0" step="any" id="salary-amount" data-param="salary" class="form-control" placeholder="{{ 'country.salaryPlaceholder' | pt({ value: tx.page.placeholder }) }}" required aria-required="true" aria-describedby="salary-hint">
-          <p class="form-hint" id="salary-hint">{{ cp.salaryHint }}</p>
-        </div>
+    <!-- tool-end -->
 
-        <div class="form-grid two-col">
-          <fieldset class="form-group choice-toggle">
-            <legend>{{ 'country.periodLegend' | pt }}</legend>
-            <div class="segmented-control choice-toggle-options">
-              <label class="choice-toggle-option">
-                <input type="radio" name="salary-period" id="period-monthly" value="monthly" data-param="period"{% if tx.page.defaultPeriod != "annual" %} checked{% endif %}>
-                <span>{{ 'country.monthly' | pt }}</span>
-              </label>
-              <label class="choice-toggle-option">
-                <input type="radio" name="salary-period" id="period-annual" value="annual" data-param="period"{% if tx.page.defaultPeriod == "annual" %} checked{% endif %}>
-                <span>{{ 'country.annual' | pt }}</span>
-              </label>
-            </div>
-          </fieldset>
-
-          {% if tx.statuses %}
-          <div class="form-group">
-            <label for="filing-status">{% if cp.statusLabel %}{{ cp.statusLabel }}{% else %}{{ 'country.statusLabel' | pt }}{% endif %}</label>
-            <select id="filing-status" data-param="status" class="form-control">
-              {% for id, st in tx.statuses %}
-              <option value="{{ id }}"{% if id == tx.defaultStatus %} selected{% endif %}>{{ cp.statuses[id].label }}</option>
-              {% endfor %}
-            </select>
-          </div>
-          {% else %}
-          <div class="form-group">
-            <label for="tax-year">{{ 'country.taxYear' | pt }}</label>
-            <select id="tax-year" class="form-control" disabled>
-              <option selected>{{ cp.label }}</option>
-            </select>
-          </div>
-          {% endif %}
-        </div>
-
-        <div class="button-group mt-6">
-          <button type="submit" class="btn btn-primary">{{ 'country.calculate' | pt }}</button>
-          <button type="button" class="btn btn-secondary" id="reset-btn">{{ 'country.reset' | pt }}</button>
-        </div>
-      </form>
-
-      <div id="error-box" class="hidden form-error" role="alert"></div>
-
-      <!-- Result Box -->
-      <div id="result-box" class="result-box" aria-live="polite">
-        <div class="result-header">
-          <span id="result-header-text">{{ 'country.resultHeader' | pt }}</span>
-          <button type="button" class="btn btn-sm btn-ghost" id="copy-result-btn" title="{{ 'country.copyTitle' | pt }}" aria-label="{{ 'country.copyTitle' | pt }}">
-            {{ 'country.copy' | pt }}
-          </button>
-        </div>
-        <div class="result-primary" id="result-primary-text">–</div>
-
-        <div class="result-grid">
-          <div class="result-stat-card">
-            <div class="result-stat-label">{{ 'country.stats.monthlyTax' | pt }}</div>
-            <div class="result-stat-value" id="stat-monthly-tax">–</div>
-          </div>
-          <div class="result-stat-card">
-            <div class="result-stat-label">{{ 'country.stats.monthlyTakeHome' | pt }}</div>
-            <div class="result-stat-value" id="stat-monthly-takehome">–</div>
-          </div>
-          <div class="result-stat-card">
-            <div class="result-stat-label">{{ 'country.stats.taxable' | pt }}</div>
-            <div class="result-stat-value" id="stat-taxable">–</div>
-          </div>
-          <div class="result-stat-card">
-            <div class="result-stat-label">{{ 'country.stats.annualTax' | pt }}</div>
-            <div class="result-stat-value" id="stat-annual-tax">–</div>
-          </div>
-          <div class="result-stat-card">
-            <div class="result-stat-label">{{ 'country.stats.effectiveRate' | pt }}</div>
-            <div class="result-stat-value" id="stat-effective-rate">–</div>
-          </div>
-          <div class="result-stat-card">
-            <div class="result-stat-label">{{ 'country.stats.topRate' | pt }}</div>
-            <div class="result-stat-value" id="stat-slab">–</div>
-          </div>
-        </div>
-
-        <div class="formula-box content-panel" id="formula-breakdown-box"></div>
-      </div>
-
-      <!-- Rate tables, rendered from the dataset; the visitor's band is highlighted by country.js -->
+    <section class="content-section stc-rate-tables" aria-label="{{ cp.tableTitle }}">
+      <!-- Rate tables, rendered from the dataset (the calculator above shows the visitor's own bracket) -->
       {% for table in tx.tables %}
-      {%- set statusText = cp.statuses[table.id] if tx.statuses else {} -%}
+      {%- set statusText = (cp.statuses[table.id] if cp.statuses else {}) if tx.statuses else {} -%}
+      {%- set statusName = statusText.label or table.title -%}
       {%- set slabNames = statusText.slabNames if tx.statuses else cp.slabNames %}
-      <div class="slab-table-block" data-status="{{ table.id }}"{% if tx.statuses and table.id != tx.defaultStatus %} hidden{% endif %}>
-        <h2 class="slab-table-title">{% if statusText.label %}{{ 'country.table.titleWithStatus' | pt({ title: cp.tableTitle, status: statusText.label }) }}{% else %}{{ cp.tableTitle }}{% endif %}</h2>
-        <div class="table-wrapper" tabindex="0" role="region" aria-label="{% if statusText.label %}{{ 'country.table.ariaLabelWithStatus' | pt({ title: cp.tableTitle, status: statusText.label }) }}{% else %}{{ 'country.table.ariaLabel' | pt({ title: cp.tableTitle }) }}{% endif %}">
+      <div class="slab-table-block" data-status="{{ table.id }}">
+        <h2 class="slab-table-title">{% if statusName %}{{ 'country.table.titleWithStatus' | pt({ title: cp.tableTitle, status: statusName }) }}{% else %}{{ cp.tableTitle }}{% endif %}</h2>
+        <div class="table-wrapper" tabindex="0" role="region" aria-label="{% if statusName %}{{ 'country.table.ariaLabelWithStatus' | pt({ title: cp.tableTitle, status: statusName }) }}{% else %}{{ 'country.table.ariaLabel' | pt({ title: cp.tableTitle }) }}{% endif %}">
           <table class="table slab-table">
-            <caption class="visually-hidden">{% if statusText.label %}{{ 'country.table.captionWithStatus' | pt({ title: cp.tableTitle, status: statusText.label }) }}{% else %}{{ cp.tableTitle }}{% endif %}</caption>
+            <caption class="visually-hidden">{% if statusName %}{{ 'country.table.captionWithStatus' | pt({ title: cp.tableTitle, status: statusName }) }}{% else %}{{ cp.tableTitle }}{% endif %}</caption>
             <thead>
               <tr>
                 <th scope="col">{{ cp.tableIncomeHeading }}</th>
@@ -148,7 +63,7 @@
             <tbody>
               {% for slab in table.slabs %}
               <tr data-slab="{{ loop.index0 }}">
-                <td>{% if slab.upTo === null %}{{ 'country.table.over' | pt({ from: slab.over | money(cur) }) }}{% elif slab.over == 0 %}{{ 'country.table.upTo' | pt({ to: slab.upTo | money(cur) }) }}{% else %}{{ 'country.table.range' | pt({ from: slab.over | money(cur), to: slab.upTo | money(cur) }) }}{% endif %}<span class="slab-you">{{ 'country.table.yourBand' | pt }}</span></td>
+                <td>{% if slab.upTo === null %}{{ 'country.table.over' | pt({ from: slab.over | money(cur) }) }}{% elif slab.over == 0 %}{{ 'country.table.upTo' | pt({ to: slab.upTo | money(cur) }) }}{% else %}{{ 'country.table.range' | pt({ from: slab.over | money(cur), to: slab.upTo | money(cur) }) }}{% endif %}</td>
                 <td>{% if slabNames[loop.index0] %}{{ 'country.table.rateWithName' | pt({ rate: slab.rate | pct, name: slabNames[loop.index0] }) }}{% else %}{{ slab.rate | pct }}{% endif %}</td>
               </tr>
               {% endfor %}
@@ -160,14 +75,8 @@
       {% for note in cp.tableNotes %}
       <p class="slab-table-note">{{ note }}</p>
       {% endfor %}
-
-      <div class="tool-note">
-        <h3 class="tool-note-title">{{ 'country.estimateTitle' | pt }}</h3>
-        <p>{{ cp.disclaimer }}</p>
-      </div>
     </section>
 
-    <!-- tool-end -->
 
     {% for section in cp.sections %}
     <section class="content-section" aria-labelledby="{{ section.id }}">

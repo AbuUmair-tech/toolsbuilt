@@ -148,6 +148,11 @@ const baseDir = buildBase(sha);
 const basePages = walk(baseDir, /\.html$/).map(f => path.relative(baseDir, f)).filter(rel => !isLocalized(rel));
 const currentPages = walk(currentDir, /\.html$/).map(f => path.relative(currentDir, f));
 const currentEnglish = currentPages.filter(rel => !isLocalized(rel));
+// English pages whose content was changed on purpose after the base commit (reported, not failed)
+const INTENDED_CHANGES = new Map([
+  ...['salary-tax-calculator', 'pakistan-salary-tax-calculator', 'india-salary-tax-calculator', 'uk-salary-tax-calculator', 'us-salary-tax-calculator']
+    .map(slug => [`tools/${slug}/index.html`, 'unified Global Salary Tax Calculator'])
+]);
 let changed = 0;
 for (const rel of basePages) {
   const currentFile = path.join(currentDir, rel);
@@ -158,7 +163,9 @@ for (const rel of basePages) {
   const base = normalize(fs.readFileSync(path.join(baseDir, rel), 'utf8'));
   const baseLines = new Set(base.split('\n'));
   const current = normalize(fs.readFileSync(currentFile, 'utf8'), baseLines);
-  if (base !== current) {
+  if (base !== current && INTENDED_CHANGES.has(rel)) {
+    console.log(`ℹ️  /${rel} changed on purpose (${INTENDED_CHANGES.get(rel)})`);
+  } else if (base !== current) {
     changed++;
     fail(`/${rel} differs from ${sha.slice(0, 7)} at ${firstDifference(base, current)}`);
   }

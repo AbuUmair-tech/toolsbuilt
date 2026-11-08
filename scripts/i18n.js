@@ -220,6 +220,13 @@ module.exports = function i18nPlugin(eleventyConfig) {
     return resolve(i18nData.lookup(body, key), key, `the body of ${this.page && this.page.inputPath}`, vars);
   });
 
+  // {{ "calc.salary" | ts("salary-tax-calculator") }}: a `body` string of another tool (HTML), for
+  // shared partials that appear on several tools' pages
+  eleventyConfig.addFilter('ts', function(key, slug, vars) {
+    const body = (i18nData.tool(pageLang(this), slug) || {}).body;
+    return resolve(i18nData.lookup(body, key), key, `the body of tools/en/${slug}.json`, vars);
+  });
+
   // Fills {{name}} placeholders in every string of a value: {{ text.faq | fmtDeep({ author: site.authorName }) }}
   eleventyConfig.addFilter('fmtDeep', function fmtDeep(value, vars) {
     if (typeof value === 'string' || value instanceof nunjucks.runtime.SafeString) return i18nData.format(String(value), vars);

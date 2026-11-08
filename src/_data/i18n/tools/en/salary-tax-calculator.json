@@ -108,6 +108,72 @@
         "pakistan": "Pakistan Salary Tax Calculator",
         "hub": "Salary tax calculators for every country"
       }
+    },
+    "calc": {
+      "formLabel": "Global salary tax calculator",
+      "country": "Country",
+      "countryHint": "Type to search. Countries without built-in rules switch to Custom Tax Mode.",
+      "taxYear": "Tax year",
+      "salary": "Gross salary",
+      "salaryHint": "Your pay before tax and deductions, for the period chosen below.",
+      "period": "Salary entered per",
+      "periods": {
+        "monthly": "Month",
+        "annual": "Year",
+        "hourly": "Hour"
+      },
+      "hours": "Hours per week",
+      "status": "Filing status",
+      "calculate": "Calculate",
+      "reset": "Reset",
+      "custom": {
+        "currency": "Currency",
+        "template": "Start from a template",
+        "templates": {
+          "progressive": "Progressive brackets (example)",
+          "flat": "Flat tax (example)"
+        },
+        "apply": "Use template",
+        "brackets": "Income tax brackets",
+        "bracketsHint": "Annual taxable income. Leave “To” empty on the last bracket. Gaps between brackets are taxed at 0%.",
+        "from": "From",
+        "to": "To",
+        "rate": "Rate %",
+        "actions": "Actions",
+        "addBracket": "Add bracket",
+        "allowance": "Tax-free allowance (per year)",
+        "deduction": "Other deductions before tax (per year)",
+        "social": "Social security (% of gross)",
+        "socialCap": "Social security applies up to (per year, optional)",
+        "pension": "Pension contribution (% of gross, before tax)",
+        "levies": "Other levies",
+        "leviesHint": "Extra charges as a percentage of gross salary or of income tax (e.g. a surcharge, church tax or health levy).",
+        "addLevy": "Add levy"
+      },
+      "result": {
+        "header": "Your take-home pay",
+        "copy": "Copy",
+        "netAnnual": "Take-home pay a year",
+        "totalTax": "Total tax and contributions a year",
+        "effectiveRate": "Effective tax rate",
+        "marginalRate": "Marginal tax rate",
+        "chartTitle": "Where your salary goes",
+        "breakdown": "Pay breakdown",
+        "item": "Item",
+        "bands": "Income tax bracket by bracket",
+        "band": "Taxable income",
+        "rate": "Rate",
+        "inBand": "Income in bracket",
+        "bandTax": "Tax"
+      },
+      "views": {
+        "annual": "Year",
+        "monthly": "Month",
+        "weekly": "Week"
+      },
+      "disclaimerTitle": "This is an estimate, not tax advice",
+      "disclaimer": "Results are estimates for a single employee with no other income, based on the rules shown and the options you choose. Your actual tax depends on your full circumstances, local taxes and your employer's payroll. Check with your tax authority or a qualified adviser before making decisions.",
+      "countryPages": "Country pages with rates, examples and FAQs"
     }
   },
   "client": {
@@ -140,7 +206,13 @@
         "noData": "No tax data loaded.",
         "unknownStatus": "Unknown filing status \"{{status}}\".",
         "salaryMin": "Please enter a salary of 0 or more.",
-        "period": "Choose whether the salary is monthly or annual."
+        "period": "Choose whether the salary is per month, year, week or hour.",
+        "hours": "Enter hours per week between 1 and 168.",
+        "customNoBrackets": "Add at least one tax bracket.",
+        "customFrom": "Bracket {{row}}: enter a “From” amount of 0 or more.",
+        "customRate": "Bracket {{row}}: enter a rate between 0 and 100%.",
+        "customTo": "Bracket {{row}}: “To” must be more than “From”.",
+        "customOverlap": "Bracket {{row}} overlaps the bracket before it."
       }
     },
     "hub": {
@@ -167,6 +239,116 @@
     },
     "toast": {
       "copied": "Tax calculation copied to clipboard"
+    },
+    "calc": {
+      "noMatch": "No country matches",
+      "badges": {
+        "builtin": "Built-in rules",
+        "noTax": "No income tax",
+        "custom": "Custom rates"
+      },
+      "statuses": {},
+      "optionMax": "Counted up to {{max}} a year.",
+      "options": {
+        "pension": {
+          "label": "Pension contribution (% of salary)"
+        },
+        "studentLoan": {
+          "label": "Student loan",
+          "choices": {
+            "none": "None",
+            "plan1": "Plan 1",
+            "plan2": "Plan 2",
+            "plan4": "Plan 4 (Scotland)",
+            "plan5": "Plan 5"
+          }
+        },
+        "postgraduateLoan": {
+          "label": "Postgraduate Loan"
+        },
+        "deduction80C": {
+          "label": "Section 80C investments a year (PPF, ELSS, EPF, life insurance)"
+        },
+        "deduction80D": {
+          "label": "Section 80D health insurance premiums a year"
+        }
+      },
+      "lines": {
+        "incomeTax": "Income tax",
+        "nationalInsurance": "National Insurance",
+        "plan1": "Student loan (Plan 1)",
+        "plan2": "Student loan (Plan 2)",
+        "plan4": "Student loan (Plan 4)",
+        "plan5": "Student loan (Plan 5)",
+        "postgraduateLoan": "Postgraduate Loan",
+        "socialSecurity": "Social Security",
+        "medicare": "Medicare",
+        "additionalMedicare": "Additional Medicare Tax",
+        "social": "Social security",
+        "pension": "Pension contribution",
+        "levy": "Levy {{n}}"
+      },
+      "deductions": {
+        "standard": "standard deduction",
+        "allowance": "tax-free allowance",
+        "pension": "pension contribution",
+        "deduction80C": "section 80C",
+        "deduction80D": "section 80D"
+      },
+      "note": {
+        "builtin": "{{name}}: {{label}}, rates last checked {{date}} against official sources.",
+        "noTax": "{{name}} does not tax individuals' salaries, so income tax is 0.",
+        "statement": "Official statement",
+        "useCustom": "Enter custom rates anyway",
+        "customTitle": "Custom Tax Mode.",
+        "custom": "Built-in rules for this country are not available yet — enter your local tax rates below. Your settings are saved in this browser and included in the result link.",
+        "request": "Request built-in rules for {{name}}",
+        "requestSubject": "Salary tax calculator: please add {{name}}"
+      },
+      "custom": {
+        "templates": {
+          "copy": "Copy {{name}}"
+        },
+        "fromRow": "From, bracket {{n}}",
+        "toRow": "To, bracket {{n}}",
+        "rateRow": "Rate %, bracket {{n}}",
+        "removeBracket": "Remove bracket {{n}}",
+        "levyName": "Name of levy {{n}}",
+        "levyRate": "Rate % of levy {{n}}",
+        "levyBase": "Levy {{n}} is charged on",
+        "levyPlaceholder": "Name (e.g. health levy)",
+        "baseGross": "% of gross salary",
+        "baseTax": "% of income tax",
+        "removeLevy": "Remove levy {{n}}"
+      },
+      "errors": {
+        "salaryRequired": "Please enter your salary."
+      },
+      "result": {
+        "primary": "{{net}} a month take-home",
+        "gross": "Gross salary",
+        "totalDeducted": "Total deducted",
+        "net": "Take-home pay",
+        "taxable": "Taxable income: <strong>{{amount}}</strong> a year.",
+        "afterDeductions": "After {{list}}.",
+        "deductionItem": "{{label}} {{amount}}",
+        "rebate": "Rebate: −{{amount}}.",
+        "surcharge": "Surcharge: +{{amount}}.",
+        "cess": "Cess ({{rate}}): +{{amount}}.",
+        "noTax": "{{name}} has no income tax on salaries.",
+        "range": "{{from}} to {{to}}",
+        "over": "Over {{from}}",
+        "yourBand": "(your bracket)",
+        "bandsTotal": "Income tax from the brackets",
+        "compareLess": "That is {{amount}} a month less than under {{year}}.",
+        "compareMore": "That is {{amount}} a month more than under {{year}}.",
+        "compareSame": "Same tax as under {{year}}.",
+        "source": "Rules: {{label}}, last checked {{date}}. Sources: {{links}}.",
+        "customSource": "Calculated with the custom rates you entered.",
+        "copyText": "{{country}} ({{label}}): gross {{gross}} a year, tax and contributions {{tax}}, take-home {{net}} a year ({{monthly}} a month), effective rate {{effective}}%.",
+        "chartTitle": "Where your salary goes"
+      },
+      "status": "Filing status"
     }
   },
   "countryPages": {
@@ -322,7 +504,8 @@
       "sources": [
         "GOV.UK: Income Tax rates and Personal Allowances (2026 to 2027)",
         "HMRC: Income Tax rates and allowances for current and previous tax years (income after allowances, England, Wales, Northern Ireland and Scotland)",
-        "GOV.UK: Scottish Income Tax rates 2026 to 2027"
+        "GOV.UK: Scottish Income Tax rates 2026 to 2027",
+        "GOV.UK: Rates and thresholds for employers 2026 to 2027 (National Insurance and student loan thresholds)"
       ]
     },
     "IN": {
@@ -467,8 +650,19 @@
       "sources": [
         "Memorandum explaining the Finance Bill, 2025: slabs under section 115BAC(1A) and the section 87A rebate (₹60,000 up to ₹12,00,000) from AY 2026-27",
         "Budget Speech 2025-26, para 156 (₹75,000 standard deduction) and Part B annex table of tax examples",
-        "Memorandum explaining the Finance Bill, 2026: surcharge and 4% health and education cess for AY 2026-27"
-      ]
+        "Memorandum explaining the Finance Bill, 2026: surcharge and 4% health and education cess for AY 2026-27",
+        "Income Tax Department: tax rates for individuals (old tax regime slabs, surcharge)",
+        "Income Tax Department: deductions under Chapter VI-A (sections 80C and 80D)"
+      ],
+      "statusLabel": "Tax regime",
+      "statuses": {
+        "new": {
+          "label": "New tax regime"
+        },
+        "old": {
+          "label": "Old tax regime"
+        }
+      }
     },
     "US": {
       "label": "Tax year 2026",
@@ -610,11 +804,20 @@
             "",
             ""
           ]
+        },
+        "married_separate": {
+          "label": "Married filing separately"
+        },
+        "head_of_household": {
+          "label": "Head of household"
         }
       },
       "sources": [
         "IRS Revenue Procedure 2025-32 (2026 inflation adjustments): tax rate tables and standard deduction",
-        "IRS newsroom: tax inflation adjustments for tax year 2026"
+        "IRS newsroom: tax inflation adjustments for tax year 2026",
+        "SSA: Contribution and benefit base (2026 Social Security wage base $184,500)",
+        "IRS Topic 751: Social Security and Medicare withholding rates",
+        "IRS: Questions and answers for the Additional Medicare Tax (thresholds by filing status)"
       ]
     }
   },

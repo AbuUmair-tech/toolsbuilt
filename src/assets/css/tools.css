@@ -1070,6 +1070,112 @@
     color: var(--text-secondary);
   }
 
+  /* unified salary tax calculator (partials/salary-tax-calculator.njk), on every salary tax page */
+  :where(.stc) .stc-combo-list {
+    background-color: var(--surface-card);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow);
+  }
+
+  :where(.stc) .stc-combo-list [role="option"] {
+    color: var(--text-primary);
+    cursor: pointer;
+  }
+
+  :where(.stc) .stc-combo-list [role="option"].is-active,
+  :where(.stc) .stc-combo-list [role="option"]:hover {
+    background-color: var(--accent-subtle);
+  }
+
+  :where(.stc) .stc-combo-list [aria-selected="true"] .stc-opt-name {
+    font-weight: var(--font-weight-semibold);
+  }
+
+  :where(.stc) .stc-opt-badge,
+  :where(.stc) .stc-opt-empty {
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+  }
+
+  :where(.stc) .stc-note {
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+  }
+
+  :where(.stc) .stc-note[data-mode="custom"],
+  :where(.stc) .stc-note[data-mode="noTax"] {
+    background-color: var(--surface-muted);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    color: var(--text-primary);
+  }
+
+  :where(.stc) .stc-custom {
+    border-top: 1px solid var(--border-subtle);
+  }
+
+  :where(.stc) .stc-fieldset {
+    border: 0;
+  }
+
+  :where(.stc) .stc-fieldset legend,
+  :where(.stc) .stc-chart-title {
+    font-weight: var(--font-weight-semibold);
+    color: var(--text-primary);
+  }
+
+  :where(.stc) .stc-compare,
+  :where(.stc) .stc-taxable,
+  :where(.stc) .stc-source,
+  :where(.stc) .stc-legend {
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+  }
+
+  :where(.stc) .stc-breakdown caption,
+  :where(.stc) .stc-bands caption {
+    font-weight: var(--font-weight-semibold);
+    color: var(--text-primary);
+  }
+
+  :where(.stc) .stc-row-total th,
+  :where(.stc) .stc-row-total td {
+    border-top: 2px solid var(--border-strong);
+  }
+
+  :where(.stc) .stc-row-net th,
+  :where(.stc) .stc-row-net td {
+    font-weight: var(--font-weight-bold);
+    color: var(--text-primary);
+  }
+
+  :where(.stc) .stc-bands tr.is-current td {
+    background-color: var(--accent-subtle);
+    color: var(--text-primary);
+    font-weight: var(--font-weight-medium);
+  }
+
+  :where(.stc) .stc-you {
+    color: var(--accent-primary);
+  }
+
+  :where(.stc) .stc-chart-bar {
+    border-radius: var(--radius-sm);
+    background-color: var(--surface-muted);
+  }
+
+  :where(.stc) .stc-swatch {
+    border-radius: var(--radius-sm);
+  }
+
+  :where(.stc) .stc-seg-net { fill: var(--accent-primary); background-color: var(--accent-primary); }
+  :where(.stc) .stc-seg-tax { fill: var(--cat-orange); background-color: var(--cat-orange); }
+  :where(.stc) .stc-seg-contribution { fill: var(--cat-purple); background-color: var(--cat-purple); }
+  :where(.stc) .stc-seg-contribution-0 { fill: var(--cat-pink); background-color: var(--cat-pink); }
+  :where(.stc) .stc-seg-contribution-1 { fill: var(--cat-violet); background-color: var(--cat-violet); }
+  :where(.stc) .stc-seg-saving { fill: var(--cat-teal); background-color: var(--cat-teal); }
+
   /* salary-to-hourly-calculator */
   :where(body[data-tool-id="salary-to-hourly-calculator"]) .salary-fieldset {
     border: 0;

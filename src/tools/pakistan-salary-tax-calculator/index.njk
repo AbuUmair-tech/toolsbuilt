@@ -1,103 +1,29 @@
 ---
 layout: layouts/tool.njk
 toolSlug: pakistan-salary-tax-calculator
-taxEngine: true
+toolLogic: "/tools/salary-tax-calculator/logic.js"
+toolScript: "/tools/salary-tax-calculator/calculator.js"
+applicationCategory: FinanceApplication
 areaServed: Pakistan
 permalink: /tools/pakistan-salary-tax-calculator/
-extraCss: "/tools/pakistan-salary-tax-calculator/style.css"
+extraCss: "/tools/salary-tax-calculator/style.css"
 lastReviewed: "2026-10-31"
 ---
 
-    <script type="application/json" id="tax-datasets">{{ [tax["pk-2026-27"], tax["pk-2025-26"]] | dump | safe }}</script>
-    <!-- Tool Form Container -->
-    <section class="tool-container" aria-label="{{ 'ariaLabel.tool-section1' | pt }}">
-      <form id="calculator-form" novalidate>
-        <div class="form-group">
-          <label for="salary-amount">{{ 'label.salary-amount' | pt }}</label>
-          <input type="number" inputmode="numeric" min="0" step="any" id="salary-amount" data-param="salary" class="form-control" placeholder="{{ 'placeholder.salary-amount' | pt }}" required aria-required="true" aria-describedby="salary-hint">
-          <p class="form-hint" id="salary-hint">{{ 'text.salary-hint' | pt }}</p>
-        </div>
+{% from "partials/currency-select.njk" import countryData with context %}
+{{ countryData(countries) }}
+{% from "partials/salary-tax-calculator.njk" import salaryTaxCalculator with context %}
+{{ salaryTaxCalculator({ country: "PK", year: pakistanSalaryTax.taxYear }) }}
 
-        <div class="form-grid two-col">
-          <fieldset class="form-group choice-toggle">
-            <legend>{{ 'content.tool.legend1' | pt }}</legend>
-            <div class="segmented-control choice-toggle-options">
-              <label class="choice-toggle-option">
-                {{ 'content.tool.label1' | pt }}
-              </label>
-              <label class="choice-toggle-option">
-                {{ 'content.tool.label2' | pt }}
-              </label>
-            </div>
-          </fieldset>
+    <!-- tool-end -->
 
-          <div class="form-group">
-            <label for="tax-year">{{ 'label.tax-year' | pt }}</label>
-            <select id="tax-year" data-param="year" class="form-control">
-              <option value="2026-27" selected>{{ 'option.tax-year.2026-27' | pt }}</option>
-              <option value="2025-26">{{ 'option.tax-year.2025-26' | pt }}</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="button-group mt-6">
-          <button type="submit" class="btn btn-primary">{{ 'content.tool.button1' | pt }}</button>
-          <button type="button" class="btn btn-secondary" id="reset-btn">{{ 'text.reset-btn' | pt }}</button>
-        </div>
-      </form>
-
-      <div id="error-box" class="hidden form-error" role="alert"></div>
-
-      <!-- Result Box -->
-      <div id="result-box" class="result-box" aria-live="polite">
-        <div class="result-header">
-          <span id="result-header-text">{{ 'text.result-header-text' | pt }}</span>
-          <button type="button" class="btn btn-sm btn-ghost" id="copy-result-btn" title="{{ 'title.copy-result-btn' | pt }}" aria-label="{{ 'ariaLabel.copy-result-btn' | pt }}">
-            {{ 'text.copy-result-btn' | pt }}
-          </button>
-        </div>
-        <div class="result-primary" id="result-primary-text">{{ 'text.result-primary-text' | pt }}</div>
-        <p class="salary-comparison" id="result-comparison"></p>
-
-        <div class="result-grid">
-          <div class="result-stat-card">
-            <div class="result-stat-label">{{ 'content.tool.div1' | pt }}</div>
-            <div class="result-stat-value" id="stat-monthly-tax">{{ 'text.stat-monthly-tax' | pt }}</div>
-          </div>
-          <div class="result-stat-card">
-            <div class="result-stat-label">{{ 'content.tool.div2' | pt }}</div>
-            <div class="result-stat-value" id="stat-monthly-takehome">{{ 'text.stat-monthly-takehome' | pt }}</div>
-          </div>
-          <div class="result-stat-card">
-            <div class="result-stat-label">{{ 'content.tool.div3' | pt }}</div>
-            <div class="result-stat-value" id="stat-annual-income">{{ 'text.stat-annual-income' | pt }}</div>
-          </div>
-          <div class="result-stat-card">
-            <div class="result-stat-label">{{ 'content.tool.div4' | pt }}</div>
-            <div class="result-stat-value" id="stat-annual-tax">{{ 'text.stat-annual-tax' | pt }}</div>
-          </div>
-          <div class="result-stat-card">
-            <div class="result-stat-label">{{ 'content.tool.div5' | pt }}</div>
-            <div class="result-stat-value" id="stat-effective-rate">0%</div>
-          </div>
-          <div class="result-stat-card">
-            <div class="result-stat-label">{{ 'content.tool.div6' | pt }}</div>
-            <div class="result-stat-value" id="stat-slab">0%</div>
-            <div class="slab-range" id="stat-slab-range"></div>
-          </div>
-        </div>
-
-        <div class="formula-box content-panel" id="formula-breakdown-box">
-          <!-- Step-by-step breakdown inserted by script.js -->
-        </div>
-      </div>
-
-      <!-- Slab tables, rendered from logic.js data; the visitor's slab is highlighted by script.js -->
+    <section class="content-section stc-rate-tables" aria-label="{{ 'slabs.title' | pt({ year: pakistanSalaryTax.taxYear }) }}">
+      <!-- Slab tables, rendered from logic.js data (the calculator above shows the visitor's own slab) -->
       {% for table in [
         { year: pakistanSalaryTax.taxYear, rows: pakistanSalaryTax.current },
         { year: pakistanSalaryTax.previousTaxYear, rows: pakistanSalaryTax.previous }
       ] %}
-      <div class="slab-table-block" data-year="{{ table.year }}"{% if table.year != pakistanSalaryTax.taxYear %} hidden{% endif %}>
+      <div class="slab-table-block" data-year="{{ table.year }}">
         <h2 class="slab-table-title">{{ 'slabs.title' | pt({ year: table.year }) }}</h2>
         <div class="table-wrapper" tabindex="0" role="region" aria-label="{{ 'slabs.ariaLabel' | pt({ year: table.year }) }}">
           <table class="table slab-table">
@@ -111,7 +37,7 @@ lastReviewed: "2026-10-31"
             <tbody>
               {% for row in table.rows %}
               <tr data-slab="{{ row.index }}">
-                <td>{% if row.to %}{{ 'slabs.range' | pt({ from: row.from, to: row.to }) }}{% else %}{{ 'slabs.above' | pt({ over: row.over }) }}{% endif %}<span class="slab-you"> {{ 'content.tool.span1' | pt }}</span></td>
+                <td>{% if row.to %}{{ 'slabs.range' | pt({ from: row.from, to: row.to }) }}{% else %}{{ 'slabs.above' | pt({ over: row.over }) }}{% endif %}</td>
                 <td>{% if row.isZero %}0%{% elif row.fixed == 0 %}{{ 'slabs.rate' | pt({ rate: row.rate, over: row.over }) }}{% else %}{{ 'slabs.fixedRate' | pt({ fixed: row.fixedText, rate: row.rate, over: row.over }) }}{% endif %}</td>
               </tr>
               {% endfor %}
@@ -126,13 +52,8 @@ lastReviewed: "2026-10-31"
       </div>
       {% endfor %}
 
-      <div class="tool-note">
-        <h3 class="tool-note-title">{{ 'content.this-is-an-estimate.heading' | pt }}</h3>
-        <p>{{ 'content.this-is-an-estimate.p1' | pt }}</p>
-      </div>
     </section>
 
-    <!-- tool-end -->
 
     <section class="content-section" aria-labelledby="how-calculated-heading">
       <h2 id="how-calculated-heading">{{ 'text.how-calculated-heading' | pt }}</h2>

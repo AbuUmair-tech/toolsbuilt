@@ -138,11 +138,30 @@ module.exports = function(eleventyConfig) {
     return `${Number((Number(rate) * 100).toFixed(4))}%`;
   });
 
-  // Salary tax hub: where each country choice leads (a calculator page, or the no-tax note)
-  eleventyConfig.addFilter('hubCountries', function(pages, noTax) {
-    return [{ code: 'PK', url: '/tools/pakistan-salary-tax-calculator/' }]
-      .concat((pages || []).map(p => ({ code: p.country, url: `/tools/${p.page.slug}/` })))
-      .concat((noTax || []).map(c => ({ code: c.code, url: `#no-tax-${c.code.toLowerCase()}`, noTax: true, name: c.name })));
+  // Unified salary tax calculator data for the browser (#stc-data): every country, and every tax
+  // dataset without its page text, with status labels in the page language where translated
+  eleventyConfig.addFilter('salaryCalcData', function(countries, tax, noTax, lang) {
+    const i18nData = require('./scripts/i18n-data.js');
+    const countryPages = (i18nData.tool(lang || 'en', 'salary-tax-calculator') || {}).countryPages || {};
+    const datasets = {};
+    for (const d of Object.values(tax || {})) {
+      const { page, notes, officialExamples, ...rates } = d;
+      const out = JSON.parse(JSON.stringify(rates));
+      const cp = countryPages[d.country] || {};
+      out.sources = (d.sources || []).map(s => ({ url: s.url }));
+      out.defaults = d.defaults || (page ? { salary: page.defaultSalary, period: page.defaultPeriod } : null);
+      if (cp.statusLabel) out.statusLabel = cp.statusLabel;
+      if (out.statuses && cp.statuses) {
+        for (const [id, st] of Object.entries(out.statuses)) if (cp.statuses[id] && cp.statuses[id].label) st.label = cp.statuses[id].label;
+      }
+      datasets[`${d.country}:${d.taxYear}`] = out;
+    }
+    const statements = Object.fromEntries((noTax || []).map(c => [c.code, { url: c.source.url, verifiedOn: c.verifiedOn }]));
+    return {
+      countries: countries.map(({ code, name, currency, rules, years, currentYear, page }) => ({ code, name, currency, rules, years, currentYear, page })),
+      datasets,
+      noTax: statements
+    };
   });
 
   // First item with a matching `code` (countries, VAT presets, grading scales)

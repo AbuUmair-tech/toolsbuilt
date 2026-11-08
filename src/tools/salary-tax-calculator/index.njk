@@ -3,27 +3,20 @@ layout: layouts/tool.njk
 toolSlug: salary-tax-calculator
 permalink: /tools/salary-tax-calculator/
 extraCss: "/tools/salary-tax-calculator/style.css"
+toolScript: "/tools/salary-tax-calculator/calculator.js"
+applicationCategory: FinanceApplication
 lastReviewed: "2026-10-31"
 ---
 {%- set pk = tax["pk-2026-27"] -%}
-<script type="application/json" id="hub-countries">{{ salaryTaxPages | hubCountries(noSalaryTax.countries) | dump | safe }}</script>
 {% from "partials/currency-select.njk" import countryData with context %}
 {{ countryData(countries) }}
+{% from "partials/salary-tax-calculator.njk" import salaryTaxCalculator with context %}
+{{ salaryTaxCalculator({}) }}
 
-    <section class="tool-container" aria-label="{{ 'ariaLabel.tool-section1' | pt }}">
-      <form id="country-picker-form" class="country-picker" hidden>
-        <div class="form-group">
-          <label for="hub-country">{{ 'label.hub-country' | pt }}</label>
-          <select id="hub-country" class="form-control" data-country-remember>
-            <option value="PK">{{ 'option.hub-country.PK' | pt }}</option>
-            {% for c in salaryTaxPages %}<option value="{{ c.country }}">{{ c.countryName }}</option>{% endfor %}
-            {% for c in noSalaryTax.countries %}<option value="{{ c.code }}">{{ c.name }}</option>{% endfor %}
-          </select>
-        </div>
-        <button type="submit" class="btn btn-primary" id="hub-open-btn">{{ 'text.hub-open-btn' | pt }}</button>
-      </form>
-      <p class="form-hint" id="hub-country-note" aria-live="polite"></p>
+    <!-- tool-end -->
 
+    <section class="content-section" aria-labelledby="country-pages-heading">
+      <h2 id="country-pages-heading">{{ 'calc.countryPages' | pt }}</h2>
       <ul class="country-list" id="country-list">
         <li>
           <a href="/tools/pakistan-salary-tax-calculator/" data-country="PK">
@@ -42,7 +35,6 @@ lastReviewed: "2026-10-31"
       </ul>
     </section>
 
-    <!-- tool-end -->
 
     <section class="content-section" aria-labelledby="no-tax-heading">
       <h2 id="no-tax-heading">{{ 'text.no-tax-heading' | pt }}</h2>
