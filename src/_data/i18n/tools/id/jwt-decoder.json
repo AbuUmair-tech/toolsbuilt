@@ -1,0 +1,335 @@
+{
+  "listing": {
+    "name": "JWT Decoder",
+    "shortName": "JWT Decoder",
+    "description": "Decode header dan payload JSON Web Token secara lokal, lihat iat, nbf, dan exp sebagai tanggal, serta verifikasi tanda tangan HS256, HS384, dan HS512.",
+    "shortDescription": "Decode JWT, cek masa berlaku, dan verifikasi tanda tangan HMAC di browser Anda.",
+    "keywords": [
+      "JWT decoder",
+      "decode JWT online",
+      "json web token",
+      "parser JWT",
+      "verifikasi tanda tangan JWT",
+      "masa berlaku JWT",
+      "hs256"
+    ]
+  },
+  "title": "JWT Decoder: Decode JSON Web Token secara Lokal",
+  "description": "JWT decoder: decode header dan payload JSON Web Token di browser, lihat iat, nbf, dan exp sebagai tanggal, cek kedaluwarsa, dan verifikasi HS256/384/512.",
+  "h1": "JWT Decoder",
+  "quickAnswer": "JWT terdiri atas tiga bagian ber-encoding Base64URL yang dipisahkan titik: header, payload berisi klaim, dan tanda tangan. Men-decode dua bagian pertama menampilkan JSON-nya, tetapi tidak membuktikan token itu asli; hanya pengecekan tanda tangan dengan kunci yang benar yang bisa. JWT decoder ini berjalan sepenuhnya di browser Anda dan dapat memverifikasi tanda tangan HS256, HS384, dan HS512 dengan secret yang Anda ketik.",
+  "formula": {
+    "title": "Cara JWT Di-decode dan Diverifikasi",
+    "expression": "JWT = Base64URL(header) . Base64URL(payload) . Base64URL(signature)   ·   Tanda tangan HS256 = HMAC-SHA256(secret, header + '.' + payload)",
+    "explanation": "Setiap bagian memakai encoding Base64URL (RFC 4648), yang mengganti + dan / dengan - dan _ serta membuang padding =. Men-decode header dan payload menghasilkan JSON UTF-8. Klaim waktu iat (diterbitkan), nbf (belum berlaku sebelum), dan exp (kedaluwarsa) adalah nilai NumericDate: detik sejak 1970-01-01T00:00:00Z, ditampilkan di sini sebagai tanggal UTC dan lokal. Untuk algoritma HMAC, tanda tangan dihitung ulang dari teks header dan payload yang persis sama dengan secret, menggunakan Web Crypto API browser, lalu dibandingkan dalam waktu konstan. Token yang ditandatangani dengan RS256, ES256, atau algoritma kunci publik lain memerlukan kunci publik penerbit dan tidak diverifikasi di sini.",
+    "variables": [
+      {
+        "name": "Header",
+        "description": "Metadata seperti alg (algoritma penandatanganan) dan typ (biasanya JWT)."
+      },
+      {
+        "name": "Payload",
+        "description": "Klaim: siapa subjek token (sub), siapa penerbitnya (iss), audiensnya (aud), waktu, dan data kustom lainnya."
+      },
+      {
+        "name": "Tanda tangan",
+        "description": "Bukti bahwa header dan payload dibuat oleh pemegang kunci dan tidak diubah."
+      }
+    ]
+  },
+  "workedExamples": [
+    {
+      "title": "Contoh token dari jwt.io",
+      "inputs": [
+        "Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+      ],
+      "steps": [
+        "Header: {\"alg\": \"HS256\", \"typ\": \"JWT\"}",
+        "Payload: {\"sub\": \"1234567890\", \"name\": \"John Doe\", \"iat\": 1516239022}",
+        "iat 1516239022 = 2018-01-18T01:30:22Z; tidak ada klaim exp"
+      ],
+      "result": "Berhasil di-decode; dengan secret your-256-bit-secret tanda tangan HS256-nya valid"
+    },
+    {
+      "title": "Token yang hanya terdiri atas dua bagian",
+      "inputs": [
+        "Token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIn0"
+      ],
+      "steps": [
+        "Memisahkan berdasarkan titik menghasilkan 2 bagian, bukan 3"
+      ],
+      "result": "Error: bagian tanda tangan tidak ada"
+    },
+    {
+      "title": "Token yang sudah kedaluwarsa",
+      "inputs": [
+        "Payload berisi exp: 1700000000"
+      ],
+      "steps": [
+        "1700000000 = 2023-11-14T22:13:20Z, yang sudah lewat"
+      ],
+      "result": "Ditandai kedaluwarsa; server yang memeriksa exp akan menolaknya"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Memercayai token yang sudah di-decode",
+      "description": "Siapa pun bisa membuat token dengan payload apa pun. Men-decode hanya membacanya. Server Anda harus memverifikasi tanda tangan dengan kunci dan algoritma yang benar, serta memeriksa exp, nbf, iss, dan aud, sebelum memercayai klaim apa pun."
+    },
+    {
+      "title": "Menaruh rahasia di payload",
+      "description": "JWT yang ditandatangani hanya di-encode, bukan dienkripsi: siapa pun yang memegang token dapat membaca payload-nya. Jangan pernah menaruh kata sandi, nomor kartu, atau rahasia lain di dalamnya."
+    },
+    {
+      "title": "Menerima alg: none atau pergantian algoritma",
+      "description": "Pustaka hanya boleh menerima algoritma yang Anda harapkan. Mengizinkan 'none', atau membiarkan penyerang mengganti RS256 menjadi HS256, adalah kerentanan JWT klasik yang tercantum di OWASP."
+    },
+    {
+      "title": "Menempelkan token produksi ke situs web",
+      "description": "Token yang valid sama dengan kata sandi selama masa berlakunya. Tempelkan token hanya ke alat yang berjalan secara lokal, seperti alat ini, dan utamakan token yang sudah kedaluwarsa atau token uji."
+    },
+    {
+      "title": "Memakai secret HMAC yang lemah",
+      "description": "Secret HS256 seperti 'secret' dapat ditebak secara offline dari token mana pun. Gunakan kunci acak yang panjang, minimal 256 bit untuk HS256, sesuai ketentuan RFC 7518."
+    }
+  ],
+  "sources": [
+    {
+      "name": "RFC 7519: JSON Web Token (JWT)"
+    },
+    {
+      "name": "RFC 7515: JSON Web Signature (JWS)"
+    },
+    {
+      "name": "RFC 7518: JSON Web Algorithms (JWA)"
+    },
+    {
+      "name": "RFC 8725: JSON Web Token Best Current Practices"
+    },
+    {
+      "name": "OWASP Cheat Sheet Series: JSON Web Token"
+    },
+    {
+      "name": "OWASP Web Security Testing Guide: Testing JSON Web Tokens"
+    }
+  ],
+  "howto": {
+    "name": "Cara Men-decode JSON Web Token",
+    "description": "Baca header dan klaim JWT serta periksa tanda tangan HMAC-nya jika perlu, secara lokal.",
+    "steps": [
+      {
+        "name": "Tempelkan token",
+        "text": "Tempelkan JWT, dengan atau tanpa awalan 'Bearer '."
+      },
+      {
+        "name": "Baca header dan payload",
+        "text": "Lihat kedua bagian sebagai JSON yang terformat dan klaim waktu sebagai tanggal UTC dan lokal."
+      },
+      {
+        "name": "Cek masa berlaku",
+        "text": "Status menunjukkan apakah token sudah kedaluwarsa atau belum berlaku."
+      },
+      {
+        "name": "Verifikasi tanda tangan (HS256/384/512)",
+        "text": "Ketik shared secret lalu tekan Verifikasi untuk memeriksa tanda tangan secara lokal."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Bagaimana cara men-decode JWT?",
+      "a": "Tempelkan token ke kotak. Header dan payload di-decode dari Base64URL dan ditampilkan sebagai JSON yang terformat, dengan klaim waktu diubah menjadi tanggal."
+    },
+    {
+      "q": "Apakah aman menempelkan JWT saya di sini?",
+      "a": "Decoding dan pengecekan tanda tangan berjalan di browser Anda. Token dan secret tidak dikirim ke mana pun, tidak disimpan, tidak dicatat, dan tidak ditambahkan ke alamat halaman. Meski begitu, hindari menempelkan token produksi yang aktif ke situs web yang tidak Anda kendalikan."
+    },
+    {
+      "q": "Apakah men-decode JWT berarti memverifikasinya?",
+      "a": "Tidak. Men-decode hanya membaca isinya. Token baru dapat dipercaya setelah tanda tangannya diverifikasi dengan kunci yang benar, dan masa berlaku serta audiensnya diperiksa."
+    },
+    {
+      "q": "Bagaimana cara mengecek apakah JWT sudah kedaluwarsa?",
+      "a": "Lihat klaim exp: itu adalah Unix timestamp dalam detik. Jika lebih awal dari waktu sekarang, token sudah kedaluwarsa. Decoder menampilkan exp sebagai tanggal dan menandai token yang kedaluwarsa."
+    },
+    {
+      "q": "Bagaimana cara memverifikasi tanda tangan JWT HS256?",
+      "a": "Masukkan shared secret di bagian tanda tangan lalu tekan Verifikasi. HMAC dihitung ulang secara lokal dengan Web Crypto. Untuk contoh token dari jwt.io, secret-nya adalah your-256-bit-secret."
+    },
+    {
+      "q": "Bisakah saya memverifikasi token RS256 atau ES256 di sini?",
+      "a": "Saat ini belum. Token tersebut memakai tanda tangan kunci publik dan memerlukan kunci publik penerbit (sering dari URL JWKS). Verifikasi di aplikasi Anda dengan pustaka JWT yang terpelihara."
+    },
+    {
+      "q": "Apa perbedaan JWT, JWS, dan JWE?",
+      "a": "JWT adalah sekumpulan klaim. Jika ditandatangani, itu adalah JWS (tiga bagian) dan payload-nya bisa dibaca; jika dienkripsi, itu adalah JWE (lima bagian) dan payload-nya hanya bisa dibaca dengan kunci dekripsi."
+    },
+    {
+      "q": "Apa arti iat, nbf, dan exp?",
+      "a": "iat adalah waktu token diterbitkan, nbf adalah waktu paling awal token boleh dipakai, dan exp adalah waktu token kedaluwarsa. Ketiganya dalam detik sejak 1 Januari 1970 UTC."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "JWT Decoder",
+      "jwt-header": "Header hasil decode",
+      "jwt-payload": "Payload hasil decode"
+    },
+    "text": {
+      "jwt-privacy": "Token dan secret Anda tetap di tab browser ini. Keduanya tidak dikirim, disimpan, atau ditambahkan ke URL.",
+      "example-btn": "Pakai contoh dari jwt.io",
+      "clear-btn": "Hapus",
+      "toggle-secret": "Tampilkan",
+      "verify-btn": "Verifikasi tanda tangan"
+    },
+    "label": {
+      "jwt-input": "JSON Web Token",
+      "jwt-secret": "Secret",
+      "jwt-secret-enc": "Format secret"
+    },
+    "placeholder": {
+      "jwt-input": "eyJhbGciOi…"
+    },
+    "content": {
+      "tool": {
+        "div1": "<span id=\"result-header-text\">Token hasil decode</span>",
+        "p1": "<strong>Sudah di-decode, BELUM diverifikasi.</strong> Siapa pun bisa membuat token dengan isi seperti ini. Percayai hanya setelah tanda tangannya diperiksa dengan kunci yang benar.",
+        "span1": "Header",
+        "button1": "Salin",
+        "span2": "Payload",
+        "button2": "Salin",
+        "caption1": "Klaim waktu",
+        "th1": "Klaim",
+        "th2": "Kapan (UTC, lalu lokal)",
+        "p2": "Periksa tanda tangan"
+      },
+      "common-jwt-claims": {
+        "heading": "Klaim JWT yang Umum",
+        "caption1": "Nama klaim terdaftar dari RFC 7519",
+        "th1": "Klaim",
+        "th2": "Nama",
+        "th3": "Arti",
+        "td1": "<code>iss</code>",
+        "td2": "Penerbit",
+        "td3": "Siapa yang membuat dan menandatangani token",
+        "td4": "<code>sub</code>",
+        "td5": "Subjek",
+        "td6": "Siapa yang menjadi subjek token, sering berupa ID pengguna",
+        "td7": "<code>aud</code>",
+        "td8": "Audiens",
+        "td9": "Layanan yang menjadi tujuan token",
+        "td10": "<code>exp</code>",
+        "td11": "Waktu kedaluwarsa",
+        "td12": "Setelah waktu ini token harus ditolak",
+        "td13": "<code>nbf</code>",
+        "td14": "Belum berlaku sebelum",
+        "td15": "Sebelum waktu ini token harus ditolak",
+        "td16": "<code>iat</code>",
+        "td17": "Diterbitkan pada",
+        "td18": "Waktu token dibuat",
+        "td19": "<code>jti</code>",
+        "td20": "ID JWT",
+        "td21": "ID unik, dipakai untuk mencegah token diputar ulang"
+      },
+      "decoding-is-not-verifying": {
+        "heading": "Men-decode Bukan Berarti Memverifikasi",
+        "p1": "Header dan payload JWT yang ditandatangani hanya di-encode, sehingga dapat dibaca dan diubah oleh siapa pun. Yang mencegah pemalsuan adalah tanda tangannya: jika satu karakter saja di header atau payload berubah, tanda tangan tidak lagi cocok. Karena itu, server harus:",
+        "li1": "<strong>Memverifikasi tanda tangan</strong> dengan kunci yang diharapkan dan daftar algoritma yang diizinkan, jangan hanya mengandalkan algoritma yang disebut di token.",
+        "li2": "<strong>Memeriksa waktunya</strong>: tolak token yang melewati <code>exp</code> atau sebelum <code>nbf</code>, dengan toleransi selisih jam yang kecil saja.",
+        "li3": "<strong>Memeriksa tujuannya</strong>: <code>iss</code> dan <code>aud</code> harus cocok dengan penerbit dan layanan Anda.",
+        "li4": "<strong>Menjaga token berumur pendek</strong> dan hanya mengirimnya melalui HTTPS, seperti yang disarankan RFC 8725.",
+        "p2": "Halaman ini untuk membaca dan men-debug token. Tanda tangan HMAC diperiksa dengan Web Crypto API browser, dan token serta secret hanya disimpan di memori selama halaman terbuka. Untuk membuat secret acak, lihat <a href=\"/tools/password-generator/\">generator kata sandi</a>; untuk meng-hash teks, lihat <a href=\"/tools/hash-generator/\">generator hash</a>."
+      }
+    },
+    "option": {
+      "jwt-secret-enc": {
+        "utf8": "Teks biasa",
+        "base64url": "Base64 / Base64URL"
+      }
+    }
+  },
+  "client": {
+    "errors": {
+      "empty": "Tempelkan JSON Web Token (tiga bagian yang dipisahkan titik).",
+      "tooLong": "Token itu terlalu panjang untuk di-decode di sini.",
+      "whitespace": "JWT tidak boleh berisi spasi atau baris baru. Salin ulang tokennya tanpa itu.",
+      "jwe": "Ini tampaknya JWT terenkripsi (JWE, lima bagian). Payload-nya tidak bisa dibaca tanpa kunci dekripsi.",
+      "partCount": "JWT memiliki tiga bagian yang dipisahkan titik (header.payload.signature), tetapi yang ini memiliki {{count}}.",
+      "header": {
+        "notBase64Url": "Header bukan Base64URL yang valid.",
+        "notUtf8": "Header bukan teks UTF-8 yang valid.",
+        "notObject": "Header harus berupa objek JSON.",
+        "notJson": "Header bukan JSON yang valid."
+      },
+      "payload": {
+        "notBase64Url": "Payload bukan Base64URL yang valid.",
+        "notUtf8": "Payload bukan teks UTF-8 yang valid.",
+        "notObject": "Payload harus berupa objek JSON.",
+        "notJson": "Payload bukan JSON yang valid."
+      },
+      "signatureNotBase64Url": "Tanda tangan bukan Base64URL yang valid.",
+      "noWebCrypto": "Pengecekan tanda tangan memerlukan Web Crypto API, yang tidak tersedia di browser ini.",
+      "unsupportedAlgorithm": "Token ini memakai {{alg}}. Hanya tanda tangan HS256, HS384, dan HS512 (shared secret) yang bisa diperiksa di sini.",
+      "noAlgorithm": "tanpa algoritma",
+      "noSecret": "Masukkan secret untuk memeriksa tanda tangan.",
+      "secretNotBase64": "Secret bukan Base64 / Base64URL yang valid.",
+      "noSignature": "Token tidak memiliki tanda tangan untuk diperiksa."
+    },
+    "relative": {
+      "year": {
+        "other": "{{n}} tahun"
+      },
+      "day": {
+        "other": "{{n}} hari"
+      },
+      "hour": {
+        "other": "{{n}} jam"
+      },
+      "minute": {
+        "other": "{{n}} menit"
+      },
+      "second": {
+        "other": "{{n}} detik"
+      },
+      "ago": "{{time}} yang lalu",
+      "in": "{{time}} lagi",
+      "now": "sekarang"
+    },
+    "result": {
+      "noAlgorithm": "Tanpa algoritma"
+    },
+    "status": {
+      "expired": "Kedaluwarsa {{when}}",
+      "notYetValid": "Belum berlaku: dapat dipakai {{when}}",
+      "validTime": "Belum kedaluwarsa: kedaluwarsa {{when}}",
+      "noExp": "Tidak ada klaim kedaluwarsa (exp): token ini tidak kedaluwarsa dengan sendirinya"
+    },
+    "claims": {
+      "iat": "Diterbitkan (iat)",
+      "nbf": "Belum berlaku sebelum (nbf)",
+      "exp": "Kedaluwarsa (exp)"
+    },
+    "times": {
+      "invalid": "Bukan NumericDate yang valid: {{value}}"
+    },
+    "verify": {
+      "unsigned": "Token ini tidak ditandatangani (alg \"none\" atau tanda tangan kosong). Token ini tidak membuktikan apa pun tentang pembuatnya.",
+      "hmac": "Token ini memakai {{alg}}, tanda tangan HMAC dengan shared secret. Ketik secret-nya untuk memeriksanya di sini, di browser Anda.",
+      "other": "Token ini memakai {{alg}}. Hanya HS256, HS384, dan HS512 yang bisa diperiksa di sini; algoritma kunci publik seperti RS256 memerlukan kunci publik penerbit di aplikasi Anda.",
+      "unknownAlgorithm": "algoritma yang tidak dikenal",
+      "checking": "Memeriksa…",
+      "failed": "Tanda tangan tidak dapat diperiksa.",
+      "valid": "✓ Tanda tangan valid: token {{alg}} ini ditandatangani dengan secret ini.",
+      "invalid": "✗ Tanda tangan tidak valid: token tidak ditandatangani dengan secret ini, atau telah diubah."
+    },
+    "copy": {
+      "decoded": "Header:\n{{header}}\n\nPayload:\n{{payload}}",
+      "header": "Header disalin",
+      "payload": "Payload disalin"
+    },
+    "toggle": {
+      "hide": "Sembunyikan",
+      "show": "Tampilkan"
+    }
+  }
+}

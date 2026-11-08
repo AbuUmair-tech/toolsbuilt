@@ -1,0 +1,201 @@
+{
+  "listing": {
+    "name": "Generator Hash Kriptografi",
+    "shortName": "Generator Hash",
+    "description": "Hitung hash kriptografi untuk teks secara lokal dengan Web Crypto. Mendukung SHA-256, SHA-512, SHA-384, dan SHA-1 dengan verifikasi hash instan.",
+    "shortDescription": "Hitung hash SHA-256, SHA-512, SHA-384, dan SHA-1 secara lokal dengan perbandingan hash instan.",
+    "keywords": [
+      "generator hash",
+      "generator SHA-256",
+      "sha512 online",
+      "generator sha1",
+      "bandingkan hash",
+      "alat checksum"
+    ]
+  },
+  "title": "Generator Hash Online - SHA-256, SHA-512, SHA-384, SHA-1",
+  "description": "Generator hash online: hitung hash kriptografi teks secara lokal dengan Web Crypto. Mendukung SHA-256, SHA-512, SHA-384, dan SHA-1 dengan verifikasi.",
+  "h1": "Generator Hash Kriptografi",
+  "quickAnswer": "Untuk membuat hash kriptografi dari teks biasa, ketik atau tempelkan teks Anda di bawah. Generator hash ini menghitung SHA-256, SHA-512, SHA-384, dan SHA-1 lama secara bersamaan di browser Anda menggunakan Web Cryptography API yang dipercepat perangkat keras. Semua proses berjalan sepenuhnya di memori lokal tanpa pengiriman ke jaringan.",
+  "formula": {
+    "title": "Prinsip Fungsi Hash Kriptografi",
+    "expression": "H = Hash(M)  |  H adalah digest berukuran tetap, M adalah pesan dengan panjang bervariasi",
+    "explanation": "Fungsi hash kriptografi memetakan data biner dengan panjang berapa pun ke digest heksadesimal yang panjangnya tetap. Fungsi hash yang ideal bersifat deterministik, cepat dihitung, tidak dapat dibalik (tahan pre-image), tahan kolisi (tidak ada dua pesan yang menghasilkan digest sama), dan menunjukkan efek avalanche, yaitu perubahan 1 bit input mengubah lebih dari 50% bit output."
+  },
+  "workedExamples": [
+    {
+      "title": "Digest SHA-256 dari String Kosong",
+      "inputs": [
+        "Algoritma: SHA-256 (digest 256-bit)",
+        "Input: String kosong (\"\")"
+      ],
+      "steps": [
+        "Inisialisasi 8 word state 32-bit standar dari bagian pecahan akar kuadrat 8 bilangan prima pertama",
+        "Tambahkan padding bit 1 diikuti nol dan deskriptor panjang 64-bit",
+        "Proses blok pesan 512-bit melalui 64 putaran kompresi",
+        "Hasilkan digest heksadesimal kanonis 64 karakter"
+      ],
+      "result": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "title": "Digest SHA-512 dari Salam Standar",
+      "inputs": [
+        "Algoritma: SHA-512 (digest 512-bit)",
+        "Input: \"hello world\""
+      ],
+      "steps": [
+        "Encode karakter ASCII menjadi aliran byte UTF-8 [0x68, 0x65, 0x6c, 0x6c, 0x6f, 0x20, 0x77, 0x6f, 0x72, 0x6c, 0x64]",
+        "Jalankan 80 putaran kompresi pada blok 1024-bit dengan operasi word 64-bit",
+        "Ubah output 64 byte menjadi string heksadesimal 128 karakter"
+      ],
+      "result": "309ecc489c12d6eb4cc40f50c902f2b4d0ed77ee511a7c7a9bcd3ca86d4cd86f989dd35bc5ff499670da34255b45b0cfd830e81f605dcf7dc5542e40ae9074da"
+    },
+    {
+      "title": "Vektor Uji SHA-1 Lama",
+      "inputs": [
+        "Algoritma: SHA-1 (digest 160-bit)",
+        "Input: \"The quick brown fox jumps over the lazy dog\""
+      ],
+      "steps": [
+        "Jalankan putaran kompresi SHA-1 yang menghasilkan digest 20 byte",
+        "Format sebagai 40 karakter heksadesimal"
+      ],
+      "result": "2fd4e1c67a2d28fced849ee1bb76e7391b93eb12"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Memakai Hash Cepat (SHA-256/MD5) untuk Kata Sandi",
+      "description": "Fungsi hash kriptografi yang cepat dapat menghitung miliaran tebakan per detik di GPU biasa. Kata sandi harus selalu memakai fungsi turunan kunci yang lambat dan berat memori seperti Argon2, bcrypt, atau PBKDF2 dengan salt yang unik."
+    },
+    {
+      "title": "Memakai SHA-1 atau MD5 di Sistem Baru",
+      "description": "SHA-1 dan MD5 terbukti memiliki kerentanan kolisi yang praktis (mis. serangan SHAttered). Keduanya sudah usang dan tidak aman untuk tanda tangan digital, sertifikat, dan jaminan integritas."
+    },
+    {
+      "title": "Mengabaikan Encoding Karakter (UTF-8 vs Latin-1)",
+      "description": "Hashing bergantung pada byte biner mentah. Meng-hash karakter Unicode multibyte (aksen, emoji) dengan encoding yang berbeda menghasilkan digest yang sama sekali berbeda."
+    },
+    {
+      "title": "Mengandalkan Hash Tanpa Salt",
+      "description": "Hashing tanpa salt kriptografis memungkinkan penyerang membalik digest seketika dengan rainbow table yang sudah dihitung sebelumnya."
+    }
+  ],
+  "sources": [
+    {
+      "name": "NIST FIPS PUB 180-4: Secure Hash Standard (SHS)"
+    },
+    {
+      "name": "W3C Web Cryptography API: SubtleCrypto.digest()"
+    },
+    {
+      "name": "CWI Amsterdam & Google: Serangan Kolisi SHA-1 SHAttered"
+    }
+  ],
+  "howto": {
+    "name": "Cara Menghitung dan Membandingkan Hash Kriptografi",
+    "description": "Petunjuk langkah demi langkah untuk meng-hash teks dan memverifikasi kecocokan checksum secara online.",
+    "steps": [
+      {
+        "name": "Masukkan Teks Biasa",
+        "text": "Ketik atau tempelkan pesan atau rahasia Anda di area input untuk menghitung hash secara langsung."
+      },
+      {
+        "name": "Pilih Format Digest",
+        "text": "Beralih antara hex huruf kecil (standar) dan hex huruf besar."
+      },
+      {
+        "name": "Verifikasi atau Salin",
+        "text": "Salin hash apa pun dengan sekali klik, atau tempelkan checksum target ke kolom perbandingan untuk memverifikasi kecocokan."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Apakah SHA-256 aman untuk menyimpan kata sandi?",
+      "a": "Tidak. SHA-256 dirancang sangat cepat untuk checksum, sehingga GPU modern bisa menebak lebih dari 10 miliar hash per detik. Untuk kata sandi, selalu gunakan algoritma yang lambat, ber-salt, dan berat memori seperti Argon2id, bcrypt, atau scrypt."
+    },
+    {
+      "q": "Mengapa MD5 tidak tersedia di alat ini?",
+      "a": "MD5 sudah rusak secara kriptografis sejak 2004, dengan kerentanan kolisi sederhana yang dapat ditunjukkan dalam waktu kurang dari satu detik. Karena MD5 menimbulkan risiko keamanan serius jika dipakai di aplikasi modern, ToolsBuilt tidak menyediakan MD5."
+    },
+    {
+      "q": "Bisakah hash kriptografi didekripsi atau dibalik?",
+      "a": "Tidak. Fungsi hash adalah operasi matematika satu arah yang memampatkan data dan membuang panjang serta struktur aslinya. Hash tidak dapat dibalik secara matematis; hanya bisa ditebak dengan brute force."
+    },
+    {
+      "q": "Apa perbedaan SHA-256 dan SHA-512?",
+      "a": "SHA-256 menghasilkan digest 256-bit (32 byte) dengan operasi 32-bit, sedangkan SHA-512 menghasilkan digest 512-bit (64 byte) dengan operasi 64-bit. Pada arsitektur CPU 64-bit, SHA-512 sering lebih cepat daripada SHA-256."
+    },
+    {
+      "q": "Apakah ToolsBuilt mengirim teks saya ke server untuk menghitung hash?",
+      "a": "Tidak. Semua hash dihitung secara lokal di dalam browser web Anda menggunakan Web Crypto (crypto.subtle). Teks input dan hash yang dihitung tidak pernah dikirim melalui jaringan."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-div1": "Alat Generator Hash Kriptografi",
+      "hash-input-text": "Input Teks Biasa",
+      "hash-sha256-val": "Output Hash SHA-256",
+      "tool-button1": "Salin Hash SHA-256",
+      "hash-sha512-val": "Output Hash SHA-512",
+      "tool-button2": "Salin Hash SHA-512",
+      "hash-sha384-val": "Output Hash SHA-384",
+      "tool-button3": "Salin Hash SHA-384",
+      "hash-sha1-val": "Output Hash SHA-1",
+      "tool-button4": "Salin Hash SHA-1",
+      "hash-compare-input": "Hash Target untuk Perbandingan"
+    },
+    "content": {
+      "tool": {
+        "div1": "<strong>Pemberitahuan Keamanan:</strong> SHA-1 dan MD5 sudah rusak secara kriptografis dan rentan terhadap serangan kolisi. Keduanya tidak boleh dipakai untuk hashing kata sandi, tanda tangan digital, atau autentikasi yang penting bagi keamanan. ToolsBuilt sengaja tidak menyediakan MD5. Untuk kata sandi, selalu gunakan algoritma ber-salt seperti <strong>Argon2</strong> atau <strong>bcrypt</strong>. Untuk integritas berkas, gunakan <strong>SHA-256</strong> atau <strong>SHA-512</strong>.",
+        "label1": "<input type=\"checkbox\" id=\"opt-hash-uppercase\">\n          <span>Hex Huruf Besar</span>",
+        "div2": "<span id=\"hash-byte-counter\">0 karakter / 0 byte</span>\n      <span>Dihitung secara lokal melalui Web Crypto API</span>",
+        "div3": "<span>SHA-256</span>\n          <span class=\"text-sm text-success font-semibold\">(Disarankan untuk integritas)</span>",
+        "span1": "256 bit (64 karakter hex)",
+        "button1": "<span data-icon=\"copy\"></span> Salin",
+        "div4": "<span>SHA-512</span>",
+        "span2": "512 bit (128 karakter hex)",
+        "button2": "<span data-icon=\"copy\"></span> Salin",
+        "div5": "<span>SHA-384</span>",
+        "span3": "384 bit (96 karakter hex)",
+        "button3": "<span data-icon=\"copy\"></span> Salin",
+        "div6": "<span>SHA-1</span>\n          <span class=\"hash-badge-legacy\">Lama / Tidak Aman untuk Kata Sandi</span>",
+        "span4": "160 bit (40 karakter hex)",
+        "button4": "<span data-icon=\"copy\"></span> Salin"
+      }
+    },
+    "label": {
+      "hash-input-text": "Input Teks Biasa:",
+      "hash-compare-input": "Bandingkan / Verifikasi Hash:"
+    },
+    "text": {
+      "clear-input-btn": "<span data-icon=\"trash\"></span> Hapus",
+      "hash-compare-status": "<span class=\"text-secondary\">Tempelkan hash di atas untuk memverifikasi kecocokan dengan nilai yang dihitung.</span>"
+    },
+    "placeholder": {
+      "hash-input-text": "Masukkan teks yang akan di-hash...",
+      "hash-compare-input": "Tempelkan checksum atau hash eksternal untuk dibandingkan..."
+    }
+  },
+  "client": {
+    "warnings": {
+      "password": "Peringatan Keamanan: SHA-1 dan MD5 sudah rusak secara kriptografis dan rentan terhadap serangan kolisi. Keduanya tidak boleh dipakai untuk hashing kata sandi, tanda tangan digital, atau autentikasi yang penting bagi keamanan. Gunakan Argon2, bcrypt, atau scrypt untuk kata sandi, dan SHA-256 atau SHA-512 untuk verifikasi integritas data."
+    },
+    "errors": {
+      "unsupportedAlgorithm": "Algoritma hash tidak didukung: {{algorithm}}. Yang didukung: {{supported}}",
+      "computationFailed": "Perhitungan hash kriptografi gagal: {{message}}"
+    },
+    "counter": "{{chars}} karakter / {{bytes}} byte",
+    "copy": {
+      "copied": "✓ Disalin!",
+      "failed": "Gagal menyalin."
+    },
+    "compare": {
+      "prompt": "Tempelkan hash di atas untuk memverifikasi kecocokan dengan nilai yang dihitung.",
+      "match": "✓ COCOK ({{algorithm}})",
+      "noMatch": "✕ TIDAK ADA YANG COCOK"
+    },
+    "sampleInput": "Halo ToolsBuilt!"
+  }
+}

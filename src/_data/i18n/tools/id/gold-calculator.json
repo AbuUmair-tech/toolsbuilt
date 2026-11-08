@@ -1,0 +1,360 @@
+{
+  "listing": {
+    "name": "Kalkulator Emas",
+    "shortName": "Kalkulator Emas",
+    "description": "Hitung harga emas per tola, gram, masha, atau ratti untuk 24K, 22K, 21K, atau 18K dari harga hari ini, dengan ongkos pembuatan serta harga per tola dan per gram.",
+    "shortDescription": "Hitung harga emas per tola, gram, masha, atau ratti dan karat dari harga hari ini, dengan ongkos pembuatan.",
+    "keywords": [
+      "kalkulator emas",
+      "kalkulator harga emas per tola",
+      "tola ke gram",
+      "harga emas per tola",
+      "kalkulator harga emas 22 karat",
+      "harga emas 21 karat",
+      "kalkulator ongkos pembuatan perhiasan",
+      "masha ratti ke gram"
+    ]
+  },
+  "title": "Kalkulator Emas: Harga per Tola, Gram & Karat",
+  "description": "Kalkulator emas: hitung harga emas per tola, gram, masha, atau ratti untuk 24K, 22K, 21K, atau 18K dari harga hari ini, plus ongkos pembuatan.",
+  "h1": "Kalkulator Emas: Harga per Tola, Gram & Karat",
+  "quickAnswer": "Harga emas = berat dalam gram × (karat ÷ 24) × harga emas murni per gram. Menurut kalkulator emas ini, dengan harga Rs 400,000 per tola untuk 24K, 2 tola emas 22K bernilai Rs 733,333.33 dan 10 gram emas 24K bernilai Rs 342,941.30, sebelum ongkos pembuatan. Satu tola sama dengan 11.6638038 gram.",
+  "formula": {
+    "title": "Rumus Harga Emas",
+    "expression": "Nilai emas = Berat (g) × (Karat barang ÷ 24) × Harga emas murni per gram",
+    "explanation": "Pertama, ubah harga yang diberikan kepada Anda menjadi harga satu gram emas murni (24K): bagi dengan jumlah gram dalam satuan harga itu (11.6638038 untuk tola, 10 untuk 10 gram) lalu bagi dengan kemurnian karat harga tersebut. Kemudian kalikan dengan berat barang dalam gram dan kemurniannya. Ongkos pembuatan ditambahkan di atasnya, baik sebagai persentase dari nilai emas maupun sebagai jumlah tetap per gram.",
+    "variables": [
+      {
+        "name": "Berat (g)",
+        "description": "Berat barang yang dikonversi ke gram: 1 tola = 11.6638038 g, 1 masha = 1/12 tola, 1 ratti = 1/8 masha."
+      },
+      {
+        "name": "Karat ÷ 24",
+        "description": "Kemurnian sebagai pecahan: 22K = 22/24 = 91.7%, 21K = 87.5%, 18K = 75%."
+      },
+      {
+        "name": "Harga emas murni per gram",
+        "description": "Harga 24K untuk satu gram, dihitung dari harga yang Anda masukkan."
+      }
+    ]
+  },
+  "workedExamples": [
+    {
+      "title": "2 tola emas 22K dengan harga Rs 400,000 per tola (24K)",
+      "inputs": [
+        "Harga: Rs 400,000 per tola untuk 24K",
+        "Berat: 2 tola",
+        "Karat barang: 22K"
+      ],
+      "steps": [
+        "Kemurnian 22K: 22 ÷ 24 = 0.916667",
+        "Nilai emas: 2 × 400,000 × 0.916667 = 733,333.33"
+      ],
+      "result": "Rs 733,333.33 (harga 22K: Rs 366,666.67 per tola)"
+    },
+    {
+      "title": "10 gram emas 24K dan 21K",
+      "inputs": [
+        "Harga: Rs 400,000 per tola untuk 24K",
+        "Berat: 10 g"
+      ],
+      "steps": [
+        "Harga 24K per gram: 400,000 ÷ 11.6638038 = 34,294.13",
+        "10 g emas 24K: 10 × 34,294.13 = Rs 342,941.30",
+        "10 g emas 21K: 10 × (21 ÷ 24) × 34,294.13 = Rs 300,073.63"
+      ],
+      "result": "Rs 342,941.30 untuk 24K, Rs 300,073.63 untuk 21K"
+    },
+    {
+      "title": "1 masha emas 24K",
+      "inputs": [
+        "Harga: Rs 400,000 per tola untuk 24K",
+        "Berat: 1 masha (1/12 tola)"
+      ],
+      "steps": [
+        "1 masha = 11.6638038 ÷ 12 = 0.9719836 g",
+        "Nilai: 400,000 ÷ 12 = 33,333.33"
+      ],
+      "result": "Rs 33,333.33"
+    },
+    {
+      "title": "10 gram emas 22K dengan ongkos pembuatan Rs 500 per gram",
+      "inputs": [
+        "Harga: Rs 400,000 per tola untuk 24K",
+        "Berat: 10 g, 22K",
+        "Ongkos pembuatan: Rs 500 per gram"
+      ],
+      "steps": [
+        "Nilai emas: 10 × (22 ÷ 24) × 34,294.13 = Rs 314,362.86",
+        "Ongkos pembuatan: 10 × 500 = Rs 5,000",
+        "Total: 314,362.86 + 5,000 = Rs 319,362.86"
+      ],
+      "result": "Rs 319,362.86 termasuk ongkos pembuatan"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Memakai harga 24K untuk perhiasan 22K atau 21K",
+      "description": "Perhiasan jarang yang 24K. Jika harga yang diberikan untuk 24K dan barangnya 22K, emas di dalamnya hanya 22/24 dari beratnya. Membayar harga 24K untuk perhiasan 22K berarti kelebihan bayar sekitar 9%."
+    },
+    {
+      "title": "Menganggap satu tola sama dengan 10 gram",
+      "description": "Satu tola adalah 11.6638038 gram, bukan 10. Harga per tola dan per 10 gram adalah angka yang berbeda, jadi periksa mana yang Anda pegang sebelum membandingkan toko."
+    },
+    {
+      "title": "Tertukar karat untuk harganya",
+      "description": "Sebagian toko menyebut harga 22K, sebagian lagi harga 24K. Pilih karat yang menjadi dasar harga, lalu karat barangnya; kalkulator akan menyesuaikan di antara keduanya."
+    },
+    {
+      "title": "Mengabaikan ongkos pembuatan dan kaat",
+      "description": "Harga yang Anda bayar untuk perhiasan sudah termasuk ongkos pembuatan, dan saat Anda menjual atau menukarnya, toko emas bisa memotong kaat (potongan untuk susut atau ketidakmurnian). Nilai emas murni hanyalah sebagian dari harga toko."
+    },
+    {
+      "title": "Menghitung berat batu sebagai emas",
+      "description": "Jika perhiasan memiliki batu, manik-manik, atau lapisan, beratnya bukan emas. Tanyakan berat bersih emasnya sebelum menghitung nilainya."
+    }
+  ],
+  "sources": [
+    {
+      "name": "NIST Office of Weights and Measures (definisi grain)"
+    },
+    {
+      "name": "Bureau of Indian Standards: Ikhtisar hallmarking"
+    }
+  ],
+  "howto": {
+    "name": "Cara Menghitung Harga Emas",
+    "description": "Hitung nilai emas dari harga hari ini, beratnya, dan karatnya.",
+    "steps": [
+      {
+        "name": "Masukkan harga hari ini",
+        "text": "Ketik harga yang diberikan kepada Anda lalu pilih apakah per tola, per 10 gram, atau per gram, dan untuk karat berapa."
+      },
+      {
+        "name": "Masukkan beratnya",
+        "text": "Ketik berat dalam tola, gram, masha, atau ratti."
+      },
+      {
+        "name": "Pilih karat barang",
+        "text": "Pilih 24K, 22K, 21K, atau 18K untuk barang yang Anda hitung harganya."
+      },
+      {
+        "name": "Tambahkan ongkos pembuatan jika ada",
+        "text": "Pilih persentase dari nilai emas atau jumlah tetap per gram, lalu baca nilai emas, ongkos pembuatan, dan totalnya."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Bagaimana cara menghitung harga emas per tola?",
+      "a": "Kalikan jumlah tola dengan harga per tola untuk karat yang Anda beli. Jika harga Anda untuk 24K dan barangnya 22K, kalikan juga dengan 22 ÷ 24. Dengan harga Rs 400,000 per tola untuk 24K, 2 tola emas 22K adalah 2 × 400,000 × 22/24 = Rs 733,333.33."
+    },
+    {
+      "q": "Berapa gram dalam satu tola?",
+      "a": "Satu tola sama dengan 11.6638038 gram. Tola didefinisikan sebagai 180 grain, dan satu grain sama dengan 64.79891 miligram."
+    },
+    {
+      "q": "Berapa masha dan ratti dalam satu tola?",
+      "a": "Satu tola sama dengan 12 masha, dan satu masha sama dengan 8 ratti, jadi satu tola sama dengan 96 ratti. Satu masha sekitar 0.972 gram dan satu ratti sekitar 0.1215 gram."
+    },
+    {
+      "q": "Bagaimana cara menghitung harga emas 22K dari harga 24K?",
+      "a": "Kalikan harga 24K dengan 22 ÷ 24, yaitu sekitar 0.9167. Harga 24K Rs 400,000 per tola sama dengan Rs 366,666.67 per tola untuk 22K. Untuk 21K kalikan dengan 21 ÷ 24 (0.875), dan untuk 18K dengan 18 ÷ 24 (0.75)."
+    },
+    {
+      "q": "Apa perbedaan emas 22K dan 21K?",
+      "a": "Emas 22K mengandung sekitar 91.7% emas murni dan 21K sebesar 87.5%, jadi 21K mengandung lebih sedikit emas per gram dan nilainya lebih rendah pada berat yang sama. Sisanya adalah logam lain yang membuat perhiasan lebih keras."
+    },
+    {
+      "q": "Mengapa harga toko emas lebih tinggi daripada kalkulator ini?",
+      "a": "Toko menambahkan ongkos pembuatan, bisa menambahkan biaya susut, dan bisa membulatkan harga. Kalkulator menampilkan nilai emas dan ongkos pembuatan secara terpisah, sehingga Anda bisa membandingkan bagian mana dari penawaran yang merupakan harga emasnya sendiri."
+    },
+    {
+      "q": "Apa itu kaat pada emas?",
+      "a": "Kaat adalah potongan yang dikenakan toko emas saat membeli kembali atau menukar emas, untuk memperhitungkan ketidakmurnian, susut, atau solder pada perhiasan. Besarnya berbeda antartoko, jadi tanyakan berapa kaat yang akan dipotong sebelum Anda menjual."
+    },
+    {
+      "q": "Di mana saya bisa menemukan harga emas hari ini?",
+      "a": "Ambil harga hari itu dari asosiasi sarafa (pedagang emas) setempat atau toko emas Anda. Kalkulator ini tidak mengambil harga langsung; ketik harga yang diberikan kepada Anda lalu pilih satuan dan karatnya."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Formulir Kalkulator Emas",
+      "copy-result-btn": "Salin hasil ke papan klip",
+      "gold-weight-units-div1": "Konversi satuan berat emas (dapat digulir)"
+    },
+    "content": {
+      "tool": {
+        "legend1": "Harga emas hari ini",
+        "legend2": "Emas Anda",
+        "legend3": "Ongkos pembuatan <span class=\"label-hint\">(opsional)</span>",
+        "button1": "Hitung Harga",
+        "div1": "Kandungan emas murni",
+        "div2": "Nilai emas",
+        "div3": "Ongkos pembuatan",
+        "div4": "Total harga"
+      },
+      "equivalent-rates-for-22k": {
+        "dt1": "Per tola",
+        "dt2": "Per 10 gram",
+        "dt3": "Per gram"
+      },
+      "gold-weight-units": {
+        "heading": "Satuan berat emas",
+        "caption1": "Konversi satuan berat emas",
+        "th1": "Satuan",
+        "th2": "Tola",
+        "th3": "Gram",
+        "th4": "Masha",
+        "th5": "Ratti",
+        "p1": "Troy ounce: 31.1034768 g, dari <a href=\"https://www.nist.gov/document/nist-hb-44-2024-appendix-c-general-tables-units-measurement\" target=\"_blank\" rel=\"noopener noreferrer\">NIST Handbook 44, Appendix C</a>. Tael Hong Kong: “tael troy” resmi seberat 37.429 g yang dipakai untuk logam mulia, dari <a href=\"https://www.elegislation.gov.hk/hk/cap68\" target=\"_blank\" rel=\"noopener noreferrer\">Weights and Measures Ordinance (Cap. 68)</a>, bukan tael biasa sebesar 1/16 catty."
+      },
+      "tola-and-gram-which-unit-is": {
+        "p1": "Di Pakistan dan sebagian besar Asia Selatan, emas secara tradisional ditimbang dan diberi harga per tola, sedangkan banyak toko, bank, dan pasar internasional menyebut harga per gram atau per 10 gram. Satu tola bukan 10 gram: satu tola adalah 11.6638038 gram, didefinisikan sebagai 180 grain, dengan satu grain sama dengan 64.79891 miligram. Perhiasan kecil sering ditimbang dalam masha dan ratti: 12 masha sama dengan satu tola dan 8 ratti sama dengan satu masha, jadi satu tola sama dengan 96 ratti.",
+        "p2": "Karena satuannya berbeda, harga pada hari yang sama bisa terlihat sangat berbeda antartoko. Pilih satuan yang dipakai untuk harga Anda, dan kalkulator mengubah semuanya ke gram sebelum menghitung nilainya. Hasilnya juga menampilkan harga setara per tola, per 10 gram, dan per gram, sehingga Anda bisa membandingkan penawaran dengan satuan yang berbeda."
+      },
+      "karat-and-purity": {
+        "p1": "Karat mengukur berapa bagian dari suatu barang yang merupakan emas murni, dari 24 bagian. Kalkulator memakai kemurnian = karat ÷ 24:",
+        "li1": "<strong>24K:</strong> emas murni. Emas yang dijual sebagai 24K biasanya bercap 999, atau 99.9% emas.",
+        "li2": "<strong>22K:</strong> 22/24 = 91.7% emas, kemurnian paling umum untuk perhiasan di Pakistan dan India, sering bercap 916.",
+        "li3": "<strong>21K:</strong> 21/24 = 87.5% emas, banyak dipakai di negara Teluk dan untuk sebagian perhiasan lokal.",
+        "li4": "<strong>18K:</strong> 18/24 = 75% emas, umum untuk perhiasan bertatahkan batu.",
+        "p2": "Sisa logamnya biasanya perak, tembaga, atau seng, yang membuat perhiasan lebih keras. Jika harga Anda untuk satu karat dan barangnya karat lain, kalkulator menyesuaikan harga dengan rasio kedua kemurnian. Misalnya, barang 22K yang dihitung dari harga 24K bernilai 22/24 dari jumlah 24K pada berat yang sama."
+      },
+      "why-shop-prices-differ-from-the": {
+        "p1": "Nilai emas di kalkulator adalah nilai logam dalam barang itu pada harga yang Anda masukkan. Penawaran toko emas biasanya lebih tinggi karena beberapa alasan:",
+        "li1": "<strong>Ongkos pembuatan:</strong> biaya mengubah emas menjadi perhiasan, dikenakan sebagai persentase dari nilai emas atau sebagai jumlah tetap per gram atau per tola. Desain yang rumit biasanya lebih mahal.",
+        "li2": "<strong>Susut:</strong> sebagian toko menambahkan biaya untuk logam yang hilang saat perhiasan dibuat.",
+        "li3": "<strong>Kaat:</strong> saat Anda menjual atau menukar emas, toko emas bisa memotong kaat untuk ketidakmurnian, solder, atau susut, sehingga Anda menerima kurang dari nilai emasnya.",
+        "li4": "<strong>Batu dan bahan lain:</strong> beratnya bukan emas, jadi tanyakan berat bersih emasnya.",
+        "p2": "Masukkan ongkos pembuatan yang disebutkan toko untuk melihat totalnya, dan bandingkan baris nilai emas antartoko: jika dua penawaran memiliki nilai emas yang sama, perbedaannya ada pada ongkosnya."
+      },
+      "use-today-s-rate-from-your": {
+        "p1": "Harga emas berubah sepanjang hari dan berbeda antarkota dan antarnegara. Kalkulator ini tidak menampilkan atau mengambil harga langsung. Ambil harga hari itu dari asosiasi sarafa setempat atau toko emas Anda, catat satuan dan karatnya, lalu masukkan di sini. Harga dan berat yang Anda masukkan tetap di browser Anda."
+      }
+    },
+    "label": {
+      "gold-rate": "Harga <span class=\"text-accent\">*</span>",
+      "rate-unit": "Harga untuk",
+      "rate-karat": "Harga berlaku untuk",
+      "gold-weight": "Berat <span class=\"text-accent\">*</span>",
+      "weight-unit": "Satuan",
+      "item-karat": "Karat",
+      "making-type": "Dikenakan sebagai",
+      "making-value": "Ongkos pembuatan (%)"
+    },
+    "option": {
+      "rate-unit": {
+        "tola": "per tola",
+        "10g": "per 10 gram",
+        "gram": "per gram",
+        "troyOunce": "per troy ounce (31.1035 g)",
+        "taelTroy": "per tael, Hong Kong (37.429 g)",
+        "kilogram": "per kilogram"
+      },
+      "weight-unit": {
+        "tola": "Tola",
+        "gram": "Gram",
+        "masha": "Masha",
+        "ratti": "Ratti",
+        "troyOunce": "Troy ounce",
+        "taelTroy": "Tael (Hong Kong, troy)",
+        "kilogram": "Kilogram"
+      },
+      "making-type": {
+        "none": "Tanpa ongkos pembuatan",
+        "percent": "% dari nilai emas",
+        "perGram": "Jumlah tetap per gram"
+      }
+    },
+    "text": {
+      "rate-hint": "Ambil harga hari ini dari asosiasi sarafa setempat atau toko emas Anda. Kalkulator ini tidak mengambil harga langsung.",
+      "reset-btn": "Atur Ulang",
+      "result-header-text": "Total harga",
+      "copy-result-btn": "<span data-icon=\"copy\"></span> Salin Hasil",
+      "result-primary-text": "Rs 0.00",
+      "stat-gold-value": "Rs 0.00",
+      "stat-making": "Rs 0.00",
+      "stat-total": "Rs 0.00",
+      "rates-title": "Harga setara untuk 22K",
+      "tola-gram-heading": "Tola dan gram: harga Anda dalam satuan apa?",
+      "karat-heading": "Karat dan kemurnian",
+      "shop-price-heading": "Mengapa harga toko berbeda dari nilai emas",
+      "todays-rate-heading": "Gunakan harga hari ini dari asosiasi sarafa atau toko emas Anda"
+    },
+    "title": {
+      "copy-result-btn": "Salin hasil ke papan klip"
+    },
+    "units": {
+      "gram": "1 gram",
+      "masha": "1 masha",
+      "ratti": "1 ratti",
+      "troyOunce": "1 troy ounce",
+      "taelTroy": "1 tael (hong kong, troy)",
+      "kilogram": "1 kilogram"
+    }
+  },
+  "client": {
+    "units": {
+      "tola": "Tola",
+      "gram": "Gram",
+      "masha": "Masha",
+      "ratti": "Ratti",
+      "troyOunce": "Troy ounce",
+      "taelTroy": "Tael (Hong Kong, troy)",
+      "kilogram": "Kilogram"
+    },
+    "rateUnits": {
+      "tola": "per tola",
+      "10g": "per 10 gram",
+      "gram": "per gram",
+      "troyOunce": "per troy ounce",
+      "taelTroy": "per tael (Hong Kong, troy)",
+      "kilogram": "per kilogram"
+    },
+    "errors": {
+      "rateRequired": "Masukkan harga emas hari ini.",
+      "weightRequired": "Masukkan beratnya.",
+      "makingRequired": "Masukkan ongkos pembuatan.",
+      "weightUnit": "Pilih satuan berat dari daftar.",
+      "ratePositive": "Harga emas harus lebih dari 0.",
+      "weightPositive": "Berat harus lebih dari 0.",
+      "rateUnit": "Pilih satuan berat yang dipakai untuk harga.",
+      "karat": "Pilih karat: {{karats}}.",
+      "makingNegative": "Ongkos pembuatan tidak boleh negatif.",
+      "makingType": "Pilih cara ongkos pembuatan dihitung."
+    },
+    "making": {
+      "labelPercent": "Ongkos pembuatan (%)",
+      "labelPerGram": "Ongkos pembuatan ({{symbol}} per gram)"
+    },
+    "result": {
+      "header": "Total harga, {{weight}} emas {{karat}}K",
+      "ratesTitle": "Harga setara untuk {{karat}}K",
+      "copy": "{{weight}} emas {{karat}}K ({{pure}} g murni): nilai emas {{value}}, ongkos pembuatan {{making}}, total {{total}}. Harga {{karat}}K: {{perTola}} per tola, {{perGram}} per gram."
+    },
+    "steps": {
+      "weight": "1. Berat barang: <code>{{grams}} g</code><br>",
+      "purity": "2. Kemurnian: {{karat}} ÷ 24 = <code>{{purity}}%</code>, jadi emas murni = <code>{{pure}} g</code><br>",
+      "makingPercent": "4. Ongkos pembuatan: {{percent}}% dari nilai emas = <code>{{value}}</code><br>",
+      "makingPerGram": "4. Ongkos pembuatan: {{grams}} g × {{rate}} = <code>{{value}}</code><br>",
+      "total": "Total: <strong>{{total}}</strong>"
+    },
+    "toast": {
+      "copied": "Harga emas disalin ke papan klip"
+    },
+    "weightAmount": {
+      "masha": "{{value}} masha",
+      "ratti": "{{value}} ratti"
+    },
+    "weightText": {
+      "gram": "{{value}} gram",
+      "masha": "{{value}} masha",
+      "ratti": "{{value}} ratti",
+      "troyOunce": "{{value}} troy ounce",
+      "taelTroy": "{{value}} tael (hong kong, troy)",
+      "kilogram": "{{value}} kilogram"
+    }
+  }
+}

@@ -1,0 +1,595 @@
+{
+  "listing": {
+    "name": "Kalkulator Pajak Gaji per Negara",
+    "shortName": "Pajak Gaji per Negara",
+    "description": "Pilih negara Anda untuk menghitung pajak penghasilan atas gaji: kalkulator Inggris, federal AS, India, dan Pakistan dari tarif resmi, plus negara-negara Teluk.",
+    "shortDescription": "Pilih negara Anda dan buka kalkulator pajak gaji yang dibuat berdasarkan tarif resminya.",
+    "keywords": [
+      "kalkulator pajak gaji",
+      "kalkulator pajak penghasilan per negara",
+      "kalkulator gaji bersih",
+      "pajak atas gaji"
+    ]
+  },
+  "title": "Kalkulator Pajak Gaji: Inggris, AS, India, Pakistan",
+  "description": "Kalkulator pajak gaji per negara: hitung pajak penghasilan atas gaji di Inggris, AS (federal), India, dan Pakistan dari tarif resmi, plus negara Teluk.",
+  "h1": "Kalkulator Pajak Gaji per Negara",
+  "quickAnswer": "Pilih negara Anda untuk membuka kalkulator pajak gaji yang dibuat berdasarkan tarif pajak resmi negara itu. Setiap negara memajaki gaji dengan cara berbeda: Inggris dan India memberi tunjangan bebas pajak atau potongan terlebih dahulu, AS memakai bracket berdasarkan status pelaporan, dan Pakistan memakai lapisan jumlah tetap plus tarif. UEA, Arab Saudi, dan Qatar sama sekali tidak memajaki gaji perorangan.",
+  "faqs": [
+    {
+      "q": "Negara mana saja yang dicakup kalkulator pajak gaji ini?",
+      "a": "Inggris (termasuk tarif Skotlandia), Amerika Serikat (pajak penghasilan federal), India (rezim pajak baru), dan Pakistan. Setiap halaman memakai tarif yang diterbitkan otoritas pajak negara tersebut serta menampilkan sumber dan tanggal pengecekannya."
+    },
+    {
+      "q": "Apakah saya membayar pajak atas gaji di UEA, Arab Saudi, atau Qatar?",
+      "a": "Tidak ada pajak penghasilan pribadi atas gaji di negara-negara ini, menurut sumber resmi pemerintah yang ditautkan di halaman ini."
+    },
+    {
+      "q": "Mengapa negara saya tidak ada?",
+      "a": "Kami hanya menambahkan negara setelah mengecek tarifnya terhadap sumber resmi, seperti situs web otoritas pajak atau undang-undang keuangannya. Negara lain ditambahkan setelah diverifikasi."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Pilih negara Anda"
+    },
+    "label": {
+      "hub-country": "Negara Anda"
+    },
+    "option": {
+      "hub-country": {
+        "PK": "Pakistan"
+      }
+    },
+    "text": {
+      "hub-open-btn": "Buka kalkulator",
+      "no-tax-heading": "Negara tanpa pajak penghasilan atas gaji",
+      "compare-heading": "Perbedaan cara negara memajaki gaji"
+    },
+    "content": {
+      "tool": {
+        "span1": "Pakistan"
+      },
+      "countries-with-no-income-tax-on": {
+        "p1": "Beberapa negara tidak memajaki penghasilan kerja perorangan, jadi tidak ada yang perlu dihitung. Setiap pernyataan di bawah ini berasal dari sumber resmi pemerintah."
+      },
+      "how-countries-tax-salaries-differently": {
+        "p1": "Sebagian besar negara memajaki gaji secara progresif: penghasilan dibagi ke dalam rentang dan setiap rentang memiliki tarif sendiri, sehingga tarif yang lebih tinggi hanya berlaku untuk bagian gaji di dalam rentang itu. Yang berbeda antarnegara adalah apa yang dikurangkan sebelum rentang dimulai, dan apa yang ditambahkan di atasnya.",
+        "li1": "<strong>Tunjangan bebas pajak:</strong> Inggris memberi setiap orang Personal Allowance £12,570, yang menyusut di atas £100,000.",
+        "li2": "<strong>Potongan standar:</strong> AS mengurangkan potongan standar yang bergantung pada status pelaporan, dan India memberi karyawan ₹75,000 dalam rezim baru.",
+        "li3": "<strong>Rabat dan surcharge:</strong> India menghapus pajak sepenuhnya hingga total penghasilan ₹12 lakh melalui rabat dan menambahkan cess 4%; Pakistan mengenakan surcharge pada penghasilan tinggi hingga 2025-26.",
+        "li4": "<strong>Siapa yang menentukan:</strong> Skotlandia menetapkan rentangnya sendiri untuk upah, dan di AS setiap negara bagian menambahkan pajak penghasilannya sendiri di atas pajak federal yang ditampilkan di sini.",
+        "p2": "Setiap kalkulator menyebutkan tahun pajak yang dipakai, sumber resmi tarifnya, dan tanggal terakhir kami mengeceknya."
+      }
+    },
+    "hub": {
+      "pkMeta": "Tahun pajak {{year}} · lapisan FBR untuk karyawan",
+      "noTaxItem": "<strong>{{name}}:</strong> {{statement}} Sumber: <a href=\"{{url}}\" target=\"_blank\" rel=\"noopener noreferrer\">{{source}}</a> (dicek {{date}})."
+    },
+    "country": {
+      "formLabel": "Formulir Kalkulator Pajak Gaji {{country}}",
+      "salaryLabel": "Gaji kotor ({{currency}}) <span class=\"text-accent\">*</span>",
+      "periodLegend": "Gaji berupa",
+      "monthly": "Bulanan",
+      "annual": "Tahunan",
+      "statusLabel": "Status pelaporan",
+      "taxYear": "Tahun pajak",
+      "calculate": "Hitung Pajak",
+      "reset": "Atur Ulang",
+      "resultHeader": "Pajak penghasilan Anda",
+      "copyTitle": "Salin hasil ke papan klip",
+      "copy": "<span data-icon=\"copy\"></span> Salin Hasil",
+      "stats": {
+        "monthlyTax": "Pajak bulanan",
+        "monthlyTakeHome": "Gaji bersih bulanan (setelah pajak penghasilan)",
+        "taxable": "Penghasilan kena pajak",
+        "annualTax": "Pajak penghasilan tahunan",
+        "effectiveRate": "Tarif pajak efektif",
+        "topRate": "Tarif tertinggi Anda"
+      },
+      "table": {
+        "ariaLabel": "{{title}} (dapat digulir)",
+        "ariaLabelWithStatus": "{{title}} {{status}} (dapat digulir)",
+        "rate": "Tarif",
+        "over": "Di atas {{from}}",
+        "upTo": "Hingga {{to}}",
+        "range": "{{from}} hingga {{to}}",
+        "yourBand": " · rentang Anda"
+      },
+      "estimateTitle": "Ini adalah perkiraan",
+      "others": {
+        "heading": "Pajak gaji di negara lain",
+        "intro": "Aturan pajak sangat berbeda antarnegara. Bandingkan dengan kalkulator kami untuk negara lain, atau lihat semua negara di satu halaman.",
+        "pakistan": "Kalkulator Pajak Gaji Pakistan",
+        "hub": "Kalkulator pajak gaji untuk setiap negara"
+      }
+    }
+  },
+  "client": {
+    "countries": {
+      "GB": {
+        "label": "Tahun pajak 2026 hingga 2027",
+        "deductions": {
+          "allowance": "personal allowance"
+        }
+      },
+      "IN": {
+        "label": "FY 2025-26 (AY 2026-27), rezim pajak baru",
+        "deductions": {
+          "standard": "potongan standar untuk karyawan"
+        },
+        "rebate": "Rabat Section 87A",
+        "cess": "Cess kesehatan dan pendidikan"
+      },
+      "US": {
+        "label": "Tahun pajak 2026",
+        "deductions": {
+          "standard": "potongan standar"
+        }
+      }
+    },
+    "engine": {
+      "standardDeduction": "Potongan standar",
+      "personalAllowance": "Personal allowance",
+      "errors": {
+        "noData": "Data pajak tidak termuat.",
+        "unknownStatus": "Status pelaporan \"{{status}}\" tidak dikenal.",
+        "salaryMin": "Masukkan gaji 0 atau lebih.",
+        "period": "Pilih apakah gajinya bulanan atau tahunan."
+      }
+    },
+    "hub": {
+      "noTaxNote": "{{name}} tidak memajaki gaji perorangan. Lihat catatan di bawah."
+    },
+    "errors": {
+      "salaryRequired": "Masukkan gaji Anda."
+    },
+    "result": {
+      "primary": "{{tax}} per tahun",
+      "copy": "Pajak penghasilan {{country}} ({{label}}) atas {{income}} per tahun: {{tax}} per tahun ({{monthlyTax}} per bulan), gaji bersih {{takeHome}} per bulan, tarif efektif {{effective}}%."
+    },
+    "steps": {
+      "gross": "Gaji kotor tahunan: <code>{{amount}}</code>",
+      "less": "Dikurangi {{label}}: <code>{{amount}}</code>",
+      "taxable": "Penghasilan kena pajak: <strong>{{amount}}</strong>",
+      "band": "{{rate}} atas {{amount}} ({{from}} hingga {{to}}): <code>{{tax}}</code>",
+      "bandsTotal": "Pajak dari semua rentang: <code>{{amount}}</code>",
+      "surcharge": "Ditambah surcharge: <code>{{amount}}</code>",
+      "cess": "Ditambah {{label}} ({{rate}}): <code>{{amount}}</code>",
+      "total": "Pajak penghasilan tahunan: <strong>{{annual}}</strong>, atau {{monthly}} per bulan",
+      "defaultRebate": "rabat",
+      "defaultCess": "cess"
+    },
+    "toast": {
+      "copied": "Perhitungan pajak disalin ke papan klip"
+    }
+  },
+  "countryPages": {
+    "GB": {
+      "label": "Tahun pajak 2026 hingga 2027",
+      "title": "Kalkulator Pajak Gaji Inggris 2026/27 (Income Tax)",
+      "h1": "Kalkulator Pajak Gaji Inggris 2026/27",
+      "description": "Kalkulator pajak gaji Inggris: hitung Income Tax atas gaji 2026/27, termasuk pengurangan Personal Allowance di atas £100,000 dan tarif Skotlandia.",
+      "salaryHint": "Gaji kotor Anda sebelum pajak. Kontribusi pensiun yang dipotong sebelum pajak (salary sacrifice) jangan dimasukkan.",
+      "tableTitle": "Rentang Income Tax 2026/27 (penghasilan setelah Personal Allowance)",
+      "tableIncomeHeading": "Penghasilan setelah tunjangan",
+      "tableNotes": [
+        "Dengan Personal Allowance standar £12,570, rentang basic rate berlaku untuk gaji £12,571 hingga £50,270 di Inggris (England), Wales, dan Irlandia Utara.",
+        "Personal Allowance berkurang £1 untuk setiap £2 penghasilan di atas £100,000 dan menjadi nol mulai £125,140."
+      ],
+      "disclaimer": "Kalkulator ini memperkirakan Income Tax atas penghasilan kerja dengan Personal Allowance dan kode pajak standar. Tidak termasuk National Insurance, cicilan pinjaman pelajar, kontribusi pensiun, Marriage Allowance, atau Blind Person's Allowance. Periksa kode pajak dan slip gaji Anda di akun online HMRC Anda.",
+      "quickAnswer": "Menurut kalkulator pajak gaji Inggris ini, untuk 2026/27 penghasilan £12,570 pertama bebas pajak. Di England, Wales, dan Irlandia Utara Anda kemudian membayar 20% atas £37,700 berikutnya, 40% hingga £125,140, dan 45% di atasnya. Skotlandia memiliki enam rentang dari 19% hingga 48%. Di atas £100,000 tunjangan bebas pajak Anda berkurang £1 untuk setiap £2 yang Anda hasilkan, sehingga terjadi tarif efektif 60% antara £100,000 dan £125,140.",
+      "howto": {
+        "name": "Cara menghitung Income Tax Inggris atas gaji",
+        "description": "Perkirakan Income Tax tahunan dan bulanan atas gaji di Inggris untuk 2026/27.",
+        "steps": [
+          {
+            "name": "Masukkan gaji Anda",
+            "text": "Ketik gaji kotor Anda dan pilih bulanan atau tahunan."
+          },
+          {
+            "name": "Pilih tempat tinggal Anda",
+            "text": "Wajib pajak Skotlandia memakai rentang Skotlandia; yang lain memakai rentang wilayah Inggris lainnya."
+          },
+          {
+            "name": "Baca pajak Anda",
+            "text": "Lihat Personal Allowance, pajak per rentang, dan gaji bersih bulanan setelah Income Tax."
+          }
+        ]
+      },
+      "workedExamples": [
+        {
+          "title": "Gaji £36,000 di England",
+          "inputs": [
+            "Gaji: £36,000 per tahun",
+            "Tinggal di England"
+          ],
+          "steps": [
+            "Personal Allowance: £12,570",
+            "Penghasilan setelah tunjangan: £36,000 − £12,570 = £23,430",
+            "Basic rate 20% atas £23,430 = £4,686"
+          ],
+          "result": "Income Tax £4,686 per tahun (£390.50 per bulan)."
+        },
+        {
+          "title": "Gaji £110,000: pengurangan tunjangan",
+          "inputs": [
+            "Gaji: £110,000 per tahun",
+            "Tinggal di England"
+          ],
+          "steps": [
+            "Penghasilan £10,000 di atas £100,000, jadi tunjangan berkurang £5,000 menjadi £7,570",
+            "Penghasilan setelah tunjangan: £110,000 − £7,570 = £102,430",
+            "20% atas £37,700 = £7,540; 40% atas £64,730 = £25,892"
+          ],
+          "result": "Income Tax £33,432 per tahun (£2,786 per bulan)."
+        },
+        {
+          "title": "Gaji £36,000 di Skotlandia",
+          "inputs": [
+            "Gaji: £36,000 per tahun",
+            "Tinggal di Skotlandia"
+          ],
+          "steps": [
+            "Penghasilan setelah tunjangan: £23,430",
+            "19% atas £3,967 = £753.73; 20% atas £12,989 = £2,597.80; 21% atas £6,474 = £1,359.54"
+          ],
+          "result": "Income Tax £4,711.07 per tahun, sekitar £25 lebih tinggi daripada di England."
+        }
+      ],
+      "commonMistakes": [
+        {
+          "title": "Membaca rentang sebagai rentang gaji",
+          "description": "Rentang HMRC berlaku untuk penghasilan setelah Personal Allowance. Basic rate mencakup £37,700 pertama di atas tunjangan, yaitu gaji £12,571 hingga £50,270 bagi kebanyakan orang."
+        },
+        {
+          "title": "Mengabaikan pengurangan di atas £100,000",
+          "description": "Antara £100,000 dan £125,140 setiap tambahan penghasilan £2 menghapus tunjangan £1, sehingga bagian itu secara efektif dikenai pajak 60% di England, Wales, dan Irlandia Utara."
+        },
+        {
+          "title": "Tertukar antara Income Tax dan National Insurance",
+          "description": "National Insurance adalah potongan terpisah di slip gaji Anda dengan batasnya sendiri, dan tidak termasuk di sini."
+        }
+      ],
+      "faqs": [
+        {
+          "q": "Berapa penghasilan saya sebelum mulai membayar Income Tax pada 2026/27?",
+          "a": "£12,570, yaitu Personal Allowance standar, jika penghasilan Anda £100,000 atau kurang. Di atas £100,000 tunjangan berkurang £1 untuk setiap £2 penghasilan dan hilang pada £125,140."
+        },
+        {
+          "q": "Apa itu jebakan pajak 60%?",
+          "a": "Antara £100,000 dan £125,140, setiap tambahan penghasilan £1 dikenai pajak 40% dan juga menghapus 50p tunjangan bebas pajak, yang kemudian juga dikenai pajak 40%. Jika digabung, tarif marginal efektifnya 60%, ditambah National Insurance."
+        },
+        {
+          "q": "Apakah tarif pajak Skotlandia berbeda?",
+          "a": "Ya. Jika Anda tinggal di Skotlandia, gaji Anda dikenai tarif Skotlandia: 19%, 20%, 21%, 42%, 45%, dan 48% dalam enam rentang. Penghasilan tabungan dan dividen memakai tarif Inggris Raya."
+        },
+        {
+          "q": "Mengapa pajak di slip gaji saya berbeda?",
+          "a": "PAYE memakai kode pajak Anda, yang bisa mencakup tunjangan natura, kekurangan bayar pajak tahun sebelumnya, atau tunjangan yang berbeda. Periksa kode pajak Anda di akun online HMRC Anda."
+        }
+      ],
+      "sections": [
+        {
+          "heading": "Cara kerja Income Tax atas gaji di Inggris",
+          "paragraphs": [
+            "Tahun pajak Inggris berlangsung dari 6 April hingga 5 April. Pemberi kerja memotong Income Tax melalui PAYE setiap hari gajian menggunakan kode pajak Anda, yang bagi kebanyakan orang adalah 1257L (S1257L di Skotlandia), kode untuk Personal Allowance £12,570.",
+            "Income Tax dikenakan atas penghasilan di atas Personal Allowance per rentang. HMRC menerbitkan rentang sebagai penghasilan setelah tunjangan: di England, Wales, dan Irlandia Utara £37,700 pertama dikenai 20%, penghasilan hingga £125,140 dikenai 40%, dan sisanya di atas itu 45%."
+          ],
+          "list": [
+            "<strong>Pengurangan Personal Allowance:</strong> di atas £100,000 tunjangan berkurang £1 untuk setiap £2 adjusted net income.",
+            "<strong>Skotlandia:</strong> enam rentang yang ditetapkan Parlemen Skotlandia berlaku untuk upah dan pensiun wajib pajak Skotlandia.",
+            "<strong>Tidak termasuk:</strong> National Insurance, pinjaman pelajar, dan kontribusi pensiun, yang juga dipotong dari slip gaji Anda."
+          ]
+        },
+        {
+          "heading": "Dari Income Tax ke gaji bersih",
+          "paragraphs": [
+            "Angka gaji bersih di sini adalah gaji Anda dikurangi Income Tax saja. Slip gaji Anda yang sebenarnya juga akan menampilkan National Insurance karyawan dan, jika berlaku, cicilan pinjaman pelajar serta kontribusi pensiun tempat kerja.",
+            "Membayar pensiun melalui salary sacrifice, atau memberikan kontribusi pensiun bruto, menurunkan adjusted net income Anda. Di sekitar £100,000 hal ini dapat memulihkan sebagian Personal Allowance, itulah sebabnya banyak orang di zona pengurangan menaikkan kontribusi pensiun."
+          ]
+        }
+      ],
+      "statusLabel": "Tempat tinggal Anda",
+      "statuses": {
+        "rUK": {
+          "label": "England, Wales, atau Irlandia Utara",
+          "slabNames": [
+            "basic rate",
+            "higher rate",
+            "additional rate"
+          ]
+        },
+        "scotland": {
+          "label": "Skotlandia",
+          "slabNames": [
+            "starter rate",
+            "basic rate",
+            "intermediate rate",
+            "higher rate",
+            "advanced rate",
+            "top rate"
+          ]
+        }
+      },
+      "sources": [
+        "GOV.UK: Income Tax rates and Personal Allowances (2026 to 2027)",
+        "HMRC: Income Tax rates and allowances for current and previous tax years (income after allowances, England, Wales, Northern Ireland and Scotland)",
+        "GOV.UK: Scottish Income Tax rates 2026 to 2027"
+      ]
+    },
+    "IN": {
+      "label": "FY 2025-26 (AY 2026-27), rezim pajak baru",
+      "title": "Kalkulator Pajak Gaji India 2025-26 (Rezim Baru)",
+      "h1": "Kalkulator Pajak Gaji India 2025-26",
+      "description": "Kalkulator pajak gaji India FY 2025-26 rezim baru: potongan standar ₹75,000, rabat 87A hingga ₹12 lakh, surcharge, dan cess 4%.",
+      "salaryHint": "Gaji kotor Anda sebelum pajak. Tunjangan yang dibebaskan dari pajak jangan dimasukkan.",
+      "tableTitle": "Lapisan rezim baru, FY 2025-26",
+      "tableIncomeHeading": "Total penghasilan (setelah potongan standar)",
+      "tableNotes": [
+        "Rabat Section 87A: tidak ada pajak jika total penghasilan ₹12,00,000 atau kurang (rabat hingga ₹60,000), dengan marginal relief tepat di atas ₹12 lakh.",
+        "Surcharge atas pajak: 10% di atas ₹50 lakh, 15% di atas ₹1 crore, 25% di atas ₹2 crore, dengan marginal relief. Kemudian cess kesehatan dan pendidikan 4% atas pajak ditambah surcharge."
+      ],
+      "disclaimer": "Kalkulator ini hanya mencakup gaji perorangan residen dalam rezim pajak baru (default). Tidak termasuk rezim lama, penghasilan bertarif khusus seperti capital gain, atau professional tax yang dikenakan sebagian negara bagian. Periksa TDS Anda dengan pemberi kerja atau konsultan pajak.",
+      "quickAnswer": "Menurut kalkulator pajak gaji India ini, dalam rezim pajak baru FY 2025-26, kurangkan ₹75,000 dari gaji tahunan sebagai potongan standar, lalu terapkan lapisan tarif: nol hingga ₹4 lakh, 5%, 10%, 15%, 20%, dan 25% per kenaikan ₹4 lakh, dan 30% di atas ₹24 lakh. Jika sisanya ₹12 lakh atau kurang, rabat section 87A menghapus pajaknya, sehingga gaji hingga ₹12.75 lakh tidak membayar pajak penghasilan. Tambahkan cess 4% atas pajak yang terutang.",
+      "howto": {
+        "name": "Cara menghitung pajak penghasilan atas gaji di India (rezim baru)",
+        "description": "Perkirakan pajak penghasilan tahunan dan bulanan atas gaji untuk FY 2025-26 dalam rezim pajak baru.",
+        "steps": [
+          {
+            "name": "Masukkan gaji Anda",
+            "text": "Ketik gaji kotor Anda dan pilih apakah angkanya bulanan atau tahunan."
+          },
+          {
+            "name": "Baca pajak Anda",
+            "text": "Lihat pajak tahunan dan bulanan, rabat, surcharge jika ada, cess 4%, dan gaji bersih bulanan setelah pajak penghasilan."
+          },
+          {
+            "name": "Periksa lapisan Anda",
+            "text": "Tabel lapisan menyorot rentang tempat rupee terakhir penghasilan Anda berada."
+          }
+        ]
+      },
+      "workedExamples": [
+        {
+          "title": "Gaji ₹12.75 lakh: tanpa pajak",
+          "inputs": [
+            "Gaji tahunan: ₹12,75,000"
+          ],
+          "steps": [
+            "Potongan standar: ₹12,75,000 − ₹75,000 = total penghasilan ₹12,00,000",
+            "Pajak per lapisan: 5% dari ₹4 lakh + 10% dari ₹4 lakh = ₹60,000",
+            "Rabat Section 87A sebesar ₹60,000 (total penghasilan tidak di atas ₹12 lakh)"
+          ],
+          "result": "Pajak penghasilan nol. Tabel Budget Speech 2025-26 menunjukkan hal yang sama: total penghasilan ₹12 lakh, pajak setelah rabat nol."
+        },
+        {
+          "title": "Gaji ₹16.75 lakh",
+          "inputs": [
+            "Gaji tahunan: ₹16,75,000"
+          ],
+          "steps": [
+            "Total penghasilan setelah potongan standar: ₹16,00,000",
+            "Pajak per lapisan: ₹20,000 + ₹40,000 + 15% dari ₹4 lakh (₹60,000) = ₹1,20,000",
+            "Tidak ada rabat di atas ₹12 lakh; cess 4%: ₹4,800"
+          ],
+          "result": "₹1,24,800 per tahun (₹10,400 per bulan). Tabel Budget Speech menunjukkan ₹1,20,000 sebelum cess untuk total penghasilan ₹16 lakh."
+        },
+        {
+          "title": "Gaji ₹50.75 lakh",
+          "inputs": [
+            "Gaji tahunan: ₹50,75,000"
+          ],
+          "steps": [
+            "Total penghasilan: ₹50,00,000, tidak di atas ₹50 lakh, jadi tanpa surcharge",
+            "Pajak per lapisan: ₹3,00,000 hingga ₹24 lakh + 30% dari ₹26 lakh (₹7,80,000) = ₹10,80,000",
+            "Cess 4%: ₹43,200"
+          ],
+          "result": "₹11,23,200 per tahun. Tabel Budget Speech menunjukkan ₹10,80,000 sebelum cess untuk total penghasilan ₹50 lakh."
+        }
+      ],
+      "commonMistakes": [
+        {
+          "title": "Melupakan potongan standar",
+          "description": "Karyawan mendapat potongan ₹75,000 sebelum lapisan tarif diterapkan dalam rezim baru, jadi batas bebas pajaknya adalah gaji ₹12.75 lakh, bukan ₹12 lakh."
+        },
+        {
+          "title": "Mengira ₹12 lakh adalah lapisan tarif",
+          "description": "Batas ₹12 lakh berlaku untuk rabat, bukan lapisan bertarif nol. Tepat di atasnya pajak lapisan berlaku penuh, hanya diringankan oleh marginal relief."
+        },
+        {
+          "title": "Tidak memasukkan cess",
+          "description": "Cess kesehatan dan pendidikan 4% dikenakan atas pajak penghasilan ditambah surcharge, sehingga menambah setiap tagihan pajak yang bukan nol."
+        }
+      ],
+      "faqs": [
+        {
+          "q": "Berapa gaji yang bebas pajak di India dalam rezim baru?",
+          "a": "Untuk FY 2025-26, karyawan residen tanpa penghasilan lain tidak membayar pajak penghasilan atas gaji hingga ₹12,75,000: potongan standar ₹75,000 membuat total penghasilan menjadi ₹12 lakh, dan rabat section 87A hingga ₹60,000 menghapus pajak lapisannya."
+        },
+        {
+          "q": "Apa itu marginal relief pada rabat ₹12 lakh?",
+          "a": "Jika total penghasilan Anda sedikit di atas ₹12 lakh, marginal relief memastikan pajak yang Anda bayar tidak lebih dari selisih penghasilan Anda di atas ₹12 lakh. Tanpa itu, berpenghasilan ₹1 lebih dari ₹12 lakh akan menimbulkan pajak lebih dari ₹60,000."
+        },
+        {
+          "q": "Apakah kalkulator ini memakai rezim lama?",
+          "a": "Tidak. Kalkulator ini memakai rezim pajak baru, yang merupakan default. Rezim lama memiliki lapisan berbeda dan mengizinkan potongan seperti section 80C dan HRA; bandingkan keduanya dengan pemberi kerja atau konsultan pajak sebelum memilih."
+        },
+        {
+          "q": "Kapan surcharge dikenakan?",
+          "a": "Surcharge berlaku jika total penghasilan melebihi ₹50 lakh: 10% dari pajak di atas ₹50 lakh, 15% di atas ₹1 crore, dan 25% di atas ₹2 crore dalam rezim baru, dengan marginal relief di setiap batas."
+        },
+        {
+          "q": "Bagaimana dengan tahun pajak 2026-27?",
+          "a": "Mulai 1 April 2026 berlaku Income-tax Act, 2025. Memorandum Finance Bill 2026 mempertahankan lapisan, surcharge, dan cess 4% yang sama untuk tahun pajak 2026-27. Kami akan menambahkan tahun itu setelah mengecek potongan standar dan rabat dalam Act yang baru."
+        }
+      ],
+      "sections": [
+        {
+          "heading": "Cara gaji dipajaki di India",
+          "paragraphs": [
+            "India memajaki gaji berdasarkan tahun keuangan, dari 1 April hingga 31 Maret. Pemberi kerja memotong pajak di sumber (TDS) dari gaji setiap bulan berdasarkan perkiraan penghasilan tahunan Anda, dan selisihnya diselesaikan saat Anda melaporkan SPT pada tahun penilaian berikutnya.",
+            "Sejak FY 2023-24 rezim pajak baru menjadi default. Tarifnya lebih rendah tetapi sebagian besar potongan dan pengecualian dihapus, seperti investasi section 80C dan tunjangan sewa rumah. Karyawan tetap mendapat potongan standar, yaitu ₹75,000 dalam rezim baru."
+          ],
+          "list": [
+            "<strong>Total penghasilan:</strong> gaji kotor dikurangi potongan standar ₹75,000 (ditambah penghasilan lain yang Anda miliki).",
+            "<strong>Lapisan tarif:</strong> nol hingga ₹4 lakh, lalu 5%, 10%, 15%, 20%, dan 25% per kenaikan ₹4 lakh, dan 30% di atas ₹24 lakh.",
+            "<strong>Rabat:</strong> hingga ₹60,000 jika total penghasilan ₹12 lakh atau kurang, dengan marginal relief tepat di atasnya.",
+            "<strong>Surcharge dan cess:</strong> surcharge hanya di atas ₹50 lakh; cess 4% pada setiap tagihan pajak."
+          ]
+        },
+        {
+          "heading": "Artinya bagi gaji bersih bulanan Anda",
+          "paragraphs": [
+            "Pajak bulanan yang ditampilkan kalkulator adalah seperdua belas pajak tahunan, yang kira-kira sama dengan potongan TDS di setiap slip gaji jika gaji Anda tetap. Gaji bersih Anda yang sebenarnya juga dikurangi iuran provident fund dan, di beberapa negara bagian, professional tax, yang tidak termasuk dalam kalkulator ini.",
+            "Jika gaji Anda berubah selama tahun berjalan, atau Anda menerima bonus, pemberi kerja menghitung ulang TDS untuk bulan-bulan sisanya, sehingga slip gaji tertentu bisa berbeda dari rata-rata yang ditampilkan di sini."
+          ]
+        }
+      ],
+      "sources": [
+        "Memorandum explaining the Finance Bill, 2025: slabs under section 115BAC(1A) and the section 87A rebate (₹60,000 up to ₹12,00,000) from AY 2026-27",
+        "Budget Speech 2025-26, para 156 (₹75,000 standard deduction) and Part B annex table of tax examples",
+        "Memorandum explaining the Finance Bill, 2026: surcharge and 4% health and education cess for AY 2026-27"
+      ]
+    },
+    "US": {
+      "label": "Tahun pajak 2026",
+      "title": "Kalkulator Pajak Penghasilan Federal AS 2026 (Gaji)",
+      "h1": "Kalkulator Pajak Gaji AS 2026 (Federal)",
+      "description": "Kalkulator pajak gaji AS: perkirakan pajak penghasilan federal 2026 untuk lajang dan pasangan menikah, dengan potongan standar dan bracket IRS.",
+      "salaryHint": "Upah kotor Anda sebelum pajak. Iuran 401(k) atau asuransi kesehatan sebelum pajak mengurangi upah kena pajak, jadi jangan masukkan jika Anda mengetahuinya.",
+      "tableTitle": "Bracket pajak federal 2026",
+      "tableIncomeHeading": "Penghasilan kena pajak (setelah potongan standar)",
+      "tableNotes": [
+        "Potongan standar 2026: $16,100 lajang, $32,200 menikah lapor bersama.",
+        "Hanya pajak penghasilan federal. Pajak penghasilan negara bagian dan lokal, Social Security, dan Medicare tidak termasuk."
+      ],
+      "disclaimer": "Kalkulator ini memperkirakan pajak penghasilan federal atas upah saja, dengan potongan standar dan tanpa kredit pajak. Tidak termasuk pajak penghasilan negara bagian dan lokal, Social Security dan Medicare (FICA), potongan terperinci, dan kredit pajak seperti Child Tax Credit. Periksa pemotongan pajak Anda dengan IRS Tax Withholding Estimator atau konsultan pajak.",
+      "quickAnswer": "Menurut kalkulator pajak gaji AS ini, untuk 2026 kurangkan potongan standar ($16,100 jika lajang, $32,200 jika menikah lapor bersama) dari upah tahunan Anda, lalu terapkan bracket federal 10% hingga 37% pada sisanya. Setiap tarif hanya berlaku untuk bagian penghasilan di dalam bracket-nya, jadi pelapor lajang berpenghasilan $72,000 membayar pajak penghasilan federal sekitar $7,000, bukan 22% dari semuanya.",
+      "howto": {
+        "name": "Cara memperkirakan pajak penghasilan federal AS 2026 atas gaji",
+        "description": "Perkirakan pajak penghasilan federal tahunan dan bulanan atas upah untuk 2026.",
+        "steps": [
+          {
+            "name": "Masukkan upah Anda",
+            "text": "Ketik gaji kotor Anda dan pilih apakah bulanan atau tahunan."
+          },
+          {
+            "name": "Pilih status pelaporan",
+            "text": "Pilih lajang atau menikah lapor bersama; masing-masing memiliki bracket dan potongan standar sendiri."
+          },
+          {
+            "name": "Baca pajak Anda",
+            "text": "Lihat pajak federal per tahun dan per bulan, tarif efektif, dan bracket tertinggi Anda."
+          }
+        ]
+      },
+      "workedExamples": [
+        {
+          "title": "Lajang, gaji $72,000",
+          "inputs": [
+            "Status pelaporan: lajang",
+            "Upah: $72,000 per tahun"
+          ],
+          "steps": [
+            "Penghasilan kena pajak: $72,000 − $16,100 = $55,900",
+            "Rev. Proc. 2025-32 Tabel 3: $5,800 ditambah 22% dari kelebihan di atas $50,400"
+          ],
+          "result": "Pajak penghasilan federal $7,010 (sekitar $584 per bulan), tarif efektif 9.74%."
+        },
+        {
+          "title": "Menikah lapor bersama, upah gabungan $150,000",
+          "inputs": [
+            "Status pelaporan: menikah lapor bersama",
+            "Upah: $150,000 per tahun"
+          ],
+          "steps": [
+            "Penghasilan kena pajak: $150,000 − $32,200 = $117,800",
+            "Rev. Proc. 2025-32 Tabel 1: $11,600 ditambah 22% dari kelebihan di atas $100,800"
+          ],
+          "result": "Pajak penghasilan federal $15,340 (sekitar $1,278 per bulan), tarif efektif 10.23%."
+        }
+      ],
+      "commonMistakes": [
+        {
+          "title": "Menerapkan tarif tertinggi ke seluruh penghasilan",
+          "description": "Berada di bracket 22% bukan berarti 22% gaji Anda habis untuk pajak federal: bagian bawahnya dikenai 10% dan 12%, dan potongan standar sama sekali tidak dipajaki."
+        },
+        {
+          "title": "Melupakan pajak negara bagian dan FICA",
+          "description": "Gaji Anda juga dipotong Social Security dan Medicare serta, di sebagian besar negara bagian, pajak penghasilan negara bagian. Halaman ini hanya menampilkan pajak penghasilan federal."
+        },
+        {
+          "title": "Memakai angka tahun lalu",
+          "description": "Bracket dan potongan standar berubah setiap tahun mengikuti inflasi. Ini adalah angka 2026 dari IRS Rev. Proc. 2025-32."
+        }
+      ],
+      "faqs": [
+        {
+          "q": "Berapa bracket pajak federal 2026?",
+          "a": "Untuk pelapor lajang: 10% hingga penghasilan kena pajak $12,400, 12% hingga $50,400, 22% hingga $105,700, 24% hingga $201,775, 32% hingga $256,225, 35% hingga $640,600, dan 37% di atasnya. Pasangan menikah yang lapor bersama memiliki bracket kira-kira dua kali lebih lebar, dimulai dengan 10% hingga $24,800."
+        },
+        {
+          "q": "Berapa potongan standar 2026?",
+          "a": "$16,100 untuk pelapor lajang dan $32,200 untuk pasangan menikah yang lapor bersama, menurut IRS Rev. Proc. 2025-32."
+        },
+        {
+          "q": "Apakah ini termasuk pajak penghasilan negara bagian?",
+          "a": "Tidak. Negara bagian menetapkan pajak penghasilannya sendiri, dan ada yang tidak memungutnya sama sekali. Kalkulator ini hanya mencakup pajak penghasilan federal."
+        },
+        {
+          "q": "Mengapa pemotongan di slip gaji saya berbeda?",
+          "a": "Pemotongan didasarkan pada Form W-4, frekuensi gajian, dan potongan sebelum pajak, serta juga mencakup Social Security dan Medicare. Gunakan IRS Tax Withholding Estimator untuk menyesuaikannya."
+        }
+      ],
+      "sections": [
+        {
+          "heading": "Cara kerja pajak penghasilan federal atas upah",
+          "paragraphs": [
+            "AS memajaki penghasilan per tahun kalender. Pemberi kerja memotong pajak penghasilan federal dari setiap gaji berdasarkan Form W-4 Anda, dan totalnya direkonsiliasi di SPT Anda pada musim semi berikutnya.",
+            "Pajak penghasilan federal bersifat progresif: tabel tarif membagi penghasilan kena pajak ke dalam bracket, dan setiap tarif hanya berlaku untuk penghasilan di dalam bracket-nya. Penghasilan kena pajak adalah upah Anda dikurangi potongan sebelum pajak dan potongan standar atau potongan terperinci Anda."
+          ],
+          "list": [
+            "<strong>Status pelaporan</strong> menentukan bracket dan potongan standar yang berlaku. Kalkulator ini mencakup lajang dan menikah lapor bersama; head of household dan menikah lapor terpisah memiliki tabel sendiri.",
+            "<strong>Potongan standar</strong> untuk 2026 adalah $16,100 (lajang) atau $32,200 (menikah lapor bersama).",
+            "<strong>Kredit pajak</strong> seperti Child Tax Credit mengurangi pajaknya sendiri dan tidak termasuk di sini."
+          ]
+        },
+        {
+          "heading": "Yang tidak termasuk dalam perkiraan ini",
+          "paragraphs": [
+            "Gaji bersih Anda juga dikurangi Social Security dan Medicare (FICA) serta pajak penghasilan negara bagian dan kadang kota. Setiap negara bagian menetapkan aturannya sendiri, jadi halaman ini tidak mencoba memperkirakannya.",
+            "Jika Anda menyetor ke 401(k) tradisional, HSA, atau asuransi kesehatan dari pemberi kerja melalui penggajian, jumlah itu biasanya dipotong sebelum pajak penghasilan federal. Masukkan upah Anda setelah potongan tersebut untuk perkiraan yang lebih mendekati."
+          ]
+        }
+      ],
+      "statusLabel": "Status pelaporan",
+      "statuses": {
+        "single": {
+          "label": "Lajang"
+        },
+        "married_joint": {
+          "label": "Menikah lapor bersama"
+        }
+      },
+      "sources": [
+        "IRS Revenue Procedure 2025-32 (2026 inflation adjustments): tax rate tables and standard deduction",
+        "IRS newsroom: penyesuaian inflasi pajak untuk tahun pajak 2026"
+      ]
+    }
+  },
+  "noTax": {
+    "AE": {
+      "statement": "UEA tidak memungut pajak penghasilan atas perorangan, jadi gaji tidak dipajaki.",
+      "source": "Portal Pemerintah UEA (u.ae): Perpajakan"
+    },
+    "SA": {
+      "statement": "Penduduk Arab Saudi tidak dikenai pajak penghasilan pribadi, jadi gaji tidak dipajaki. Pajak penghasilan Saudi berlaku untuk penduduk non-Saudi yang menjalankan kegiatan usaha di Kerajaan, bukan untuk pekerjaan.",
+      "source": "Ministry of Investment of Saudi Arabia (MISA): Program Kantor Pusat Regional"
+    },
+    "QA": {
+      "statement": "Perorangan di Qatar tidak membayar pajak penghasilan pribadi atas gaji atau upah.",
+      "source": "Qatar General Tax Authority: Investor"
+    }
+  }
+}

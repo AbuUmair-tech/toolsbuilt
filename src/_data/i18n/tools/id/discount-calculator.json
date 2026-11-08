@@ -1,0 +1,223 @@
+{
+  "listing": {
+    "name": "Kalkulator Diskon",
+    "shortName": "Kalkulator Diskon",
+    "description": "Hitung harga akhir setelah diskon, total penghematan, diskon ganda bertingkat, dan harga akhir termasuk pajak penjualan.",
+    "shortDescription": "Hitung harga akhir setelah diskon, total penghematan, diskon ganda bertingkat, dan harga akhir termasuk pajak penjualan.",
+    "keywords": [
+      "kalkulator diskon",
+      "menghitung harga setelah diskon",
+      "hitung diskon persen",
+      "kalkulator potongan harga",
+      "diskon ganda dengan pajak"
+    ]
+  },
+  "title": "Kalkulator Diskon - Hitung Harga Setelah Diskon & Hemat",
+  "description": "Kalkulator diskon online gratis: hitung harga akhir, total penghematan, diskon ganda bertingkat, dan pajak penjualan secara instan.",
+  "h1": "Kalkulator Diskon",
+  "quickAnswer": "Untuk mencari harga akhir dan total penghematan, masukkan harga awal barang dan persentase diskon. Anda dapat menambahkan kupon kedua yang bertingkat dan pajak penjualan setempat untuk melihat biaya yang benar-benar Anda bayar. Kalkulator diskon ini memakai pembulatan sen half-up agar sesuai dengan mesin kasir dan pedoman perlindungan konsumen.",
+  "formula": {
+    "title": "Rumus Perhitungan Diskon & Pajak",
+    "expression": "Harga Akhir = [(Harga Awal - (Harga Awal × Diskon1%)) - Diskon Bertingkat] × (1 + Pajak%)",
+    "explanation": "Pertama, terapkan diskon utama pada harga awal untuk mendapatkan penghematan awal. Lalu, terapkan kupon kedua yang bertingkat pada subtotal yang sudah berkurang (dikalikan, bukan dijumlahkan). Terakhir, hitung pajak penjualan dari subtotal setelah diskon dengan pembulatan sen half-up."
+  },
+  "workedExamples": [
+    {
+      "title": "Diskon Tunggal 25%",
+      "inputs": [
+        "Harga awal: $100.00",
+        "Diskon utama: 25%",
+        "Kupon bertingkat: 0%",
+        "Pajak penjualan: 0%"
+      ],
+      "steps": [
+        "Hitung penghematan diskon: $100.00 × 0.25 = $25.00",
+        "Kurangkan diskon dari harga awal: $100.00 - $25.00 = $75.00"
+      ],
+      "result": "Harga akhir: $75.00 (Total hemat: $25.00 / 25.00%)"
+    },
+    {
+      "title": "Diskon 20% + Kupon Toko 10% Bertingkat",
+      "inputs": [
+        "Harga awal: $80.00",
+        "Diskon utama: 20%",
+        "Kupon bertingkat: 10%",
+        "Pajak penjualan: 0%"
+      ],
+      "steps": [
+        "Terapkan diskon utama 20%: $80.00 - $16.00 = subtotal $64.00",
+        "Terapkan kupon kedua 10% pada subtotal yang sudah berkurang: $64.00 × 0.10 = hemat $6.40",
+        "Kurangkan kupon kedua: $64.00 - $6.40 = harga akhir $57.60",
+        "Hitung total penghematan: $16.00 + $6.40 = $22.40 (diskon efektif: 28.00%, bukan 30%)"
+      ],
+      "result": "Harga akhir: $57.60 (Total hemat: $22.40 / diskon efektif 28.00%)"
+    },
+    {
+      "title": "Diskon 15% dengan Pajak Penjualan 8%",
+      "inputs": [
+        "Harga awal: $50.00",
+        "Diskon utama: 15%",
+        "Kupon bertingkat: 0%",
+        "Pajak penjualan: 8%"
+      ],
+      "steps": [
+        "Terapkan diskon 15%: $50.00 × 0.15 = hemat $7.50",
+        "Subtotal bersih setelah diskon: $50.00 - $7.50 = $42.50",
+        "Hitung pajak penjualan 8% dari subtotal setelah diskon: $42.50 × 0.08 = $3.40",
+        "Tambahkan pajak penjualan ke subtotal: $42.50 + $3.40 = $45.90"
+      ],
+      "result": "Harga akhir: $45.90 (Hemat bersih: $7.50, Pajak ditambahkan: $3.40)"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Menjumlahkan Diskon Bertingkat Begitu Saja",
+      "description": "Kesalahpahaman yang umum adalah menjumlahkan persentase diskon (mis. diskon 20% + kupon 10% = diskon 30%). Kupon kedua berlaku pada subtotal yang sudah didiskon, sehingga total penghematannya 28%."
+    },
+    {
+      "title": "Menerapkan Pajak Penjualan Sebelum Diskon",
+      "description": "Di hampir semua yurisdiksi pajak negara bagian dan provinsi, pajak penjualan hanya dikenakan pada harga bersih yang dibayar setelah kupon, bukan harga label awal."
+    },
+    {
+      "title": "Pembulatan Sen yang Tidak Konsisten",
+      "description": "Sistem kasir membulatkan ke sen terdekat di setiap langkah. Membulatkan hanya di total akhir bisa menimbulkan selisih kecil 1 sen dengan struk toko."
+    },
+    {
+      "title": "Tertukar antara Persen Diskon dan Persen dari Harga Awal",
+      "description": "Diskon 25% berarti Anda membayar 75% dari harga awal, bukan 25% dari harga awal."
+    }
+  ],
+  "sources": [
+    {
+      "name": "Federal Trade Commission - Guides Against Deceptive Pricing"
+    },
+    {
+      "name": "NIST: Standar Matematika Harga Konsumen"
+    },
+    {
+      "name": "ISO 80000-2: Tanda dan Simbol Matematika"
+    }
+  ],
+  "howto": {
+    "name": "Cara Menghitung Harga Setelah Diskon dan Penghematan",
+    "description": "Petunjuk langkah demi langkah untuk menghitung diskon, kupon bertingkat, dan pajak penjualan.",
+    "steps": [
+      {
+        "name": "Pilih Mata Uang & Harga Awal",
+        "text": "Pilih simbol mata uang Anda dan masukkan harga label awal barang."
+      },
+      {
+        "name": "Masukkan Persentase Diskon Utama",
+        "text": "Masukkan persentase diskon yang diiklankan (mis. 20%)."
+      },
+      {
+        "name": "Tambahkan Kupon Bertingkat atau Pajak (Opsional)",
+        "text": "Jika perlu, tambahkan diskon kode promo tambahan dan tarif pajak penjualan setempat."
+      },
+      {
+        "name": "Tinjau Biaya Akhir & Total Penghematan",
+        "text": "Lihat harga akhir yang Anda bayar, total uang yang dihemat, dan rincian perhitungan langkah demi langkah."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Bagaimana cara menghitung harga akhir suatu barang setelah diskon?",
+      "a": "Kalikan harga label awal dengan persentase diskon dibagi 100 untuk mendapatkan total penghematan, lalu kurangkan penghematan itu dari harga awal untuk mendapatkan harga akhir."
+    },
+    {
+      "q": "Mengapa diskon 20% ditambah kupon 10% tidak sama dengan total diskon 30%?",
+      "a": "Karena kupon toko yang bertingkat berlaku pada subtotal yang sudah didiskon, bukan pada harga label awal. Barang seharga $100 yang didiskon 20% menjadi $80; diskon 10% dari $80 menghemat $8, sehingga harga akhirnya $72 (total hemat 28%, bukan 30%)."
+    },
+    {
+      "q": "Apakah pajak penjualan dihitung sebelum atau sesudah diskon?",
+      "a": "Pada pembelian di toko, pajak penjualan dihitung dari subtotal bersih setelah semua diskon promosi dan kupon toko diterapkan."
+    },
+    {
+      "q": "Bisakah saya menghitung diskon ganda bertingkat dengan alat ini?",
+      "a": "Bisa. Masukkan persentase diskon utama di kolom pertama dan persentase kupon toko kedua di kolom diskon bertingkat yang opsional."
+    },
+    {
+      "q": "Apakah ada data keuangan yang dikirim ke server?",
+      "a": "Tidak. Semua perhitungan diskon berjalan secara lokal di dalam browser web Anda menggunakan JavaScript. Tidak ada angka harga atau input keuangan yang keluar dari perangkat Anda."
+    },
+    {
+      "q": "Apakah kalkulator ini mendukung mata uang internasional seperti Pound dan Euro?",
+      "a": "Ya. Gunakan pemilih mata uang untuk beralih antara Dolar ($), Pound (£), Euro (€), Yen (¥), dan Rupee (₹)."
+    },
+    {
+      "q": "Apa itu persentase diskon efektif?",
+      "a": "Persentase diskon efektif adalah total uang yang Anda hemat dibagi harga awal, dinyatakan sebagai satu persentase yang setara."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Formulir Kalkulator Diskon",
+      "copy-result-btn": "Salin hasil ke papan klip"
+    },
+    "label": {
+      "original-price": "Harga Awal <span class=\"text-accent\">*</span>",
+      "discount-percent": "Diskon Utama (%) <span class=\"text-accent\">*</span>",
+      "stacked-discount-percent": "Diskon Kedua Bertingkat (%) <span class=\"label-hint\">(Opsional)</span>",
+      "tax-percent": "Pajak Penjualan (%) <span class=\"label-hint\">(Opsional)</span>"
+    },
+    "content": {
+      "tool": {
+        "button1": "Hitung Penghematan",
+        "div1": "Biaya Akhir yang Dibayar",
+        "div2": "Total yang Dihemat",
+        "div3": "Subtotal (Sebelum Pajak)",
+        "div4": "Pajak Penjualan Ditambahkan"
+      },
+      "how-when-to-use-the-discount": {
+        "heading": "Cara &amp; Kapan Menggunakan Kalkulator Diskon",
+        "li1": "<strong>Belanja di Toko &amp; Rak Obral:</strong> Cepat ketahui berapa sebenarnya harga barang berlabel \"diskon 30%\" saat di kasir.",
+        "li2": "<strong>Menggabungkan Kupon saat Checkout Online:</strong> Coba apa yang terjadi saat Anda menggabungkan diskon 20% di seluruh situs dengan kode promo influencer tambahan 15%.",
+        "li3": "<strong>Grosir &amp; Margin Ritel:</strong> Hitung diskon volume distributor dan harga bersih sebelum mengirim faktur.",
+        "li4": "<strong>Anggaran dengan Pajak Penjualan Setempat:</strong> Lihat total sebenarnya yang harus dibayar, termasuk pajak penjualan daerah, sebelum menggesek kartu."
+      }
+    },
+    "text": {
+      "reset-btn": "Atur Ulang",
+      "result-header-text": "Hasil Perhitungan Diskon",
+      "copy-result-btn": "<span data-icon=\"copy\"></span> Salin Hasil",
+      "result-primary-text": "Harga akhir: $0.00"
+    },
+    "title": {
+      "copy-result-btn": "Salin hasil ke papan klip"
+    }
+  },
+  "client": {
+    "errors": {
+      "originalPrice": "Masukkan harga awal yang valid (harus 0 atau lebih).",
+      "primaryDiscount": "Masukkan persentase diskon utama yang valid (0-100%).",
+      "primaryOver100": "Persentase diskon utama tidak boleh lebih dari 100%.",
+      "stackedNegative": "Diskon kedua bertingkat harus 0 atau lebih.",
+      "stackedOver100": "Diskon kedua bertingkat tidak boleh lebih dari 100%.",
+      "taxNegative": "Persentase pajak harus 0 atau lebih.",
+      "price": "Masukkan harga awal yang valid.",
+      "discount": "Masukkan persentase diskon yang valid.",
+      "negative": "Harga, diskon, dan persentase pajak tidak boleh negatif."
+    },
+    "breakdown": {
+      "originalPrice": "Harga Awal",
+      "primaryDiscount": "Diskon Utama ({{pct}}%)",
+      "stackedCoupon": "Kupon Bertingkat ({{pct}}%)",
+      "salesTax": "Pajak Penjualan ({{pct}}%)"
+    },
+    "result": {
+      "primary": "Harga akhir: {{final}}",
+      "totalSaved": "{{saved}} (total {{pct}}%)",
+      "copy": "Harga akhir: {{final}}. Total hemat: {{saved}} (diskon {{pct}}%). Harga sebelum pajak: {{beforeTax}}. Pajak penjualan: {{tax}}.",
+      "copied": "Perhitungan diskon disalin ke papan klip"
+    },
+    "steps": {
+      "heading": "<strong>Rincian Perhitungan:</strong><br>",
+      "original": "1. Harga awal: <code>{{price}}</code><br>",
+      "primary": "2. Diskon utama ({{pct}}%): Hemat <code>{{saved}}</code> → Subtotal: <code>{{subtotal}}</code><br>",
+      "stacked": "3. Diskon kedua bertingkat ({{pct}}% dari {{base}}): Hemat tambahan <code>{{saved}}</code> → Subtotal: <code>{{subtotal}}</code><br>",
+      "tax": "4. Pajak penjualan ({{pct}}%): Ditambahkan <code>{{tax}}</code><br>",
+      "total": "5. Total yang dibayar: <strong>{{final}}</strong> (Total hemat: <strong>{{saved}}</strong>)"
+    }
+  }
+}

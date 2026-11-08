@@ -1,0 +1,242 @@
+{
+  "listing": {
+    "name": "Pengubah Huruf Besar Kecil",
+    "shortName": "Pengubah Huruf",
+    "description": "Ubah teks secara instan antara UPPERCASE, lowercase, Title Case, Sentence case, camelCase, snake_case, dan kebab-case.",
+    "shortDescription": "Ubah teks secara instan antara UPPERCASE, lowercase, Title Case, Sentence case, camelCase, snake_case, dan kebab-case.",
+    "keywords": [
+      "pengubah huruf besar kecil",
+      "ubah huruf kapital ke huruf kecil",
+      "konverter title case",
+      "konverter camelcase",
+      "snake case"
+    ]
+  },
+  "title": "Pengubah Huruf Besar Kecil - Ubah UPPERCASE & lowercase",
+  "description": "Pengubah huruf besar kecil online gratis: ubah teks ke UPPERCASE, lowercase, Title Case, Sentence case, camelCase, PascalCase, snake_case, atau kebab-case.",
+  "h1": "Pengubah Huruf Besar Kecil",
+  "quickAnswer": "Untuk mengubah gaya huruf teks, tempelkan konten Anda ke kotak input lalu pilih gaya transformasi mana pun. Pengubah huruf besar kecil ini langsung mengubah teks menjadi UPPERCASE, lowercase, Title Case, Sentence case, camelCase, PascalCase, snake_case, kebab-case, dan lainnya, sambil mempertahankan tanda baca dan karakter Unicode, sepenuhnya di browser Anda.",
+  "formula": {
+    "title": "Aturan Transformasi Huruf & Tokenisasi",
+    "expression": "Teks Hasil = ApplyCaseTransform(TokenizeWords(InputString, UnicodeRegex), StyleRule)",
+    "explanation": "String input dipecah menjadi kata menggunakan escape properti huruf Unicode (\\p{L}). Kata-kata lalu disusun ulang sesuai aturan gaya tertentu: aturan kata minor Chicago Manual of Style untuk Title Case, atau pemisah garis bawah/tanda hubung untuk identifier pemrograman."
+  },
+  "workedExamples": [
+    {
+      "title": "Judul ke Title Case Gaya Chicago",
+      "inputs": [
+        "Input: 'the quick brown fox jumps over the lazy dog'",
+        "Gaya tujuan: Title Case"
+      ],
+      "steps": [
+        "Pecah kata berdasarkan batas spasi Unicode",
+        "Kapitalkan kata pertama dan terakhir ('The', 'Dog')",
+        "Kapitalkan kata utama ('Quick', 'Brown', 'Fox', 'Jumps', 'Lazy')",
+        "Biarkan preposisi dan artikel minor tetap huruf kecil ('over', 'the')"
+      ],
+      "result": "'The Quick Brown Fox Jumps Over the Lazy Dog'"
+    },
+    {
+      "title": "Judul ke camelCase (Identifier JavaScript)",
+      "inputs": [
+        "Input: 'user profile setting'",
+        "Gaya tujuan: camelCase"
+      ],
+      "steps": [
+        "Ambil token kata alfanumerik: ['user', 'profile', 'setting']",
+        "Ubah kata pertama menjadi huruf kecil: 'user'",
+        "Kapitalkan huruf pertama kata-kata berikutnya: 'Profile', 'Setting'",
+        "Gabungkan tanpa spasi"
+      ],
+      "result": "'userProfileSetting'"
+    },
+    {
+      "title": "Judul ke kebab-case (Slug URL)",
+      "inputs": [
+        "Input: 'Annual Financial Report 2026'",
+        "Gaya tujuan: kebab-case"
+      ],
+      "steps": [
+        "Pecah kata: ['Annual', 'Financial', 'Report', '2026']",
+        "Ubah semua karakter menjadi huruf kecil",
+        "Gabungkan token dengan tanda hubung (-)"
+      ],
+      "result": "'annual-financial-report-2026'"
+    },
+    {
+      "title": "Kapitalisasi Sentence Case",
+      "inputs": [
+        "Input: 'hello world! this is a test. here is another one.'",
+        "Gaya tujuan: Sentence case"
+      ],
+      "steps": [
+        "Kenali tanda akhir kalimat (. ! ?)",
+        "Kapitalkan huruf awal setiap kalimat",
+        "Biarkan karakter kalimat lainnya huruf kecil"
+      ],
+      "result": "'Hello world! This is a test. Here is another one.'"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Mengapitalkan Preposisi Minor di Title Case",
+      "description": "Dalam gaya Chicago dan AP, preposisi, artikel, dan konjungsi minor yang kurang dari empat huruf (mis. 'in', 'on', 'the', 'and', 'for') tetap huruf kecil kecuali di awal kalimat."
+    },
+    {
+      "title": "Merusak Karakter Unicode & Beraksen",
+      "description": "Konversi huruf yang naif dengan regex ASCII standar gagal pada huruf beraksen seperti 'é' atau alfabet non-Latin; escape properti Unicode (\\p{L}) harus digunakan."
+    },
+    {
+      "title": "Kehilangan Pemisah Saat Mengonversi Kode",
+      "description": "Mengubah kode camelCase atau snake_case menjadi sentence case menghapus pemisah pemrograman. Simpan cadangan atau gunakan tombol Urungkan."
+    },
+    {
+      "title": "Title Case pada Input Huruf Kapital Semua",
+      "description": "Jika teks yang seluruhnya kapital dimasukkan ke mesin title case tanpa diubah dulu ke huruf kecil, preposisi minor tetap kapital. Algoritma kami menormalkan token terlebih dahulu."
+    }
+  ],
+  "sources": [
+    {
+      "name": "The Chicago Manual of Style: Aturan Kapitalisasi Judul dan Heading"
+    },
+    {
+      "name": "Unicode Standard Annex #29: Unicode Text Segmentation"
+    },
+    {
+      "name": "Standar Case Mapping W3C Internationalization (i18n)"
+    }
+  ],
+  "howto": {
+    "name": "Cara Mengubah Huruf Besar Kecil Teks secara Online",
+    "description": "Panduan langkah demi langkah untuk mengubah gaya huruf teks ke 12 format berbeda dengan ToolsBuilt.",
+    "steps": [
+      {
+        "name": "Tempelkan Konten Anda",
+        "text": "Tempel atau ketik teks yang belum diformat ke area teks."
+      },
+      {
+        "name": "Pilih Gaya Huruf",
+        "text": "Klik salah satu dari 12 tombol transformasi huruf (seperti Title Case, UPPERCASE, camelCase, atau CONSTANT_CASE)."
+      },
+      {
+        "name": "Salin atau Urungkan",
+        "text": "Klik Salin Teks untuk menyalin hasil ke papan klip, atau klik Urungkan jika ingin kembali."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Bagaimana cara mengubah huruf besar kecil teks secara online?",
+      "a": "Tempelkan teks ke kotak konverter lalu klik tombol transformasi mana pun seperti UPPERCASE, lowercase, Title Case, atau Sentence case. Teks langsung diperbarui di browser Anda."
+    },
+    {
+      "q": "Apa perbedaan Title Case dan Capitalize Each Word?",
+      "a": "Title Case mengapitalkan kata utama tetapi membiarkan artikel dan preposisi minor (seperti 'in', 'the', 'of', 'and', 'for') tetap huruf kecil kecuali muncul sebagai kata pertama atau terakhir. Capitalize Each Word mengapitalkan huruf pertama setiap kata tanpa kecuali."
+    },
+    {
+      "q": "Apa perbedaan camelCase, PascalCase, snake_case, dan kebab-case?",
+      "a": "camelCase dimulai dengan huruf kecil dan mengapitalkan kata-kata berikutnya tanpa spasi (mis. 'myVariable'). PascalCase mengapitalkan semua kata termasuk yang pertama ('MyVariable'). snake_case memisahkan kata dengan garis bawah dalam huruf kecil ('my_variable'). kebab-case memisahkan kata dengan tanda hubung ('my-variable')."
+    },
+    {
+      "q": "Bisakah saya membatalkan konversi jika tidak suka hasilnya?",
+      "a": "Bisa. Klik tombol Urungkan untuk kembali ke teks sebelumnya kapan saja."
+    },
+    {
+      "q": "Apakah data teks saya privat saat memakai konverter ini?",
+      "a": "Ya. Semua logika transformasi teks berjalan sepenuhnya di memori browser lokal melalui JavaScript sisi klien. Teks Anda tidak pernah disimpan di URL, cookie, atau dikirim ke server jarak jauh."
+    },
+    {
+      "q": "Apakah konverter mendukung bahasa asing dan karakter beraksen?",
+      "a": "Ya. Mesin teks memakai escape properti Unicode (\\p{L}) untuk menangani aksen, umlaut, dan alfabet internasional seperti bahasa Spanyol, Prancis, dan Jerman dengan lancar."
+    },
+    {
+      "q": "Untuk apa CONSTANT_CASE digunakan?",
+      "a": "CONSTANT_CASE mengubah teks menjadi huruf kapital dengan garis bawah, konvensi penamaan standar untuk variabel global, konstanta yang tidak berubah, dan environment variable dalam pemrograman."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Formulir Pengubah Huruf Besar Kecil"
+    },
+    "label": {
+      "text-input": "<span>Ketik atau Tempelkan Teks Anda di Bawah:</span>"
+    },
+    "placeholder": {
+      "text-input": "Ketik atau tempelkan teks di sini, lalu klik tombol gaya huruf mana pun di bawah..."
+    },
+    "text": {
+      "char-stats": "0 karakter (0 tanpa spasi) | 0 kata | 0 baris",
+      "copy-btn": "<span data-icon=\"copy\"></span> Salin Teks",
+      "undo-btn": "Urungkan",
+      "clear-btn": "Hapus Teks"
+    },
+    "content": {
+      "tool": {
+        "label1": "Pilih Gaya Konversi (12 Tersedia):",
+        "button1": "UPPERCASE",
+        "button2": "lowercase",
+        "button3": "Title Case",
+        "button4": "Sentence case",
+        "button5": "Capitalize Words",
+        "button6": "camelCase",
+        "button7": "PascalCase",
+        "button8": "snake_case",
+        "button9": "kebab-case",
+        "button10": "CONSTANT_CASE",
+        "button11": "dot.case",
+        "button12": "aLtErNaTiNg"
+      },
+      "how-when-to-use-the-text": {
+        "heading": "Cara &amp; Kapan Menggunakan Pengubah Huruf Besar Kecil",
+        "li1": "<strong>Pengembangan Perangkat Lunak &amp; Coding:</strong> Ubah input pengguna atau definisi skema menjadi konvensi kode standar (mis. `camelCase` untuk variabel JavaScript, `snake_case` untuk kolom Python/database, atau `CONSTANT_CASE` untuk environment variable global).",
+        "li2": "<strong>Penerbitan Judul Blog &amp; Artikel:</strong> Ubah judul draf yang berantakan menjadi Title Case gaya Chicago yang rapi dengan preposisi minor tetap huruf kecil.",
+        "li3": "<strong>Memperbaiki CAPS LOCK yang Tidak Sengaja:</strong> Pulihkan kalimat yang terketik dengan caps lock aktif tanpa harus mengetik ulang paragraf dari awal.",
+        "li4": "<strong>Format Slug URL untuk SEO:</strong> Ubah judul artikel menjadi slug `kebab-case` yang ramah mesin pencari untuk URL situs web."
+      },
+      "case-style-reference-developer-conventions": {
+        "heading": "Referensi Gaya Huruf &amp; Konvensi Developer",
+        "th1": "Gaya Huruf",
+        "th2": "Contoh Output",
+        "th3": "Penggunaan Umum di Industri",
+        "td1": "UPPERCASE",
+        "td2": "<code>HELLO WORLD</code>",
+        "td3": "Judul utama, peringatan, akronim",
+        "td4": "lowercase",
+        "td5": "<code>hello world</code>",
+        "td6": "Alamat email, normalisasi pencarian",
+        "td7": "Title Case",
+        "td8": "<code>The Return of the King</code>",
+        "td9": "Judul buku, artikel editorial",
+        "td10": "Sentence case",
+        "td11": "<code>Hello world. Good morning.</code>",
+        "td12": "Teks isi, dokumentasi pengguna",
+        "td13": "camelCase",
+        "td14": "<code>helloWorld</code>",
+        "td15": "Nama variabel &amp; method JavaScript, Java",
+        "td16": "PascalCase",
+        "td17": "<code>HelloWorld</code>",
+        "td18": "Class di C#, Java, Python, TypeScript",
+        "td19": "snake_case",
+        "td20": "<code>hello_world</code>",
+        "td21": "Variabel Python, kolom database SQL",
+        "td22": "kebab-case",
+        "td23": "<code>hello-world</code>",
+        "td24": "Slug URL, class CSS, atribut HTML",
+        "td25": "CONSTANT_CASE",
+        "td26": "<code>HELLO_WORLD</code>",
+        "td27": "Environment variable, konstanta yang tidak berubah",
+        "td28": "dot.case",
+        "td29": "<code>hello.world</code>",
+        "td30": "Path properti, kunci konfigurasi"
+      }
+    }
+  },
+  "client": {
+    "stats": "{{characters}} karakter ({{noSpaces}} tanpa spasi) | {{words}} kata | {{lines}} baris",
+    "toast": {
+      "converted": "Diubah ke {{style}}",
+      "restored": "Teks sebelumnya dipulihkan",
+      "copied": "Teks hasil konversi disalin ke papan klip"
+    }
+  }
+}

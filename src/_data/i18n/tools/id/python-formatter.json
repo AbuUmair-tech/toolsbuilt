@@ -1,0 +1,194 @@
+{
+  "listing": {
+    "name": "Python Formatter",
+    "shortName": "Python Formatter",
+    "description": "Format kode Python secara online dengan formatter Ruff bergaya kompatibel Black. Pilih panjang baris, indentasi, dan tanda kutip; berjalan privat di browser Anda.",
+    "shortDescription": "Format kode Python dengan formatter Ruff (kompatibel Black), secara privat di browser Anda.",
+    "keywords": [
+      "python formatter",
+      "format kode python online",
+      "merapikan kode python",
+      "black formatter online",
+      "ruff formatter",
+      "formatter pep 8",
+      "pretty print kode python"
+    ]
+  },
+  "title": "Python Formatter: Format Kode Python Online (Ruff)",
+  "description": "Python formatter online dengan Ruff, kompatibel dengan Black. Pilih panjang baris, indentasi, dan tanda kutip. Berjalan di browser; kode tetap privat.",
+  "h1": "Python Formatter",
+  "quickAnswer": "Tempelkan kode Anda lalu tekan Format. Python formatter ini memakai Ruff untuk menulis ulang kode dengan gaya kompatibel Black: indentasi 4 spasi, spasi di sekitar operator, dua baris kosong di antara fungsi dan class tingkat atas, tanda kutip ganda, dan baris dipatahkan pada 88 karakter (atau 79 untuk PEP 8 yang ketat). Formatter hanya mengubah tata letak, bukan perilaku, dan melaporkan kesalahan sintaks beserta nomor barisnya alih-alih menebak perbaikannya.",
+  "workedExamples": [
+    {
+      "title": "Fungsi yang berdesakan",
+      "before": "def  calculate_total( items,tax_rate = 0.18 ) :\n  subtotal=sum( item['price']*item['qty'] for item in items )\n  return subtotal*( 1+tax_rate )",
+      "after": "def calculate_total(items, tax_rate=0.18):\n    subtotal = sum(item[\"price\"] * item[\"qty\"] for item in items)\n    return subtotal * (1 + tax_rate)",
+      "result": "Spasi di sekitar = dan * dirapikan, argumen default kehilangan spasinya, isi fungsi diindentasi 4 spasi, dan tanda kutip tunggal menjadi tanda kutip ganda."
+    },
+    {
+      "title": "Dictionary yang panjang",
+      "before": "config = {'host':'localhost','port':5432,'database':'inventory','user':'admin','options':{'sslmode':'require','connect_timeout':10}}",
+      "after": "config = {\n    \"host\": \"localhost\",\n    \"port\": 5432,\n    \"database\": \"inventory\",\n    \"user\": \"admin\",\n    \"options\": {\"sslmode\": \"require\", \"connect_timeout\": 10},\n}",
+      "result": "Barisnya lebih dari 88 karakter, jadi setiap kunci dipindahkan ke barisnya sendiri dengan koma di akhir. Dictionary bersarang masih muat dalam satu baris, jadi tetap di sana."
+    },
+    {
+      "title": "Class dengan method yang berdesakan",
+      "before": "class   Account :\n    def __init__(self,owner,balance=0):\n        self.owner=owner;self.balance=balance\n    def deposit(self,amount):\n        if amount<=0: raise ValueError('Deposit must be positive')\n        self.balance+=amount\n        return self.balance",
+      "after": "class Account:\n    def __init__(self, owner, balance=0):\n        self.owner = owner\n        self.balance = balance\n\n    def deposit(self, amount):\n        if amount <= 0:\n            raise ValueError(\"Deposit must be positive\")\n        self.balance += amount\n        return self.balance",
+      "result": "Dua pernyataan yang digabung dengan titik koma dipisah ke baris masing-masing, isi if satu baris diperluas, dan satu baris kosong memisahkan method."
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Mencampur tab dan spasi",
+      "description": "Python memperlakukan tab dan spasi sebagai indentasi yang berbeda, sehingga blok yang mencampurnya memicu IndentationError atau TabError. Formatter tidak dapat mengurai kode seperti itu dan melaporkan \"Unexpected indentation\" beserta nomor barisnya. Indentasi ulang blok itu dengan spasi saja, lalu format lagi."
+    },
+    {
+      "title": "Mengharapkan formatter memperbaiki kesalahan sintaks",
+      "description": "Titik dua, kurung, atau tanda kutip yang hilang membuat berkas tidak dapat diurai. Formatter hanya menata ulang kode yang valid, jadi perbaiki dulu kesalahan di baris yang dilaporkan. Baris yang dilaporkan bisa saja tepat setelah kesalahan sebenarnya, seperti baris setelah kurung yang tidak ditutup."
+    },
+    {
+      "title": "Mengharapkan import diurutkan atau dipisah",
+      "description": "Pemformatan mempertahankan import os, sys seperti tertulis. Memisah satu import per baris dan mengurutkan import adalah tugas linter, yang dilakukan oleh aturan lint Ruff atau isort, bukan oleh formatter."
+    },
+    {
+      "title": "Tidak menyepakati panjang baris",
+      "description": "Jika satu orang memformat pada 79 kolom dan yang lain pada 88, setiap berkas akan terus berubah bolak-balik. Pilih satu nilai untuk proyek dan simpan di konfigurasi bersama, seperti line-length di pyproject.toml."
+    },
+    {
+      "title": "Membiarkan koma di akhir yang tidak Anda inginkan",
+      "description": "Koma setelah item terakhir memberi tahu formatter untuk tetap memecah pemanggilan atau koleksi satu item per baris, meskipun muat dalam satu baris. Hapus komanya jika Anda ingin diringkas."
+    }
+  ],
+  "sources": [
+    {
+      "name": "PEP 8: Style Guide for Python Code"
+    },
+    {
+      "name": "Formatter Ruff (dokumentasi Astral)"
+    }
+  ],
+  "howto": {
+    "name": "Cara Memformat Kode Python secara Online",
+    "description": "Format kode Python dengan gaya kompatibel Black menggunakan formatter Ruff, di browser Anda.",
+    "steps": [
+      {
+        "name": "Tempelkan kode Anda",
+        "text": "Tempelkan potongan atau seluruh berkas Python ke kotak input, atau muat contohnya."
+      },
+      {
+        "name": "Pilih opsi",
+        "text": "Pilih panjang baris (default 88), lebar indentasi, dan gaya tanda kutip."
+      },
+      {
+        "name": "Format",
+        "text": "Tekan Format atau Ctrl+Enter. Perbaiki kesalahan sintaks di baris yang dilaporkan, lalu format lagi."
+      },
+      {
+        "name": "Salin hasilnya",
+        "text": "Salin kode yang sudah diformat dari kotak output."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Bagaimana cara memformat kode Python secara online?",
+      "a": "Tempelkan kode ke kotak, pilih panjang baris, indentasi, dan gaya tanda kutip, lalu tekan Format atau Ctrl+Enter. Kode yang sudah diformat muncul di bawah, siap disalin. Formatter berjalan di browser Anda, jadi kode Anda tidak diunggah."
+    },
+    {
+      "q": "Apakah ini sama dengan Black?",
+      "a": "Alat ini memakai formatter Ruff, yang dirancang sebagai pengganti langsung Black dan menghasilkan output yang hampir identik pada kode yang diformat Black. Tidak seperti Black, Ruff memungkinkan Anda memilih gaya tanda kutip."
+    },
+    {
+      "q": "Berapa panjang baris yang disarankan PEP 8?",
+      "a": "PEP 8 menyarankan maksimal 79 karakter untuk kode dan 72 untuk komentar dan docstring, serta mengizinkan tim menyepakati hingga 99. Black dan Ruff memakai default 88, itulah sebabnya 88 menjadi default di sini."
+    },
+    {
+      "q": "Mengapa formatter menampilkan \"Unexpected indentation\"?",
+      "a": "Ada baris yang diindentasi lebih dalam daripada bloknya, sering karena tab dan spasi tercampur atau baris ditempel dengan indentasi berlebih. Perbaiki indentasi di baris yang dilaporkan agar setiap blok memakai jumlah spasi yang sama."
+    },
+    {
+      "q": "Apakah formatter mengubah tanda kutip tunggal menjadi ganda?",
+      "a": "Ya, secara default, agar sesuai dengan Black. Pilih Tunggal untuk mengutamakan tanda kutip tunggal, atau Pertahankan untuk mempertahankan tanda kutip setiap string. Tanda kutip hanya ditukar jika tidak memerlukan escape tambahan."
+    },
+    {
+      "q": "Apakah pemformatan mengubah cara kode saya berjalan?",
+      "a": "Tidak. Formatter hanya mengubah spasi, baris baru, tanda kutip, dan tanda kurung yang tidak memengaruhi makna. Jika kode tidak dapat diurai, formatter berhenti dengan pesan kesalahan alih-alih mengubah apa pun."
+    },
+    {
+      "q": "Apa perbedaan formatter dan linter?",
+      "a": "Formatter menulis ulang tata letak secara otomatis. Linter melaporkan masalah seperti import yang tidak dipakai, nama yang tidak terdefinisi, atau pola berisiko, dan hanya sebagian yang bisa diperbaiki otomatis. Sebagian besar proyek memakai keduanya."
+    },
+    {
+      "q": "Apakah kode saya diunggah ke server?",
+      "a": "Tidak. Formatter Ruff dikompilasi ke WebAssembly dan disajikan dari situs ini; formatter diunduh saat pertama kali Anda memformat, lalu berjalan di dalam browser Anda."
+    }
+  ],
+  "body": {
+    "label": {
+      "opt-line-length": "Panjang baris",
+      "opt-indent": "Indentasi",
+      "opt-quotes": "Gaya tanda kutip"
+    },
+    "option": {
+      "opt-line-length": {
+        "79": "79 (PEP 8)",
+        "88": "88 (default Black / Ruff)"
+      },
+      "opt-indent": {
+        "2": "2 spasi",
+        "4": "4 spasi"
+      },
+      "opt-quotes": {
+        "double": "Ganda",
+        "single": "Tunggal",
+        "preserve": "Pertahankan"
+      }
+    },
+    "text": {
+      "pep8-heading": "Dasar-dasar PEP 8",
+      "ruff-style-heading": "Perbedaan gaya Ruff dan Black dari PEP 8 biasa",
+      "cannot-fix-heading": "Kesalahan yang tidak dapat diperbaiki formatter",
+      "privacy-heading": "Privat sejak dirancang"
+    },
+    "content": {
+      "pep-8-basics": {
+        "p1": "PEP 8 adalah panduan gaya resmi Python. Formatter menerapkan bagian-bagian mekanisnya untuk Anda, sehingga waktu review bisa dipakai untuk menilai apa yang dilakukan kode, bukan tata letaknya. Aturan yang paling sering diterapkan adalah:",
+        "li1": "<strong>Empat spasi per tingkat indentasi.</strong> Spasi, bukan tab, dan jangan pernah mencampur keduanya dalam satu blok.",
+        "li2": "<strong>Panjang baris yang terbatas.</strong> PEP 8 menyarankan 79 karakter untuk kode dan 72 untuk komentar dan docstring, agar dua berkas muat berdampingan dan diff tetap mudah dibaca.",
+        "li3": "<strong>Baris kosong yang bermakna.</strong> Dua baris kosong di sekitar fungsi dan class tingkat atas, satu baris kosong di antara method di dalam class.",
+        "li4": "<strong>Spasi di sekitar operator.</strong> Satu spasi di kedua sisi operator penugasan dan perbandingan (<code>x = y + 1</code>, <code>if total &gt;= limit</code>), tetapi tanpa spasi di sekitar <code>=</code> pada argumen keyword dan nilai default (<code>def f(rate=0.18)</code>).",
+        "li5": "<strong>Tanpa spasi tambahan di dalam kurung</strong> dan satu pernyataan per baris, jadi <code>a = 1; b = 2</code> menjadi dua baris.",
+        "p2": "Konvensi penamaan, seperti <code>snake_case</code> untuk fungsi dan variabel serta <code>CapWords</code> untuk class, juga bagian dari PEP 8, tetapi formatter tidak pernah mengganti nama apa pun. Itu tugas linter dan code review."
+      },
+      "how-ruff-and-black-style-differs": {
+        "p1": "PEP 8 menyisakan banyak pilihan, dan dua orang yang mengikutinya tetap bisa menata kode yang sama secara berbeda. Black, dan formatter Ruff yang meniru gayanya, menghilangkan pilihan-pilihan itu agar setiap berkas dalam proyek terlihat sama:",
+        "li1": "<strong>88 kolom, bukan 79.</strong> Black memilih 88 karena menghasilkan berkas yang jauh lebih pendek daripada 79 namun tetap nyaman di layar. Pilih 79 di sini jika proyek Anda mengikuti batas PEP 8 secara ketat.",
+        "li2": "<strong>Tanda kutip ganda secara default.</strong> PEP 8 mengizinkan gaya tanda kutip mana pun asalkan konsisten; Black menyeragamkan ke tanda kutip ganda. Ruff menambahkan opsi untuk mengutamakan tanda kutip tunggal atau mempertahankan yang ada.",
+        "li3": "<strong>Pematahan baris yang dapat diprediksi.</strong> Jika pemanggilan, list, atau dictionary terlalu panjang, isinya dipecah satu item per baris dengan koma di akhir, sehingga menambah item nanti hanya mengubah satu baris di diff.",
+        "li4": "<strong>Koma akhir ajaib.</strong> Jika Anda meninggalkan koma setelah item terakhir, formatter tetap memecah ekspresi itu meskipun muat dalam satu baris.",
+        "p2": "Karena outputnya sama siapa pun yang menjalankannya, tim biasanya memformat saat menyimpan atau lewat pre-commit hook dan berhenti memperdebatkan tata letak saat review."
+      },
+      "errors-the-formatter-cannot-fix": {
+        "p1": "Formatter terlebih dahulu mengurai kode Anda menjadi pohon sintaks, baru kemudian mencetaknya kembali dengan gaya yang konsisten. Jika penguraian gagal, tidak ada yang bisa diformat, jadi formatter melaporkan kesalahan beserta baris dan kolomnya alih-alih menebak maksud Anda:",
+        "li1": "<strong>IndentationError dan TabError.</strong> Mencampur tab dan spasi, atau mengindentasi baris lebih dalam dari bloknya, membuat strukturnya ambigu. Formatter melaporkan \"Unexpected indentation\" pada baris pertama yang bermasalah.",
+        "li2": "<strong>Kesalahan sintaks.</strong> Titik dua yang hilang setelah <code>def</code> atau <code>if</code>, kurung yang tidak ditutup, atau string yang tidak diakhiri menghentikan penguraian. Kurung yang tidak ditutup sering dilaporkan di baris berikutnya, karena di situlah Python menyadari ekspresinya belum berakhir.",
+        "li3": "<strong>Masalah yang ditemukan linter.</strong> Import yang tidak dipakai, nama yang tidak terdefinisi, atau variabel yang tertimpa tetap sintaks yang valid, jadi formatter membiarkannya.",
+        "p2": "Saat formatter melaporkan kesalahan, kursor melompat ke posisi itu di input agar Anda bisa memperbaikinya lalu memformat lagi."
+      },
+      "private-by-design": {
+        "p1": "Halaman ini menjalankan formatter Ruff yang dikompilasi ke WebAssembly. Mesinnya disajikan dari situs ini dan hanya diunduh saat Anda pertama kali memformat kode di halaman ini; setelah itu mesin berjalan sepenuhnya di browser Anda, sehingga kode proprietary atau yang belum dipublikasikan tidak pernah keluar dari perangkat Anda. Untuk bahasa lain, lihat <a href=\"/tools/java-formatter/\">Java Formatter</a>, atau <a href=\"/tools/json-formatter/\">JSON Formatter</a> untuk berkas data."
+      }
+    },
+    "value": {
+      "engine": "Formatter Ruff ({{name}} {{version}})"
+    }
+  },
+  "client": {
+    "errors": {
+      "empty": "Tempelkan kode Python untuk diformat.",
+      "at": "Baris {{line}}, kolom {{column}}: {{reason}}",
+      "unsupportedOption": "{{key}} tidak didukung: {{value}}. Pilih salah satu dari {{choices}}."
+    }
+  }
+}

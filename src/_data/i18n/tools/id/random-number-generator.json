@@ -1,0 +1,263 @@
+{
+  "listing": {
+    "name": "Generator Angka Acak",
+    "shortName": "Angka Acak",
+    "description": "Buat angka acak yang aman di rentang mana pun: bilangan bulat atau desimal, hingga 1,000 sekaligus, dengan atau tanpa pengulangan, diurutkan atau tidak.",
+    "shortDescription": "Angka acak yang aman di rentang mana pun, dengan atau tanpa pengulangan.",
+    "keywords": [
+      "generator angka acak",
+      "angka acak 1 sampai 100",
+      "pengundi angka",
+      "rng",
+      "angka acak tanpa pengulangan",
+      "generator nomor undian",
+      "angka acak sungguhan"
+    ]
+  },
+  "title": "Generator Angka Acak (Rentang Acak Sungguhan)",
+  "description": "Generator angka acak dengan sumber acak aman dari browser: bilangan bulat atau desimal di rentang mana pun, hingga 1,000 sekaligus, bisa tanpa ulang.",
+  "h1": "Generator Angka Acak",
+  "quickAnswer": "Masukkan nilai minimum, maksimum, dan berapa angka yang Anda butuhkan, lalu tekan Buat. Generator angka acak ini mengambil setiap angka dengan crypto.getRandomValues, generator browser yang aman secara kriptografis, ditambah rejection sampling sehingga setiap nilai dalam rentang memiliki peluang yang persis sama. Matikan duplikat untuk undian tanpa angka yang berulang, seperti undian berhadiah.",
+  "formula": {
+    "title": "Cara Angka Diambil",
+    "expression": "n = maks − min + 1   ·   ambil x secara seragam dari [0, 2³²)   ·   tolak x ≥ 2³² − (2³² mod n)   ·   hasil = min + (x mod n)",
+    "explanation": "Sumber acak aman dari browser menghasilkan angka 32-bit. Mengambil x mod n secara langsung akan membuat hasil kecil sedikit lebih mungkin muncul setiap kali n tidak membagi habis 2³² (bias modulo), jadi pengambilan di potongan atas yang tidak rata dibuang dan diambil ulang. Setiap nilai kemudian memiliki peluang tepat 1 ÷ n. Desimal dengan N angka di belakang koma diambil dengan cara yang sama sebagai jumlah langkah 10^−N antara minimum dan maksimum. Tanpa duplikat, setiap nilai diambil paling banyak sekali (pengambilan sampel tanpa pengembalian).",
+    "variables": [
+      {
+        "description": "Berapa banyak nilai berbeda yang mungkin: maks − min + 1 untuk bilangan bulat."
+      },
+      {
+        "name": "Rejection sampling",
+        "description": "Membuang sedikit pengambilan mentah yang akan membuat hasil bias; rata-rata dibutuhkan kurang dari satu pengambilan tambahan."
+      },
+      {
+        "name": "Tanpa duplikat",
+        "description": "Anda bisa mengambil paling banyak n angka, karena setelah itu semua nilai sudah terpakai."
+      }
+    ]
+  },
+  "workedExamples": [
+    {
+      "title": "Mengocok dadu enam sisi",
+      "inputs": [
+        "Min 1, maks 6, jumlah 1"
+      ],
+      "steps": [
+        "n = 6 kemungkinan nilai",
+        "2³² mod 6 = 4, jadi 4 nilai mentah teratas dari 4,294,967,296 ditolak"
+      ],
+      "result": "Satu angka dari 1 sampai 6, masing-masing dengan peluang 1/6"
+    },
+    {
+      "title": "Undian ala lotre: 6 angka dari 1 sampai 49",
+      "inputs": [
+        "Min 1, maks 49, jumlah 6",
+        "Izinkan duplikat: nonaktif, urutkan: aktif"
+      ],
+      "steps": [
+        "Setiap angka diambil dari yang belum terpilih",
+        "Ada 13,983,816 kemungkinan kombinasi 6 angka"
+      ],
+      "result": "Enam angka berbeda dalam urutan naik"
+    },
+    {
+      "title": "Desimal acak antara 0 dan 1",
+      "inputs": [
+        "Min 0, maks 1, jumlah 5",
+        "Angka desimal: 3"
+      ],
+      "steps": [
+        "Nilainya berlangkah 0.001, jadi n = 1,001 kemungkinan nilai",
+        "Setiap pengambilan adalah jumlah langkah bulat, dibagi 1,000"
+      ],
+      "result": "Lima angka seperti 0.417, masing-masing dari 0.000 sampai 1.000"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Memakai Math.random() untuk hal yang penting",
+      "description": "Math.random() memang cepat tetapi tidak dirancang agar tak terduga, dan outputnya kadang bisa direkonstruksi. Untuk undian berhadiah, kata sandi, atau hal terkait keamanan, gunakan sumber kriptografis seperti crypto.getRandomValues, seperti alat ini."
+    },
+    {
+      "title": "Memakai x mod n pada angka acak mentah",
+      "description": "Memperkecil angka acak dengan % n tanpa rejection sampling menimbulkan sedikit bias ke nilai yang lebih rendah jika n tidak membagi habis rentang generator. Efeknya kecil untuk n kecil tetapi nyata, dan mudah dihindari."
+    },
+    {
+      "title": "Meminta angka unik lebih banyak dari isi rentang",
+      "description": "Hanya ada 10 bilangan bulat berbeda dari 1 sampai 10, jadi Anda tidak bisa mengambil 11 tanpa pengulangan. Alat ini memberi tahu jika jumlahnya lebih besar dari rentang."
+    },
+    {
+      "title": "Mengharapkan angka acak tersebar merata",
+      "description": "Keacakan sungguhan menghasilkan deretan dan kelompok. Mendapat tiga angka 6 berturut-turut pada dadu yang adil terjadi sekitar sekali dalam 216 percobaan; itu bukan bukti bahwa generatornya rusak."
+    },
+    {
+      "title": "Menganggap desimal bersifat kontinu",
+      "description": "Dengan 2 angka desimal antara 0 dan 1 hanya ada tepat 101 kemungkinan nilai. Jika Anda membutuhkan nilai yang lebih halus, tambah jumlah angka desimalnya."
+    }
+  ],
+  "sources": [
+    {
+      "name": "W3C Web Cryptography API: getRandomValues()"
+    },
+    {
+      "name": "MDN Web Docs: Crypto.getRandomValues()"
+    },
+    {
+      "name": "NIST SP 800-90A Rev. 1: Recommendation for Random Number Generation Using Deterministic Random Bit Generators"
+    }
+  ],
+  "howto": {
+    "name": "Cara Membuat Angka Acak",
+    "description": "Buat angka acak yang aman di rentang mana pun.",
+    "steps": [
+      {
+        "name": "Tentukan rentangnya",
+        "text": "Masukkan angka terkecil dan terbesar yang diizinkan."
+      },
+      {
+        "name": "Pilih jumlahnya",
+        "text": "Masukkan berapa angka yang Anda butuhkan, hingga 1,000."
+      },
+      {
+        "name": "Pilih opsinya",
+        "text": "Izinkan atau larang duplikat, urutkan hasilnya, dan pilih bilangan bulat atau hingga 6 angka desimal."
+      },
+      {
+        "name": "Buat dan simpan",
+        "text": "Tekan Buat, lalu salin angkanya atau unduh sebagai berkas teks."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Apakah generator angka acak ini benar-benar acak?",
+      "a": "Generator ini memakai crypto.getRandomValues, generator yang aman secara kriptografis bawaan browser Anda dan diberi seed dari sumber entropi sistem operasi. Generator ini cocok untuk permainan, undian, dan pengambilan sampel, dan angkanya tidak dapat diprediksi dari angka sebelumnya."
+    },
+    {
+      "q": "Bagaimana cara membuat angka acak antara 1 dan 100?",
+      "a": "Atur minimum 1, maksimum 100, dan jumlah 1, lalu tekan Buat. Setiap angka dari 1 sampai 100 memiliki peluang tepat 1%."
+    },
+    {
+      "q": "Bagaimana cara memilih angka acak tanpa pengulangan?",
+      "a": "Hapus centang Izinkan duplikat. Setiap angka di hasil akan berbeda, selama Anda tidak meminta angka lebih banyak dari isi rentangnya."
+    },
+    {
+      "q": "Bisakah saya membuat angka desimal acak?",
+      "a": "Bisa. Pilih 1 hingga 6 angka desimal. Angka-angkanya tersebar merata di rentang tersebut dengan langkah sebesar itu."
+    },
+    {
+      "q": "Berapa banyak angka acak yang bisa dibuat sekaligus?",
+      "a": "Hingga 1,000 per klik. Salin atau unduh sebagai berkas teks, satu angka per baris."
+    },
+    {
+      "q": "Bisakah ini dipakai untuk undian atau giveaway?",
+      "a": "Bisa. Beri nomor pada setiap peserta, atur rentangnya agar sesuai, hapus centang duplikat, lalu undi pemenang sebanyak yang Anda perlukan. Untuk nama, bukan angka, gunakan pemilih nama acak."
+    },
+    {
+      "q": "Apakah angka saya dikirim ke suatu tempat?",
+      "a": "Tidak. Angka dibuat di browser Anda dan tidak dikirim ke atau disimpan di server."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Generator Angka Acak",
+      "rng-list": "Angka yang dibuat"
+    },
+    "label": {
+      "rng-min": "Minimum <span class=\"text-accent\">*</span>",
+      "rng-max": "Maksimum <span class=\"text-accent\">*</span>",
+      "rng-count": "Jumlah",
+      "rng-dp": "Jenis angka"
+    },
+    "option": {
+      "rng-dp": {
+        "0": "Bilangan bulat",
+        "1": "1 angka desimal",
+        "2": "2 angka desimal",
+        "3": "3 angka desimal",
+        "4": "4 angka desimal",
+        "5": "5 angka desimal",
+        "6": "6 angka desimal"
+      }
+    },
+    "content": {
+      "tool": {
+        "label1": "<input type=\"checkbox\" id=\"rng-dupes\" checked>\n            <span>Izinkan duplikat</span>",
+        "label2": "<input type=\"checkbox\" id=\"rng-sort\" data-param=\"sort\">\n            <span>Urutkan dari terkecil ke terbesar</span>",
+        "div1": "<span id=\"result-header-text\">Angka acak Anda</span>"
+      },
+      "why-secure-randomness-and-rejection-sampling": {
+        "heading": "Mengapa Keacakan yang Aman dan Rejection Sampling Itu Penting",
+        "p1": "Komputer tidak bisa melempar koin, jadi komputer memakai algoritma. Generator biasa seperti Math.random() di JavaScript menghasilkan angka yang tampak acak tetapi mengikuti pola tersembunyi. Generator yang aman secara kriptografis, yang tersedia di browser sebagai crypto.getRandomValues, diberi seed dari peristiwa tak terduga yang dikumpulkan sistem operasi dan dirancang agar melihat output sebelumnya tidak membantu menebak output berikutnya.",
+        "p2": "Mendapatkan angka dalam suatu rentang juga perlu kehati-hatian. Generator aman menghasilkan nilai dari 0 sampai 4,294,967,295. Untuk mendapatkan angka 1 sampai 6, Anda mungkin mengambil sisa pembagian dengan 6, tetapi 4,294,967,296 bukan kelipatan 6, sehingga sisa 0 sampai 3 akan muncul sedikit lebih sering daripada 4 dan 5. Alat ini membuang segelintir nilai mentah penyebab ketidakseimbangan itu lalu mengambil ulang, sehingga setiap sisi memiliki peluang yang persis sama.",
+        "caption1": "Rentang umum dan peluangnya",
+        "th1": "Kegunaan",
+        "th2": "Rentang",
+        "th3": "Peluang setiap nilai",
+        "td1": "Lempar koin",
+        "td2": "1 dari 2 (50%)",
+        "td3": "Dadu enam sisi",
+        "td4": "1 dari 6 (16.67%)",
+        "td5": "Kocokan persentase",
+        "td6": "1 dari 100 (1%)",
+        "td7": "Hari dalam setahun",
+        "td8": "1 dari 365 (0.27%)",
+        "td9": "PIN empat digit",
+        "td10": "1 dari 10,000 (0.01%)"
+      },
+      "ideas-for-using-random-numbers": {
+        "heading": "Ide Penggunaan Angka Acak",
+        "li1": "<strong>Undian berhadiah:</strong> beri nomor pada peserta dan undi pemenang tanpa duplikat.",
+        "li2": "<strong>Pengajaran dan riset:</strong> pilih siswa, peserta survei, atau baris sampel dari spreadsheet secara acak.",
+        "li3": "<strong>Permainan:</strong> ganti dadu yang hilang, tentukan siapa yang mulai lebih dulu, atau buat skenario acak. <a href=\"/tools/coin-flip-dice-roller/\">Lempar koin dan kocok dadu</a> menampilkan sisi dadu dan menyimpan riwayat.",
+        "li4": "<strong>Pengujian:</strong> buat data uji dengan desimal atau rentang yang sangat besar, lalu unduh sebagai berkas.",
+        "p1": "Semuanya berjalan di browser Anda. Angka dibuat di perangkat Anda dan tidak pernah dikirim ke server."
+      }
+    },
+    "text": {
+      "generate-btn": "Buat",
+      "reset-btn": "Atur Ulang",
+      "copy-numbers-btn": "Salin angka",
+      "download-btn": "Unduh .txt"
+    }
+  },
+  "client": {
+    "errors": {
+      "noCrypto": "Angka acak yang aman tidak tersedia di browser ini.",
+      "rangeSize": "Ukuran rentang harus antara 1 dan 2^53.",
+      "minEmpty": "Masukkan nilai minimum.",
+      "maxEmpty": "Masukkan nilai maksimum.",
+      "minInvalid": "Minimum harus berupa angka.",
+      "maxInvalid": "Maksimum harus berupa angka.",
+      "minAboveMax": "Minimum ({{min}}) lebih besar dari maksimum ({{max}}). Tukar keduanya atau ubah salah satunya.",
+      "count": "Jumlah harus bilangan bulat dari 1 sampai {{max}}.",
+      "decimals": "Angka desimal harus bilangan bulat dari 0 sampai {{max}}.",
+      "rangeTooLarge": "Rentang itu terlalu besar. Gunakan angka yang lebih kecil atau angka desimal yang lebih sedikit.",
+      "noValue": {
+        "decimal": "Tidak ada angka dengan {{decimals}} desimal antara {{min}} dan {{max}}.",
+        "whole": "Tidak ada bilangan bulat antara {{min}} dan {{max}}."
+      },
+      "tooFewUnique": {
+        "decimal": "Hanya ada {{possible}} nilai berbeda dari {{min}} sampai {{max}}, jadi {{count}} angka tidak mungkin semuanya berbeda. Kurangi jumlahnya, perlebar rentangnya, atau izinkan duplikat.",
+        "whole": "Hanya ada {{possible}} bilangan bulat berbeda dari {{min}} sampai {{max}}, jadi {{count}} angka tidak mungkin semuanya berbeda. Kurangi jumlahnya, perlebar rentangnya, atau izinkan duplikat."
+      }
+    },
+    "result": {
+      "singleDecimal": "Angka acak dari {{min}} sampai {{max}}",
+      "singleWhole": "Bilangan bulat acak dari {{min}} sampai {{max}}",
+      "multiple": "{{count}} angka acak dari {{min}} sampai {{max}}",
+      "summary": {
+        "plain": "{{count}} angka",
+        "unique": "{{count}} angka, tanpa pengulangan",
+        "sorted": "{{count}} angka, diurutkan",
+        "uniqueSorted": "{{count}} angka, tanpa pengulangan, diurutkan"
+      },
+      "chanceExact": "1 dari {{n}}",
+      "chanceApprox": "sekitar 1 dari {{n}}",
+      "note": {
+        "other": "{{possible}} kemungkinan nilai; setiap pengambilan memberi setiap nilai peluang {{chance}}."
+      },
+      "copied": "Angka disalin"
+    }
+  }
+}

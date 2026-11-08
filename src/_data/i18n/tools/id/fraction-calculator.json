@@ -1,0 +1,302 @@
+{
+  "listing": {
+    "name": "Kalkulator Pecahan",
+    "shortName": "Kalkulator Pecahan",
+    "description": "Jumlahkan, kurangkan, kalikan, dan bagi pecahan serta pecahan campuran dengan langkah pengerjaan, sederhanakan pecahan, dan konversi desimal.",
+    "shortDescription": "Pecahan dan pecahan campuran dengan langkah, penyederhanaan, dan desimal ke pecahan.",
+    "keywords": [
+      "kalkulator pecahan",
+      "penjumlahan pecahan",
+      "kalkulator pecahan campuran",
+      "menyederhanakan pecahan",
+      "desimal ke pecahan",
+      "pembagian pecahan",
+      "perkalian pecahan"
+    ]
+  },
+  "title": "Kalkulator Pecahan: Tambah, Kurang, Kali, Bagi",
+  "description": "Kalkulator pecahan: jumlahkan, kurangkan, kalikan, dan bagi pecahan serta pecahan campuran dengan langkah pengerjaan. Sederhanakan dan ubah desimal.",
+  "h1": "Kalkulator Pecahan",
+  "quickAnswer": "Untuk menjumlahkan atau mengurangkan pecahan, samakan dulu penyebutnya lalu gabungkan pembilangnya: 1/2 + 1/3 = 3/6 + 2/6 = 5/6. Untuk mengalikan, kalikan pembilang dengan pembilang dan penyebut dengan penyebut; untuk membagi, kalikan dengan kebalikannya: 3/4 ÷ 1/2 = 3/4 × 2/1 = 6/4 = 3/2 = 1 1/2. Kalkulator pecahan ini selalu menyelesaikan dengan membagi pembilang dan penyebut dengan FPB-nya.",
+  "formula": {
+    "title": "Aturan Pecahan",
+    "explanation": "Untuk penjumlahan dan pengurangan, kalkulator menggunakan kelipatan persekutuan terkecil (KPK) dari penyebut agar angkanya tetap kecil, lalu menjumlahkan atau mengurangkan pembilang yang sudah disesuaikan. Perkalian dilakukan langsung lurus. Pembagian dilakukan dengan mengalikan kebalikan pecahan kedua, yang tidak mungkin jika pecahan itu nol. Hasilnya disederhanakan dengan faktor persekutuan terbesar (FPB, dicari dengan algoritma Euclid) dan juga ditampilkan sebagai pecahan campuran dan desimal, dengan angka berulang di dalam kurung.",
+    "variables": [
+      {
+        "name": "Pecahan campuran",
+        "description": "Bilangan bulat dan pecahan, seperti 2 1/3. Diubah dulu menjadi pecahan tidak murni: (2 × 3 + 1)/3 = 7/3."
+      },
+      {
+        "name": "KPK",
+        "description": "Kelipatan persekutuan terkecil: bilangan terkecil yang habis dibagi kedua penyebut, digunakan sebagai penyebut bersama."
+      },
+      {
+        "name": "FPB",
+        "description": "Faktor persekutuan terbesar: bilangan terbesar yang membagi habis pembilang dan penyebut, digunakan untuk menyederhanakan."
+      }
+    ]
+  },
+  "workedExamples": [
+    {
+      "steps": [
+        "KPK(2, 3) = 6",
+        "1/2 = 3/6 dan 1/3 = 2/6",
+        "3/6 + 2/6 = 5/6, sudah dalam bentuk paling sederhana"
+      ]
+    },
+    {
+      "steps": [
+        "Kalikan dengan kebalikannya: 3/4 × 2/1",
+        null,
+        "FPB(6, 4) = 2, jadi 6/4 = 3/2"
+      ]
+    },
+    {
+      "steps": [
+        null,
+        null,
+        "FPB(21, 21) = 21, jadi jawabannya 1"
+      ]
+    },
+    {
+      "title": "Sederhanakan 6/8 dan ubah 0.375",
+      "inputs": [
+        "Sederhanakan: 6/8",
+        "Desimal ke pecahan: 0.375"
+      ],
+      "steps": [
+        "FPB(6, 8) = 2, jadi 6/8 = 3/4",
+        "0.375 = 375/1000; FPB(375, 1000) = 125, jadi 375/1000 = 3/8"
+      ],
+      "result": "6/8 = 3/4 dan 0.375 = 3/8"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Menjumlahkan penyebut",
+      "description": "1/2 + 1/3 bukan 2/5. Penyebut menunjukkan ukuran bagiannya, jadi harus disamakan sebelum dijumlahkan: 3/6 + 2/6 = 5/6."
+    },
+    {
+      "title": "Membagi tanpa membalik pecahan kedua",
+      "description": "Untuk membagi dengan pecahan, kalikan dengan kebalikannya (balik pecahan kedua saja). 3/4 ÷ 1/2 = 3/4 × 2/1 = 3/2, bukan 3/8."
+    },
+    {
+      "title": "Mengalikan bilangan bulat dari pecahan campuran secara terpisah",
+      "description": "2 1/3 × 3/7 bukan (2 × 3/7) ditambah (1/3) atau 2 × 1/3 × 3/7. Ubah dulu 2 1/3 menjadi 7/3, lalu kalikan."
+    },
+    {
+      "title": "Berhenti sebelum pecahan disederhanakan",
+      "description": "6/4 benar tetapi belum selesai. Bagi pembilang dan penyebut dengan FPB-nya (2) untuk mendapatkan 3/2, atau 1 1/2 sebagai pecahan campuran."
+    },
+    {
+      "title": "Kehilangan tanda minus pada pecahan campuran",
+      "description": "−1 1/2 berarti −(1 + 1/2) = −3/2, bukan −1 + 1/2 = −1/2. Letakkan tanda di luar seluruh pecahan campuran."
+    }
+  ],
+  "sources": [
+    {
+      "name": "Common Core State Standards for Mathematics: Number and Operations—Fractions"
+    },
+    {
+      "name": "Elemen Euclid, Buku VII, Proposisi 2 (ukuran persekutuan terbesar)"
+    },
+    {
+      "name": "NIST Digital Library of Mathematical Functions: §27.1 Teori bilangan, FPB"
+    }
+  ],
+  "howto": {
+    "name": "Cara Menggunakan Kalkulator Pecahan",
+    "description": "Hitung dengan pecahan dan pecahan campuran, sederhanakan pecahan, dan ubah desimal menjadi pecahan.",
+    "steps": [
+      {
+        "name": "Pilih mode",
+        "text": "Hitung dengan dua pecahan, sederhanakan satu pecahan, atau ubah desimal menjadi pecahan."
+      },
+      {
+        "name": "Ketik angkanya",
+        "text": "Masukkan pecahan seperti 3/4, pecahan campuran seperti 2 1/3, bilangan bulat, atau desimal."
+      },
+      {
+        "name": "Pilih operasi",
+        "text": "Pilih tambah, kurang, kali, atau bagi."
+      },
+      {
+        "name": "Baca jawaban dan langkahnya",
+        "text": "Lihat pecahan paling sederhana, pecahan campuran, desimal, dan setiap langkah pengerjaannya."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Bagaimana cara menjumlahkan pecahan yang penyebutnya berbeda?",
+      "a": "Cari penyebut bersama (KPK dari penyebut-penyebutnya), tulis ulang setiap pecahan dengan penyebut itu, lalu jumlahkan pembilangnya. 1/2 + 1/3 = 3/6 + 2/6 = 5/6."
+    },
+    {
+      "q": "Bagaimana cara membagi pecahan?",
+      "a": "Biarkan pecahan pertama, ubah ÷ menjadi ×, lalu balik pecahan kedua. 3/4 ÷ 1/2 = 3/4 × 2/1 = 6/4 = 3/2."
+    },
+    {
+      "q": "Bagaimana cara mengalikan pecahan campuran?",
+      "a": "Ubah setiap pecahan campuran menjadi pecahan tidak murni, kalikan pembilang dengan pembilang dan penyebut dengan penyebut, lalu sederhanakan. 2 1/3 × 3/7 = 7/3 × 3/7 = 21/21 = 1."
+    },
+    {
+      "q": "Bagaimana cara menyederhanakan pecahan?",
+      "a": "Bagi pembilang dan penyebut dengan FPB-nya. Untuk 6/8, FPB-nya 2, jadi 6/8 = 3/4."
+    },
+    {
+      "q": "Bagaimana cara mengubah desimal menjadi pecahan?",
+      "a": "Tulis angka di belakang koma sebagai pembilang dengan penyebut 10, 100, 1000, dan seterusnya, lalu sederhanakan. 0.375 = 375/1000, dan dengan membagi keduanya dengan 125 didapat 3/8."
+    },
+    {
+      "q": "Bagaimana cara mengetik pecahan campuran?",
+      "a": "Ketik bilangan bulatnya, spasi, lalu pecahannya: 2 1/3. Pecahan campuran negatif ditulis -2 1/3. Bilangan bulat (5) dan desimal (0.75) juga bisa."
+    },
+    {
+      "q": "Apa arti angka dalam kurung pada desimal?",
+      "a": "Angka di dalam kurung berulang tanpa henti. 5/6 = 0.8(3) berarti 0.8333…, dan 1/7 = 0.(142857) berarti 0.142857142857…."
+    },
+    {
+      "q": "Mengapa tidak bisa membagi dengan nol?",
+      "a": "Membagi dengan pecahan berarti mengalikan dengan kebalikannya, dan 0 tidak memiliki kebalikan. Tidak ada bilangan yang dikalikan 0 menghasilkan jawaban selain nol, sehingga pembagian dengan nol tidak terdefinisi."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Kalkulator Pecahan",
+      "tool-div1": "Mode kalkulator",
+      "copy-result-btn": "Salin hasil ke papan klip"
+    },
+    "text": {
+      "tab-calc": "Hitung",
+      "tab-simplify": "Sederhanakan",
+      "tab-dec": "Desimal",
+      "frac-hint": "Ketik pecahan (3/4), pecahan campuran dengan spasi (2 1/3), bilangan bulat (5), atau desimal (0.75).",
+      "reset-btn": "Atur Ulang",
+      "result-header-text": "Jawaban",
+      "copy-result-btn": "<span data-icon=\"copy\"></span> Salin Hasil"
+    },
+    "label": {
+      "frac-a": "Bilangan pertama",
+      "frac-op": "Operasi",
+      "frac-b": "Bilangan kedua",
+      "frac-s": "Pecahan yang disederhanakan",
+      "frac-dec": "Desimal"
+    },
+    "option": {
+      "frac-op": {
+        "add": "+ tambah",
+        "subtract": "− kurang",
+        "multiply": "× kali",
+        "divide": "÷ bagi"
+      }
+    },
+    "content": {
+      "tool": {
+        "p1": "Hanya desimal terbatas, seperti 0.375 atau 2.5.",
+        "button1": "Hitung",
+        "summary1": "Langkah demi langkah"
+      },
+      "fraction-rules-in-one-table": {
+        "heading": "Aturan Pecahan dalam Satu Tabel",
+        "caption1": "Cara menjumlahkan, mengurangkan, mengalikan, dan membagi pecahan",
+        "th1": "Operasi",
+        "th2": "Yang dilakukan",
+        "th3": "Contoh",
+        "td1": "Tambah",
+        "td2": "Samakan penyebut, jumlahkan pembilang",
+        "td3": "Kurang",
+        "td4": "Samakan penyebut, kurangkan pembilang",
+        "td5": "Kali",
+        "td6": "Pembilang × pembilang, penyebut × penyebut",
+        "td7": "Bagi",
+        "td8": "Kalikan dengan kebalikan pecahan kedua",
+        "td9": "Sederhanakan",
+        "td10": "Bagi pembilang dan penyebut dengan FPB-nya",
+        "td11": "18/24: FPB(18, 24) = 6, jadi 18/24 = 3/4"
+      },
+      "mixed-numbers-improper-fractions-and-decimals": {
+        "heading": "Pecahan Campuran, Pecahan Tidak Murni, dan Desimal",
+        "p1": "Pecahan tidak murni memiliki pembilang yang sama besar atau lebih besar dari penyebutnya, seperti 7/3. Pecahan campuran menuliskan nilai yang sama sebagai bilangan bulat ditambah pecahan murni: 7 ÷ 3 = 2 sisa 1, jadi 7/3 = 2 1/3. Perhitungan paling mudah dilakukan dengan pecahan tidak murni, itulah sebabnya kalkulator mengubah pecahan campuran terlebih dahulu dan mengembalikannya di akhir.",
+        "p2": "Setiap pecahan juga merupakan desimal. Jika penyebut yang sudah disederhanakan tidak memiliki faktor prima selain 2 dan 5, desimalnya berakhir (3/8 = 0.375). Jika tidak, desimalnya berulang tanpa henti, dan kalkulator menaruh blok yang berulang di dalam kurung: 1/3 = 0.(3), 5/6 = 0.8(3), 1/7 = 0.(142857). Sebaliknya, hanya desimal terbatas yang bisa diketik secara tepat, jadi 0.333 menjadi 333/1000, bukan 1/3."
+      },
+      "how-euclid-s-algorithm-finds-the": {
+        "heading": "Cara Algoritma Euclid Mencari FPB",
+        "p1": "Untuk menyederhanakan 84/126, bagi bilangan yang lebih besar dengan yang lebih kecil dan simpan sisanya: 126 = 1 × 84 + 42, lalu 84 = 2 × 42 + 0. Saat sisanya mencapai 0, pembagi terakhir (42) adalah FPB-nya, jadi 84/126 = 2/3. Mode Sederhanakan menampilkan setiap baris ini, berguna untuk memeriksa PR secara manual.",
+        "p2": "Semua aritmetika menggunakan perhitungan bilangan bulat yang eksak di browser Anda, sehingga pembilang dan penyebut yang sangat besar pun tidak pernah dibulatkan."
+      }
+    },
+    "title": {
+      "copy-result-btn": "Salin hasil ke papan klip"
+    }
+  },
+  "client": {
+    "errors": {
+      "empty": "Masukkan angka atau pecahan, misalnya 3/4 atau 2 1/3.",
+      "tooLong": "Angka itu terlalu panjang untuk diproses di sini.",
+      "zeroDenominator": "\"{{raw}}\" memiliki penyebut 0, yang tidak terdefinisi.",
+      "notUnderstood": "\"{{raw}}\" bukan angka yang dipahami kalkulator ini. Gunakan bentuk seperti 3/4, 2 1/3, 5, atau 0.75.",
+      "chooseOperation": "Pilih operasi: +, −, ×, atau ÷.",
+      "firstNumber": "Bilangan pertama: {{error}}",
+      "secondNumber": "Bilangan kedua: {{error}}",
+      "divideByZero": "Anda tidak bisa membagi dengan nol: bilangan kedua adalah 0, dan pembagian dengan 0 tidak terdefinisi.",
+      "decimalEmpty": "Masukkan desimal seperti 0.375.",
+      "notTerminating": "\"{{raw}}\" bukan desimal terbatas. Masukkan angka dengan titik desimal opsional, seperti 0.375 atau 2.5. Desimal berulang seperti 0.333… tidak dapat dimasukkan secara tepat.",
+      "decimalTooLong": "Desimal itu terlalu panjang untuk diproses di sini."
+    },
+    "steps": {
+      "convert": {
+        "mixed": {
+          "first": "Tulis bilangan pertama {{text}} sebagai pecahan tidak murni: {{sign}}({{whole}} × {{d}} + {{partN}}) / {{d}} = {{n}}/{{d}}",
+          "second": "Tulis bilangan kedua {{text}} sebagai pecahan tidak murni: {{sign}}({{whole}} × {{d}} + {{partN}}) / {{d}} = {{n}}/{{d}}",
+          "single": "Tulis bilangan {{text}} sebagai pecahan tidak murni: {{sign}}({{whole}} × {{d}} + {{partN}}) / {{d}} = {{n}}/{{d}}"
+        },
+        "whole": {
+          "first": "Tulis bilangan pertama {{text}} sebagai pecahan: {{n}}/1",
+          "second": "Tulis bilangan kedua {{text}} sebagai pecahan: {{n}}/1",
+          "single": "Tulis bilangan {{text}} sebagai pecahan: {{n}}/1"
+        },
+        "decimal": {
+          "first": "Tulis bilangan pertama {{text}} sebagai pecahan: {{n}}/{{d}}",
+          "second": "Tulis bilangan kedua {{text}} sebagai pecahan: {{n}}/{{d}}",
+          "single": "Tulis bilangan {{text}} sebagai pecahan: {{n}}/{{d}}"
+        }
+      },
+      "simplify": "Sederhanakan: FPB({{absN}}, {{d}}) = {{g}}, jadi {{n}}/{{d}} = {{simplified}}",
+      "lowestTerms": "{{n}}/{{d}} sudah dalam bentuk paling sederhana (FPB = 1)",
+      "sameDenominator": {
+        "add": "Penyebutnya sudah sama ({{d}}), jadi jumlahkan pembilangnya: {{a}} {{sym}} {{b}} = {{result}}",
+        "subtract": "Penyebutnya sudah sama ({{d}}), jadi kurangkan pembilangnya: {{a}} {{sym}} {{b}} = {{result}}"
+      },
+      "commonDenominator": "Cari penyebut bersama: KPK({{da}}, {{db}}) = {{lcd}}",
+      "rewrite": "Tulis ulang kedua pecahan: {{fx}} = {{na}}/{{lcd}} dan {{fy}} = {{nb}}/{{lcd}}",
+      "numerators": {
+        "add": "Jumlahkan pembilangnya: {{a}} {{sym}} {{b}} = {{n}}, menghasilkan {{n}}/{{d}}",
+        "subtract": "Kurangkan pembilangnya: {{a}} {{sym}} {{b}} = {{n}}, menghasilkan {{n}}/{{d}}"
+      },
+      "multiplyBoth": "Kalikan pembilang dengan pembilang dan penyebut dengan penyebut: ({{xn}} × {{yn}}) / ({{xd}} × {{yd}}) = {{n}}/{{d}}",
+      "reciprocal": "Membagi dengan {{fy}} sama dengan mengalikan dengan kebalikannya {{yd}}/{{yn}}",
+      "multiply": "Kalikan: ({{xn}} × {{yd}}) / ({{xd}} × {{yn}}) = {{n}}/{{d}}",
+      "asMixed": "Sebagai pecahan campuran: {{mixed}}",
+      "zero": "0 dibagi bilangan apa pun yang bukan nol hasilnya 0",
+      "findGcd": "Cari FPB dari {{a}} dan {{b}} dengan algoritma Euclid:",
+      "gcd": "FPB = {{gcd}}",
+      "divideBoth": "Bagi keduanya dengan {{g}}: {{n}} ÷ {{g}} = {{nq}}, {{d}} ÷ {{g}} = {{dq}}",
+      "gcdOne": "FPB-nya 1, jadi pecahan sudah dalam bentuk paling sederhana",
+      "decimalPlaces": {
+        "other": "{{raw}} memiliki {{places}} angka desimal, jadi tulis dengan penyebut 10^{{places}} = {{d}}: {{n}}/{{d}}"
+      },
+      "wholeNumber": "{{raw}} adalah bilangan bulat: {{n}}/1",
+      "gcdOf": "FPB({{a}}, {{d}}) = {{g}}",
+      "divideBothShort": "Bagi keduanya dengan {{g}}: {{n}}/{{d}}"
+    },
+    "result": {
+      "lowestTerms": "{{input}} dalam bentuk paling sederhana",
+      "asFraction": "{{input}} sebagai pecahan"
+    },
+    "stats": {
+      "simplified": "Pecahan paling sederhana",
+      "mixed": "Pecahan campuran",
+      "decimal": "Desimal"
+    }
+  }
+}

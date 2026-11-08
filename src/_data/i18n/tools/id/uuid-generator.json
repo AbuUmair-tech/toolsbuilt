@@ -1,0 +1,182 @@
+{
+  "listing": {
+    "name": "Generator UUID / GUID",
+    "shortName": "Generator UUID",
+    "description": "Buat UUID dan GUID versi 4 yang aman secara kriptografis secara instan dengan Web Crypto, pembuatan massal hingga 100, dan unduhan teks.",
+    "shortDescription": "Buat UUID dan GUID versi 4 yang aman secara kriptografis dengan opsi massal dan ekspor teks.",
+    "keywords": [
+      "generator UUID",
+      "generator GUID",
+      "UUID v4",
+      "generator UUID massal",
+      "UUID acak online",
+      "UUID tanpa tanda hubung"
+    ]
+  },
+  "title": "Generator UUID - UUID v4 & GUID Massal Online Gratis",
+  "description": "Generator UUID: buat UUID dan GUID versi 4 yang aman secara kriptografis seketika dengan Web Crypto. Hingga 100 sekaligus, format kustom, dan ekspor teks.",
+  "h1": "Generator UUID / GUID",
+  "quickAnswer": "Untuk membuat UUID (Universally Unique Identifier) yang aman secara kriptografis, pilih jumlah yang diinginkan (1 hingga 100) lalu atur huruf besar-kecil, tanda hubung, dan kurung kurawal. Generator UUID ini memakai randomUUID dari Web Crypto API browser untuk menghasilkan 122 bit entropi yang didukung perangkat keras tanpa komunikasi ke server.",
+  "formula": {
+    "title": "Struktur UUID Versi 4 RFC 4122",
+    "expression": "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx (dengan y ∈ {8, 9, a, b})",
+    "explanation": "UUID Versi 4 terdiri atas 128 bit: 4 bit tetap untuk versi (0100 untuk v4), 2 bit menentukan varian (10 untuk RFC 4122), dan 122 bit sisanya diisi angka pseudoacak yang kuat secara kriptografis. Dengan 2¹²² kemungkinan kombinasi (sekitar 5.3 × 10³⁶), peluang kolisinya dapat diabaikan."
+  },
+  "workedExamples": [
+    {
+      "title": "UUID v4 Kanonis Standar",
+      "inputs": [
+        "Algoritma: RFC 4122 v4",
+        "Format: Huruf kecil dengan tanda hubung",
+        "Kurung kurawal: Tidak ada"
+      ],
+      "steps": [
+        "Ambil 16 byte acak kriptografis melalui crypto.randomUUID",
+        "Pastikan bit 12 hingga 15 bernilai 0100 (versi 4)",
+        "Pastikan bit 6 hingga 7 dari clock sequence bernilai 10 (varian RFC 4122)",
+        "Format sebagai karakter hex 8-4-4-4-12"
+      ]
+    },
+    {
+      "title": "Format GUID Microsoft COM / C#",
+      "inputs": [
+        "Format: Huruf besar dengan kurung kurawal",
+        "Pemisah: Dengan tanda hubung"
+      ],
+      "steps": [
+        "Buat payload byte acak 128-bit standar",
+        "Ubah semua karakter alfanumerik menjadi huruf besar",
+        "Bungkus string hasilnya dengan kurung kurawal"
+      ]
+    },
+    {
+      "title": "Kunci Database Mentah Tanpa Tanda Hubung",
+      "inputs": [
+        "Format: hex ringkas 32 karakter",
+        "Tanda hubung: Tidak disertakan",
+        "Huruf: Kecil"
+      ],
+      "steps": [
+        "Buat UUID 128-bit",
+        "Hapus semua 4 karakter pemisah tanda hubung",
+        "Hasilkan string heksadesimal 32 karakter tanpa jeda"
+      ]
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Memakai Math.random() untuk UUID",
+      "description": "Math.random() standar di JavaScript bersifat pseudoacak dan dapat diprediksi. Selalu gunakan crypto.randomUUID() atau crypto.getRandomValues() untuk mencegah kolisi dan pemalsuan identifier."
+    },
+    {
+      "title": "Memperlakukan UUID sebagai Kata Sandi Rahasia",
+      "description": "UUID adalah identifier unik, bukan token autentikasi atau kunci kriptografi. UUID tidak memiliki hashing kriptografis atau salt dan tidak boleh menggantikan rahasia."
+    },
+    {
+      "title": "Mengira UUID Berurutan",
+      "description": "UUID Versi 4 sepenuhnya acak dan tidak berurutan. Memakainya sebagai primary key berklaster di database tanpa indeks pengurutan dapat menyebabkan fragmentasi B-tree."
+    },
+    {
+      "title": "Pencarian Database yang Peka Huruf Besar-Kecil",
+      "description": "RFC 4122 menetapkan bahwa perbandingan heksadesimal harus tidak peka huruf besar-kecil. Tidak menormalkan huruf saat melakukan kueri database bisa membuat data tidak ditemukan."
+    }
+  ],
+  "sources": [
+    {
+      "name": "IETF RFC 4122: A Universally Unique IDentifier (UUID) URN Namespace"
+    },
+    {
+      "name": "W3C Web Cryptography API: crypto.randomUUID"
+    },
+    {
+      "name": "Rekomendasi ITU-T X.667: Pembuatan dan pendaftaran UUID"
+    }
+  ],
+  "howto": {
+    "name": "Cara Membuat Identifier UUID v4",
+    "description": "Panduan langkah demi langkah untuk membuat satu atau banyak UUID yang aman secara kriptografis.",
+    "steps": [
+      {
+        "name": "Pilih Jumlah",
+        "text": "Pilih berapa UUID yang dibuat sekaligus, dari 1 hingga 100 secara massal."
+      },
+      {
+        "name": "Pilih Opsi Format",
+        "text": "Atur huruf besar, pemisah tanda hubung, atau kurung kurawal agar sesuai dengan framework Anda."
+      },
+      {
+        "name": "Salin atau Unduh",
+        "text": "Klik Salin Semua untuk menyalin semua ID ke papan klip, atau klik Unduh .txt untuk menyimpannya ke berkas teks."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Apa itu UUID Versi 4?",
+      "a": "UUID Versi 4 adalah identifier unik universal 128-bit yang dibuat dengan angka acak. UUID ini berisi 122 bit acak, sehingga ada 5.3 × 10³⁶ kemungkinan nilai dengan peluang duplikat yang hampir nol."
+    },
+    {
+      "q": "Apa perbedaan UUID dan GUID?",
+      "a": "GUID (Globally Unique Identifier) adalah istilah implementasi Microsoft untuk UUID (Universally Unique Identifier). Dalam perangkat lunak modern, keduanya merujuk pada struktur 128-bit yang sama dan sesuai RFC 4122."
+    },
+    {
+      "q": "Bagaimana UUID dibuat dengan aman di alat ini?",
+      "a": "Alat ini memakai Web Crypto API bawaan browser (crypto.randomUUID). Entropi diambil langsung dari generator acak kriptografis perangkat keras sistem operasi Anda."
+    },
+    {
+      "q": "Bisakah dua nilai UUID v4 bertabrakan?",
+      "a": "Secara teori mungkin, tetapi membuat 1 miliar UUID per detik selama 100 tahun hanya menghasilkan peluang kurang dari 50% untuk satu kolisi. Untuk keperluan rekayasa perangkat lunak, UUID dianggap unik secara universal."
+    },
+    {
+      "q": "Apakah UUID yang dibuat dikirim atau dicatat?",
+      "a": "Tidak pernah. Pembuatan berjalan 100% di sisi klien, di memori browser Anda. Tidak ada kunci yang dibuat atau log yang pernah menyentuh server eksternal."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-div1": "Alat Generator UUID",
+      "quick-uuid-display": "UUID Tunggal yang Dibuat",
+      "copy-single-btn": "Salin UUID Tunggal",
+      "regen-single-btn": "Buat Ulang UUID Tunggal",
+      "uuid-count": "Jumlah UUID yang dibuat",
+      "bulk-output": "Daftar UUID yang Dibuat"
+    },
+    "label": {
+      "quick-uuid-display": "UUID v4 Tunggal (Salin Cepat):",
+      "uuid-count": "Jumlah (1 – 100):",
+      "bulk-output": "UUID yang Dibuat:"
+    },
+    "text": {
+      "copy-single-btn": "<span data-icon=\"copy\"></span> Salin",
+      "regen-single-btn": "<span data-icon=\"refresh\"></span> Buat Ulang",
+      "generate-btn": "<span data-icon=\"refresh\"></span> Buat Massal",
+      "uuid-meta-count": "5 UUID dibuat",
+      "copy-all-btn": "<span data-icon=\"copy\"></span> Salin Semua",
+      "download-txt-btn": "<span data-icon=\"download\"></span> Unduh .txt"
+    },
+    "content": {
+      "tool": {
+        "label1": "<input type=\"checkbox\" id=\"opt-hyphens\" checked>\n        <span>Sertakan Tanda Hubung (-)</span>",
+        "label2": "<input type=\"checkbox\" id=\"opt-uppercase\">\n        <span>Huruf Besar (A-F)</span>",
+        "label3": "<input type=\"checkbox\" id=\"opt-braces\">\n        <span>Bungkus dengan Kurung Kurawal ({})</span>"
+      }
+    }
+  },
+  "client": {
+    "errors": {
+      "noSecureRandom": "PRNG yang aman secara kriptografis tidak tersedia.",
+      "notWholeNumber": "Jumlah harus bilangan bulat antara {{min}} dan {{max}}.",
+      "belowMin": "Jumlah tidak boleh kurang dari {{min}}.",
+      "aboveMax": "Jumlah tidak boleh lebih dari {{max}} untuk pembuatan massal."
+    },
+    "copy": {
+      "copied": "✓ Disalin!",
+      "failed": "Gagal menyalin. Silakan salin secara manual."
+    },
+    "meta": {
+      "generated": {
+        "other": "{{count}} UUID dibuat"
+      }
+    }
+  }
+}

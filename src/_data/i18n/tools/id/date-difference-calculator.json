@@ -1,0 +1,215 @@
+{
+  "listing": {
+    "name": "Kalkulator Selisih Tanggal",
+    "shortName": "Selisih Tanggal",
+    "description": "Hitung total hari, hari kerja (Senin-Jumat), dan rentang waktu di antara dua tanggal kalender mana pun.",
+    "shortDescription": "Hitung total hari, hari kerja (Senin-Jumat), dan rentang waktu di antara dua tanggal kalender mana pun.",
+    "keywords": [
+      "selisih tanggal",
+      "hitung jumlah hari antara dua tanggal",
+      "hari kerja antara dua tanggal",
+      "durasi kalender",
+      "penghitung hari kerja"
+    ]
+  },
+  "title": "Kalkulator Selisih Tanggal - Hitung Hari Antartanggal",
+  "description": "Kalkulator selisih tanggal: hitung jumlah hari, hari kerja, minggu, bulan, dan tahun yang tepat di antara dua tanggal. Gratis dan online.",
+  "h1": "Kalkulator Selisih Tanggal",
+  "quickAnswer": "Untuk menghitung durasi di antara dua tanggal, pilih tanggal mulai dan tanggal akhir, lalu tentukan apakah hari terakhir ikut dihitung atau tidak. Kalkulator selisih tanggal ini menampilkan total hari kalender, hari kerja, akhir pekan, minggu, dan bulan. Semua perhitungan berjalan di sisi klien dalam UTC, sehingga terhindar dari kesalahan akibat daylight saving time.",
+  "formula": {
+    "title": "Rumus Rentang & Durasi Tanggal",
+    "expression": "Durasi = (ms UTC Tanggal Akhir - ms UTC Tanggal Mulai) / 86,400,000 ms [± 1 hari jika inklusif]",
+    "explanation": "Durasi kalender mengukur interval hari UTC 24 jam penuh di antara dua tanggal. Jika mode inklusif dipilih, 1 hari ditambahkan agar kedua hari batas ikut terhitung. Hari kerja dihitung dengan memeriksa setiap hari dalam rentang, menghitung Senin sampai Jumat dan melewati hari akhir pekan."
+  },
+  "workedExamples": [
+    {
+      "title": "Bulan Kerja Standar (Eksklusif)",
+      "inputs": [
+        "Tanggal mulai: 1 Oktober 2026 (Kamis)",
+        "Tanggal akhir: 31 Oktober 2026 (Sabtu)",
+        "Inklusif: Tidak"
+      ],
+      "steps": [
+        "Hitung interval hari kalender: 30 hari",
+        "Hitung hari kerja Senin sampai Jumat: 22 hari",
+        "Hitung hari akhir pekan: 8 hari (4 akhir pekan penuh)"
+      ],
+      "result": "Total 30 hari (22 hari kerja, 8 hari akhir pekan, 4 minggu 2 hari)"
+    },
+    {
+      "title": "Durasi Acara Inklusif (Konferensi / Sewa)",
+      "inputs": [
+        "Tanggal mulai: 1 November 2026 (Minggu)",
+        "Tanggal akhir: 5 November 2026 (Kamis)",
+        "Inklusif: Ya"
+      ],
+      "steps": [
+        "Hitung interval mentah: 4 hari",
+        "Tambahkan 1 hari untuk batas inklusif: 5 hari",
+        "Hitung hari kerja (Senin-Kamis): 4 hari kerja, 1 hari akhir pekan (Minggu)"
+      ],
+      "result": "Total 5 hari (4 hari kerja, 1 hari akhir pekan, 120 jam)"
+    },
+    {
+      "title": "Durasi Lintas Kuartal Melewati Pergantian Tahun",
+      "inputs": [
+        "Tanggal mulai: 15 Desember 2025 (Senin)",
+        "Tanggal akhir: 15 Maret 2026 (Minggu)",
+        "Inklusif: Tidak"
+      ],
+      "steps": [
+        "Hitung hari kalender melewati pergantian tahun: 90 hari",
+        "Uraikan menjadi bulan kalender: tepat 3 bulan (sisa 0 hari)",
+        "Hitung hari kerja: 65 hari kerja, 25 hari akhir pekan"
+      ],
+      "result": "Total 90 hari (3 bulan, 12 minggu 6 hari, 2,160 jam)"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Masalah Tiang Pagar (Inklusif vs. Eksklusif)",
+      "description": "Menginap di hotel dari Jumat sampai Minggu berarti 2 malam (eksklusif), tetapi mencakup 3 hari kalender (inklusif). Tidak menetapkan batas dengan jelas menimbulkan selisih dalam pemesanan."
+    },
+    {
+      "title": "Menganggap Hari Kerja Kira-kira 5/7 Bagian",
+      "description": "Hari kerja tidak bisa diperkirakan sebagai 5/7 dari hari kalender karena posisi akhir pekan sangat memengaruhi jumlah hari kerja dalam rentang pendek."
+    },
+    {
+      "title": "Mengira Hari Libur Nasional Sudah Dikecualikan",
+      "description": "Penghitung hari kerja hanya menyaring hari Sabtu dan Minggu. Hari libur nasional dan daerah berbeda di setiap wilayah dan tidak otomatis dihapus."
+    },
+    {
+      "title": "Pergeseran Jam di Zona Waktu Lokal",
+      "description": "Menghitung selisih hari dengan timestamp tengah malam waktu lokal bisa menimbulkan kesalahan 23 jam atau 25 jam saat pergantian Daylight Saving Time."
+    }
+  ],
+  "sources": [
+    {
+      "name": "Standar Tanggal dan Waktu ISO 8601"
+    },
+    {
+      "name": "US Naval Observatory: Aritmetika Kalender Gregorian"
+    },
+    {
+      "name": "W3C Note on Date and Time Formats"
+    }
+  ],
+  "howto": {
+    "name": "Cara Menghitung Selisih Dua Tanggal",
+    "description": "Petunjuk langkah demi langkah untuk menghitung durasi dan hari kerja di antara dua tanggal.",
+    "steps": [
+      {
+        "name": "Masukkan Tanggal Mulai dan Akhir",
+        "text": "Pilih tanggal mulai dan tanggal akhir dari kolom kalender."
+      },
+      {
+        "name": "Pilih Opsi Inklusif",
+        "text": "Jika perlu, centang 'Sertakan tanggal akhir dalam hitungan' jika perhitungan Anda harus menghitung kedua hari batas."
+      },
+      {
+        "name": "Lihat Rincian Lengkap",
+        "text": "Lihat total hari kalender, hari kerja (Senin–Jumat), hari akhir pekan, serta rinciannya dalam tahun, bulan, dan minggu."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Apa perbedaan hari kalender dan hari kerja?",
+      "a": "Hari kalender mencakup ketujuh hari dalam seminggu (Senin sampai Minggu), sedangkan hari kerja hanya menghitung hari kerja standar Senin sampai Jumat, tanpa akhir pekan."
+    },
+    {
+      "q": "Kapan saya perlu mencentang 'Sertakan tanggal akhir dalam hitungan'?",
+      "a": "Centang opsi ini jika kegiatan atau sewa Anda mencakup kedua hari batas. Misalnya, konferensi dari Senin sampai Rabu berlangsung 3 hari penuh (inklusif), tetapi durasinya 2 hari jika yang diukur adalah waktu yang berlalu (eksklusif)."
+    },
+    {
+      "q": "Apa yang terjadi jika saya memasukkan tanggal akhir sebelum tanggal mulai?",
+      "a": "Kalkulator mendeteksi tanggal yang terbalik, menukarnya untuk menghitung rentang positif, dan menampilkan pemberitahuan bahwa tanggal telah diurutkan secara otomatis."
+    },
+    {
+      "q": "Bagaimana tahun kabisat ditangani dalam durasi bertahun-tahun?",
+      "a": "Perhitungan menggunakan timestamp tengah malam UTC dan memperhitungkan setiap 29 Februari yang ada dalam rentang, sehingga tahun 366 hari dihitung dengan tepat. Jika suatu tanggal tidak ada dalam suatu bulan (misalnya tanggal 31), digunakan hari terakhir bulan tersebut."
+    },
+    {
+      "q": "Apakah data tanggal saya dikirim ke server eksternal?",
+      "a": "Tidak. Semua perhitungan tanggal berjalan sepenuhnya di browser web Anda. Tidak ada tanggal yang dikirim atau disimpan dari jarak jauh."
+    },
+    {
+      "q": "Bisakah alat ini dipakai untuk menghitung hari kerja untuk penagihan?",
+      "a": "Bisa. Jumlah hari kerja memberikan angka pasti hari selain akhir pekan di antara tanggal mulai dan tanggal akhir, cocok untuk pembayaran net-30 atau pemantauan SLA."
+    },
+    {
+      "q": "Bagaimana alat ini merinci hari menjadi bulan dan minggu?",
+      "a": "Alat ini menghitung bulan kalender penuh yang telah berlalu terlebih dahulu, lalu menyatakan sisanya dalam minggu dan hari, sekaligus memberikan total hari dan jam absolut."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Formulir Kalkulator Selisih Tanggal",
+      "copy-result-btn": "Salin hasil ke papan klip"
+    },
+    "label": {
+      "start-date": "Tanggal Mulai <span class=\"text-accent\">*</span>",
+      "end-date": "Tanggal Akhir <span class=\"text-accent\">*</span>"
+    },
+    "content": {
+      "tool": {
+        "label1": "<input type=\"checkbox\" id=\"include-end-date\" data-param=\"inc\">\n            <span>Sertakan tanggal akhir dalam hitungan (perhitungan inklusif)</span>",
+        "button1": "Hitung Selisih",
+        "div1": "Total Hari Kalender",
+        "div2": "Hari Kerja",
+        "div3": "Tahun, Bulan &amp; Hari",
+        "div4": "Minggu &amp; Hari",
+        "div5": "Total Jam yang Berlalu"
+      },
+      "how-when-to-use-the-date": {
+        "heading": "Cara &amp; Kapan Menggunakan Kalkulator Selisih Tanggal",
+        "p1": "Mengetahui durasi pasti di antara dua tanggal kalender bermanfaat untuk:",
+        "li1": "<strong>Penggajian &amp; Timesheet Penagihan:</strong> Tentukan hari kerja yang bisa ditagih antara tanggal mulai dan selesai proyek.",
+        "li2": "<strong>Properti Komersial &amp; Sewa:</strong> Hitung durasi sewa yang tepat, prorata sewa, atau batas waktu pengembalian uang jaminan.",
+        "li3": "<strong>Tenggat Hukum &amp; Kepatuhan:</strong> Pantau batas waktu tanggapan menurut aturan, tenggat pengajuan ke pengadilan, atau jangka waktu kedaluwarsa.",
+        "li4": "<strong>Rencana Perjalanan &amp; Akomodasi:</strong> Pastikan jumlah malam menginap di hotel (eksklusif) dibandingkan total hari perjalanan (inklusif)."
+      }
+    },
+    "text": {
+      "reset-btn": "Atur Ulang",
+      "result-header-text": "Hasil Perhitungan Selisih Tanggal",
+      "copy-result-btn": "<span data-icon=\"copy\"></span> Salin Hasil",
+      "result-primary-text": "-- Hari"
+    },
+    "title": {
+      "copy-result-btn": "Salin hasil ke papan klip"
+    }
+  },
+  "client": {
+    "errors": {
+      "invalidStart": "Pilih tanggal mulai yang valid (YYYY-MM-DD).",
+      "invalidEnd": "Pilih tanggal akhir yang valid (YYYY-MM-DD).",
+      "missingStart": "Pilih tanggal mulai yang valid.",
+      "missingEnd": "Pilih tanggal akhir yang valid."
+    },
+    "result": {
+      "days": {
+        "other": "{{n}} Hari"
+      },
+      "header": "Selisih Rentang Tanggal",
+      "headerSwapped": "Selisih Rentang Tanggal (Tanggal diurutkan otomatis dari awal ke akhir)"
+    },
+    "stats": {
+      "totalDays": "{{n}} Hari",
+      "businessDays": "{{n}} Hari Kerja ({{weekend}} Hari Akhir Pekan)",
+      "ymd": "{{years}} Tahun, {{months}} Bulan, {{days}} Hari",
+      "weeks": {
+        "other": "{{n}} Minggu"
+      },
+      "days": {
+        "other": "{{n}} Hari"
+      },
+      "totalHours": "Total {{n}} Jam"
+    },
+    "copy": {
+      "result": "Total durasi: {{total}}. Hari kerja: {{business}} hari. Setara dengan: {{weeks}} mgg {{weekDays}} hr ({{years}} thn {{months}} bln {{days}} hr).",
+      "resultSwapped": "Total durasi: {{total}} (Tanggal diurutkan otomatis dari awal ke akhir). Hari kerja: {{business}} hari. Setara dengan: {{weeks}} mgg {{weekDays}} hr ({{years}} thn {{months}} bln {{days}} hr).",
+      "toast": "Selisih tanggal disalin ke papan klip"
+    }
+  }
+}

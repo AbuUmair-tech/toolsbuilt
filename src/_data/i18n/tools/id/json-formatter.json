@@ -1,0 +1,211 @@
+{
+  "listing": {
+    "name": "JSON Formatter & Validator",
+    "shortName": "JSON Formatter",
+    "description": "Format, minify, validasi, dan urutkan kunci pada string JSON dengan pesan kesalahan per baris dan kolom.",
+    "shortDescription": "Format, minify, validasi, dan urutkan kunci pada string JSON dengan pesan kesalahan per baris dan kolom.",
+    "keywords": [
+      "json formatter",
+      "json validator",
+      "merapikan json",
+      "minify json",
+      "cek sintaks json"
+    ]
+  },
+  "title": "JSON Formatter & Validator - Format, Minify & Urutkan Kunci",
+  "description": "JSON formatter, validator, dan minifier online gratis. Rapikan dengan 2/4 spasi atau tab, urutkan kunci, temukan kesalahan sintaks per baris, dan unduh.",
+  "h1": "JSON Formatter & Validator",
+  "quickAnswer": "Untuk memformat dan memvalidasi JSON, tempelkan string mentah Anda ke editor. JSON formatter ini mengurai teks dengan JSON.parse(), memvalidasi sintaks, menyorot baris dan kolom kesalahan yang tepat jika tidak valid, dan merapikan strukturnya dengan 2 spasi, 4 spasi, atau tab. Anda juga bisa meminifikasi untuk menghapus spasi atau mengurutkan kunci secara alfabetis. Berjalan 100% di browser Anda.",
+  "workedExamples": [
+    {
+      "title": "Merapikan JSON Ringkas dengan Indentasi 2 Spasi",
+      "inputs": [
+        "Input: {\"name\":\"ToolsBuilt\",\"tools\":23,\"free\":true}",
+        "Indentasi: 2 Spasi",
+        "Urutkan kunci: Nonaktif"
+      ],
+      "steps": [
+        "Urai string menjadi representasi pohon di memori",
+        "Serialisasi dengan indentasi 2 spasi dan format baris baru"
+      ],
+      "result": "{\n  \"name\": \"ToolsBuilt\",\n  \"tools\": 23,\n  \"free\": true\n}"
+    },
+    {
+      "title": "Pengurutan Kunci Alfabetis (Objek Bersarang)",
+      "inputs": [
+        "Input: {\"z\": 1, \"a\": {\"y\": 2, \"b\": 3}}",
+        "Urutkan kunci: Aktif"
+      ],
+      "steps": [
+        "Telusuri objek JSON secara rekursif",
+        "Urutkan kunci tingkat atas: 'a' sebelum 'z'",
+        "Urutkan kunci anak di dalam 'a': 'b' sebelum 'y'"
+      ]
+    },
+    {
+      "title": "Minify JSON untuk Payload Jaringan",
+      "inputs": [
+        "Input: JSON terformat dengan spasi dan format multibaris",
+        "Aksi: Minify"
+      ],
+      "steps": [
+        "Hapus semua spasi, tab, dan baris baru yang tidak perlu di luar literal string",
+        "Kurangi ukuran byte payload agar pengiriman HTTP lebih efisien"
+      ],
+      "result": "{\"name\":\"ToolsBuilt\",\"tools\":23,\"free\":true}"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Koma di Akhir",
+      "description": "Menambahkan koma setelah item terakhir di array (<code>[1, 2, 3,]</code>) atau objek (<code>{\"a\": 1,}</code>) valid di JavaScript modern tetapi langsung memicu kesalahan sintaks di JSON standar."
+    },
+    {
+      "title": "Tanda Kutip Tunggal untuk String",
+      "description": "JSON secara ketat mewajibkan tanda kutip ganda (<code>\"key\": \"value\"</code>). Tanda kutip tunggal (<code>'key': 'value'</code>) ditolak oleh semua parser JSON yang sesuai standar."
+    },
+    {
+      "title": "Kunci Objek Tanpa Tanda Kutip",
+      "description": "Di JavaScript, kunci boleh tanpa tanda kutip (<code>{name: \"value\"}</code>). Di JSON, kunci harus selalu diapit tanda kutip ganda."
+    },
+    {
+      "title": "Karakter Kontrol yang Tidak Di-escape",
+      "description": "Karakter tab atau baris baru mentah yang tidak di-escape di dalam nilai string merusak penguraian JSON dan harus di-escape sebagai <code>\\t</code> atau <code>\\n</code>."
+    }
+  ],
+  "sources": [
+    {
+      "label": "ECMA-404: The JSON Data Interchange Standard"
+    },
+    {
+      "label": "RFC 8259: The JavaScript Object Notation (JSON) Data Interchange Format"
+    },
+    {
+      "label": "MDN Web Docs: Spesifikasi JSON.parse()"
+    }
+  ],
+  "howto": {
+    "name": "Cara Memformat dan Memvalidasi JSON secara Online",
+    "description": "Petunjuk langkah demi langkah untuk merapikan, memvalidasi sintaks, dan meminifikasi payload JSON di browser Anda.",
+    "steps": [
+      {
+        "name": "Tempel atau Ketik JSON",
+        "text": "Tempelkan kode JSON mentah ke kotak editor Input JSON atau klik Muat Contoh."
+      },
+      {
+        "name": "Pilih Opsi Format",
+        "text": "Pilih indentasi yang Anda inginkan (2 spasi, 4 spasi, atau tab) dan aktifkan pengurutan kunci alfabetis jika perlu."
+      },
+      {
+        "name": "Format, Validasi, atau Unduh",
+        "text": "Lihat hasil format secara real-time, periksa kesalahan sintaks dengan nomor baris dan kolom, atau klik Salin/Unduh."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Apa penyebab kesalahan sintaks JSON yang umum?",
+      "a": "Kesalahan sintaks JSON yang paling sering adalah koma di akhir setelah item array atau properti objek terakhir, kunci tanpa tanda kutip, tanda kutip tunggal alih-alih ganda, dan karakter baris baru yang tidak di-escape di dalam string."
+    },
+    {
+      "q": "Apakah JSON formatter ini mengurutkan kunci secara rekursif?",
+      "a": "Ya. Jika 'Urutkan kunci secara alfabetis' diaktifkan, kunci diurutkan secara alfabetis di tingkat atas maupun di dalam semua objek anak yang bersarang."
+    },
+    {
+      "q": "Berapa ukuran berkas maksimum untuk diformat?",
+      "a": "Demi keamanan browser dan respons yang lancar, alat ini menerapkan batas aman di sisi klien sebesar 1 MB (1,048,576 karakter). Payload besar diproses dengan debounce agar antarmuka tidak macet."
+    },
+    {
+      "q": "Apakah data JSON saya diunggah ke server eksternal?",
+      "a": "Tidak. Semua pemformatan, pengurutan kunci, validasi, dan minifikasi berlangsung 100% secara lokal di memori browser Anda. Kunci API rahasia, dump payload, dan berkas konfigurasi Anda tidak pernah dikirim melalui jaringan."
+    },
+    {
+      "q": "Apa perbedaan memformat dan meminifikasi JSON?",
+      "a": "Memformat menambahkan indentasi dan baris baru agar developer mudah memeriksa dan men-debug data. Minifikasi menghapus semua spasi yang tidak perlu untuk menghemat bandwidth pengiriman melalui jaringan."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Formulir JSON Formatter &amp; Validator",
+      "example-1-unformatted-input-pre1": "Contoh JSON yang belum diformat",
+      "example-2-formatted-2-spaces-pre1": "Contoh JSON yang diformat dengan indentasi 2 spasi"
+    },
+    "label": {
+      "indent-select": "Indentasi:",
+      "json-input": "Input JSON:",
+      "json-output": "Output Terformat / Minify:"
+    },
+    "option": {
+      "indent-select": {
+        "2": "2 Spasi",
+        "4": "4 Spasi",
+        "tab": "Tab"
+      }
+    },
+    "content": {
+      "tool": {
+        "label1": "<input type=\"checkbox\" id=\"sort-keys-toggle\" class=\"cursor-pointer\">\n            <span>Urutkan kunci secara alfabetis</span>"
+      },
+      "how-when-to-use-the-json": {
+        "li1": "<strong>Men-debug API REST &amp; GraphQL:</strong> Format respons API satu baris dari cURL atau Postman menjadi struktur bersarang yang mudah dibaca.",
+        "li2": "<strong>Memvalidasi Berkas Konfigurasi:</strong> Cek cepat <code>tsconfig.json</code>, <code>package.json</code>, atau konfigurasi Kubernetes dari kesalahan sintaks sebelum deploy.",
+        "li3": "<strong>Optimasi Ukuran Payload:</strong> Minify berkas JSON sebelum bundling atau pengiriman web untuk mengurangi ukuran transfer HTTP dan pemakaian bandwidth.",
+        "li4": "<strong>Perbandingan Kunci yang Deterministik:</strong> Gunakan pengurutan kunci alfabetis untuk menormalkan dua dokumen JSON agar perbedaannya mudah dibandingkan tanpa ketidakcocokan palsu karena urutan kunci."
+      },
+      "json-formatting-standards-indentation-formulas": {
+        "p1": "JavaScript Object Notation (JSON) adalah format pertukaran data berbasis teks yang ketat, ditetapkan dalam ECMA-404 dan RFC 8259. Berbeda dengan literal objek JavaScript, JSON mewajibkan tanda kutip ganda di sekitar semua kunci dan string serta melarang koma di akhir, komentar, dan identifier tanpa tanda kutip."
+      },
+      "example-1-unformatted-input": {
+        "heading": "Contoh 1: Input Belum Diformat",
+        "p1": "Payload ringkas satu baris:"
+      },
+      "example-2-formatted-2-spaces": {
+        "heading": "Contoh 2: Terformat (2 Spasi)",
+        "p1": "Dirapikan dengan indentasi standar:"
+      },
+      "example-3-key-sorting-comparison": {
+        "heading": "Contoh 3: Perbandingan Pengurutan Kunci",
+        "p1": "Pengurutan alfabetis menata kunci secara seragam:",
+        "li1": "Sebelum: <code>{\"z\": 1, \"a\": 2}</code>",
+        "li2": "Sesudah: <code>{\"a\": 2, \"z\": 1}</code>",
+        "li3": "Memungkinkan hashing yang deterministik dan perbandingan di version control."
+      }
+    },
+    "text": {
+      "sample-btn": "Muat Contoh",
+      "clear-btn": "Hapus",
+      "size-meter": "0.0 KB / 1 MB",
+      "format-btn": "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><polyline points=\"16 18 22 12 16 6\"></polyline><polyline points=\"8 6 2 12 8 18\"></polyline></svg>\n          Format JSON",
+      "minify-btn": "Minify JSON",
+      "validate-btn": "Validasi Sintaks",
+      "copy-btn": "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"9\" y=\"9\" width=\"13\" height=\"13\" rx=\"2\" ry=\"2\"></rect><path d=\"M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1\"></path></svg>\n          Salin Output",
+      "download-btn": "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4\"></path><polyline points=\"7 10 12 15 17 10\"></polyline><line x1=\"12\" y1=\"15\" x2=\"12\" y2=\"3\"></line></svg>\n          Unduh .json",
+      "how-to-use-heading": "Cara &amp; Kapan Menggunakan JSON Formatter",
+      "article-heading": "Standar Format JSON, Indentasi &amp; Rumus"
+    },
+    "placeholder": {
+      "json-output": "Hasil format akan muncul di sini secara langsung saat Anda mengetik..."
+    }
+  },
+  "client": {
+    "sizeMeter": "{{kb}} KB / {{max}} MB",
+    "status": {
+      "formatted": "✓ JSON valid: {{lines}} baris diformat ({{kb}} KB)",
+      "minified": "✓ JSON diminifikasi: 1 baris ({{chars}} karakter)",
+      "valid": "✓ Sintaks JSON valid: {{lines}} baris ({{kb}} KB)"
+    },
+    "errors": {
+      "invalid": "JSON tidak valid",
+      "empty": "Input JSON kosong. Tempel atau ketik JSON untuk divalidasi.",
+      "tooLarge": "Input melebihi batas aman 1 MB (maks 1,048,576 karakter). Ukuran saat ini: {{size}} karakter.",
+      "syntax": "Kesalahan sintaks: {{message}} pada baris {{line}}, kolom {{column}}"
+    },
+    "toast": {
+      "nothingToCopy": "Tidak ada yang bisa disalin. Masukkan JSON yang valid terlebih dahulu.",
+      "copied": "JSON disalin ke papan klip",
+      "nothingToDownload": "Tidak ada yang bisa diunduh. Masukkan JSON yang valid terlebih dahulu.",
+      "downloaded": "{{file}} diunduh",
+      "downloadFailed": "Unduhan gagal. Gunakan salin sebagai gantinya."
+    }
+  }
+}

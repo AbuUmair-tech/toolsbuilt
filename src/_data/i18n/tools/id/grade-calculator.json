@@ -1,0 +1,259 @@
+{
+  "listing": {
+    "name": "Kalkulator Nilai",
+    "shortName": "Kalkulator Nilai",
+    "description": "Hitung nilai mata kuliah tertimbang saat ini dan cari skor tepat yang dibutuhkan di ujian akhir untuk mencapai target nilai Anda.",
+    "shortDescription": "Hitung nilai mata kuliah tertimbang saat ini dan cari skor tepat yang dibutuhkan di ujian akhir untuk mencapai target nilai Anda.",
+    "keywords": [
+      "kalkulator nilai",
+      "kalkulator nilai berbobot",
+      "kalkulator nilai akhir",
+      "menghitung nilai mata kuliah",
+      "menghitung nilai UAS yang dibutuhkan"
+    ]
+  },
+  "title": "Kalkulator Nilai - Nilai Tertimbang & Target Ujian Akhir",
+  "description": "Kalkulator nilai: hitung nilai mata kuliah tertimbang dari semua tugas dan tentukan skor tepat yang dibutuhkan di ujian akhir untuk mencapai target.",
+  "h1": "Kalkulator Nilai",
+  "quickAnswer": "Untuk menghitung nilai tertimbang, kalikan setiap skor tugas dengan persentase bobotnya di silabus, jumlahkan skor tertimbangnya, lalu bagi dengan total bobot yang sudah selesai: Nilai Tertimbang = Σ(Skor × Bobot) ÷ Σ(Bobot). Untuk mencari skor yang dibutuhkan di ujian akhir, gunakan: Nilai Akhir yang Dibutuhkan = (Target Nilai − Poin Nilai Saat Ini) ÷ Bobot Ujian Akhir. Semua perhitungan kalkulator nilai ini berjalan di sisi klien.",
+  "formula": {
+    "title": "Rumus Nilai Tertimbang",
+    "expression": "Nilai Tertimbang = Σ(Skor × Bobot) ÷ Σ(Bobot)",
+    "explanation": "Kalikan setiap skor dengan persentase bobotnya di silabus, jumlahkan poinnya, lalu bagi dengan total bobot yang sudah selesai. Untuk mencari nilai yang dibutuhkan di ujian akhir: Nilai Akhir yang Dibutuhkan = [Target Nilai × 100 − Poin Tertimbang Saat Ini] ÷ Bobot Ujian Akhir."
+  },
+  "workedExamples": [
+    {
+      "title": "Rata-rata Mata Kuliah Tertimbang Standar",
+      "inputs": [
+        "PR (bobot 20%): 95%",
+        "UTS 1 (bobot 25%): 84%",
+        "UTS 2 (bobot 25%): 88%"
+      ],
+      "steps": [
+        "Poin PR: 95 × 0.20 = 19.0",
+        "Poin UTS 1: 84 × 0.25 = 21.0",
+        "Poin UTS 2: 88 × 0.25 = 22.0",
+        "Poin saat ini: 19.0 + 21.0 + 22.0 = 62.0 dari 70% yang sudah selesai",
+        "Nilai saat ini yang dinormalkan: 62.0 ÷ 0.70 = 88.57% (B+)"
+      ],
+      "result": "Nilai tertimbang saat ini 88.57% (B+)"
+    },
+    {
+      "title": "Menghitung Skor Ujian Akhir yang Dibutuhkan untuk Nilai 'A'",
+      "inputs": [
+        "Target nilai mata kuliah: 90.0% (A)",
+        "Poin tertimbang saat ini: 62.0 poin dari 70% yang sudah selesai",
+        "Bobot ujian akhir: 30%"
+      ],
+      "steps": [
+        "Target poin yang dibutuhkan: total 90.0 poin",
+        "Sisa poin yang dibutuhkan dari ujian akhir: 90.0 − 62.0 = 28.0 poin",
+        "Skor yang dibutuhkan di ujian akhir: 28.0 ÷ 0.30 = 93.33%"
+      ],
+      "result": "Dibutuhkan 93.33% di ujian akhir untuk mendapat A"
+    },
+    {
+      "title": "Nilai Lulus Sudah Pasti (Dibutuhkan 0%)",
+      "inputs": [
+        "Target nilai mata kuliah: 70.0% (C)",
+        "Poin tertimbang saat ini: 72.5 poin dari 80% yang sudah selesai",
+        "Bobot ujian akhir: 20%"
+      ],
+      "steps": [
+        "Poin yang dibutuhkan: 70.0 − 72.5 = −2.5 poin",
+        "Karena poin saat ini sudah melampaui target, skor ujian akhir yang dibutuhkan ≤ 0%"
+      ],
+      "result": "Dibutuhkan 0.0% (nilai lulus sudah aman)"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Memakai Rata-rata Biasa, Bukan Pembobotan",
+      "description": "Mengambil rata-rata biasa dari nilai ujian mengabaikan fakta bahwa kuis 20 menit dan UTS yang komprehensif memiliki persentase bobot yang sangat berbeda di silabus Anda."
+    },
+    {
+      "title": "Tidak Menormalkan Semester yang Belum Selesai",
+      "description": "Jika baru 50% tugas yang selesai, total 42 poin yang terkumpul bukan berarti nilai Anda 42% (F). Anda harus membaginya dengan 0.50, yang menghasilkan 84% (B)."
+    },
+    {
+      "title": "Menganggap Bobot Sudah 100% Sebelum Ujian Akhir",
+      "description": "Tugas yang sudah selesai jarang berjumlah 100% sebelum ujian akhir dinilai. Selalu perhitungkan sisa bobot ujian akhir saat menghitung posisi nilai Anda saat ini."
+    }
+  ],
+  "sources": [
+    {
+      "label": "AACRAO: Praktik Penilaian dan Standar Catatan Akademik"
+    },
+    {
+      "label": "Carnegie Mellon Eberly Center: Strategi Penilaian dan Asesmen"
+    },
+    {
+      "label": "Indiana University Bloomington: Perhitungan Nilai Tertimbang"
+    }
+  ],
+  "howto": {
+    "name": "Cara Menghitung Nilai Mata Kuliah Tertimbang dan Target Ujian Akhir",
+    "description": "Petunjuk langkah demi langkah untuk menghitung rata-rata kelas tertimbang dan skor ujian akhir yang dibutuhkan.",
+    "steps": [
+      {
+        "name": "Masukkan Tugas yang Sudah Selesai",
+        "text": "Masukkan nama setiap kategori tugas, persentase nilai yang Anda peroleh, dan persentase bobotnya di silabus."
+      },
+      {
+        "name": "Tetapkan Target Nilai Mata Kuliah",
+        "text": "Masukkan nilai akhir keseluruhan yang Anda inginkan (mis. 90% untuk A) dan persentase bobot ujian akhir."
+      },
+      {
+        "name": "Lihat Skor Ujian Akhir yang Dibutuhkan",
+        "text": "Langsung lihat rata-rata tertimbang saat ini, nilai huruf, dan skor ujian akhir yang dibutuhkan."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Bagaimana nilai tertimbang dihitung?",
+      "a": "Untuk menghitung nilai tertimbang, kalikan setiap skor tugas dengan persentase bobotnya, jumlahkan semua poin yang dihasilkan, lalu bagi dengan total persentase bobot yang sudah selesai. Secara matematis: Nilai Tertimbang = Σ(Skor × Bobot) ÷ Σ(Bobot)."
+    },
+    {
+      "q": "Bagaimana cara menghitung skor yang dibutuhkan di ujian akhir?",
+      "a": "Kurangkan kontribusi poin tertimbang Anda saat ini dari total poin yang dibutuhkan, lalu bagi dengan persentase bobot ujian akhir: Skor yang Dibutuhkan = (Target Poin - Poin Saat Ini) ÷ Bobot Ujian Akhir. Misalnya, jika Anda butuh 30 poin dan ujian akhir bernilai 30% dari mata kuliah, Anda perlu 30 ÷ 0.30 = 100% di ujian akhir."
+    },
+    {
+      "q": "Bagaimana jika total bobot tugas tidak berjumlah 100%?",
+      "a": "Kalkulator kami otomatis membagi poin yang terkumpul dengan jumlah bobot yang sudah selesai. Ini menormalkan skor Anda agar akurat menggambarkan posisi nilai Anda kapan pun selama semester."
+    },
+    {
+      "q": "Bagaimana jika silabus saya menggunakan total poin, bukan persentase?",
+      "a": "Jika silabus menggunakan poin (mis. PR 200 poin, UTS 300 poin, UAS 500 poin dari total 1000), bagi poin setiap kategori dengan total poin mata kuliah untuk mendapatkan persentase bobotnya: 200 ÷ 1000 = bobot 20%."
+    },
+    {
+      "q": "Apa artinya jika kalkulator menunjukkan saya butuh lebih dari 100% di ujian akhir?",
+      "a": "Jika skor yang dibutuhkan melebihi 100%, artinya nilai sempurna di ujian akhir saja tidak cukup untuk mencapai target Anda. Anda memerlukan poin tambahan (extra credit) atau skala penilaian yang dikurva untuk mencapainya."
+    },
+    {
+      "q": "Apa artinya jika kalkulator menunjukkan saya butuh 0% atau negatif di ujian akhir?",
+      "a": "Artinya Anda sudah mengumpulkan cukup poin tertimbang selama semester sehingga secara matematis Anda pasti mencapai target nilai, bahkan dengan nilai nol di ujian akhir."
+    },
+    {
+      "q": "Apakah kalkulator nilai ini menyimpan nilai tugas pribadi saya?",
+      "a": "Tidak. Semua perhitungan nilai berjalan murni di sisi klien, di jendela browser lokal Anda. Tidak ada nama tugas, nilai ujian, atau catatan akademik pribadi yang dikirim atau disimpan."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Formulir Kalkulator Nilai",
+      "tool-table1": "Tabel Tugas Berbobot",
+      "tool-button1": "Hapus baris tugas PR",
+      "tool-button3": "Hapus baris UTS",
+      "tool-button5": "Hapus baris Proyek Kelas",
+      "tool-button7": "Hapus baris Kuis",
+      "copy-result-btn": "Salin hasil ke papan klip"
+    },
+    "content": {
+      "tool": {
+        "th1": "Tugas / Kategori",
+        "th2": "Nilai (%)",
+        "th3": "Bobot (%)",
+        "th4": "Aksi"
+      },
+      "final-exam-target-setting": {
+        "heading": "Pengaturan Target Ujian Akhir",
+        "button1": "Hitung Nilai"
+      },
+      "how-when-to-use-the-grade": {
+        "li1": "<strong>Cek Posisi Tengah Semester:</strong> Periksa persentase nilai mata kuliah yang sebenarnya di tengah semester saat baru PR dan kuis yang dinilai.",
+        "li2": "<strong>Strategi Minggu Ujian Akhir:</strong> Tentukan persentase skor yang tepat di ujian akhir untuk mempertahankan nilai A atau agar tidak turun di bawah batas lulus.",
+        "li3": "<strong>Perencanaan Bobot Silabus:</strong> Atur jadwal belajar dengan mengenali tugas berbobot tinggi (seperti proyek kelompok 30% atau ujian 25%) yang paling berpengaruh.",
+        "li4": "<strong>GPA Kumulatif Kuliah:</strong> Ingin memantau prestasi keseluruhan lintas semester? Gunakan alat ini bersama <a href=\"/tools/gpa-calculator/\">Kalkulator GPA</a> kami."
+      }
+    },
+    "title": {
+      "tool-button2": "Hapus baris tugas",
+      "tool-button4": "Hapus baris tugas",
+      "tool-button6": "Hapus baris tugas",
+      "tool-button8": "Hapus baris tugas",
+      "copy-result-btn": "Salin hasil ke papan klip"
+    },
+    "text": {
+      "add-assignment-btn": "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><line x1=\"12\" y1=\"5\" x2=\"12\" y2=\"19\"></line><line x1=\"5\" y1=\"12\" x2=\"19\" y2=\"12\"></line></svg>\n          Tambah Baris Tugas",
+      "reset-grade-form": "Atur Ulang Semua",
+      "result-header-text": "Nilai Saat Ini &amp; Target Akhir",
+      "copy-result-btn": "<svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"9\" y=\"9\" width=\"13\" height=\"13\" rx=\"2\" ry=\"2\"></rect><path d=\"M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1\"></path></svg>\n            <span>Salin</span>",
+      "how-to-use-heading": "Cara &amp; Kapan Menggunakan Kalkulator Nilai"
+    },
+    "label": {
+      "target-grade-val": "Target Nilai Mata Kuliah Keseluruhan (%) <span class=\"text-accent\">*</span>",
+      "final-weight-val": "Bobot Ujian Akhir (%) <span class=\"text-accent\">*</span>"
+    },
+    "assignments": {
+      "nameLabel": "Nama Tugas",
+      "scoreLabel": "Persentase Nilai",
+      "weightLabel": "Persentase Bobot",
+      "homework": {
+        "name": "PR",
+        "placeholder": "mis. PR"
+      },
+      "midterm": {
+        "name": "UTS",
+        "placeholder": "mis. UTS"
+      },
+      "project": {
+        "name": "Proyek Kelas",
+        "placeholder": "mis. Proyek Kelas"
+      },
+      "quizzes": {
+        "name": "Kuis",
+        "placeholder": "mis. Kuis"
+      }
+    }
+  },
+  "client": {
+    "assignmentName": "Tugas {{n}}",
+    "itemName": "Item {{n}}",
+    "errors": {
+      "noAssignments": "Masukkan minimal satu tugas.",
+      "negativeWeight": "Bobot tugas tidak boleh negatif.",
+      "noValidGrades": "Tidak ada nilai angka yang valid.",
+      "zeroWeight": "Total bobot yang sudah selesai tidak boleh 0%.",
+      "invalidTarget": "Masukkan angka yang valid untuk target, nilai saat ini, dan bobot.",
+      "finalWeight": "Bobot ujian akhir harus lebih dari 0%.",
+      "keepOneRow": "Harus ada minimal satu baris tugas."
+    },
+    "final": {
+      "achievable": "Anda membutuhkan skor {{needed}}% di ujian akhir untuk mendapatkan {{target}}% di mata kuliah ini.",
+      "alreadyAchieved": "Anda sudah pasti mendapatkan nilai mata kuliah {{target}}% meskipun mendapat 0% di ujian akhir!",
+      "extraCredit": "Anda membutuhkan {{needed}}% di ujian akhir. Target ini memerlukan poin tambahan di atas 100%."
+    },
+    "copy": {
+      "text": "Nilai saat ini: {{current}}% ({{letter}}) dari {{weight}}% bobot mata kuliah yang sudah selesai. Target nilai: {{target}}%. Dibutuhkan di ujian akhir (bobot {{finalWeight}}%): {{needed}}%.",
+      "copied": "<span>Disalin!</span>"
+    },
+    "result": {
+      "header": "Nilai Saat Ini & Target Akhir"
+    },
+    "stats": {
+      "currentGrade": "Nilai Saat Ini",
+      "weightCompleted": "Bobot yang Sudah Selesai",
+      "targetGrade": "Target Nilai Keseluruhan",
+      "neededOnFinal": "Skor yang Dibutuhkan di Ujian Akhir"
+    },
+    "formula": {
+      "guidance": "<strong>Panduan Ujian Akhir:</strong>",
+      "formula": "Rumus: Nilai Akhir yang Dibutuhkan = [Target × (Bobot Selesai + Bobot Akhir) - Poin Saat Ini] ÷ Bobot Akhir",
+      "calculation": "Perhitungan: [{{target}} × {{weight}}% - {{points}}] ÷ {{finalWeight}}% = <strong>{{needed}}%</strong>"
+    },
+    "rows": {
+      "placeholder": "mis. Proyek 1",
+      "nameLabel": "Nama Tugas",
+      "scoreLabel": "Persentase Nilai",
+      "weightLabel": "Persentase Bobot",
+      "remove": "Hapus baris tugas"
+    },
+    "defaults": {
+      "homework": "PR",
+      "midterm": "UTS",
+      "project": "Proyek Kelas",
+      "quizzes": "Kuis"
+    }
+  }
+}

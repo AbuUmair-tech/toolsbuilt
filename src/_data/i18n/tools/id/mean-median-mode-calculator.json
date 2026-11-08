@@ -1,0 +1,284 @@
+{
+  "listing": {
+    "name": "Kalkulator Mean, Median, Modus & Simpangan Baku",
+    "shortName": "Mean, Median & Modus",
+    "description": "Dapatkan mean, median, modus, jangkauan, kuartil, varians, dan simpangan baku dari sederet angka, lengkap dengan langkah pengerjaannya.",
+    "shortDescription": "Mean, median, modus, kuartil, dan simpangan baku dengan langkah pengerjaan.",
+    "keywords": [
+      "kalkulator mean median modus",
+      "kalkulator simpangan baku",
+      "kalkulator rata-rata",
+      "kalkulator varians",
+      "kalkulator kuartil",
+      "kalkulator statistik",
+      "simpangan baku sampel"
+    ]
+  },
+  "title": "Kalkulator Mean, Median, Modus & Simpangan Baku",
+  "description": "Tempel sederet angka untuk mendapatkan mean, median, modus, jangkauan, kuartil, varians, serta simpangan baku populasi dan sampel, beserta caranya.",
+  "h1": "Kalkulator Mean, Median, Modus & Simpangan Baku",
+  "quickAnswer": "Mean (rata-rata) adalah jumlah dibagi banyaknya data, median adalah nilai tengah setelah angka diurutkan, dan modus adalah nilai yang paling sering muncul. Untuk 2, 4, 4, 4, 5, 5, 7, 9, mean-nya 40 ÷ 8 = 5, median-nya (4 + 5) ÷ 2 = 4.5, dan modusnya 4. Kalkulator mean, median, modus ini juga menghitung simpangan baku populasi 2 dan simpangan baku sampel (dibagi n − 1) 2.1381.",
+  "formula": {
+    "title": "Rumus Statistik",
+    "expression": "Mean x̄ = Σx ÷ n   ·   SB populasi σ = √(Σ(x − x̄)² ÷ n)   ·   SB sampel s = √(Σ(x − x̄)² ÷ (n − 1))",
+    "explanation": "Median adalah nilai tengah dari data yang sudah diurutkan, atau rata-rata dua nilai tengah jika banyak datanya genap. Modus adalah nilai yang paling sering muncul; jika beberapa nilai sama-sama memiliki frekuensi tertinggi, semuanya adalah modus, dan jika setiap nilai muncul sama seringnya, tidak ada modus. Kuartil menggunakan metode median dari setiap separuh: Q1 adalah median separuh bawah dan Q3 median separuh atas, tanpa menyertakan median keseluruhan jika banyak datanya ganjil. Varians adalah rata-rata kuadrat jarak dari mean, dan simpangan baku adalah akar kuadratnya.",
+    "variables": [
+      {
+        "name": "Populasi (σ, dibagi n)",
+        "description": "Gunakan jika angka Anda adalah seluruh kelompok yang ingin Anda ketahui, seperti semua nilai ujian di satu kelas."
+      },
+      {
+        "name": "Sampel (s, dibagi n − 1)",
+        "description": "Gunakan jika angka Anda adalah sampel dari kelompok yang lebih besar dan Anda ingin memperkirakan sebaran kelompok tersebut (koreksi Bessel)."
+      },
+      {
+        "name": "IQR",
+        "description": "Jangkauan antarkuartil, Q3 − Q1: sebaran separuh data yang di tengah."
+      }
+    ]
+  },
+  "workedExamples": [
+    {
+      "inputs": [
+        "8 nilai"
+      ],
+      "steps": [
+        "Mean: (2 + 4 + 4 + 4 + 5 + 5 + 7 + 9) ÷ 8 = 40 ÷ 8 = 5",
+        "Median: ada 8 nilai, jadi rata-ratakan nilai ke-4 dan ke-5: (4 + 5) ÷ 2 = 4.5",
+        "Modus: 4 muncul 3 kali, lebih sering daripada nilai lain",
+        "Kuadrat simpangan: 9, 1, 1, 1, 0, 0, 4, 16; jumlah = 32",
+        "SB populasi: √(32 ÷ 8) = √4 = 2; SB sampel: √(32 ÷ 7) = 2.1381"
+      ],
+      "result": "Mean 5, median 4.5, modus 4, σ = 2, s = 2.1381"
+    },
+    {
+      "title": "1, 2, 3 (tanpa modus)",
+      "inputs": [
+        "3 nilai"
+      ],
+      "steps": [
+        "Mean: 6 ÷ 3 = 2; median: nilai tengahnya, 2",
+        "Setiap nilai muncul sekali, jadi tidak ada modus",
+        "SB populasi: √(2 ÷ 3) = 0.8165; SB sampel: √(2 ÷ 2) = 1"
+      ],
+      "result": "Mean 2, median 2, tanpa modus"
+    },
+    {
+      "title": "Kuartil dari 1, 3, 5, 7, 9",
+      "inputs": [
+        "5 nilai (jumlah ganjil)"
+      ],
+      "steps": [
+        "Median: 5 (nilai ke-3)",
+        "Separuh bawah tanpa median: 1, 3, jadi Q1 = 2",
+        "Separuh atas tanpa median: 7, 9, jadi Q3 = 8"
+      ],
+      "result": "Q1 = 2, Q3 = 8, IQR = 6"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Lupa mengurutkan sebelum mencari median",
+      "description": "Median adalah nilai tengah dari data yang <em>sudah diurutkan</em>. Nilai tengah dari 9, 2, 5 sesuai urutan ketik adalah 2, tetapi median-nya 5."
+    },
+    {
+      "title": "Memakai rumus populasi untuk sampel",
+      "description": "Membagi dengan n membuat sebaran terlihat lebih kecil jika data Anda adalah sampel dari kelompok yang lebih besar. Gunakan simpangan baku sampel (n − 1) untuk survei, eksperimen, dan pengukuran sebagian data."
+    },
+    {
+      "title": "Mengira hanya ada satu modus",
+      "description": "Data bisa memiliki satu modus, beberapa modus, atau tidak ada sama sekali. 1, 1, 2, 2, 3 memiliki dua modus (1 dan 2); 1, 2, 3 tidak memiliki modus."
+    },
+    {
+      "title": "Membandingkan kuartil dari alat yang berbeda",
+      "description": "Ada beberapa cara yang diakui untuk menghitung kuartil, dan hasilnya bisa sedikit berbeda untuk data yang sama. Spreadsheet sering menggunakan interpolasi (QUARTILE.INC di Excel); kalkulator ini menggunakan metode median dari setiap separuh yang diajarkan di banyak kursus."
+    },
+    {
+      "title": "Mengetik koma sebagai tanda desimal",
+      "description": "Di sini koma memisahkan nilai, jadi 2,5 dibaca sebagai dua angka, 2 dan 5. Gunakan titik untuk desimal: 2.5."
+    }
+  ],
+  "sources": [
+    {
+      "name": "NIST/SEMATECH e-Handbook of Statistical Methods: Measures of location"
+    },
+    {
+      "name": "NIST/SEMATECH e-Handbook of Statistical Methods: Measures of scale"
+    },
+    {
+      "name": "Microsoft Support: Fungsi STDEV.P dan STDEV.S"
+    },
+    {
+      "name": "Microsoft Support: Fungsi QUARTILE.INC (metode kuartil dengan interpolasi)"
+    }
+  ],
+  "howto": {
+    "name": "Cara Menghitung Mean, Median, Modus, dan Simpangan Baku",
+    "description": "Tempel angka Anda untuk mendapatkan setiap statistik ringkasan beserta langkah pengerjaannya.",
+    "steps": [
+      {
+        "name": "Masukkan angka Anda",
+        "text": "Ketik atau tempel nilai yang dipisahkan koma, spasi, atau baris baru."
+      },
+      {
+        "name": "Pilih jumlah angka desimal",
+        "text": "Pilih berapa angka desimal yang ditampilkan pada hasil."
+      },
+      {
+        "name": "Baca statistiknya",
+        "text": "Lihat banyak data, jumlah, mean, median, modus, jangkauan, kuartil, varians, dan simpangan baku."
+      },
+      {
+        "name": "Periksa langkah pengerjaannya",
+        "text": "Ikuti langkah untuk mean, median, dan simpangan baku, serta data yang sudah diurutkan."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Bagaimana cara mencari mean, median, dan modus?",
+      "a": "Mean: jumlahkan semua nilai lalu bagi dengan banyaknya nilai. Median: urutkan nilai lalu ambil yang di tengah, atau rata-rata dua nilai tengah. Modus: nilai yang paling sering muncul."
+    },
+    {
+      "q": "Apa perbedaan simpangan baku populasi dan sampel?",
+      "a": "Simpangan baku populasi membagi jumlah kuadrat simpangan dengan n dan menggambarkan kelompok yang lengkap. Simpangan baku sampel membagi dengan n − 1 dan memperkirakan sebaran populasi yang lebih besar dari sebuah sampel, sehingga nilainya sedikit lebih besar."
+    },
+    {
+      "q": "Bagaimana cara menghitung simpangan baku secara manual?",
+      "a": "Cari mean, kurangkan dari setiap nilai lalu kuadratkan hasilnya, jumlahkan kuadrat-kuadrat itu, bagi dengan n (populasi) atau n − 1 (sampel), lalu ambil akar kuadratnya. Kalkulator menampilkan setiap langkah ini."
+    },
+    {
+      "q": "Bagaimana jika tidak ada modus?",
+      "a": "Jika setiap nilai muncul dengan frekuensi yang sama, tidak ada nilai yang lebih sering daripada yang lain dan data tersebut tidak memiliki modus. 1, 2, 3 tidak memiliki modus."
+    },
+    {
+      "q": "Bisakah satu kumpulan data memiliki lebih dari satu modus?",
+      "a": "Bisa. Jika dua nilai atau lebih sama-sama memiliki frekuensi tertinggi, semuanya adalah modus. 1, 1, 2, 2, 3 bersifat bimodal dengan modus 1 dan 2."
+    },
+    {
+      "q": "Bagaimana kuartil dihitung?",
+      "a": "Kalkulator ini menggunakan metode median dari setiap separuh: bagi data yang sudah diurutkan menjadi separuh bawah dan atas (tanpa median jika banyak datanya ganjil) lalu ambil median setiap separuh sebagai Q1 dan Q3."
+    },
+    {
+      "q": "Bagaimana cara memasukkan angka?",
+      "a": "Pisahkan angka dengan koma, spasi, titik koma, atau baris baru, dan gunakan titik untuk desimal. Anda bisa menempelkan satu kolom langsung dari spreadsheet."
+    },
+    {
+      "q": "Mana yang lebih baik, median atau mean?",
+      "a": "Mean menggunakan setiap nilai tetapi mudah terpengaruh pencilan; median adalah nilai tengah dan tidak terpengaruh oleh beberapa angka ekstrem. Untuk data yang miring seperti penghasilan atau harga rumah, median biasanya lebih mewakili."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Kalkulator Statistik",
+      "copy-result-btn": "Salin hasil ke papan klip"
+    },
+    "label": {
+      "data": "Angka <span class=\"text-accent\">*</span>",
+      "dp": "Angka desimal"
+    },
+    "text": {
+      "data-hint": "Pisahkan nilai dengan koma, spasi, atau baris baru. Gunakan titik untuk desimal (2.5).",
+      "reset-btn": "Atur Ulang",
+      "result-header-text": "Ringkasan",
+      "copy-result-btn": "<span data-icon=\"copy\"></span> Salin Hasil"
+    },
+    "content": {
+      "tool": {
+        "button1": "Hitung",
+        "summary1": "Data terurut dan langkah pengerjaan",
+        "p1": "Data terurut",
+        "p2": "Mean",
+        "p3": "Median",
+        "p4": "Simpangan baku"
+      },
+      "mean-median-or-mode-which-average": {
+        "heading": "Mean, Median, atau Modus: Rata-rata Mana yang Dipakai",
+        "caption1": "Kapan menggunakan mean, median, dan modus",
+        "th1": "Ukuran",
+        "th2": "Yang ditunjukkan",
+        "th3": "Paling cocok untuk",
+        "td1": "Mean",
+        "td2": "Titik keseimbangan semua nilai",
+        "td3": "Data simetris tanpa pencilan ekstrem, seperti tinggi badan atau nilai ujian",
+        "td4": "Median",
+        "td5": "Nilai tengah; separuh di atas, separuh di bawah",
+        "td6": "Data miring atau data dengan pencilan, seperti penghasilan dan harga rumah",
+        "td7": "Modus",
+        "td8": "Nilai yang paling umum",
+        "td9": "Kategori dan nilai yang berulang, seperti ukuran sepatu atau jawaban survei",
+        "p1": "Satu pencilan bisa menggeser mean cukup jauh sementara median hampir tidak berubah. Untuk nilai 30, 32, 35, 38, dan 40, mean dan median-nya sama-sama 35. Ganti 40 dengan 400, maka median tetap 35, tetapi mean melonjak menjadi 107. Itulah sebabnya statistik penghasilan resmi biasanya melaporkan median."
+      },
+      "reading-the-standard-deviation": {
+        "heading": "Membaca Simpangan Baku",
+        "p1": "Simpangan baku mengukur seberapa jauh nilai-nilai biasanya berada dari mean, dalam satuan yang sama dengan datanya. Simpangan baku kecil berarti nilai-nilai berkumpul rapat; yang besar berarti nilainya menyebar. Untuk data berbentuk kurva lonceng, sekitar 68% nilai berada dalam satu simpangan baku dari mean dan sekitar 95% dalam dua simpangan baku.",
+        "li1": "<strong>Varians</strong> adalah kuadrat simpangan baku. Varians dipakai dalam perhitungan lanjutan tetapi satuannya dikuadratkan, sehingga lebih sulit ditafsirkan secara langsung.",
+        "li2": "<strong>Jangkauan</strong> (maks − min) cepat dihitung tetapi hanya bergantung pada dua nilai paling ekstrem.",
+        "li3": "<strong>Jangkauan antarkuartil</strong> (Q3 − Q1) mencakup separuh data di tengah dan mengabaikan pencilan. Aturan yang umum menandai nilai yang lebih dari 1.5 × IQR di bawah Q1 atau di atas Q3 sebagai kemungkinan pencilan.",
+        "p2": "Di spreadsheet, STDEV.P dan VAR.P sesuai dengan angka populasi di sini, sedangkan STDEV.S dan VAR.S sesuai dengan angka sampel. Semua perhitungan berjalan di browser Anda, jadi Anda bisa menempelkan data pribadi dengan aman."
+      }
+    },
+    "title": {
+      "copy-result-btn": "Salin hasil ke papan klip"
+    }
+  },
+  "client": {
+    "errors": {
+      "empty": "Masukkan minimal satu angka. Pisahkan nilai dengan koma, spasi, atau baris baru.",
+      "notNumber": {
+        "one": "{{shown}} bukan angka. Gunakan digit dengan titik untuk desimal (2.5), dipisahkan koma, spasi, atau baris baru.",
+        "other": "{{shown}} bukan angka. Gunakan digit dengan titik untuk desimal (2.5), dipisahkan koma, spasi, atau baris baru.",
+        "more": "{{shown}} dan {{more}} lainnya bukan angka. Gunakan digit dengan titik untuk desimal (2.5), dipisahkan koma, spasi, atau baris baru."
+      },
+      "tooMany": "Masukkan paling banyak {{max}} nilai.",
+      "tooLarge": "Salah satu nilai terlalu besar untuk diproses.",
+      "noNumbers": "Masukkan minimal satu angka.",
+      "notAllNumbers": "Setiap nilai harus berupa angka."
+    },
+    "quartileMethod": "Median dari setiap separuh: Q1 adalah median separuh bawah dan Q3 median separuh atas, tanpa menyertakan median keseluruhan jika banyak datanya ganjil.",
+    "quartileNote": "Metode kuartil: {{method}}",
+    "more": "… ({{count}} lainnya)",
+    "steps": {
+      "add": {
+        "other": "Jumlahkan {{count}} nilai: {{values}} = {{sum}}"
+      },
+      "divide": "Bagi dengan banyak data: {{sum}} ÷ {{count}} = {{mean}}",
+      "sort": "Urutkan nilainya: {{values}}",
+      "odd": "{{count}} adalah bilangan ganjil, jadi median adalah nilai tengah, yaitu nilai ke-{{position}}: {{median}}",
+      "even": "{{count}} adalah bilangan genap, jadi median adalah rata-rata nilai ke-{{first}} dan ke-{{second}}: ({{a}} + {{b}}) ÷ 2 = {{median}}",
+      "deviations": "Kurangkan mean dari setiap nilai lalu kuadratkan: {{deviations}}",
+      "sumOfSquares": "Jumlahkan kuadrat simpangannya: jumlah kuadrat = {{ss}}",
+      "populationVariance": "Varians populasi σ² = {{ss}} ÷ {{count}} = {{variance}}, jadi σ = √{{variance}} = {{sd}}",
+      "sampleVariance": "Varians sampel s² = {{ss}} ÷ ({{count}} − 1) = {{variance}}, jadi s = √{{variance}} = {{sd}}",
+      "sampleNeedsTwo": "Simpangan baku sampel membutuhkan minimal 2 nilai (karena dibagi n − 1)."
+    },
+    "stats": {
+      "modeValue": "{{modes}} (muncul {{count}} kali)",
+      "noMode": "Tidak ada modus",
+      "needsTwo": "Perlu 2+ nilai",
+      "count": "Banyak data (n)",
+      "sum": "Jumlah",
+      "mean": "Mean",
+      "median": "Median",
+      "mode": "Modus",
+      "modes": "Modus",
+      "min": "Minimum",
+      "max": "Maksimum",
+      "range": "Jangkauan",
+      "populationSD": "SB populasi (σ)",
+      "sampleSD": "SB sampel (s)",
+      "populationVariance": "Varians populasi (σ²)",
+      "sampleVariance": "Varians sampel (s²)",
+      "q1": "Q1 (kuartil bawah)",
+      "q3": "Q3 (kuartil atas)",
+      "iqr": "Jangkauan antarkuartil"
+    },
+    "result": {
+      "header": {
+        "other": "Ringkasan {{count}} nilai"
+      },
+      "primary": "Mean {{mean}} · Median {{median}} · {{mode}}",
+      "mode": "Modus {{modes}}"
+    }
+  }
+}

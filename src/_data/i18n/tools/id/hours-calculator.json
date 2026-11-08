@@ -1,0 +1,319 @@
+{
+  "listing": {
+    "name": "Kalkulator Jam",
+    "shortName": "Kalkulator Jam",
+    "description": "Hitung jam di antara dua waktu termasuk istirahat dan sif malam, atau jumlahkan timesheet mingguan beserta gaji dan lembur.",
+    "shortDescription": "Jam di antara dua waktu, jam desimal, dan timesheet mingguan dengan gaji dan lembur.",
+    "keywords": [
+      "kalkulator jam",
+      "kalkulator durasi waktu",
+      "kalkulator jam kerja",
+      "kalkulator timesheet",
+      "menghitung jam kerja",
+      "jam desimal",
+      "kalkulator lembur"
+    ]
+  },
+  "title": "Kalkulator Jam: Durasi Waktu & Jam Kerja",
+  "description": "Kalkulator jam untuk menghitung jam di antara dua waktu, termasuk sif malam dan istirahat tidak dibayar, atau timesheet mingguan dengan gaji dan lembur.",
+  "h1": "Kalkulator Jam",
+  "quickAnswer": "Untuk menghitung jam kerja, kurangkan waktu mulai dari waktu selesai, lalu kurangkan istirahat yang tidak dibayar. 9:00 AM sampai 5:30 PM dengan istirahat 30 menit adalah 8 jam 30 menit dikurangi 30 menit = 8:00, atau 8.00 jam desimal. Kalkulator jam ini juga menangani sif malam: jika waktu selesai lebih awal dari waktu mulai, sif melewati tengah malam, jadi tambahkan dulu 24 jam ke waktu selesai.",
+  "formula": {
+    "title": "Rumus Jam Kerja",
+    "expression": "Jam kerja = (Waktu selesai − Waktu mulai [+ 24 jam jika selesai lebih awal]) − Istirahat tidak dibayar",
+    "explanation": "Kedua waktu diubah menjadi menit sejak tengah malam. Jika waktu selesai lebih awal dari waktu mulai, sif berlangsung melewati tengah malam dan 1,440 menit (24 jam) ditambahkan ke waktu selesai. Istirahat tidak dibayar dikurangkan, lalu hasilnya ditampilkan dalam jam dan menit (h:mm) serta jam desimal (menit ÷ 60). Untuk gaji, jam hingga batas lembur mingguan dibayar dengan tarif per jam, dan jam di atasnya dibayar dengan tarif dikali pengali lembur.",
+    "variables": [
+      {
+        "name": "Jam desimal",
+        "description": "Menit ÷ 60. 45 menit sama dengan 0.75 jam, jadi 8 jam 45 menit sama dengan 8.75 jam."
+      },
+      {
+        "name": "Gaji reguler",
+        "description": "min(total jam, batas lembur) × tarif per jam."
+      },
+      {
+        "name": "Upah lembur",
+        "description": "max(0, total jam − batas lembur) × tarif per jam × pengali lembur."
+      }
+    ]
+  },
+  "workedExamples": [
+    {
+      "title": "Sif siang dengan istirahat makan 30 menit",
+      "inputs": [
+        "Mulai: 09:00",
+        "Selesai: 17:30",
+        "Istirahat tidak dibayar: 30 menit"
+      ],
+      "steps": [
+        "17:30 − 09:00 = 8 jam 30 menit (510 menit)",
+        "510 − istirahat 30 menit = 480 menit",
+        "480 ÷ 60 = 8.00 jam desimal"
+      ],
+      "result": "8:00 (8.00 jam)"
+    },
+    {
+      "title": "Sif malam yang melewati tengah malam",
+      "inputs": [
+        "Mulai: 22:00",
+        "Selesai: 06:00 (pagi berikutnya)",
+        "Istirahat tidak dibayar: tidak ada"
+      ],
+      "steps": [
+        "Waktu selesai lebih awal dari waktu mulai, jadi tambahkan 24 jam: 06:00 menjadi 30:00",
+        "30:00 − 22:00 = 8 jam"
+      ],
+      "result": "8:00 (8.00 jam)"
+    },
+    {
+      "title": "Mengubah 8 jam 45 menit ke desimal",
+      "inputs": [
+        "Mulai: 08:15",
+        "Selesai: 17:30",
+        "Istirahat tidak dibayar: 30 menit"
+      ],
+      "steps": [
+        "17:30 − 08:15 = 9 jam 15 menit (555 menit)",
+        "555 − 30 = 525 menit = 8 jam 45 menit",
+        "45 ÷ 60 = 0.75, jadi 8:45 = 8.75 jam desimal"
+      ],
+      "result": "8:45 (8.75 jam)"
+    },
+    {
+      "title": "Seminggu 45 jam dengan tarif 20 per jam dan lembur",
+      "inputs": [
+        "Senin sampai Jumat: 08:00 sampai 17:00, tanpa istirahat (9 jam sehari)",
+        "Tarif per jam: 20",
+        "Lembur setelah 40 jam dengan 1.5×"
+      ],
+      "steps": [
+        "Total: 5 × 9 = 45 jam",
+        "Reguler: 40 × 20 = 800",
+        "Lembur: 5 × 20 × 1.5 = 150"
+      ],
+      "result": "Total gaji 950 (800 reguler + 150 lembur)"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Menulis 8:45 sebagai 8.45 di timesheet",
+      "description": "8 jam 45 menit sama dengan 8.75 jam desimal, bukan 8.45. Sistem penggajian mengalikan jam desimal dengan tarif, jadi 8.45 membuat 18 menit kerja tidak terbayar. Bagi menitnya dengan 60: 15 menit = 0.25, 30 menit = 0.5, 45 menit = 0.75."
+    },
+    {
+      "title": "Mendapat hasil negatif untuk sif malam",
+      "description": "Sif dari 22:00 sampai 06:00 terlihat seperti −16 jam jika dikurangkan langsung. Jika waktu selesai lebih awal dari waktu mulai, sif berlanjut ke hari berikutnya: tambahkan 24 jam ke waktu selesai. Kalkulator ini melakukannya secara otomatis."
+    },
+    {
+      "title": "Mengurangkan istirahat yang dibayar",
+      "description": "Hanya istirahat tidak dibayar yang perlu dikurangkan. Menurut aturan federal AS, istirahat singkat sekitar 5 hingga 20 menit umumnya dihitung sebagai waktu kerja yang dibayar, sedangkan waktu makan yang sesungguhnya selama 30 menit atau lebih biasanya tidak. Periksa kontrak atau hukum setempat Anda."
+    },
+    {
+      "title": "Menghitung lembur per hari padahal aturannya per minggu",
+      "description": "Fair Labor Standards Act di AS menetapkan lembur sebesar 1.5× tarif reguler untuk jam di atas 40 dalam seminggu kerja, bukan per hari. Sebagian negara bagian (seperti California) dan banyak kontrak menambahkan lembur harian, jadi total mingguan saja mungkin tidak cocok dengan slip gaji Anda."
+    },
+    {
+      "title": "Mencampur format 12 jam dan 24 jam",
+      "description": "5:30 tanpa AM atau PM itu ambigu. Gunakan format 24 jam (17:30) atau pastikan pengaturan AM/PM di kolom waktu sudah benar, agar sif tidak terhitung 12 jam terlalu pendek atau terlalu panjang."
+    }
+  ],
+  "sources": [
+    {
+      "name": "U.S. Department of Labor: Upah lembur (FLSA)"
+    },
+    {
+      "name": "U.S. Department of Labor: Istirahat dan waktu makan"
+    },
+    {
+      "name": "U.S. Department of Labor: Hours Worked fact sheet #22"
+    },
+    {
+      "name": "GOV.UK: Maximum weekly working hours"
+    }
+  ],
+  "howto": {
+    "name": "Cara Menghitung Jam Kerja",
+    "description": "Hitung jam di antara dua waktu, atau jumlahkan timesheet mingguan beserta gaji dan lembur.",
+    "steps": [
+      {
+        "name": "Pilih mode",
+        "text": "Gunakan Durasi waktu untuk satu sif, atau Timesheet mingguan untuk menjumlahkan Senin hingga Minggu."
+      },
+      {
+        "name": "Masukkan waktu mulai dan selesai",
+        "text": "Ketik atau pilih waktu mulai dan selesai. Jika waktu selesai lebih awal dari waktu mulai, sif dianggap melewati tengah malam."
+      },
+      {
+        "name": "Masukkan istirahat tidak dibayar",
+        "text": "Tambahkan istirahat tidak dibayar dalam menit. Biarkan 0 jika istirahat dibayar."
+      },
+      {
+        "name": "Tambahkan detail gaji (opsional)",
+        "text": "Di timesheet, masukkan tarif per jam serta batas dan pengali lembur untuk melihat gaji reguler, upah lembur, dan total gaji."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Bagaimana cara menghitung jam kerja di antara dua waktu?",
+      "a": "Kurangkan waktu mulai dari waktu selesai, lalu kurangkan istirahat yang tidak dibayar. Untuk 8:30 AM sampai 5:00 PM dengan istirahat makan 30 menit: 17:00 − 8:30 = 8 jam 30 menit, dikurangi 30 menit = 8 jam."
+    },
+    {
+      "q": "Bagaimana cara mengubah jam dan menit menjadi jam desimal?",
+      "a": "Bagi menitnya dengan 60 lalu tambahkan ke jamnya. 7 jam 20 menit = 7 + 20/60 = 7.33 jam; 8 jam 45 menit = 8.75 jam; 6 jam 15 menit = 6.25 jam."
+    },
+    {
+      "q": "Jam 9 sampai jam 5 itu berapa jam?",
+      "a": "9:00 AM sampai 5:00 PM adalah 8 jam. Dengan istirahat makan 30 menit yang tidak dibayar menjadi 7.5 jam (7:30); dengan istirahat satu jam yang tidak dibayar menjadi 7 jam."
+    },
+    {
+      "q": "Bagaimana cara menghitung jam untuk sif yang melewati tengah malam?",
+      "a": "Tambahkan 24 jam ke waktu selesai sebelum mengurangkan. 10:00 PM sampai 6:00 AM menjadi 22:00 sampai 30:00, yaitu 8 jam. Kalkulator mendeteksinya jika waktu selesai lebih awal dari waktu mulai."
+    },
+    {
+      "q": "Bagaimana upah lembur dihitung?",
+      "a": "Jam di atas batas (40 per minggu menurut FLSA di AS) dibayar dengan tarif reguler dikali pengali, biasanya 1.5. Untuk 45 jam dengan tarif 20 per jam: 40 × 20 = 800 ditambah 5 × 30 = 150, jadi totalnya 950."
+    },
+    {
+      "q": "Berapa jam kerja dalam seminggu penuh waktu?",
+      "a": "Tergantung negara dan pemberi kerja. 40 jam (lima hari 8 jam) umum di AS, 37.5 jam umum di Inggris, dan 35 jam adalah acuan minggu kerja menurut hukum di Prancis. Masukkan jam dan batas Anda sendiri di timesheet."
+    },
+    {
+      "q": "Apakah istirahat makan siang harus dikurangkan dari jam kerja?",
+      "a": "Kurangkan hanya istirahat yang tidak dibayar. Jika pemberi kerja Anda membayar waktu istirahat, biarkan kolom istirahat 0 agar tetap dihitung sebagai waktu kerja."
+    },
+    {
+      "q": "Apakah kalkulator jam ini menyimpan timesheet saya?",
+      "a": "Isian Anda hanya ada di browser ini. Isian disimpan di alamat halaman agar Anda bisa menandai atau menyalin tautan ke hasilnya, dan tidak ada yang dikirim ke server."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Kalkulator Jam",
+      "tool-div1": "Mode kalkulator",
+      "tool-div2": "Timesheet mingguan",
+      "copy-result-btn": "Salin hasil ke papan klip",
+      "day-total": "Jam hari {{day}}"
+    },
+    "text": {
+      "tab-single": "Durasi waktu",
+      "tab-week": "Timesheet mingguan",
+      "reset-btn": "Atur Ulang",
+      "reset-week-btn": "Atur Ulang",
+      "result-header-text": "Jam kerja",
+      "copy-result-btn": "<span data-icon=\"copy\"></span> Salin Hasil"
+    },
+    "label": {
+      "start-time": "Waktu mulai <span class=\"text-accent\">*</span>",
+      "end-time": "Waktu selesai <span class=\"text-accent\">*</span>",
+      "break-min": "Istirahat tidak dibayar (menit)",
+      "hourly-rate": "Tarif per jam",
+      "ot-after": "Lembur setelah (jam per minggu)",
+      "ot-mult": "Pengali tarif lembur",
+      "day-start": "Mulai",
+      "day-end": "Selesai",
+      "day-break": "Istirahat (menit)"
+    },
+    "content": {
+      "tool": {
+        "p1": "Jika waktu selesai lebih awal dari waktu mulai, sif dihitung selesai pada hari berikutnya.",
+        "button1": "Hitung Jam",
+        "div1": "<span>Hari</span><span>Mulai</span><span>Selesai</span><span>Istirahat (menit)</span><span>Jam</span>",
+        "p2": "Kosongkan kedua waktu untuk hari libur.",
+        "legend1": "Gaji dan lembur (opsional)",
+        "label1": "<input type=\"checkbox\" id=\"ot-enabled\" data-param=\"ot\" checked>\n            <span>Bayar lembur di atas batas mingguan</span>",
+        "button2": "Jumlahkan Minggu Saya"
+      },
+      "hours-and-minutes-vs-decimal-hours": {
+        "heading": "Jam dan Menit vs Jam Desimal",
+        "p1": "Jam dinding menghitung dalam basis 60, sedangkan penggajian menghitung dalam basis 10, dan dari situlah kebanyakan kesalahan timesheet berasal. Sif 7 jam 30 menit ditulis <strong>7:30</strong> pada jam dan <strong>7.5</strong> dalam jam desimal. Untuk mengonversi, bagi menitnya dengan 60:",
+        "caption1": "Menit ke jam desimal",
+        "th1": "Menit",
+        "th2": "Desimal",
+        "th3": "Menit",
+        "th4": "Desimal",
+        "p2": "Kalkulator menampilkan kedua bentuk berdampingan, sehingga Anda bisa menyalin format jam ke timesheet dan format desimal ke sistem penggajian atau penagihan."
+      },
+      "when-to-use-the-weekly-timesheet": {
+        "heading": "Kapan Menggunakan Timesheet Mingguan",
+        "li1": "<strong>Pekerja berupah per jam:</strong> periksa apakah slip gaji Anda sesuai dengan jam kerja Anda, termasuk lembur di atas 40 jam.",
+        "li2": "<strong>Freelancer dan kontraktor:</strong> jumlahkan jam yang bisa ditagih dalam seminggu lalu kalikan dengan tarif Anda untuk faktur.",
+        "li3": "<strong>Pekerja sif:</strong> sif malam yang berakhir keesokan paginya ditangani per baris, jadi sif Jumat 22:00 sampai Sabtu 06:00 dihitung 8 jam pada hari Jumat.",
+        "li4": "<strong>Manajer dan usaha kecil:</strong> periksa kewajaran jam jadwal kerja sebelum memproses penggajian.",
+        "p1": "Aturan lembur berbeda di setiap negara. Di AS, Fair Labor Standards Act mewajibkan 1.5 kali tarif reguler untuk jam di atas 40 dalam seminggu kerja bagi karyawan non-exempt. Di Inggris tidak ada premi lembur menurut hukum, tetapi Working Time Regulations membatasi rata-rata waktu kerja 48 jam seminggu kecuali Anda memilih keluar dari aturan itu. Atur batas dan pengali sesuai kontrak Anda, atau hapus centang lembur untuk membayar setiap jam dengan tarif yang sama."
+      }
+    },
+    "title": {
+      "copy-result-btn": "Salin hasil ke papan klip"
+    },
+    "day": {
+      "mon": "Senin",
+      "tue": "Selasa",
+      "wed": "Rabu",
+      "thu": "Kamis",
+      "fri": "Jumat",
+      "sat": "Sabtu",
+      "sun": "Minggu"
+    }
+  },
+  "client": {
+    "days": {
+      "mon": "Senin",
+      "tue": "Selasa",
+      "wed": "Rabu",
+      "thu": "Kamis",
+      "fri": "Jumat",
+      "sat": "Sabtu",
+      "sun": "Minggu"
+    },
+    "dayN": "Hari {{n}}",
+    "errors": {
+      "invalidStart": "Masukkan waktu mulai yang valid, misalnya 09:00.",
+      "invalidEnd": "Masukkan waktu selesai yang valid, misalnya 17:30.",
+      "negativeBreak": "Istirahat harus nol atau jumlah menit yang positif.",
+      "breakTooLong": "Istirahat ({{breakMin}} menit) lebih lama daripada waktu antara mulai dan selesai ({{span}}).",
+      "overtimeAfter": "Lembur harus dimulai setelah nol jam atau lebih.",
+      "multiplier": "Pengali lembur harus 1 atau lebih (misalnya 1.5).",
+      "noRows": "Tidak ada baris timesheet yang diisi.",
+      "rowIncomplete": "{{day}}: masukkan waktu mulai dan selesai, atau kosongkan keduanya.",
+      "missingStart": "Masukkan waktu mulai, misalnya 09:00.",
+      "missingEnd": "Masukkan waktu selesai, misalnya 17:30.",
+      "rate": "Tarif per jam harus nol atau angka positif."
+    },
+    "result": {
+      "headerSingle": "Jam kerja",
+      "headerWeek": {
+        "other": "Total mingguan ({{count}} hari kerja)"
+      },
+      "hours": "{{hhmm}} jam",
+      "hoursAndPay": "{{hhmm}} jam · gaji {{pay}}"
+    },
+    "notes": {
+      "crossesMidnight": "Waktu selesai lebih awal dari waktu mulai, jadi sif dihitung selesai pada hari berikutnya.",
+      "sameTime": "Waktu mulai dan selesai sama, jadi durasinya 0. Untuk sif penuh 24 jam, masukkan 00:00 sampai 23:59 lalu tambahkan satu menit.",
+      "overnight": "{{days}}: sif melewati tengah malam dan dihitung pada hari dimulainya.",
+      "addRate": "Tambahkan tarif per jam untuk melihat gaji reguler, upah lembur, dan total gaji."
+    },
+    "stats": {
+      "hoursAndMinutes": "Jam dan menit",
+      "decimalHours": "Jam desimal",
+      "totalMinutes": "Total menit",
+      "timeOnSite": "Waktu di tempat kerja",
+      "unpaidBreak": "Istirahat tidak dibayar",
+      "minutesValue": "{{n}} menit",
+      "totalHours": "Total jam",
+      "regularHours": "Jam reguler",
+      "overtimeHours": "Jam lembur",
+      "regularPay": "Gaji reguler",
+      "overtimePay": "Upah lembur",
+      "totalPay": "Total gaji"
+    },
+    "copy": {
+      "single": "{{start}} sampai {{end}}, istirahat {{breakMin}} menit: {{hhmm}} jam ({{decimal}} jam desimal)",
+      "singleNextDay": "{{start}} sampai {{end}} (hari berikutnya), istirahat {{breakMin}} menit: {{hhmm}} jam ({{decimal}} jam desimal)",
+      "total": "Total: {{hhmm}} ({{decimal}} jam)",
+      "regularPay": "Gaji reguler: {{pay}}",
+      "overtimePay": "Upah lembur: {{pay}}",
+      "totalPay": "Total gaji: {{pay}}"
+    }
+  }
+}

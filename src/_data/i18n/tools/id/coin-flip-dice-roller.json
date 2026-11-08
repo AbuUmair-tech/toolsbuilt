@@ -1,0 +1,227 @@
+{
+  "listing": {
+    "name": "Lempar Koin & Kocok Dadu",
+    "shortName": "Koin & Dadu",
+    "description": "Lempar hingga 100 koin atau kocok hingga 10 dadu (d4 sampai d20) dengan keacakan yang aman, total, hitungan angka dan gambar, serta riwayat hasil.",
+    "shortDescription": "Lempar koin atau kocok dadu d4-d20 dengan total dan riwayat.",
+    "keywords": [
+      "lempar koin",
+      "lempar koin online",
+      "kocok dadu",
+      "dadu online",
+      "angka atau gambar",
+      "dadu d20",
+      "dadu 2d6"
+    ]
+  },
+  "title": "Lempar Koin & Kocok Dadu Online",
+  "description": "Lempar hingga 100 koin atau kocok hingga 10 dadu (d4, d6, d8, d10, d12, d20) dengan keacakan aman, total, hitungan angka dan gambar, dan riwayat hasil.",
+  "h1": "Lempar Koin & Kocok Dadu",
+  "quickAnswer": "Pilih Koin atau Dadu, tentukan jumlahnya, lalu tekan Lempar atau Kocok. Dengan alat lempar koin dan kocok dadu ini, setiap koin punya peluang tepat 50% untuk muncul angka, dan setiap sisi dadu punya peluang yang sama, karena hasilnya berasal dari generator acak aman di browser Anda dengan rejection sampling. Dadu menampilkan setiap sisi dan totalnya, dan 20 hasil terakhir tersimpan di riwayat.",
+  "formula": {
+    "title": "Peluang",
+    "expression": "P(angka) = 1/2   ·   P(sisi mana pun dari dN) = 1/N   ·   Jumlah k dadu berkisar dari k hingga k × N",
+    "explanation": "Setiap lemparan dan kocokan bersifat independen: hasil sebelumnya tidak mengubah hasil berikutnya. Untuk satu dadu semua sisi berpeluang sama, tetapi jumlah beberapa dadu tidak: dengan 2d6 ada 36 kombinasi yang sama mungkinnya, enam di antaranya berjumlah 7, jadi 7 adalah total paling umum (1 dari 6) dan 2 atau 12 yang paling jarang (1 dari 36). Rata-rata total k dadu bersisi N adalah k × (N + 1) ÷ 2.",
+    "variables": [
+      {
+        "name": "dN",
+        "description": "Dadu dengan N sisi bernomor 1 sampai N: d4, d6, d8, d10, d12, atau d20."
+      },
+      {
+        "name": "kdN",
+        "description": "Notasi dadu untuk mengocok k dadu bersisi N, mis. 2d6 atau 1d20."
+      },
+      {
+        "name": "Independensi",
+        "description": "Setiap hasil diambil dari awal; deretan angka tidak membuat gambar lebih mungkin muncul di lemparan berikutnya."
+      }
+    ]
+  },
+  "workedExamples": [
+    {
+      "title": "Mengocok 2d6",
+      "inputs": [
+        "Dadu: 2, jenis d6"
+      ],
+      "steps": [
+        "Setiap dadu menunjukkan 1-6, misalnya 4 dan 3",
+        "Total = 4 + 3 = 7; kemungkinan total dari 2 hingga 12"
+      ],
+      "result": "Total 7 (total 2d6 yang paling mungkin, peluang 6/36)"
+    },
+    {
+      "title": "Mengocok d20",
+      "inputs": [
+        "Dadu: 1, jenis d20"
+      ],
+      "steps": [
+        "Satu angka dari 1 sampai 20, masing-masing dengan peluang 1/20 = 5%"
+      ],
+      "result": "Misalnya 14; angka 20 asli muncul 5% dari waktu"
+    },
+    {
+      "title": "Melempar 100 koin",
+      "inputs": [
+        "Koin: 100"
+      ],
+      "steps": [
+        "Setiap koin menunjukkan angka atau gambar dengan peluang 1/2",
+        "Angka + gambar selalu berjumlah 100"
+      ],
+      "result": "Sekitar 50 angka; hasil 40 hingga 60 itu umum (sekitar 96% dari waktu)"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Kekeliruan penjudi (gambler's fallacy)",
+      "description": "Setelah lima kali angka berturut-turut, peluang gambar tetap tepat 50%. Koin dan dadu tidak punya ingatan, jadi hasil sebelumnya tidak pernah membuat hasil tertentu \"sudah waktunya\" muncul."
+    },
+    {
+      "title": "Menganggap semua total dadu sama mungkinnya",
+      "description": "Dengan dua dadu, 7 muncul enam kali lebih sering daripada 2 atau 12. Hanya hasil satu dadu yang tersebar merata."
+    },
+    {
+      "title": "Mengharapkan tepat 50 angka dalam 100 lemparan",
+      "description": "Tepat 50 angka hanya terjadi sekitar 8% dari waktu. Hasil antara 40 dan 60 itu normal; butuh ribuan lemparan agar proporsinya mendekati 50%."
+    },
+    {
+      "title": "Memakai sumber acak yang mudah diprediksi",
+      "description": "Generator sederhana seperti Math.random() cukup untuk animasi tetapi tidak untuk hal yang menuntut keadilan. Alat ini memakai crypto.getRandomValues dengan rejection sampling sehingga tidak ada sisi yang diunggulkan."
+    }
+  ],
+  "sources": [
+    {
+      "name": "W3C Web Cryptography API: getRandomValues()"
+    },
+    {
+      "name": "NIST/SEMATECH e-Handbook of Statistical Methods: Distribusi binomial"
+    },
+    {
+      "name": "W3C Media Queries Level 5: prefers-reduced-motion"
+    }
+  ],
+  "howto": {
+    "name": "Cara Melempar Koin atau Mengocok Dadu secara Online",
+    "description": "Lempar koin atau kocok dadu dengan keacakan yang aman dan simpan riwayat hasilnya.",
+    "steps": [
+      {
+        "name": "Pilih koin atau dadu",
+        "text": "Pilih Koin untuk melempar koin, atau Dadu untuk mengocok dadu."
+      },
+      {
+        "name": "Tentukan jumlahnya",
+        "text": "Pilih 1 hingga 100 koin, atau 1 hingga 10 dadu beserta jenis dadunya."
+      },
+      {
+        "name": "Lempar atau kocok",
+        "text": "Tekan tombol untuk melihat setiap koin atau dadu, hitungan angka dan gambar, atau totalnya."
+      },
+      {
+        "name": "Periksa riwayatnya",
+        "text": "20 hasil terakhir Anda tercantum di bawah hasil."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Apakah lempar koin online ini adil?",
+      "a": "Ya. Setiap lemparan memakai generator acak yang aman secara kriptografis di browser Anda, jadi angka dan gambar masing-masing berpeluang tepat 50%, dan tidak ada lemparan yang bergantung pada lemparan sebelumnya."
+    },
+    {
+      "q": "Bagaimana cara mengocok 2d6 secara online?",
+      "a": "Pilih Dadu, atur jumlah dadu menjadi 2 dan jenisnya d6, lalu tekan Kocok. Anda akan melihat kedua dadu dan totalnya, yang bisa dari 2 hingga 12."
+    },
+    {
+      "q": "Berapa total yang paling sering muncul dengan dua dadu?",
+      "a": "7. Enam dari 36 kombinasi berjumlah 7 (1+6, 2+5, 3+4, 4+3, 5+2, 6+1), jadi rata-rata muncul 1 kali dari 6."
+    },
+    {
+      "q": "Dadu apa saja yang bisa dikocok?",
+      "a": "d4, d6, d8, d10, d12, dan d20, hingga 10 dadu sekaligus, set standar yang dipakai dalam permainan role-playing di atas meja."
+    },
+    {
+      "q": "Berapa koin yang bisa dilempar sekaligus?",
+      "a": "Hingga 100. Hasilnya menampilkan setiap koin dan menghitung jumlah angka dan gambar."
+    },
+    {
+      "q": "Bisakah saya melihat hasil sebelumnya?",
+      "a": "Bisa. Riwayat menyimpan 20 lemparan dan kocokan terakhir Anda di halaman ini. Riwayat dihapus saat Anda pergi atau menekan Hapus riwayat."
+    },
+    {
+      "q": "Bisakah animasinya dimatikan?",
+      "a": "Animasi lempar dan kocok otomatis dilewati jika perangkat Anda diatur untuk mengurangi gerakan."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Lempar Koin dan Kocok Dadu",
+      "tool-div1": "Koin atau dadu",
+      "cd-pieces": "Setiap koin atau dadu"
+    },
+    "text": {
+      "tab-coin": "Lempar koin",
+      "tab-dice": "Kocok dadu",
+      "go-btn": "Lempar",
+      "clear-history-btn": "Hapus riwayat",
+      "history-title": "Riwayat (20 terakhir)",
+      "history-empty": "Belum ada hasil."
+    },
+    "label": {
+      "coin-count": "Jumlah koin",
+      "dice-count": "Jumlah dadu",
+      "dice-sides": "Jenis dadu"
+    },
+    "content": {
+      "tool": {
+        "div1": "<span id=\"result-header-text\">Hasil</span>"
+      },
+      "dice-odds-at-a-glance": {
+        "heading": "Sekilas Peluang Dadu",
+        "p1": "Satu dadu memberi setiap sisi peluang yang sama. Tambahkan dadu dan totalnya akan mengumpul di tengah, itulah sebabnya 7 menjadi angka penting dalam permainan papan dengan dua dadu enam sisi.",
+        "caption1": "Rentang, rata-rata, dan peluang satu nilai untuk dadu umum",
+        "th1": "Kocokan",
+        "th2": "Rentang",
+        "th3": "Rata-rata",
+        "th4": "Peluang satu nilai",
+        "td4": "7: 16.67%, 2 atau 12: 2.78%"
+      },
+      "when-to-flip-a-coin-or": {
+        "heading": "Kapan Melempar Koin atau Mengocok Dadu secara Online",
+        "li1": "<strong>Mengambil keputusan:</strong> lempar koin adalah cara klasik yang adil untuk memilih di antara dua pilihan.",
+        "li2": "<strong>Permainan papan dan role-playing:</strong> ganti dadu yang hilang, atau kocok banyak d6 atau satu d20 dengan cepat beserta totalnya.",
+        "li3": "<strong>Mengajarkan peluang:</strong> lempar 100 koin beberapa kali untuk menunjukkan variasi jumlah angka, atau bandingkan total 2d6 dengan tabel peluang di atas.",
+        "li4": "<strong>Pilihan acak:</strong> untuk memilih di antara lebih dari enam pilihan, gunakan <a href=\"/tools/random-number-generator/\">generator angka acak</a> atau <a href=\"/tools/random-name-picker/\">pemilih nama acak</a>.",
+        "p1": "Koin dan dadu fisik bisa sedikit bias karena bentuk dan cara melemparnya. Generator perangkat lunak yang aman tidak memiliki masalah itu: setiap hasil memiliki peluang yang persis sama. Hasil dibuat di browser Anda dan riwayat hanya tersimpan di halaman ini."
+      }
+    }
+  },
+  "client": {
+    "errors": {
+      "noCrypto": "Angka acak yang aman tidak tersedia di browser ini.",
+      "coins": "Lempar antara 1 dan {{max}} koin.",
+      "dice": "Kocok antara 1 dan {{max}} dadu.",
+      "sides": "Pilih dadu d{{dice}}."
+    },
+    "buttons": {
+      "roll": "Kocok",
+      "flip": "Lempar"
+    },
+    "coin": {
+      "headerOne": "Lempar koin",
+      "headerMany": "{{count}} lemparan koin",
+      "heads": "Angka",
+      "tails": "Gambar",
+      "counts": "{{heads}} angka · {{tails}} gambar",
+      "note": "Angka {{headsPct}}%, gambar {{tailsPct}}%.",
+      "historyOne": "Koin: {{side}}",
+      "historyMany": "{{count}} koin: {{heads}} angka, {{tails}} gambar",
+      "summaryMany": "{{heads}} angka, {{tails}} gambar"
+    },
+    "dice": {
+      "header": "Kocok {{notation}}",
+      "total": "Total {{sum}}",
+      "noteMany": "{{rolls}} = {{sum}} (kemungkinan {{min}}–{{max}}).",
+      "noteOne": "Kemungkinan 1–{{sides}}."
+    }
+  }
+}

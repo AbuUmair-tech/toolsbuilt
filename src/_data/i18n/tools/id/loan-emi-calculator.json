@@ -1,0 +1,269 @@
+{
+  "listing": {
+    "name": "Kalkulator EMI Pinjaman",
+    "shortName": "Kalkulator EMI Pinjaman",
+    "description": "Hitung cicilan bulanan (EMI) pinjaman, total bunga, jadwal amortisasi lengkap, dan penghematan dari pembayaran tambahan bulanan.",
+    "shortDescription": "Hitung cicilan bulanan (EMI) pinjaman, total bunga, jadwal amortisasi lengkap, dan penghematan dari pembayaran tambahan.",
+    "keywords": [
+      "kalkulator EMI pinjaman",
+      "kalkulator cicilan pinjaman",
+      "jadwal amortisasi pinjaman",
+      "simulasi cicilan KPR",
+      "simulasi kredit mobil",
+      "kalkulator pelunasan dipercepat"
+    ]
+  },
+  "title": "Kalkulator EMI Pinjaman - Cicilan Bulanan & Amortisasi",
+  "description": "Kalkulator EMI pinjaman gratis: hitung cicilan bulanan, total bunga, jadwal amortisasi lengkap, dan penghematan dari pembayaran tambahan bulanan.",
+  "h1": "Kalkulator EMI Pinjaman",
+  "quickAnswer": "EMI (Equated Monthly Installment, cicilan bulanan tetap) pinjaman dihitung dengan rumus anuitas: EMI = P × r × (1 + r)^n ÷ ((1 + r)^n − 1), di mana P adalah pokok, r suku bunga bulanan (suku bunga tahunan ÷ 1200), dan n total bulan. Total bunga sama dengan (EMI × n) − P. Dengan kalkulator EMI pinjaman ini Anda juga bisa melihat bahwa pembayaran tambahan bulanan langsung mengurangi pokok, sehingga total bunga dan tenor pinjaman berkurang.",
+  "formula": {
+    "title": "Rumus EMI Pinjaman",
+    "explanation": "P adalah jumlah pokok pinjaman, r adalah suku bunga bulanan (suku bunga tahunan ÷ 1200), dan n adalah tenor pinjaman dalam total bulan."
+  },
+  "workedExamples": [
+    {
+      "title": "KPR $200,000 dengan Bunga 6.5% selama 30 Tahun (360 Bulan)",
+      "inputs": [
+        "Pokok pinjaman (P): $200,000",
+        "Suku bunga tahunan: 6.5%",
+        "Tenor pinjaman: 30 tahun (360 bulan)",
+        "Pembayaran tambahan bulanan: $0"
+      ],
+      "steps": [
+        "Suku bunga bulanan r = 6.5 ÷ 1200 ≈ 0.0054167",
+        "EMI bulanan = 200,000 × 0.0054167 × (1.0054167)^360 ÷ ((1.0054167)^360 − 1)",
+        "EMI bulanan = $1,264.14",
+        "Total pembayaran = $1,264.14 × 360 = $455,088.94",
+        "Total bunga = $455,088.94 − $200,000 = $255,088.94"
+      ],
+      "result": "Cicilan bulanan $1,264.14 (total bunga $255,088.94)"
+    },
+    {
+      "title": "Kredit Mobil $25,000 dengan Bunga 5.0% selama 5 Tahun (60 Bulan)",
+      "inputs": [
+        "Pokok pinjaman: $25,000",
+        "Suku bunga tahunan: 5.0%",
+        "Tenor pinjaman: 5 tahun (60 bulan)"
+      ],
+      "steps": [
+        "Suku bunga bulanan r = 5.0 ÷ 1200 ≈ 0.0041667",
+        "EMI bulanan = $471.78",
+        "Total pembayaran = $471.78 × 60 = $28,306.86",
+        "Total bunga = $3,306.86"
+      ],
+      "result": "Cicilan bulanan $471.78 (total bunga $3,306.86)"
+    },
+    {
+      "title": "Pelunasan Dipercepat dengan Pembayaran Tambahan $100 per Bulan",
+      "inputs": [
+        "Pinjaman dasar: $200,000 dengan bunga 6.5% selama 30 tahun (EMI dasar $1,264.14)",
+        "Pembayaran tambahan bulanan: $100 (total $1,364.14 per bulan)"
+      ],
+      "steps": [
+        "Tambahan $100 langsung mengurangi sisa pokok setiap bulan",
+        "Pinjaman lunas dalam 304 bulan (25.3 tahun), bukan 360 bulan (30 tahun)",
+        "Tenor berkurang 56 bulan (4.7 tahun)",
+        "Bunga yang dihemat = $46,419.00"
+      ],
+      "result": "Lunas 4.7 tahun lebih cepat (hemat bunga $46,419.00)"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Hanya Melihat Cicilan Bulanan",
+      "description": "Memperpanjang tenor menurunkan cicilan bulanan tetapi membuat total bunga sepanjang masa pinjaman membengkak drastis. Selalu pertimbangkan total biaya pinjaman bersama arus kas bulanan."
+    },
+    {
+      "title": "Tertukar antara APR dan Suku Bunga Dasar",
+      "description": "Annual percentage rate (APR) mencakup biaya pemberi pinjaman, poin, dan biaya penutupan, sedangkan suku bunga nominal di perjanjianlah yang menentukan perhitungan amortisasi bulanan Anda."
+    },
+    {
+      "title": "Menganggap Pengurangan Pokok Selalu Sama",
+      "description": "Pada tahun-tahun awal pinjaman, sebagian besar setiap pembayaran digunakan untuk bunga. Pengurangan pokok baru semakin cepat di paruh kedua jadwal amortisasi."
+    }
+  ],
+  "sources": [
+    {
+      "label": "Consumer Financial Protection Bureau (CFPB) - Dasar-Dasar Pinjaman"
+    },
+    {
+      "label": "Federal Reserve Board - Panduan Konsumen tentang KPR"
+    },
+    {
+      "label": "Bank for International Settlements - Standar Kredit"
+    }
+  ],
+  "howto": {
+    "name": "Cara Menghitung EMI dan Amortisasi Pinjaman",
+    "description": "Petunjuk langkah demi langkah untuk menghitung cicilan bulanan, biaya bunga, dan jadwal pelunasan dipercepat.",
+    "steps": [
+      {
+        "name": "Pilih Mata Uang & Jumlah Pinjaman",
+        "text": "Pilih simbol mata uang Anda dan masukkan total pokok yang dipinjam."
+      },
+      {
+        "name": "Masukkan Suku Bunga Tahunan",
+        "text": "Masukkan suku bunga tahunan (APR) yang dikenakan pemberi pinjaman."
+      },
+      {
+        "name": "Tentukan Tenor Pinjaman",
+        "text": "Masukkan lama pelunasan dan pilih satuan tahun atau bulan."
+      },
+      {
+        "name": "Tambahkan Pembayaran Tambahan (Opsional)",
+        "text": "Jika perlu, masukkan pembayaran pokok tambahan setiap bulan untuk melihat berapa bulan dan berapa bunga yang Anda hemat."
+      },
+      {
+        "name": "Tinjau EMI Bulanan & Unduh Jadwal",
+        "text": "Lihat cicilan bulanan, total bunga, jadwal amortisasi interaktif, dan ekspor tabelnya ke CSV."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Apa itu EMI (Equated Monthly Installment)?",
+      "a": "Equated Monthly Installment (EMI) adalah cicilan bulanan tetap yang dibayar peminjam kepada pemberi pinjaman pada tanggal tertentu. Setiap cicilan mencakup bunga bulan berjalan sekaligus sebagian saldo pokok."
+    },
+    {
+      "q": "Apa rumus standar untuk menghitung EMI pinjaman?",
+      "a": "Rumus EMI standar adalah: EMI = P × r × (1 + r)^n / ((1 + r)^n - 1), di mana P adalah pokok pinjaman, r suku bunga bulanan (suku bunga tahunan dibagi 1200), dan n jumlah total pembayaran bulanan."
+    },
+    {
+      "q": "Bagaimana pembayaran tambahan setiap bulan mempersingkat masa pinjaman?",
+      "a": "Setiap pembayaran di atas EMI wajib seluruhnya dipakai untuk mengurangi sisa pokok pinjaman. Dengan pokok yang lebih kecil, bunga bulanan berikutnya ikut turun, sehingga pelunasan lebih cepat dan bunga yang dihemat cukup besar."
+    },
+    {
+      "q": "Apakah kalkulator pinjaman ini mendukung beberapa mata uang internasional?",
+      "a": "Ya. Anda dapat beralih antara PKR, INR, USD, EUR, GBP, AED, dan SAR tanpa mengubah rumus anuitasnya."
+    },
+    {
+      "q": "Bisakah saya mengekspor jadwal amortisasi lengkap?",
+      "a": "Bisa. Klik tombol 'Unduh Jadwal (CSV)' untuk mengekspor jadwal pembayaran, bunga, pokok, dan saldo per bulan secara lengkap sebagai spreadsheet CSV."
+    },
+    {
+      "q": "Apakah data pinjaman pribadi saya diunggah ke server?",
+      "a": "Tidak. Semua perhitungan pinjaman berjalan 100% secara lokal di browser web Anda. Tidak ada angka keuangan atau jumlah pinjaman yang dikirim atau disimpan."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Formulir Kalkulator EMI Pinjaman",
+      "tenure-unit": "Satuan tenor",
+      "copy-result-btn": "Salin Ringkasan Perhitungan",
+      "full-loan-amortization-schedule-div1": "Jadwal amortisasi pinjaman (dapat digulir)",
+      "full-loan-amortization-schedule-table1": "Tabel Jadwal Amortisasi"
+    },
+    "label": {
+      "loan-amount": "Jumlah Pinjaman <span class=\"text-accent\">*</span>",
+      "interest-rate": "Suku Bunga Tahunan (%) <span class=\"text-accent\">*</span>",
+      "tenure-value": "Tenor Pinjaman <span class=\"text-accent\">*</span>",
+      "extra-payment": "Pembayaran Tambahan Bulanan (Opsional) <span class=\"label-hint\">(Mempercepat Pelunasan)</span>"
+    },
+    "option": {
+      "tenure-unit": {
+        "years": "Tahun",
+        "months": "Bulan"
+      }
+    },
+    "content": {
+      "tool": {
+        "button1": "Hitung EMI",
+        "div1": "Cicilan EMI Bulanan",
+        "div2": "Total Bunga yang Dikenakan",
+        "div3": "Total Jumlah Pembayaran",
+        "div4": "Tenor Pelunasan"
+      },
+      "extra-payment-payoff-accelerator": {
+        "heading": "Percepatan Pelunasan dengan Pembayaran Tambahan",
+        "span1": "<svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><polyline points=\"20 6 9 17 4 12\"></polyline></svg>\n              Lunas Lebih Cepat",
+        "div1": "Total Bunga yang Dihemat",
+        "div2": "Waktu Pelunasan yang Dihemat",
+        "div3": "Jangka Pelunasan Baru"
+      },
+      "full-loan-amortization-schedule": {
+        "heading": "Jadwal Amortisasi Pinjaman Lengkap",
+        "p1": "Pengurangan pokok dan biaya bunga per bulan.",
+        "th1": "Bulan",
+        "th2": "Pembayaran <span class=\"table-currency-symbol\">($)</span>",
+        "th3": "Pokok <span class=\"table-currency-symbol\">($)</span>",
+        "th4": "Bunga <span class=\"table-currency-symbol\">($)</span>",
+        "th5": "Total Bunga <span class=\"table-currency-symbol\">($)</span>",
+        "th6": "Saldo <span class=\"table-currency-symbol\">($)</span>"
+      },
+      "how-when-to-use-the-loan": {
+        "li1": "<strong>KPR &amp; Properti:</strong> Bandingkan pinjaman bunga tetap 15 tahun dan 30 tahun untuk menimbang arus kas bulanan dengan total biaya bunga.",
+        "li2": "<strong>Kredit Kendaraan:</strong> Perkirakan cicilan kredit mobil dengan berbagai suku bunga dealer dan skenario uang muka sebelum datang ke showroom.",
+        "li3": "<strong>Pinjaman Pribadi &amp; Konsolidasi Utang:</strong> Tentukan cicilan bulanan yang tepat untuk menggabungkan saldo kartu kredit berbunga tinggi.",
+        "li4": "<strong>Mempercepat Pelunasan:</strong> Simulasikan pembayaran pokok tambahan (seperti $50, $100, atau $200 per bulan) untuk mengetahui berapa tahun utang yang bisa Anda pangkas."
+      }
+    },
+    "text": {
+      "reset-btn": "Atur Ulang",
+      "result-header-text": "Ringkasan Pelunasan Pinjaman",
+      "copy-result-btn": "<span data-icon=\"copy\"></span> Salin Ringkasan",
+      "result-primary-text": "EMI bulanan: $0.00",
+      "stat-tenure": "0 Bulan",
+      "stat-months-saved": "0 Bulan",
+      "stat-new-tenure": "0 Bulan",
+      "download-csv-btn": "<svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4\"></path><polyline points=\"7 10 12 15 17 10\"></polyline><line x1=\"12\" y1=\"15\" x2=\"12\" y2=\"3\"></line></svg>\n                Unduh Jadwal (CSV)",
+      "how-to-use-heading": "Cara &amp; Kapan Menggunakan Kalkulator EMI Pinjaman"
+    },
+    "title": {
+      "copy-result-btn": "Salin Ringkasan Perhitungan"
+    }
+  },
+  "client": {
+    "currencies": {
+      "USD": "Dolar AS ($)",
+      "PKR": "Rupee Pakistan (₨)",
+      "INR": "Rupee India (₹)",
+      "EUR": "Euro (€)",
+      "GBP": "Pound Sterling (£)",
+      "AED": "Dirham UEA (AED)",
+      "SAR": "Riyal Saudi (SAR)"
+    },
+    "errors": {
+      "amountMin": "Masukkan jumlah pinjaman yang valid dan lebih dari nol.",
+      "rateMin": "Masukkan suku bunga tahunan yang valid (0% atau lebih).",
+      "tenureMin": "Masukkan tenor pinjaman yang valid dan lebih dari nol.",
+      "extraMin": "Pembayaran tambahan bulanan harus 0 atau lebih.",
+      "tenureRange": "Tenor pinjaman harus antara 1 bulan dan 50 tahun (600 bulan).",
+      "amountRequired": "Masukkan jumlah pinjaman yang valid.",
+      "amountPositive": "Jumlah pinjaman harus lebih dari nol.",
+      "rateRequired": "Masukkan suku bunga tahunan.",
+      "rateNegative": "Suku bunga tidak boleh negatif.",
+      "tenureRequired": "Masukkan tenor pinjaman.",
+      "tenurePositive": "Tenor harus lebih dari nol."
+    },
+    "csv": {
+      "month": "Bulan",
+      "payment": "Pembayaran ({{symbol}})",
+      "principal": "Pokok Dibayar ({{symbol}})",
+      "interest": "Bunga Dibayar ({{symbol}})",
+      "totalInterest": "Total Bunga hingga Saat Ini ({{symbol}})",
+      "balance": "Sisa Saldo ({{symbol}})"
+    },
+    "result": {
+      "primary": "EMI bulanan: {{value}}",
+      "tenure": "{{months}} Bulan ({{years}} thn)",
+      "newTenure": "{{months}} Bulan (turun dari {{from}})"
+    },
+    "summary": {
+      "title": "Ringkasan Perhitungan EMI Pinjaman:",
+      "principal": "Jumlah pokok: {{value}}",
+      "rate": "Suku bunga: {{rate}}%",
+      "tenure": "Tenor: {{months}} bulan ({{years}} tahun)",
+      "emi": "EMI bulanan: {{value}}",
+      "totalInterest": "Total bunga: {{value}}",
+      "totalPayment": "Total pembayaran: {{value}}",
+      "extra": "Pembayaran tambahan bulanan: {{value}}",
+      "monthsSaved": "Bulan yang dihemat: {{months}} bulan",
+      "interestSaved": "Bunga yang dihemat: {{value}}",
+      "newPayoff": "Jangka pelunasan baru: {{months}} bulan"
+    },
+    "toast": {
+      "copied": "Perhitungan pinjaman disalin ke papan klip!"
+    }
+  }
+}

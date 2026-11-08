@@ -1,0 +1,180 @@
+{
+  "listing": {
+    "name": "Java Formatter",
+    "shortName": "Java Formatter",
+    "description": "Format kode Java secara online dengan Prettier dan prettier-plugin-java. Pilih indentasi 2 atau 4 spasi dan lebar baris; berjalan privat di browser Anda.",
+    "shortDescription": "Format kode Java dengan Prettier dan prettier-plugin-java, secara privat di browser Anda.",
+    "keywords": [
+      "java formatter",
+      "format kode java online",
+      "merapikan kode java",
+      "prettier java",
+      "pretty print java",
+      "formatter gaya google java",
+      "perbaiki indentasi java"
+    ]
+  },
+  "title": "Java Formatter: Format Kode Java Online (Prettier)",
+  "description": "Java formatter online dengan Prettier dan prettier-plugin-java. Pilih indentasi 2 atau 4 spasi dan lebar baris. Berjalan di browser; kode tidak diunggah.",
+  "h1": "Java Formatter",
+  "quickAnswer": "Tempelkan class Java lalu tekan Format. Java formatter ini memakai Prettier dengan prettier-plugin-java untuk menaruh kurung kurawal pembuka di baris yang sama, mengindentasi setiap blok 4 spasi (atau 2 untuk gaya Google), menambahkan spasi di sekitar operator dan setelah koma, serta mematahkan ekspresi panjang pada lebar baris pilihan Anda. Jika kode tidak dapat diurai, misalnya karena titik koma atau kurung kurawal hilang, formatter melaporkan baris dan kolomnya.",
+  "workedExamples": [
+    {
+      "title": "Class yang ditulis dalam satu baris",
+      "before": "public class  OrderTotal{private final List<Integer> prices;public OrderTotal(List<Integer> prices){this.prices=prices;}public int total(){int sum=0;for(int p:prices){sum+=p;}return sum;}}",
+      "after": "public class OrderTotal {\n\n    private final List<Integer> prices;\n\n    public OrderTotal(List<Integer> prices) {\n        this.prices = prices;\n    }\n\n    public int total() {\n        int sum = 0;\n        for (int p : prices) {\n            sum += p;\n        }\n        return sum;\n    }\n}",
+      "result": "Setiap member pindah ke barisnya sendiri, kurung kurawal dibuka di baris yang sama dengan deklarasi, blok diindentasi 4 spasi, dan satu baris kosong memisahkan member."
+    },
+    {
+      "title": "Loop for dengan if di dalamnya",
+      "before": "class Report{void print(List<String> items){for(int i=0;i<items.size();i++){if(items.get(i).isEmpty()){continue;}System.out.println(i+\": \"+items.get(i));}}}",
+      "after": "class Report {\n\n    void print(List<String> items) {\n        for (int i = 0; i < items.size(); i++) {\n            if (items.get(i).isEmpty()) {\n                continue;\n            }\n            System.out.println(i + \": \" + items.get(i));\n        }\n    }\n}",
+      "result": "Header loop mendapat spasi setelah setiap titik koma dan di sekitar operator, dan isinya diuraikan ke baris-baris terpisah yang diindentasi."
+    },
+    {
+      "title": "Stream dengan lambda",
+      "before": "class Adults{List<String> names(List<Person> people){return people.stream().filter(p->p.getAge()>=18).map(p->p.getName().toUpperCase()).sorted().collect(Collectors.toList());}}",
+      "after": "class Adults {\n\n    List<String> names(List<Person> people) {\n        return people\n            .stream()\n            .filter(p -> p.getAge() >= 18)\n            .map(p -> p.getName().toUpperCase())\n            .sorted()\n            .collect(Collectors.toList());\n    }\n}",
+      "result": "Rantainya terlalu panjang untuk satu baris, jadi setiap pemanggilan pindah ke barisnya sendiri, dan setiap lambda mendapat spasi di sekitar panah dan perbandingan."
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Titik koma atau kurung kurawal hilang",
+      "description": "Java tidak dapat diurai tanpa titik koma dan kurung kurawal yang berpasangan, jadi formatter berhenti dan melaporkan tempat parser mengharapkannya. Kurung kurawal penutup yang hilang sering dilaporkan di akhir berkas, karena di situlah parser kehabisan kode."
+    },
+    {
+      "title": "Menempelkan potongan, bukan class",
+      "description": "Prettier memformat kode sumber Java yang lengkap. Jika Anda hanya menempelkan beberapa pernyataan, bungkus dalam class dan method (misalnya class Example { void run() { ... } }) agar dapat diurai."
+    },
+    {
+      "title": "Mencampur proyek 2 spasi dan 4 spasi",
+      "description": "Konvensi Oracle memakai 4 spasi dan Google Java Style memakai 2. Pilih indentasi yang sudah dipakai proyek Anda, atau setiap berkas yang Anda format akan menampilkan perubahan spasi saja saat review."
+    },
+    {
+      "title": "Mengharapkan import diurutkan atau dihapus",
+      "description": "Formatter mempertahankan urutan import seperti yang Anda tulis dan tidak menghapus yang tidak dipakai. Gunakan fitur organize imports di IDE atau linter untuk itu."
+    },
+    {
+      "title": "Mengharapkan nama diperbaiki",
+      "description": "Pemformatan tidak pernah mengganti nama class, method, atau variabel. Konvensi penamaan Java, seperti class UpperCamelCase dan method lowerCamelCase, diserahkan kepada Anda dan linter Anda."
+    }
+  ],
+  "sources": [
+    {
+      "name": "Code Conventions for the Java Programming Language (Oracle, diarsipkan)"
+    },
+    {
+      "name": "Google Java Style Guide"
+    }
+  ],
+  "howto": {
+    "name": "Cara Memformat Kode Java secara Online",
+    "description": "Format kode sumber Java dengan Prettier dan prettier-plugin-java, di browser Anda.",
+    "steps": [
+      {
+        "name": "Tempelkan kode Anda",
+        "text": "Tempelkan class atau berkas Java ke kotak input, atau muat contohnya."
+      },
+      {
+        "name": "Pilih opsi",
+        "text": "Pilih indentasi 4 spasi (Oracle) atau 2 spasi (Google) dan lebar cetak 80, 100, atau 120."
+      },
+      {
+        "name": "Format",
+        "text": "Tekan Format atau Ctrl+Enter. Jika kode tidak dapat diurai, perbaiki di baris dan kolom yang dilaporkan."
+      },
+      {
+        "name": "Salin hasilnya",
+        "text": "Salin kode yang sudah diformat dari kotak output."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Bagaimana cara memformat kode Java secara online?",
+      "a": "Tempelkan class Java ke kotak, pilih indentasi dan lebar baris, lalu tekan Format atau Ctrl+Enter. Kode yang sudah diformat muncul di bawah, siap disalin. Formatter berjalan di browser Anda, jadi kode Anda tidak diunggah."
+    },
+    {
+      "q": "Sebaiknya Java memakai indentasi 2 atau 4 spasi?",
+      "a": "Keduanya umum. Konvensi kode Java asli dari Oracle memakai 4 spasi, dan Google Java Style Guide memakai 2 spasi dengan batas 100 kolom. Gunakan yang sudah dipakai proyek Anda."
+    },
+    {
+      "q": "Berapa panjang baris menurut Google Java Style Guide?",
+      "a": "Google Java Style memakai batas 100 karakter per baris. Pilih 2 spasi dan lebar cetak 100 di sini untuk mengikutinya."
+    },
+    {
+      "q": "Di mana kurung kurawal pembuka ditempatkan di Java?",
+      "a": "Di baris yang sama dengan class, method, atau pernyataan yang membuka blok, dengan kurung kurawal penutup di barisnya sendiri. Konvensi Oracle maupun Google Java Style memakai tata letak ini, dan formatter menerapkannya."
+    },
+    {
+      "q": "Mengapa formatter menyatakan kode tidak dapat diurai?",
+      "a": "Kode tersebut bukan Java yang valid, sering karena titik koma hilang, kurung kurawal atau kurung tidak seimbang, atau potongan kode yang tidak berada di dalam class. Pesan kesalahan menampilkan baris dan kolom tempat penguraian gagal."
+    },
+    {
+      "q": "Apakah formatter mengurutkan import saya?",
+      "a": "Tidak. Import tetap dalam urutan yang Anda tulis. Sebagian besar IDE dapat merapikan import untuk Anda, dan Google Java Style menaruh static import dalam satu kelompok dan non-static import di kelompok lain, masing-masing dalam urutan ASCII."
+    },
+    {
+      "q": "Apakah kode saya diunggah ke server?",
+      "a": "Tidak. Prettier, plugin Java-nya, dan grammar Java disajikan dari situs ini dan berjalan di browser Anda setelah diunduh saat pertama kali Anda memformat."
+    }
+  ],
+  "body": {
+    "label": {
+      "opt-indent": "Indentasi",
+      "opt-print-width": "Lebar cetak"
+    },
+    "option": {
+      "opt-indent": {
+        "2": "2 spasi (Google)",
+        "4": "4 spasi (Oracle)"
+      },
+      "opt-print-width": {
+        "100": "100 (Google)"
+      }
+    },
+    "text": {
+      "conventions-heading": "Konvensi format Java",
+      "naming-heading": "Konvensi penamaan dan import",
+      "java-errors-heading": "Saat kode tidak bisa diformat",
+      "java-privacy-heading": "Privat sejak dirancang"
+    },
+    "content": {
+      "java-formatting-conventions": {
+        "p1": "Java memiliki dua acuan gaya yang banyak dipakai. <em>Code Conventions for the Java Programming Language</em> dari Oracle berasal dari tahun 1999 dan kini diarsipkan, tetapi sebagian besar kode Java masih mengikuti tata letaknya. <em>Google Java Style Guide</em> adalah standar yang lebih baru dan lebih ketat yang dipakai banyak tim dan proyek open-source. Keduanya sepakat pada dasar-dasar yang diterapkan formatter ini:",
+        "li1": "<strong>Kurung kurawal di baris yang sama.</strong> Kurung kurawal pembuka ditaruh di akhir baris yang memulai class, method, <code>if</code>, <code>for</code>, atau <code>try</code>; kurung kurawal penutup berada di barisnya sendiri, sejajar dengan awal pernyataan itu.",
+        "li2": "<strong>Indentasi yang konsisten.</strong> Konvensi Oracle memakai 4 spasi per tingkat dan menjaga baris di bawah 80 karakter. Google Java Style memakai 2 spasi per blok dan batas 100 kolom.",
+        "li3": "<strong>Satu pernyataan per baris,</strong> dengan spasi di sekitar operator biner, setelah koma, dan setelah kata kunci seperti <code>if</code> dan <code>for</code>.",
+        "li4": "<strong>Ekspresi panjang dipatahkan.</strong> Rantai method seperti stream dipecah satu pemanggilan per baris, sehingga setiap langkah mudah dibaca.",
+        "p2": "Gaya Java dari Prettier dekat dengan keduanya, tetapi merupakan gaya konsisten tersendiri: Prettier memilih pematahan baris secara otomatis dan tidak berusaha meniru setiap detail kedua panduan. Gunakan 4 spasi dan 80 kolom untuk tata letak mirip Oracle, atau 2 spasi dan 100 kolom untuk tata letak mirip Google."
+      },
+      "naming-conventions-and-imports": {
+        "p1": "Formatter hanya mengubah tata letak, jadi penamaan tetap diserahkan kepada Anda. Konvensi Java yang umum adalah <code>UpperCamelCase</code> untuk class dan interface (<code>OrderTotal</code>), <code>lowerCamelCase</code> untuk method dan variabel (<code>calculateTotal</code>, <code>itemCount</code>), <code>UPPER_SNAKE_CASE</code> untuk konstanta (<code>MAX_RETRIES</code>), dan nama package huruf kecil semua (<code>com.example.billing</code>).",
+        "p2": "Import dibiarkan dalam urutan yang Anda tulis, dan import yang tidak dipakai tidak dihapus. Google Java Style menaruh semua static import dalam satu blok dan semua non-static import di blok lain, masing-masing dalam urutan ASCII, tanpa wildcard import. Sebagian besar IDE dapat merapikan import dengan cara ini untuk Anda."
+      },
+      "when-the-code-will-not-format": {
+        "p1": "Prettier harus mengurai kode Anda sebelum bisa mencetaknya kembali. Jika parser tidak dapat memahaminya, formatter tidak menebak: formatter melaporkan baris dan kolom token pertama yang hilang atau tidak terduga, dan kursor melompat ke sana di input. Penyebab yang umum adalah:",
+        "li1": "<strong>Titik koma yang hilang</strong> di akhir pernyataan, dilaporkan sebagai <code>;</code> yang hilang tepat setelahnya.",
+        "li2": "<strong>Kurung kurawal atau kurung yang tidak seimbang.</strong> Kurung kurawal penutup yang hilang sering dilaporkan di akhir kode, tempat parser kehabisan input.",
+        "li3": "<strong>Potongan kode di luar class.</strong> Pernyataan harus berada di dalam method, dan method di dalam class."
+      },
+      "private-by-design": {
+        "p1": "Halaman ini menjalankan Prettier dengan prettier-plugin-java, yang mengurai Java dengan grammar tree-sitter yang dikompilasi ke WebAssembly. Semuanya disajikan dari situs ini dan hanya diunduh saat Anda pertama kali memformat kode di halaman ini; setelah itu berjalan di browser Anda, sehingga kode sumber Anda tidak pernah keluar dari perangkat Anda. Untuk Python, gunakan <a href=\"/tools/python-formatter/\">Python Formatter</a>."
+      }
+    },
+    "value": {
+      "engine": "Prettier {{prettier}} dengan prettier-plugin-java {{plugin}}"
+    }
+  },
+  "client": {
+    "errors": {
+      "empty": "Tempelkan kode Java untuk diformat.",
+      "missing": "\"{{token}}\" hilang",
+      "unexpected": "kode tidak terduga",
+      "at": "Baris {{line}}, kolom {{column}}: {{reason}}. Kode tidak dapat diurai sebagai Java.",
+      "unparsed": "Kode tidak dapat diurai sebagai Java. Periksa titik koma, kurung kurawal, atau kurung yang hilang.",
+      "unsupportedOption": "{{key}} tidak didukung: {{value}}. Pilih salah satu dari {{choices}}."
+    }
+  }
+}

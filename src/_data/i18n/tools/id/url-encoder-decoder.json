@@ -1,0 +1,243 @@
+{
+  "listing": {
+    "name": "URL Encoder & Decoder",
+    "shortName": "URL Encoder",
+    "description": "Encode dan decode URL dengan mode encodeURIComponent dan encodeURI, plus penguraian query string ke dalam tabel.",
+    "shortDescription": "Encode dan decode URL dengan mode encodeURIComponent dan encodeURI, plus penguraian query string ke dalam tabel.",
+    "keywords": [
+      "url encoder",
+      "url decoder",
+      "encodeuricomponent",
+      "pengurai query URL",
+      "percent encoding"
+    ]
+  },
+  "title": "URL Encoder & Decoder - encodeURIComponent & encodeURI",
+  "description": "URL encoder dan decoder online gratis. Pilih mode encodeURIComponent atau encodeURI, periksa query string dalam tabel parameter, dan salin hasilnya.",
+  "h1": "URL Encoder & Decoder",
+  "quickAnswer": "encodeURIComponent() meng-encode setiap karakter kecuali A–Z, a–z, 0–9, -, _, ., !, ~, *, ', (, ). Gunakan untuk setiap nilai query string. encodeURI() mempertahankan karakter struktur (:, /, ?, #, &, =) dan dipakai untuk URL lengkap. Untuk men-decode, tempelkan teks ber-percent-encoding dan URL encoder & decoder ini mengembalikan setiap urutan %XX ke karakter UTF-8 aslinya.",
+  "workedExamples": [
+    {
+      "title": "Encode Nilai Parameter Query",
+      "inputs": [
+        "Mode: encodeURIComponent",
+        "Input: hello world & goodbye!"
+      ],
+      "steps": [
+        "Spasi → %20, & → %26, ! → %21",
+        "Output: hello%20world%20%26%20goodbye%21"
+      ],
+      "result": "hello%20world%20%26%20goodbye%21"
+    },
+    {
+      "title": "Encode URL Lengkap",
+      "inputs": [
+        "Mode: encodeURI",
+        "Input: https://example.com/search?q=hello world&lang=en"
+      ],
+      "steps": [
+        "Karakter struktur dipertahankan: ://?&=",
+        "Spasi → %20, karakter khusus lain di-encode",
+        "Output: https://example.com/search?q=hello%20world&lang=en"
+      ],
+      "result": "https://example.com/search?q=hello%20world&lang=en"
+    },
+    {
+      "title": "Decode String Ber-Percent-Encoding",
+      "inputs": [
+        "Mode: Decode",
+        "Input: Caf%C3%A9%20au%20lait"
+      ],
+      "steps": [
+        "%C3%A9 adalah encoding UTF-8 untuk é (e dengan aksen akut)",
+        "%20 adalah karakter spasi",
+        "Hasil decode: Café au lait"
+      ],
+      "result": "Café au lait"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Encoding Ganda",
+      "description": "Meng-encode string yang sudah ber-percent-encoding mengubah karakter <code>%</code> yang ada menjadi <code>%25</code> (mis. <code>%20</code> menjadi <code>%2520</code>). Selalu periksa apakah data yang masuk sudah di-encode sebelum mengubahnya."
+    },
+    {
+      "title": "Memakai encodeURI untuk Nilai Query",
+      "description": "Menjalankan <code>encodeURI</code> pada nilai parameter membiarkan karakter seperti <code>&amp;</code> dan <code>+</code> tidak ter-encode, sehingga parser server bisa memotong atau memecah nilai secara tak terduga."
+    },
+    {
+      "title": "Urutan Persen yang Rusak",
+      "description": "Men-decode string dengan tanda persen yang berdiri sendiri (seperti <code>discount=50%</code> alih-alih <code>discount=50%25</code>) memicu error fatal JavaScript <code>URIError: URI malformed</code>. Alat yang aman menangkap dan menampilkan error ini dengan jelas."
+    }
+  ],
+  "sources": [
+    {
+      "label": "RFC 3986: Uniform Resource Identifier (URI): Generic Syntax"
+    },
+    {
+      "label": "MDN Web Docs: encodeURIComponent()"
+    },
+    {
+      "label": "MDN Web Docs: encodeURI()"
+    }
+  ],
+  "howto": {
+    "name": "Cara Encode dan Decode URL secara Online",
+    "description": "Panduan langkah demi langkah untuk meng-encode komponen URL, URI lengkap, dan mengurai parameter query string.",
+    "steps": [
+      {
+        "name": "Pilih Operasi & Mode",
+        "text": "Pilih 'Encode' atau 'Decode' lalu pilih mode Komponen (encodeURIComponent) atau mode URL Lengkap (encodeURI)."
+      },
+      {
+        "name": "Masukkan String atau URL",
+        "text": "Ketik atau tempelkan parameter query, potongan teks, atau alamat web lengkap ke kotak input."
+      },
+      {
+        "name": "Periksa & Salin Output",
+        "text": "Lihat hasil konversi secara langsung, periksa pasangan kunci-nilai parameter query di tabel, lalu salin hasilnya."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Apa perbedaan encodeURIComponent dan encodeURI?",
+      "a": "encodeURIComponent meng-encode semua karakter tanda baca khusus (termasuk &, =, ?, /, :, dan #) menjadi urutan hex ber-percent-encoding. Fungsi ini ditujukan untuk meng-encode setiap kunci dan nilai parameter query. Sebaliknya, encodeURI mempertahankan karakter struktur URL yang valid (;,/?:@&=+$#) dan hanya meng-encode karakter yang dilarang di URI standar seperti spasi dan glyph Unicode."
+    },
+    {
+      "q": "Kapan saya harus memakai encodeURIComponent, bukan encodeURI?",
+      "a": "Selalu gunakan encodeURIComponent saat menyiapkan nilai yang akan ditambahkan ke query string (mis. ?q=search+term atau ?redirect_url=https://example.com). Jika memakai encodeURI, simbol seperti & dan = di dalam nilai Anda akan dikira sebagai pemisah query tambahan."
+    },
+    {
+      "q": "Bagaimana alat ini menangani tanda plus '+' di query string?",
+      "a": "Dalam query string application/x-www-form-urlencoded, tanda plus (+) biasanya mewakili spasi. Saat men-decode dalam mode Komponen, alat ini menerjemahkan '+' maupun '%20' menjadi karakter spasi standar."
+    },
+    {
+      "q": "Apakah URL atau data parameter query pribadi saya dikirim ke server?",
+      "a": "Tidak. Semua encoding, decoding URL, dan penguraian tabel query string berjalan 100% secara lokal di browser web Anda. Token API sensitif dan query string tidak pernah keluar dari perangkat Anda."
+    },
+    {
+      "q": "Berapa ukuran URL maksimum yang didukung?",
+      "a": "Alat ini mendukung input hingga batas aman 1 MB (1,048,576 karakter). Pemrosesan langsung dengan debounce memastikan tampilan diperbarui seketika tanpa jeda."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Formulir URL Encoder &amp; Decoder",
+      "parsed-query-string-parameters-table1": "Parameter query string yang diurai",
+      "url-encoding-specification-mode-comparison-table1": "Perbandingan Mode"
+    },
+    "content": {
+      "tool": {
+        "span1": "Arah:",
+        "label1": "<input type=\"radio\" name=\"url-direction\" value=\"encode\" checked class=\"cursor-pointer\">\n            <span>Encode</span>",
+        "label2": "<input type=\"radio\" name=\"url-direction\" value=\"decode\" class=\"cursor-pointer\">\n            <span>Decode</span>",
+        "span2": "Mode:",
+        "label3": "<input type=\"radio\" name=\"url-mode\" value=\"component\" checked class=\"cursor-pointer\">\n            <span>Komponen (encodeURIComponent)</span>",
+        "label4": "<input type=\"radio\" name=\"url-mode\" value=\"full\" class=\"cursor-pointer\">\n            <span>URL Lengkap (encodeURI)</span>"
+      },
+      "parsed-query-string-parameters": {
+        "heading": "Parameter Query String yang Diurai",
+        "th1": "Kunci Parameter",
+        "th2": "Nilai Mentah / Ter-encode",
+        "th3": "Nilai Hasil Decode"
+      },
+      "how-when-to-use-the-url": {
+        "li1": "<strong>Mengirim URL Bersarang dalam Redirect:</strong> Saat mengirim URL kembali (mis. <code>?returnTo=https://example.com/dashboard?tab=billing</code>), gunakan <code>encodeURIComponent</code> agar parameter query di dalamnya tidak diurai oleh server luar.",
+        "li2": "<strong>Memperbaiki Tautan Rusak karena Spasi:</strong> Browser web membutuhkan URI ASCII yang valid. Encode spasi sebagai <code>%20</code> (atau <code>+</code>) dan karakter Unicode non-ASCII sebelum membagikan tautan.",
+        "li3": "<strong>Men-debug Payload Webhook &amp; Query String:</strong> Tempelkan query string yang rumit untuk melihat setiap parameter diurai rapi dalam tabel terstruktur.",
+        "li4": "<strong>Encoding Data Formulir dengan Aman:</strong> Periksa bagaimana data kolom input akan dikirim dalam permintaan POST <code>application/x-www-form-urlencoded</code>."
+      },
+      "url-encoding-specification-mode-comparison": {
+        "p1": "RFC 3986 menetapkan percent-encoding untuk mewakili karakter di URI yang berada di luar set karakter ASCII yang diizinkan. Memahami perbedaan mode komponen dan URI lengkap mencegah rute yang rusak dan parameter yang korup.",
+        "th1": "Karakter",
+        "th2": "Mode encodeURI",
+        "th3": "Mode encodeURIComponent",
+        "th4": "Alasan",
+        "td1": "<code>Spasi ( )</code>",
+        "td2": "Spasi tidak pernah diizinkan di URI yang valid.",
+        "td3": "<code>Ampersand (&amp;)</code>",
+        "td4": "<code>&amp;</code> (Dipertahankan)",
+        "td5": "<code>%26</code> (Di-encode)",
+        "td6": "Memisahkan parameter query; harus di-encode di dalam nilai.",
+        "td7": "<code>Sama dengan (=)</code>",
+        "td8": "<code>=</code> (Dipertahankan)",
+        "td9": "<code>%3D</code> (Di-encode)",
+        "td10": "Memisahkan kunci dan nilai; harus di-encode di dalam nilai.",
+        "td11": "<code>Tanda Tanya (?)</code>",
+        "td12": "<code>?</code> (Dipertahankan)",
+        "td13": "<code>%3F</code> (Di-encode)",
+        "td14": "Mengawali query string; harus di-encode di dalam nilai.",
+        "td15": "<code>Garis Miring (/)</code>",
+        "td16": "<code>/</code> (Dipertahankan)",
+        "td17": "<code>%2F</code> (Di-encode)",
+        "td18": "Memisahkan segmen path; harus di-encode di dalam nilai.",
+        "td19": "<code>Pagar (#)</code>",
+        "td20": "<code>#</code> (Dipertahankan)",
+        "td21": "<code>%23</code> (Di-encode)",
+        "td22": "Mengawali fragment anchor; harus di-encode di dalam nilai."
+      }
+    },
+    "title": {
+      "tool-label1": "Meng-encode semua pemisah (;,/?:@&=+$#). Paling cocok untuk kunci & nilai parameter.",
+      "tool-label2": "Mempertahankan pemisah struktur URL. Paling cocok untuk alamat web lengkap."
+    },
+    "text": {
+      "clear-btn": "Hapus",
+      "size-meter": "0.0 KB / 1 MB",
+      "convert-btn": "Encode URL",
+      "swap-btn": "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><polyline points=\"17 1 21 5 17 9\"></polyline><path d=\"M3 11V9a4 4 0 0 1 4-4h14\"></path><polyline points=\"7 23 3 19 7 15\"></polyline><path d=\"M21 13v2a4 4 0 0 1-4 4H3\"></path></svg>\n          Tukar Input &amp; Output",
+      "copy-btn": "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"9\" y=\"9\" width=\"13\" height=\"13\" rx=\"2\" ry=\"2\"></rect><path d=\"M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1\"></path></svg>\n          Salin Hasil",
+      "query-count-badge": "0 parameter",
+      "how-to-use-heading": "Cara &amp; Kapan Menggunakan URL Encoder / Decoder",
+      "article-heading": "Spesifikasi Encoding URL &amp; Perbandingan Mode"
+    },
+    "label": {
+      "url-input": "Teks atau URL yang Di-encode (Komponen):",
+      "url-output": "Output URL Ter-encode:"
+    },
+    "placeholder": {
+      "url-input": "Tempelkan parameter atau teks di sini... mis. hello world &amp; symbols=?",
+      "url-output": "Hasil akan muncul di sini secara langsung saat Anda mengetik..."
+    }
+  },
+  "client": {
+    "modeName": {
+      "full": "URL Lengkap (encodeURI)",
+      "component": "Komponen (encodeURIComponent)"
+    },
+    "labels": {
+      "encode": {
+        "input": "Teks atau URL yang Di-encode ({{mode}}):",
+        "output": "Output URL Ter-encode:",
+        "button": "Encode URL",
+        "placeholderFull": "Tempelkan URL lengkap di sini... mis. https://example.com/search?q=toolsbuilt & more=yes",
+        "placeholderComponent": "Tempelkan parameter atau teks di sini... mis. hello world & symbols=?"
+      },
+      "decode": {
+        "input": "URL Ter-encode yang Di-decode:",
+        "output": "Teks Biasa Hasil Decode:",
+        "button": "Decode URL",
+        "placeholder": "Tempelkan URL atau string ter-encode di sini... mis. https%3A%2F%2Fexample.com%3Fq%3Dtoolsbuilt"
+      }
+    },
+    "sizeMeter": "{{kb}} KB / {{max}} MB",
+    "params": {
+      "other": "{{n}} parameter"
+    },
+    "status": {
+      "encoded": "✓ Di-encode dengan {{mode}}: {{input}} &rarr; {{output}} karakter",
+      "decoded": "✓ Di-decode dengan {{mode}}: {{input}} &rarr; {{output}} karakter"
+    },
+    "errors": {
+      "notText": "Input harus berupa string teks yang valid.",
+      "tooLarge": "Input melebihi batas aman 1 MB (maks 1,048,576 karakter). Ukuran saat ini: {{size}} karakter.",
+      "encoding": "Kesalahan encoding: {{message}}",
+      "decoding": "Kesalahan decoding: urutan percent-encoding tidak valid ({{message}}). Periksa pasangan hex % yang tidak lengkap."
+    },
+    "toast": {
+      "nothingToCopy": "Tidak ada yang bisa disalin. Masukkan teks terlebih dahulu.",
+      "copied": "Hasil disalin ke papan klip"
+    }
+  }
+}

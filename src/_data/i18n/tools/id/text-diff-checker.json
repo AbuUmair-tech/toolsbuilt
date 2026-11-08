@@ -1,0 +1,272 @@
+{
+  "listing": {
+    "name": "Pembanding Teks",
+    "shortName": "Pembanding Teks",
+    "description": "Bandingkan dua teks baris per baris dengan sorotan per kata, berdampingan atau sebaris, dengan opsi abaikan huruf besar-kecil, spasi, atau baris kosong.",
+    "shortDescription": "Bandingkan dua teks dan lihat baris serta kata yang ditambah, dihapus, dan diubah.",
+    "keywords": [
+      "bandingkan teks",
+      "diff checker",
+      "cek perbedaan teks",
+      "bandingkan dua teks",
+      "pembanding teks online",
+      "cari perbedaan",
+      "alat diff"
+    ]
+  },
+  "title": "Pembanding Teks: Bandingkan Dua Teks Online",
+  "description": "Pembanding teks: bandingkan dua teks baris per baris dan lihat yang ditambah, dihapus, atau diubah, dengan sorotan per kata dan tampilan berdampingan.",
+  "h1": "Pembanding Teks",
+  "quickAnswer": "Tempelkan teks asli di kiri dan teks yang diubah di kanan, lalu tekan Bandingkan. Pembanding teks ini menampilkan baris yang dihapus dengan warna merah, baris yang ditambahkan dengan warna hijau, dan di dalam baris yang diubah, kata-kata yang berbeda disorot. Anda bisa mengabaikan huruf besar-kecil, spasi, atau baris kosong, dan perbandingan berjalan sepenuhnya di browser Anda.",
+  "formula": {
+    "title": "Cara Perbandingan Bekerja",
+    "expression": "Diff = skrip edit terpendek yang mengubah baris asli menjadi baris yang diubah (algoritma O(ND) Myers)",
+    "explanation": "Kedua teks dipecah menjadi baris, dan setiap baris yang berbeda diberi nomor agar bisa dibandingkan seketika. Baris yang sama di bagian paling awal dan akhir dicocokkan terlebih dahulu. Sisanya dibandingkan dengan algoritma perbedaan Eugene Myers, pendekatan yang sama dengan git dan GNU diff, yang mencari kumpulan baris terkecil untuk dihapus dan ditambahkan. Jika baris yang dihapus diikuti baris yang ditambahkan, keduanya dibandingkan lagi kata demi kata agar hanya kata yang berubah yang disorot. Penulisan ulang yang sangat besar dipecah pada baris yang muncul tepat sekali di kedua teks (teknik 'patience') agar hasilnya tetap mudah dibaca. Proses berjalan di thread latar belakang, sehingga dokumen panjang tidak membuat halaman macet.",
+    "variables": [
+      {
+        "name": "Dihapus",
+        "description": "Baris di teks asli yang tidak ada di teks yang diubah."
+      },
+      {
+        "name": "Ditambahkan",
+        "description": "Baris di teks yang diubah yang tidak ada di teks asli."
+      },
+      {
+        "name": "Diubah",
+        "description": "Baris yang dihapus dipasangkan dengan baris yang ditambahkan sebagai penggantinya, dengan sorotan per kata."
+      }
+    ]
+  },
+  "workedExamples": [
+    {
+      "title": "Satu baris diganti",
+      "inputs": [
+        "Asli: a / b / c",
+        "Diubah: a / x / c"
+      ],
+      "steps": [
+        "a dan c ada di kedua teks dan tetap tidak berubah",
+        "b dihapus dan x ditambahkan sebagai penggantinya"
+      ],
+      "result": "1 dihapus, 1 ditambahkan, 2 tidak berubah"
+    },
+    {
+      "title": "Satu kata berubah di dalam kalimat",
+      "inputs": [
+        "Asli: The quick brown fox",
+        "Diubah: The slow brown fox"
+      ],
+      "steps": [
+        "Barisnya berbeda, jadi baris itu dihitung sebagai diubah",
+        "Kata demi kata, hanya 'quick' yang diganti dengan 'slow'"
+      ],
+      "result": "Satu baris diubah dengan 'quick' dan 'slow' disorot"
+    },
+    {
+      "title": "Mengabaikan huruf besar-kecil dan spasi",
+      "inputs": [
+        "Asli: Hello   World",
+        "Diubah: hello world",
+        "Abaikan huruf besar-kecil dan abaikan spasi: aktif"
+      ],
+      "steps": [
+        "Kedua baris menjadi 'helloworld' untuk dibandingkan"
+      ],
+      "result": "Kedua teks dilaporkan identik"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Membandingkan teks dengan akhir baris yang berbeda",
+      "description": "Berkas dari Windows memakai akhir baris CR LF, sedangkan berkas dari macOS atau Linux memakai LF. Pembanding ini memperlakukan semua akhir baris sama, tetapi beberapa alat lain melaporkan setiap baris sebagai berubah."
+    },
+    {
+      "title": "Lupa spasi yang tidak terlihat",
+      "description": "Spasi dan tab di akhir membuat dua baris yang tampak identik dihitung berbeda. Aktifkan Abaikan spasi jika hanya kata yang penting, dan biarkan nonaktif untuk kode yang indentasinya bermakna."
+    },
+    {
+      "title": "Mengira paragraf yang dipindah sebagai perubahan",
+      "description": "Diff per baris menampilkan paragraf yang dipindah sebagai dihapus di satu tempat dan ditambahkan di tempat lain. Cari teks yang sama dalam kedua warna sebelum menganggapnya ditulis ulang."
+    },
+    {
+      "title": "Menempelkan kedua versi secara terbalik",
+      "description": "Kotak kiri dianggap sebagai teks asli. Jika tambahan terlihat sebagai penghapusan, gunakan Tukar untuk menukar kedua teks."
+    },
+    {
+      "title": "Memakai diff untuk membandingkan dokumen berformat",
+      "description": "Menyalin dari pengolah kata atau PDF bisa mengubah baris baru, sehingga seluruh paragraf tampak berbeda. Bandingkan teks biasa, atau aktifkan Abaikan spasi dan Abaikan baris kosong."
+    }
+  ],
+  "sources": [
+    {
+      "name": "Eugene W. Myers (1986): An O(ND) Difference Algorithm and Its Variations, Algorithmica 1"
+    },
+    {
+      "name": "Manual GNU Diffutils"
+    },
+    {
+      "name": "Dokumentasi Git: git diff (algoritma diff)"
+    },
+    {
+      "name": "WHATWG HTML Standard: Web Workers"
+    }
+  ],
+  "howto": {
+    "name": "Cara Membandingkan Dua Teks",
+    "description": "Temukan setiap baris dan kata yang berbeda di antara dua versi teks.",
+    "steps": [
+      {
+        "name": "Tempelkan teks asli",
+        "text": "Tempel atau ketik versi asli di kotak pertama."
+      },
+      {
+        "name": "Tempelkan versi yang diubah",
+        "text": "Tempelkan versi baru di kotak kedua."
+      },
+      {
+        "name": "Pilih opsi",
+        "text": "Abaikan huruf besar-kecil, spasi, atau baris kosong jika perbedaan itu tidak penting, lalu pilih tampilan berdampingan atau sebaris."
+      },
+      {
+        "name": "Bandingkan",
+        "text": "Tekan Bandingkan untuk melihat baris yang ditambah, dihapus, dan diubah dengan kata yang berubah disorot."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Bagaimana cara membandingkan dua teks untuk mencari perbedaannya?",
+      "a": "Tempelkan versi asli di kotak pertama dan versi baru di kotak kedua, lalu tekan Bandingkan. Baris yang ditambahkan berwarna hijau, baris yang dihapus berwarna merah, dan kata yang berubah di dalam baris disorot."
+    },
+    {
+      "q": "Apakah alat pembanding teks ini privat?",
+      "a": "Ya. Perbandingan berjalan di browser Anda, dalam thread latar belakang di halaman ini. Teks tidak diunggah, disimpan, atau ditambahkan ke alamat halaman."
+    },
+    {
+      "q": "Apa perbedaan tampilan berdampingan dan sebaris?",
+      "a": "Berdampingan menampilkan teks asli di kiri dan teks yang diubah di kanan, baris demi baris. Sebaris menampilkan satu daftar berisi baris yang dihapus diikuti baris penggantinya, yang lebih mudah dibaca di ponsel."
+    },
+    {
+      "q": "Bisakah saya mengabaikan huruf besar-kecil dan spasi saat membandingkan?",
+      "a": "Bisa. Abaikan huruf besar-kecil menganggap 'Hello' dan 'hello' sama; Abaikan spasi mengabaikan spasi dan tab di dalam dan di sekitar baris; Abaikan baris kosong mengeluarkan baris kosong dari perbandingan."
+    },
+    {
+      "q": "Seberapa besar teks yang bisa saya bandingkan?",
+      "a": "Teks hingga ribuan baris bisa dibandingkan. Diff berjalan di thread latar belakang, dan untuk dokumen panjang Anda bisa menampilkan perubahannya saja dengan beberapa baris konteks."
+    },
+    {
+      "q": "Algoritma apa yang dipakai pembanding teks ini?",
+      "a": "Pembanding ini memakai algoritma perbedaan O(ND) dari Eugene Myers, metode di balik GNU diff dan git, dengan perbandingan per kata di dalam baris yang berubah."
+    },
+    {
+      "q": "Bisakah saya membandingkan kode dengan alat ini?",
+      "a": "Bisa. Tempelkan teks biasa apa pun, termasuk kode sumber, JSON, atau CSV. Biarkan Abaikan spasi nonaktif jika indentasi penting."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Pembanding Teks",
+      "diff-summary": "Ringkasan",
+      "diff-output": "Perbedaan"
+    },
+    "label": {
+      "diff-old": "Teks asli",
+      "diff-new": "Teks yang diubah"
+    },
+    "placeholder": {
+      "diff-old": "Tempelkan versi asli di sini",
+      "diff-new": "Tempelkan versi yang diubah di sini"
+    },
+    "text": {
+      "old-count": "0 baris",
+      "new-count": "0 baris",
+      "swap-btn": "Tukar",
+      "example-btn": "Coba contoh",
+      "clear-btn": "Hapus"
+    },
+    "content": {
+      "tool": {
+        "label1": "<input type=\"checkbox\" id=\"opt-case\"><span>Abaikan huruf besar-kecil</span>",
+        "label2": "<input type=\"checkbox\" id=\"opt-space\"><span>Abaikan spasi</span>",
+        "label3": "<input type=\"checkbox\" id=\"opt-blank\"><span>Abaikan baris kosong</span>",
+        "label4": "<input type=\"checkbox\" id=\"opt-context\"><span>Tampilkan perubahannya saja (dengan 3 baris konteks)</span>",
+        "legend1": "Tampilan",
+        "label5": "<input type=\"radio\" name=\"diff-view\" value=\"split\" checked><span>Berdampingan</span>",
+        "label6": "<input type=\"radio\" name=\"diff-view\" value=\"inline\"><span>Sebaris</span>",
+        "button1": "Bandingkan",
+        "div1": "<span id=\"result-header-text\">Perbedaan</span>"
+      },
+      "reading-the-result": {
+        "heading": "Membaca Hasilnya",
+        "caption1": "Arti setiap warna dan penanda",
+        "th1": "Penanda",
+        "th2": "Arti",
+        "td1": "− baris merah",
+        "td2": "Baris ada di teks asli tetapi tidak ada di teks yang diubah.",
+        "td3": "+ baris hijau",
+        "td4": "Baris ada di teks yang diubah tetapi tidak ada di teks asli.",
+        "td5": "Kata yang disorot",
+        "td6": "Di dalam baris yang diubah, hanya kata yang berbeda yang ditandai.",
+        "td7": "Baris biasa",
+        "td8": "Baris sama di kedua teks.",
+        "td9": "… baris tidak berubah",
+        "td10": "Dengan \"Tampilkan perubahannya saja\" aktif, deretan panjang baris yang identik dilipat.",
+        "p1": "Nomor baris di setiap sisi mengacu pada teks asli dan teks yang diubah, sehingga Anda bisa menemukan tempat yang sama di berkas Anda sendiri. Jika kedua teks identik, atau identik setelah opsi abaikan diterapkan, pembanding menyatakannya alih-alih menampilkan daftar."
+      },
+      "when-to-use-a-diff-checker": {
+        "heading": "Kapan Menggunakan Pembanding Teks",
+        "li1": "<strong>Kontrak dan kebijakan:</strong> lihat dengan tepat kalimat mana yang berubah di antara dua draf sebelum Anda menandatangani atau memublikasikan.",
+        "li2": "<strong>Menulis dan menyunting:</strong> bandingkan teks Anda dengan versi editor lalu terima atau tolak setiap perubahan dengan sadar.",
+        "li3": "<strong>Kode dan konfigurasi:</strong> temukan satu pengaturan yang berubah di antara dua versi berkas konfigurasi atau potongan kode yang ditempel.",
+        "li4": "<strong>Data:</strong> bandingkan dua ekspor daftar atau CSV; untuk menghapus baris berulang terlebih dahulu, gunakan <a href=\"/tools/remove-duplicate-lines/\">penghapus baris duplikat</a>.",
+        "p1": "Semua yang Anda tempelkan tetap di perangkat Anda. Perbandingan berjalan di Web Worker, thread latar belakang di dalam halaman ini, dan tidak ada yang disimpan saat Anda pergi."
+      }
+    }
+  },
+  "client": {
+    "example": {
+      "old": "Kebijakan pengembalian dana\n\nBarang dapat dikembalikan dalam 14 hari setelah diterima.\nDana dikembalikan ke metode pembayaran awal.\nOngkos kirim tidak dikembalikan.\nHubungi layanan pelanggan untuk memulai pengembalian.",
+      "new": "Kebijakan pengembalian dana\n\nBarang dapat dikembalikan dalam 30 hari setelah diterima.\nDana dikembalikan ke metode pembayaran awal dalam 5 hari kerja.\nHubungi layanan pelanggan untuk memulai pengembalian.\nProduk digital tidak dapat dikembalikan."
+    },
+    "lines": {
+      "other": "{{n}} baris"
+    },
+    "fold": {
+      "other": "… {{n}} baris tidak berubah"
+    },
+    "errors": {
+      "empty": "Tempelkan teks asli dan teks yang diubah untuk membandingkannya.",
+      "tooLarge": "Teks ini terlalu besar untuk dibandingkan di sini (lebih dari 5 juta karakter jika digabung).",
+      "failed": "Perbandingan gagal."
+    },
+    "aria": {
+      "removed": "Baris {{no}} dihapus: {{text}}",
+      "added": "Baris {{no}} ditambahkan: {{text}}"
+    },
+    "summary": {
+      "added": "+{{n}} ditambahkan",
+      "removed": "−{{n}} dihapus",
+      "unchanged": "{{n}} tidak berubah"
+    },
+    "result": {
+      "comparing": "Membandingkan…",
+      "identical": "Tidak ada perbedaan",
+      "differ": {
+        "other": "{{n}} baris berbeda"
+      }
+    },
+    "ignored": {
+      "case": "huruf besar-kecil",
+      "whitespace": "spasi",
+      "blankLines": "baris kosong"
+    },
+    "note": {
+      "identical": "Kedua teks identik.",
+      "identicalIgnoring": {
+        "other": "Kedua teks identik jika {{list}} diabaikan."
+      },
+      "approximate": "Teks-teks ini sangat berbeda, jadi sebagian hasilnya mencantumkan blok utuh sebagai dihapus dan ditambahkan, bukan kumpulan perubahan sekecil mungkin."
+    },
+    "copySummary": "{{added}} ditambahkan, {{removed}} dihapus, {{unchanged}} baris tidak berubah"
+  }
+}

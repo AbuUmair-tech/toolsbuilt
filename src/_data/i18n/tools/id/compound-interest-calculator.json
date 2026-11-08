@@ -1,0 +1,262 @@
+{
+  "listing": {
+    "name": "Kalkulator Bunga Majemuk",
+    "shortName": "Kalkulator Bunga Majemuk",
+    "description": "Hitung bunga majemuk dengan pemajemukan harian, bulanan, kuartalan, atau tahunan serta setoran rutin opsional, lengkap dengan grafik pertumbuhan.",
+    "shortDescription": "Hitung pertumbuhan bunga majemuk dengan pemajemukan harian, bulanan, atau tahunan dan setoran rutin.",
+    "keywords": [
+      "kalkulator bunga majemuk",
+      "bunga majemuk harian",
+      "bunga majemuk bulanan",
+      "kalkulator pertumbuhan investasi",
+      "kalkulator bunga tabungan"
+    ]
+  },
+  "title": "Kalkulator Bunga Majemuk - Harian & Setoran Rutin",
+  "description": "Kalkulator bunga majemuk gratis: pemajemukan harian, bulanan, kuartalan, atau tahunan dengan setoran rutin opsional dan grafik pertumbuhan.",
+  "h1": "Kalkulator Bunga Majemuk",
+  "quickAnswer": "Bunga majemuk dihitung dengan rumus A = P(1 + r/n)^(nt), di mana P adalah pokok, r suku bunga tahunan (desimal), n frekuensi pemajemukan per tahun, dan t waktu dalam tahun. Jika Anda menyetor rutin setiap bulan sebesar PMT, nilai masa depannya juga bertambah lewat rumus anuitas: PMT × [((1 + r/n)^(nt) - 1) / (r/n)]. Semua perhitungan dan grafik di kalkulator bunga majemuk ini berjalan di browser Anda.",
+  "formula": {
+    "title": "Rumus Bunga Majemuk",
+    "explanation": "Tanpa setoran tambahan, nilai masa depan A tumbuh dari pokok P dengan suku bunga tahunan r, dimajemukkan n kali per tahun selama t tahun, sehingga bunga juga menghasilkan bunga."
+  },
+  "workedExamples": [
+    {
+      "title": "Pokok Awal $10,000 dengan Bunga 7% selama 10 Tahun (Pemajemukan Tahunan)",
+      "inputs": [
+        "Pokok awal (P): $10,000",
+        "Suku bunga tahunan (r): 7%",
+        "Frekuensi pemajemukan (n): Tahunan (1/thn)",
+        "Jangka waktu (t): 10 tahun",
+        "Setoran bulanan: $0"
+      ],
+      "steps": [
+        "Rumus: A = 10,000 × (1 + 0.07/1)^(1 × 10)",
+        null,
+        "Total nilai masa depan = $19,671.51",
+        "Total bunga yang diperoleh = $19,671.51 − $10,000 = $9,671.51"
+      ],
+      "result": "Saldo akhir $19,671.51 (bunga diperoleh $9,671.51)"
+    },
+    {
+      "title": "Pokok $5,000 dengan Setoran Bulanan $200 pada Bunga 8% selama 5 Tahun",
+      "inputs": [
+        "Pokok awal: $5,000",
+        "Suku bunga tahunan: 8% (Pemajemukan Bulanan)",
+        "Setoran bulanan: $200",
+        "Jangka waktu: 5 tahun"
+      ],
+      "steps": [
+        "Pertumbuhan pokok: 5,000 × (1 + 0.08/12)^60 = $7,449.23",
+        "Pertumbuhan setoran: 200 × [((1 + 0.08/12)^60 - 1) / (0.08/12)] = $14,695.37",
+        "Total nilai masa depan = $7,449.23 + $14,695.37 = $22,144.60",
+        "Total setoran = $5,000 + ($200 × 60) = $17,000"
+      ],
+      "result": "Saldo $22,144.60 (bunga diperoleh $5,144.60)"
+    },
+    {
+      "title": "Perbandingan Pemajemukan Harian ($10,000 dengan Bunga 5% selama 1 Tahun)",
+      "inputs": [
+        "Pokok: $10,000",
+        "Suku bunga: 5%",
+        "Frekuensi: Harian (365 kali/tahun)",
+        "Waktu: 1 tahun"
+      ],
+      "steps": [
+        "APY efektif = (1 + 0.05/365)^365 − 1 ≈ 5.127%",
+        "Nilai masa depan = 10,000 × (1 + 0.05/365)^365 = $10,512.67",
+        "Menghasilkan $12.67 lebih banyak daripada pemajemukan tahunan biasa ($10,500.00)"
+      ],
+      "result": "$10,512.67 (APY 5.13%)"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Membandingkan APR dengan APY Secara Langsung",
+      "description": "Bank yang mengiklankan APR 5.00% dengan pemajemukan harian sebenarnya membayar APY 5.13%. Selalu bandingkan APY dengan APY agar perbandingannya setara."
+    },
+    {
+      "title": "Menunda Setoran",
+      "description": "Berkat pertumbuhan eksponensial, menabung sejak usia dua puluhan menghasilkan kekayaan jauh lebih besar daripada menabung dua kali lipat di usia empat puluhan."
+    },
+    {
+      "title": "Mengabaikan Inflasi & Pajak",
+      "description": "Suku bunga nominal yang tinggi harus disesuaikan dengan inflasi dan pajak tahunan atas penghasilan bunga untuk mengukur pertumbuhan daya beli yang sebenarnya."
+    }
+  ],
+  "sources": [
+    {
+      "label": "U.S. Securities and Exchange Commission (SEC) - Compound Interest Calculator"
+    },
+    {
+      "label": "Consumer Financial Protection Bureau - Penjelasan APY & Tabungan"
+    },
+    {
+      "label": "Federal Deposit Insurance Corporation (FDIC) - Rekening Simpanan"
+    }
+  ],
+  "howto": {
+    "name": "Cara Menghitung Pertumbuhan Bunga Majemuk",
+    "description": "Petunjuk langkah demi langkah untuk memodelkan frekuensi pemajemukan, setoran berkala, dan imbal hasil tahunan (APY).",
+    "steps": [
+      {
+        "name": "Masukkan Pokok Awal",
+        "text": "Masukkan investasi awal sekaligus atau saldo tabungan Anda (boleh $0 jika hanya mengandalkan setoran rutin)."
+      },
+      {
+        "name": "Masukkan Suku Bunga Tahunan",
+        "text": "Masukkan suku bunga tahunan nominal (APR) dari tabungan berbunga tinggi, deposito, atau investasi Anda."
+      },
+      {
+        "name": "Pilih Frekuensi Pemajemukan",
+        "text": "Pilih seberapa sering bunga ditambahkan ke pokok: harian, bulanan, kuartalan, atau tahunan."
+      },
+      {
+        "name": "Tentukan Jangka Waktu Investasi",
+        "text": "Tentukan berapa tahun Anda berencana membiarkan uang Anda berkembang tanpa diambil."
+      },
+      {
+        "name": "Tambahkan Setoran Bulanan (Opsional)",
+        "text": "Jika perlu, masukkan setoran bulanan rutin untuk memproyeksikan pertumbuhan eksponensial dari investasi berkala."
+      },
+      {
+        "name": "Tinjau Grafik Pertumbuhan & Saldo",
+        "text": "Periksa nilai masa depan akhir, total bunga yang diperoleh, APY efektif, dan grafik SVG interaktif lintasan pertumbuhan."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Apa perbedaan bunga tunggal dan bunga majemuk?",
+      "a": "Bunga tunggal hanya dihitung dari jumlah pokok awal. Bunga majemuk dihitung dari pokok awal sekaligus bunga yang sudah terkumpul dari periode sebelumnya, sehingga pertumbuhannya makin cepat secara eksponensial dari waktu ke waktu."
+    },
+    {
+      "q": "Apa rumus matematika bunga majemuk?",
+      "a": "Tanpa setoran berkala, rumusnya adalah: A = P × (1 + r/n)^(n×t), di mana P adalah pokok, r suku bunga nominal tahunan dalam bentuk desimal, n jumlah periode pemajemukan per tahun, dan t jangka waktu dalam tahun."
+    },
+    {
+      "q": "Apa perbedaan APR dan APY?",
+      "a": "APR (Annual Percentage Rate) adalah suku bunga nominal yang dinyatakan tanpa memperhitungkan pemajemukan dalam setahun. APY (Annual Percentage Yield) mencerminkan suku bunga efektif tahunan yang sebenarnya, termasuk efek pemajemukan: APY = (1 + r/n)^n - 1."
+    },
+    {
+      "q": "Seberapa sering bunga sebaiknya dimajemukkan agar pertumbuhannya maksimal?",
+      "a": "Semakin sering pemajemukan, semakin tinggi imbal hasil efektifnya. Pemajemukan harian (365 kali per tahun) menghasilkan total bunga sedikit lebih tinggi daripada bulanan (12 kali) atau tahunan (1 kali) untuk suku bunga nominal yang sama."
+    },
+    {
+      "q": "Apakah angka investasi atau saldo pribadi disimpan?",
+      "a": "Tidak. Semua perhitungan bunga majemuk dan grafik SVG diproses murni di memori browser web Anda. Tidak ada saldo keuangan pribadi yang keluar dari perangkat Anda."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Formulir Kalkulator Bunga Majemuk",
+      "copy-result-btn": "Salin Ringkasan Perhitungan",
+      "annual-balance-interest-schedule-div1": "Tabel rincian bunga majemuk (dapat digulir)",
+      "annual-balance-interest-schedule-table1": "Tabel pertumbuhan bunga majemuk per tahun"
+    },
+    "label": {
+      "principal": "Pokok Awal <span class=\"text-accent\">*</span>",
+      "interest-rate": "Suku Bunga Tahunan (%) <span class=\"text-accent\">*</span>",
+      "years": "Jangka Waktu Investasi (Tahun) <span class=\"text-accent\">*</span>",
+      "compounding-frequency": "Frekuensi Pemajemukan",
+      "regular-contribution": "Setoran Bulanan Opsional <span class=\"label-hint\">(Disetor di Awal Bulan)</span>"
+    },
+    "option": {
+      "compounding-frequency": {
+        "daily": "Harian (365 kali/tahun)",
+        "monthly": "Bulanan (12 kali/tahun)",
+        "quarterly": "Kuartalan (4 kali/tahun)",
+        "annual": "Tahunan (1 kali/tahun)"
+      }
+    },
+    "content": {
+      "tool": {
+        "button1": "Hitung Pertumbuhan",
+        "div1": "Nilai Masa Depan Akhir",
+        "div2": "Total Pokok yang Diinvestasikan",
+        "div3": "Total Bunga Majemuk",
+        "div4": "APY Efektif"
+      },
+      "balance-growth-over-time": {
+        "heading": "Pertumbuhan Saldo dari Waktu ke Waktu",
+        "div1": "<span class=\"legend-item\"><span class=\"legend-dot principal\"></span> Total Pokok</span>\n              <span class=\"legend-item\"><span class=\"legend-dot balance\"></span> Total Saldo</span>"
+      },
+      "annual-balance-interest-schedule": {
+        "heading": "Jadwal Saldo &amp; Bunga Tahunan",
+        "th1": "Tahun",
+        "th2": "Setoran Tahunan",
+        "th3": "Total Pokok",
+        "th4": "Bunga Diperoleh",
+        "th5": "Saldo Akhir"
+      },
+      "how-when-to-use-the-compound": {
+        "li1": "<strong>Tabungan Berbunga Tinggi &amp; Deposito:</strong> Bandingkan suku bunga dengan pemajemukan harian dan bulanan dari bank digital untuk menemukan APY sebenarnya yang tertinggi.",
+        "li2": "<strong>Dana Pensiun Jangka Panjang:</strong> Hitung bagaimana setoran bulanan ke reksa dana indeks berkembang selama 20, 30, atau 40 tahun masa kerja.",
+        "li3": "<strong>Dana Pendidikan Anak &amp; Rencana 529:</strong> Perkirakan nilai masa depan dari dana awal yang ditambah setoran bulanan rutin.",
+        "li4": "<strong>Validasi Aturan 72:</strong> Periksa berapa lama uang Anda berlipat dua pada berbagai suku bunga dan frekuensi pemajemukan."
+      }
+    },
+    "text": {
+      "reset-btn": "Atur Ulang",
+      "result-header-text": "Proyeksi Pertumbuhan Majemuk",
+      "copy-result-btn": "<span data-icon=\"copy\"></span> Salin Ringkasan",
+      "result-primary-text": "Nilai Masa Depan: $0.00",
+      "stat-effective-apy": "APY 0.00%",
+      "how-to-use-heading": "Cara &amp; Kapan Menggunakan Kalkulator Bunga Majemuk"
+    },
+    "title": {
+      "copy-result-btn": "Salin Ringkasan Perhitungan"
+    }
+  },
+  "client": {
+    "freq": {
+      "daily": "Harian (365/thn)",
+      "monthly": "Bulanan (12/thn)",
+      "quarterly": "Kuartalan (4/thn)",
+      "annual": "Tahunan (1/thn)"
+    },
+    "errors": {
+      "frequency": "Frekuensi pemajemukan tidak valid",
+      "principalMin": "Pokok awal harus 0 atau lebih.",
+      "rateMin": "Suku bunga harus 0% atau lebih.",
+      "horizonMin": "Jangka waktu investasi harus lebih dari nol.",
+      "horizonMax": "Jangka waktu investasi tidak boleh lebih dari 60 tahun.",
+      "contributionMin": "Jumlah setoran harus 0 atau lebih.",
+      "principalOrContribution": "Masukkan pokok awal atau jumlah setoran rutin.",
+      "principalRequired": "Masukkan jumlah pokok awal (0 atau lebih).",
+      "principalNegative": "Pokok awal tidak boleh negatif.",
+      "rateRequired": "Masukkan suku bunga tahunan.",
+      "rateNegative": "Suku bunga tidak boleh negatif.",
+      "yearsRequired": "Masukkan jangka waktu investasi dalam tahun.",
+      "yearsMin": "Jangka waktu harus lebih dari nol.",
+      "principalOrContributionRequired": "Masukkan pokok awal atau jumlah setoran rutin."
+    },
+    "chart": {
+      "yearTick": "Thn {{year}}",
+      "pointTitle": "Tahun {{year}}: Saldo {{symbol}}{{balance}}, Pokok {{symbol}}{{principal}}",
+      "ariaLabel": "Grafik proyeksi pertumbuhan kekayaan dengan bunga majemuk",
+      "desc": "Perkembangan pertumbuhan yang membandingkan total pokok yang diinvestasikan dengan saldo bunga majemuk selama {{count}} tahun."
+    },
+    "result": {
+      "primary": "Nilai Masa Depan: {{value}}",
+      "apy": "APY {{apy}}%"
+    },
+    "summary": {
+      "title": "Ringkasan Pertumbuhan Bunga Majemuk:",
+      "principal": "Pokok awal: {{value}}",
+      "rate": "Suku bunga: {{rate}}% (Dimajemukkan {{frequency}})",
+      "apy": "APY efektif: {{apy}}%",
+      "horizon": "Jangka waktu: {{years}} Tahun",
+      "contribution": "Setoran bulanan: {{value}}",
+      "totalPrincipal": "Total pokok yang diinvestasikan: {{value}}",
+      "totalInterest": "Total bunga majemuk yang diperoleh: {{value}}",
+      "futureValue": "Nilai masa depan akhir: {{value}}"
+    },
+    "table": {
+      "year": "Tahun {{year}}"
+    },
+    "toast": {
+      "copied": "Perhitungan bunga majemuk disalin ke papan klip!"
+    }
+  }
+}

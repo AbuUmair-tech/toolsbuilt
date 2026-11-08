@@ -1,0 +1,251 @@
+{
+  "listing": {
+    "name": "Hapus Baris Duplikat",
+    "shortName": "Hapus Duplikat",
+    "description": "Hapus baris duplikat dari daftar dan pertahankan urutan aslinya, dengan opsi abaikan huruf besar-kecil atau spasi, pengurutan, salin, dan unduh.",
+    "shortDescription": "Hapus baris yang berulang dari daftar sambil mempertahankan urutannya.",
+    "keywords": [
+      "hapus baris duplikat",
+      "hapus data duplikat",
+      "baris unik",
+      "hapus duplikat daftar",
+      "hapus duplikat online",
+      "penghapus baris duplikat",
+      "nilai unik"
+    ]
+  },
+  "title": "Hapus Baris Duplikat Online (Urutan Tetap)",
+  "description": "Hapus baris duplikat dari daftar dengan urutan asli tetap. Abaikan huruf besar-kecil atau spasi, buang baris kosong, simpan yang pertama/terakhir, urutkan.",
+  "h1": "Hapus Baris Duplikat",
+  "quickAnswer": "Tempelkan daftar Anda, satu item per baris, dan alat hapus baris duplikat ini menghapus setiap baris yang berulang sementara kemunculan pertama setiap baris tetap di posisi aslinya. Aktifkan Abaikan huruf besar-kecil agar 'Apple' dan 'apple' dianggap sama, atau Pangkas spasi untuk mengabaikan spasi di awal dan akhir baris. Alat ini menampilkan berapa duplikat yang dihapus, dan Anda bisa menyalin atau mengunduh hasilnya.",
+  "formula": {
+    "title": "Cara Duplikat Ditemukan",
+    "expression": "Simpan baris jika kunci pembandingnya belum pernah muncul   ·   kunci = baris (dipangkas jika Pangkas spasi) (huruf kecil jika Abaikan huruf besar-kecil)",
+    "explanation": "Baris dibaca dari atas ke bawah. Setiap baris mendapat kunci pembanding: baris itu sendiri, dengan spasi di sekelilingnya dihapus jika Pangkas spasi aktif dan diubah ke huruf kecil jika Abaikan huruf besar-kecil aktif. Baris pertama dengan kunci tertentu disimpan persis seperti yang Anda ketik; baris berikutnya dengan kunci yang sama dibuang. Dengan Simpan yang terakhir, daftar dibaca dari bawah, sehingga kemunculan terakhir yang bertahan, tetap di posisi aslinya. Pengurutan, jika dipilih, dilakukan setelah duplikat dihapus dan memahami angka, sehingga item2 berada sebelum item10.",
+    "variables": [
+      {
+        "name": "Abaikan huruf besar-kecil",
+        "description": "'Apple', 'APPLE', dan 'apple' dihitung sebagai satu nilai."
+      },
+      {
+        "name": "Pangkas spasi",
+        "description": "Spasi dan tab di awal atau akhir baris diabaikan saat membandingkan. Aktifkan Pangkas output untuk menghapusnya dari hasil juga."
+      },
+      {
+        "name": "Simpan yang pertama / terakhir",
+        "description": "Salinan mana dari baris berulang yang tetap ada di daftar."
+      }
+    ]
+  },
+  "workedExamples": [
+    {
+      "title": "Peka huruf besar-kecil",
+      "inputs": [
+        "Baris: a, b, a, B"
+      ],
+      "steps": [
+        "'a' kedua mengulang yang pertama dan dihapus",
+        "'B' berbeda dari 'b' jika huruf besar-kecil diperhitungkan"
+      ],
+      "result": "a, b, B (1 duplikat dihapus)"
+    },
+    {
+      "title": "Abaikan huruf besar-kecil",
+      "inputs": [
+        "Baris: a, b, a, B",
+        "Abaikan huruf besar-kecil: aktif"
+      ],
+      "steps": [
+        "'a' berulang, dan 'B' cocok dengan 'b'"
+      ],
+      "result": "a, b (2 duplikat dihapus)"
+    },
+    {
+      "title": "Pangkas spasi",
+      "inputs": [
+        "Baris: ' a' (dengan spasi di depan), 'a'",
+        "Pangkas spasi: aktif"
+      ],
+      "steps": [
+        "Kedua baris dibandingkan sebagai 'a', jadi yang kedua dihapus",
+        "Baris yang disimpan ditulis seperti diketik (' a'); dengan Pangkas output aktif menjadi 'a'"
+      ],
+      "result": "Satu baris: ' a', atau 'a' dengan Pangkas output"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Melewatkan duplikat yang hanya berbeda spasi",
+      "description": "'apple' dan 'apple ' dengan spasi di akhir terlihat sama tetapi merupakan string yang berbeda. Aktifkan Pangkas spasi jika daftar Anda disalin dari spreadsheet atau dokumen."
+    },
+    {
+      "title": "Menggabungkan nilai yang seharusnya terpisah",
+      "description": "Abaikan huruf besar-kecil cocok untuk alamat email dan sebagian besar kata, tetapi tidak untuk data yang peka huruf besar-kecil seperti kata sandi, ID, atau nama berkas di Linux."
+    },
+    {
+      "title": "Mengira daftarnya akan diurutkan",
+      "description": "Secara default urutan asli dipertahankan. Pilih A-Z atau Z-A jika Anda ingin daftar yang terurut."
+    },
+    {
+      "title": "Kehilangan entri terakhir yang paling baru",
+      "description": "Jika baris yang lebih bawah adalah versi terbaru dari baris sebelumnya (misalnya log atau ekspor), pilih Simpan yang terakhir agar salinan terbaru yang bertahan."
+    },
+    {
+      "title": "Menganggap baris kosong sebagai data",
+      "description": "Beberapa baris kosong dihitung sebagai duplikat satu sama lain, sehingga satu baris kosong bisa tersisa. Aktifkan Hapus baris kosong untuk membuang semuanya."
+    }
+  ],
+  "sources": [
+    {
+      "name": "Unicode Technical Standard #10: Unicode Collation Algorithm"
+    },
+    {
+      "name": "ECMAScript Internationalization API: Intl.Collator"
+    },
+    {
+      "name": "Microsoft Support: Menemukan dan menghapus duplikat (Excel)"
+    },
+    {
+      "name": "Microsoft Support: Fungsi UNIQUE"
+    },
+    {
+      "name": "GNU Coreutils: uniq invocation"
+    }
+  ],
+  "howto": {
+    "name": "Cara Menghapus Baris Duplikat",
+    "description": "Hapus baris yang berulang dari daftar dan pertahankan urutan aslinya.",
+    "steps": [
+      {
+        "name": "Tempelkan daftar Anda",
+        "text": "Tempelkan teks dengan satu item per baris."
+      },
+      {
+        "name": "Pilih cara membandingkan",
+        "text": "Aktifkan Abaikan huruf besar-kecil atau Pangkas spasi jika perbedaan itu tidak perlu dihitung."
+      },
+      {
+        "name": "Pilih yang disimpan",
+        "text": "Simpan salinan pertama atau terakhir, hapus baris kosong, dan urutkan jika Anda mau."
+      },
+      {
+        "name": "Salin atau unduh",
+        "text": "Salin daftar yang sudah bersih atau unduh sebagai berkas teks."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Bagaimana cara menghapus baris duplikat dari daftar?",
+      "a": "Tempelkan daftar ke kotak. Baris yang berulang langsung dihapus, salinan pertama setiap baris tetap di tempat aslinya, dan jumlah duplikat yang dihapus ditampilkan."
+    },
+    {
+      "q": "Apakah urutan aslinya tetap dipertahankan?",
+      "a": "Ya. Kecuali Anda memilih urutan sortir, baris yang disimpan tetap dalam urutan saat Anda menempelkannya."
+    },
+    {
+      "q": "Bisakah saya menghapus duplikat dengan mengabaikan huruf besar-kecil?",
+      "a": "Bisa. Aktifkan Abaikan huruf besar-kecil dan baris yang hanya berbeda pada huruf kapital, seperti 'Paris' dan 'paris', dihitung sama."
+    },
+    {
+      "q": "Bagaimana cara menyimpan kemunculan terakhir, bukan yang pertama?",
+      "a": "Pilih Simpan yang terakhir. Salinan terakhir setiap baris yang disimpan, di posisi tempat ia muncul."
+    },
+    {
+      "q": "Bisakah saya mengurutkan baris sekaligus menghapus duplikat?",
+      "a": "Bisa. Pilih A-Z atau Z-A. Duplikat dihapus terlebih dahulu, lalu baris yang tersisa diurutkan, dengan angka dalam urutan alami."
+    },
+    {
+      "q": "Bagaimana cara menghapus duplikat di Excel?",
+      "a": "Di Excel, pilih kolom lalu gunakan Data > Remove Duplicates (Hapus Duplikat), atau =UNIQUE(range) di Excel 365. Alat ini lebih cepat untuk daftar yang Anda salin sebagai teks biasa."
+    },
+    {
+      "q": "Apakah daftar saya diunggah ke suatu tempat?",
+      "a": "Tidak. Baris diproses di browser Anda dan tidak dikirim, disimpan, atau ditambahkan ke alamat halaman."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Penghapus Baris Duplikat"
+    },
+    "label": {
+      "dedupe-input": "Daftar Anda (satu item per baris)",
+      "opt-keep": "Simpan",
+      "opt-sort": "Urutkan",
+      "dedupe-output": "Hasil"
+    },
+    "placeholder": {
+      "dedupe-input": "Tempelkan baris di sini"
+    },
+    "content": {
+      "tool": {
+        "label1": "<input type=\"checkbox\" id=\"opt-case\"><span>Abaikan huruf besar-kecil</span>",
+        "label2": "<input type=\"checkbox\" id=\"opt-trim\"><span>Pangkas spasi saat membandingkan</span>",
+        "label3": "<input type=\"checkbox\" id=\"opt-trim-output\"><span>Pangkas output</span>",
+        "label4": "<input type=\"checkbox\" id=\"opt-empty\"><span>Hapus baris kosong</span>",
+        "div1": "<span id=\"result-header-text\">Duplikat dihapus</span>"
+      },
+      "which-options-to-use": {
+        "heading": "Opsi Mana yang Dipakai",
+        "caption1": "Opsi yang disarankan untuk daftar umum",
+        "th1": "Daftar Anda",
+        "th2": "Opsi yang disarankan",
+        "td1": "Alamat email",
+        "td2": "Abaikan huruf besar-kecil, Pangkas spasi, Pangkas output, Hapus baris kosong",
+        "td3": "Kata kunci atau tag",
+        "td4": "Abaikan huruf besar-kecil, Pangkas spasi, urutkan A sampai Z",
+        "td5": "Kode produk atau ID",
+        "td6": "Hanya Pangkas spasi (huruf besar-kecil bisa berpengaruh)",
+        "td7": "Baris log atau ekspor dengan entri terbaru di bawah",
+        "td8": "Simpan kemunculan terakhir",
+        "td9": "Kode atau konfigurasi",
+        "td10": "Tanpa opsi: setiap karakter diperhitungkan",
+        "p1": "Hasilnya mempertahankan setiap baris persis seperti yang Anda tulis kecuali Anda mengaktifkan Pangkas output. Dengan begitu, baris yang berindentasi atau yang memiliki spasi akhir yang bermakna tidak berubah hanya karena spasi diabaikan saat membandingkan."
+      },
+      "other-ways-to-remove-duplicates": {
+        "heading": "Cara Lain Menghapus Duplikat",
+        "li1": "<strong>Command line:</strong> <code>sort -u file.txt</code> menghapus duplikat tetapi mengurutkan berkasnya; <code>awk '!seen[$0]++' file.txt</code> mempertahankan urutan asli.",
+        "li2": "<strong>Spreadsheet:</strong> perintah Remove Duplicates atau fungsi UNIQUE di Excel, dan UNIQUE di Google Sheets.",
+        "li3": "<strong>Membandingkan dua daftar:</strong> untuk melihat apa yang berubah di antara dua versi, bukan apa yang berulang, gunakan <a href=\"/tools/text-diff-checker/\">pembanding teks</a>.",
+        "p1": "Teks Anda tetap di perangkat Anda: teks diproses di browser dan tidak disimpan atau dikirim ke mana pun."
+      }
+    },
+    "option": {
+      "opt-keep": {
+        "first": "Kemunculan pertama",
+        "last": "Kemunculan terakhir"
+      },
+      "opt-sort": {
+        "none": "Pertahankan urutan asli",
+        "asc": "A sampai Z",
+        "desc": "Z sampai A"
+      }
+    },
+    "text": {
+      "example-btn": "Coba contoh",
+      "clear-btn": "Hapus",
+      "copy-output-btn": "Salin hasil",
+      "download-btn": "Unduh .txt"
+    }
+  },
+  "client": {
+    "example": "apel\nPisang\napel\nceri\n pisang\n\nCeri\nkurma\n\napel",
+    "result": {
+      "removed": {
+        "other": "{{n}} duplikat dihapus"
+      }
+    },
+    "note": {
+      "lines": {
+        "other": "{{n}} baris"
+      },
+      "inOut": "{{in}} masuk, {{out}} keluar",
+      "emptyRemoved": {
+        "other": "{{n}} baris kosong dihapus"
+      },
+      "emptyLine": "(baris kosong)",
+      "mostRepeated": "Paling sering berulang: {{list}}"
+    },
+    "copied": "Hasil disalin"
+  }
+}

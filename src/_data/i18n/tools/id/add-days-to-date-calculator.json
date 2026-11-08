@@ -1,0 +1,245 @@
+{
+  "listing": {
+    "name": "Tambah atau Kurangi Hari dari Tanggal",
+    "shortName": "Tambah/Kurangi Hari",
+    "description": "Tambahkan atau kurangi hari, minggu, bulan, atau tahun dari tanggal mulai mana pun. Tersedia mode khusus hari kerja.",
+    "shortDescription": "Tambahkan atau kurangi hari, minggu, bulan, atau tahun dari tanggal mulai mana pun. Tersedia mode khusus hari kerja.",
+    "keywords": [
+      "menambah hari ke tanggal",
+      "mengurangi hari dari tanggal",
+      "tanggal ditambah hari",
+      "menambah hari kerja",
+      "kalkulator tanggal di masa depan"
+    ]
+  },
+  "title": "Kalkulator Tambah/Kurangi Hari dari Tanggal | ToolsBuilt",
+  "description": "Kalkulator gratis untuk menambah atau mengurangi hari, minggu, bulan, atau tahun dari tanggal mulai mana pun, dengan opsi hanya menghitung hari kerja.",
+  "h1": "Tambah atau Kurangi Hari dari Tanggal",
+  "quickAnswer": "Untuk menambah atau mengurangi hari dari suatu tanggal, masukkan tanggal mulai, tentukan jumlah hari, minggu, bulan, atau tahun, lalu pilih tambah atau kurang. Aktifkan hari kerja untuk melewati Sabtu dan Minggu. Alat tambah atau kurangi hari dari tanggal ini langsung menghitung tanggal hasil, nama hari, dan jumlah hari kalender yang dilalui secara lokal di browser Anda.",
+  "formula": {
+    "title": "Rumus Aritmetika Tanggal & Penyesuaian Akhir Bulan",
+    "expression": "Tanggal Target = Tanggal Mulai ± (Jumlah × Interval Satuan)",
+    "explanation": "Hari dan minggu kalender bertambah berurutan dalam langkah UTC 24 jam. Perhitungan bulan dan tahun menggeser indeks bulan sambil menyesuaikan kelebihan hari ke hari terakhir bulan target. Mode hari kerja bertambah hari demi hari sambil melewati Sabtu dan Minggu."
+  },
+  "workedExamples": [
+    {
+      "title": "Menambah 10 Hari Kerja",
+      "inputs": [
+        "Tanggal mulai: Jumat, 16 Oktober 2026",
+        "Operasi: Tambah 10 Hari Kerja"
+      ],
+      "steps": [
+        "Lewati akhir pekan: 17-18 Okt (Sabtu-Minggu)",
+        "Hitung 5 hari kerja: 19 Okt sampai 23 Okt",
+        "Lewati akhir pekan: 24-25 Okt (Sabtu-Minggu)",
+        "Hitung sisa 5 hari kerja: 26 Okt sampai 30 Okt"
+      ],
+      "result": "Jumat, 30 Oktober 2026 (14 hari kalender dilalui: 10 hari kerja, 4 akhir pekan)"
+    },
+    {
+      "title": "Menambah 1 Bulan ke Akhir Bulan (Disesuaikan)",
+      "inputs": [
+        "Tanggal mulai: Minggu, 31 Januari 2027",
+        "Operasi: Tambah 1 Bulan"
+      ],
+      "steps": [
+        "Naikkan bulan dari Januari ke Februari 2027",
+        "2027 adalah tahun biasa (bukan kabisat), jadi Februari punya 28 hari",
+        "Sesuaikan tanggal 31 menjadi hari terakhir bulan, yaitu 28"
+      ],
+      "result": "Minggu, 28 Februari 2027 (28 hari kalender dilalui)"
+    },
+    {
+      "title": "Mengurangi 90 Hari Kalender",
+      "inputs": [
+        "Tanggal mulai: Sabtu, 17 Oktober 2026",
+        "Operasi: Kurangi 90 Hari Kalender"
+      ],
+      "steps": [
+        "Mundur 90 hari kalender berturut-turut",
+        "Melewati Oktober, September, Agustus, dan Juli"
+      ],
+      "result": "Minggu, 19 Juli 2026 (90 hari kalender dilalui)"
+    },
+    {
+      "title": "Menambah 3 Minggu",
+      "inputs": [
+        "Tanggal mulai: Minggu, 1 Maret 2026",
+        "Operasi: Tambah 3 Minggu"
+      ],
+      "steps": [
+        "Ubah 3 minggu menjadi 21 hari kalender (3 × 7)",
+        "Maju 21 hari kalender dari 1 Maret 2026"
+      ],
+      "result": "Minggu, 22 Maret 2026 (21 hari kalender dilalui)"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Menyamakan 30 Hari dengan 1 Bulan",
+      "description": "Panjang bulan kalender bervariasi antara 28 dan 31 hari. Menambah 30 hari ke 1 Januari jatuh pada 31 Januari, sedangkan menambah 1 bulan jatuh pada 1 Februari."
+    },
+    {
+      "title": "Menganggap 5 Hari Kerja Sama dengan 5 Hari Kalender",
+      "description": "Hari kerja melewati Sabtu dan Minggu. Menambah 5 hari kerja selalu mencakup minimal 7 hari kalender."
+    },
+    {
+      "title": "Kelebihan Hari Akhir Bulan yang Tidak Disesuaikan",
+      "description": "Menambah 1 bulan ke 31 Januari harus disesuaikan menjadi 28 Februari (atau 29 di tahun kabisat). Perhitungan yang naif bisa tanpa sengaja bergeser ke bulan Maret."
+    },
+    {
+      "title": "Mengabaikan Efek Daylight Saving",
+      "description": "Penambahan 24 jam waktu lokal bisa bergeser 1 jam pada hari pergantian jam. Normalisasi ke tengah malam UTC menjamin kalender tetap tepat."
+    }
+  ],
+  "sources": [
+    {
+      "name": "Standar Aritmetika Kalender ISO 8601"
+    },
+    {
+      "name": "US Naval Observatory: Kalender Astronomis & Tahun Kabisat"
+    },
+    {
+      "name": "W3C Note on Date and Time Formats"
+    }
+  ],
+  "howto": {
+    "name": "Cara Menambah atau Mengurangi Hari dari Suatu Tanggal",
+    "description": "Petunjuk langkah demi langkah untuk menghitung tanggal target dengan hari kalender atau hanya hari kerja.",
+    "steps": [
+      {
+        "name": "Pilih Tanggal Mulai",
+        "text": "Pilih tanggal mulai atau klik 'Hari ini' untuk memakai tanggal saat ini."
+      },
+      {
+        "name": "Pilih Operasi",
+        "text": "Pilih Tambah (+) untuk ke masa depan atau Kurangi (-) untuk ke masa lalu."
+      },
+      {
+        "name": "Masukkan Jumlah dan Satuan Waktu",
+        "text": "Masukkan angka lalu pilih hari, minggu, bulan, atau tahun dari menu."
+      },
+      {
+        "name": "Saring Hari Kerja (Opsional)",
+        "text": "Centang 'Hitung hari kerja saja' jika Anda ingin melewati Sabtu dan Minggu."
+      },
+      {
+        "name": "Tinjau Tanggal Target dan Rinciannya",
+        "text": "Lihat tanggal hasil, nama harinya, dan total durasi yang dilalui."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Bagaimana perhitungan hari kerja menyaring akhir pekan?",
+      "a": "Jika Anda mencentang opsi hari kerja, kalkulator melewati Sabtu dan Minggu selama perhitungan. Jika menambah 5 hari kerja mulai hari Jumat, alat ini maju melewati Senin sampai Jumat dan menghasilkan target hari kerja yang tepat."
+    },
+    {
+      "q": "Bagaimana tahun kabisat ditangani saat menambah tahun atau bulan?",
+      "a": "Alat ini memperhitungkan struktur tahun kabisat secara otomatis. Menambah 365 hari kalender yang melewati tahun kabisat ikut memperhitungkan 29 Februari, sehingga kalender tetap tepat tanpa koreksi manual."
+    },
+    {
+      "q": "Bisakah saya menghitung tanggal di masa lalu dengan mengurangi hari?",
+      "a": "Bisa, cukup pilih Kurangi dari menu operasi. Anda bisa menghitung mundur dalam hari, minggu, bulan, atau tahun untuk menentukan tanggal lampau yang tepat, misalnya untuk awal kontrak, masa pemberitahuan, atau riset sejarah."
+    },
+    {
+      "q": "Apa yang terjadi jika saya menambah satu bulan ke 31 Januari?",
+      "a": "Perhitungan kalender standar menyesuaikan kelebihan akhir bulan ke hari valid terakhir di bulan target. Misalnya, menambah satu bulan ke 31 Januari jatuh pada 28 Februari (atau 29 Februari di tahun kabisat)."
+    },
+    {
+      "q": "Apakah data tanggal yang saya masukkan disimpan di server eksternal?",
+      "a": "Tidak. Semua perhitungan tanggal dilakukan secara lokal di dalam browser web Anda menggunakan JavaScript sisi klien. Tanggal yang Anda masukkan maupun hasil perhitungannya tidak dikirim ke server eksternal atau dicatat di database."
+    },
+    {
+      "q": "Bagaimana kalkulator menangani pengurangan tanggal?",
+      "a": "Memilih Kurangi akan mundur dalam waktu melalui hari, minggu, bulan, atau tahun. Algoritmanya tetap menghormati batas bulan dan hari kabisat secara simetris ke arah sebaliknya."
+    },
+    {
+      "q": "Apakah penghitung hari kerja melewati hari libur nasional?",
+      "a": "Alat ini otomatis mengecualikan akhir pekan (Sabtu dan Minggu). Hari libur bank dan hari libur nasional berbeda di setiap negara dan wilayah sehingga tidak dikurangkan secara otomatis."
+    }
+  ],
+  "body": {
+    "label": {
+      "startDate": "Tanggal Mulai",
+      "operation": "Operasi",
+      "amount": "Jumlah",
+      "unit": "Satuan"
+    },
+    "text": {
+      "todayBtn": "Hari ini",
+      "businessDaysLabel": "<input type=\"checkbox\" id=\"businessDaysOnly\" data-param=\"biz\" autocomplete=\"off\">\n      <span>Hitung hari kerja saja (tanpa Sabtu &amp; Minggu)</span>",
+      "businessDaysNote": "Hari kerja berlaku untuk hari dan minggu. Bulan dan tahun selalu memakai tanggal kalender.",
+      "calcBtn": "Hitung",
+      "resetBtn": "Atur Ulang",
+      "copyResultBtn": "<span data-icon=\"copy\"></span> Salin Hasil",
+      "primaryResult": "Pilih opsi untuk menghitung..."
+    },
+    "option": {
+      "operation": {
+        "add": "Tambah (+)",
+        "subtract": "Kurangi (-)"
+      },
+      "unit": {
+        "days": "Hari",
+        "weeks": "Minggu",
+        "months": "Bulan",
+        "years": "Tahun"
+      }
+    },
+    "content": {
+      "tool": {
+        "span1": "Tanggal Target Hasil"
+      },
+      "why-is-accurate-date-arithmetic-essential": {
+        "heading": "Mengapa Perhitungan Tanggal yang Akurat Itu Penting?",
+        "p1": "Perhitungan tanggal yang akurat adalah kebutuhan dasar dalam perencanaan proyek, perjanjian hukum, proyeksi keuangan, dan penjadwalan pribadi. Menghitung hari secara manual di kalender sering menimbulkan kesalahan karena panjang bulan yang berbeda-beda, akhir pekan, dan hari kabisat. Perhitungan tanggal otomatis di sisi klien memastikan posisi kalender selalu tepat."
+      },
+      "how-business-day-filtering-works": {
+        "heading": "Cara Kerja Penyaringan Hari Kerja",
+        "p1": "Dalam merencanakan operasional bisnis, hari kalender biasa sering tidak mencerminkan jadwal kerja yang sebenarnya. Hasil kerja proyek, syarat pembayaran, dan masa pemberitahuan hukum lazim dinyatakan dalam hari kerja. Saat filter hari kerja aktif, kalkulator melewati Sabtu dan Minggu, sehingga tenggat waktu sesuai dengan hari kerja operasional yang sebenarnya."
+      }
+    },
+    "title": {
+      "copyResultBtn": "Salin hasil ke papan klip"
+    },
+    "ariaLabel": {
+      "copyResultBtn": "Salin hasil ke papan klip"
+    }
+  },
+  "client": {
+    "units": {
+      "days": "hari",
+      "weeks": "minggu",
+      "months": "bulan",
+      "years": "tahun"
+    },
+    "errors": {
+      "invalidStart": "Masukkan tanggal mulai yang valid (YYYY-MM-DD).",
+      "invalidAmount": "Jumlah \"{{amount}}\" tidak valid. Masukkan bilangan bulat tidak negatif (mis. 5, bukan \"5abc\" atau \"1.9\").",
+      "nonNegative": "Masukkan bilangan bulat tidak negatif yang valid.",
+      "tooLarge": "Jumlah {{amount}} {{unit}} melebihi rentang maksimum yang didukung, sekitar ~10,000 tahun. Masukkan nilai yang lebih kecil.",
+      "unsupportedUnit": "Satuan kalender tidak didukung: \"{{unit}}\".",
+      "missingStart": "Masukkan tanggal mulai yang valid.",
+      "missingAmount": "Masukkan jumlah tidak negatif yang valid."
+    },
+    "stats": {
+      "operationLabel": "Operasi",
+      "operation": {
+        "add": "Ditambah {{amount}} {{unit}}",
+        "subtract": "Dikurangi {{amount}} {{unit}}",
+        "addBusiness": "Ditambah {{amount}} {{unit}} (Hanya Hari Kerja)",
+        "subtractBusiness": "Dikurangi {{amount}} {{unit}} (Hanya Hari Kerja)"
+      },
+      "isoDate": "Tanggal ISO 8601",
+      "elapsedDays": "Hari Kalender yang Dilalui",
+      "businessDays": "Hari Kerja",
+      "daysValue": "{{n}} Hari",
+      "businessDaysValue": "{{n}} Hari ({{weekend}} Akhir Pekan)"
+    },
+    "copy": {
+      "result": "Tanggal hasil: {{date}} ({{iso}}). Hari kalender yang dilalui: {{elapsed}}. Hari kerja: {{business}}.",
+      "toast": "Tanggal target disalin ke papan klip"
+    }
+  }
+}

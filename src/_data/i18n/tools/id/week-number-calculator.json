@@ -1,0 +1,270 @@
+{
+  "listing": {
+    "name": "Kalkulator Nomor Minggu",
+    "shortName": "Nomor Minggu",
+    "description": "Lihat nomor minggu ISO 8601 hari ini, cari minggu dari tanggal mana pun, dan tampilkan tanggal Senin sampai Minggu dari minggu mana pun.",
+    "shortDescription": "Nomor minggu ISO dari tanggal mana pun, rentang tanggal per minggu, dan 52 atau 53 minggu per tahun.",
+    "keywords": [
+      "nomor minggu",
+      "sekarang minggu ke berapa",
+      "nomor minggu ISO",
+      "kalkulator nomor minggu",
+      "minggu ke berapa hari ini",
+      "jumlah minggu dalam setahun",
+      "minggu ke-53"
+    ]
+  },
+  "title": "Kalkulator Nomor Minggu: Sekarang Minggu ke Berapa? (ISO)",
+  "description": "Kalkulator nomor minggu ISO 8601: lihat minggu ke berapa hari ini, cari minggu untuk tanggal apa pun, tanggal Senin-Minggu, dan tahun 52 atau 53 minggu.",
+  "h1": "Kalkulator Nomor Minggu",
+  "quickAnswer": "Minggu ISO 8601 dimulai hari Senin, dan minggu ke-1 adalah minggu yang berisi hari Kamis pertama dalam tahun itu (atau, sama saja, minggu yang berisi 4 Januari). Jadi 1 Januari 2026 berada di 2026-W01, tetapi 1 Januari 2027 masih berada di 2026-W53, dan 30 Desember 2024 sudah termasuk 2025-W01. Menurut kalkulator nomor minggu ini, sebagian besar tahun memiliki 52 minggu ISO; 2026 memiliki 53.",
+  "formula": {
+    "title": "Aturan Nomor Minggu ISO 8601",
+    "expression": "Minggu ISO = ⌊(hari ke- dalam tahun dari Kamis di minggu itu − 1) ÷ 7⌋ + 1, pada tahun tempat Kamis itu berada",
+    "explanation": "Cari hari Kamis dari minggu Senin-sampai-Minggu tempat tanggal itu berada (tambahkan 4 dikurangi nomor hari ISO, dengan Senin = 1 dan Minggu = 7). Tahun tempat Kamis itu jatuh adalah tahun-minggu ISO, dan menghitung minggu penuh sejak 1 Januari tahun tersebut menghasilkan nomor minggunya. Suatu tahun memiliki 53 minggu ISO jika dimulai pada hari Kamis, atau jika merupakan tahun kabisat yang dimulai pada hari Rabu; 28 Desember selalu berada di minggu terakhir.",
+    "variables": [
+      {
+        "name": "Nomor hari ISO",
+        "description": "Senin = 1, Selasa = 2 … Minggu = 7. Ditulis setelah minggu, seperti 2026-W44-6 untuk hari Sabtu."
+      },
+      {
+        "name": "Tahun-minggu ISO",
+        "description": "Tahun tempat minggu itu berada. Bisa berbeda dari tahun kalender selama beberapa hari di sekitar 1 Januari."
+      },
+      {
+        "name": "Nomor minggu gaya AS",
+        "description": "Konvensi berbeda: minggu dimulai hari Minggu dan minggu ke-1 adalah minggu yang berisi 1 Januari, sehingga nomornya bisa berbeda satu dari ISO."
+      }
+    ]
+  },
+  "workedExamples": [
+    {
+      "title": "1 Januari 2026 (hari Kamis)",
+      "inputs": [
+        "Tanggal: 2026-01-01"
+      ],
+      "steps": [
+        "Tanggal itu sendiri adalah hari Kamis, jadi Kamis di minggunya berada di 2026",
+        "Kamis itu adalah Kamis pertama dalam tahun tersebut"
+      ],
+      "result": "2026-W01 (Senin 29 Desember 2025 sampai Minggu 4 Januari 2026)"
+    },
+    {
+      "title": "1 Januari 2027 (hari Jumat)",
+      "inputs": [
+        "Tanggal: 2027-01-01"
+      ],
+      "steps": [
+        "Kamis di minggunya adalah 31 Desember 2026",
+        "Jadi minggu itu termasuk tahun ISO 2026, dan merupakan minggu terakhir tahun tersebut"
+      ]
+    },
+    {
+      "title": "30 Desember 2024 (hari Senin)",
+      "inputs": [
+        "Tanggal: 2024-12-30"
+      ],
+      "steps": [
+        "Kamis di minggunya adalah 2 Januari 2025",
+        "Jadi minggu itu adalah minggu pertama tahun ISO 2025"
+      ]
+    },
+    {
+      "title": "Tanggal minggu ke-53 tahun 2026",
+      "inputs": [
+        "Tahun: 2026",
+        "Minggu: 53"
+      ],
+      "steps": [
+        "2026 dimulai pada hari Kamis, jadi memiliki 53 minggu ISO",
+        "Minggu ke-1 dimulai Senin 29 Desember 2025; tambahkan 52 × 7 hari"
+      ],
+      "result": "Senin 28 Desember 2026 sampai Minggu 3 Januari 2027"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Mengira minggu ke-1 dimulai 1 Januari",
+      "description": "Dalam ISO 8601, minggu ke-1 bisa dimulai paling awal 29 Desember atau paling lambat 4 Januari. Hari-hari di awal atau akhir tahun sering termasuk minggu dari tahun di sebelahnya."
+    },
+    {
+      "title": "Memakai tahun kalender bersama minggu ISO",
+      "description": "1 Januari 2027 adalah minggu ke-53 tahun 2026, bukan minggu ke-53 tahun 2027. Selalu tuliskan tahun-minggu ISO bersama nomor minggunya (2026-W53). Dalam kode, gunakan format tahun-minggu (<code>%G</code> dengan <code>%V</code> di strftime, atau <code>IYYY</code> dengan <code>IW</code> di PostgreSQL dan Oracle), bukan tahun kalender."
+    },
+    {
+      "title": "Mencampur nomor minggu AS dan ISO",
+      "description": "Kalender AS dan sebagian spreadsheet memulai minggu pada hari Minggu dan menghitung minggu yang berisi 1 Januari sebagai minggu ke-1. Tanggal yang sama bisa berselisih satu minggu di kedua sistem. <code>WEEKNUM</code> di Excel memakai aturan AS secara default; <code>ISOWEEKNUM</code> memakai ISO 8601."
+    },
+    {
+      "title": "Mengira setiap tahun memiliki 52 minggu",
+      "description": "52 × 7 = 364 hari, jadi sisa satu atau dua hari terkumpul menjadi minggu ISO ke-53 setiap lima atau enam tahun. 2020, 2026, dan 2032 semuanya memiliki 53 minggu, yang penting untuk penggajian mingguan, pelaporan, dan kalender fiskal."
+    },
+    {
+      "title": "Menghitung dengan waktu lokal di sekitar tengah malam",
+      "description": "Jika kode menghitung minggu dari timestamp UTC padahal pengguna berada di zona waktu lain, Minggu malam atau Senin pagi bisa masuk ke minggu yang salah. Ubah dulu ke tanggal lokal pengguna, baru ambil nomor minggunya."
+    }
+  ],
+  "sources": [
+    {
+      "name": "ISO 8601 Date and time format (ISO)"
+    },
+    {
+      "name": "W3C HTML Standard: Weeks (valid week string)"
+    },
+    {
+      "name": "Microsoft Support: Fungsi ISOWEEKNUM"
+    },
+    {
+      "name": "Microsoft Support: Fungsi WEEKNUM"
+    }
+  ],
+  "howto": {
+    "name": "Cara Mencari Nomor Minggu dari Suatu Tanggal",
+    "description": "Cari minggu ISO 8601 dari tanggal apa pun, atau tanggal-tanggal dalam minggu mana pun.",
+    "steps": [
+      {
+        "name": "Cek minggu ini",
+        "text": "Bagian atas alat menampilkan minggu ISO saat ini beserta tanggal Senin sampai Minggu-nya."
+      },
+      {
+        "name": "Masukkan tanggal",
+        "text": "Pilih tanggal apa pun untuk melihat minggu ISO, tahun-minggu ISO, nomor hari, dan nomor minggu gaya AS."
+      },
+      {
+        "name": "Cari tanggal-tanggal dalam satu minggu",
+        "text": "Masukkan tahun dan nomor minggu untuk melihat tanggal Senin sampai Minggu dari minggu ISO itu dan apakah tahunnya memiliki 52 atau 53 minggu."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Hari ini minggu ke berapa?",
+      "a": "Kotak di bagian atas kalkulator menampilkan nomor minggu ISO 8601 hari ini berdasarkan tanggal di perangkat Anda, beserta tanggal Senin dan Minggu-nya."
+    },
+    {
+      "q": "Bagaimana nomor minggu dihitung?",
+      "a": "Menurut ISO 8601, minggu berlangsung dari Senin sampai Minggu dan minggu ke-1 adalah minggu yang berisi hari Kamis pertama dalam tahun itu. Setiap minggu termasuk ke tahun tempat hari Kamis-nya berada."
+    },
+    {
+      "q": "Tahun mana saja yang memiliki 53 minggu?",
+      "a": "Suatu tahun memiliki 53 minggu ISO jika 1 Januari jatuh pada hari Kamis, atau jika tahun kabisat dan 1 Januari jatuh pada hari Rabu. Contoh terbaru dan yang akan datang adalah 2015, 2020, 2026, 2032, dan 2037."
+    },
+    {
+      "q": "Apakah minggu dimulai hari Senin atau Minggu?",
+      "a": "ISO 8601, yang dipakai di Eropa dan sebagian besar Asia, memulai minggu pada hari Senin. Di AS, Kanada, dan beberapa negara lain, kalender biasanya memulai minggu pada hari Minggu. Kalkulator menampilkan nomor ISO dan, dengan label terpisah, nomor gaya AS."
+    },
+    {
+      "q": "Tanggal berapa saja minggu ke-1 tahun 2026?",
+      "a": "Minggu ISO ke-1 tahun 2026 berlangsung dari Senin 29 Desember 2025 sampai Minggu 4 Januari 2026."
+    },
+    {
+      "q": "Apa perbedaan ISOWEEKNUM dan WEEKNUM di Excel?",
+      "a": "ISOWEEKNUM menghasilkan minggu ISO 8601 (dimulai Senin, aturan Kamis pertama). WEEKNUM dengan tipe default menghitung minggu dari hari Minggu, dengan minggu ke-1 berisi 1 Januari, sesuai dengan nomor gaya AS di sini."
+    },
+    {
+      "q": "Bagaimana cara menulis tanggal minggu ISO?",
+      "a": "Tulis tahun-minggu ISO, W, nomor minggu dua digit, dan nomor hari jika perlu: 2026-W44 untuk minggunya atau 2026-W44-6 untuk hari Sabtu-nya. Bentuk ringkasnya 2026W446."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Kalkulator Nomor Minggu",
+      "copy-result-btn": "Salin hasil ke papan klip"
+    },
+    "text": {
+      "week-today": "<span class=\"week-today-label\">Minggu ini (ISO 8601)</span>\n        <span class=\"week-today-value\" id=\"today-week\">–</span>\n        <span class=\"week-today-range\" id=\"today-range\"></span>",
+      "today-btn": "Hari ini",
+      "reset-btn": "Atur Ulang",
+      "result-header-text": "Minggu ISO",
+      "copy-result-btn": "<span data-icon=\"copy\"></span> Salin Hasil"
+    },
+    "content": {
+      "week-number-of-a-date": {
+        "heading": "Nomor minggu dari suatu tanggal",
+        "button1": "Cari Nomor Minggu"
+      },
+      "dates-in-a-week": {
+        "heading": "Tanggal dalam satu minggu"
+      },
+      "how-many-weeks-are-in-a": {
+        "heading": "Berapa Minggu dalam Setahun?",
+        "p1": "Sebagian besar tahun memiliki 52 minggu ISO. Minggu ke-53 muncul jika tahun dimulai pada hari Kamis, atau jika tahun kabisat dimulai pada hari Rabu, karena saat itulah tahun tersebut berisi 53 hari Kamis. Ini terjadi 71 kali dalam setiap 400 tahun, kira-kira setiap lima atau enam tahun.",
+        "caption1": "Jumlah minggu ISO per tahun, 2024 sampai 2032",
+        "th1": "Tahun ISO",
+        "th2": "Minggu",
+        "th3": "Minggu ke-1 dimulai",
+        "th4": "1 Januari jatuh pada",
+        "td1": "Sen 1 Jan 2024",
+        "td2": "Senin",
+        "td3": "Sen 30 Des 2024",
+        "td4": "Rabu",
+        "td5": "Sen 29 Des 2025",
+        "td6": "Kamis",
+        "td7": "Sen 4 Jan 2027",
+        "td8": "Jumat",
+        "td9": "Sen 3 Jan 2028",
+        "td10": "Sabtu",
+        "td11": "Sen 1 Jan 2029",
+        "td12": "Senin",
+        "td13": "Sen 31 Des 2029",
+        "td14": "Selasa",
+        "td15": "Sen 30 Des 2030",
+        "td16": "Rabu",
+        "td17": "Sen 29 Des 2031",
+        "td18": "Kamis"
+      },
+      "iso-vs-us-week-numbers": {
+        "heading": "Nomor Minggu ISO vs AS",
+        "p1": "Sistem ISO dipakai untuk perencanaan bisnis, manufaktur, logistik, dan statistik pemerintah di Eropa dan sebagian besar dunia. Setiap minggu terdiri atas tepat tujuh hari dan termasuk ke tepat satu tahun, sehingga laporan berbasis minggu selalu sesuai. Konvensi AS lebih mudah dibaca dari kalender dinding tetapi menghasilkan minggu yang tidak penuh: minggu ke-1 bisa hanya berisi satu hari Sabtu, dan satu tahun bisa memiliki 53 atau bahkan 54 minggu bernomor.",
+        "li1": "<strong>Perencanaan lintas negara:</strong> sebutkan \"minggu ISO\" di email dan kontrak, dan sertakan tahun-minggunya (2026-W53) agar tidak ambigu di akhir tahun.",
+        "li2": "<strong>Spreadsheet:</strong> gunakan <code>ISOWEEKNUM</code> di Excel dan Google Sheets untuk minggu ISO, atau <code>WEEKNUM(date, 21)</code>, yang juga mengikuti ISO 8601.",
+        "li3": "<strong>Kode:</strong> JavaScript tidak memiliki fungsi nomor minggu bawaan, Python menyediakan <code>date.isocalendar()</code>, dan PostgreSQL memiliki <code>extract(week from date)</code> dengan <code>isoyear</code> untuk tahun-minggunya.",
+        "li4": "<strong>Formulir HTML:</strong> kolom <code>&lt;input type=\"week\"&gt;</code> menggunakan format ISO, seperti 2026-W44."
+      }
+    },
+    "label": {
+      "week-date": "Tanggal <span class=\"text-accent\">*</span>",
+      "range-year": "Tahun ISO <span class=\"text-accent\">*</span>",
+      "range-week": "Nomor minggu <span class=\"text-accent\">*</span>"
+    },
+    "title": {
+      "copy-result-btn": "Salin hasil ke papan klip"
+    }
+  },
+  "client": {
+    "errors": {
+      "yearRange": "Masukkan tahun antara 1 dan 9999.",
+      "weekRange": "{{year}} memiliki {{max}} minggu ISO. Masukkan nomor minggu dari 1 sampai {{max}}.",
+      "invalidDate": "Masukkan tanggal yang valid (YYYY-MM-DD).",
+      "pickDate": "Pilih tanggal untuk mencari nomor minggunya.",
+      "year": "Masukkan tahun empat digit, misalnya 2026.",
+      "week": "Masukkan nomor minggu dari 1 sampai 53."
+    },
+    "today": {
+      "week": "Minggu ke-{{week}}",
+      "range": "{{label}} · {{start}} – {{end}} · hari ini {{weekday}} (hari ke-{{day}})"
+    },
+    "result": {
+      "header": "{{date}} berada di minggu ISO {{week}}",
+      "weekYearDiffers": "Tanggal ini berada di tahun {{year}}, tetapi minggunya termasuk tahun ISO {{weekYear}} karena hari Kamis di minggu itu jatuh pada {{weekYear}}."
+    },
+    "stats": {
+      "week": "Minggu (Sen – Min)",
+      "isoWeekDate": "Tanggal minggu ISO",
+      "isoWeekYear": "Tahun-minggu ISO",
+      "isoWeekYearValue": "{{year}} ({{weeks}} minggu)",
+      "weekday": "Hari",
+      "weekdayValue": "{{weekday}} (hari ISO ke-{{day}})",
+      "usWeek": "Minggu gaya AS (mulai Minggu, minggu ke-1 berisi 1 Jan)",
+      "usWeekValue": "Minggu ke-{{week}} tahun {{year}}",
+      "dayOfYear": "Hari ke- dalam tahun",
+      "dayOfYearValue": "{{day}} dari {{total}}"
+    },
+    "copy": {
+      "result": "{{date}} berada di minggu ISO {{label}} ({{start}} sampai {{end}}). Minggu gaya AS: {{usWeek}}."
+    },
+    "range": {
+      "summary": "{{label}}: {{start}} sampai {{end}} · {{year}} memiliki {{weeks}} minggu ISO"
+    }
+  }
+}
