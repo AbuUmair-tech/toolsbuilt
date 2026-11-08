@@ -113,7 +113,70 @@
         "IN": "FY 2025-26 (AY 2026-27)",
         "GB": "Tahun pajak 2026/27",
         "US": "Tahun pajak 2026"
-      }
+      },
+      "formLabel": "Kalkulator pajak gaji global",
+      "country": "Negara",
+      "countryHint": "Ketik untuk mencari. Negara tanpa aturan bawaan beralih ke Mode Pajak Kustom.",
+      "taxYear": "Tahun pajak",
+      "salary": "Gaji kotor",
+      "salaryHint": "Penghasilan Anda sebelum pajak dan potongan, untuk periode yang dipilih di bawah.",
+      "period": "Gaji dimasukkan per",
+      "periods": {
+        "monthly": "Bulan",
+        "annual": "Tahun",
+        "hourly": "Jam"
+      },
+      "hours": "Jam per minggu",
+      "status": "Status pelaporan",
+      "calculate": "Hitung",
+      "reset": "Atur ulang",
+      "custom": {
+        "currency": "Mata uang",
+        "template": "Mulai dari templat",
+        "templates": {
+          "progressive": "Lapisan progresif (contoh)",
+          "flat": "Pajak flat (contoh)"
+        },
+        "apply": "Gunakan templat",
+        "brackets": "Lapisan tarif pajak penghasilan",
+        "bracketsHint": "Penghasilan kena pajak tahunan. Kosongkan “Sampai” pada lapisan terakhir. Celah di antara lapisan dikenai pajak 0%.",
+        "from": "Dari",
+        "to": "Sampai",
+        "rate": "Tarif %",
+        "actions": "Aksi",
+        "addBracket": "Tambah lapisan",
+        "allowance": "Penghasilan bebas pajak (per tahun)",
+        "deduction": "Potongan lain sebelum pajak (per tahun)",
+        "social": "Jaminan sosial (% dari gaji kotor)",
+        "socialCap": "Jaminan sosial berlaku hingga (per tahun, opsional)",
+        "pension": "Iuran pensiun (% dari gaji kotor, sebelum pajak)",
+        "levies": "Pungutan lain",
+        "leviesHint": "Biaya tambahan sebagai persentase dari gaji kotor atau pajak penghasilan (misalnya pajak tambahan, pajak gereja, atau pungutan kesehatan).",
+        "addLevy": "Tambah pungutan"
+      },
+      "result": {
+        "header": "Gaji bersih Anda",
+        "copy": "Salin",
+        "netAnnual": "Gaji bersih per tahun",
+        "totalTax": "Total pajak dan iuran per tahun",
+        "effectiveRate": "Tarif pajak efektif",
+        "marginalRate": "Tarif pajak marginal",
+        "chartTitle": "Ke mana gaji Anda pergi",
+        "breakdown": "Rincian pembayaran",
+        "item": "Item",
+        "bands": "Pajak penghasilan lapisan demi lapisan",
+        "band": "Penghasilan kena pajak",
+        "rate": "Tarif",
+        "inBand": "Penghasilan di lapisan",
+        "bandTax": "Pajak"
+      },
+      "views": {
+        "annual": "Tahun",
+        "monthly": "Bulan",
+        "weekly": "Minggu"
+      },
+      "disclaimerTitle": "Ini hanya perkiraan, bukan nasihat pajak",
+      "disclaimer": "Hasil ini adalah perkiraan untuk satu karyawan tanpa penghasilan lain, berdasarkan aturan yang ditampilkan dan opsi yang Anda pilih. Pajak sebenarnya bergantung pada kondisi lengkap Anda, pajak daerah, dan penggajian perusahaan Anda. Konsultasikan dengan otoritas pajak atau penasihat yang berkualifikasi sebelum mengambil keputusan."
     }
   },
   "client": {
@@ -146,7 +209,13 @@
         "noData": "Data pajak tidak termuat.",
         "unknownStatus": "Status pelaporan \"{{status}}\" tidak dikenal.",
         "salaryMin": "Masukkan gaji 0 atau lebih.",
-        "period": "Pilih apakah gajinya bulanan atau tahunan."
+        "period": "Pilih apakah gajinya bulanan atau tahunan.",
+        "hours": "Masukkan jam per minggu antara 1 dan 168.",
+        "customNoBrackets": "Tambahkan setidaknya satu lapisan tarif pajak.",
+        "customFrom": "Lapisan {{row}}: masukkan jumlah “Dari” sebesar 0 atau lebih.",
+        "customRate": "Lapisan {{row}}: masukkan tarif antara 0 dan 100%.",
+        "customTo": "Lapisan {{row}}: “Sampai” harus lebih besar dari “Dari”.",
+        "customOverlap": "Lapisan {{row}} tumpang tindih dengan lapisan sebelumnya."
       }
     },
     "hub": {
@@ -189,7 +258,113 @@
         "US": {
           "2026": "Tahun pajak 2026"
         }
-      }
+      },
+      "noMatch": "Tidak ada negara yang cocok",
+      "badges": {
+        "builtin": "Aturan bawaan",
+        "noTax": "Tanpa pajak penghasilan",
+        "custom": "Tarif kustom"
+      },
+      "optionMax": "Dihitung hingga {{max}} per tahun.",
+      "options": {
+        "pension": {
+          "label": "Iuran pensiun (% dari gaji)"
+        },
+        "studentLoan": {
+          "label": "Pinjaman mahasiswa",
+          "choices": {
+            "none": "Tidak ada",
+            "plan1": "Plan 1",
+            "plan2": "Plan 2",
+            "plan4": "Plan 4 (Skotlandia)",
+            "plan5": "Plan 5"
+          }
+        },
+        "postgraduateLoan": {
+          "label": "Pinjaman pascasarjana"
+        },
+        "deduction80C": {
+          "label": "Investasi Pasal 80C per tahun (PPF, ELSS, EPF, asuransi jiwa)"
+        },
+        "deduction80D": {
+          "label": "Premi asuransi kesehatan Pasal 80D per tahun"
+        }
+      },
+      "lines": {
+        "incomeTax": "Pajak penghasilan",
+        "nationalInsurance": "National Insurance",
+        "plan1": "Pinjaman mahasiswa (Plan 1)",
+        "plan2": "Pinjaman mahasiswa (Plan 2)",
+        "plan4": "Pinjaman mahasiswa (Plan 4)",
+        "plan5": "Pinjaman mahasiswa (Plan 5)",
+        "postgraduateLoan": "Pinjaman pascasarjana",
+        "socialSecurity": "Social Security",
+        "medicare": "Medicare",
+        "additionalMedicare": "Pajak Medicare tambahan",
+        "social": "Jaminan sosial",
+        "pension": "Iuran pensiun",
+        "levy": "Pungutan {{n}}"
+      },
+      "deductions": {
+        "standard": "pengurangan standar",
+        "allowance": "penghasilan bebas pajak",
+        "pension": "iuran pensiun",
+        "deduction80C": "Pasal 80C",
+        "deduction80D": "Pasal 80D"
+      },
+      "note": {
+        "builtin": "{{name}}: {{label}}, tarif terakhir diperiksa pada {{date}} berdasarkan sumber resmi.",
+        "noTax": "{{name}} tidak mengenakan pajak atas gaji perorangan, sehingga pajak penghasilannya 0.",
+        "statement": "Pernyataan resmi",
+        "useCustom": "Tetap masukkan tarif kustom",
+        "customTitle": "Mode Pajak Kustom.",
+        "custom": "Aturan bawaan untuk negara ini belum tersedia — masukkan tarif pajak lokal Anda di bawah. Pengaturan Anda disimpan di browser ini dan disertakan dalam tautan hasil.",
+        "request": "Minta aturan bawaan untuk {{name}}",
+        "requestSubject": "Kalkulator pajak gaji: tolong tambahkan {{name}}"
+      },
+      "custom": {
+        "templates": {
+          "copy": "Salin {{name}}"
+        },
+        "fromRow": "Dari, lapisan {{n}}",
+        "toRow": "Sampai, lapisan {{n}}",
+        "rateRow": "Tarif %, lapisan {{n}}",
+        "removeBracket": "Hapus lapisan {{n}}",
+        "levyName": "Nama pungutan {{n}}",
+        "levyRate": "Tarif % pungutan {{n}}",
+        "levyBase": "Pungutan {{n}} dikenakan atas",
+        "levyPlaceholder": "% dari gaji kotor",
+        "baseGross": "% dari pajak penghasilan",
+        "baseTax": "Nama (misalnya pungutan kesehatan)",
+        "removeLevy": "Hapus pungutan {{n}}"
+      },
+      "errors": {
+        "salaryRequired": "Silakan masukkan gaji Anda."
+      },
+      "result": {
+        "primary": "{{net}} bersih per bulan",
+        "gross": "Gaji kotor",
+        "totalDeducted": "Total potongan",
+        "net": "Gaji bersih",
+        "taxable": "Penghasilan kena pajak: <strong>{{amount}}</strong> per tahun.",
+        "afterDeductions": "Setelah {{list}}.",
+        "rebate": "Rabat: −{{amount}}.",
+        "surcharge": "Pajak tambahan: +{{amount}}.",
+        "cess": "Cess ({{rate}}): +{{amount}}.",
+        "noTax": "{{name}} tidak mengenakan pajak penghasilan atas gaji.",
+        "range": "{{from}} sampai {{to}}",
+        "over": "Di atas {{from}}",
+        "yourBand": "(lapisan Anda)",
+        "bandsTotal": "Pajak penghasilan dari lapisan-lapisan",
+        "compareLess": "Itu {{amount}} lebih sedikit per bulan dibandingkan tahun {{year}}.",
+        "compareMore": "Itu {{amount}} lebih banyak per bulan dibandingkan tahun {{year}}.",
+        "compareSame": "Pajak sama seperti tahun {{year}}.",
+        "source": "Aturan: {{label}}, terakhir diperiksa pada {{date}}. Sumber: {{links}}.",
+        "customSource": "Dihitung dengan tarif kustom yang Anda masukkan.",
+        "copyText": "{{country}} ({{label}}): kotor {{gross}} per tahun, pajak dan iuran {{tax}}, bersih {{net}} per tahun ({{monthly}} per bulan), tarif efektif {{effective}}%.",
+        "chartTitle": "Ke mana gaji Anda pergi"
+      },
+      "status": "Status pelaporan"
     }
   },
   "countryPages": {
@@ -343,7 +518,8 @@
       "sources": [
         "GOV.UK: Income Tax rates and Personal Allowances (2026 to 2027)",
         "HMRC: Income Tax rates and allowances for current and previous tax years (income after allowances, England, Wales, Northern Ireland and Scotland)",
-        "GOV.UK: Scottish Income Tax rates 2026 to 2027"
+        "GOV.UK: Scottish Income Tax rates 2026 to 2027",
+        "GOV.UK: tarif dan ambang batas untuk pemberi kerja 2026 hingga 2027 (ambang batas National Insurance dan pinjaman mahasiswa)"
       ]
     },
     "IN": {
@@ -477,8 +653,19 @@
       "sources": [
         "Memorandum explaining the Finance Bill, 2025: slabs under section 115BAC(1A) and the section 87A rebate (₹60,000 up to ₹12,00,000) from AY 2026-27",
         "Budget Speech 2025-26, para 156 (₹75,000 standard deduction) and Part B annex table of tax examples",
-        "Memorandum explaining the Finance Bill, 2026: surcharge and 4% health and education cess for AY 2026-27"
-      ]
+        "Memorandum explaining the Finance Bill, 2026: surcharge and 4% health and education cess for AY 2026-27",
+        "Departemen Pajak Penghasilan: tarif pajak untuk perorangan (lapisan rezim lama, pajak tambahan)",
+        "Departemen Pajak Penghasilan: potongan menurut Bab VI-A (Pasal 80C dan 80D)"
+      ],
+      "statusLabel": "Rezim pajak",
+      "statuses": {
+        "new": {
+          "label": "Rezim pajak baru"
+        },
+        "old": {
+          "label": "Rezim pajak lama"
+        }
+      }
     },
     "US": {
       "label": "Tahun pajak 2026",
@@ -598,11 +785,20 @@
         },
         "married_joint": {
           "label": "Menikah lapor bersama"
+        },
+        "married_separate": {
+          "label": "Menikah, lapor terpisah"
+        },
+        "head_of_household": {
+          "label": "Kepala rumah tangga"
         }
       },
       "sources": [
         "IRS Revenue Procedure 2025-32 (2026 inflation adjustments): tax rate tables and standard deduction",
-        "IRS newsroom: penyesuaian inflasi pajak untuk tahun pajak 2026"
+        "IRS newsroom: penyesuaian inflasi pajak untuk tahun pajak 2026",
+        "SSA: batas iuran dan manfaat (batas upah Social Security 2026: $184,500)",
+        "IRS Topic 751: tarif pemotongan Social Security dan Medicare",
+        "IRS: tanya jawab tentang Pajak Medicare Tambahan (ambang batas menurut status pelaporan)"
       ]
     }
   },
