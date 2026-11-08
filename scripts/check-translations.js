@@ -117,7 +117,10 @@ function checkString(en, tr, at, keyPath, code) {
   if (tags(en) !== tags(tr)) errors.push(`[${code}] ${at}: HTML tags differ (English: ${tags(en) || 'none'}; ${code}: ${tags(tr) || 'none'})`);
   const plain = PLAIN_TEXT_FILES.test(at.split(' ')[0]) || PLAIN_TEXT_KEYS.test(keyPath);
   if (plain && ENTITY.test(tr) && !ENTITY.test(en)) errors.push(`[${code}] ${at}: HTML entity in a plain-text field (write the character itself, e.g. & not &amp;)`);
-  const limit = LIMITS[keyPath];
+  // Page titles and descriptions, including per-country pages (countryPages.<code>.title) and
+  // category SEO text (<slug>.seoTitle)
+  const limit = LIMITS[keyPath] || (/(^|\.)(countryPages\.\w+\.)(title|description)$/.test(keyPath) ? LIMITS[keyPath.split('.').pop()] : null)
+    || (/\.seoTitle$/.test(keyPath) ? LIMITS.title : /\.seoDescription$/.test(keyPath) ? LIMITS.description : null);
   if (limit && [...tr].length > limit) errors.push(`[${code}] ${at}: ${[...tr].length} characters, limit ${limit}`);
   if (tr === en && needsTranslation(en) && !SAME_OK_PATH.test(keyPath)) warnings.push(`[${code}] ${at}: same as English (untranslated?)`);
   if (/(^|\.)(workedExamples|exampleSections)/.test(keyPath) && numbers(en) !== numbers(tr)) {
