@@ -113,7 +113,70 @@
         "IN": "AF 2025-26 (AA 2026-27)",
         "GB": "Ano fiscal 2026/27",
         "US": "Ano fiscal 2026"
-      }
+      },
+      "formLabel": "Calculadora global de imposto sobre o salário",
+      "country": "País",
+      "countryHint": "Digite para pesquisar. Países sem regras integradas passam para o modo de impostos personalizados.",
+      "taxYear": "Ano fiscal",
+      "salary": "Salário bruto",
+      "salaryHint": "Seu pagamento antes de impostos e descontos, referente ao período escolhido abaixo.",
+      "period": "Salário informado por",
+      "periods": {
+        "monthly": "Mês",
+        "annual": "Ano",
+        "hourly": "Hora"
+      },
+      "hours": "Horas por semana",
+      "status": "Situação fiscal",
+      "calculate": "Calcular",
+      "reset": "Redefinir",
+      "custom": {
+        "currency": "Moeda",
+        "template": "Começar com um modelo",
+        "templates": {
+          "progressive": "Faixas progressivas (exemplo)",
+          "flat": "Imposto fixo (exemplo)"
+        },
+        "apply": "Usar modelo",
+        "brackets": "Faixas do imposto de renda",
+        "bracketsHint": "Renda anual tributável. Deixe «Até» vazio na última faixa. Intervalos entre as faixas são tributados a 0%.",
+        "from": "De",
+        "to": "Até",
+        "rate": "Alíquota %",
+        "actions": "Ações",
+        "addBracket": "Adicionar faixa",
+        "allowance": "Valor isento de imposto (por ano)",
+        "deduction": "Outras deduções antes do imposto (por ano)",
+        "social": "Previdência social (% do bruto)",
+        "socialCap": "A previdência social se aplica até (por ano, opcional)",
+        "pension": "Contribuição de previdência privada (% do bruto, antes do imposto)",
+        "levies": "Outras taxas",
+        "leviesHint": "Cobranças extras como porcentagem do salário bruto ou do imposto de renda (por exemplo, uma sobretaxa, imposto religioso ou contribuição de saúde).",
+        "addLevy": "Adicionar taxa"
+      },
+      "result": {
+        "header": "Seu salário líquido",
+        "copy": "Copiar",
+        "netAnnual": "Salário líquido por ano",
+        "totalTax": "Total de impostos e contribuições por ano",
+        "effectiveRate": "Alíquota efetiva",
+        "marginalRate": "Alíquota marginal",
+        "chartTitle": "Para onde vai seu salário",
+        "breakdown": "Detalhamento do pagamento",
+        "item": "Item",
+        "bands": "Imposto de renda faixa por faixa",
+        "band": "Renda tributável",
+        "rate": "Alíquota",
+        "inBand": "Renda na faixa",
+        "bandTax": "Imposto"
+      },
+      "views": {
+        "annual": "Ano",
+        "monthly": "Mês",
+        "weekly": "Semana"
+      },
+      "disclaimerTitle": "Esta é uma estimativa, não uma orientação fiscal",
+      "disclaimer": "Os resultados são estimativas para um único empregado sem outras rendas, com base nas regras exibidas e nas opções que você escolher. O imposto real depende de toda a sua situação, dos impostos locais e da folha de pagamento do seu empregador. Consulte a autoridade fiscal ou um profissional qualificado antes de tomar decisões."
     }
   },
   "client": {
@@ -146,7 +209,13 @@
         "noData": "Nenhum dado fiscal carregado.",
         "unknownStatus": "Tipo de declaração desconhecido \"{{status}}\".",
         "salaryMin": "Informe um salário de 0 ou mais.",
-        "period": "Escolha se o salário é mensal ou anual."
+        "period": "Escolha se o salário é mensal ou anual.",
+        "hours": "Informe entre 1 e 168 horas por semana.",
+        "customNoBrackets": "Adicione pelo menos uma faixa de imposto.",
+        "customFrom": "Faixa {{row}}: informe um valor «De» igual ou maior que 0.",
+        "customRate": "Faixa {{row}}: informe uma alíquota entre 0 e 100%.",
+        "customTo": "Faixa {{row}}: «Até» deve ser maior que «De».",
+        "customOverlap": "A faixa {{row}} se sobrepõe à faixa anterior."
       }
     },
     "hub": {
@@ -189,7 +258,113 @@
         "US": {
           "2026": "Ano fiscal 2026"
         }
-      }
+      },
+      "noMatch": "Nenhum país encontrado",
+      "badges": {
+        "builtin": "Regras integradas",
+        "noTax": "Sem imposto de renda",
+        "custom": "Alíquotas personalizadas"
+      },
+      "optionMax": "Considerado até {{max}} por ano.",
+      "options": {
+        "pension": {
+          "label": "Contribuição de previdência privada (% do salário)"
+        },
+        "studentLoan": {
+          "label": "Financiamento estudantil",
+          "choices": {
+            "none": "Nenhum",
+            "plan1": "Plan 1",
+            "plan2": "Plan 2",
+            "plan4": "Plan 4 (Escócia)",
+            "plan5": "Plan 5"
+          }
+        },
+        "postgraduateLoan": {
+          "label": "Empréstimo de pós-graduação"
+        },
+        "deduction80C": {
+          "label": "Investimentos da seção 80C por ano (PPF, ELSS, EPF, seguro de vida)"
+        },
+        "deduction80D": {
+          "label": "Prêmios de seguro saúde da seção 80D por ano"
+        }
+      },
+      "lines": {
+        "incomeTax": "Imposto de renda",
+        "nationalInsurance": "National Insurance",
+        "plan1": "Financiamento estudantil (Plan 1)",
+        "plan2": "Financiamento estudantil (Plan 2)",
+        "plan4": "Financiamento estudantil (Plan 4)",
+        "plan5": "Financiamento estudantil (Plan 5)",
+        "postgraduateLoan": "Empréstimo de pós-graduação",
+        "socialSecurity": "Social Security",
+        "medicare": "Medicare",
+        "additionalMedicare": "Imposto adicional do Medicare",
+        "social": "Previdência social",
+        "pension": "Contribuição de previdência privada",
+        "levy": "Taxa {{n}}"
+      },
+      "deductions": {
+        "standard": "dedução padrão",
+        "allowance": "valor isento de imposto",
+        "pension": "contribuição de previdência privada",
+        "deduction80C": "seção 80C",
+        "deduction80D": "seção 80D"
+      },
+      "note": {
+        "builtin": "{{name}}: {{label}}, alíquotas verificadas pela última vez em {{date}} em fontes oficiais.",
+        "noTax": "{{name}} não tributa os salários de pessoas físicas, então o imposto de renda é 0.",
+        "statement": "Documento oficial",
+        "useCustom": "Informar alíquotas personalizadas mesmo assim",
+        "customTitle": "Modo de impostos personalizados.",
+        "custom": "As regras integradas deste país ainda não estão disponíveis: informe abaixo as alíquotas locais. Suas configurações ficam salvas neste navegador e são incluídas no link do resultado.",
+        "request": "Solicitar regras integradas para {{name}}",
+        "requestSubject": "Calculadora de imposto sobre o salário: adicione {{name}}"
+      },
+      "custom": {
+        "templates": {
+          "copy": "Copiar {{name}}"
+        },
+        "fromRow": "De, faixa {{n}}",
+        "toRow": "Até, faixa {{n}}",
+        "rateRow": "Alíquota %, faixa {{n}}",
+        "removeBracket": "Remover faixa {{n}}",
+        "levyName": "Nome da taxa {{n}}",
+        "levyRate": "Alíquota % da taxa {{n}}",
+        "levyBase": "A taxa {{n}} incide sobre",
+        "levyPlaceholder": "% do salário bruto",
+        "baseGross": "% do imposto de renda",
+        "baseTax": "Nome (por exemplo, contribuição de saúde)",
+        "removeLevy": "Remover taxa {{n}}"
+      },
+      "errors": {
+        "salaryRequired": "Informe seu salário."
+      },
+      "result": {
+        "primary": "{{net}} líquidos por mês",
+        "gross": "Salário bruto",
+        "totalDeducted": "Total descontado",
+        "net": "Salário líquido",
+        "taxable": "Renda tributável: <strong>{{amount}}</strong> por ano.",
+        "afterDeductions": "Após {{list}}.",
+        "rebate": "Abatimento: −{{amount}}.",
+        "surcharge": "Sobretaxa: +{{amount}}.",
+        "cess": "Cess ({{rate}}): +{{amount}}.",
+        "noTax": "{{name}} não cobra imposto de renda sobre salários.",
+        "range": "{{from}} a {{to}}",
+        "over": "Acima de {{from}}",
+        "yourBand": "(sua faixa)",
+        "bandsTotal": "Imposto de renda das faixas",
+        "compareLess": "Isso é {{amount}} a menos por mês do que em {{year}}.",
+        "compareMore": "Isso é {{amount}} a mais por mês do que em {{year}}.",
+        "compareSame": "Mesmo imposto que em {{year}}.",
+        "source": "Regras: {{label}}, verificadas pela última vez em {{date}}. Fontes: {{links}}.",
+        "customSource": "Calculado com as alíquotas personalizadas que você informou.",
+        "copyText": "{{country}} ({{label}}): bruto {{gross}} por ano, impostos e contribuições {{tax}}, líquido {{net}} por ano ({{monthly}} por mês), alíquota efetiva {{effective}}%.",
+        "chartTitle": "Para onde vai seu salário"
+      },
+      "status": "Situação fiscal"
     }
   },
   "countryPages": {
@@ -343,7 +518,8 @@
       "sources": [
         "GOV.UK: alíquotas do Income Tax e Personal Allowances (2026 a 2027)",
         "HMRC: alíquotas e isenções do Income Tax do ano fiscal atual e dos anteriores (renda após as isenções, Inglaterra, País de Gales, Irlanda do Norte e Escócia)",
-        "GOV.UK: alíquotas do Income Tax escocês 2026 a 2027"
+        "GOV.UK: alíquotas do Income Tax escocês 2026 a 2027",
+        "GOV.UK: taxas e limites para empregadores 2026 a 2027 (limites do National Insurance e do financiamento estudantil)"
       ]
     },
     "IN": {
@@ -477,8 +653,19 @@
       "sources": [
         "Memorando explicativo do Finance Bill, 2025: faixas da seção 115BAC(1A) e abatimento da seção 87A (₹60,000 até ₹12,00,000) a partir do AA 2026-27",
         "Budget Speech 2025-26, parágrafo 156 (dedução padrão de ₹75,000) e tabela de exemplos de imposto do anexo da Parte B",
-        "Memorando explicativo do Finance Bill, 2026: sobretaxa e cess de saúde e educação de 4% para o AA 2026-27"
-      ]
+        "Memorando explicativo do Finance Bill, 2026: sobretaxa e cess de saúde e educação de 4% para o AA 2026-27",
+        "Departamento do Imposto de Renda: alíquotas para pessoas físicas (faixas do regime antigo, sobretaxa)",
+        "Departamento do Imposto de Renda: deduções do capítulo VI-A (seções 80C e 80D)"
+      ],
+      "statusLabel": "Regime fiscal",
+      "statuses": {
+        "new": {
+          "label": "Novo regime fiscal"
+        },
+        "old": {
+          "label": "Regime fiscal antigo"
+        }
+      }
     },
     "US": {
       "label": "Ano fiscal 2026",
@@ -598,11 +785,20 @@
         },
         "married_joint": {
           "label": "Casados em declaração conjunta"
+        },
+        "married_separate": {
+          "label": "Casado, declaração separada"
+        },
+        "head_of_household": {
+          "label": "Chefe de família"
         }
       },
       "sources": [
         "IRS Revenue Procedure 2025-32 (ajustes pela inflação de 2026): tabelas de alíquotas e dedução padrão",
-        "IRS newsroom: ajustes pela inflação para o ano fiscal 2026"
+        "IRS newsroom: ajustes pela inflação para o ano fiscal 2026",
+        "SSA: teto de contribuição e de benefícios (teto salarial do Social Security em 2026: $184,500)",
+        "IRS Topic 751: alíquotas de retenção do Social Security e do Medicare",
+        "IRS: perguntas e respostas sobre o imposto adicional do Medicare (limites por situação fiscal)"
       ]
     }
   },

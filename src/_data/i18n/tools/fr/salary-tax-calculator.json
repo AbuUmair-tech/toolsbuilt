@@ -113,7 +113,70 @@
         "IN": "Exercice 2025-26 (AY 2026-27)",
         "GB": "Année fiscale 2026/27",
         "US": "Année fiscale 2026"
-      }
+      },
+      "formLabel": "Calculateur d'impôt sur le salaire mondial",
+      "country": "Pays",
+      "countryHint": "Saisissez pour rechercher. Pour les pays sans règles intégrées, le calculateur passe en mode Taux personnalisés.",
+      "taxYear": "Année fiscale",
+      "salary": "Salaire brut",
+      "salaryHint": "Votre rémunération avant impôts et déductions, pour la période choisie ci-dessous.",
+      "period": "Salaire saisi par",
+      "periods": {
+        "monthly": "Mois",
+        "annual": "Année",
+        "hourly": "Heure"
+      },
+      "hours": "Heures par semaine",
+      "status": "Situation fiscale",
+      "calculate": "Calculer",
+      "reset": "Réinitialiser",
+      "custom": {
+        "currency": "Devise",
+        "template": "Partir d'un modèle",
+        "templates": {
+          "progressive": "Tranches progressives (exemple)",
+          "flat": "Impôt forfaitaire (exemple)"
+        },
+        "apply": "Utiliser le modèle",
+        "brackets": "Tranches d'impôt sur le revenu",
+        "bracketsHint": "Revenu imposable annuel. Laissez « À » vide pour la dernière tranche. Les écarts entre les tranches sont imposés à 0 %.",
+        "from": "De",
+        "to": "À",
+        "rate": "Taux %",
+        "actions": "Actions",
+        "addBracket": "Ajouter une tranche",
+        "allowance": "Abattement non imposable (par an)",
+        "deduction": "Autres déductions avant impôt (par an)",
+        "social": "Sécurité sociale (% du brut)",
+        "socialCap": "La sécurité sociale s'applique jusqu'à (par an, facultatif)",
+        "pension": "Cotisation retraite (% du brut, avant impôt)",
+        "levies": "Autres prélèvements",
+        "leviesHint": "Charges supplémentaires en pourcentage du salaire brut ou de l'impôt sur le revenu (par ex. une surtaxe, un impôt d'Église ou une contribution santé).",
+        "addLevy": "Ajouter un prélèvement"
+      },
+      "result": {
+        "header": "Votre salaire net",
+        "copy": "Copier",
+        "netAnnual": "Salaire net par an",
+        "totalTax": "Total des impôts et cotisations par an",
+        "effectiveRate": "Taux d'imposition effectif",
+        "marginalRate": "Taux marginal d'imposition",
+        "chartTitle": "Où va votre salaire",
+        "breakdown": "Détail de votre rémunération",
+        "item": "Poste",
+        "bands": "Impôt sur le revenu tranche par tranche",
+        "band": "Revenu imposable",
+        "rate": "Taux",
+        "inBand": "Revenu dans la tranche",
+        "bandTax": "Impôt"
+      },
+      "views": {
+        "annual": "Année",
+        "monthly": "Mois",
+        "weekly": "Semaine"
+      },
+      "disclaimerTitle": "Ceci est une estimation, pas un conseil fiscal",
+      "disclaimer": "Les résultats sont des estimations pour un salarié sans autre revenu, établies d'après les règles affichées et les options que vous choisissez. Votre impôt réel dépend de l'ensemble de votre situation, des impôts locaux et de la paie de votre employeur. Renseignez-vous auprès de votre administration fiscale ou d'un conseiller qualifié avant de prendre une décision."
     }
   },
   "client": {
@@ -146,7 +209,13 @@
         "noData": "Aucune donnée fiscale chargée.",
         "unknownStatus": "Situation déclarative inconnue « {{status}} ».",
         "salaryMin": "Veuillez saisir un salaire supérieur ou égal à 0.",
-        "period": "Indiquez si le salaire est mensuel ou annuel."
+        "period": "Indiquez si le salaire est mensuel ou annuel.",
+        "hours": "Saisissez un nombre d'heures par semaine compris entre 1 et 168.",
+        "customNoBrackets": "Ajoutez au moins une tranche d'impôt.",
+        "customFrom": "Tranche {{row}} : saisissez un montant « De » égal ou supérieur à 0.",
+        "customRate": "Tranche {{row}} : saisissez un taux compris entre 0 et 100 %.",
+        "customTo": "Tranche {{row}} : « À » doit être supérieur à « De ».",
+        "customOverlap": "La tranche {{row}} chevauche la tranche précédente."
       }
     },
     "hub": {
@@ -189,7 +258,113 @@
         "US": {
           "2026": "Année fiscale 2026"
         }
-      }
+      },
+      "noMatch": "Aucun pays ne correspond",
+      "badges": {
+        "builtin": "Règles intégrées",
+        "noTax": "Pas d'impôt sur le revenu",
+        "custom": "Taux personnalisés"
+      },
+      "optionMax": "Pris en compte jusqu'à {{max}} par an.",
+      "options": {
+        "pension": {
+          "label": "Cotisation retraite (% du salaire)"
+        },
+        "studentLoan": {
+          "label": "Prêt étudiant",
+          "choices": {
+            "none": "Aucun",
+            "plan1": "Plan 1",
+            "plan2": "Plan 2",
+            "plan4": "Plan 4 (Écosse)",
+            "plan5": "Plan 5"
+          }
+        },
+        "postgraduateLoan": {
+          "label": "Prêt de troisième cycle"
+        },
+        "deduction80C": {
+          "label": "Placements de l'article 80C par an (PPF, ELSS, EPF, assurance vie)"
+        },
+        "deduction80D": {
+          "label": "Primes d'assurance maladie de l'article 80D par an"
+        }
+      },
+      "lines": {
+        "incomeTax": "Impôt sur le revenu",
+        "nationalInsurance": "National Insurance",
+        "plan1": "Prêt étudiant (Plan 1)",
+        "plan2": "Prêt étudiant (Plan 2)",
+        "plan4": "Prêt étudiant (Plan 4)",
+        "plan5": "Prêt étudiant (Plan 5)",
+        "postgraduateLoan": "Prêt de troisième cycle",
+        "socialSecurity": "Social Security",
+        "medicare": "Medicare",
+        "additionalMedicare": "Taxe Medicare supplémentaire",
+        "social": "Sécurité sociale",
+        "pension": "Cotisation retraite",
+        "levy": "Prélèvement {{n}}"
+      },
+      "deductions": {
+        "standard": "déduction forfaitaire",
+        "allowance": "abattement non imposable",
+        "pension": "cotisation retraite",
+        "deduction80C": "article 80C",
+        "deduction80D": "article 80D"
+      },
+      "note": {
+        "builtin": "{{name}} : {{label}}, taux vérifiés pour la dernière fois le {{date}} auprès de sources officielles.",
+        "noTax": "{{name}} n'impose pas les salaires des particuliers : l'impôt sur le revenu est donc de 0.",
+        "statement": "Document officiel",
+        "useCustom": "Saisir quand même des taux personnalisés",
+        "customTitle": "Mode Taux personnalisés.",
+        "custom": "Les règles intégrées de ce pays ne sont pas encore disponibles : saisissez vos taux d'imposition locaux ci-dessous. Vos réglages sont enregistrés dans ce navigateur et inclus dans le lien du résultat.",
+        "request": "Demander des règles intégrées pour {{name}}",
+        "requestSubject": "Calculateur d'impôt sur le salaire : veuillez ajouter {{name}}"
+      },
+      "custom": {
+        "templates": {
+          "copy": "Copier {{name}}"
+        },
+        "fromRow": "De, tranche {{n}}",
+        "toRow": "À, tranche {{n}}",
+        "rateRow": "Taux %, tranche {{n}}",
+        "removeBracket": "Supprimer la tranche {{n}}",
+        "levyName": "Nom du prélèvement {{n}}",
+        "levyRate": "Taux % du prélèvement {{n}}",
+        "levyBase": "Le prélèvement {{n}} s'applique sur",
+        "levyPlaceholder": "% du salaire brut",
+        "baseGross": "% de l'impôt sur le revenu",
+        "baseTax": "Nom (par ex. contribution santé)",
+        "removeLevy": "Supprimer le prélèvement {{n}}"
+      },
+      "errors": {
+        "salaryRequired": "Veuillez saisir votre salaire."
+      },
+      "result": {
+        "primary": "{{net}} net par mois",
+        "gross": "Salaire brut",
+        "totalDeducted": "Total des déductions",
+        "net": "Salaire net",
+        "taxable": "Revenu imposable : <strong>{{amount}}</strong> par an.",
+        "afterDeductions": "Après {{list}}.",
+        "rebate": "Abattement : −{{amount}}.",
+        "surcharge": "Surtaxe : +{{amount}}.",
+        "cess": "Cess ({{rate}}) : +{{amount}}.",
+        "noTax": "{{name}} ne prélève pas d'impôt sur le revenu sur les salaires.",
+        "range": "{{from}} à {{to}}",
+        "over": "Au-delà de {{from}}",
+        "yourBand": "(votre tranche)",
+        "bandsTotal": "Impôt sur le revenu issu des tranches",
+        "compareLess": "Cela représente {{amount}} de moins par mois qu'en {{year}}.",
+        "compareMore": "Cela représente {{amount}} de plus par mois qu'en {{year}}.",
+        "compareSame": "Même impôt qu'en {{year}}.",
+        "source": "Règles : {{label}}, dernière vérification le {{date}}. Sources : {{links}}.",
+        "customSource": "Calculé avec les taux personnalisés que vous avez saisis.",
+        "copyText": "{{country}} ({{label}}) : brut {{gross}} par an, impôts et cotisations {{tax}}, net {{net}} par an ({{monthly}} par mois), taux effectif {{effective}} %.",
+        "chartTitle": "Où va votre salaire"
+      },
+      "status": "Situation fiscale"
     }
   },
   "countryPages": {
@@ -343,7 +518,8 @@
       "sources": [
         "GOV.UK : taux de l'Income Tax et Personal Allowances (2026 à 2027)",
         "HMRC : taux et abattements de l'Income Tax pour l'année fiscale en cours et les précédentes (revenu après abattements, Angleterre, pays de Galles, Irlande du Nord et Écosse)",
-        "GOV.UK : taux de l'Income Tax écossais 2026 à 2027"
+        "GOV.UK : taux de l'Income Tax écossais 2026 à 2027",
+        "GOV.UK : taux et seuils pour les employeurs 2026 à 2027 (seuils de National Insurance et de prêt étudiant)"
       ]
     },
     "IN": {
@@ -477,8 +653,19 @@
       "sources": [
         "Mémorandum explicatif du Finance Bill, 2025 : tranches de la section 115BAC(1A) et rabais de la section 87A (₹60,000 jusqu'à ₹12,00,000) à partir de l'AY 2026-27",
         "Discours du budget 2025-26, para 156 (déduction forfaitaire de ₹75,000) et tableau d'exemples d'impôt en annexe de la Part B",
-        "Mémorandum explicatif du Finance Bill, 2026 : surtaxe et contribution santé et éducation de 4% pour l'AY 2026-27"
-      ]
+        "Mémorandum explicatif du Finance Bill, 2026 : surtaxe et contribution santé et éducation de 4% pour l'AY 2026-27",
+        "Département de l'impôt sur le revenu : taux d'imposition des particuliers (tranches de l'ancien régime, surtaxe)",
+        "Département de l'impôt sur le revenu : déductions du chapitre VI-A (articles 80C et 80D)"
+      ],
+      "statusLabel": "Régime fiscal",
+      "statuses": {
+        "new": {
+          "label": "Nouveau régime fiscal"
+        },
+        "old": {
+          "label": "Ancien régime fiscal"
+        }
+      }
     },
     "US": {
       "label": "Année fiscale 2026",
@@ -598,11 +785,20 @@
         },
         "married_joint": {
           "label": "Couple marié, déclaration commune"
+        },
+        "married_separate": {
+          "label": "Marié, déclaration séparée"
+        },
+        "head_of_household": {
+          "label": "Chef de famille"
         }
       },
       "sources": [
         "IRS Revenue Procedure 2025-32 (ajustements à l'inflation 2026) : barèmes et déduction forfaitaire",
-        "Salle de presse de l'IRS : ajustements fiscaux à l'inflation pour l'année fiscale 2026"
+        "Salle de presse de l'IRS : ajustements fiscaux à l'inflation pour l'année fiscale 2026",
+        "SSA : plafond de cotisation et de prestation (plafond de salaire Social Security 2026 : $184,500)",
+        "IRS Topic 751 : taux de retenue pour la Social Security et Medicare",
+        "IRS : questions et réponses sur la taxe Medicare supplémentaire (seuils selon la situation fiscale)"
       ]
     }
   },

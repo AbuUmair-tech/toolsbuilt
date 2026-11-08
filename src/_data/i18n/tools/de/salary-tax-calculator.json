@@ -113,7 +113,70 @@
         "IN": "GJ 2025-26 (AY 2026-27)",
         "GB": "Steuerjahr 2026/27",
         "US": "Steuerjahr 2026"
-      }
+      },
+      "formLabel": "Globaler Gehaltssteuerrechner",
+      "country": "Land",
+      "countryHint": "Tippe zum Suchen. Für Länder ohne integrierte Regeln wechselt der Rechner in den Modus „Eigene Steuersätze“.",
+      "taxYear": "Steuerjahr",
+      "salary": "Bruttogehalt",
+      "salaryHint": "Dein Gehalt vor Steuern und Abzügen, bezogen auf den unten gewählten Zeitraum.",
+      "period": "Gehalt eingeben pro",
+      "periods": {
+        "monthly": "Monat",
+        "annual": "Jahr",
+        "hourly": "Stunde"
+      },
+      "hours": "Wochenstunden",
+      "status": "Veranlagungsart",
+      "calculate": "Berechnen",
+      "reset": "Zurücksetzen",
+      "custom": {
+        "currency": "Währung",
+        "template": "Mit einer Vorlage starten",
+        "templates": {
+          "progressive": "Progressive Steuerstufen (Beispiel)",
+          "flat": "Pauschalsteuer (Beispiel)"
+        },
+        "apply": "Vorlage verwenden",
+        "brackets": "Einkommensteuerstufen",
+        "bracketsHint": "Zu versteuerndes Jahreseinkommen. Lass „Bis“ bei der letzten Stufe leer. Lücken zwischen den Stufen werden mit 0 % besteuert.",
+        "from": "Von",
+        "to": "Bis",
+        "rate": "Satz %",
+        "actions": "Aktionen",
+        "addBracket": "Stufe hinzufügen",
+        "allowance": "Steuerfreibetrag (pro Jahr)",
+        "deduction": "Weitere Abzüge vor Steuern (pro Jahr)",
+        "social": "Sozialversicherung (% vom Brutto)",
+        "socialCap": "Sozialversicherung gilt bis (pro Jahr, optional)",
+        "pension": "Rentenbeitrag (% vom Brutto, vor Steuern)",
+        "levies": "Weitere Abgaben",
+        "leviesHint": "Zusätzliche Abgaben als Prozentsatz des Bruttogehalts oder der Einkommensteuer (z. B. Zuschlag, Kirchensteuer oder Gesundheitsabgabe).",
+        "addLevy": "Abgabe hinzufügen"
+      },
+      "result": {
+        "header": "Dein Nettogehalt",
+        "copy": "Kopieren",
+        "netAnnual": "Nettogehalt pro Jahr",
+        "totalTax": "Steuern und Abgaben insgesamt pro Jahr",
+        "effectiveRate": "Effektiver Steuersatz",
+        "marginalRate": "Grenzsteuersatz",
+        "chartTitle": "Wohin dein Gehalt fließt",
+        "breakdown": "Aufschlüsselung deines Gehalts",
+        "item": "Posten",
+        "bands": "Einkommensteuer Stufe für Stufe",
+        "band": "Zu versteuerndes Einkommen",
+        "rate": "Satz",
+        "inBand": "Einkommen in der Stufe",
+        "bandTax": "Steuer"
+      },
+      "views": {
+        "annual": "Jahr",
+        "monthly": "Monat",
+        "weekly": "Woche"
+      },
+      "disclaimerTitle": "Das ist eine Schätzung, keine Steuerberatung",
+      "disclaimer": "Die Ergebnisse sind Schätzungen für eine angestellte Person ohne weiteres Einkommen, basierend auf den angezeigten Regeln und deinen gewählten Optionen. Deine tatsächliche Steuer hängt von deiner gesamten Situation, lokalen Steuern und der Lohnabrechnung deines Arbeitgebers ab. Frag bei deiner Steuerbehörde oder einer qualifizierten Beratung nach, bevor du Entscheidungen triffst."
     }
   },
   "client": {
@@ -146,7 +209,13 @@
         "noData": "Keine Steuerdaten geladen.",
         "unknownStatus": "Unbekannter Veranlagungsstatus \"{{status}}\".",
         "salaryMin": "Bitte gib ein Gehalt von 0 oder mehr ein.",
-        "period": "Wähle, ob das Gehalt monatlich oder jährlich ist."
+        "period": "Wähle, ob das Gehalt monatlich oder jährlich ist.",
+        "hours": "Gib Wochenstunden zwischen 1 und 168 ein.",
+        "customNoBrackets": "Füge mindestens eine Steuerstufe hinzu.",
+        "customFrom": "Stufe {{row}}: Gib bei „Von“ einen Betrag von 0 oder mehr ein.",
+        "customRate": "Stufe {{row}}: Gib einen Satz zwischen 0 und 100 % ein.",
+        "customTo": "Stufe {{row}}: „Bis“ muss größer sein als „Von“.",
+        "customOverlap": "Stufe {{row}} überschneidet sich mit der vorherigen Stufe."
       }
     },
     "hub": {
@@ -189,7 +258,113 @@
         "US": {
           "2026": "Steuerjahr 2026"
         }
-      }
+      },
+      "noMatch": "Kein Land gefunden",
+      "badges": {
+        "builtin": "Integrierte Regeln",
+        "noTax": "Keine Einkommensteuer",
+        "custom": "Eigene Sätze"
+      },
+      "optionMax": "Angerechnet bis zu {{max}} pro Jahr.",
+      "options": {
+        "pension": {
+          "label": "Rentenbeitrag (% vom Gehalt)"
+        },
+        "studentLoan": {
+          "label": "Studienkredit",
+          "choices": {
+            "none": "Keiner",
+            "plan1": "Plan 1",
+            "plan2": "Plan 2",
+            "plan4": "Plan 4 (Schottland)",
+            "plan5": "Plan 5"
+          }
+        },
+        "postgraduateLoan": {
+          "label": "Postgraduierten-Darlehen"
+        },
+        "deduction80C": {
+          "label": "Investitionen nach Abschnitt 80C pro Jahr (PPF, ELSS, EPF, Lebensversicherung)"
+        },
+        "deduction80D": {
+          "label": "Krankenversicherungsprämien nach Abschnitt 80D pro Jahr"
+        }
+      },
+      "lines": {
+        "incomeTax": "Einkommensteuer",
+        "nationalInsurance": "National Insurance",
+        "plan1": "Studienkredit (Plan 1)",
+        "plan2": "Studienkredit (Plan 2)",
+        "plan4": "Studienkredit (Plan 4)",
+        "plan5": "Studienkredit (Plan 5)",
+        "postgraduateLoan": "Postgraduierten-Darlehen",
+        "socialSecurity": "Social Security",
+        "medicare": "Medicare",
+        "additionalMedicare": "Zusätzliche Medicare-Steuer",
+        "social": "Sozialversicherung",
+        "pension": "Rentenbeitrag",
+        "levy": "Abgabe {{n}}"
+      },
+      "deductions": {
+        "standard": "Standardabzug",
+        "allowance": "Steuerfreibetrag",
+        "pension": "Rentenbeitrag",
+        "deduction80C": "Abschnitt 80C",
+        "deduction80D": "Abschnitt 80D"
+      },
+      "note": {
+        "builtin": "{{name}}: {{label}}, Sätze zuletzt am {{date}} anhand offizieller Quellen geprüft.",
+        "noTax": "{{name}} besteuert Gehälter von Privatpersonen nicht, die Einkommensteuer beträgt daher 0.",
+        "statement": "Offizielle Erklärung",
+        "useCustom": "Trotzdem eigene Sätze eingeben",
+        "customTitle": "Modus „Eigene Steuersätze“.",
+        "custom": "Für dieses Land sind noch keine integrierten Regeln verfügbar. Gib unten deine lokalen Steuersätze ein. Deine Einstellungen werden in diesem Browser gespeichert und im Ergebnislink mitgeführt.",
+        "request": "Integrierte Regeln für {{name}} anfragen",
+        "requestSubject": "Gehaltssteuerrechner: Bitte {{name}} hinzufügen"
+      },
+      "custom": {
+        "templates": {
+          "copy": "{{name}} kopieren"
+        },
+        "fromRow": "Von, Stufe {{n}}",
+        "toRow": "Bis, Stufe {{n}}",
+        "rateRow": "Satz %, Stufe {{n}}",
+        "removeBracket": "Stufe {{n}} entfernen",
+        "levyName": "Name der Abgabe {{n}}",
+        "levyRate": "Satz % der Abgabe {{n}}",
+        "levyBase": "Abgabe {{n}} wird erhoben auf",
+        "levyPlaceholder": "% vom Bruttogehalt",
+        "baseGross": "% von der Einkommensteuer",
+        "baseTax": "Name (z. B. Gesundheitsabgabe)",
+        "removeLevy": "Abgabe {{n}} entfernen"
+      },
+      "errors": {
+        "salaryRequired": "Bitte gib dein Gehalt ein."
+      },
+      "result": {
+        "primary": "{{net}} netto pro Monat",
+        "gross": "Bruttogehalt",
+        "totalDeducted": "Abzüge insgesamt",
+        "net": "Nettogehalt",
+        "taxable": "Zu versteuerndes Einkommen: <strong>{{amount}}</strong> pro Jahr.",
+        "afterDeductions": "Nach {{list}}.",
+        "rebate": "Steuerermäßigung: −{{amount}}.",
+        "surcharge": "Zuschlag: +{{amount}}.",
+        "cess": "Cess ({{rate}}): +{{amount}}.",
+        "noTax": "{{name}} erhebt keine Einkommensteuer auf Gehälter.",
+        "range": "{{from}} bis {{to}}",
+        "over": "Über {{from}}",
+        "yourBand": "(deine Stufe)",
+        "bandsTotal": "Einkommensteuer aus den Stufen",
+        "compareLess": "Das sind {{amount}} pro Monat weniger als {{year}}.",
+        "compareMore": "Das sind {{amount}} pro Monat mehr als {{year}}.",
+        "compareSame": "Gleiche Steuer wie {{year}}.",
+        "source": "Regeln: {{label}}, zuletzt geprüft am {{date}}. Quellen: {{links}}.",
+        "customSource": "Berechnet mit den von dir eingegebenen eigenen Sätzen.",
+        "copyText": "{{country}} ({{label}}): brutto {{gross}} pro Jahr, Steuern und Abgaben {{tax}}, netto {{net}} pro Jahr ({{monthly}} pro Monat), effektiver Satz {{effective}} %.",
+        "chartTitle": "Wohin dein Gehalt fließt"
+      },
+      "status": "Veranlagungsart"
     }
   },
   "countryPages": {
@@ -343,7 +518,8 @@
       "sources": [
         "GOV.UK: Income-Tax-Sätze und Personal Allowances (2026 bis 2027)",
         "HMRC: Income-Tax-Sätze und Freibeträge für das laufende und frühere Steuerjahre (Einkommen nach Freibeträgen, England, Wales, Nordirland und Schottland)",
-        "GOV.UK: Schottische Income-Tax-Sätze 2026 bis 2027"
+        "GOV.UK: Schottische Income-Tax-Sätze 2026 bis 2027",
+        "GOV.UK: Beitragssätze und Schwellenwerte für Arbeitgeber 2026 bis 2027 (National Insurance und Schwellenwerte für Studienkredite)"
       ]
     },
     "IN": {
@@ -477,8 +653,19 @@
       "sources": [
         "Memorandum zur Finance Bill, 2025: Stufen nach Section 115BAC(1A) und Ermäßigung nach Section 87A (₹60,000 bis ₹12,00,000) ab AY 2026-27",
         "Haushaltsrede 2025-26, Abs. 156 (Standardabzug ₹75,000) und Beispieltabelle im Anhang zu Teil B",
-        "Memorandum zur Finance Bill, 2026: Zuschlag und 4% Gesundheits- und Bildungsabgabe für AY 2026-27"
-      ]
+        "Memorandum zur Finance Bill, 2026: Zuschlag und 4% Gesundheits- und Bildungsabgabe für AY 2026-27",
+        "Einkommensteuerbehörde: Steuersätze für Privatpersonen (Stufen des alten Steuersystems, Zuschlag)",
+        "Einkommensteuerbehörde: Abzüge nach Kapitel VI-A (Abschnitte 80C und 80D)"
+      ],
+      "statusLabel": "Steuersystem",
+      "statuses": {
+        "new": {
+          "label": "Neues Steuersystem"
+        },
+        "old": {
+          "label": "Altes Steuersystem"
+        }
+      }
     },
     "US": {
       "label": "Steuerjahr 2026",
@@ -598,11 +785,20 @@
         },
         "married_joint": {
           "label": "Verheiratet, gemeinsam veranlagt"
+        },
+        "married_separate": {
+          "label": "Verheiratet, getrennte Veranlagung"
+        },
+        "head_of_household": {
+          "label": "Haushaltsvorstand"
         }
       },
       "sources": [
         "IRS Revenue Procedure 2025-32 (Inflationsanpassungen 2026): Steuertabellen und Standardabzug",
-        "IRS-Newsroom: Inflationsanpassungen für das Steuerjahr 2026"
+        "IRS-Newsroom: Inflationsanpassungen für das Steuerjahr 2026",
+        "SSA: Beitragsbemessungsgrenze und Leistungsgrundlage (Social-Security-Lohnobergrenze 2026: $184,500)",
+        "IRS Topic 751: Quellensteuersätze für Social Security und Medicare",
+        "IRS: Fragen und Antworten zur zusätzlichen Medicare-Steuer (Schwellenwerte nach Veranlagungsart)"
       ]
     }
   },

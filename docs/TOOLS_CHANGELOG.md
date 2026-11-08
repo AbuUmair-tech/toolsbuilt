@@ -4,7 +4,7 @@
 
 **Branch:** `tools-batch-20` (built on `redesign-and-tools`) · **Date:** October 31, 2026
 
-All 20 tools follow the tool checklist: full front matter (Quick Answer, method, worked examples, common mistakes, FAQs, primary sources), a pure UMD `logic.js` with unit tests in `scripts/test-tool-logic.js`, `script.js` with validation, and at least 1,000 words of content. Screenshots at 375px are in `docs/screenshots/tools-batch-20/`.
+All 20 tools follow the tool checklist: full front matter (Quick Answer, method, worked examples, common mistakes, FAQs, primary sources), a pure UMD `logic.js` with unit tests in `scripts/test-tool-logic.js`, `script.js` with validation, and at least 1,000 words of content.
 
 | Tool | URL | Category | Notes |
 | :--- | :--- | :--- | :--- |
