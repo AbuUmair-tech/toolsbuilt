@@ -24,6 +24,7 @@
       description: (data) => cpText(data).description,
       h1: (data) => cpText(data).h1,
       areaServed: (data) => data.tx.countryName,
+      countryCode: (data) => data.tx.country,
       quickAnswer: (data) => cpText(data).quickAnswer,
       howto: (data) => cpText(data).howto,
       workedExamples: (data) => cpText(data).workedExamples,
@@ -42,6 +43,9 @@
 {{ salaryTaxCalculator({ country: tx.country, year: tx.taxYear }) }}
 
     <!-- tool-end -->
+
+{% from "partials/salary-tax-links.njk" import otherCountries with context %}
+    {{ otherCountries(tx.country) }}
 
     <section class="content-section stc-rate-tables" aria-label="{{ cp.tableTitle }}">
       <!-- Rate tables, rendered from the dataset (the calculator above shows the visitor's own bracket) -->

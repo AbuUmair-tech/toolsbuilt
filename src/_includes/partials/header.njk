@@ -175,7 +175,7 @@
               {{ 'header.content.tool.div1' | t }}
             </div>
             <ul id="palette-popular-list" class="palette-section-list">
-              {% for t in tools %}
+              {% for t in tools | listed %}
                 {% if t.popular %}
                   <li>
                     <a href="/tools/{{ t.slug }}/" class="palette-item-link" data-slug="{{ t.slug }}">

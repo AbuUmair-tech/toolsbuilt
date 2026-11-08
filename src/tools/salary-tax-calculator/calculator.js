@@ -86,7 +86,8 @@ document.addEventListener('DOMContentLoaded', () => {
   let shown = [];
 
   function badge(c) {
-    if (c.rules === 'builtin') return T('calc.badges.builtin');
+    // Built-in rules: the country's current tax year, e.g. "Tax year 2026-27"
+    if (c.rules === 'builtin') return yearLabel(builtinDataset(c.code, c.currentYear));
     if (c.rules === 'noTax') return T('calc.badges.noTax');
     return T('calc.badges.custom');
   }
@@ -717,7 +718,8 @@ document.addEventListener('DOMContentLoaded', () => {
     renderOptions();
   }
   // Result links (?salary=&period=&status=&o-<option>=) take priority over saved state
-  if (!ToolsBuilt.resultLink.restore().length) loadInputs();
+  // (a link with only ?country= / ?year= still starts from the saved or default salary)
+  if (!ToolsBuilt.resultLink.restore().includes(salaryInput)) loadInputs();
   syncHours();
   calculate();
 });

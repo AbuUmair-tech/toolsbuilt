@@ -98,13 +98,32 @@ function buildBase(sha) {
   return output;
 }
 
-function normalize(html, baseLines) {
+// Intended English change after the base commit: the salary tax country pages left the tool lists
+// (one "Salary Tax Calculator" is listed instead, and the pages were renamed). On both builds, mask
+// the tool counts (header menu, sidebar, chips), and drop list items, llms.txt lines and feed entries
+// for salary tax pages; everything else must still match.
+const SALARY_TAX_ITEM = /\s*<li\b[^>]*>(?:(?!<li\b|<\/li>)[\s\S])*?href="\/tools\/(?:[a-z]+-)?salary-tax-calculator\/"(?:(?!<\/li>)[\s\S])*?<\/li>/g;
+function withoutSalaryTaxListing(html) {
   return html
+    .replace(/(class="(?:nav-menu-meta|category-compact-count|chip-count)">)\d+/g, '$1N')
+    .replace(SALARY_TAX_ITEM, '');
+}
+
+const SALARY_TAX_URL = /\/tools\/(?:[a-z]+-)?salary-tax-calculator\//;
+function withoutSalaryTaxText(text) {
+  return text
+    .replace(/\s*<entry>(?:(?!<\/entry>)[\s\S])*?<\/entry>/g, m => (SALARY_TAX_URL.test(m) ? '' : m))
+    .split('\n').filter(line => !(line.startsWith('- [') && SALARY_TAX_URL.test(line))).join('\n');
+}
+
+function normalize(html, baseLines) {
+  return withoutSalaryTaxListing(html)
     .replace(/\s*<!-- language-menu -->[\s\S]*?<!-- \/language-menu -->/g, '')
     .replace(/\s*<!-- language-banner -->[\s\S]*?<!-- \/language-banner -->/g, '')
     .replace(/\s*<script src="\/assets\/js\/language-menu\.js" defer><\/script>/g, '')
     .replace(/<html[^>]*>/, '<html>')
     .replace(/\/assets\/css\/main\.[a-f0-9]+\.css/g, '/assets/css/main.HASH.css')
+    .replace(/\/assets\/search-index\.[a-f0-9]+\.json/g, '/assets/search-index.HASH.json')
     .split('\n')
     .map(line => line.trimEnd())
     .filter(line => line.trim() !== '')
@@ -151,7 +170,9 @@ const currentEnglish = currentPages.filter(rel => !isLocalized(rel));
 // English pages whose content was changed on purpose after the base commit (reported, not failed)
 const INTENDED_CHANGES = new Map([
   ...['salary-tax-calculator', 'pakistan-salary-tax-calculator', 'india-salary-tax-calculator', 'uk-salary-tax-calculator', 'us-salary-tax-calculator']
-    .map(slug => [`tools/${slug}/index.html`, 'unified Global Salary Tax Calculator'])
+    .map(slug => [`tools/${slug}/index.html`, 'unified Global Salary Tax Calculator']),
+  ...['index.html', 'tools/index.html', 'category/math-finance/index.html', 'design-system/index.html']
+    .map(rel => [rel, 'one Salary Tax Calculator listed instead of five'])
 ]);
 let changed = 0;
 for (const rel of basePages) {
@@ -183,7 +204,10 @@ for (const rel of textFiles) {
   let current = fs.existsSync(currentFile) ? fs.readFileSync(currentFile, 'utf8') : null;
   // sitemap.xml: drop what translations add (language URLs and xhtml:link alternates)
   if (current && rel === 'sitemap.xml') current = englishSitemap(current);
-  if (current !== fs.readFileSync(path.join(baseDir, rel), 'utf8')) {
+  const base = fs.readFileSync(path.join(baseDir, rel), 'utf8');
+  if (current !== base && current !== null && withoutSalaryTaxText(current) === withoutSalaryTaxText(base)) {
+    console.log(`ℹ️  /${rel} changed on purpose (salary tax pages renamed)`);
+  } else if (current !== base) {
     textChanged++;
     fail(`/${rel} differs from ${sha.slice(0, 7)}`);
   }

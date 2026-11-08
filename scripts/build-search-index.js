@@ -9,7 +9,8 @@ const TOOLS_DATA_PATH = path.join(ROOT, 'src', '_data', 'tools.json');
 // One index per language: search-index.<hash>.json for English, search-index.<lang>.<hash>.json
 // otherwise. Text (name, description, keywords) comes from src/_data/i18n.
 function buildSearchIndex({ outputDir = path.join(ROOT, '_site', 'assets'), lang = 'en' } = {}) {
-  const rawTools = JSON.parse(fs.readFileSync(TOOLS_DATA_PATH, 'utf-8')).map(t => {
+  // Listed tools only: country pages (listed: false) are found through their parent tool
+  const rawTools = JSON.parse(fs.readFileSync(TOOLS_DATA_PATH, 'utf-8')).filter(t => t.listed !== false).map(t => {
     const listing = (i18nData.tool(lang, t.slug) || {}).listing || {};
     return { ...t, ...listing };
   });

@@ -14,7 +14,8 @@ function syncToolsDataJs() {
     const tools = JSON.parse(fs.readFileSync(toolsPath, 'utf8'));
     const cats = JSON.parse(fs.readFileSync(catPath, 'utf8'));
     const catMap = new Map(cats.map(c => [c.slug, c.name]));
-    const data = tools.map(t => ({
+    // Listed tools only: country pages (listed: false) live under their parent tool
+    const data = tools.filter(t => t.listed !== false).map(t => ({
       id: t.slug,
       name: t.name,
       url: `/tools/${t.slug}/`,
@@ -164,6 +165,12 @@ module.exports = function(eleventyConfig) {
     };
   });
 
+  // Country name in the page language: {{ "GB" | regionName }} -> "United Kingdom" / "Vereinigtes Königreich"
+  eleventyConfig.addFilter('regionName', function(code) {
+    const lang = (this.ctx && this.ctx.lang) || 'en';
+    try { return new Intl.DisplayNames([lang], { type: 'region' }).of(code) || code; } catch (e) { return code; }
+  });
+
   // First item with a matching `code` (countries, VAT presets, grading scales)
   eleventyConfig.addFilter('byCode', function(list, code) {
     return (list || []).find(item => item.code === code);
@@ -196,22 +203,30 @@ module.exports = function(eleventyConfig) {
     return new nunjucks.runtime.SafeString(JSON.stringify(unescaped));
   });
 
+  // Tools shown in lists, counts, search and related blocks. A tool with `listed: false` (the
+  // salary tax country pages) keeps its page, sitemap and llms.txt entry but is reached through
+  // its `parent` tool.
+  const isListed = t => !!t && t.listed !== false;
+  eleventyConfig.addFilter('listed', function(tools) {
+    return Array.isArray(tools) ? tools.filter(isListed) : [];
+  });
+
   eleventyConfig.addFilter('filterByCategory', function(tools, catSlug) {
     if (!tools || !Array.isArray(tools)) return [];
-    return tools.filter(t => t.category === catSlug);
+    return tools.filter(t => t.category === catSlug && isListed(t));
   });
 
   eleventyConfig.addFilter('getRelatedTools', function(tool, allTools) {
     if (!tool || !tool.related || !Array.isArray(allTools)) return [];
     return tool.related
       .map(slug => allTools.find(t => t.slug === slug))
-      .filter(Boolean);
+      .filter(isListed);
   });
 
   eleventyConfig.addFilter('getCategoryOtherTools', function(tool, allTools, limit = 4) {
     if (!tool || !Array.isArray(allTools)) return [];
     return allTools
-      .filter(t => t.category === tool.category && t.slug !== tool.slug)
+      .filter(t => t.category === tool.category && t.slug !== tool.slug && isListed(t))
       .slice(0, limit);
   });
 
@@ -239,7 +254,7 @@ module.exports = function(eleventyConfig) {
 
   eleventyConfig.addFilter('filterPopular', function(tools, limit) {
     if (!tools || !Array.isArray(tools)) return [];
-    const popular = tools.filter(t => t.popular).sort((a, b) => (a.order || 99) - (b.order || 99));
+    const popular = tools.filter(t => t.popular && isListed(t)).sort((a, b) => (a.order || 99) - (b.order || 99));
     return limit ? popular.slice(0, limit) : popular;
   });
 
@@ -364,7 +379,7 @@ module.exports = function(eleventyConfig) {
       for (const slug of currentTool.related) {
         if (!addedSlugs.has(slug)) {
           const match = allTools.find(t => t.slug === slug);
-          if (match) {
+          if (isListed(match)) {
             result.push(match);
             addedSlugs.add(slug);
             if (result.length >= limit) return result;
@@ -374,7 +389,7 @@ module.exports = function(eleventyConfig) {
     }
 
     for (const tool of allTools) {
-      if (tool.category === currentTool.category && !addedSlugs.has(tool.slug)) {
+      if (tool.category === currentTool.category && !addedSlugs.has(tool.slug) && isListed(tool)) {
         result.push(tool);
         addedSlugs.add(tool.slug);
         if (result.length >= limit) return result;
@@ -382,7 +397,7 @@ module.exports = function(eleventyConfig) {
     }
 
     for (const tool of allTools) {
-      if (!addedSlugs.has(tool.slug)) {
+      if (!addedSlugs.has(tool.slug) && isListed(tool)) {
         result.push(tool);
         addedSlugs.add(tool.slug);
         if (result.length >= limit) return result;

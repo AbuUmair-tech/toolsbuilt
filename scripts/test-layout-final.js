@@ -216,12 +216,13 @@ async function run() {
     const cardCount = await page.locator('.category-grid .category-card').count();
     assert(cardCount === categories.length, `Category grid renders one card per category (found ${cardCount})`);
 
-    const expectedPopular = Math.min(8, tools.filter(t => t.popular).length);
+    const listedTools = tools.filter(t => t.listed !== false);
+    const expectedPopular = Math.min(8, listedTools.filter(t => t.popular).length);
     const popularCount = await page.locator('#popular-tools .tool-card').count();
     assert(popularCount === expectedPopular, `Popular tools lists ${expectedPopular} links (found ${popularCount})`);
 
     const allToolsLinks = await page.locator('#all-tools .all-tools-list a').count();
-    assert(allToolsLinks === tools.length, `All tools list links every tool (${allToolsLinks}/${tools.length})`);
+    assert(allToolsLinks === listedTools.length, `All tools list links every listed tool (${allToolsLinks}/${listedTools.length})`);
 
     await page.close();
   }

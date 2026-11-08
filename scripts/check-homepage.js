@@ -3,6 +3,9 @@ const path = require('path');
 
 const ROOT = path.resolve(__dirname, '..');
 const TOOLS_DATA = JSON.parse(fs.readFileSync(path.join(ROOT, 'src', '_data', 'tools.json'), 'utf8'));
+// Listed tools only: country pages (listed: false) are reached through their parent tool
+const LISTED = TOOLS_DATA.filter(t => t.listed !== false);
+const HIDDEN = TOOLS_DATA.filter(t => t.listed === false);
 const CATEGORIES_DATA = JSON.parse(fs.readFileSync(path.join(ROOT, 'src', '_data', 'categories.json'), 'utf8'));
 const SITE_DIR = path.join(ROOT, '_site');
 const INDEX_HTML_PATH = path.join(SITE_DIR, 'index.html');
@@ -36,13 +39,13 @@ function runHomepageChecks() {
     const allToolsHtml = allToolsMatch[0];
     const missingTools = [];
     const duplicatedTools = [];
-    TOOLS_DATA.forEach(t => {
+    LISTED.forEach(t => {
       const regex = new RegExp(`href="/tools/${t.slug}/"`, 'g');
       const count = (allToolsHtml.match(regex) || []).length;
       if (count === 0) missingTools.push(t.slug);
       if (count > 1) duplicatedTools.push(`${t.slug} (${count} times)`);
     });
-    assert(missingTools.length === 0, `All ${TOOLS_DATA.length} tools appear in "All tools" section (missing: ${missingTools.join(', ') || 'none'})`);
+    assert(missingTools.length === 0, `All ${LISTED.length} listed tools appear in "All tools" section (missing: ${missingTools.join(', ') || 'none'})`);
     assert(duplicatedTools.length === 0, `Every tool appears exactly once in "All tools" section (duplicates: ${duplicatedTools.join(', ') || 'none'})`);
   }
 
@@ -60,9 +63,13 @@ function runHomepageChecks() {
 
   // Popular tools: tools with popular: true, max 8
   const popularMatch = html.match(/<section[^>]*id="popular-tools"[\s\S]*?<\/section>/i);
-  const expectedPopular = TOOLS_DATA.filter(t => t.popular).length;
+  const expectedPopular = LISTED.filter(t => t.popular).length;
   const popularLinks = popularMatch ? (popularMatch[0].match(/href="\/tools\/[a-z0-9-]+\/" class="tool-card"/g) || []).length : 0;
   assert(popularLinks === Math.min(8, expectedPopular), `Popular tools lists ${Math.min(8, expectedPopular)} popular tools (found ${popularLinks})`);
+
+  // Unlisted tools (country pages) never appear on the homepage
+  const shownHidden = HIDDEN.filter(t => html.includes(`href="/tools/${t.slug}/"`)).map(t => t.slug);
+  assert(shownHidden.length === 0, `Unlisted tools are not linked from the homepage (found: ${shownHidden.join(', ') || 'none'})`);
 
   // Removed blocks stay removed
   ['how-it-works', 'home-cta', 'trust-badge', 'quick-chip', 'jump-pill'].forEach(cls => {

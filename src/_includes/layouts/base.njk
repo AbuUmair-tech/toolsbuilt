@@ -114,7 +114,8 @@
     })();
   </script>
 </head>
-<body{% if toolSlug or slug %} data-tool-id="{{ toolSlug or slug }}"{% endif %}>
+{% set bodyTool = tools | findTool(toolSlug or slug) if (toolSlug or slug) else null -%}
+<body{% if toolSlug or slug %} data-tool-id="{{ toolSlug or slug }}"{% endif %}{% if bodyTool and bodyTool.parent %} data-parent-tool="{{ bodyTool.parent }}"{% endif %}>
   <a href="#main-content" class="skip-link">{{ 'base.content.tool.a1' | t }}</a>
 
   {% include "partials/header.njk" %}

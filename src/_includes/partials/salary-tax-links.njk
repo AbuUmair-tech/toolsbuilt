@@ -1,0 +1,37 @@
+{#
+  Links between the salary tax hub and its country pages (each country page ranks on its own;
+  these links tie them together).
+    {% from "partials/salary-tax-links.njk" import otherCountries, chooseCountry with context %}
+    {{ otherCountries("GB") }}   on a country page: the hub and every other country page
+    {{ chooseCountry() }}        on the hub: every country page with its current tax year
+  Country pages: Pakistan (its own template) and every page in salaryTaxPages.
+#}
+{% macro otherCountries(current) %}
+{%- set S = 'salary-tax-calculator' -%}
+<nav class="stc-country-links" aria-label="{{ 'calc.otherCountries' | ts(S) }}">
+  <span class="stc-country-links-label">{{ 'calc.otherCountries' | ts(S) }}</span>
+  <ul>
+    {% for c in salaryTaxCountryPages %}{% if c.code != current %}
+    <li><a href="/tools/{{ c.slug }}/">{{ c.code | regionName }}</a></li>
+    {% endif %}{% endfor %}
+    <li><a href="/tools/salary-tax-calculator/">{{ 'calc.allCountries' | ts(S) }}</a></li>
+  </ul>
+</nav>
+{% endmacro %}
+
+{% macro chooseCountry() %}
+{%- set S = 'salary-tax-calculator' -%}
+<section class="content-section" aria-labelledby="country-pages-heading">
+  <h2 id="country-pages-heading">{{ 'calc.chooseCountry' | ts(S) }}</h2>
+  <ul class="country-list" id="country-list">
+    {% for c in salaryTaxCountryPages %}
+    <li>
+      <a href="/tools/{{ c.slug }}/" data-country="{{ c.code }}">
+        <span class="country-list-name">{{ c.code | regionName }}</span>
+        <span class="country-list-meta">{{ ('calc.yearLabels.' + c.code) | ts(S) }}</span>
+      </a>
+    </li>
+    {% endfor %}
+  </ul>
+</section>
+{% endmacro %}

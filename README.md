@@ -215,6 +215,8 @@ One calculator serves every salary tax page: the hub `/tools/salary-tax-calculat
 | Text | `src/_data/i18n/tools/<lang>/salary-tax-calculator.json` (`body.calc` server, `client.calc` browser) |
 | Tests | `scripts/test-tool-logic.js` (sections `TaxData`, `Tax<CC>`, `Pay<CC>`, `PayCustom`, `StcCountries`) |
 
+**One listed tool, one page per country.** Only `salary-tax-calculator` is listed. The country pages have `"listed": false` and `"parent": "salary-tax-calculator"` in `tools.json`, which keeps them out of every list (homepage, categories, `/tools/`, header, related tools, search, counts; see the `listed` filter in `eleventy.config.js`) while they keep their URL, their own title, H1, FAQs and canonical, and stay in `sitemap.xml` and `llms.txt`. Their breadcrumb is Home > Math & Finance > Salary Tax Calculator > <Country>, and `partials/salary-tax-links.njk` links the hub and the country pages to each other. Any tool can use the same two fields.
+
 Countries with a dataset use **built-in rules**; countries in `noSalaryTax.json` show zero income tax with the official statement; every other country opens **Custom Tax Mode** (own brackets, allowance, deductions, social security, pension and levies, saved per country in `localStorage` and shared in the URL as `?custom=`). Result links carry `country`, `year`, `salary`, `period`, `hours`, `status` and `o-<option id>`.
 
 ### How to add a new country / tax year

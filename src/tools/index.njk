@@ -39,9 +39,9 @@ canonical: https://toolsbuilt.com/tools/
     "mainEntity": {
       "@type": "ItemList",
       "name": "All Tools Built",
-      "numberOfItems": {{ tools | length }},
+      "numberOfItems": {{ tools | listed | length }},
       "itemListElement": [
-        {% for t in tools %}
+        {% for t in tools | listed %}
         {
           "@type": "ListItem",
           "position": {{ loop.index }},
@@ -73,7 +73,7 @@ canonical: https://toolsbuilt.com/tools/
         <div class="directory-hero-header">
           <p class="section-label">{{ 'content.tool.p1' | pt }}</p>
           <h1 class="directory-hero-title">{{ 'content.tool.heading' | pt }}</h1>
-          <p class="directory-hero-subtitle">{{ 'hero.subtitle' | pt({ tools: tools | length, categories: categories | length }) }}</p>
+          <p class="directory-hero-subtitle">{{ 'hero.subtitle' | pt({ tools: tools | listed | length, categories: categories | length }) }}</p>
     
           <!-- Live Directory Filter -->
           <div class="directory-search-wrapper">
@@ -81,13 +81,13 @@ canonical: https://toolsbuilt.com/tools/
               <circle cx="11" cy="11" r="8"></circle>
               <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
             </svg>
-            <input type="search" id="directory-search" class="directory-search-input" placeholder="{{ 'search.placeholder' | pt({ count: tools | length }) }}" aria-label="{{ 'ariaLabel.directory-search' | pt }}">
+            <input type="search" id="directory-search" class="directory-search-input" placeholder="{{ 'search.placeholder' | pt({ count: tools | listed | length }) }}" aria-label="{{ 'ariaLabel.directory-search' | pt }}">
           </div>
     
           <!-- Category Filter Chips -->
           <div class="directory-filter-bar" role="toolbar" aria-label="{{ 'ariaLabel.tool-div1' | pt }}">
             <button type="button" class="tool-filter-chip is-active" data-category="all">
-              {{ 'content.tool.text1' | pt }} <span class="chip-count">{{ tools | length }}</span>
+              {{ 'content.tool.text1' | pt }} <span class="chip-count">{{ tools | listed | length }}</span>
             </button>
             {% for cat in categories %}
             <button type="button" class="tool-filter-chip" data-category="{{ cat.slug }}">

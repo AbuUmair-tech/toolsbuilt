@@ -7,7 +7,6 @@ toolScript: "/tools/salary-tax-calculator/calculator.js"
 applicationCategory: FinanceApplication
 lastReviewed: "2026-10-31"
 ---
-{%- set pk = tax["pk-2026-27"] -%}
 {% from "partials/currency-select.njk" import countryData with context %}
 {{ countryData(countries) }}
 {% from "partials/salary-tax-calculator.njk" import salaryTaxCalculator with context %}
@@ -15,25 +14,8 @@ lastReviewed: "2026-10-31"
 
     <!-- tool-end -->
 
-    <section class="content-section" aria-labelledby="country-pages-heading">
-      <h2 id="country-pages-heading">{{ 'calc.countryPages' | pt }}</h2>
-      <ul class="country-list" id="country-list">
-        <li>
-          <a href="/tools/pakistan-salary-tax-calculator/" data-country="PK">
-            <span class="country-list-name">{{ 'content.tool.span1' | pt }}</span>
-            <span class="country-list-meta">{{ 'hub.pkMeta' | pt({ year: pk.taxYear }) }}</span>
-          </a>
-        </li>
-        {% for c in salaryTaxPages %}
-        <li>
-          <a href="/tools/{{ c.page.slug }}/" data-country="{{ c.country }}">
-            <span class="country-list-name">{{ c.countryName }}</span>
-            <span class="country-list-meta">{{ text.countryPages[c.country].label }}</span>
-          </a>
-        </li>
-        {% endfor %}
-      </ul>
-    </section>
+{% from "partials/salary-tax-links.njk" import chooseCountry with context %}
+    {{ chooseCountry() }}
 
 
     <section class="content-section" aria-labelledby="no-tax-heading">

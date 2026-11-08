@@ -5,6 +5,7 @@ toolLogic: "/tools/salary-tax-calculator/logic.js"
 toolScript: "/tools/salary-tax-calculator/calculator.js"
 applicationCategory: FinanceApplication
 areaServed: Pakistan
+countryCode: PK
 permalink: /tools/pakistan-salary-tax-calculator/
 extraCss: "/tools/salary-tax-calculator/style.css"
 lastReviewed: "2026-10-31"
@@ -16,6 +17,9 @@ lastReviewed: "2026-10-31"
 {{ salaryTaxCalculator({ country: "PK", year: pakistanSalaryTax.taxYear }) }}
 
     <!-- tool-end -->
+
+{% from "partials/salary-tax-links.njk" import otherCountries with context %}
+    {{ otherCountries("PK") }}
 
     <section class="content-section stc-rate-tables" aria-label="{{ 'slabs.title' | pt({ year: pakistanSalaryTax.taxYear }) }}">
       <!-- Slab tables, rendered from logic.js data (the calculator above shows the visitor's own slab) -->

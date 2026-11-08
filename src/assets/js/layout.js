@@ -377,13 +377,14 @@
 
   // --- Recent Tools Visited Storage ---
   function recordRecentToolVisit() {
-    const toolId = document.body ? (document.body.dataset.toolId || document.body.getAttribute('data-tool-id')) : null;
+    // A country page (data-parent-tool) counts as a visit to its parent tool, the one that is listed
+    const toolId = document.body ? (document.body.dataset.parentTool || document.body.dataset.toolId || document.body.getAttribute('data-tool-id')) : null;
     if (!toolId) return;
 
     try {
       let recents = JSON.parse(localStorage.getItem(RECENT_KEY) || '[]');
       recents = recents.filter(item => item.slug !== toolId);
-      const toolName = document.querySelector('h1')?.textContent.trim() || toolId;
+      const toolName = (!document.body.dataset.parentTool && document.querySelector('h1')?.textContent.trim()) || toolId;
       recents.unshift({
         slug: toolId,
         name: toolName,

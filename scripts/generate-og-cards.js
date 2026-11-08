@@ -262,7 +262,7 @@ async function generateCards({ force = false, lang = { code: 'en', prefix: '' } 
     ...pages,
     slug: 'tools',
     title: ui.tools.title,
-    description: i18nData.format(ui.tools.description, { count: tools.length }),
+    description: i18nData.format(ui.tools.description, { count: tools.filter(t => t.listed !== false).length }),
     categoryName: ui.labels.directory,
     accentColor: CATEGORY_COLORS['default']
   });

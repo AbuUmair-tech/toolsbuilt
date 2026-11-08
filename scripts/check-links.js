@@ -305,7 +305,7 @@ function checkSearchIndex() {
   try {
     const raw = fs.readFileSync(path.join(assetsDir, indexFile), 'utf8');
     const tools = JSON.parse(raw);
-    const expectedTools = JSON.parse(fs.readFileSync(path.join(ROOT, 'src', '_data', 'tools.json'), 'utf8'));
+    const expectedTools = JSON.parse(fs.readFileSync(path.join(ROOT, 'src', '_data', 'tools.json'), 'utf8')).filter(t => t.listed !== false);
     if (!Array.isArray(tools) || tools.length !== expectedTools.length) {
       errors.push(`[ERROR] Search index must contain ${expectedTools.length} tools, found ${tools ? tools.length : 0}`);
       return;
@@ -361,7 +361,8 @@ function checkRobotsTxt() {
   }
 }
 
-// Every tool must be one click from the homepage, its category hub and /tools/
+// Every listed tool must be one click from the homepage, its category hub and /tools/; an unlisted
+// tool (a salary tax country page) one click from its parent tool's page and from none of the lists
 function checkToolHubLinks() {
   const tools = JSON.parse(fs.readFileSync(path.join(ROOT, 'src', '_data', 'tools.json'), 'utf8'));
   const read = rel => {
@@ -370,7 +371,16 @@ function checkToolHubLinks() {
   };
   const home = read('index.html');
   const directory = read(path.join('tools', 'index.html'));
-  for (const t of tools) {
+  for (const t of tools.filter(x => x.listed === false)) {
+    const href = `href="/tools/${t.slug}/"`;
+    const parent = read(path.join('tools', t.parent || '', 'index.html'));
+    if (!t.parent || parent === null) errors.push(`[ERROR] Unlisted /tools/${t.slug}/ needs an existing parent tool`);
+    else if (!parent.includes(href)) errors.push(`[ERROR] Unlisted /tools/${t.slug}/ is not linked from its parent /tools/${t.parent}/`);
+    for (const [label, html] of [['homepage', home], ['/tools/', directory]]) {
+      if (html && html.includes(href)) errors.push(`[ERROR] Unlisted /tools/${t.slug}/ is linked from ${label}`);
+    }
+  }
+  for (const t of tools.filter(x => x.listed !== false)) {
     const href = `href="/tools/${t.slug}/"`;
     const hub = read(path.join('category', t.category, 'index.html'));
     const hubs = [['homepage', home], [`/category/${t.category}/`, hub], ['/tools/', directory]];

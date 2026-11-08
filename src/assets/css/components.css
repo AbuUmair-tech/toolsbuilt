@@ -1044,7 +1044,9 @@
 
   .breadcrumb ol {
     display: flex;
-    flex-wrap: nowrap;
+    /* Wraps only when the trail does not fit (four steps on a country page at phone width) */
+    flex-wrap: wrap;
+    row-gap: var(--space-1);
     min-width: 0;
     align-items: center;
     list-style: none;

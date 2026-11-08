@@ -104,7 +104,7 @@ window.TOOLS_DATA = [
       "compound-interest-calculator",
       "sip-calculator",
       "discount-calculator",
-      "pakistan-salary-tax-calculator"
+      "salary-tax-calculator"
     ]
   },
   {
@@ -206,7 +206,7 @@ window.TOOLS_DATA = [
       "loan-emi-calculator",
       "sip-calculator",
       "percentage-change-calculator",
-      "pakistan-salary-tax-calculator"
+      "salary-tax-calculator"
     ]
   },
   {
@@ -222,7 +222,7 @@ window.TOOLS_DATA = [
       "compound-interest-calculator",
       "loan-emi-calculator",
       "percentage-calculator",
-      "pakistan-salary-tax-calculator"
+      "salary-tax-calculator"
     ]
   },
   {
@@ -414,23 +414,23 @@ window.TOOLS_DATA = [
   },
   {
     "id": "salary-tax-calculator",
-    "name": "Salary Tax Calculator by Country",
+    "name": "Salary Tax Calculator",
     "url": "/tools/salary-tax-calculator/",
     "icon": "receipt",
-    "description": "Pick your country to work out income tax on your salary: UK, US federal, India and Pakistan calculators built from official rates, plus Gulf countries.",
+    "description": "Income tax and take-home pay on your salary for Pakistan, India, the UK and the US with official rates, or any other country with your own rates.",
     "category": "Math & Finance Tools",
     "categoryId": "math-finance",
     "popular": false,
     "related": [
-      "pakistan-salary-tax-calculator",
-      "uk-salary-tax-calculator",
-      "us-salary-tax-calculator",
-      "india-salary-tax-calculator"
+      "salary-to-hourly-calculator",
+      "sales-tax-calculator",
+      "loan-emi-calculator",
+      "percentage-calculator"
     ]
   },
   {
     "id": "india-salary-tax-calculator",
-    "name": "India Salary Tax Calculator 2025-26",
+    "name": "India Salary Tax Calculator FY 2025-26",
     "url": "/tools/india-salary-tax-calculator/",
     "icon": "receipt",
     "description": "Work out income tax on an Indian salary for FY 2025-26 under the new regime: ₹75,000 standard deduction, 87A rebate up to ₹12 lakh, surcharge and 4% cess.",
@@ -439,7 +439,6 @@ window.TOOLS_DATA = [
     "popular": false,
     "related": [
       "salary-tax-calculator",
-      "pakistan-salary-tax-calculator",
       "sales-tax-calculator",
       "sip-calculator"
     ]
@@ -455,7 +454,6 @@ window.TOOLS_DATA = [
     "popular": false,
     "related": [
       "salary-tax-calculator",
-      "us-salary-tax-calculator",
       "salary-to-hourly-calculator",
       "sales-tax-calculator",
       "loan-emi-calculator"
@@ -463,7 +461,7 @@ window.TOOLS_DATA = [
   },
   {
     "id": "us-salary-tax-calculator",
-    "name": "US Salary Tax Calculator 2026 (Federal)",
+    "name": "US Salary Tax Calculator 2026",
     "url": "/tools/us-salary-tax-calculator/",
     "icon": "receipt",
     "description": "Estimate 2026 US federal income tax on a salary for single filers and married couples filing jointly, with the 2026 standard deduction and IRS brackets.",
@@ -473,7 +471,6 @@ window.TOOLS_DATA = [
     "related": [
       "salary-tax-calculator",
       "salary-to-hourly-calculator",
-      "uk-salary-tax-calculator",
       "compound-interest-calculator",
       "loan-emi-calculator"
     ]
@@ -524,7 +521,7 @@ window.TOOLS_DATA = [
     "popular": false,
     "related": [
       "sales-tax-calculator",
-      "pakistan-salary-tax-calculator",
+      "salary-tax-calculator",
       "percentage-calculator",
       "unit-converter"
     ]
@@ -544,7 +541,7 @@ window.TOOLS_DATA = [
       "profit-margin-calculator",
       "percentage-calculator",
       "gold-calculator",
-      "pakistan-salary-tax-calculator"
+      "salary-tax-calculator"
     ]
   },
   {

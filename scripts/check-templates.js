@@ -9,6 +9,9 @@ const path = require('path');
 const ROOT = path.resolve(__dirname, '..');
 const SITE_DIR = path.join(ROOT, '_site');
 const tools = require(path.join(ROOT, 'src/_data/tools.json'));
+// Listed tools only appear in lists; country pages (listed: false) are reached through their parent
+const listedTools = tools.filter(t => t.listed !== false);
+const hiddenTools = tools.filter(t => t.listed === false);
 const categories = require(path.join(ROOT, 'src/_data/categories.json'));
 
 let failures = 0;
@@ -73,7 +76,8 @@ categories.forEach(cat => {
   assert(html.includes('How to Choose the Right Tool'), `/category/${cat.slug}/ has 'How to Choose' guidance`);
 
   // Every tool in the category is linked as a row
-  tools.filter(t => t.category === cat.slug).forEach(t => {
+  hiddenTools.forEach(t => assert(!html.includes(`href="/tools/${t.slug}/" class="tool-card"`), `/category/${cat.slug}/ does not list unlisted /tools/${t.slug}/`));
+  listedTools.filter(t => t.category === cat.slug).forEach(t => {
     assert(html.includes(`href="/tools/${t.slug}/" class="tool-card"`), `/category/${cat.slug}/ lists /tools/${t.slug}/ as a card`);
   });
 
@@ -111,8 +115,9 @@ if (fs.existsSync(dirFile)) {
     assert(dirHtml.includes(`data-category="${cat.slug}"`), `/tools/ has filter chip for ${cat.name}`);
   });
 
-  // Check all tools are listed in directory
-  tools.forEach(tool => {
+  // Check all listed tools are in the directory, and unlisted ones are not
+  hiddenTools.forEach(tool => assert(!dirHtml.includes(`href="/tools/${tool.slug}/"`), `/tools/ directory does not list unlisted /tools/${tool.slug}/`));
+  listedTools.forEach(tool => {
     assert(
       dirHtml.includes(`/tools/${tool.slug}/`),
       `/tools/ directory links to tool /tools/${tool.slug}/`
@@ -122,7 +127,7 @@ if (fs.existsSync(dirFile)) {
   // Check schemas: BreadcrumbList and CollectionPage + ItemList
   assert(dirHtml.includes('"@type": "BreadcrumbList"'), '/tools/ has BreadcrumbList schema');
   assert(dirHtml.includes('"@type": "CollectionPage"'), '/tools/ has CollectionPage schema');
-  assert(dirHtml.includes(`"numberOfItems": ${tools.length}`), `/tools/ schema reports all ${tools.length} items`);
+  assert(dirHtml.includes(`"numberOfItems": ${listedTools.length}`), `/tools/ schema reports all ${listedTools.length} listed items`);
   assert(!dirHtml.includes('TODO_'), '/tools/ has zero TODO_ placeholders');
 }
 
