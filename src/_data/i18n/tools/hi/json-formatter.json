@@ -1,0 +1,211 @@
+{
+  "listing": {
+    "name": "JSON फ़ॉर्मैटर और वैलिडेटर",
+    "shortName": "JSON फ़ॉर्मैटर",
+    "description": "JSON फ़ॉर्मैट, मिनिफ़ाई और वैलिडेट करें, keys को क्रम में लगाएँ, लाइन और कॉलम के साथ एरर संदेश पाएँ।",
+    "shortDescription": "JSON फ़ॉर्मैट, मिनिफ़ाई और वैलिडेट करें, keys को क्रम में लगाएँ, लाइन और कॉलम के साथ एरर संदेश पाएँ।",
+    "keywords": [
+      "JSON फ़ॉर्मैटर",
+      "JSON वैलिडेटर",
+      "json formatter online",
+      "JSON मिनिफ़ाई करें",
+      "JSON सिंटैक्स चेकर"
+    ]
+  },
+  "title": "JSON फ़ॉर्मैटर और वैलिडेटर - फ़ॉर्मैट, मिनिफ़ाई, keys सॉर्ट",
+  "description": "मुफ़्त ऑनलाइन JSON फ़ॉर्मैटर, वैलिडेटर और मिनिफ़ायर। 2/4 स्पेस या टैब से सुंदर बनाएँ, keys सॉर्ट करें, लाइन नंबर के साथ एरर पाएँ और डाउनलोड करें।",
+  "h1": "JSON फ़ॉर्मैटर और वैलिडेटर",
+  "quickAnswer": "JSON फ़ॉर्मैट और वैलिडेट करने के लिए अपनी स्ट्रिंग इस JSON फ़ॉर्मैटर के एडिटर में पेस्ट करें। टूल JSON.parse() से टेक्स्ट पढ़ता है, सिंटैक्स जाँचता है, गलत होने पर एरर की सटीक लाइन और कॉलम दिखाता है, और संरचना को 2 स्पेस, 4 स्पेस या टैब से सुंदर बनाता है। आप स्पेस हटाने के लिए मिनिफ़ाई भी कर सकते हैं या keys को वर्णक्रम में लगा सकते हैं। सब 100% आपके ब्राउज़र में होता है।",
+  "workedExamples": [
+    {
+      "title": "compact JSON को 2-स्पेस इंडेंटेशन से सुंदर बनाएँ",
+      "inputs": [
+        "इनपुट: {\"name\":\"ToolsBuilt\",\"tools\":23,\"free\":true}",
+        "इंडेंटेशन: 2 स्पेस",
+        "keys सॉर्ट करें: बंद"
+      ],
+      "steps": [
+        "स्ट्रिंग को मेमोरी में tree के रूप में पढ़ें",
+        "2-स्पेस इंडेंटेशन और नई लाइनों के साथ लिखें"
+      ],
+      "result": "{\n  \"name\": \"ToolsBuilt\",\n  \"tools\": 23,\n  \"free\": true\n}"
+    },
+    {
+      "title": "keys को वर्णक्रम में लगाना (nested object)",
+      "inputs": [
+        "इनपुट: {\"z\": 1, \"a\": {\"y\": 2, \"b\": 3}}",
+        "keys सॉर्ट करें: चालू"
+      ],
+      "steps": [
+        "JSON object को अंदर तक हर स्तर पर देखें",
+        "ऊपरी स्तर की keys का क्रम: 'a' पहले, 'z' बाद में",
+        "'a' के अंदर की keys का क्रम: 'b' पहले, 'y' बाद में"
+      ]
+    },
+    {
+      "title": "नेटवर्क के लिए JSON मिनिफ़ाई करें",
+      "inputs": [
+        "इनपुट: स्पेस और कई लाइनों वाला फ़ॉर्मैट किया गया JSON",
+        "क्रिया: मिनिफ़ाई"
+      ],
+      "steps": [
+        "स्ट्रिंग के बाहर के सभी अनावश्यक स्पेस, टैब और लाइन ब्रेक हटाएँ",
+        "HTTP पर तेज़ भेजने के लिए डेटा का साइज़ घटाएँ"
+      ],
+      "result": "{\"name\":\"ToolsBuilt\",\"tools\":23,\"free\":true}"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "trailing comma",
+      "description": "array (<code>[1, 2, 3,]</code>) या object (<code>{\"a\": 1,}</code>) के आखिरी आइटम के बाद comma आधुनिक JavaScript में चलता है, लेकिन मानक JSON में तुरंत सिंटैक्स एरर देता है।"
+    },
+    {
+      "title": "स्ट्रिंग के लिए सिंगल कोट्स",
+      "description": "JSON में डबल कोट्स ज़रूरी हैं (<code>\"key\": \"value\"</code>)। सिंगल कोट्स (<code>'key': 'value'</code>) को हर मानक JSON parser अस्वीकार करता है।"
+    },
+    {
+      "title": "बिना कोट्स वाली keys",
+      "description": "JavaScript में keys बिना कोट्स के लिखी जा सकती हैं (<code>{name: \"value\"}</code>)। JSON में keys हमेशा डबल कोट्स में होनी चाहिए।"
+    },
+    {
+      "title": "बिना escape किए control कैरेक्टर",
+      "description": "स्ट्रिंग के अंदर सीधे टैब या नई लाइन JSON को पढ़ने में गड़बड़ करते हैं; उन्हें <code>\\t</code> या <code>\\n</code> के रूप में escape करना ज़रूरी है।"
+    }
+  ],
+  "sources": [
+    {
+      "label": "ECMA-404: The JSON Data Interchange Standard"
+    },
+    {
+      "label": "RFC 8259: The JavaScript Object Notation (JSON) Data Interchange Format"
+    },
+    {
+      "label": "MDN Web Docs: JSON.parse() विनिर्देश"
+    }
+  ],
+  "howto": {
+    "name": "JSON ऑनलाइन कैसे फ़ॉर्मैट और वैलिडेट करें",
+    "description": "अपने ब्राउज़र में JSON को सुंदर बनाने, सिंटैक्स जाँचने और मिनिफ़ाई करने के स्टेप बाय स्टेप निर्देश।",
+    "steps": [
+      {
+        "name": "JSON पेस्ट या टाइप करें",
+        "text": "अपना JSON इनपुट JSON बॉक्स में पेस्ट करें या उदाहरण लोड करें पर क्लिक करें।"
+      },
+      {
+        "name": "फ़ॉर्मैटिंग के विकल्प चुनें",
+        "text": "अपना पसंदीदा इंडेंटेशन (2 स्पेस, 4 स्पेस या टैब) चुनें और चाहें तो keys को वर्णक्रम में लगाना चालू करें।"
+      },
+      {
+        "name": "फ़ॉर्मैट, वैलिडेट या डाउनलोड करें",
+        "text": "फ़ॉर्मैट किया गया नतीजा तुरंत देखें, लाइन और कॉलम के साथ सिंटैक्स एरर जाँचें, या कॉपी/डाउनलोड पर क्लिक करें।"
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "JSON में आम सिंटैक्स एरर किस वजह से होते हैं?",
+      "a": "सबसे आम JSON सिंटैक्स एरर हैं: आखिरी array आइटम या object property के बाद trailing comma, बिना कोट्स की keys, डबल की जगह सिंगल कोट्स, और स्ट्रिंग के अंदर बिना escape की नई लाइन।"
+    },
+    {
+      "q": "क्या यह JSON फ़ॉर्मैटर keys को हर स्तर पर सॉर्ट करता है?",
+      "a": "हाँ। 'keys को वर्णक्रम में लगाएँ' चालू होने पर keys ऊपरी स्तर पर और सभी nested child objects के अंदर वर्णक्रम में लगती हैं।"
+    },
+    {
+      "q": "फ़ॉर्मैटिंग के लिए फ़ाइल का अधिकतम साइज़ कितना है?",
+      "a": "ब्राउज़र की सुरक्षा और सुचारु चलने के लिए टूल 1 MB (1,048,576 कैरेक्टर) की सीमा रखता है। बड़े डेटा पर इंटरफ़ेस अटकने से बचाने के लिए प्रोसेसिंग थोड़ी देर से होती है।"
+    },
+    {
+      "q": "क्या मेरा JSON डेटा किसी बाहरी सर्वर पर अपलोड होता है?",
+      "a": "नहीं। सारी फ़ॉर्मैटिंग, key सॉर्टिंग, वैलिडेशन और मिनिफ़िकेशन 100% आपके ब्राउज़र की मेमोरी में लोकल होता है। आपकी गोपनीय API keys, डेटा और कॉन्फ़िगरेशन फ़ाइलें कभी नेटवर्क पर नहीं भेजी जातीं।"
+    },
+    {
+      "q": "JSON फ़ॉर्मैटिंग और मिनिफ़िकेशन में क्या अंतर है?",
+      "a": "फ़ॉर्मैटिंग इंडेंटेशन और लाइन ब्रेक जोड़ती है ताकि डेवलपर डेटा आसानी से देख और डीबग कर सकें। मिनिफ़िकेशन सभी अनावश्यक स्पेस हटाता है ताकि नेटवर्क पर कम डेटा भेजना पड़े।"
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "JSON फ़ॉर्मैटर और वैलिडेटर फ़ॉर्म",
+      "example-1-unformatted-input-pre1": "बिना फ़ॉर्मैट किए JSON का उदाहरण",
+      "example-2-formatted-2-spaces-pre1": "2-स्पेस इंडेंटेशन वाले फ़ॉर्मैट किए JSON का उदाहरण"
+    },
+    "label": {
+      "indent-select": "इंडेंटेशन:",
+      "json-input": "इनपुट JSON:",
+      "json-output": "फ़ॉर्मैट / मिनिफ़ाई किया गया आउटपुट:"
+    },
+    "option": {
+      "indent-select": {
+        "2": "2 स्पेस",
+        "4": "4 स्पेस",
+        "tab": "टैब"
+      }
+    },
+    "content": {
+      "tool": {
+        "label1": "<input type=\"checkbox\" id=\"sort-keys-toggle\" class=\"cursor-pointer\">\n            <span>keys को वर्णक्रम में लगाएँ</span>"
+      },
+      "how-when-to-use-the-json": {
+        "li1": "<strong>REST और GraphQL API डीबग करना:</strong> cURL या Postman से मिले एक लाइन वाले API जवाब को पढ़ने लायक nested संरचना में फ़ॉर्मैट करें।",
+        "li2": "<strong>कॉन्फ़िगरेशन फ़ाइलें जाँचना:</strong> डिप्लॉय करने से पहले <code>tsconfig.json</code>, <code>package.json</code> या Kubernetes कॉन्फ़िगरेशन में सिंटैक्स की गलतियाँ जल्दी जाँचें।",
+        "li3": "<strong>डेटा का साइज़ घटाना:</strong> बंडल करने या वेब पर भेजने से पहले JSON फ़ाइलें मिनिफ़ाई करें, ताकि HTTP ट्रांसफ़र साइज़ और बैंडविड्थ कम लगे।",
+        "li4": "<strong>keys की एक जैसी तुलना:</strong> दो JSON दस्तावेज़ों को एक जैसा बनाने के लिए keys वर्णक्रम में लगाएँ, ताकि key के क्रम के झूठे अंतर के बिना diff आसानी से देख सकें।"
+      },
+      "json-formatting-standards-indentation-formulas": {
+        "p1": "JavaScript Object Notation (JSON) एक सख़्त, टेक्स्ट-आधारित डेटा फ़ॉर्मैट है, जो ECMA-404 और RFC 8259 में परिभाषित है। JavaScript object literals के उलट, JSON में सभी keys और स्ट्रिंग के लिए डबल कोट्स ज़रूरी हैं, और trailing comma, कमेंट और बिना कोट्स के नाम पूरी तरह मना हैं।"
+      },
+      "example-1-unformatted-input": {
+        "heading": "उदाहरण 1: बिना फ़ॉर्मैट का इनपुट",
+        "p1": "एक लाइन वाला compact डेटा:"
+      },
+      "example-2-formatted-2-spaces": {
+        "heading": "उदाहरण 2: फ़ॉर्मैट किया गया (2 स्पेस)",
+        "p1": "मानक इंडेंटेशन से सुंदर बनाया गया:"
+      },
+      "example-3-key-sorting-comparison": {
+        "heading": "उदाहरण 3: key सॉर्टिंग की तुलना",
+        "p1": "वर्णक्रम सॉर्टिंग keys को एक जैसे क्रम में लगाती है:",
+        "li1": "पहले: <code>{\"z\": 1, \"a\": 2}</code>",
+        "li2": "बाद में: <code>{\"a\": 2, \"z\": 1}</code>",
+        "li3": "इससे एक जैसा हैश और version control में साफ़ diff मिलता है।"
+      }
+    },
+    "text": {
+      "sample-btn": "उदाहरण लोड करें",
+      "clear-btn": "साफ़ करें",
+      "size-meter": "0.0 KB / 1 MB",
+      "format-btn": "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><polyline points=\"16 18 22 12 16 6\"></polyline><polyline points=\"8 6 2 12 8 18\"></polyline></svg>\n          JSON फ़ॉर्मैट करें",
+      "minify-btn": "JSON मिनिफ़ाई करें",
+      "validate-btn": "सिंटैक्स जाँचें",
+      "copy-btn": "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"9\" y=\"9\" width=\"13\" height=\"13\" rx=\"2\" ry=\"2\"></rect><path d=\"M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1\"></path></svg>\n          आउटपुट कॉपी करें",
+      "download-btn": "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4\"></path><polyline points=\"7 10 12 15 17 10\"></polyline><line x1=\"12\" y1=\"15\" x2=\"12\" y2=\"3\"></line></svg>\n          .json डाउनलोड करें",
+      "how-to-use-heading": "JSON फ़ॉर्मैटर कैसे और कब इस्तेमाल करें",
+      "article-heading": "JSON फ़ॉर्मैटिंग के मानक, इंडेंटेशन और नियम"
+    },
+    "placeholder": {
+      "json-output": "टाइप करते ही फ़ॉर्मैट किया गया आउटपुट यहाँ दिखेगा..."
+    }
+  },
+  "client": {
+    "sizeMeter": "{{kb}} KB / {{max}} MB",
+    "status": {
+      "formatted": "✓ मान्य JSON: {{lines}} लाइनें फ़ॉर्मैट हुईं ({{kb}} KB)",
+      "minified": "✓ मिनिफ़ाई JSON: 1 लाइन ({{chars}} कैरेक्टर)",
+      "valid": "✓ JSON सिंटैक्स सही है: {{lines}} लाइनें ({{kb}} KB)"
+    },
+    "errors": {
+      "invalid": "अमान्य JSON",
+      "empty": "JSON इनपुट खाली है। जाँचने के लिए JSON पेस्ट या टाइप करें।",
+      "tooLarge": "इनपुट 1 MB की सुरक्षा सीमा से बड़ा है (अधिकतम 1,048,576 कैरेक्टर)। मौजूदा साइज़: {{size}} कैरेक्टर।",
+      "syntax": "सिंटैक्स एरर: {{message}}, लाइन {{line}}, कॉलम {{column}} पर"
+    },
+    "toast": {
+      "nothingToCopy": "कॉपी करने को कुछ नहीं है। पहले मान्य JSON डालें।",
+      "copied": "JSON क्लिपबोर्ड पर कॉपी हो गया",
+      "nothingToDownload": "डाउनलोड करने को कुछ नहीं है। पहले मान्य JSON डालें।",
+      "downloaded": "{{file}} डाउनलोड हो गई",
+      "downloadFailed": "डाउनलोड नहीं हो सका। इसकी जगह कॉपी करें।"
+    }
+  }
+}

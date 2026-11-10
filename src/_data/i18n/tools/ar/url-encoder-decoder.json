@@ -1,0 +1,248 @@
+{
+  "listing": {
+    "name": "أداة ترميز وفك ترميز الروابط URL",
+    "shortName": "ترميز الروابط",
+    "description": "رمّز الروابط وفك ترميزها بوضعي encodeURIComponent وencodeURI مع تحليل سلسلة الاستعلام في جدول.",
+    "shortDescription": "رمّز الروابط وفك ترميزها بوضعي encodeURIComponent وencodeURI مع تحليل سلسلة الاستعلام في جدول.",
+    "keywords": [
+      "ترميز الروابط url",
+      "فك ترميز الروابط",
+      "encodeuricomponent",
+      "تحليل استعلام الرابط",
+      "ترميز النسبة المئوية"
+    ]
+  },
+  "title": "ترميز وفك ترميز الروابط URL - أداة encodeURIComponent",
+  "description": "أداة مجانية لترميز الروابط وفك ترميزها. بدّل بين وضعي encodeURIComponent وencodeURI، وافحص سلاسل الاستعلام في جدول معاملات، وانسخ النتائج.",
+  "h1": "أداة ترميز وفك ترميز الروابط URL",
+  "quickAnswer": "تُرمّز encodeURIComponent() كل الأحرف ما عدا A–Z وa–z و0–9 و- و_ و. و! و~ و* و' و( و). استخدمها لقيم سلسلة الاستعلام المنفردة. أما encodeURI() فتحافظ على الأحرف البنيوية (: و/ و? و# و& و=) وتُستخدم للروابط الكاملة. ولفك الترميز في أداة ترميز وفك ترميز الروابط، الصق النص المرمَّز بالنسبة المئوية وستعيد الأداة كل تسلسل %XX إلى حرف UTF-8 الأصلي.",
+  "workedExamples": [
+    {
+      "title": "ترميز قيمة معامل استعلام",
+      "inputs": [
+        "الوضع: encodeURIComponent",
+        "المُدخل: hello world & goodbye!"
+      ],
+      "steps": [
+        "المسافات ← %20، & ← %26، ! ← %21",
+        "الناتج: hello%20world%20%26%20goodbye%21"
+      ],
+      "result": "hello%20world%20%26%20goodbye%21"
+    },
+    {
+      "title": "ترميز رابط كامل",
+      "inputs": [
+        "الوضع: encodeURI",
+        "المُدخل: https://example.com/search?q=hello world&lang=en"
+      ],
+      "steps": [
+        "الحفاظ على الأحرف البنيوية: ://?&=",
+        "المسافة ← %20، وتُرمَّز الأحرف الخاصة الأخرى",
+        "الناتج: https://example.com/search?q=hello%20world&lang=en"
+      ],
+      "result": "https://example.com/search?q=hello%20world&lang=en"
+    },
+    {
+      "title": "فك ترميز سلسلة مرمَّزة بالنسبة المئوية",
+      "inputs": [
+        "الوضع: فك الترميز",
+        "المُدخل: Caf%C3%A9%20au%20lait"
+      ],
+      "steps": [
+        "%C3%A9 هو ترميز UTF-8 للحرف é (e بعلامة حادة)",
+        "%20 هو حرف المسافة",
+        "بعد فك الترميز: Café au lait"
+      ],
+      "result": "Café au lait"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "الترميز المزدوج",
+      "description": "ترميز سلسلة مرمَّزة مسبقًا يحوّل أحرف <code>%</code> الموجودة إلى <code>%25</code> (مثلًا <code>%20</code> تصبح <code>%2520</code>). تحقق دائمًا مما إذا كانت البيانات الواردة مرمَّزة بالفعل قبل تطبيق التحويل."
+    },
+    {
+      "title": "استخدام encodeURI لقيم الاستعلام",
+      "description": "تشغيل <code>encodeURI</code> على قيمة معامل يترك أحرفًا مثل <code>&amp;</code> و<code>+</code> دون ترميز، مما يجعل محللات الخادم تقتطع القيم أو تقسمها بشكل غير متوقع."
+    },
+    {
+      "title": "تسلسلات نسبة مئوية تالفة",
+      "description": "فك ترميز سلسلة فيها علامة نسبة مئوية منفردة (مثل <code>discount=50%</code> بدلًا من <code>discount=50%25</code>) يسبب خطأ JavaScript قاتلًا <code>URIError: URI malformed</code>. الأدوات الآمنة تلتقط هذا الخطأ وتعرضه بوضوح."
+    }
+  ],
+  "sources": [
+    {
+      "label": "RFC 3986: Uniform Resource Identifier (URI): Generic Syntax"
+    },
+    {
+      "label": "MDN Web Docs: encodeURIComponent()"
+    },
+    {
+      "label": "MDN Web Docs: encodeURI()"
+    }
+  ],
+  "howto": {
+    "name": "كيفية ترميز الروابط وفك ترميزها على الإنترنت",
+    "description": "دليل خطوة بخطوة لترميز مكوّنات الروابط وعناوين URI الكاملة وتحليل معاملات سلسلة الاستعلام.",
+    "steps": [
+      {
+        "name": "اختر العملية والوضع",
+        "text": "اختر 'ترميز' أو 'فك الترميز'، ثم وضع المكوّن (encodeURIComponent) أو وضع URI الكامل (encodeURI)."
+      },
+      {
+        "name": "أدخل النص أو الرابط",
+        "text": "اكتب معامل الاستعلام أو مقتطف النص أو عنوان الويب الكامل أو الصقه في مربع الإدخال."
+      },
+      {
+        "name": "افحص الناتج وانسخه",
+        "text": "اطّلع على الناتج المحوَّل مباشرة، وافحص أزواج المفتاح والقيمة لمعاملات الاستعلام في الجدول، وانسخ النتيجة."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "ما الفرق بين encodeURIComponent وencodeURI؟",
+      "a": "تُرمّز encodeURIComponent جميع علامات الترقيم المحجوزة (بما فيها & و= و? و/ و: و#) إلى تسلسلات ست عشرية مرمَّزة بالنسبة المئوية. وهي مخصّصة لترميز مفاتيح وقيم معاملات الاستعلام المنفردة. في المقابل، تحافظ encodeURI على أحرف بنية الرابط الصحيحة (;,/?:@&=+$#) ولا تُرمّز إلا الأحرف الممنوعة في عناوين URI القياسية مثل المسافات وأحرف Unicode."
+    },
+    {
+      "q": "متى أستخدم encodeURIComponent بدلًا من encodeURI؟",
+      "a": "استخدم دائمًا encodeURIComponent عند تجهيز قيم لإلحاقها بسلسلة استعلام (مثل ?q=search+term أو ?redirect_url=https://example.com). ولو استخدمت encodeURI، فستُفهم رموز مثل & و= داخل قيمتك على أنها فواصل استعلام إضافية."
+    },
+    {
+      "q": "كيف تتعامل هذه الأداة مع علامة الجمع '+' في سلاسل الاستعلام؟",
+      "a": "في سلاسل الاستعلام بصيغة application/x-www-form-urlencoded، تمثّل علامة الجمع (+) عادةً مسافة. وعند فك الترميز في وضع المكوّن، تحوّل هذه الأداة كلًا من '+' و'%20' إلى مسافات عادية."
+    },
+    {
+      "q": "هل يُرسَل رابطي أو بيانات معاملات الاستعلام الخاصة إلى خادم؟",
+      "a": "لا. يعمل كل ترميز الروابط وفك ترميزها وتحليل جدول سلسلة الاستعلام 100% محليًا في متصفحك. لا تغادر رموز API الحساسة وسلاسل الاستعلام جهازك أبدًا."
+    },
+    {
+      "q": "ما أقصى حجم رابط مدعوم؟",
+      "a": "تدعم الأداة مُدخلات حتى حد أمان قدره 1 MB (1,048,576 حرفًا). وتضمن المعالجة المباشرة المؤجلة قليلًا تحديث الواجهة فورًا دون بطء."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "نموذج ترميز وفك ترميز الروابط",
+      "parsed-query-string-parameters-table1": "معاملات سلسلة الاستعلام بعد التحليل",
+      "url-encoding-specification-mode-comparison-table1": "مقارنة الأوضاع"
+    },
+    "content": {
+      "tool": {
+        "span1": "الاتجاه:",
+        "label1": "<input type=\"radio\" name=\"url-direction\" value=\"encode\" checked class=\"cursor-pointer\">\n            <span>ترميز</span>",
+        "label2": "<input type=\"radio\" name=\"url-direction\" value=\"decode\" class=\"cursor-pointer\">\n            <span>فك الترميز</span>",
+        "span2": "الوضع:",
+        "label3": "<input type=\"radio\" name=\"url-mode\" value=\"component\" checked class=\"cursor-pointer\">\n            <span>مكوّن (encodeURIComponent)</span>",
+        "label4": "<input type=\"radio\" name=\"url-mode\" value=\"full\" class=\"cursor-pointer\">\n            <span>رابط كامل (encodeURI)</span>"
+      },
+      "parsed-query-string-parameters": {
+        "heading": "معاملات سلسلة الاستعلام بعد التحليل",
+        "th1": "مفتاح المعامل",
+        "th2": "القيمة الخام / المرمَّزة",
+        "th3": "القيمة بعد فك الترميز"
+      },
+      "how-when-to-use-the-url": {
+        "li1": "<strong>تمرير روابط متداخلة في إعادة التوجيه:</strong> عند تمرير رابط عودة (مثل <code>?returnTo=https://example.com/dashboard?tab=billing</code>)، استخدم <code>encodeURIComponent</code> حتى لا يحلّل الخادم الخارجي معاملات الاستعلام المتداخلة.",
+        "li2": "<strong>إصلاح الروابط المعطّلة بسبب المسافات:</strong> تتطلب متصفحات الويب عناوين URI صالحة بأحرف ASCII. رمّز المسافات بـ <code>%20</code> (أو <code>+</code>) والأحرف غير ASCII قبل مشاركة الروابط.",
+        "li3": "<strong>تصحيح بيانات Webhook وسلاسل الاستعلام:</strong> الصق سلاسل الاستعلام المعقدة لرؤية كل معامل محلَّلًا بشكل منظم في جدول.",
+        "li4": "<strong>ترميز بيانات النماذج بأمان:</strong> تحقق من كيفية إرسال بيانات حقول الإدخال في طلبات POST بصيغة <code>application/x-www-form-urlencoded</code>."
+      },
+      "url-encoding-specification-mode-comparison": {
+        "p1": "يحدد RFC 3986 ترميز النسبة المئوية لتمثيل الأحرف في عناوين URI الواقعة خارج مجموعة أحرف ASCII المسموح بها. وفهم الفرق بين وضع المكوّن ووضع URI الكامل يمنع تعطّل المسارات وتلف المعاملات.",
+        "th1": "الحرف",
+        "th2": "وضع encodeURI",
+        "th3": "وضع encodeURIComponent",
+        "th4": "السبب",
+        "td1": "<code>مسافة ( )</code>",
+        "td2": "المسافات غير مسموح بها أبدًا في عناوين URI الصالحة.",
+        "td3": "<code>علامة العطف (&amp;)</code>",
+        "td4": "<code>&amp;</code> (محفوظة)",
+        "td5": "<code>%26</code> (مرمَّزة)",
+        "td6": "تفصل معاملات الاستعلام؛ ويجب ترميزها داخل القيم.",
+        "td7": "<code>علامة التساوي (=)</code>",
+        "td8": "<code>=</code> (محفوظة)",
+        "td9": "<code>%3D</code> (مرمَّزة)",
+        "td10": "تفصل المفتاح عن القيمة؛ ويجب ترميزها داخل القيم.",
+        "td11": "<code>علامة الاستفهام (?)</code>",
+        "td12": "<code>?</code> (محفوظة)",
+        "td13": "<code>%3F</code> (مرمَّزة)",
+        "td14": "تبدأ سلسلة الاستعلام؛ ويجب ترميزها داخل القيم.",
+        "td15": "<code>الشرطة المائلة (/)</code>",
+        "td16": "<code>/</code> (محفوظة)",
+        "td17": "<code>%2F</code> (مرمَّزة)",
+        "td18": "تفصل مقاطع المسار؛ ويجب ترميزها داخل القيم.",
+        "td19": "<code>علامة المربع (#)</code>",
+        "td20": "<code>#</code> (محفوظة)",
+        "td21": "<code>%23</code> (مرمَّزة)",
+        "td22": "تبدأ مرساة الجزء؛ ويجب ترميزها داخل القيم."
+      }
+    },
+    "title": {
+      "tool-label1": "تُرمّز جميع الفواصل (;,/?:@&=+$#). الأفضل لمفاتيح المعاملات وقيمها.",
+      "tool-label2": "تحافظ على فواصل بنية الرابط. الأفضل لعناوين الويب الكاملة."
+    },
+    "text": {
+      "clear-btn": "مسح",
+      "size-meter": "0.0 KB / 1 MB",
+      "convert-btn": "ترميز الرابط",
+      "swap-btn": "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><polyline points=\"17 1 21 5 17 9\"></polyline><path d=\"M3 11V9a4 4 0 0 1 4-4h14\"></path><polyline points=\"7 23 3 19 7 15\"></polyline><path d=\"M21 13v2a4 4 0 0 1-4 4H3\"></path></svg>\n          تبديل المُدخل والناتج",
+      "copy-btn": "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"9\" y=\"9\" width=\"13\" height=\"13\" rx=\"2\" ry=\"2\"></rect><path d=\"M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1\"></path></svg>\n          نسخ النتيجة",
+      "query-count-badge": "0 معامل",
+      "how-to-use-heading": "كيف ومتى تستخدم أداة ترميز وفك ترميز الروابط",
+      "article-heading": "مواصفة ترميز الروابط ومقارنة الأوضاع"
+    },
+    "label": {
+      "url-input": "النص أو الرابط المراد ترميزه (مكوّن):",
+      "url-output": "الرابط المرمَّز الناتج:"
+    },
+    "placeholder": {
+      "url-input": "الصق المعامل أو النص هنا... مثل hello world &amp; symbols=?",
+      "url-output": "سيظهر الناتج هنا مباشرة أثناء الكتابة..."
+    }
+  },
+  "client": {
+    "modeName": {
+      "full": "رابط كامل (encodeURI)",
+      "component": "مكوّن (encodeURIComponent)"
+    },
+    "labels": {
+      "encode": {
+        "input": "النص أو الرابط المراد ترميزه ({{mode}}):",
+        "output": "الرابط المرمَّز الناتج:",
+        "button": "ترميز الرابط",
+        "placeholderFull": "الصق الرابط الكامل هنا... مثل https://example.com/search?q=toolsbuilt & more=yes",
+        "placeholderComponent": "الصق المعامل أو النص هنا... مثل hello world & symbols=?"
+      },
+      "decode": {
+        "input": "الرابط المرمَّز المراد فك ترميزه:",
+        "output": "النص العادي بعد فك الترميز:",
+        "button": "فك ترميز الرابط",
+        "placeholder": "الصق الرابط أو النص المرمَّز هنا... مثل https%3A%2F%2Fexample.com%3Fq%3Dtoolsbuilt"
+      }
+    },
+    "sizeMeter": "{{kb}} KB / {{max}} MB",
+    "params": {
+      "few": "{{n}} معاملات",
+      "many": "{{n}} معاملًا",
+      "one": "{{n}} معامل",
+      "two": "{{n}} معاملان",
+      "zero": "{{n}} معامل",
+      "other": "{{n}} معامل"
+    },
+    "status": {
+      "encoded": "✓ تم الترميز باستخدام {{mode}}: {{input}} &larr; {{output}} حرف",
+      "decoded": "✓ تم فك الترميز باستخدام {{mode}}: {{input}} &larr; {{output}} حرف"
+    },
+    "errors": {
+      "notText": "يجب أن يكون المُدخل نصًا صالحًا.",
+      "tooLarge": "المُدخل يتجاوز الحد الآمن 1 MB (بحد أقصى 1,048,576 حرفًا). الحجم الحالي: {{size}} حرف.",
+      "encoding": "خطأ في الترميز: {{message}}",
+      "decoding": "خطأ في فك الترميز: تسلسل ترميز نسبة مئوية غير صالح ({{message}}). تحقق من وجود أزواج % ست عشرية غير مكتملة."
+    },
+    "toast": {
+      "nothingToCopy": "لا يوجد ما يُنسخ. أدخل نصًا أولًا.",
+      "copied": "تم نسخ النتيجة إلى الحافظة"
+    }
+  }
+}

@@ -1,0 +1,180 @@
+{
+  "listing": {
+    "name": "Java फ़ॉर्मैटर",
+    "shortName": "Java फ़ॉर्मैटर",
+    "description": "Prettier और prettier-plugin-java से Java कोड ऑनलाइन फ़ॉर्मैट करें। 2 या 4 स्पेस इंडेंट और लाइन की चौड़ाई चुनें; आपके ब्राउज़र में प्राइवेट चलता है।",
+    "shortDescription": "Prettier और prettier-plugin-java से Java कोड फ़ॉर्मैट करें, आपके ब्राउज़र में प्राइवेट तरीके से।",
+    "keywords": [
+      "Java फ़ॉर्मैटर",
+      "Java कोड ऑनलाइन फ़ॉर्मैट करें",
+      "java code beautifier",
+      "prettier java",
+      "java formatter online",
+      "Google Java Style फ़ॉर्मैटर",
+      "Java इंडेंटेशन ठीक करें"
+    ]
+  },
+  "title": "Java फ़ॉर्मैटर: Java कोड ऑनलाइन फ़ॉर्मैट करें (Prettier)",
+  "description": "Prettier और prettier-plugin-java से Java कोड ऑनलाइन फ़ॉर्मैट करें। 2 या 4 स्पेस इंडेंट और लाइन की चौड़ाई चुनें। ब्राउज़र में चलता है, कोड अपलोड नहीं होता।",
+  "h1": "Java फ़ॉर्मैटर",
+  "quickAnswer": "Java क्लास पेस्ट करें और फ़ॉर्मैट करें दबाएँ। prettier-plugin-java के साथ Prettier खुलने वाले ब्रेस उसी लाइन पर रखता है, हर ब्लॉक को 4 स्पेस (या Google स्टाइल में 2) से इंडेंट करता है, ऑपरेटर के दोनों ओर और कॉमा के बाद स्पेस जोड़ता है, और लंबे एक्सप्रेशन आपकी चुनी लाइन चौड़ाई पर तोड़ता है। अगर कोड पढ़ा नहीं जा सकता, जैसे सेमीकोलन या ब्रेस छूट गया हो, तो यह Java फ़ॉर्मैटर लाइन और कॉलम बता देता है।",
+  "workedExamples": [
+    {
+      "title": "एक ही लाइन में लिखी क्लास",
+      "before": "public class  OrderTotal{private final List<Integer> prices;public OrderTotal(List<Integer> prices){this.prices=prices;}public int total(){int sum=0;for(int p:prices){sum+=p;}return sum;}}",
+      "after": "public class OrderTotal {\n\n    private final List<Integer> prices;\n\n    public OrderTotal(List<Integer> prices) {\n        this.prices = prices;\n    }\n\n    public int total() {\n        int sum = 0;\n        for (int p : prices) {\n            sum += p;\n        }\n        return sum;\n    }\n}",
+      "result": "हर मेंबर अपनी अलग लाइन पर आता है, ब्रेस declaration वाली लाइन पर ही खुलते हैं, ब्लॉक 4 स्पेस से इंडेंट होते हैं, और मेंबरों के बीच एक खाली लाइन आती है।"
+    },
+    {
+      "title": "अंदर if वाला for लूप",
+      "before": "class Report{void print(List<String> items){for(int i=0;i<items.size();i++){if(items.get(i).isEmpty()){continue;}System.out.println(i+\": \"+items.get(i));}}}",
+      "after": "class Report {\n\n    void print(List<String> items) {\n        for (int i = 0; i < items.size(); i++) {\n            if (items.get(i).isEmpty()) {\n                continue;\n            }\n            System.out.println(i + \": \" + items.get(i));\n        }\n    }\n}",
+      "result": "लूप हेडर में हर सेमीकोलन के बाद और ऑपरेटरों के दोनों ओर स्पेस आता है, और बॉडी अलग-अलग इंडेंट की गई लाइनों में फैल जाती है।"
+    },
+    {
+      "title": "lambdas वाली stream",
+      "before": "class Adults{List<String> names(List<Person> people){return people.stream().filter(p->p.getAge()>=18).map(p->p.getName().toUpperCase()).sorted().collect(Collectors.toList());}}",
+      "after": "class Adults {\n\n    List<String> names(List<Person> people) {\n        return people\n            .stream()\n            .filter(p -> p.getAge() >= 18)\n            .map(p -> p.getName().toUpperCase())\n            .sorted()\n            .collect(Collectors.toList());\n    }\n}",
+      "result": "चेन एक लाइन के लिए बहुत लंबी है, इसलिए हर call अपनी लाइन पर जाती है, और हर lambda में तीर और तुलना के दोनों ओर स्पेस आता है।"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "सेमीकोलन या ब्रेस छूट जाना",
+      "description": "सेमीकोलन और मेल खाते ब्रेस के बिना Java पढ़ा नहीं जा सकता, इसलिए फ़ॉर्मैटर रुककर बताता है कि parser को कहाँ इसकी उम्मीद थी। बंद करने वाला ब्रेस छूटने की गलती अक्सर फ़ाइल के अंत में बताई जाती है, क्योंकि वहीं parser का कोड खत्म होता है।"
+    },
+    {
+      "title": "पूरी क्लास की जगह टुकड़ा पेस्ट करना",
+      "description": "Prettier पूरा Java सोर्स फ़ॉर्मैट करता है। अगर आप सिर्फ़ कुछ statements पेस्ट करते हैं, तो उन्हें किसी क्लास और मेथड में रखें (जैसे class Example { void run() { ... } }) ताकि वे पढ़े जा सकें।"
+    },
+    {
+      "title": "2-स्पेस और 4-स्पेस प्रोजेक्ट मिलाना",
+      "description": "Oracle के नियम 4 स्पेस और Google Java Style 2 स्पेस इस्तेमाल करते हैं। वही इंडेंट चुनें जो आपका प्रोजेक्ट पहले से इस्तेमाल करता है, वरना हर फ़ॉर्मैट की गई फ़ाइल रिव्यू में सिर्फ़ स्पेस के बदलाव दिखाएगी।"
+    },
+    {
+      "title": "imports के क्रम में लगने या हटने की उम्मीद",
+      "description": "फ़ॉर्मैटर imports को आपके लिखे क्रम में रखता है और इस्तेमाल न होने वाले imports नहीं हटाता। इसके लिए अपने IDE का organise-imports या कोई linter इस्तेमाल करें।"
+    },
+    {
+      "title": "नाम ठीक होने की उम्मीद",
+      "description": "फ़ॉर्मैटिंग कभी क्लास, मेथड या वेरिएबल के नाम नहीं बदलती। Java के नामकरण नियम, जैसे UpperCamelCase क्लास और lowerCamelCase मेथड, आप और आपका linter तय करते हैं।"
+    }
+  ],
+  "sources": [
+    {
+      "name": "Code Conventions for the Java Programming Language (Oracle, archived)"
+    },
+    {
+      "name": "Google Java Style Guide"
+    }
+  ],
+  "howto": {
+    "name": "Java कोड ऑनलाइन कैसे फ़ॉर्मैट करें",
+    "description": "Prettier और prettier-plugin-java से अपने ब्राउज़र में Java सोर्स फ़ॉर्मैट करें।",
+    "steps": [
+      {
+        "name": "अपना कोड पेस्ट करें",
+        "text": "इनपुट बॉक्स में Java क्लास या फ़ाइल पेस्ट करें, या उदाहरण लोड करें।"
+      },
+      {
+        "name": "विकल्प चुनें",
+        "text": "4-स्पेस (Oracle) या 2-स्पेस (Google) इंडेंटेशन और 80, 100 या 120 की print width चुनें।"
+      },
+      {
+        "name": "फ़ॉर्मैट करें",
+        "text": "फ़ॉर्मैट करें या Ctrl+Enter दबाएँ। अगर कोड पढ़ा नहीं जा सकता, तो बताई गई लाइन और कॉलम पर उसे ठीक करें।"
+      },
+      {
+        "name": "नतीजा कॉपी करें",
+        "text": "आउटपुट बॉक्स से फ़ॉर्मैट किया गया कोड कॉपी करें।"
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Java कोड ऑनलाइन कैसे फ़ॉर्मैट करें?",
+      "a": "अपनी Java क्लास बॉक्स में पेस्ट करें, इंडेंट और लाइन चौड़ाई चुनें, और फ़ॉर्मैट करें या Ctrl+Enter दबाएँ। फ़ॉर्मैट किया गया कोड नीचे कॉपी करने के लिए तैयार दिखेगा। यह आपके ब्राउज़र में चलता है, इसलिए आपका कोड अपलोड नहीं होता।"
+    },
+    {
+      "q": "Java में इंडेंटेशन 2 स्पेस का हो या 4 का?",
+      "a": "दोनों आम हैं। Oracle के मूल Java नियम 4 स्पेस इस्तेमाल करते हैं, और Google Java Style Guide 2 स्पेस और 100 कॉलम की सीमा। वही इस्तेमाल करें जो आपका प्रोजेक्ट पहले से करता है।"
+    },
+    {
+      "q": "Google Java Style Guide में लाइन की लंबाई कितनी है?",
+      "a": "Google Java Style में 100 कैरेक्टर की कॉलम सीमा है। इसे अपनाने के लिए यहाँ 2 स्पेस और 100 की print width चुनें।"
+    },
+    {
+      "q": "Java में खुलने वाले ब्रेस कहाँ आते हैं?",
+      "a": "ब्लॉक शुरू करने वाली क्लास, मेथड या statement की उसी लाइन पर, और बंद करने वाला ब्रेस अपनी अलग लाइन पर। Oracle के नियम और Google Java Style दोनों यही लेआउट इस्तेमाल करते हैं, और फ़ॉर्मैटर इसे लागू करता है।"
+    },
+    {
+      "q": "फ़ॉर्मैटर क्यों कहता है कि कोड पढ़ा नहीं जा सका?",
+      "a": "कोड मान्य Java नहीं है, अक्सर सेमीकोलन छूटने, ब्रेस या कोष्ठक का जोड़ा अधूरा होने, या क्लास के बाहर के टुकड़े की वजह से। एरर उस लाइन और कॉलम को दिखाता है जहाँ पढ़ना रुका।"
+    },
+    {
+      "q": "क्या फ़ॉर्मैटर मेरे imports को क्रम में लगाता है?",
+      "a": "नहीं। imports आपके लिखे क्रम में रहते हैं। ज़्यादातर IDE आपके लिए imports व्यवस्थित कर सकते हैं, और Google Java Style static imports को एक समूह में और non-static imports को दूसरे में रखता है, दोनों ASCII क्रम में।"
+    },
+    {
+      "q": "क्या मेरा कोड किसी सर्वर पर अपलोड होता है?",
+      "a": "नहीं। Prettier, उसका Java प्लगइन और Java grammar इसी साइट से आते हैं और पहली बार फ़ॉर्मैट करने पर डाउनलोड होकर आपके ब्राउज़र में चलते हैं।"
+    }
+  ],
+  "body": {
+    "label": {
+      "opt-indent": "इंडेंट",
+      "opt-print-width": "Print width"
+    },
+    "option": {
+      "opt-indent": {
+        "2": "2 स्पेस (Google)",
+        "4": "4 स्पेस (Oracle)"
+      },
+      "opt-print-width": {
+        "100": "100 (Google)"
+      }
+    },
+    "text": {
+      "conventions-heading": "Java फ़ॉर्मैटिंग के नियम",
+      "naming-heading": "नामकरण के नियम और imports",
+      "java-errors-heading": "जब कोड फ़ॉर्मैट न हो",
+      "java-privacy-heading": "शुरू से प्राइवेट"
+    },
+    "content": {
+      "java-formatting-conventions": {
+        "p1": "Java के लिए दो बहुत इस्तेमाल होने वाली स्टाइल गाइड हैं। Oracle की <em>Code Conventions for the Java Programming Language</em> 1999 की हैं और अब आर्काइव हो चुकी हैं, लेकिन ज़्यादातर Java कोड अब भी उन्हीं का लेआउट अपनाता है। <em>Google Java Style Guide</em> नया और ज़्यादा सख़्त मानक है, जिसे कई टीमें और ओपन-सोर्स प्रोजेक्ट इस्तेमाल करते हैं। दोनों इन बुनियादी बातों पर सहमत हैं, जिन्हें यह फ़ॉर्मैटर लागू करता है:",
+        "li1": "<strong>ब्रेस उसी लाइन पर।</strong> खुलने वाला ब्रेस क्लास, मेथड, <code>if</code>, <code>for</code> या <code>try</code> शुरू करने वाली लाइन के अंत में आता है; बंद करने वाला ब्रेस उस statement की शुरुआत की सीध में अपनी अलग लाइन पर।",
+        "li2": "<strong>एक जैसा इंडेंटेशन।</strong> Oracle के नियम हर स्तर पर 4 स्पेस और 80 कैरेक्टर से छोटी लाइनें रखते हैं। Google Java Style हर ब्लॉक पर 2 स्पेस और 100 कॉलम की सीमा रखता है।",
+        "li3": "<strong>हर लाइन में एक statement,</strong> binary ऑपरेटरों के दोनों ओर, कॉमा के बाद और <code>if</code> व <code>for</code> जैसे keywords के बाद स्पेस के साथ।",
+        "li4": "<strong>लंबे एक्सप्रेशन तोड़े जाते हैं।</strong> streams जैसी मेथड चेन हर call पर एक लाइन में तोड़ी जाती हैं, ताकि हर कदम आसानी से पढ़ा जा सके।",
+        "p2": "Prettier की Java स्टाइल दोनों के करीब है, लेकिन यह अपनी एक जैसी स्टाइल है: यह लाइन ब्रेक अपने आप चुनती है और किसी भी गाइड की हर बारीकी दोहराने की कोशिश नहीं करती। Oracle जैसे लेआउट के लिए 4 स्पेस और 80 कॉलम, या Google जैसे लेआउट के लिए 2 स्पेस और 100 कॉलम चुनें।"
+      },
+      "naming-conventions-and-imports": {
+        "p1": "फ़ॉर्मैटर सिर्फ़ लेआउट बदलता है, इसलिए नाम रखना आप पर है। Java के आम नियम हैं: क्लास और interface के लिए <code>UpperCamelCase</code> (<code>OrderTotal</code>), मेथड और वेरिएबल के लिए <code>lowerCamelCase</code> (<code>calculateTotal</code>, <code>itemCount</code>), constants के लिए <code>UPPER_SNAKE_CASE</code> (<code>MAX_RETRIES</code>), और package के नाम पूरी तरह छोटे अक्षरों में (<code>com.example.billing</code>)।",
+        "p2": "imports आपके लिखे क्रम में छोड़े जाते हैं, और इस्तेमाल न होने वाले imports हटाए नहीं जाते। Google Java Style सभी static imports एक ब्लॉक में और सभी non-static imports दूसरे में रखता है, दोनों ASCII क्रम में, बिना wildcard imports के। ज़्यादातर IDE आपके लिए imports इसी तरह व्यवस्थित कर सकते हैं।"
+      },
+      "when-the-code-will-not-format": {
+        "p1": "कोड को दोबारा प्रिंट करने से पहले Prettier को उसे पढ़ना (parse करना) होता है। अगर parser उसे समझ न सके, तो फ़ॉर्मैटर अंदाज़ा नहीं लगाता: वह पहले छूटे या अनचाहे token की लाइन और कॉलम बताता है, और कर्सर इनपुट में वहीं पहुँच जाता है। आम कारण हैं:",
+        "li1": "<strong>statement के अंत में सेमीकोलन छूटना,</strong> जिसे उसके ठीक बाद छूटे <code>;</code> के रूप में बताया जाता है।",
+        "li2": "<strong>ब्रेस या कोष्ठक का जोड़ा अधूरा होना।</strong> बंद करने वाला ब्रेस छूटने की गलती अक्सर कोड के अंत में बताई जाती है, जहाँ parser का इनपुट खत्म होता है।",
+        "li3": "<strong>क्लास के बाहर का टुकड़ा।</strong> statements किसी मेथड के अंदर, और मेथड किसी क्लास के अंदर होने चाहिए।"
+      },
+      "private-by-design": {
+        "p1": "यह पेज prettier-plugin-java के साथ Prettier चलाता है, जो WebAssembly में कंपाइल की गई tree-sitter grammar से Java पढ़ता है। यह सब इसी साइट से आता है और सिर्फ़ तब डाउनलोड होता है जब आप इस पेज पर पहली बार कोड फ़ॉर्मैट करते हैं; उसके बाद यह आपके ब्राउज़र में चलता है, इसलिए आपका सोर्स कोड कभी आपके डिवाइस से बाहर नहीं जाता। Python के लिए <a href=\"/tools/python-formatter/\">Python फ़ॉर्मैटर</a> इस्तेमाल करें।"
+      }
+    },
+    "value": {
+      "engine": "Prettier {{prettier}}, prettier-plugin-java {{plugin}} के साथ"
+    }
+  },
+  "client": {
+    "errors": {
+      "empty": "फ़ॉर्मैट करने के लिए कुछ Java कोड पेस्ट करें।",
+      "missing": "\"{{token}}\" छूटा है",
+      "unexpected": "अनचाहा कोड",
+      "at": "लाइन {{line}}, कॉलम {{column}}: {{reason}}। कोड को Java के रूप में पढ़ा नहीं जा सका।",
+      "unparsed": "कोड को Java के रूप में पढ़ा नहीं जा सका। देखें कि कोई सेमीकोलन, ब्रेस या कोष्ठक तो नहीं छूटा।",
+      "unsupportedOption": "{{key}} का यह मान समर्थित नहीं है: {{value}}। इनमें से चुनें: {{choices}}।"
+    }
+  }
+}

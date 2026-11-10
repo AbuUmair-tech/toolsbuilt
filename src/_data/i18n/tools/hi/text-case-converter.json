@@ -1,0 +1,242 @@
+{
+  "listing": {
+    "name": "टेक्स्ट केस कन्वर्टर",
+    "shortName": "टेक्स्ट केस कन्वर्टर",
+    "description": "टेक्स्ट को तुरंत UPPERCASE, lowercase, Title Case, Sentence case, camelCase, snake_case और kebab-case में बदलें।",
+    "shortDescription": "टेक्स्ट को तुरंत UPPERCASE, lowercase, Title Case, Sentence case, camelCase, snake_case और kebab-case में बदलें।",
+    "keywords": [
+      "टेक्स्ट केस कन्वर्टर",
+      "बड़े अक्षर से छोटे अक्षर",
+      "uppercase to lowercase",
+      "title case कन्वर्टर",
+      "camelCase कन्वर्टर"
+    ]
+  },
+  "title": "टेक्स्ट केस कन्वर्टर - UPPERCASE और lowercase में बदलें",
+  "description": "टेक्स्ट को UPPERCASE, lowercase, Title Case, Sentence case, camelCase, PascalCase, snake_case या kebab-case में तुरंत बदलें। मुफ़्त ऑनलाइन टूल।",
+  "h1": "टेक्स्ट केस कन्वर्टर",
+  "quickAnswer": "टेक्स्ट का केस बदलने के लिए अपना कंटेंट इनपुट बॉक्स में पेस्ट करें और कोई भी स्टाइल चुनें। यह टेक्स्ट केस कन्वर्टर टेक्स्ट को तुरंत UPPERCASE, lowercase, Title Case, Sentence case, camelCase, PascalCase, snake_case, kebab-case और कई दूसरे रूपों में बदलता है, विराम चिह्न और Unicode कैरेक्टर बनाए रखते हुए, पूरी तरह आपके ब्राउज़र में।",
+  "formula": {
+    "title": "केस बदलने और शब्द अलग करने के नियम",
+    "expression": "Transformed Text = ApplyCaseTransform(TokenizeWords(InputString, UnicodeRegex), StyleRule)",
+    "explanation": "इनपुट स्ट्रिंग को Unicode letter property escapes (\\p{L}) से शब्दों में बाँटा जाता है। फिर शब्दों को स्टाइल के नियमों के हिसाब से दोबारा जोड़ा जाता है: Title Case के लिए Chicago Manual of Style के छोटे शब्दों वाले नियम, या प्रोग्रामिंग नामों के लिए अंडरस्कोर/हाइफ़न विभाजक।"
+  },
+  "workedExamples": [
+    {
+      "title": "हेडलाइन को Chicago Title Case में",
+      "inputs": [
+        "इनपुट: 'the quick brown fox jumps over the lazy dog'",
+        "लक्ष्य स्टाइल: Title Case"
+      ],
+      "steps": [
+        "Unicode स्पेस की सीमाओं पर शब्द अलग करें",
+        "पहले और आखिरी शब्द कैपिटल करें ('The', 'Dog')",
+        "मुख्य शब्द कैपिटल करें ('Quick', 'Brown', 'Fox', 'Jumps', 'Lazy')",
+        "छोटे prepositions और articles छोटे अक्षरों में रखें ('over', 'the')"
+      ],
+      "result": "'The Quick Brown Fox Jumps Over the Lazy Dog'"
+    },
+    {
+      "title": "शीर्षक को camelCase में (JavaScript नाम)",
+      "inputs": [
+        "इनपुट: 'user profile setting'",
+        "लक्ष्य स्टाइल: camelCase"
+      ],
+      "steps": [
+        "अक्षर-अंक वाले शब्द निकालें: ['user', 'profile', 'setting']",
+        "पहला शब्द छोटे अक्षरों में: 'user'",
+        "बाद के शब्दों का पहला अक्षर कैपिटल करें: 'Profile', 'Setting'",
+        "बिना स्पेस के जोड़ें"
+      ],
+      "result": "'userProfileSetting'"
+    },
+    {
+      "title": "शीर्षक को kebab-case में (URL स्लग)",
+      "inputs": [
+        "इनपुट: 'Annual Financial Report 2026'",
+        "लक्ष्य स्टाइल: kebab-case"
+      ],
+      "steps": [
+        "शब्द अलग करें: ['Annual', 'Financial', 'Report', '2026']",
+        "सभी कैरेक्टर छोटे अक्षरों में करें",
+        "शब्दों को हाइफ़न (-) से जोड़ें"
+      ],
+      "result": "'annual-financial-report-2026'"
+    },
+    {
+      "title": "Sentence case में कैपिटलाइज़ेशन",
+      "inputs": [
+        "इनपुट: 'hello world! this is a test. here is another one.'",
+        "लक्ष्य स्टाइल: Sentence case"
+      ],
+      "steps": [
+        "वाक्य खत्म करने वाले चिह्न पहचानें (. ! ?)",
+        "हर वाक्य का पहला अक्षर कैपिटल करें",
+        "वाक्य के बाकी कैरेक्टर छोटे अक्षरों में रखें"
+      ],
+      "result": "'Hello world! This is a test. Here is another one.'"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Title Case में छोटे prepositions को कैपिटल करना",
+      "description": "Chicago और AP स्टाइल में चार अक्षरों से छोटे prepositions, articles और conjunctions (जैसे 'in', 'on', 'the', 'and', 'for') छोटे अक्षरों में रहते हैं, जब तक वे वाक्य की शुरुआत में न हों।"
+    },
+    {
+      "title": "Unicode और एक्सेंट वाले कैरेक्टर बिगाड़ना",
+      "description": "साधारण ASCII regex से केस बदलना 'é' जैसे एक्सेंट वाले अक्षरों या गैर-लैटिन लिपियों पर फ़ेल हो जाता है; Unicode property escapes (\\p{L}) इस्तेमाल करने चाहिए।"
+    },
+    {
+      "title": "कोड बदलते समय विभाजक खो देना",
+      "description": "camelCase या snake_case कोड को sentence case में बदलने से प्रोग्रामिंग वाले विभाजक हट जाते हैं। बैकअप रखें या Undo बटन इस्तेमाल करें।"
+    },
+    {
+      "title": "पूरे बड़े अक्षरों वाले इनपुट पर Title Case",
+      "description": "अगर पूरे बड़े अक्षरों वाला टेक्स्ट पहले छोटे अक्षरों में किए बिना Title Case इंजन में डाला जाए, तो छोटे prepositions कैपिटल ही रह जाते हैं। हमारा एल्गोरिदम पहले शब्दों को सामान्य करता है।"
+    }
+  ],
+  "sources": [
+    {
+      "name": "The Chicago Manual of Style: Headings and Title Capitalization Rules"
+    },
+    {
+      "name": "Unicode Standard Annex #29: Unicode Text Segmentation"
+    },
+    {
+      "name": "W3C Internationalization (i18n) Case Mapping Standards"
+    }
+  ],
+  "howto": {
+    "name": "ऑनलाइन टेक्स्ट का केस कैसे बदलें",
+    "description": "ToolsBuilt से टेक्स्ट को 12 अलग-अलग केस फ़ॉर्मैट में बदलने की स्टेप बाय स्टेप गाइड।",
+    "steps": [
+      {
+        "name": "अपना कंटेंट पेस्ट करें",
+        "text": "अपना टेक्स्ट टेक्स्ट बॉक्स में पेस्ट या टाइप करें।"
+      },
+      {
+        "name": "केस स्टाइल चुनें",
+        "text": "12 केस बटनों में से किसी पर क्लिक करें (जैसे Title Case, UPPERCASE, camelCase या CONSTANT_CASE)।"
+      },
+      {
+        "name": "कॉपी या Undo करें",
+        "text": "बदला हुआ नतीजा क्लिपबोर्ड पर कॉपी करने के लिए टेक्स्ट कॉपी करें पर क्लिक करें, या पहले जैसा करने के लिए Undo दबाएँ।"
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "ऑनलाइन टेक्स्ट का केस कैसे बदलें?",
+      "a": "अपना टेक्स्ट कन्वर्टर बॉक्स में पेस्ट करें और UPPERCASE, lowercase, Title Case या Sentence case जैसे किसी भी बटन पर क्लिक करें। टेक्स्ट आपके ब्राउज़र में तुरंत बदल जाता है।"
+    },
+    {
+      "q": "Title Case और Capitalize Each Word में क्या अंतर है?",
+      "a": "Title Case मुख्य शब्दों को कैपिटल करता है लेकिन छोटे व्याकरणिक articles और prepositions (जैसे 'in', 'the', 'of', 'and', 'for') को छोटे अक्षरों में रखता है, जब तक वे पहले या आखिरी शब्द न हों। Capitalize Each Word बिना शर्त हर शब्द का पहला अक्षर कैपिटल करता है।"
+    },
+    {
+      "q": "camelCase, PascalCase, snake_case और kebab-case में क्या अंतर है?",
+      "a": "camelCase छोटे अक्षर से शुरू होता है और बाद के शब्दों को बिना स्पेस कैपिटल करता है (जैसे 'myVariable')। PascalCase पहले समेत सभी शब्द कैपिटल करता है ('MyVariable')। snake_case छोटे अक्षरों में शब्दों को अंडरस्कोर से अलग करता है ('my_variable')। kebab-case शब्दों को हाइफ़न से अलग करता है ('my-variable')।"
+    },
+    {
+      "q": "नतीजा पसंद न आए तो क्या बदलाव वापस हो सकता है?",
+      "a": "हाँ। Undo बटन दबाकर कभी भी पिछला टेक्स्ट वापस पाएँ।"
+    },
+    {
+      "q": "कन्वर्टर इस्तेमाल करते समय क्या मेरा टेक्स्ट प्राइवेट रहता है?",
+      "a": "हाँ। टेक्स्ट बदलने का सारा काम ब्राउज़र की लोकल मेमोरी में JavaScript से होता है। आपका टेक्स्ट कभी URL में नहीं जाता, कुकीज़ में सेव नहीं होता और किसी सर्वर पर नहीं भेजा जाता।"
+    },
+    {
+      "q": "क्या कन्वर्टर दूसरी भाषाएँ और एक्सेंट वाले कैरेक्टर सपोर्ट करता है?",
+      "a": "हाँ। टेक्स्ट इंजन Unicode property escapes (\\p{L}) इस्तेमाल करता है, जिससे एक्सेंट, umlaut और स्पैनिश, फ़्रेंच व जर्मन जैसी भाषाओं के अक्षर आसानी से संभलते हैं। जिन लिपियों में बड़े-छोटे अक्षर नहीं होते, जैसे देवनागरी, वे वैसी ही रहती हैं।"
+    },
+    {
+      "q": "CONSTANT_CASE किसलिए इस्तेमाल होता है?",
+      "a": "CONSTANT_CASE टेक्स्ट को अंडरस्कोर के साथ बड़े अक्षरों में बदलता है, जो प्रोग्रामिंग में global variables, न बदलने वाले constants और environment variables का मानक नाम-तरीका है।"
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "टेक्स्ट केस कन्वर्टर फ़ॉर्म"
+    },
+    "label": {
+      "text-input": "<span>अपना टेक्स्ट नीचे टाइप या पेस्ट करें:</span>"
+    },
+    "placeholder": {
+      "text-input": "यहाँ टेक्स्ट टाइप या पेस्ट करें, फिर नीचे किसी भी केस स्टाइल बटन पर क्लिक करें..."
+    },
+    "text": {
+      "char-stats": "0 कैरेक्टर (0 बिना स्पेस) | 0 शब्द | 0 लाइनें",
+      "copy-btn": "<span data-icon=\"copy\"></span> टेक्स्ट कॉपी करें",
+      "undo-btn": "Undo",
+      "clear-btn": "टेक्स्ट साफ़ करें"
+    },
+    "content": {
+      "tool": {
+        "label1": "बदलने की स्टाइल चुनें (12 उपलब्ध):",
+        "button1": "UPPERCASE",
+        "button2": "lowercase",
+        "button3": "Title Case",
+        "button4": "Sentence case",
+        "button5": "Capitalize Words",
+        "button6": "camelCase",
+        "button7": "PascalCase",
+        "button8": "snake_case",
+        "button9": "kebab-case",
+        "button10": "CONSTANT_CASE",
+        "button11": "dot.case",
+        "button12": "aLtErNaTiNg"
+      },
+      "how-when-to-use-the-text": {
+        "heading": "टेक्स्ट केस कन्वर्टर कैसे और कब इस्तेमाल करें",
+        "li1": "<strong>सॉफ़्टवेयर डेवलपमेंट और कोडिंग:</strong> यूज़र इनपुट या schema परिभाषाओं को कोड के मानक नामों में बदलें (जैसे JavaScript वेरिएबल के लिए `camelCase`, Python/डेटाबेस कॉलम के लिए `snake_case`, या global environment variables के लिए `CONSTANT_CASE`)।",
+        "li2": "<strong>ब्लॉग और लेख की हेडलाइन:</strong> ड्राफ़्ट के बिखरे शीर्षकों को सुंदर Chicago-स्टाइल Title Case में बदलें, जहाँ छोटे prepositions छोटे अक्षरों में रहते हैं।",
+        "li3": "<strong>गलती से CAPS LOCK ठीक करना:</strong> caps lock चालू रहते टाइप हुए वाक्यों को बिना पूरे पैराग्राफ़ दोबारा टाइप किए ठीक करें।",
+        "li4": "<strong>SEO URL स्लग:</strong> लेख की हेडलाइन को वेबसाइट URL के लिए सर्च-इंजन-फ़्रेंडली `kebab-case` स्लग में बदलें।"
+      },
+      "case-style-reference-developer-conventions": {
+        "heading": "केस स्टाइल संदर्भ और डेवलपर के नियम",
+        "th1": "केस स्टाइल",
+        "th2": "नमूना आउटपुट",
+        "th3": "आम इस्तेमाल",
+        "td1": "UPPERCASE",
+        "td2": "<code>HELLO WORLD</code>",
+        "td3": "हेडलाइन, चेतावनियाँ, संक्षिप्त रूप",
+        "td4": "lowercase",
+        "td5": "<code>hello world</code>",
+        "td6": "ईमेल पते, खोज के लिए सामान्यीकरण",
+        "td7": "Title Case",
+        "td8": "<code>The Return of the King</code>",
+        "td9": "किताबों के शीर्षक, संपादकीय लेख",
+        "td10": "Sentence case",
+        "td11": "<code>Hello world. Good morning.</code>",
+        "td12": "मुख्य लेखन, यूज़र दस्तावेज़",
+        "td13": "camelCase",
+        "td14": "<code>helloWorld</code>",
+        "td15": "JavaScript, Java के वेरिएबल और मेथड नाम",
+        "td16": "PascalCase",
+        "td17": "<code>HelloWorld</code>",
+        "td18": "C#, Java, Python, TypeScript में क्लास",
+        "td19": "snake_case",
+        "td20": "<code>hello_world</code>",
+        "td21": "Python वेरिएबल, SQL डेटाबेस कॉलम",
+        "td22": "kebab-case",
+        "td23": "<code>hello-world</code>",
+        "td24": "URL स्लग, CSS क्लास, HTML attributes",
+        "td25": "CONSTANT_CASE",
+        "td26": "<code>HELLO_WORLD</code>",
+        "td27": "Environment variables, न बदलने वाले constants",
+        "td28": "dot.case",
+        "td29": "<code>hello.world</code>",
+        "td30": "Property paths, कॉन्फ़िगरेशन keys"
+      }
+    }
+  },
+  "client": {
+    "stats": "{{characters}} कैरेक्टर ({{noSpaces}} बिना स्पेस) | {{words}} शब्द | {{lines}} लाइनें",
+    "toast": {
+      "converted": "{{style}} में बदला गया",
+      "restored": "पिछला टेक्स्ट वापस आ गया",
+      "copied": "बदला हुआ टेक्स्ट क्लिपबोर्ड पर कॉपी हो गया"
+    }
+  }
+}
