@@ -14,6 +14,7 @@
   // --- State & Globals ---
   let searchIndex = null;
   let isFetchingIndex = false;
+  let searchIndexPromise = null;
   let lastFocusedElement = null;
   let activeIndex = -1;
   let searchResults = [];
@@ -223,12 +224,14 @@
     return (trigger && trigger.dataset.searchIndex) || '/assets/search-index.json';
   }
 
+  // One request at a time: callers while it is loading share the same promise
   function fetchSearchIndex() {
-    if (searchIndex || isFetchingIndex) return Promise.resolve(searchIndex);
+    if (searchIndex) return Promise.resolve(searchIndex);
+    if (isFetchingIndex && searchIndexPromise) return searchIndexPromise;
     isFetchingIndex = true;
     const url = getSearchIndexUrl();
 
-    return fetch(url)
+    return searchIndexPromise = fetch(url)
       .then(res => {
         if (!res.ok) throw new Error('Search index load failed');
         return res.json();
