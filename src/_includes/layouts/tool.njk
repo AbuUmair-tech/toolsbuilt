@@ -13,6 +13,10 @@ layout: layouts/base.njk
   {% set authorName = "Abu Umair" %}
 {% endif %}
 
+{# One date per page: the byline's "Updated", JSON-LD dateModified and the sitemap's lastmod #}
+{% set pageUpdated = (currentTool.updated if currentTool else '') or '2026-10-15' %}
+{% if lastReviewed and lastReviewed > pageUpdated %}{% set pageUpdated = lastReviewed %}{% endif %}
+
 {% set reviewerName = "" %}
 {% if site.reviewerName and not site.reviewerName.includes("TODO_") %}
   {% set reviewerName = site.reviewerName %}
@@ -83,7 +87,7 @@ layout: layouts/base.njk
     "browserRequirements": "Requires JavaScript. Requires HTML5.",
     "description": {{ description | jsonStr }},
     "inLanguage": "en-US",
-    "dateModified": {{ ((currentTool.updated if currentTool else '') or '2026-10-15') | jsonStr }},
+    "dateModified": {{ pageUpdated | jsonStr }},
     "offers": {
       "@type": "Offer",
       "price": "0",
@@ -218,7 +222,7 @@ layout: layouts/base.njk
           </div>
           <p class="tool-hero-description">{{ currentTool.description if currentTool else description }}</p>
           <p class="tool-byline">
-            {% set updatedTime %}<time datetime="{{ currentTool.updated or '2026-10-15' }}">{{ (currentTool.updated or '2026-10-15') | humanDate }}</time>{% endset %}{{ 'toolPage.byline' | t({ author: authorName, date: updatedTime | safe }) }}
+            {% set updatedTime %}<time datetime="{{ pageUpdated }}">{{ pageUpdated | humanDate }}</time>{% endset %}{{ 'toolPage.byline' | t({ author: authorName, date: updatedTime | safe }) }}
           </p>
           <ul class="hero-chips" aria-label="{{ 'toolPage.ariaLabel.tool-ul1' | t }}">
             <li>{{ 'toolPage.content.tool.li2' | t }}</li>
@@ -387,12 +391,7 @@ layout: layouts/base.njk
               <li><a href="{{ src.url }}" target="_blank" rel="noopener noreferrer">{{ src.name or src.label }}</a></li>
               {% endfor %}
             </ul>
-            {% if lastReviewed %}
-            {% set reviewedTime %}<time datetime="{{ lastReviewed }}">{{ lastReviewed | humanDate }}</time>{% endset %}<p class="tool-last-reviewed">{{ 'toolPage.lastReviewed' | t({ date: reviewedTime | safe, author: authorName }) }}</p>
-            {% endif %}
           </section>
-          {% elif lastReviewed %}
-          {% set reviewedTime %}<time datetime="{{ lastReviewed }}">{{ lastReviewed | humanDate }}</time>{% endset %}<p class="tool-last-reviewed">{{ 'toolPage.lastReviewed' | t({ date: reviewedTime | safe, author: authorName }) }}</p>
           {% endif %}
 
           {% set relatedGuides = collections.post | filterGuidesByTool(slug) %}

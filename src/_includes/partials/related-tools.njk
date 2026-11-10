@@ -1,7 +1,8 @@
 {% import "partials/cards.njk" as cards with context %}
 {% set currentTool = tools | findTool(toolSlug or slug) %}
 {% set currentCategory = categories | findCategory(currentTool.category) %}
-{% set relTools = currentTool | getCuratedRelatedTools(tools, 4) %}
+{# Tool pages already list the curated related tools in the sidebar (relatedMini): show others here #}
+{% set relTools = (currentTool | moreFromCategory(tools, relatedMini, 4)) if relatedMini else (currentTool | getCuratedRelatedTools(tools, 4)) %}
 {% if relTools and relTools.length > 0 %}
 <section class="related-tools-section" aria-labelledby="related-tools-heading">
   <div class="section-head">

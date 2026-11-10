@@ -446,6 +446,13 @@
         </a>
       </li>
     `).join('');
+    // Recents saved by older versions hold the category slug: show the current display name
+    fetchSearchIndex().then(tools => {
+      recentList.querySelectorAll('.palette-item-link').forEach(a => {
+        const t = (tools || []).find(x => x.slug === a.dataset.slug);
+        if (t) a.querySelector('.palette-item-cat').textContent = t.category;
+      });
+    }).catch(() => {});
   }
 
   // --- Command Palette Dialog Modal ---

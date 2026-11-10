@@ -458,6 +458,27 @@ function checkSeo() {
   }
   console.log('========================================================================================\n');
 
+  // Title and description lengths per language (entities decoded): longest, and pages over the limit
+  console.log('\nTITLE / DESCRIPTION LENGTH BY LANGUAGE (title <= 60, description <= 160)');
+  const byLang = new Map();
+  for (const p of sortedPages) {
+    if (p.url === '/404.html' || p.isDraft) continue;
+    const first = (p.url || '').split('/')[1];
+    const lang = LANGUAGE_PREFIXES.includes(first) ? first : 'en';
+    const s = byLang.get(lang) || { pages: 0, maxTitle: 0, maxDesc: 0, longTitles: 0, longDescs: 0 };
+    const t = [...decodeEntities(p.title || '')].length;
+    const d = [...decodeEntities(p.description || '')].length;
+    s.pages++;
+    s.maxTitle = Math.max(s.maxTitle, t);
+    s.maxDesc = Math.max(s.maxDesc, d);
+    if (t > 60) s.longTitles++;
+    if (d > 160) s.longDescs++;
+    byLang.set(lang, s);
+  }
+  for (const [lang, s] of byLang) {
+    console.log(`  ${lang.padEnd(3)} ${String(s.pages).padStart(4)} pages | longest title ${s.maxTitle}, ${s.longTitles} over | longest description ${s.maxDesc}, ${s.longDescs} over`);
+  }
+
   // Write docs/SEO_PAGE_REPORT.md only when asked: SAVE_SEO_REPORT=1 node scripts/check-seo.js
   if (SAVE_SEO_REPORT) generateReport(sortedPages, errors, warnings);
 

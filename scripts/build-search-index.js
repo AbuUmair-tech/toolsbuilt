@@ -15,11 +15,14 @@ function buildSearchIndex({ outputDir = path.join(ROOT, '_site', 'assets'), lang
     return { ...t, ...listing };
   });
 
+  // The palette shows the category's display name in the page language, not its slug
+  const categoryNames = i18nData.page(lang, 'categories') || {};
   const searchEntries = rawTools.map(t => ({
     name: t.name,
     shortName: t.shortName || t.name,
     slug: t.slug,
-    category: t.category,
+    category: (categoryNames[t.category] || {}).name || t.category,
+    categoryId: t.category,
     description: t.description || t.shortDescription || '',
     keywords: t.keywords || [],
     iconName: t.iconName || '',
