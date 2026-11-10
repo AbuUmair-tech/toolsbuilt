@@ -1,0 +1,183 @@
+{
+  "listing": {
+    "name": "UUID / GUID جنریٹر",
+    "shortName": "UUID جنریٹر",
+    "description": "Web Crypto سے کرپٹوگرافی کے لحاظ سے محفوظ version 4 UUIDs اور GUIDs فوراً بنائیں، ایک ساتھ 100 تک، اور ٹیکسٹ فائل میں ڈاؤن لوڈ کریں۔",
+    "shortDescription": "محفوظ version 4 UUIDs اور GUIDs ایک ساتھ کئی بنائیں اور ٹیکسٹ فائل میں محفوظ کریں۔",
+    "keywords": [
+      "uuid generator",
+      "guid generator",
+      "v4 uuid",
+      "UUID جنریٹر آن لائن",
+      "random uuid online",
+      "ہائفن کے بغیر UUID"
+    ]
+  },
+  "title": "UUID جنریٹر - مفت آن لائن UUID v4 اور GUID ٹول",
+  "description": "UUID جنریٹر: Web Crypto سے محفوظ version 4 UUIDs اور GUIDs فوراً بنائیں۔ ایک ساتھ 100 تک، اپنی مرضی کے فارمیٹ اور ٹیکسٹ فائل میں ڈاؤن لوڈ۔",
+  "h1": "UUID / GUID جنریٹر",
+  "quickAnswer": "UUID جنریٹر سے کرپٹوگرافی کے لحاظ سے محفوظ UUIDs (Universally Unique Identifiers) بنانے کے لیے مطلوبہ تعداد (1 سے 100) منتخب کریں اور حروف، ہائفن اور بریکٹ کا فارمیٹ چنیں۔ یہ جنریٹر براؤزر کے Web Crypto API کا randomUUID استعمال کرتا ہے جو ہارڈویئر پر مبنی 122 bits کی رینڈمنیس دیتا ہے، اور سرور سے کوئی رابطہ نہیں ہوتا۔",
+  "formula": {
+    "title": "RFC 4122 Version 4 UUID کی ساخت",
+    "expression": "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx (جہاں y ∈ {8, 9, a, b})",
+    "explanation": "Version 4 UUID میں 128 bits ہوتے ہیں: 4 bits ورژن کے لیے مقرر ہیں (v4 کے لیے 0100)، 2 bits variant بتاتے ہیں (RFC 4122 کے لیے 10)، اور باقی 122 bits کرپٹوگرافی کے لحاظ سے مضبوط رینڈم نمبروں سے بھرے جاتے ہیں۔ 2¹²² ممکنہ صورتوں (تقریباً 5.3 × 10³⁶) کے ساتھ دو ایک جیسے UUID بننے کا امکان نہ ہونے کے برابر ہے۔"
+  },
+  "workedExamples": [
+    {
+      "title": "معیاری UUID v4",
+      "inputs": [
+        "الگورتھم: RFC 4122 v4",
+        "فارمیٹ: چھوٹے حروف، ہائفن کے ساتھ",
+        "بریکٹ: کوئی نہیں"
+      ],
+      "steps": [
+        "crypto.randomUUID سے 16 رینڈم بائٹس حاصل کریں",
+        "تصدیق کریں کہ bit 12 سے 15 تک 0100 ہے (version 4)",
+        "تصدیق کریں کہ clock sequence کے bit 6 سے 7 تک 10 ہے (RFC 4122 variant)",
+        "8-4-4-4-12 hex حروف کی شکل میں فارمیٹ کریں"
+      ]
+    },
+    {
+      "title": "Microsoft COM / C# GUID فارمیٹ",
+      "inputs": [
+        "فارمیٹ: بڑے حروف، بریکٹ کے ساتھ",
+        "حد بندی: ہائفن شامل"
+      ],
+      "steps": [
+        "معیاری 128-bit رینڈم بائٹس بنائیں",
+        "تمام حروف کو بڑے حروف میں بدلیں",
+        "نتیجے والی اسٹرنگ کو curly braces میں بند کریں"
+      ]
+    },
+    {
+      "title": "ہائفن کے بغیر ڈیٹا بیس کی",
+      "inputs": [
+        "فارمیٹ: 32 حروف کا مختصر hex",
+        "ہائفن: شامل نہیں",
+        "حروف: چھوٹے"
+      ],
+      "steps": [
+        "128-bit UUID بنائیں",
+        "تمام 4 ہائفن ہٹا دیں",
+        "مسلسل 32 حروف کی hexadecimal اسٹرنگ حاصل کریں"
+      ]
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "UUIDs کے لیے Math.random() استعمال کرنا",
+      "description": "JavaScript کا عام Math.random() مکمل رینڈم نہیں اور اس کا اندازہ لگایا جا سکتا ہے۔ شناخت کنندہ کے ٹکراؤ اور جعل سازی سے بچنے کے لیے ہمیشہ crypto.randomUUID() یا crypto.getRandomValues() استعمال کریں۔"
+    },
+    {
+      "title": "UUIDs کو خفیہ پاس ورڈ سمجھنا",
+      "description": "UUIDs منفرد شناخت کنندہ ہیں، authentication ٹوکن یا کرپٹوگرافک کلیدیں نہیں۔ ان میں نہ ہیشنگ ہے نہ salt، اس لیے انہیں secrets کی جگہ استعمال نہیں کرنا چاہیے۔"
+    },
+    {
+      "title": "انہیں ترتیب وار سمجھنا",
+      "description": "Version 4 UUIDs مکمل طور پر رینڈم ہوتے ہیں، ترتیب وار نہیں۔ انہیں sorting indexes کے بغیر clustered database primary keys کے طور پر استعمال کرنے سے B-tree fragmentation ہو سکتی ہے۔"
+    },
+    {
+      "title": "ڈیٹا بیس میں حروف کی بناوٹ (case) کے فرق سے تلاش",
+      "description": "RFC 4122 کے مطابق hexadecimal موازنہ case-insensitive ہونا چاہیے۔ ڈیٹا بیس میں query کرتے وقت حروف کو ایک جیسا نہ کرنے سے ریکارڈ نہیں ملتے۔"
+    }
+  ],
+  "sources": [
+    {
+      "name": "IETF RFC 4122: A Universally Unique IDentifier (UUID) URN Namespace"
+    },
+    {
+      "name": "W3C Web Cryptography API: crypto.randomUUID"
+    },
+    {
+      "name": "ITU-T Recommendation X.667: Generation and registration of UUIDs"
+    }
+  ],
+  "howto": {
+    "name": "UUID v4 شناخت کنندہ کیسے بنائیں",
+    "description": "ایک یا کئی محفوظ UUIDs ایک ساتھ بنانے کا مرحلہ وار طریقہ۔",
+    "steps": [
+      {
+        "name": "تعداد منتخب کریں",
+        "text": "چنیں کہ ایک ساتھ کتنے UUIDs بنانے ہیں، 1 سے 100 تک۔"
+      },
+      {
+        "name": "فارمیٹ کے آپشنز چنیں",
+        "text": "اپنے فریم ورک کے مطابق بڑے حروف، ہائفن یا curly braces آن یا آف کریں۔"
+      },
+      {
+        "name": "کاپی یا ڈاؤن لوڈ کریں",
+        "text": "تمام IDs کلپ بورڈ پر کاپی کرنے کے لیے 'سب کاپی کریں' دبائیں، یا ٹیکسٹ فائل میں محفوظ کرنے کے لیے '.txt ڈاؤن لوڈ کریں' دبائیں۔"
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Version 4 UUID کیا ہے؟",
+      "a": "Version 4 UUID ایک 128-bit منفرد شناخت کنندہ ہے جو رینڈم نمبروں سے بنتا ہے۔ اس میں 122 رینڈم bits ہوتے ہیں، جن سے 5.3 × 10³⁶ ممکنہ قدریں بنتی ہیں اور دوہرا بننے کا امکان تقریباً صفر ہے۔"
+    },
+    {
+      "q": "UUID اور GUID میں کیا فرق ہے؟",
+      "a": "GUID (Globally Unique Identifier) دراصل UUID (Universally Unique Identifier) کے لیے Microsoft کی اصطلاح ہے۔ جدید سافٹ ویئر میں دونوں سے مراد ایک ہی 128-bit RFC 4122 کے مطابق ساخت ہے۔"
+    },
+    {
+      "q": "اس ٹول میں UUIDs محفوظ طریقے سے کیسے بنتے ہیں؟",
+      "a": "یہ ٹول براؤزر کا اپنا Web Crypto API (crypto.randomUUID) استعمال کرتا ہے۔ رینڈمنیس سیدھا آپ کے آپریٹنگ سسٹم کے کرپٹوگرافک رینڈم جنریٹر سے آتی ہے۔"
+    },
+    {
+      "q": "کیا دو UUID v4 ایک جیسے ہو سکتے ہیں؟",
+      "a": "نظریاتی طور پر ممکن ہے، لیکن 100 سال تک ہر سیکنڈ 1 ارب UUIDs بنانے پر بھی ایک ٹکراؤ کا امکان 50% سے کم ہے۔ عملی سافٹ ویئر کے لیے UUIDs منفرد ہی سمجھے جاتے ہیں۔"
+    },
+    {
+      "q": "کیا بنائے گئے UUIDs کہیں بھیجے یا لاگ کیے جاتے ہیں؟",
+      "a": "کبھی نہیں۔ سب کچھ 100% آپ کے براؤزر کی میموری میں بنتا ہے۔ کوئی بنائی گئی کی یا لاگ کسی بیرونی سرور تک نہیں پہنچتا۔"
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-div1": "UUID جنریٹر ٹول",
+      "quick-uuid-display": "بنایا گیا ایک UUID",
+      "copy-single-btn": "ایک UUID کاپی کریں",
+      "regen-single-btn": "ایک UUID دوبارہ بنائیں",
+      "uuid-count": "بنانے کے لیے UUIDs کی تعداد",
+      "bulk-output": "بنائے گئے UUIDs کی فہرست"
+    },
+    "label": {
+      "quick-uuid-display": "ایک UUID v4 (فوری کاپی):",
+      "uuid-count": "تعداد (1 – 100):",
+      "bulk-output": "بنائے گئے UUIDs:"
+    },
+    "text": {
+      "copy-single-btn": "<span data-icon=\"copy\"></span> کاپی",
+      "regen-single-btn": "<span data-icon=\"refresh\"></span> دوبارہ بنائیں",
+      "generate-btn": "<span data-icon=\"refresh\"></span> ایک ساتھ بنائیں",
+      "uuid-meta-count": "5 UUIDs بنائے گئے",
+      "copy-all-btn": "<span data-icon=\"copy\"></span> سب کاپی کریں",
+      "download-txt-btn": "<span data-icon=\"download\"></span> .txt ڈاؤن لوڈ کریں"
+    },
+    "content": {
+      "tool": {
+        "label1": "<input type=\"checkbox\" id=\"opt-hyphens\" checked>\n        <span>ہائفن (-) شامل کریں</span>",
+        "label2": "<input type=\"checkbox\" id=\"opt-uppercase\">\n        <span>بڑے حروف (A-F)</span>",
+        "label3": "<input type=\"checkbox\" id=\"opt-braces\">\n        <span>بریکٹ ({}) میں بند کریں</span>"
+      }
+    }
+  },
+  "client": {
+    "errors": {
+      "noSecureRandom": "کرپٹوگرافی کے لحاظ سے محفوظ رینڈم جنریٹر (PRNG) دستیاب نہیں۔",
+      "notWholeNumber": "تعداد {{min}} اور {{max}} کے درمیان پورا عدد ہونی چاہیے۔",
+      "belowMin": "تعداد {{min}} سے کم نہیں ہو سکتی۔",
+      "aboveMax": "ایک ساتھ بنانے کے لیے تعداد {{max}} سے زیادہ نہیں ہو سکتی۔"
+    },
+    "copy": {
+      "copied": "✓ کاپی ہو گیا!",
+      "failed": "کاپی نہیں ہو سکا۔ براہ کرم خود کاپی کریں۔"
+    },
+    "meta": {
+      "generated": {
+        "one": "{{count}} UUID بنایا گیا",
+        "other": "{{count}} UUIDs بنائے گئے"
+      }
+    }
+  }
+}

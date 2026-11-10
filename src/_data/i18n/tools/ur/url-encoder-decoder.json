@@ -1,0 +1,244 @@
+{
+  "listing": {
+    "name": "URL انکوڈر اور ڈیکوڈر",
+    "shortName": "URL انکوڈر",
+    "description": "encodeURIComponent اور encodeURI موڈز سے URLs انکوڈ اور ڈیکوڈ کریں، ساتھ میں query string کو ٹیبل میں دیکھیں۔",
+    "shortDescription": "encodeURIComponent اور encodeURI موڈز سے URLs انکوڈ اور ڈیکوڈ کریں، ساتھ میں query string کو ٹیبل میں دیکھیں۔",
+    "keywords": [
+      "url encoder",
+      "url decoder",
+      "encodeuricomponent",
+      "URL انکوڈ آن لائن",
+      "URL ڈیکوڈ کریں"
+    ]
+  },
+  "title": "URL انکوڈر اور ڈیکوڈر - encodeURIComponent اور encodeURI",
+  "description": "URL انکوڈر اور ڈیکوڈر مفت آن لائن۔ encodeURIComponent اور encodeURI موڈز میں بدلیں، query string کو ٹیبل میں دیکھیں اور نتیجہ کاپی کریں۔",
+  "h1": "URL انکوڈر اور ڈیکوڈر",
+  "quickAnswer": "URL انکوڈنگ کے لیے encodeURIComponent() ہر حرف کو انکوڈ کرتا ہے سوائے A–Z، a–z، 0–9، -، _، .، !، ~، *، '، (، ) کے۔ اسے query string کی الگ الگ قدروں کے لیے استعمال کریں۔ encodeURI() ڈھانچے والے حروف (:، /، ?، #، &، =) کو برقرار رکھتا ہے اور مکمل URLs کے لیے ہے۔ ڈیکوڈ کرنے کے لیے percent-encoded ٹیکسٹ پیسٹ کریں، ٹول ہر %XX کو واپس اصل UTF-8 حرف میں بدل دیتا ہے۔",
+  "workedExamples": [
+    {
+      "title": "query parameter کی قدر انکوڈ کریں",
+      "inputs": [
+        "موڈ: encodeURIComponent",
+        "ان پٹ: hello world & goodbye!"
+      ],
+      "steps": [
+        "اسپیس → %20، & → %26، ! → %21",
+        "آؤٹ پٹ: hello%20world%20%26%20goodbye%21"
+      ],
+      "result": "hello%20world%20%26%20goodbye%21"
+    },
+    {
+      "title": "مکمل URL انکوڈ کریں",
+      "inputs": [
+        "موڈ: encodeURI",
+        "ان پٹ: https://example.com/search?q=hello world&lang=en"
+      ],
+      "steps": [
+        "ڈھانچے والے حروف برقرار رہتے ہیں: ://?&=",
+        "اسپیس → %20، باقی خاص حروف انکوڈ ہو جاتے ہیں",
+        "آؤٹ پٹ: https://example.com/search?q=hello%20world&lang=en"
+      ],
+      "result": "https://example.com/search?q=hello%20world&lang=en"
+    },
+    {
+      "title": "percent-encoded اسٹرنگ ڈیکوڈ کریں",
+      "inputs": [
+        "موڈ: ڈیکوڈ",
+        "ان پٹ: Caf%C3%A9%20au%20lait"
+      ],
+      "steps": [
+        "%C3%A9 حرف é (اعراب والا e) کی UTF-8 انکوڈنگ ہے",
+        "%20 اسپیس کا حرف ہے",
+        "ڈیکوڈ شدہ: Café au lait"
+      ],
+      "result": "Café au lait"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "دو بار انکوڈ کرنا",
+      "description": "پہلے سے percent-encoded اسٹرنگ کو دوبارہ انکوڈ کرنے سے موجودہ <code>%</code> حروف <code>%25</code> بن جاتے ہیں (مثلاً <code>%20</code> بدل کر <code>%2520</code> ہو جاتا ہے)۔ تبدیلی سے پہلے ہمیشہ دیکھ لیں کہ آنے والا ڈیٹا پہلے سے انکوڈ تو نہیں۔"
+    },
+    {
+      "title": "query کی قدروں کے لیے encodeURI استعمال کرنا",
+      "description": "پیرامیٹر کی قدر پر <code>encodeURI</code> چلانے سے <code>&amp;</code> اور <code>+</code> جیسے حروف انکوڈ نہیں ہوتے، جس سے سرور قدروں کو غلط جگہ سے کاٹ یا توڑ دیتا ہے۔"
+    },
+    {
+      "title": "خراب percent sequences",
+      "description": "اکیلے فیصد کے نشان والی اسٹرنگ (جیسے <code>discount=50%25</code> کی بجائے <code>discount=50%</code>) ڈیکوڈ کرنے پر JavaScript کی <code>URIError: URI malformed</code> خرابی آتی ہے۔ اچھے ٹولز اس خرابی کو پکڑ کر صاف طور پر دکھاتے ہیں۔"
+    }
+  ],
+  "sources": [
+    {
+      "label": "RFC 3986: Uniform Resource Identifier (URI): Generic Syntax"
+    },
+    {
+      "label": "MDN Web Docs: encodeURIComponent()"
+    },
+    {
+      "label": "MDN Web Docs: encodeURI()"
+    }
+  ],
+  "howto": {
+    "name": "URLs کو آن لائن انکوڈ اور ڈیکوڈ کیسے کریں",
+    "description": "URL کے حصوں اور مکمل URIs کو انکوڈ کرنے اور query string پیرامیٹرز کو پارس کرنے کا مرحلہ وار طریقہ۔",
+    "steps": [
+      {
+        "name": "عمل اور موڈ منتخب کریں",
+        "text": "'انکوڈ' یا 'ڈیکوڈ' چنیں، پھر Component موڈ (encodeURIComponent) یا مکمل URI موڈ (encodeURI) منتخب کریں۔"
+      },
+      {
+        "name": "اسٹرنگ یا URL درج کریں",
+        "text": "اپنا query parameter، ٹیکسٹ یا مکمل ویب ایڈریس ان پٹ باکس میں لکھیں یا پیسٹ کریں۔"
+      },
+      {
+        "name": "آؤٹ پٹ دیکھیں اور کاپی کریں",
+        "text": "نتیجہ فوراً دیکھیں، ٹیبل میں query parameters کے key-value جوڑے چیک کریں اور نتیجہ کاپی کر لیں۔"
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "encodeURIComponent اور encodeURI میں کیا فرق ہے؟",
+      "a": "encodeURIComponent تمام مخصوص علامات (بشمول &، =، ?، /، : اور #) کو percent-encoded hex میں بدل دیتا ہے۔ یہ query parameter کی الگ الگ keys اور values کے لیے ہے۔ اس کے برعکس encodeURI درست URL کے ڈھانچے والے حروف (;,/?:@&=+$#) کو برقرار رکھتا ہے اور صرف وہ حروف انکوڈ کرتا ہے جو URIs میں منع ہیں، جیسے اسپیس اور یونیکوڈ حروف۔"
+    },
+    {
+      "q": "مجھے encodeURI کی بجائے encodeURIComponent کب استعمال کرنا چاہیے؟",
+      "a": "جب بھی آپ query string میں کوئی قدر جوڑ رہے ہوں (مثلاً ?q=search+term یا ?redirect_url=https://example.com) تو ہمیشہ encodeURIComponent استعمال کریں۔ اگر آپ encodeURI استعمال کریں گے تو آپ کی قدر کے اندر موجود & اور = جیسی علامات کو اضافی query حدیں سمجھ لیا جائے گا۔"
+    },
+    {
+      "q": "یہ ٹول query strings میں '+' کے نشان کو کیسے سنبھالتا ہے؟",
+      "a": "application/x-www-form-urlencoded والی query strings میں جمع کا نشان (+) عموماً اسپیس کو ظاہر کرتا ہے۔ Component موڈ میں ڈیکوڈ کرتے وقت یہ ٹول '+' اور '%20' دونوں کو عام اسپیس میں بدل دیتا ہے۔"
+    },
+    {
+      "q": "کیا میرا URL یا نجی query parameter ڈیٹا سرور پر بھیجا جاتا ہے؟",
+      "a": "نہیں۔ تمام URL انکوڈنگ، ڈیکوڈنگ اور query string ٹیبل کی پارسنگ 100% آپ کے ویب براؤزر میں ہوتی ہے۔ حساس API ٹوکنز اور query strings کبھی آپ کے ڈیوائس سے باہر نہیں جاتے۔"
+    },
+    {
+      "q": "زیادہ سے زیادہ کتنا بڑا URL سپورٹ ہوتا ہے؟",
+      "a": "یہ ٹول 1 MB کی حفاظتی حد (1,048,576 حروف) تک ان پٹ سپورٹ کرتا ہے۔ لائیو پروسیسنگ کی وجہ سے انٹرفیس بغیر کسی رکاوٹ کے فوراً اپ ڈیٹ ہوتا ہے۔"
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "URL انکوڈر اور ڈیکوڈر فارم",
+      "parsed-query-string-parameters-table1": "پارس شدہ query string پیرامیٹرز",
+      "url-encoding-specification-mode-comparison-table1": "موڈز کا موازنہ"
+    },
+    "content": {
+      "tool": {
+        "span1": "سمت:",
+        "label1": "<input type=\"radio\" name=\"url-direction\" value=\"encode\" checked class=\"cursor-pointer\">\n            <span>انکوڈ</span>",
+        "label2": "<input type=\"radio\" name=\"url-direction\" value=\"decode\" class=\"cursor-pointer\">\n            <span>ڈیکوڈ</span>",
+        "span2": "موڈ:",
+        "label3": "<input type=\"radio\" name=\"url-mode\" value=\"component\" checked class=\"cursor-pointer\">\n            <span>Component (encodeURIComponent)</span>",
+        "label4": "<input type=\"radio\" name=\"url-mode\" value=\"full\" class=\"cursor-pointer\">\n            <span>مکمل URL (encodeURI)</span>"
+      },
+      "parsed-query-string-parameters": {
+        "heading": "پارس شدہ query string پیرامیٹرز",
+        "th1": "پیرامیٹر Key",
+        "th2": "اصل / انکوڈ شدہ قدر",
+        "th3": "ڈیکوڈ شدہ قدر"
+      },
+      "how-when-to-use-the-url": {
+        "li1": "<strong>Redirects میں اندرونی URLs بھیجنا:</strong> جب واپسی کا URL بھیجیں (مثلاً <code>?returnTo=https://example.com/dashboard?tab=billing</code>) تو <code>encodeURIComponent</code> استعمال کریں تاکہ اندرونی query parameters کو باہر والا سرور پارس نہ کر لے۔",
+        "li2": "<strong>اسپیس والے ٹوٹے لنکس ٹھیک کرنا:</strong> ویب براؤزرز کو درست ASCII URIs چاہئیں۔ لنک شیئر کرنے سے پہلے اسپیس کو <code>%20</code> (یا <code>+</code>) اور غیر ASCII یونیکوڈ حروف کو انکوڈ کریں۔",
+        "li3": "<strong>Webhook payloads اور query strings کی ڈیبگنگ:</strong> پیچیدہ query strings پیسٹ کریں اور ہر پیرامیٹر کو صاف ٹیبل میں پارس ہوتا دیکھیں۔",
+        "li4": "<strong>فارم ڈیٹا کی محفوظ انکوڈنگ:</strong> چیک کریں کہ ان پٹ فیلڈ کا ڈیٹا <code>application/x-www-form-urlencoded</code> POST ریکویسٹ میں کیسے بھیجا جائے گا۔"
+      },
+      "url-encoding-specification-mode-comparison": {
+        "p1": "RFC 3986 بتاتا ہے کہ URIs میں اجازت شدہ ASCII حروف سے باہر کے حروف کو percent-encoding سے لکھا جائے۔ Component اور مکمل URI موڈ کا فرق سمجھنے سے ٹوٹے راستوں اور خراب پیرامیٹرز سے بچا جا سکتا ہے۔",
+        "th1": "حرف",
+        "th2": "encodeURI موڈ",
+        "th3": "encodeURIComponent موڈ",
+        "th4": "وجہ",
+        "td1": "<code>اسپیس ( )</code>",
+        "td2": "درست URIs میں اسپیس کی کبھی اجازت نہیں۔",
+        "td3": "<code>Ampersand (&amp;)</code>",
+        "td4": "<code>&amp;</code> (برقرار)",
+        "td5": "<code>%26</code> (انکوڈ شدہ)",
+        "td6": "query parameters کو الگ کرتا ہے؛ قدروں کے اندر انکوڈ ہونا ضروری ہے۔",
+        "td7": "<code>برابر (=)</code>",
+        "td8": "<code>=</code> (برقرار)",
+        "td9": "<code>%3D</code> (انکوڈ شدہ)",
+        "td10": "key اور value کو الگ کرتا ہے؛ قدروں کے اندر انکوڈ ہونا ضروری ہے۔",
+        "td11": "<code>سوالیہ نشان (?)</code>",
+        "td12": "<code>?</code> (برقرار)",
+        "td13": "<code>%3F</code> (انکوڈ شدہ)",
+        "td14": "query string شروع کرتا ہے؛ قدروں کے اندر انکوڈ ہونا ضروری ہے۔",
+        "td15": "<code>سلیش (/)</code>",
+        "td16": "<code>/</code> (برقرار)",
+        "td17": "<code>%2F</code> (انکوڈ شدہ)",
+        "td18": "path کے حصوں کو الگ کرتا ہے؛ قدروں کے اندر انکوڈ ہونا ضروری ہے۔",
+        "td19": "<code>ہیش (#)</code>",
+        "td20": "<code>#</code> (برقرار)",
+        "td21": "<code>%23</code> (انکوڈ شدہ)",
+        "td22": "fragment anchor شروع کرتا ہے؛ قدروں کے اندر انکوڈ ہونا ضروری ہے۔"
+      }
+    },
+    "title": {
+      "tool-label1": "تمام حدی علامات (;,/?:@&=+$#) انکوڈ کرتا ہے۔ پیرامیٹر keys اور values کے لیے بہترین۔",
+      "tool-label2": "URL کے ڈھانچے والی علامات برقرار رکھتا ہے۔ مکمل ویب ایڈریس کے لیے بہترین۔"
+    },
+    "text": {
+      "clear-btn": "صاف کریں",
+      "size-meter": "0.0 KB / 1 MB",
+      "convert-btn": "URL انکوڈ کریں",
+      "swap-btn": "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><polyline points=\"17 1 21 5 17 9\"></polyline><path d=\"M3 11V9a4 4 0 0 1 4-4h14\"></path><polyline points=\"7 23 3 19 7 15\"></polyline><path d=\"M21 13v2a4 4 0 0 1-4 4H3\"></path></svg>\n          ان پٹ اور آؤٹ پٹ کی جگہ بدلیں",
+      "copy-btn": "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"9\" y=\"9\" width=\"13\" height=\"13\" rx=\"2\" ry=\"2\"></rect><path d=\"M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1\"></path></svg>\n          نتیجہ کاپی کریں",
+      "query-count-badge": "0 پیرامیٹرز",
+      "how-to-use-heading": "URL انکوڈر / ڈیکوڈر کب اور کیسے استعمال کریں",
+      "article-heading": "URL انکوڈنگ کے اصول اور موڈز کا موازنہ"
+    },
+    "label": {
+      "url-input": "انکوڈ کرنے کے لیے ٹیکسٹ یا URL (Component):",
+      "url-output": "انکوڈ شدہ URL آؤٹ پٹ:"
+    },
+    "placeholder": {
+      "url-input": "یہاں پیرامیٹر یا ٹیکسٹ پیسٹ کریں... مثلاً hello world &amp; symbols=?",
+      "url-output": "آپ کے لکھتے ہی نتیجہ یہاں ظاہر ہوگا..."
+    }
+  },
+  "client": {
+    "modeName": {
+      "full": "مکمل URL (encodeURI)",
+      "component": "Component (encodeURIComponent)"
+    },
+    "labels": {
+      "encode": {
+        "input": "انکوڈ کرنے کے لیے ٹیکسٹ یا URL ({{mode}}):",
+        "output": "انکوڈ شدہ URL آؤٹ پٹ:",
+        "button": "URL انکوڈ کریں",
+        "placeholderFull": "یہاں مکمل URL پیسٹ کریں... مثلاً https://example.com/search?q=toolsbuilt & more=yes",
+        "placeholderComponent": "یہاں پیرامیٹر یا ٹیکسٹ پیسٹ کریں... مثلاً hello world & symbols=?"
+      },
+      "decode": {
+        "input": "ڈیکوڈ کرنے کے لیے انکوڈ شدہ URL:",
+        "output": "ڈیکوڈ شدہ سادہ ٹیکسٹ:",
+        "button": "URL ڈیکوڈ کریں",
+        "placeholder": "یہاں انکوڈ شدہ URL یا اسٹرنگ پیسٹ کریں... مثلاً https%3A%2F%2Fexample.com%3Fq%3Dtoolsbuilt"
+      }
+    },
+    "sizeMeter": "{{kb}} KB / {{max}} MB",
+    "params": {
+      "one": "{{n}} پیرامیٹر",
+      "other": "{{n}} پیرامیٹرز"
+    },
+    "status": {
+      "encoded": "✓ {{mode}} سے انکوڈ کیا گیا: {{input}} &rarr; {{output}} حروف",
+      "decoded": "✓ {{mode}} سے ڈیکوڈ کیا گیا: {{input}} &rarr; {{output}} حروف"
+    },
+    "errors": {
+      "notText": "ان پٹ ایک درست ٹیکسٹ اسٹرنگ ہونا چاہیے۔",
+      "tooLarge": "ان پٹ 1 MB کی حد سے زیادہ ہے (زیادہ سے زیادہ 1,048,576 حروف)۔ موجودہ سائز: {{size}} حروف۔",
+      "encoding": "انکوڈنگ میں خرابی: {{message}}",
+      "decoding": "ڈیکوڈنگ میں خرابی: غلط percent-encoded sequence ({{message}})۔ دیکھیں کہیں % کے بعد hex جوڑا ادھورا تو نہیں۔"
+    },
+    "toast": {
+      "nothingToCopy": "کاپی کرنے کے لیے کچھ نہیں۔ پہلے ٹیکسٹ درج کریں۔",
+      "copied": "نتیجہ کلپ بورڈ پر کاپی ہو گیا"
+    }
+  }
+}
