@@ -1321,12 +1321,25 @@ const salesTaxLogic = require(path.join(ROOT, 'src/tools/sales-tax-calculator/lo
 
   const ds = (name) => datasets.find(x => x.file === name).d;
 
-  // India FY 2025-26: Budget Speech 2025-26 annex table (tax after rebate, before cess)
-  const IN = ds('in-2025-26.json');
+  // India FY 2025-26 (previous year): Budget Speech 2025-26 annex table (tax after rebate, before cess)
+  const IN25 = ds('in-2025-26.json');
+  assert(IN25.current === false && !IN25.page, 'TaxIN: FY 2025-26 is the previous year, without its own page');
+  IN25.officialExamples.forEach(x => {
+    const r = engine.calculate(IN25, x.grossSalary);
+    assert(near(r.grossTax - r.rebate + r.surcharge, x.taxBeforeCess), `TaxIN 2025-26 official: ${x.note} (got ${r.grossTax - r.rebate + r.surcharge})`);
+  });
+
+  // India tax year 2026-27: section 202 slabs, ₹75,000 standard deduction, section 156 rebate with
+  // marginal relief, 4% cess
+  const IN = ds('in-2026-27.json');
+  assert(IN.current === true && IN.label === 'Tax year 2026-27' && IN.page.slug === 'india-salary-tax-calculator', 'TaxIN: tax year 2026-27 is current and has the India page');
   assert(IN.officialExamples.length >= 2, 'TaxIN: at least two official examples');
   IN.officialExamples.forEach(x => {
     const r = engine.calculate(IN, x.grossSalary);
     assert(near(r.grossTax - r.rebate + r.surcharge, x.taxBeforeCess), `TaxIN official: ${x.note} (got ${r.grossTax - r.rebate + r.surcharge})`);
+  });
+  [[1275000, 0], [1300000, 26000], [1345000, 72800], [1350000, 74100], [1575000, 109200], [2075000, 208000]].forEach(([gross, tax]) => {
+    assert(near(engine.calculate(IN, gross).annualTax, tax), `TaxIN 2026-27: salary ₹${gross} -> ₹${tax} with 4% cess (got ${engine.calculate(IN, gross).annualTax})`);
   });
   assert(near(engine.calculate(IN, 1675000).annualTax, 124800), 'TaxIN: ₹16.75 lakh salary -> ₹1,24,800 with 4% cess');
   assert(near(engine.calculate(IN, 1285000).annualTax, 10400), 'TaxIN: marginal relief at ₹12.1 lakh total income -> ₹10,000 + cess');
@@ -1395,13 +1408,14 @@ const salesTaxLogic = require(path.join(ROOT, 'src/tools/sales-tax-calculator/lo
   assert(near(line(pay(US, 150000, { status: 'married_separate' }), 'additionalMedicare'), 225), 'PayUS: MFS $150,000 -> Additional Medicare $225 (threshold $125,000)');
   assert(near(line(pay(US, 104000, { status: 'head_of_household' }), 'incomeTax'), 10468), 'PayUS: head of household $104,000 -> $10,468 ($24,150 standard deduction)');
 
-  // India FY 2025-26: new and old regime
+  // India: new regime default (2026-27); old regime in FY 2025-26 only
   assert(near(line(pay(IN, 1675000), 'incomeTax'), 124800), 'PayIN: new regime is the default status (₹16.75 lakh -> ₹1,24,800)');
-  const inOld = pay(IN, 1000000, { status: 'old', options: { deduction80C: 200000, deduction80D: 25000 } });
+  assert(Object.keys(IN.statuses).join() === 'new', 'PayIN: 2026-27 has only the verified new regime');
+  const inOld = pay(IN25, 1000000, { status: 'old', options: { deduction80C: 200000, deduction80D: 25000 } });
   assert(near(inOld.taxableIncome, 775000) && near(line(inOld, 'incomeTax'), 70200), `PayIN: old regime ₹10 lakh, 80C capped at ₹1.5 lakh, 80D ₹25,000 -> taxable ₹7,75,000, tax ₹70,200 (got ${line(inOld, 'incomeTax')})`);
   assert(near(inOld.net, 1000000 - 70200), 'PayIN: 80C and 80D are deductions, not money taken out of pay');
-  assert(line(pay(IN, 550000, { status: 'old' }), 'incomeTax') === 0, 'PayIN: old regime 87A rebate -> nil tax at ₹5 lakh taxable');
-  assert(near(line(pay(IN, 560000, { status: 'old' }), 'incomeTax'), 15080), 'PayIN: old regime has no marginal relief above ₹5 lakh (₹5.1 lakh taxable -> ₹15,080)');
+  assert(line(pay(IN25, 550000, { status: 'old' }), 'incomeTax') === 0, 'PayIN: old regime 87A rebate -> nil tax at ₹5 lakh taxable');
+  assert(near(line(pay(IN25, 560000, { status: 'old' }), 'incomeTax'), 15080), 'PayIN: old regime has no marginal relief above ₹5 lakh (₹5.1 lakh taxable -> ₹15,080)');
   assert(near(line(pay(IN, 1000000, { status: 'new', options: { deduction80C: 150000 } }), 'incomeTax'), 0), 'PayIN: 80C is ignored under the new regime');
 
   // Pakistan 2026-27 and periods

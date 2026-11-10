@@ -1,0 +1,142 @@
+{
+  "country": "IN",
+  "taxYear": "2026-27",
+  "label": "Tax year 2026-27",
+  "period": "1 April 2026 to 31 March 2027",
+  "currency": "INR",
+  "current": true,
+  "statusLabel": "Tax regime",
+  "defaultStatus": "new",
+  "standardDeductionLabel": "Standard deduction for salaried employees",
+  "statuses": {
+    "new": {
+      "label": "New tax regime",
+      "standardDeduction": 75000,
+      "slabs": [
+        {
+          "over": 0,
+          "upTo": 400000,
+          "rate": 0
+        },
+        {
+          "over": 400000,
+          "upTo": 800000,
+          "rate": 0.05
+        },
+        {
+          "over": 800000,
+          "upTo": 1200000,
+          "rate": 0.1
+        },
+        {
+          "over": 1200000,
+          "upTo": 1600000,
+          "rate": 0.15
+        },
+        {
+          "over": 1600000,
+          "upTo": 2000000,
+          "rate": 0.2
+        },
+        {
+          "over": 2000000,
+          "upTo": 2400000,
+          "rate": 0.25
+        },
+        {
+          "over": 2400000,
+          "upTo": null,
+          "rate": 0.3
+        }
+      ],
+      "rebate": {
+        "upToIncome": 1200000,
+        "maxAmount": 60000,
+        "marginalRelief": true,
+        "label": "Section 87A rebate"
+      },
+      "surcharge": {
+        "tiers": [
+          {
+            "incomeAbove": 5000000,
+            "rate": 0.1
+          },
+          {
+            "incomeAbove": 10000000,
+            "rate": 0.15
+          },
+          {
+            "incomeAbove": 20000000,
+            "rate": 0.25
+          }
+        ],
+        "marginalRelief": true
+      }
+    }
+  },
+  "cess": {
+    "rate": 0.04,
+    "label": "Health and education cess"
+  },
+  "notes": [
+    "Tax year 2026-27 under the Income-tax Act, 2025 (in force from 1 April 2026; it replaces \"financial year\" and \"assessment year\" with \"tax year\").",
+    "New tax regime, the default under section 202 of the Income-tax Act, 2025 (earlier section 115BAC(1A)): slabs unchanged from FY 2025-26 per the Memorandum explaining the Finance Bill, 2026 (\"There is no change proposed in tax rates\").",
+    "Standard deduction for salaried employees ₹75,000 and rebate up to ₹60,000 when total income does not exceed ₹12,00,000, as announced for FY 2025-26 (PIB, 1 February 2025) and carried forward unchanged.",
+    "Marginal relief on the rebate: Income-tax Act, 2025, section 156 (earlier section 87A). For total income just above ₹12,00,000, tax before cess is capped at total income minus ₹12,00,000.",
+    "Surcharge (10% above ₹50 lakh, 15% above ₹1 crore, 25% above ₹2 crore, with marginal relief) and 4% health and education cess unchanged per the Finance Bill, 2026 memorandum.",
+    "Only the new regime is built in for 2026-27. The old regime's deductions under the 2025 Act have not been verified yet; FY 2025-26 (with the old regime) stays available in the year picker."
+  ],
+  "sources": [
+    {
+      "url": "https://www.indiabudget.gov.in/doc/memo.pdf"
+    },
+    {
+      "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2098406&reg=48&lang=2"
+    }
+  ],
+  "verifiedOn": "2026-11-10",
+  "officialExamples": [
+    {
+      "note": "Salary ₹12,75,000: total income ₹12,00,000, rebate cancels the tax",
+      "grossSalary": 1275000,
+      "taxBeforeCess": 0,
+      "status": "new"
+    },
+    {
+      "note": "Salary ₹13,00,000: total income ₹12,25,000, slab tax ₹63,750 capped by marginal relief (section 156) at ₹25,000",
+      "grossSalary": 1300000,
+      "taxBeforeCess": 25000,
+      "status": "new"
+    },
+    {
+      "note": "Salary ₹13,45,000: total income ₹12,70,000, slab tax ₹70,500 capped at ₹70,000",
+      "grossSalary": 1345000,
+      "taxBeforeCess": 70000,
+      "status": "new"
+    },
+    {
+      "note": "Salary ₹13,50,000: total income ₹12,75,000, slab tax ₹71,250 (below the ₹75,000 excess, no relief)",
+      "grossSalary": 1350000,
+      "taxBeforeCess": 71250,
+      "status": "new"
+    },
+    {
+      "note": "Salary ₹15,75,000: total income ₹15,00,000, tax ₹1,05,000",
+      "grossSalary": 1575000,
+      "taxBeforeCess": 105000,
+      "status": "new"
+    },
+    {
+      "note": "Salary ₹20,75,000: total income ₹20,00,000, tax ₹2,00,000",
+      "grossSalary": 2075000,
+      "taxBeforeCess": 200000,
+      "status": "new"
+    }
+  ],
+  "page": {
+    "slug": "india-salary-tax-calculator",
+    "placeholder": "100000",
+    "defaultSalary": 150000,
+    "defaultPeriod": "monthly"
+  }
+}
