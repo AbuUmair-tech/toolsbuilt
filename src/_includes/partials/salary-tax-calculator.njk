@@ -20,25 +20,29 @@
           <div class="form-group stc-country">
             <label for="stc-country-input" id="stc-country-label">{{ 'calc.country' | ts(S) }}</label>
             <div class="stc-combo">
-              <input type="text" id="stc-country-input" class="form-control" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="stc-country-list" autocomplete="off" spellcheck="false" value="{{ preset.name }}" aria-describedby="stc-country-hint">
+              <input type="text" id="stc-country-input" class="form-control" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="stc-country-list" autocomplete="off" spellcheck="false" value="{{ preset.name if cfg.country else '' }}" aria-describedby="stc-country-hint">
               <input type="hidden" id="stc-country" data-param="country" value="{{ preset.code }}">
               <ul id="stc-country-list" class="stc-combo-list" role="listbox" aria-labelledby="stc-country-label" hidden></ul>
             </div>
             <p class="form-hint" id="stc-country-hint">{{ 'calc.countryHint' | ts(S) }}</p>
           </div>
 
-          <div class="form-group" id="stc-year-group">
-            <label for="stc-year">{{ 'calc.taxYear' | ts(S) }}</label>
-            <select id="stc-year" data-param="year" class="form-control">
-              {% for y in preset.years or [] %}<option value="{{ y }}"{% if y == presetYear %} selected{% endif %}>{{ tax[(preset.code | lower) + '-' + y].label }}</option>{% endfor %}
+          {#- The country's own tax year: plain text when it has one dataset, a choice when it has
+              several. The hub has no preset, so the script fills it once a country is picked. -#}
+          {%- set presetYears = (preset.years or []) if cfg.country else [] %}
+          <div class="form-group" id="stc-year-group"{% if not presetYears.length %} hidden{% endif %}>
+            <label for="stc-year" id="stc-year-label">{{ 'calc.taxYear' | ts(S) }}</label>
+            <select id="stc-year" data-param="year" class="form-control"{% if presetYears.length < 2 %} hidden{% endif %}>
+              {% for y in presetYears %}<option value="{{ y }}"{% if y == presetYear %} selected{% endif %}>{{ tax[(preset.code | lower) + '-' + y].label }}</option>{% endfor %}
             </select>
+            <p class="stc-year-text" id="stc-year-text"{% if presetYears.length != 1 %} hidden{% endif %}>{{ presetData.label if presetData and presetYears.length == 1 }}</p>
           </div>
         </div>
 
         <div class="stc-note" id="stc-mode-note" aria-live="polite"></div>
 
         <div class="form-group">
-          <label for="salary-amount">{{ 'calc.salary' | ts(S) }} (<span id="stc-currency-code">{{ presetData.currency if presetData else preset.currency }}</span>)</label>
+          <label for="salary-amount">{{ 'calc.salary' | ts(S) }}<span id="stc-currency-wrap"{% if not cfg.country %} hidden{% endif %}> (<span id="stc-currency-code">{{ (presetData.currency if presetData else preset.currency) if cfg.country }}</span>)</span></label>
           <input type="number" inputmode="decimal" min="0" step="any" id="salary-amount" data-param="salary" class="form-control" required aria-required="true" aria-describedby="salary-hint">
           <p class="form-hint" id="salary-hint">{{ 'calc.salaryHint' | ts(S) }}</p>
         </div>

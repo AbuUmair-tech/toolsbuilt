@@ -370,6 +370,17 @@ module.exports = function(eleventyConfig) {
       .slice(0, limit);
   });
 
+  // "Tools people also use" under a tool page: other tools from the same category that the
+  // sidebar's related list (exclude) does not already show, topped up from other categories
+  eleventyConfig.addFilter('moreFromCategory', function(currentTool, allTools, exclude = [], limit = 4) {
+    if (!currentTool || !Array.isArray(allTools)) return [];
+    const skip = new Set([currentTool.slug, ...exclude.map(t => t.slug)]);
+    const pool = allTools.filter(t => isListed(t) && !skip.has(t.slug));
+    return pool.filter(t => t.category === currentTool.category)
+      .concat(pool.filter(t => t.category !== currentTool.category))
+      .slice(0, limit);
+  });
+
   eleventyConfig.addFilter('getCuratedRelatedTools', function(currentTool, allTools, limit = 4) {
     if (!currentTool || !Array.isArray(allTools)) return [];
     const result = [];
@@ -427,6 +438,15 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addFilter('limit', function(arr, count) {
     if (!Array.isArray(arr)) return [];
     return arr.slice(0, count);
+  });
+
+  // Sitemap lastmod for pages that list tools (home, /tools/, a category): the newest content
+  // date of the tools they list, so a rebuild without content changes keeps the same date
+  eleventyConfig.addFilter('latestToolDate', function(allTools, categorySlug) {
+    return (allTools || [])
+      .filter(t => isListed(t) && (!categorySlug || t.category === categorySlug))
+      .map(t => t.updated || '2026-10-15')
+      .sort().pop() || '2026-10-15';
   });
 
   eleventyConfig.addFilter('fileLastmod', function(relativePath) {

@@ -302,8 +302,8 @@ window.TOOLS_DATA = [
     "url": "/tools/json-formatter/",
     "icon": "code",
     "description": "Format, minify, validate, and sort keys in JSON strings with line and column error messages.",
-    "category": "Text & Writing Tools",
-    "categoryId": "text",
+    "category": "Code Formatters",
+    "categoryId": "code",
     "popular": false,
     "related": [
       "python-formatter",
@@ -397,22 +397,6 @@ window.TOOLS_DATA = [
     ]
   },
   {
-    "id": "pakistan-salary-tax-calculator",
-    "name": "Pakistan Salary Tax Calculator 2026-27",
-    "url": "/tools/pakistan-salary-tax-calculator/",
-    "icon": "receipt",
-    "description": "Calculate income tax on a salary in Pakistan for 2026-27 with the new FBR slabs: monthly tax, take-home pay, your slab, and savings vs 2025-26.",
-    "category": "Math & Finance Tools",
-    "categoryId": "math-finance",
-    "popular": false,
-    "related": [
-      "salary-tax-calculator",
-      "loan-emi-calculator",
-      "percentage-calculator",
-      "sip-calculator"
-    ]
-  },
-  {
     "id": "salary-tax-calculator",
     "name": "Salary Tax Calculator",
     "url": "/tools/salary-tax-calculator/",
@@ -426,53 +410,6 @@ window.TOOLS_DATA = [
       "sales-tax-calculator",
       "loan-emi-calculator",
       "percentage-calculator"
-    ]
-  },
-  {
-    "id": "india-salary-tax-calculator",
-    "name": "India Salary Tax Calculator FY 2025-26",
-    "url": "/tools/india-salary-tax-calculator/",
-    "icon": "receipt",
-    "description": "Work out income tax on an Indian salary for FY 2025-26 under the new regime: ₹75,000 standard deduction, 87A rebate up to ₹12 lakh, surcharge and 4% cess.",
-    "category": "Math & Finance Tools",
-    "categoryId": "math-finance",
-    "popular": false,
-    "related": [
-      "salary-tax-calculator",
-      "sales-tax-calculator",
-      "sip-calculator"
-    ]
-  },
-  {
-    "id": "uk-salary-tax-calculator",
-    "name": "UK Salary Tax Calculator 2026/27",
-    "url": "/tools/uk-salary-tax-calculator/",
-    "icon": "receipt",
-    "description": "Work out UK Income Tax on your salary for 2026/27, including the £100,000 Personal Allowance taper and Scottish rates. Monthly tax and take-home after tax.",
-    "category": "Math & Finance Tools",
-    "categoryId": "math-finance",
-    "popular": false,
-    "related": [
-      "salary-tax-calculator",
-      "salary-to-hourly-calculator",
-      "sales-tax-calculator",
-      "loan-emi-calculator"
-    ]
-  },
-  {
-    "id": "us-salary-tax-calculator",
-    "name": "US Salary Tax Calculator 2026",
-    "url": "/tools/us-salary-tax-calculator/",
-    "icon": "receipt",
-    "description": "Estimate 2026 US federal income tax on a salary for single filers and married couples filing jointly, with the 2026 standard deduction and IRS brackets.",
-    "category": "Math & Finance Tools",
-    "categoryId": "math-finance",
-    "popular": false,
-    "related": [
-      "salary-tax-calculator",
-      "salary-to-hourly-calculator",
-      "compound-interest-calculator",
-      "loan-emi-calculator"
     ]
   },
   {

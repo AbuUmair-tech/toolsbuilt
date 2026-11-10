@@ -198,6 +198,10 @@ document.addEventListener('DOMContentLoaded', () => {
       state.year = c.years.includes(year) ? year : c.currentYear;
       yearSelect.innerHTML = c.years.map(y => `<option value="${y}">${escapeHtml(yearLabel(builtinDataset(c.code, y)))}</option>`).join('');
       yearSelect.value = state.year;
+      // One tax year: show it as text; several: let the visitor choose
+      yearSelect.hidden = c.years.length < 2;
+      $('stc-year-text').hidden = c.years.length > 1;
+      $('stc-year-text').textContent = yearLabel(builtinDataset(c.code, state.year));
     } else {
       state.year = null;
       yearSelect.innerHTML = '';
@@ -214,6 +218,7 @@ document.addEventListener('DOMContentLoaded', () => {
       customBox.dataset.country = c.code;
     }
     $('stc-currency-code').textContent = currencyOf();
+    $('stc-currency-wrap').hidden = false;
     renderStatus();
     renderNote();
   }

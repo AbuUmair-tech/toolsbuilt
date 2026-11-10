@@ -2,7 +2,7 @@
 title: "Welcome to ToolsBuilt: Free Browser Tools Built for Privacy"
 description: "ToolsBuilt offers free, fast calculators and web tools that run entirely in your browser. No sign-ups, private local inputs, no server-side processing."
 date: 2026-10-24
-updated: 2026-10-24
+updated: 2026-11-10
 author: "Abu Umair"
 tool: "password-generator"
 tags:
@@ -11,11 +11,11 @@ tags:
 image: "/assets/images/og-default.png"
 faqs:
   - question: "Are ToolsBuilt tools really free to use?"
-    answer: "Yes. Every tool on ToolsBuilt is completely free, with no sign-ups, paywalls, or usage limits. The site is supported by unobtrusive display advertising."
+    answer: "Yes. Every tool on ToolsBuilt is completely free, with no sign-ups, paywalls, or usage limits."
   - question: "Does ToolsBuilt store my inputs or results?"
     answer: "No. All calculations run locally in your browser using JavaScript. Your numbers, text, and other inputs are never sent to any server."
   - question: "How does ToolsBuilt make money if the tools are free?"
-    answer: "ToolsBuilt uses Google AdSense for display advertising and Google Analytics for anonymous traffic statistics. No personal data or calculation inputs are shared with these services."
+    answer: "It does not make money yet: there are no ads on ToolsBuilt. The site uses Google Analytics for anonymous traffic statistics, and no personal data or calculation inputs are shared with it."
 ---
 
 When I started building ToolsBuilt, I had one guiding principle: **useful tools should be free, fast, and private**. Too many online calculators are cluttered with ads that obscure the tool, require accounts just to run a calculation, or—worst of all—send your inputs to a server you know nothing about. ToolsBuilt was built to be the opposite of all that.
@@ -36,7 +36,7 @@ This architecture has a practical performance benefit too. Because there is no r
 
 ## Privacy in Practice
 
-ToolsBuilt does not claim to operate without standard web analytics. ToolsBuilt uses **Google Analytics** for anonymous traffic statistics—page views, bounce rate, which tools are popular—and serves **Google AdSense** display ads to keep the lights on. These are standard web services, and their presence is disclosed in the [Privacy Policy](/privacy-policy/).
+ToolsBuilt does not claim to operate without standard web analytics. ToolsBuilt uses **Google Analytics** for anonymous traffic statistics—page views, bounce rate, which tools are popular. It is a standard web service, and its use is disclosed in the [Privacy Policy](/privacy-policy/).
 
 What ToolsBuilt does **not** do is send your calculation inputs anywhere. The password you generate, the salary you enter into the tax calculator, the loan amount you run through the mortgage tool—none of that is captured, stored, or transmitted. The distinction matters: analytics tells me which pages people visit, not what they type into the form fields.
 
