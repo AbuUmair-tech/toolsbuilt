@@ -1,0 +1,201 @@
+{
+  "listing": {
+    "name": "کرپٹوگرافک ہیش جنریٹر",
+    "shortName": "ہیش جنریٹر",
+    "description": "Web Crypto سے ٹیکسٹ کے کرپٹوگرافک ہیش اپنے براؤزر میں بنائیں۔ SHA-256، SHA-512، SHA-384 اور SHA-1 سپورٹ، ساتھ میں فوری ہیش تصدیق۔",
+    "shortDescription": "SHA-256، SHA-512، SHA-384 اور SHA-1 ہیش مقامی طور پر بنائیں اور فوراً موازنہ کریں۔",
+    "keywords": [
+      "hash generator",
+      "sha256 generator",
+      "ہیش جنریٹر",
+      "sha1 generator",
+      "SHA-256 ہیش آن لائن",
+      "checksum چیک کرنے کا ٹول"
+    ]
+  },
+  "title": "ہیش جنریٹر آن لائن - SHA-256، SHA-512، SHA-384، SHA-1",
+  "description": "ہیش جنریٹر: Web Crypto سے ٹیکسٹ کے کرپٹوگرافک ہیش براؤزر میں بنائیں۔ SHA-256، SHA-512، SHA-384 اور SHA-1 سپورٹ، ساتھ میں فوری ہیش تصدیق۔",
+  "h1": "کرپٹوگرافک ہیش جنریٹر",
+  "quickAnswer": "ہیش جنریٹر سے سادہ ٹیکسٹ کے کرپٹوگرافک ہیش بنانے کے لیے نیچے اپنی اسٹرنگ لکھیں یا پیسٹ کریں۔ یہ ٹول ہارڈویئر سے تیز ہونے والے Web Cryptography API کے ذریعے آپ کے براؤزر میں SHA-256، SHA-512، SHA-384 اور پرانا SHA-1 ایک ساتھ نکالتا ہے۔ تمام کام مکمل طور پر مقامی میموری میں ہوتا ہے، کچھ بھی باہر نہیں بھیجا جاتا۔",
+  "formula": {
+    "title": "کرپٹوگرافک ہیش فنکشن کا اصول",
+    "expression": "H = Hash(M)  |  جہاں H مقررہ سائز کا digest ہے اور M کسی بھی لمبائی کا پیغام",
+    "explanation": "کرپٹوگرافک ہیش فنکشن کسی بھی لمبائی کے بائنری ڈیٹا کو مقررہ لمبائی کے hexadecimal digest میں بدلتا ہے۔ اچھے ہیش فنکشن deterministic ہوتے ہیں، تیزی سے بنتے ہیں، الٹے نہیں کیے جا سکتے (pre-image resistance)، collision سے محفوظ ہوتے ہیں (دو پیغامات کا ایک جیسا digest نہیں بنتا) اور ان میں avalanche effect ہوتا ہے، یعنی ان پٹ میں 1-bit کی تبدیلی سے آؤٹ پٹ کے 50% سے زیادہ bits بدل جاتے ہیں۔"
+  },
+  "workedExamples": [
+    {
+      "title": "خالی اسٹرنگ کا SHA-256 digest",
+      "inputs": [
+        "الگورتھم: SHA-256 (256-bit digest)",
+        "ان پٹ: خالی اسٹرنگ (\"\")"
+      ],
+      "steps": [
+        "پہلے 8 مفرد اعداد کے جذر کے کسری حصوں سے 8 معیاری 32-bit state words شروع کریں",
+        "ان پٹ میں bit 1، پھر صفر اور 64-bit لمبائی کی معلومات کا اضافہ (padding) کریں",
+        "512-bit پیغام بلاک کو 64 compression راؤنڈز سے گزاریں",
+        "معیاری 64 حروف کا hexadecimal digest بنائیں"
+      ],
+      "result": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "title": "عام سلام کا SHA-512 digest",
+      "inputs": [
+        "الگورتھم: SHA-512 (512-bit digest)",
+        "ان پٹ: \"hello world\""
+      ],
+      "steps": [
+        "ASCII حروف کو UTF-8 بائٹ اسٹریم میں انکوڈ کریں [0x68, 0x65, 0x6c, 0x6c, 0x6f, 0x20, 0x77, 0x6f, 0x72, 0x6c, 0x64]",
+        "64-bit word operations سے 1024-bit بلاکس پر 80 compression راؤنڈز چلائیں",
+        "آؤٹ پٹ کے 64 بائٹس کو 128 حروف کی hexadecimal اسٹرنگ میں بدلیں"
+      ],
+      "result": "309ecc489c12d6eb4cc40f50c902f2b4d0ed77ee511a7c7a9bcd3ca86d4cd86f989dd35bc5ff499670da34255b45b0cfd830e81f605dcf7dc5542e40ae9074da"
+    },
+    {
+      "title": "SHA-1 کی پرانی ٹیسٹ مثال",
+      "inputs": [
+        "الگورتھم: SHA-1 (160-bit digest)",
+        "ان پٹ: \"The quick brown fox jumps over the lazy dog\""
+      ],
+      "steps": [
+        "SHA-1 compression راؤنڈز چلائیں جن سے 20 بائٹ کا digest بنتا ہے",
+        "اسے 40 hexadecimal حروف کی شکل دیں"
+      ],
+      "result": "2fd4e1c67a2d28fced849ee1bb76e7391b93eb12"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "پاس ورڈز کے لیے تیز ہیش (SHA-256/MD5) استعمال کرنا",
+      "description": "تیز کرپٹوگرافک ہیش فنکشن عام GPUs پر فی سیکنڈ اربوں اندازے لگا سکتے ہیں۔ پاس ورڈز کے لیے ہمیشہ سست اور memory-hard key derivation فنکشن جیسے Argon2، bcrypt یا PBKDF2 منفرد salt کے ساتھ استعمال کریں۔"
+    },
+    {
+      "title": "نئے سسٹمز میں SHA-1 یا MD5 استعمال کرنا",
+      "description": "SHA-1 اور MD5 میں عملی collision کمزوریاں ثابت ہو چکی ہیں (مثلاً SHAttered حملہ)۔ یہ پرانے ہو چکے ہیں اور ڈیجیٹل دستخط، سرٹیفکیٹس اور ڈیٹا کی سالمیت کے لیے غیر محفوظ ہیں۔"
+    },
+    {
+      "title": "حروف کی انکوڈنگ (UTF-8 بمقابلہ Latin-1) کو نظر انداز کرنا",
+      "description": "ہیشنگ اصل بائنری بائٹس پر منحصر ہے۔ ملٹی بائٹ یونیکوڈ حروف (اعراب، ایموجی) کو مختلف انکوڈنگز میں ہیش کرنے سے بالکل مختلف digest بنتے ہیں۔"
+    },
+    {
+      "title": "بغیر salt کے ہیش پر بھروسہ کرنا",
+      "description": "کرپٹوگرافک salt کے بغیر ہیش کرنے سے حملہ آور پہلے سے بنی rainbow tables سے digest کو فوراً الٹ سکتے ہیں۔"
+    }
+  ],
+  "sources": [
+    {
+      "name": "NIST FIPS PUB 180-4: Secure Hash Standard (SHS)"
+    },
+    {
+      "name": "W3C Web Cryptography API: SubtleCrypto.digest()"
+    },
+    {
+      "name": "CWI Amsterdam & Google: SHAttered SHA-1 Collision Attack"
+    }
+  ],
+  "howto": {
+    "name": "کرپٹوگرافک ہیش کیسے بنائیں اور موازنہ کریں",
+    "description": "ٹیکسٹ کو ہیش کرنے اور آن لائن checksum کا میل چیک کرنے کا مرحلہ وار طریقہ۔",
+    "steps": [
+      {
+        "name": "سادہ ٹیکسٹ درج کریں",
+        "text": "ہیش فوراً بنانے کے لیے اپنا پیغام یا secret ان پٹ باکس میں لکھیں یا پیسٹ کریں۔"
+      },
+      {
+        "name": "Digest کا فارمیٹ منتخب کریں",
+        "text": "چھوٹے حروف والے hex (معیاری) اور بڑے حروف والے hex فارمیٹ میں سے چنیں۔"
+      },
+      {
+        "name": "تصدیق کریں یا کاپی کریں",
+        "text": "کوئی بھی ہیش ایک کلک سے کاپی کریں، یا میل چیک کرنے کے لیے مطلوبہ checksum موازنہ والے خانے میں پیسٹ کریں۔"
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "کیا پاس ورڈز محفوظ کرنے کے لیے SHA-256 محفوظ ہے؟",
+      "a": "نہیں۔ SHA-256 checksums کے لیے بہت تیز بنایا گیا ہے، جس کی وجہ سے جدید GPUs فی سیکنڈ 10 ارب سے زیادہ ہیش آزما سکتے ہیں۔ پاس ورڈز کے لیے ہمیشہ سست، salt والے اور memory-hard الگورتھمز جیسے Argon2id، bcrypt یا scrypt استعمال کریں۔"
+    },
+    {
+      "q": "اس ٹول میں MD5 کیوں نہیں ہے؟",
+      "a": "MD5 کرپٹوگرافی کے لحاظ سے 2004 سے ٹوٹ چکا ہے، اور اس میں collision ایک سیکنڈ سے بھی کم میں بنا کر دکھایا جا چکا ہے۔ چونکہ جدید ایپلیکیشنز میں MD5 سنگین سیکیورٹی خطرات پیدا کرتا ہے، اس لیے ToolsBuilt میں MD5 شامل نہیں کیا گیا۔"
+    },
+    {
+      "q": "کیا کرپٹوگرافک ہیش کو ڈیکرپٹ یا الٹا کیا جا سکتا ہے؟",
+      "a": "نہیں۔ ہیش فنکشن صرف ایک طرفہ ریاضیاتی عمل ہیں جو ڈیٹا کو سکیڑ دیتے ہیں اور اصل لمبائی اور ساخت ختم کر دیتے ہیں۔ ہیش کو ریاضیاتی طور پر الٹا نہیں کیا جا سکتا؛ صرف brute force سے اندازہ لگایا جا سکتا ہے۔"
+    },
+    {
+      "q": "SHA-256 اور SHA-512 میں کیا فرق ہے؟",
+      "a": "SHA-256 32-bit operations سے 256-bit (32 بائٹ) کا digest بناتا ہے، جبکہ SHA-512 64-bit operations سے 512-bit (64 بائٹ) کا digest بناتا ہے۔ 64-bit CPUs پر SHA-512 اکثر SHA-256 سے زیادہ تیز ہوتا ہے۔"
+    },
+    {
+      "q": "کیا ToolsBuilt ہیش بنانے کے لیے میرا ٹیکسٹ سرور پر بھیجتا ہے؟",
+      "a": "نہیں۔ تمام ہیش آپ کے ویب براؤزر میں Web Crypto (crypto.subtle) سے مقامی طور پر بنتے ہیں۔ آپ کا ٹیکسٹ اور بنائے گئے ہیش کبھی نیٹ ورک پر نہیں بھیجے جاتے۔"
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-div1": "کرپٹوگرافک ہیش جنریٹر ٹول",
+      "hash-input-text": "سادہ ٹیکسٹ ان پٹ",
+      "hash-sha256-val": "SHA-256 ہیش آؤٹ پٹ",
+      "tool-button1": "SHA-256 ہیش کاپی کریں",
+      "hash-sha512-val": "SHA-512 ہیش آؤٹ پٹ",
+      "tool-button2": "SHA-512 ہیش کاپی کریں",
+      "hash-sha384-val": "SHA-384 ہیش آؤٹ پٹ",
+      "tool-button3": "SHA-384 ہیش کاپی کریں",
+      "hash-sha1-val": "SHA-1 ہیش آؤٹ پٹ",
+      "tool-button4": "SHA-1 ہیش کاپی کریں",
+      "hash-compare-input": "موازنے کے لیے مطلوبہ ہیش"
+    },
+    "content": {
+      "tool": {
+        "div1": "<strong>سیکیورٹی نوٹس:</strong> SHA-1 اور MD5 کرپٹوگرافی کے لحاظ سے ٹوٹ چکے ہیں اور collision حملوں کا شکار ہو سکتے ہیں۔ انہیں پاس ورڈ ہیشنگ، ڈیجیٹل دستخط یا سیکیورٹی کے لیے اہم authentication میں کبھی استعمال نہیں کرنا چاہیے۔ ToolsBuilt نے جان بوجھ کر MD5 شامل نہیں کیا۔ پاس ورڈز کے لیے ہمیشہ salt والے الگورتھمز جیسے <strong>Argon2</strong> یا <strong>bcrypt</strong> استعمال کریں۔ فائل کی سالمیت کے لیے <strong>SHA-256</strong> یا <strong>SHA-512</strong> استعمال کریں۔",
+        "label1": "<input type=\"checkbox\" id=\"opt-hash-uppercase\">\n          <span>بڑے حروف والا Hex</span>",
+        "div2": "<span id=\"hash-byte-counter\">0 حروف / 0 بائٹس</span>\n      <span>Web Crypto API سے مقامی طور پر بنایا گیا</span>",
+        "div3": "<span>SHA-256</span>\n          <span class=\"text-sm text-success font-semibold\">(سالمیت کے لیے تجویز کردہ)</span>",
+        "span1": "256 bits (64 hex حروف)",
+        "button1": "<span data-icon=\"copy\"></span> کاپی",
+        "div4": "<span>SHA-512</span>",
+        "span2": "512 bits (128 hex حروف)",
+        "button2": "<span data-icon=\"copy\"></span> کاپی",
+        "div5": "<span>SHA-384</span>",
+        "span3": "384 bits (96 hex حروف)",
+        "button3": "<span data-icon=\"copy\"></span> کاپی",
+        "div6": "<span>SHA-1</span>\n          <span class=\"hash-badge-legacy\">پرانا / پاس ورڈز کے لیے غیر محفوظ</span>",
+        "span4": "160 bits (40 hex حروف)",
+        "button4": "<span data-icon=\"copy\"></span> کاپی"
+      }
+    },
+    "label": {
+      "hash-input-text": "سادہ ٹیکسٹ ان پٹ:",
+      "hash-compare-input": "ہیش کا موازنہ / تصدیق:"
+    },
+    "text": {
+      "clear-input-btn": "<span data-icon=\"trash\"></span> صاف کریں",
+      "hash-compare-status": "<span class=\"text-secondary\">بنائی گئی قدروں سے میل چیک کرنے کے لیے اوپر ہیش پیسٹ کریں۔</span>"
+    },
+    "placeholder": {
+      "hash-input-text": "ہیش کرنے کے لیے ٹیکسٹ درج کریں...",
+      "hash-compare-input": "موازنے کے لیے کوئی بیرونی checksum یا ہیش پیسٹ کریں..."
+    }
+  },
+  "client": {
+    "warnings": {
+      "password": "سیکیورٹی انتباہ: SHA-1 اور MD5 کرپٹوگرافی کے لحاظ سے ٹوٹ چکے ہیں اور collision حملوں کا شکار ہو سکتے ہیں۔ انہیں پاس ورڈ ہیشنگ، ڈیجیٹل دستخط یا سیکیورٹی کے لیے اہم authentication میں کبھی استعمال نہیں کرنا چاہیے۔ پاس ورڈز کے لیے Argon2، bcrypt یا scrypt اور ڈیٹا کی سالمیت کی تصدیق کے لیے SHA-256 یا SHA-512 استعمال کریں۔"
+    },
+    "errors": {
+      "unsupportedAlgorithm": "غیر معاون ہیش الگورتھم: {{algorithm}}۔ معاون: {{supported}}",
+      "computationFailed": "کرپٹوگرافک ہیش نہیں بن سکا: {{message}}"
+    },
+    "counter": "{{chars}} حروف / {{bytes}} بائٹس",
+    "copy": {
+      "copied": "✓ کاپی ہو گیا!",
+      "failed": "کاپی نہیں ہو سکا۔"
+    },
+    "compare": {
+      "prompt": "بنائی گئی قدروں سے میل چیک کرنے کے لیے اوپر ہیش پیسٹ کریں۔",
+      "match": "✓ میل کی تصدیق ہو گئی ({{algorithm}})",
+      "noMatch": "✕ کوئی میل نہیں ملا"
+    },
+    "sampleInput": "Hello ToolsBuilt!"
+  }
+}

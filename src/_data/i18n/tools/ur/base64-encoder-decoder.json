@@ -1,0 +1,228 @@
+{
+  "listing": {
+    "name": "Base64 انکوڈر اور ڈیکوڈر",
+    "shortName": "Base64 انکوڈر",
+    "description": "UTF-8 ٹیکسٹ کو اپنے براؤزر میں ہی عام یا URL-safe Base64 میں انکوڈ اور ڈیکوڈ کریں۔",
+    "shortDescription": "UTF-8 ٹیکسٹ کو اپنے براؤزر میں ہی عام یا URL-safe Base64 میں انکوڈ اور ڈیکوڈ کریں۔",
+    "keywords": [
+      "base64 encoder",
+      "base64 decoder",
+      "Base64 انکوڈ",
+      "url safe base64",
+      "Base64 ڈیکوڈ آن لائن"
+    ]
+  },
+  "title": "Base64 انکوڈر اور ڈیکوڈر - UTF-8 اور URL-safe کنورٹر",
+  "description": "Base64 انکوڈر اور ڈیکوڈر مفت آن لائن۔ عام ٹیکسٹ اور UTF-8 کو عام یا URL-safe Base64 میں بدلیں، سب کچھ براؤزر میں، سرور پر کچھ محفوظ نہیں ہوتا۔",
+  "h1": "Base64 انکوڈر اور ڈیکوڈر",
+  "quickAnswer": "Base64 انکوڈنگ بائنری یا ٹیکسٹ ڈیٹا کو 64 حروف والے ASCII سیٹ (A–Z، a–z، 0–9، +، /) میں بدلتی ہے تاکہ وہ ای میل اور HTTP جیسے صرف ٹیکسٹ والے پروٹوکولز پر محفوظ طریقے سے جا سکے۔ URL-safe Base64 میں '+' اور '/' کی جگہ '-' اور '_' استعمال ہوتے ہیں تاکہ URL میں ٹکراؤ نہ ہو۔ Base64 صرف انکوڈنگ ہے، انکرپشن نہیں، اور یہ مکمل طور پر آپ کے براؤزر میں چلتا ہے، کوئی نیٹ ورک کال نہیں ہوتی۔",
+  "workedExamples": [
+    {
+      "title": "ASCII ٹیکسٹ 'Man' کو عام Base64 میں انکوڈ کریں",
+      "inputs": [
+        "موڈ: Base64 میں انکوڈ کریں",
+        "ان پٹ: Man",
+        "URL-Safe: بند"
+      ],
+      "steps": [
+        "ASCII حروف کو 8-bit بائٹس میں بدلیں: 'M' (77)، 'a' (97)، 'n' (110)",
+        "انہیں جوڑ کر 24-bit بائنری اسٹریم بنائیں: 01001101 01100001 01101110",
+        "چار 6-bit انڈیکس نمبروں میں تقسیم کریں: 19، 22، 5، 46",
+        "Base64 انڈیکس ٹیبل سے ملائیں: T، W، F، u"
+      ],
+      "result": "TWFu"
+    },
+    {
+      "title": "علامات والا ٹیکسٹ URL-safe Base64 میں انکوڈ کریں",
+      "inputs": [
+        "موڈ: Base64 میں انکوڈ کریں",
+        "ان پٹ: subjects?_d=1",
+        "URL-Safe: آن"
+      ],
+      "steps": [
+        "حروف کو عام Base64 میں بدلیں: c3ViamVjdHM/X2Q9MQ==",
+        "عام '+' کو '-' سے اور '/' کو '_' سے بدلیں",
+        "نتیجے والی اسٹرنگ URLs اور query parameters میں ڈالنے کے لیے محفوظ ہے"
+      ],
+      "result": "c3ViamVjdHM_X2Q9MQ=="
+    },
+    {
+      "title": "Base64 کو سادہ ٹیکسٹ میں ڈیکوڈ کریں",
+      "inputs": [
+        "موڈ: Base64 سے ڈیکوڈ کریں",
+        "ان پٹ: SGVsbG8gV29ybGQh"
+      ],
+      "steps": [
+        "چار چار حروف کے ٹکڑوں کو واپس 6-bit نمبروں میں بدلیں",
+        "6-bit ٹکڑوں کو جوڑ کر 8-bit UTF-8 بائٹس بنائیں",
+        "UTF-8 بائٹس کو یونیکوڈ حروف میں ڈیکوڈ کریں"
+      ],
+      "result": "Hello World!"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "انکوڈنگ کو انکرپشن سمجھ لینا",
+      "description": "Base64 کوئی سائفر نہیں ہے۔ اس میں نہ کوئی خفیہ کلید ہے، نہ initialization vector اور نہ ہی کوئی حسابی مشکل۔ کوئی بھی Base64 کو ملی سیکنڈز میں ڈیکوڈ کر سکتا ہے۔ سیکیورٹی کے لیے Base64 انکوڈنگ سے پہلے AES-GCM یا ChaCha20 انکرپشن لگائیں۔"
+    },
+    {
+      "title": "btoa() سے surrogate pairs کا خراب ہونا",
+      "description": "JavaScript کا بلٹ اِن <code>window.btoa()</code> فنکشن Latin-1 انکوڈنگ (code points 0–255) فرض کرتا ہے۔ ایموجی یا اعراب والے حروف دینے پر یہ DOMException پھینک دیتا ہے۔ درست طریقہ یہ ہے کہ پہلے اسٹرنگ کو UTF-8 بائٹ ارے میں بدلا جائے۔"
+    },
+    {
+      "title": "پیڈنگ کے بغیر اسٹرنگ کا کٹ جانا",
+      "description": "کچھ ویب فریم ورکس آخر کے <code>=</code> پیڈنگ حروف ہٹا دیتے ہیں۔ اچھا ڈیکوڈر ڈیکوڈنگ کی غلطیوں سے بچنے کے لیے پہلے پیڈنگ کو 4 کے مضرب تک پورا کرتا ہے۔"
+    }
+  ],
+  "sources": [
+    {
+      "label": "RFC 4648: The Base16, Base32, and Base64 Data Encodings"
+    },
+    {
+      "label": "MDN Web Docs: Base64 encoding and decoding"
+    },
+    {
+      "label": "WHATWG: The TextEncoder and TextDecoder API"
+    }
+  ],
+  "howto": {
+    "name": "Base64 کو آن لائن انکوڈ اور ڈیکوڈ کیسے کریں",
+    "description": "UTF-8 ٹیکسٹ کو Base64 میں بدلنے اور Base64 کو واپس سادہ ٹیکسٹ میں ڈیکوڈ کرنے کا مرحلہ وار طریقہ۔",
+    "steps": [
+      {
+        "name": "انکوڈ یا ڈیکوڈ موڈ منتخب کریں",
+        "text": "سادہ ٹیکسٹ کو Base64 میں بدلنے کے لیے 'Base64 میں انکوڈ کریں' چنیں، یا اصل ٹیکسٹ نکالنے کے لیے 'Base64 سے ڈیکوڈ کریں'۔"
+      },
+      {
+        "name": "ٹیکسٹ یا Base64 اسٹرنگ درج کریں",
+        "text": "اپنا ان پٹ سورس باکس میں لکھیں یا پیسٹ کریں۔ یونیکوڈ حروف، ایموجی اور دوسری زبانوں کے حروف خود بخود سنبھال لیے جاتے ہیں۔"
+      },
+      {
+        "name": "URL-Safe آن کریں اور نتیجہ کاپی کریں",
+        "text": "چاہیں تو + اور / کو - اور _ سے بدلنے کے لیے URL-Safe آپشن آن کریں، پھر نتیجہ کاپی کر لیں۔"
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "کیا Base64 انکرپشن ہے؟",
+      "a": "نہیں۔ Base64 انکوڈنگ کا طریقہ ہے، انکرپشن نہیں۔ اس سے کوئی سیکیورٹی یا رازداری نہیں ملتی۔ جس کے پاس بھی Base64 اسٹرنگ ہو وہ اسے بغیر کسی کلید کے فوراً سادہ ٹیکسٹ میں ڈیکوڈ کر سکتا ہے۔"
+    },
+    {
+      "q": "عام Base64 اور URL-safe Base64 میں کیا فرق ہے؟",
+      "a": "عام Base64 (RFC 4648 §4) اپنے 64 حروف میں '+' اور '/' استعمال کرتا ہے، جنہیں URLs یا فائل ناموں میں percent-encoding کی ضرورت پڑتی ہے۔ URL-safe Base64 (RFC 4648 §5) میں '+' کی جگہ '-' اور '/' کی جگہ '_' آتا ہے، جس سے URL کے ٹکراؤ ختم ہو جاتے ہیں۔"
+    },
+    {
+      "q": "کیا یہ انکوڈر UTF-8 حروف اور ایموجی درست طریقے سے سنبھالتا ہے؟",
+      "a": "جی ہاں۔ براؤزر کا عام btoa() فنکشن Latin-1 سے باہر کے حروف پر ناکام ہو جاتا ہے۔ ہمارا ٹول تمام ٹیکسٹ کو UTF-8 بائٹ انکوڈر سے گزارتا ہے، اس لیے اعراب والے حروف، ایشیائی زبانیں اور ایموجی (مثلاً 🚀) بالکل درست رہتے ہیں۔"
+    },
+    {
+      "q": "کیا میرا ٹیکسٹ کسی سرور پر بھیجا جاتا ہے؟",
+      "a": "نہیں۔ تمام انکوڈنگ اور ڈیکوڈنگ 100% آپ کے براؤزر کی میموری میں ہوتی ہے۔ ہم کوئی ڈیٹا نہ بھیجتے ہیں، نہ لاگ کرتے ہیں اور نہ محفوظ کرتے ہیں۔"
+    },
+    {
+      "q": "Base64 آؤٹ پٹ کے آخر میں '=' کیوں آتا ہے؟",
+      "a": "'=' پیڈنگ کی علامت ہے۔ Base64 ڈیٹا کو 3 بائٹ (24 bits) کے ٹکڑوں میں لے کر چار 6-bit حروف بناتا ہے۔ اگر ان پٹ کی بائٹس 3 پر پوری تقسیم نہ ہوں تو آخری بلاک میں ایک یا دو '=' لگا دیے جاتے ہیں۔"
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "Base64 انکوڈر اور ڈیکوڈر فارم"
+    },
+    "content": {
+      "tool": {
+        "label1": "<input type=\"radio\" name=\"base64-mode\" value=\"encode\" checked class=\"cursor-pointer\">\n            <span>Base64 میں انکوڈ کریں</span>",
+        "label2": "<input type=\"radio\" name=\"base64-mode\" value=\"decode\" class=\"cursor-pointer\">\n            <span>Base64 سے ڈیکوڈ کریں</span>",
+        "label3": "<input type=\"checkbox\" id=\"url-safe-toggle\" class=\"cursor-pointer\">\n            <span>URL-safe قسم (RFC 4648 §5)</span>"
+      },
+      "important-base64-is-encoding-not-encryption": {
+        "heading": "<svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z\"></path><line x1=\"12\" y1=\"9\" x2=\"12\" y2=\"13\"></line><line x1=\"12\" y1=\"17\" x2=\"12.01\" y2=\"17\"></line></svg>\n        اہم: Base64 انکوڈنگ ہے، انکرپشن نہیں",
+        "p1": "Base64 ایک کھلا طریقہ ہے جو بائنری ڈیٹا کو صرف ٹیکسٹ والے راستوں سے بھیجنے کے لیے بنایا گیا ہے۔ اس میں <strong>کوئی رازداری نہیں</strong>۔ پاس ورڈ، خفیہ ٹوکن یا صارفین کا نجی ڈیٹا محفوظ کرنے کے لیے کبھی صرف Base64 پر بھروسہ نہ کریں۔"
+      },
+      "how-when-to-use-the-base64": {
+        "li1": "<strong>Data URI میں شامل کرنا:</strong> چھوٹی تصاویر، فونٹس یا SVG گرافکس کو inline HTML/CSS <code>data:image/png;base64,...</code> ٹیگز کے لیے Base64 اسٹرنگ میں بدلیں۔",
+        "li2": "<strong>HTTP ہیڈر میں بھیجنا:</strong> بنیادی HTTP authentication کی تفصیلات (<code>username:password</code>) کو <code>Authorization: Basic &lt;base64&gt;</code> ہیڈرز کی شکل دیں۔",
+        "li3": "<strong>URL پیرامیٹرز میں بھیجنا:</strong> پیچیدہ IDs، state ٹوکنز یا JSON آبجیکٹس کو query parameters میں ڈالنے کے لیے URL-safe موڈ استعمال کریں تاکہ مخصوص حروف سے ٹکراؤ نہ ہو۔",
+        "li4": "<strong>Payload کی جانچ:</strong> آنے والے webhook payloads، JWT حصوں اور ای میل MIME اٹیچمنٹس کو ڈیکوڈ کر کے ان کا سادہ ٹیکسٹ دیکھیں۔"
+      },
+      "base64-encoding-method-rfc-4648-worked": {
+        "p1": "Base64 بائنری ڈیٹا کو 64 حروف کے ASCII سیٹ میں بدلتا ہے: بڑے حروف (A–Z)، چھوٹے حروف (a–z)، ہندسے (0–9) اور دو علامات (+ اور /)۔ تین 8-bit بائٹس (24 bits) کو چار 6-bit قدروں میں بانٹا جاتا ہے، جس سے ڈیٹا کی لمبائی ٹھیک 33% بڑھ جاتی ہے۔"
+      },
+      "rfc-4648-standard-vector-man": {
+        "heading": "RFC 4648 معیاری مثال: \"Man\"",
+        "p1": "3 بائٹ والی معیاری ٹیسٹ مثال:",
+        "li1": "سادہ ٹیکسٹ: <code>Man</code>",
+        "li2": "ASCII بائٹس: <code>77, 97, 110</code>",
+        "li3": "بائنری (24 bits): <code>01001101 01100001 01101110</code>",
+        "li4": "6-bit ٹکڑے: <code>19, 22, 5, 46</code>",
+        "li5": "Base64: <code>TWFu</code>"
+      },
+      "url-safe-substitution": {
+        "heading": "URL-Safe تبدیلی",
+        "p1": "URLs اور فائل ناموں کے لیے محفوظ شکل:",
+        "li1": "عام: <code>subjects?_d</code> &rarr; <code>c3ViamVjdHM/X2Q=</code>",
+        "li2": "URL-Safe: <code>+</code> &rarr; <code>-</code>, <code>/</code> &rarr; <code>_</code>",
+        "li3": "نتیجہ: <code>c3ViamVjdHM_X2Q=</code>",
+        "li4": "اسے percent-encoding کے بغیر سیدھا query parameters میں رکھا جا سکتا ہے۔"
+      },
+      "multilingual-utf-8-handling": {
+        "heading": "کثیر لسانی UTF-8 سپورٹ",
+        "p1": "اعراب اور ایموجی بغیر کسی نقصان کے انکوڈ ہوتے ہیں:",
+        "li1": "ان پٹ: <code>café 🚀</code>",
+        "li2": "UTF-8 بائٹس: 9 بائٹس",
+        "li3": "Base64: <code>Y2Fmw6kg8J+agA==</code>",
+        "li4": "بغیر کسی خرابی کے واپس اصل حروف میں ڈیکوڈ ہو جاتا ہے۔"
+      }
+    },
+    "text": {
+      "clear-btn": "صاف کریں",
+      "size-meter": "0.0 KB / 1 MB",
+      "convert-btn": "Base64 میں انکوڈ کریں",
+      "swap-btn": "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><polyline points=\"17 1 21 5 17 9\"></polyline><path d=\"M3 11V9a4 4 0 0 1 4-4h14\"></path><polyline points=\"7 23 3 19 7 15\"></polyline><path d=\"M21 13v2a4 4 0 0 1-4 4H3\"></path></svg>\n          ان پٹ اور آؤٹ پٹ کی جگہ بدلیں",
+      "copy-btn": "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"9\" y=\"9\" width=\"13\" height=\"13\" rx=\"2\" ry=\"2\"></rect><path d=\"M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1\"></path></svg>\n          نتیجہ کاپی کریں",
+      "how-to-use-heading": "Base64 انکوڈر / ڈیکوڈر کب اور کیسے استعمال کریں",
+      "article-heading": "Base64 انکوڈنگ کا طریقہ، RFC 4648 اور حل شدہ مثالیں"
+    },
+    "label": {
+      "base64-input": "انکوڈ کرنے کے لیے ٹیکسٹ (UTF-8 سادہ ٹیکسٹ):",
+      "base64-output": "Base64 انکوڈ شدہ آؤٹ پٹ:"
+    },
+    "placeholder": {
+      "base64-input": "یہاں سادہ ٹیکسٹ لکھیں یا پیسٹ کریں (ایموجی، دوسری زبانوں کے حروف اور علامات سب چلتے ہیں)...",
+      "base64-output": "آپ کے لکھتے ہی نتیجہ یہاں ظاہر ہوگا..."
+    }
+  },
+  "client": {
+    "labels": {
+      "encode": {
+        "input": "انکوڈ کرنے کے لیے ٹیکسٹ (UTF-8 سادہ ٹیکسٹ):",
+        "output": "Base64 انکوڈ شدہ آؤٹ پٹ:",
+        "button": "Base64 میں انکوڈ کریں",
+        "placeholder": "یہاں سادہ ٹیکسٹ لکھیں یا پیسٹ کریں (ایموجی، دوسری زبانوں کے حروف اور علامات سب چلتے ہیں)..."
+      },
+      "decode": {
+        "input": "ڈیکوڈ کرنے کے لیے Base64 اسٹرنگ:",
+        "output": "ڈیکوڈ شدہ سادہ ٹیکسٹ (UTF-8):",
+        "button": "Base64 سے ڈیکوڈ کریں",
+        "placeholder": "یہاں Base64 اسٹرنگ پیسٹ کریں (مثلاً TWFu یا Y2Fmw6k=)..."
+      }
+    },
+    "sizeMeter": "{{kb}} KB / {{max}} MB",
+    "status": {
+      "encoded": "✓ {{input}} حروف کو {{output}} Base64 حروف ({{bytes}} بائٹس) میں انکوڈ کر دیا گیا",
+      "decoded": "✓ {{input}} Base64 حروف کو {{output}} سادہ ٹیکسٹ حروف میں ڈیکوڈ کر دیا گیا"
+    },
+    "errors": {
+      "notText": "ان پٹ ایک درست ٹیکسٹ اسٹرنگ ہونا چاہیے۔",
+      "notBase64": "ان پٹ ایک درست Base64 اسٹرنگ ہونا چاہیے۔",
+      "tooLarge": "ان پٹ 1 MB کی حد سے زیادہ ہے (زیادہ سے زیادہ 1,048,576 حروف)۔ موجودہ سائز: {{size}} حروف۔",
+      "encoding": "انکوڈنگ میں خرابی: {{message}}",
+      "alphabet": "غلط Base64 فارمیٹ: اس میں Base64 حروف کے علاوہ دوسرے حروف موجود ہیں۔",
+      "decoding": "ڈیکوڈنگ میں خرابی: Base64 ڈیٹا خراب ہے یا UTF-8 بائٹس درست نہیں ({{message}})۔"
+    },
+    "toast": {
+      "nothingToCopy": "کاپی کرنے کے لیے کچھ نہیں۔ پہلے ٹیکسٹ درج کریں۔",
+      "copied": "نتیجہ کلپ بورڈ پر کاپی ہو گیا"
+    }
+  }
+}

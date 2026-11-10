@@ -1,0 +1,242 @@
+{
+  "listing": {
+    "name": "محول حالة الأحرف",
+    "shortName": "محول حالة الأحرف",
+    "description": "حوّل النص فورًا بين UPPERCASE وlowercase وTitle Case وSentence case وcamelCase وsnake_case وkebab-case.",
+    "shortDescription": "حوّل النص فورًا بين UPPERCASE وlowercase وTitle Case وSentence case وcamelCase وsnake_case وkebab-case.",
+    "keywords": [
+      "محول حالة الأحرف",
+      "تحويل الأحرف الكبيرة إلى صغيرة",
+      "تحويل النص إلى Title Case",
+      "محول camelCase",
+      "snake case"
+    ]
+  },
+  "title": "محول حالة الأحرف - تحويل الأحرف الكبيرة والصغيرة",
+  "description": "حوّل النص إلى UPPERCASE أو lowercase أو Title Case أو Sentence case أو camelCase أو PascalCase أو snake_case أو kebab-case فورًا بأداة مجانية.",
+  "h1": "محول حالة الأحرف",
+  "quickAnswer": "لتحويل النص بين أنماط حالة الأحرف، الصق المحتوى في مربع الإدخال واختر أي نمط تحويل. يحوّل محول حالة الأحرف النص فورًا إلى UPPERCASE وlowercase وTitle Case وSentence case وcamelCase وPascalCase وsnake_case وkebab-case وغيرها، مع الحفاظ على علامات الترقيم وأحرف Unicode، وكل ذلك داخل متصفحك.",
+  "formula": {
+    "title": "قواعد تحويل حالة الأحرف وتقسيم الكلمات",
+    "expression": "النص المحوَّل = ApplyCaseTransform(TokenizeWords(InputString, UnicodeRegex), StyleRule)",
+    "explanation": "يُقسَّم النص المُدخل إلى كلمات باستخدام خصائص حروف Unicode (\\\\p{L}). ثم يُعاد بناء الكلمات وفق قواعد النمط المحدد: قواعد الكلمات الثانوية في دليل Chicago للأسلوب بالنسبة لـ Title Case، أو فواصل الشرطة السفلية/الشرطة للمعرّفات البرمجية."
+  },
+  "workedExamples": [
+    {
+      "title": "تحويل عنوان إلى Title Case بأسلوب Chicago",
+      "inputs": [
+        "المدخل: 'the quick brown fox jumps over the lazy dog'",
+        "النمط المطلوب: Title Case"
+      ],
+      "steps": [
+        "تقسيم الكلمات عند حدود المسافات في Unicode",
+        "تكبير الحرف الأول من الكلمتين الأولى والأخيرة ('The'، 'Dog')",
+        "تكبير الحرف الأول من الكلمات الرئيسية ('Quick'، 'Brown'، 'Fox'، 'Jumps'، 'Lazy')",
+        "إبقاء حروف الجر وأدوات التعريف الثانوية بأحرف صغيرة ('over'، 'the')"
+      ],
+      "result": "'The Quick Brown Fox Jumps Over the Lazy Dog'"
+    },
+    {
+      "title": "تحويل عنوان إلى camelCase (معرّف JavaScript)",
+      "inputs": [
+        "المدخل: 'user profile setting'",
+        "النمط المطلوب: camelCase"
+      ],
+      "steps": [
+        "استخراج الكلمات الأبجدية الرقمية: ['user', 'profile', 'setting']",
+        "كتابة الكلمة الأولى بأحرف صغيرة: 'user'",
+        "تكبير الحرف الأول من الكلمات التالية: 'Profile'، 'Setting'",
+        "دمج الكلمات دون مسافات"
+      ],
+      "result": "'userProfileSetting'"
+    },
+    {
+      "title": "تحويل عنوان إلى kebab-case (رابط Slug)",
+      "inputs": [
+        "المدخل: 'Annual Financial Report 2026'",
+        "النمط المطلوب: kebab-case"
+      ],
+      "steps": [
+        "تقسيم الكلمات: ['Annual', 'Financial', 'Report', '2026']",
+        "تحويل جميع الأحرف إلى أحرف صغيرة",
+        "ربط الكلمات بالشرطات (-)"
+      ],
+      "result": "'annual-financial-report-2026'"
+    },
+    {
+      "title": "تكبير أول حرف في الجملة (Sentence case)",
+      "inputs": [
+        "المدخل: 'hello world! this is a test. here is another one.'",
+        "النمط المطلوب: Sentence case"
+      ],
+      "steps": [
+        "تحديد علامات نهاية الجمل (. ! ?)",
+        "تكبير الحرف الأول من كل جملة",
+        "إبقاء بقية أحرف الجملة صغيرة"
+      ],
+      "result": "'Hello world! This is a test. Here is another one.'"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "تكبير حروف الجر الثانوية في Title Case",
+      "description": "في أسلوبي Chicago وAP، تبقى حروف الجر وأدوات التعريف وأدوات العطف الثانوية الأقصر من أربعة أحرف (مثل 'in' و'on' و'the' و'and' و'for') بأحرف صغيرة إلا إذا جاءت في بداية الجملة."
+    },
+    {
+      "title": "إفساد أحرف Unicode والأحرف ذات علامات التشكيل",
+      "description": "يفشل التحويل البسيط باستخدام تعبيرات ASCII النمطية مع الأحرف ذات علامات التشكيل مثل 'é' أو الأبجديات غير اللاتينية؛ لذا يجب استخدام خصائص Unicode (\\\\p{L})."
+    },
+    {
+      "title": "فقدان الفواصل عند تحويل الكود",
+      "description": "تحويل كود camelCase أو snake_case إلى Sentence case يزيل الفواصل البرمجية. احتفظ بنسخة احتياطية أو استخدم زر التراجع."
+    },
+    {
+      "title": "تطبيق Title Case على نص بأحرف كبيرة بالكامل",
+      "description": "إذا أُدخل نص بأحرف كبيرة بالكامل إلى محرك Title Case دون تحويله أولًا إلى أحرف صغيرة، تبقى حروف الجر الثانوية كبيرة. تقوم خوارزميتنا بتوحيد الكلمات أولًا."
+    }
+  ],
+  "sources": [
+    {
+      "name": "دليل Chicago للأسلوب: قواعد العناوين وتكبير الأحرف في العناوين"
+    },
+    {
+      "name": "الملحق القياسي لـ Unicode رقم 29: تقسيم نصوص Unicode"
+    },
+    {
+      "name": "معايير W3C للتدويل (i18n) في تحويل حالة الأحرف"
+    }
+  ],
+  "howto": {
+    "name": "كيفية تحويل حالة الأحرف على الإنترنت",
+    "description": "دليل خطوة بخطوة لتحويل حالة أحرف النص إلى 12 صيغة مختلفة باستخدام ToolsBuilt.",
+    "steps": [
+      {
+        "name": "الصق المحتوى",
+        "text": "الصق نصك غير المنسّق أو اكتبه في منطقة النص."
+      },
+      {
+        "name": "اختر نمط حالة الأحرف",
+        "text": "انقر على أي من أزرار التحويل الاثني عشر (مثل Title Case أو UPPERCASE أو camelCase أو CONSTANT_CASE)."
+      },
+      {
+        "name": "انسخ أو تراجع",
+        "text": "انقر على نسخ النص لنسخ النتيجة المحوَّلة إلى الحافظة، أو انقر على تراجع إذا أردت العودة."
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "كيف أحوّل حالة أحرف النص على الإنترنت؟",
+      "a": "الصق نصك في مربع المحول وانقر على أي زر تحويل مثل UPPERCASE أو lowercase أو Title Case أو Sentence case. يتحدّث النص فورًا في متصفحك."
+    },
+    {
+      "q": "ما الفرق بين Title Case وتكبير أول حرف من كل كلمة؟",
+      "a": "يكبّر Title Case الكلمات الرئيسية ويُبقي أدوات التعريف وحروف الجر الثانوية (مثل 'in' و'the' و'of' و'and' و'for') بأحرف صغيرة ما لم تكن الكلمة الأولى أو الأخيرة. أما تكبير كل كلمة فيكبّر الحرف الأول من كل كلمة دون استثناء."
+    },
+    {
+      "q": "ما الفرق بين camelCase وPascalCase وsnake_case وkebab-case؟",
+      "a": "يبدأ camelCase بحرف صغير ويكبّر الكلمات التالية دون مسافات (مثل 'myVariable'). ويكبّر PascalCase جميع الكلمات بما فيها الأولى ('MyVariable'). ويفصل snake_case الكلمات بشرطات سفلية بأحرف صغيرة ('my_variable'). ويفصل kebab-case الكلمات بشرطات ('my-variable')."
+    },
+    {
+      "q": "هل يمكنني التراجع عن التحويل إذا لم تعجبني النتيجة؟",
+      "a": "نعم. انقر على زر التراجع للعودة إلى حالة النص السابقة في أي وقت."
+    },
+    {
+      "q": "هل تبقى بيانات نصي خاصة عند استخدام المحول؟",
+      "a": "نعم. يعمل منطق تحويل النص كله داخل ذاكرة المتصفح المحلية عبر JavaScript على جهازك. لا يُخزَّن نصك في الروابط ولا يُحفظ في ملفات تعريف الارتباط ولا يُرسَل إلى خوادم بعيدة."
+    },
+    {
+      "q": "هل يدعم المحول اللغات الأجنبية والأحرف ذات علامات التشكيل؟",
+      "a": "نعم. يستخدم محرك النص خصائص Unicode (\\\\p{L}) للتعامل بسلاسة مع علامات التشكيل والأبجديات الدولية مثل الإسبانية والفرنسية والألمانية."
+    },
+    {
+      "q": "فيمَ يُستخدم CONSTANT_CASE؟",
+      "a": "يحوّل CONSTANT_CASE النص إلى أحرف كبيرة مع شرطات سفلية، وهو اصطلاح التسمية القياسي للمتغيرات العامة والثوابت ومتغيرات البيئة في البرمجة."
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "نموذج محول حالة الأحرف"
+    },
+    "label": {
+      "text-input": "<span>اكتب نصك أو الصقه أدناه:</span>"
+    },
+    "placeholder": {
+      "text-input": "اكتب النص أو الصقه هنا، ثم انقر على أي زر من أزرار الأنماط أدناه..."
+    },
+    "text": {
+      "char-stats": "0 حرف (0 بدون مسافات) | 0 كلمة | 0 سطر",
+      "copy-btn": "<span data-icon=\"copy\"></span> نسخ النص",
+      "undo-btn": "تراجع",
+      "clear-btn": "مسح النص"
+    },
+    "content": {
+      "tool": {
+        "label1": "اختر نمط التحويل (12 نمطًا متاحًا):",
+        "button1": "أحرف كبيرة (UPPERCASE)",
+        "button2": "أحرف صغيرة (lowercase)",
+        "button3": "حالة العنوان (Title Case)",
+        "button4": "حالة الجملة (Sentence case)",
+        "button5": "تكبير أول حرف من كل كلمة",
+        "button6": "camelCase",
+        "button7": "PascalCase",
+        "button8": "snake_case",
+        "button9": "kebab-case",
+        "button10": "CONSTANT_CASE",
+        "button11": "dot.case",
+        "button12": "aLtErNaTiNg"
+      },
+      "how-when-to-use-the-text": {
+        "heading": "كيف ومتى تستخدم محول حالة الأحرف",
+        "li1": "<strong>تطوير البرمجيات والبرمجة:</strong> حوّل مدخلات المستخدم أو تعريفات المخططات إلى اصطلاحات كود موحّدة (مثل `camelCase` لمتغيرات JavaScript، و`snake_case` لـ Python/أعمدة قواعد البيانات، و`CONSTANT_CASE` لمتغيرات البيئة العامة).",
+        "li2": "<strong>نشر عناوين المدونات والمقالات:</strong> حوّل عناوين المسودات غير المرتبة إلى Title Case أنيق بأسلوب Chicago مع إبقاء حروف الجر الثانوية صغيرة.",
+        "li3": "<strong>تصحيح الكتابة بزر CAPS LOCK بالخطأ:</strong> استعِد الجمل المكتوبة مع تفعيل CAPS LOCK دون الحاجة لإعادة كتابة الفقرات من البداية.",
+        "li4": "<strong>تنسيق روابط Slug لمحركات البحث:</strong> حوّل عناوين المقالات إلى روابط `kebab-case` صديقة لمحركات البحث."
+      },
+      "case-style-reference-developer-conventions": {
+        "heading": "مرجع أنماط حالة الأحرف واصطلاحات المطوّرين",
+        "th1": "نمط الحالة",
+        "th2": "مثال على الناتج",
+        "th3": "الاستخدام الشائع",
+        "td1": "أحرف كبيرة (UPPERCASE)",
+        "td2": "<code>HELLO WORLD</code>",
+        "td3": "العناوين الرئيسية والتحذيرات والاختصارات",
+        "td4": "أحرف صغيرة (lowercase)",
+        "td5": "<code>hello world</code>",
+        "td6": "عناوين البريد الإلكتروني وتوحيد البحث",
+        "td7": "حالة العنوان (Title Case)",
+        "td8": "<code>The Return of the King</code>",
+        "td9": "عناوين الكتب والمقالات التحريرية",
+        "td10": "حالة الجملة (Sentence case)",
+        "td11": "<code>Hello world. Good morning.</code>",
+        "td12": "نصوص المحتوى ووثائق المستخدم",
+        "td13": "camelCase",
+        "td14": "<code>helloWorld</code>",
+        "td15": "أسماء المتغيرات والدوال في JavaScript وJava",
+        "td16": "PascalCase",
+        "td17": "<code>HelloWorld</code>",
+        "td18": "الأصناف في C# وJava وPython وTypeScript",
+        "td19": "snake_case",
+        "td20": "<code>hello_world</code>",
+        "td21": "متغيرات Python وأعمدة قواعد بيانات SQL",
+        "td22": "kebab-case",
+        "td23": "<code>hello-world</code>",
+        "td24": "روابط Slug وأصناف CSS وسمات HTML",
+        "td25": "CONSTANT_CASE",
+        "td26": "<code>HELLO_WORLD</code>",
+        "td27": "متغيرات البيئة والثوابت",
+        "td28": "dot.case",
+        "td29": "<code>hello.world</code>",
+        "td30": "مسارات الخصائص ومفاتيح الإعدادات"
+      }
+    }
+  },
+  "client": {
+    "stats": "{{characters}} حرف ({{noSpaces}} بدون مسافات) | {{words}} كلمة | {{lines}} سطر",
+    "toast": {
+      "converted": "تم التحويل إلى {{style}}",
+      "restored": "تمت استعادة النص السابق",
+      "copied": "تم نسخ النص المحوَّل إلى الحافظة"
+    }
+  }
+}

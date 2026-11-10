@@ -1,0 +1,244 @@
+{
+  "listing": {
+    "name": "URL एनकोडर और डिकोडर",
+    "shortName": "URL एनकोडर",
+    "description": "encodeURIComponent और encodeURI मोड से URL एनकोड और डिकोड करें, साथ में क्वेरी स्ट्रिंग की टेबल।",
+    "shortDescription": "encodeURIComponent और encodeURI मोड से URL एनकोड और डिकोड करें, साथ में क्वेरी स्ट्रिंग की टेबल।",
+    "keywords": [
+      "URL एनकोडर",
+      "URL डिकोडर",
+      "encodeuricomponent",
+      "URL क्वेरी पार्सर",
+      "percent encoding"
+    ]
+  },
+  "title": "URL एनकोडर और डिकोडर - encodeURIComponent और encodeURI",
+  "description": "मुफ़्त ऑनलाइन URL एनकोडर और डिकोडर। encodeURIComponent और encodeURI मोड बदलें, क्वेरी स्ट्रिंग को टेबल में देखें और नतीजा कॉपी करें।",
+  "h1": "URL एनकोडर और डिकोडर",
+  "quickAnswer": "encodeURIComponent() A–Z, a–z, 0–9, -, _, ., !, ~, *, ', (, ) को छोड़कर हर कैरेक्टर एनकोड करता है। इसे क्वेरी स्ट्रिंग के अलग-अलग मानों के लिए इस्तेमाल करें। encodeURI() संरचना वाले कैरेक्टर (:, /, ?, #, &, =) बनाए रखता है और पूरे URL के लिए इस्तेमाल होता है। डिकोड करने के लिए percent-encoded टेक्स्ट पेस्ट करें, यह URL एनकोडर और डिकोडर हर %XX को वापस मूल UTF-8 कैरेक्टर में बदल देता है।",
+  "workedExamples": [
+    {
+      "title": "क्वेरी पैरामीटर का मान एनकोड करें",
+      "inputs": [
+        "मोड: encodeURIComponent",
+        "इनपुट: hello world & goodbye!"
+      ],
+      "steps": [
+        "स्पेस → %20, & → %26, ! → %21",
+        "आउटपुट: hello%20world%20%26%20goodbye%21"
+      ],
+      "result": "hello%20world%20%26%20goodbye%21"
+    },
+    {
+      "title": "पूरा URL एनकोड करें",
+      "inputs": [
+        "मोड: encodeURI",
+        "इनपुट: https://example.com/search?q=hello world&lang=en"
+      ],
+      "steps": [
+        "संरचना वाले कैरेक्टर बने रहते हैं: ://?&=",
+        "स्पेस → %20, बाकी खास कैरेक्टर एनकोड होते हैं",
+        "आउटपुट: https://example.com/search?q=hello%20world&lang=en"
+      ],
+      "result": "https://example.com/search?q=hello%20world&lang=en"
+    },
+    {
+      "title": "percent-encoded स्ट्रिंग डिकोड करें",
+      "inputs": [
+        "मोड: डिकोड",
+        "इनपुट: Caf%C3%A9%20au%20lait"
+      ],
+      "steps": [
+        "%C3%A9, é (acute वाला e) की UTF-8 एनकोडिंग है",
+        "%20 एक स्पेस है",
+        "डिकोड किया गया: Café au lait"
+      ],
+      "result": "Café au lait"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "दोहरी एनकोडिंग",
+      "description": "पहले से percent-encoded स्ट्रिंग को फिर एनकोड करने पर मौजूदा <code>%</code> कैरेक्टर <code>%25</code> बन जाते हैं (जैसे <code>%20</code> बन जाता है <code>%2520</code>)। बदलाव से पहले हमेशा जाँचें कि आने वाला डेटा पहले से एनकोड तो नहीं है।"
+    },
+    {
+      "title": "क्वेरी मानों के लिए encodeURI इस्तेमाल करना",
+      "description": "किसी पैरामीटर के मान पर <code>encodeURI</code> चलाने से <code>&amp;</code> और <code>+</code> जैसे कैरेक्टर एनकोड नहीं होते, जिससे सर्वर मान को अचानक काट या बाँट देता है।"
+    },
+    {
+      "title": "गलत percent क्रम",
+      "description": "अकेले percent चिह्न वाली स्ट्रिंग (जैसे <code>discount=50%25</code> की जगह <code>discount=50%</code>) डिकोड करने पर JavaScript में गंभीर <code>URIError: URI malformed</code> आता है। सुरक्षित टूल इस एरर को पकड़कर साफ़ दिखाते हैं।"
+    }
+  ],
+  "sources": [
+    {
+      "label": "RFC 3986: Uniform Resource Identifier (URI): Generic Syntax"
+    },
+    {
+      "label": "MDN Web Docs: encodeURIComponent()"
+    },
+    {
+      "label": "MDN Web Docs: encodeURI()"
+    }
+  ],
+  "howto": {
+    "name": "ऑनलाइन URL एनकोड और डिकोड कैसे करें",
+    "description": "URL के हिस्से और पूरे URI एनकोड करने और क्वेरी स्ट्रिंग पैरामीटर देखने की स्टेप बाय स्टेप गाइड।",
+    "steps": [
+      {
+        "name": "क्रिया और मोड चुनें",
+        "text": "'एनकोड' या 'डिकोड' चुनें, और Component मोड (encodeURIComponent) या पूरा URL मोड (encodeURI) चुनें।"
+      },
+      {
+        "name": "स्ट्रिंग या URL डालें",
+        "text": "अपना क्वेरी पैरामीटर, टेक्स्ट या पूरा वेब पता इनपुट बॉक्स में टाइप या पेस्ट करें।"
+      },
+      {
+        "name": "आउटपुट देखें और कॉपी करें",
+        "text": "बदला हुआ आउटपुट तुरंत देखें, टेबल में क्वेरी पैरामीटर के key-value जोड़े जाँचें, और नतीजा कॉपी करें।"
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "encodeURIComponent और encodeURI में क्या अंतर है?",
+      "a": "encodeURIComponent सभी आरक्षित विराम चिह्नों (&, =, ?, /, : और # सहित) को percent-encoded hex में बदलता है। यह क्वेरी पैरामीटर की अलग-अलग keys और मानों के लिए बना है। इसके उलट, encodeURI URL की संरचना वाले मान्य कैरेक्टर (;,/?:@&=+$#) बनाए रखता है और सिर्फ़ वे कैरेक्टर एनकोड करता है जो URI में मना हैं, जैसे स्पेस और Unicode अक्षर।"
+    },
+    {
+      "q": "encodeURI की जगह encodeURIComponent कब इस्तेमाल करें?",
+      "a": "क्वेरी स्ट्रिंग में जोड़ने के लिए मान तैयार करते समय हमेशा encodeURIComponent इस्तेमाल करें (जैसे ?q=search+term या ?redirect_url=https://example.com)। अगर आप encodeURI इस्तेमाल करें, तो आपके मान के अंदर के & और = जैसे चिह्न अतिरिक्त क्वेरी विभाजक समझ लिए जाएँगे।"
+    },
+    {
+      "q": "यह टूल क्वेरी स्ट्रिंग में '+' चिह्न को कैसे संभालता है?",
+      "a": "application/x-www-form-urlencoded क्वेरी स्ट्रिंग में प्लस चिह्न (+) आम तौर पर स्पेस होता है। Component मोड में डिकोड करते समय यह टूल '+' और '%20' दोनों को सामान्य स्पेस में बदलता है।"
+    },
+    {
+      "q": "क्या मेरा URL या निजी क्वेरी पैरामीटर किसी सर्वर पर भेजा जाता है?",
+      "a": "नहीं। सारी URL एनकोडिंग, डिकोडिंग और क्वेरी स्ट्रिंग की टेबल 100% आपके वेब ब्राउज़र में लोकल बनती है। संवेदनशील API टोकन और क्वेरी स्ट्रिंग कभी आपके डिवाइस से बाहर नहीं जाते।"
+    },
+    {
+      "q": "URL का अधिकतम साइज़ कितना हो सकता है?",
+      "a": "टूल 1 MB (1,048,576 कैरेक्टर) की सुरक्षा सीमा तक के इनपुट सपोर्ट करता है। थोड़ी देर से होने वाली लाइव प्रोसेसिंग से इंटरफ़ेस बिना अटके तुरंत अपडेट होता है।"
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "URL एनकोडर और डिकोडर फ़ॉर्म",
+      "parsed-query-string-parameters-table1": "क्वेरी स्ट्रिंग के पैरामीटर",
+      "url-encoding-specification-mode-comparison-table1": "मोड की तुलना"
+    },
+    "content": {
+      "tool": {
+        "span1": "दिशा:",
+        "label1": "<input type=\"radio\" name=\"url-direction\" value=\"encode\" checked class=\"cursor-pointer\">\n            <span>एनकोड</span>",
+        "label2": "<input type=\"radio\" name=\"url-direction\" value=\"decode\" class=\"cursor-pointer\">\n            <span>डिकोड</span>",
+        "span2": "मोड:",
+        "label3": "<input type=\"radio\" name=\"url-mode\" value=\"component\" checked class=\"cursor-pointer\">\n            <span>कंपोनेंट (encodeURIComponent)</span>",
+        "label4": "<input type=\"radio\" name=\"url-mode\" value=\"full\" class=\"cursor-pointer\">\n            <span>पूरा URL (encodeURI)</span>"
+      },
+      "parsed-query-string-parameters": {
+        "heading": "क्वेरी स्ट्रिंग के पैरामीटर",
+        "th1": "पैरामीटर key",
+        "th2": "मूल / एनकोड किया मान",
+        "th3": "डिकोड किया मान"
+      },
+      "how-when-to-use-the-url": {
+        "li1": "<strong>रीडायरेक्ट में nested URL भेजना:</strong> वापसी URL भेजते समय (जैसे <code>?returnTo=https://example.com/dashboard?tab=billing</code>) <code>encodeURIComponent</code> इस्तेमाल करें, ताकि अंदर के क्वेरी पैरामीटर बाहरी सर्वर न पढ़ ले।",
+        "li2": "<strong>स्पेस वाले टूटे लिंक ठीक करना:</strong> वेब ब्राउज़र को मान्य ASCII URI चाहिए। लिंक शेयर करने से पहले स्पेस को <code>%20</code> (या <code>+</code>) और गैर-ASCII Unicode कैरेक्टर को एनकोड करें।",
+        "li3": "<strong>Webhook डेटा और क्वेरी स्ट्रिंग डीबग करना:</strong> जटिल क्वेरी स्ट्रिंग पेस्ट करें और हर पैरामीटर साफ़-सुथरी टेबल में देखें।",
+        "li4": "<strong>फ़ॉर्म डेटा की सुरक्षित एनकोडिंग:</strong> जाँचें कि इनपुट फ़ील्ड का डेटा <code>application/x-www-form-urlencoded</code> POST अनुरोधों में कैसे भेजा जाएगा।"
+      },
+      "url-encoding-specification-mode-comparison": {
+        "p1": "RFC 3986 तय करता है कि URI में मान्य ASCII कैरेक्टर सेट से बाहर के कैरेक्टर percent-encoding से दिखाए जाएँ। component और पूरे URI मोड का अंतर समझने से टूटे रास्ते और बिगड़े पैरामीटर से बचा जा सकता है।",
+        "th1": "कैरेक्टर",
+        "th2": "encodeURI मोड",
+        "th3": "encodeURIComponent मोड",
+        "th4": "कारण",
+        "td1": "<code>स्पेस ( )</code>",
+        "td2": "मान्य URI में स्पेस कभी नहीं हो सकता।",
+        "td3": "<code>एम्परसेंड (&amp;)</code>",
+        "td4": "<code>&amp;</code> (बना रहता है)",
+        "td5": "<code>%26</code> (एनकोड होता है)",
+        "td6": "क्वेरी पैरामीटर अलग करता है; मानों के अंदर एनकोड होना चाहिए।",
+        "td7": "<code>बराबर (=)</code>",
+        "td8": "<code>=</code> (बना रहता है)",
+        "td9": "<code>%3D</code> (एनकोड होता है)",
+        "td10": "key और मान अलग करता है; मानों के अंदर एनकोड होना चाहिए।",
+        "td11": "<code>प्रश्नचिह्न (?)</code>",
+        "td12": "<code>?</code> (बना रहता है)",
+        "td13": "<code>%3F</code> (एनकोड होता है)",
+        "td14": "क्वेरी स्ट्रिंग शुरू करता है; मानों के अंदर एनकोड होना चाहिए।",
+        "td15": "<code>स्लैश (/)</code>",
+        "td16": "<code>/</code> (बना रहता है)",
+        "td17": "<code>%2F</code> (एनकोड होता है)",
+        "td18": "पाथ के हिस्से अलग करता है; मानों के अंदर एनकोड होना चाहिए।",
+        "td19": "<code>हैश (#)</code>",
+        "td20": "<code>#</code> (बना रहता है)",
+        "td21": "<code>%23</code> (एनकोड होता है)",
+        "td22": "fragment anchor शुरू करता है; मानों के अंदर एनकोड होना चाहिए।"
+      }
+    },
+    "title": {
+      "tool-label1": "सभी विभाजक (;,/?:@&=+$#) एनकोड करता है। पैरामीटर की keys और मानों के लिए सबसे अच्छा।",
+      "tool-label2": "URL की संरचना वाले विभाजक बनाए रखता है। पूरे वेब पते के लिए सबसे अच्छा।"
+    },
+    "text": {
+      "clear-btn": "साफ़ करें",
+      "size-meter": "0.0 KB / 1 MB",
+      "convert-btn": "URL एनकोड करें",
+      "swap-btn": "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><polyline points=\"17 1 21 5 17 9\"></polyline><path d=\"M3 11V9a4 4 0 0 1 4-4h14\"></path><polyline points=\"7 23 3 19 7 15\"></polyline><path d=\"M21 13v2a4 4 0 0 1-4 4H3\"></path></svg>\n          इनपुट और आउटपुट अदला-बदली करें",
+      "copy-btn": "<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"9\" y=\"9\" width=\"13\" height=\"13\" rx=\"2\" ry=\"2\"></rect><path d=\"M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1\"></path></svg>\n          परिणाम कॉपी करें",
+      "query-count-badge": "0 पैरामीटर",
+      "how-to-use-heading": "URL एनकोडर / डिकोडर कैसे और कब इस्तेमाल करें",
+      "article-heading": "URL एनकोडिंग का विनिर्देश और मोड की तुलना"
+    },
+    "label": {
+      "url-input": "एनकोड करने के लिए टेक्स्ट या URL (Component):",
+      "url-output": "एनकोड किया गया URL:"
+    },
+    "placeholder": {
+      "url-input": "यहाँ पैरामीटर या टेक्स्ट पेस्ट करें... जैसे hello world &amp; symbols=?",
+      "url-output": "टाइप करते ही आउटपुट यहाँ दिखेगा..."
+    }
+  },
+  "client": {
+    "modeName": {
+      "full": "पूरा URL (encodeURI)",
+      "component": "कंपोनेंट (encodeURIComponent)"
+    },
+    "labels": {
+      "encode": {
+        "input": "एनकोड करने के लिए टेक्स्ट या URL ({{mode}}):",
+        "output": "एनकोड किया गया URL:",
+        "button": "URL एनकोड करें",
+        "placeholderFull": "यहाँ पूरा URL पेस्ट करें... जैसे https://example.com/search?q=toolsbuilt & more=yes",
+        "placeholderComponent": "यहाँ पैरामीटर या टेक्स्ट पेस्ट करें... जैसे hello world & symbols=?"
+      },
+      "decode": {
+        "input": "डिकोड करने के लिए एनकोड किया URL:",
+        "output": "डिकोड किया गया टेक्स्ट:",
+        "button": "URL डिकोड करें",
+        "placeholder": "यहाँ एनकोड किया URL या स्ट्रिंग पेस्ट करें... जैसे https%3A%2F%2Fexample.com%3Fq%3Dtoolsbuilt"
+      }
+    },
+    "sizeMeter": "{{kb}} KB / {{max}} MB",
+    "params": {
+      "one": "{{n}} पैरामीटर",
+      "other": "{{n}} पैरामीटर"
+    },
+    "status": {
+      "encoded": "✓ {{mode}} से एनकोड किया: {{input}} &rarr; {{output}} कैरेक्टर",
+      "decoded": "✓ {{mode}} से डिकोड किया: {{input}} &rarr; {{output}} कैरेक्टर"
+    },
+    "errors": {
+      "notText": "इनपुट सही टेक्स्ट स्ट्रिंग होना चाहिए।",
+      "tooLarge": "इनपुट 1 MB की सुरक्षा सीमा से बड़ा है (अधिकतम 1,048,576 कैरेक्टर)। मौजूदा साइज़: {{size}} कैरेक्टर।",
+      "encoding": "एनकोडिंग एरर: {{message}}",
+      "decoding": "डिकोडिंग एरर: अमान्य percent-encoded क्रम ({{message}})। अधूरे % hex जोड़े देखें।"
+    },
+    "toast": {
+      "nothingToCopy": "कॉपी करने को कुछ नहीं है। पहले टेक्स्ट डालें।",
+      "copied": "परिणाम क्लिपबोर्ड पर कॉपी हो गया"
+    }
+  }
+}

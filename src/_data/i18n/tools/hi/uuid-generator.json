@@ -1,0 +1,183 @@
+{
+  "listing": {
+    "name": "UUID / GUID जनरेटर",
+    "shortName": "UUID जनरेटर",
+    "description": "Web Crypto से क्रिप्टोग्राफ़िक रूप से सुरक्षित version 4 UUID और GUID तुरंत बनाएँ, एक साथ 100 तक, और टेक्स्ट फ़ाइल में डाउनलोड करें।",
+    "shortDescription": "क्रिप्टोग्राफ़िक रूप से सुरक्षित version 4 UUID और GUID बनाएँ, बल्क विकल्प और टेक्स्ट एक्सपोर्ट के साथ।",
+    "keywords": [
+      "UUID जनरेटर",
+      "GUID जनरेटर",
+      "uuid v4",
+      "बल्क UUID जनरेटर",
+      "रैंडम UUID ऑनलाइन",
+      "बिना हाइफ़न UUID"
+    ]
+  },
+  "title": "UUID जनरेटर - मुफ़्त ऑनलाइन बल्क UUID v4 और GUID टूल",
+  "description": "Web Crypto से सुरक्षित version 4 UUID और GUID तुरंत बनाएँ। एक साथ 100 तक, अपनी पसंद का फ़ॉर्मैट और टेक्स्ट एक्सपोर्ट। मुफ़्त UUID जनरेटर।",
+  "h1": "UUID / GUID जनरेटर",
+  "quickAnswer": "क्रिप्टोग्राफ़िक रूप से सुरक्षित UUID (Universally Unique Identifier) बनाने के लिए इस UUID जनरेटर में संख्या (1 से 100) चुनें और केस, हाइफ़न और ब्रेस का फ़ॉर्मैट तय करें। जनरेटर ब्राउज़र के Web Crypto API के randomUUID से हार्डवेयर-आधारित 122 बिट रैंडमनेस देता है, सर्वर से कोई संपर्क नहीं होता।",
+  "formula": {
+    "title": "RFC 4122 Version 4 UUID की संरचना",
+    "expression": "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx (जहाँ y ∈ {8, 9, a, b})",
+    "explanation": "Version 4 UUID में 128 बिट होते हैं: 4 बिट version के लिए तय होते हैं (v4 के लिए 0100), 2 बिट variant बताते हैं (RFC 4122 के लिए 10), और बाकी 122 बिट क्रिप्टोग्राफ़िक रूप से मज़बूत रैंडम संख्याओं से भरे जाते हैं। 2¹²² संभावित संयोजनों (लगभग 5.3 × 10³⁶) के साथ दो UUID के टकराने की संभावना नगण्य है।"
+  },
+  "workedExamples": [
+    {
+      "title": "मानक UUID v4",
+      "inputs": [
+        "एल्गोरिदम: RFC 4122 v4",
+        "फ़ॉर्मैट: छोटे अक्षर, हाइफ़न के साथ",
+        "ब्रेस: नहीं"
+      ],
+      "steps": [
+        "crypto.randomUUID से 16 क्रिप्टोग्राफ़िक रैंडम बाइट लें",
+        "जाँचें कि बिट 12 से 15 = 0100 है (version 4)",
+        "जाँचें कि clock sequence के बिट 6 से 7 = 10 है (RFC 4122 variant)",
+        "8-4-4-4-12 hex कैरेक्टर के रूप में लिखें"
+      ]
+    },
+    {
+      "title": "Microsoft COM / C# GUID फ़ॉर्मैट",
+      "inputs": [
+        "फ़ॉर्मैट: बड़े अक्षर, ब्रेस के साथ",
+        "विभाजक: हाइफ़न शामिल"
+      ],
+      "steps": [
+        "मानक 128-बिट रैंडम बाइट बनाएँ",
+        "सभी अक्षरों को बड़े अक्षरों में बदलें",
+        "नतीजे को कर्ली ब्रेस में रखें"
+      ]
+    },
+    {
+      "title": "बिना हाइफ़न वाली डेटाबेस key",
+      "inputs": [
+        "फ़ॉर्मैट: 32 कैरेक्टर का compact hex",
+        "हाइफ़न: नहीं",
+        "केस: छोटे अक्षर"
+      ],
+      "steps": [
+        "128-बिट UUID बनाएँ",
+        "सभी 4 हाइफ़न हटाएँ",
+        "लगातार 32 कैरेक्टर की hexadecimal स्ट्रिंग पाएँ"
+      ]
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "UUID के लिए Math.random() इस्तेमाल करना",
+      "description": "JavaScript का Math.random() pseudorandom है और उसका अनुमान लगाया जा सकता है। ID के टकराव और जालसाज़ी से बचने के लिए हमेशा crypto.randomUUID() या crypto.getRandomValues() इस्तेमाल करें।"
+    },
+    {
+      "title": "UUID को गुप्त पासवर्ड मान लेना",
+      "description": "UUID अनोखी पहचान हैं, ऑथेंटिकेशन टोकन या क्रिप्टोग्राफ़िक key नहीं। इनमें कोई हैशिंग या salt नहीं होता, इसलिए इन्हें सीक्रेट की जगह इस्तेमाल न करें।"
+    },
+    {
+      "title": "UUID को क्रम में मान लेना",
+      "description": "Version 4 UUID पूरी तरह रैंडम होते हैं, क्रम में नहीं। इन्हें बिना sorting index के clustered डेटाबेस primary key बनाने से B-tree बिखर सकता है।"
+    },
+    {
+      "title": "डेटाबेस में केस-सेंसिटिव खोज",
+      "description": "RFC 4122 के अनुसार hexadecimal तुलना केस-इनसेंसिटिव होनी चाहिए। डेटाबेस में खोजते समय केस एक जैसा न करने से रिकॉर्ड छूट सकते हैं।"
+    }
+  ],
+  "sources": [
+    {
+      "name": "IETF RFC 4122: A Universally Unique IDentifier (UUID) URN Namespace"
+    },
+    {
+      "name": "W3C Web Cryptography API: crypto.randomUUID"
+    },
+    {
+      "name": "ITU-T Recommendation X.667: Generation and registration of UUIDs"
+    }
+  ],
+  "howto": {
+    "name": "UUID v4 कैसे बनाएँ",
+    "description": "एक या कई क्रिप्टोग्राफ़िक रूप से सुरक्षित UUID बनाने की स्टेप बाय स्टेप गाइड।",
+    "steps": [
+      {
+        "name": "संख्या चुनें",
+        "text": "एक बार में कितने UUID बनाने हैं, 1 से 100 तक चुनें।"
+      },
+      {
+        "name": "फ़ॉर्मैट के विकल्प चुनें",
+        "text": "अपने फ़्रेमवर्क के हिसाब से बड़े अक्षर, हाइफ़न या कर्ली ब्रेस चालू या बंद करें।"
+      },
+      {
+        "name": "कॉपी या डाउनलोड करें",
+        "text": "सभी ID क्लिपबोर्ड पर कॉपी करने के लिए सभी कॉपी करें दबाएँ, या टेक्स्ट फ़ाइल में सेव करने के लिए .txt डाउनलोड करें दबाएँ।"
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Version 4 UUID क्या है?",
+      "a": "Version 4 UUID रैंडम संख्याओं से बना 128-बिट अनोखा आइडेंटिफ़ायर है। इसमें 122 रैंडम बिट होते हैं, यानी 5.3 × 10³⁶ संभावित मान, और दोहराव की संभावना लगभग शून्य है।"
+    },
+    {
+      "q": "UUID और GUID में क्या अंतर है?",
+      "a": "GUID (Globally Unique Identifier) UUID (Universally Unique Identifier) के लिए Microsoft का नाम है। आज के सॉफ़्टवेयर में दोनों एक ही 128-बिट RFC 4122 संरचना को कहते हैं।"
+    },
+    {
+      "q": "इस टूल में UUID सुरक्षित तरीके से कैसे बनते हैं?",
+      "a": "यह टूल ब्राउज़र का अपना Web Crypto API (crypto.randomUUID) इस्तेमाल करता है। रैंडमनेस सीधे आपके ऑपरेटिंग सिस्टम के क्रिप्टोग्राफ़िक रैंडम जनरेटर से आती है।"
+    },
+    {
+      "q": "क्या दो UUID v4 एक जैसे हो सकते हैं?",
+      "a": "सिद्धांत में संभव है, लेकिन 100 साल तक हर सेकंड 1 अरब UUID बनाने पर भी एक भी टकराव की संभावना 50% से कम है। व्यावहारिक सॉफ़्टवेयर के लिए UUID अनोखे ही हैं।"
+    },
+    {
+      "q": "क्या बनाए गए UUID कहीं भेजे या रिकॉर्ड किए जाते हैं?",
+      "a": "कभी नहीं। जनरेशन 100% आपके ब्राउज़र की मेमोरी में होता है। कोई key या लॉग कभी बाहरी सर्वर तक नहीं पहुँचता।"
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-div1": "UUID जनरेटर टूल",
+      "quick-uuid-display": "बनाया गया एक UUID",
+      "copy-single-btn": "एक UUID कॉपी करें",
+      "regen-single-btn": "एक UUID फिर से बनाएँ",
+      "uuid-count": "बनाए जाने वाले UUID की संख्या",
+      "bulk-output": "बनाए गए UUID की सूची"
+    },
+    "label": {
+      "quick-uuid-display": "एक UUID v4 (झटपट कॉपी):",
+      "uuid-count": "संख्या (1 – 100):",
+      "bulk-output": "बनाए गए UUID:"
+    },
+    "text": {
+      "copy-single-btn": "<span data-icon=\"copy\"></span> कॉपी करें",
+      "regen-single-btn": "<span data-icon=\"refresh\"></span> फिर से बनाएँ",
+      "generate-btn": "<span data-icon=\"refresh\"></span> बल्क में बनाएँ",
+      "uuid-meta-count": "5 UUID बनाए गए",
+      "copy-all-btn": "<span data-icon=\"copy\"></span> सभी कॉपी करें",
+      "download-txt-btn": "<span data-icon=\"download\"></span> .txt डाउनलोड करें"
+    },
+    "content": {
+      "tool": {
+        "label1": "<input type=\"checkbox\" id=\"opt-hyphens\" checked>\n        <span>हाइफ़न शामिल करें (-)</span>",
+        "label2": "<input type=\"checkbox\" id=\"opt-uppercase\">\n        <span>बड़े अक्षर (A-F)</span>",
+        "label3": "<input type=\"checkbox\" id=\"opt-braces\">\n        <span>ब्रेस में रखें ({})</span>"
+      }
+    }
+  },
+  "client": {
+    "errors": {
+      "noSecureRandom": "क्रिप्टोग्राफ़िक रूप से सुरक्षित रैंडम जनरेटर उपलब्ध नहीं है।",
+      "notWholeNumber": "संख्या {{min}} और {{max}} के बीच की पूर्ण संख्या होनी चाहिए।",
+      "belowMin": "संख्या {{min}} से कम नहीं हो सकती।",
+      "aboveMax": "बल्क जनरेशन में संख्या {{max}} से ज़्यादा नहीं हो सकती।"
+    },
+    "copy": {
+      "copied": "✓ कॉपी हो गया!",
+      "failed": "कॉपी नहीं हो सका। कृपया खुद कॉपी करें।"
+    },
+    "meta": {
+      "generated": {
+        "one": "{{count}} UUID बनाया गया",
+        "other": "{{count}} UUID बनाए गए"
+      }
+    }
+  }
+}

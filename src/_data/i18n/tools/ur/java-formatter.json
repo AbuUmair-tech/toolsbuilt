@@ -1,0 +1,180 @@
+{
+  "listing": {
+    "name": "Java فارمیٹر",
+    "shortName": "Java فارمیٹر",
+    "description": "Java کوڈ کو Prettier اور prettier-plugin-java سے آن لائن فارمیٹ کریں۔ 2 یا 4 اسپیس انڈینٹ اور لائن کی چوڑائی چنیں؛ سب کچھ آپ کے براؤزر میں پرائیویٹ طور پر چلتا ہے۔",
+    "shortDescription": "Java کوڈ کو Prettier اور prettier-plugin-java سے اپنے براؤزر میں پرائیویٹ طور پر فارمیٹ کریں۔",
+    "keywords": [
+      "Java فارمیٹر",
+      "java formatter",
+      "Java کوڈ آن لائن فارمیٹ کریں",
+      "java code beautifier",
+      "prettier java",
+      "google java style formatter",
+      "Java انڈینٹیشن ٹھیک کریں"
+    ]
+  },
+  "title": "Java فارمیٹر: Java کوڈ آن لائن فارمیٹ کریں (Prettier)",
+  "description": "Java فارمیٹر: Prettier اور prettier-plugin-java سے Java کوڈ آن لائن فارمیٹ کریں۔ 2 یا 4 اسپیس انڈینٹ اور لائن چوڑائی چنیں۔ کوڈ اپ لوڈ نہیں ہوتا۔",
+  "h1": "Java فارمیٹر",
+  "quickAnswer": "Java فارمیٹر کے لیے اپنی Java کلاس پیسٹ کریں اور Format دبائیں۔ Prettier اور prettier-plugin-java کھلنے والے بریس کو اسی لائن پر رکھتے ہیں، ہر بلاک کو 4 اسپیس (یا Google اسٹائل کے لیے 2) سے انڈینٹ کرتے ہیں، آپریٹرز کے گرد اور کوما کے بعد اسپیس ڈالتے ہیں، اور لمبے ایکسپریشنز کو آپ کی چنی ہوئی لائن چوڑائی پر توڑ دیتے ہیں۔ اگر کوڈ پارس نہ ہو، مثلاً سیمی کولن یا بریس غائب ہو، تو یہ لائن اور کالم بتا دیتا ہے۔",
+  "workedExamples": [
+    {
+      "title": "ایک ہی لائن پر لکھی گئی کلاس",
+      "before": "public class  OrderTotal{private final List<Integer> prices;public OrderTotal(List<Integer> prices){this.prices=prices;}public int total(){int sum=0;for(int p:prices){sum+=p;}return sum;}}",
+      "after": "public class OrderTotal {\n\n    private final List<Integer> prices;\n\n    public OrderTotal(List<Integer> prices) {\n        this.prices = prices;\n    }\n\n    public int total() {\n        int sum = 0;\n        for (int p : prices) {\n            sum += p;\n        }\n        return sum;\n    }\n}",
+      "result": "ہر ممبر اپنی الگ لائن پر آ جاتا ہے، بریس ڈیکلریشن والی لائن پر ہی کھلتے ہیں، بلاکس 4 اسپیس سے انڈینٹ ہوتے ہیں، اور ممبرز کے درمیان ایک خالی لائن آ جاتی ہے۔"
+    },
+    {
+      "title": "for لوپ جس کے اندر if ہو",
+      "before": "class Report{void print(List<String> items){for(int i=0;i<items.size();i++){if(items.get(i).isEmpty()){continue;}System.out.println(i+\": \"+items.get(i));}}}",
+      "after": "class Report {\n\n    void print(List<String> items) {\n        for (int i = 0; i < items.size(); i++) {\n            if (items.get(i).isEmpty()) {\n                continue;\n            }\n            System.out.println(i + \": \" + items.get(i));\n        }\n    }\n}",
+      "result": "لوپ ہیڈر میں ہر سیمی کولن کے بعد اور آپریٹرز کے گرد اسپیس آ جاتی ہے، اور باڈی الگ الگ انڈینٹ شدہ لائنوں میں پھیل جاتی ہے۔"
+    },
+    {
+      "title": "lambdas کے ساتھ stream",
+      "before": "class Adults{List<String> names(List<Person> people){return people.stream().filter(p->p.getAge()>=18).map(p->p.getName().toUpperCase()).sorted().collect(Collectors.toList());}}",
+      "after": "class Adults {\n\n    List<String> names(List<Person> people) {\n        return people\n            .stream()\n            .filter(p -> p.getAge() >= 18)\n            .map(p -> p.getName().toUpperCase())\n            .sorted()\n            .collect(Collectors.toList());\n    }\n}",
+      "result": "چین ایک لائن کے لیے بہت لمبی ہے، اس لیے ہر کال اپنی الگ لائن پر چلی جاتی ہے، اور ہر lambda میں ایرو اور موازنے کے گرد اسپیس آ جاتی ہے۔"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "سیمی کولن یا بریس کا غائب ہونا",
+      "description": "سیمی کولن اور میل کھاتے بریسز کے بغیر Java پارس نہیں ہو سکتی، اس لیے فارمیٹر رک جاتا ہے اور بتاتا ہے کہ پارسر کو کہاں ان کی توقع تھی۔ غائب بند بریس اکثر فائل کے آخر میں رپورٹ ہوتا ہے، کیونکہ وہیں پارسر کا کوڈ ختم ہوتا ہے۔"
+    },
+    {
+      "title": "پوری کلاس کی بجائے کوڈ کا ٹکڑا پیسٹ کرنا",
+      "description": "Prettier مکمل Java سورس فارمیٹ کرتا ہے۔ اگر آپ صرف چند اسٹیٹمنٹس پیسٹ کریں تو انہیں کلاس اور میتھڈ میں لپیٹ دیں (مثلاً class Example { void run() { ... } }) تاکہ وہ پارس ہو سکیں۔"
+    },
+    {
+      "title": "2 اسپیس اور 4 اسپیس والے پروجیکٹس ملا دینا",
+      "description": "Oracle کے اصول 4 اسپیس اور Google Java Style 2 اسپیس استعمال کرتا ہے۔ وہی انڈینٹ چنیں جو آپ کا پروجیکٹ پہلے سے استعمال کر رہا ہے، ورنہ ہر فارمیٹ کی گئی فائل ریویو میں صرف خالی جگہ کی تبدیلیاں دکھائے گی۔"
+    },
+    {
+      "title": "یہ توقع کہ imports ترتیب دیے یا ہٹائے جائیں گے",
+      "description": "فارمیٹر imports کو اسی ترتیب میں رکھتا ہے جس میں آپ نے لکھے، اور غیر استعمال شدہ imports نہیں ہٹاتا۔ اس کے لیے اپنے IDE کا organise-imports ایکشن یا کوئی لنٹر استعمال کریں۔"
+    },
+    {
+      "title": "یہ توقع کہ نام ٹھیک ہو جائیں گے",
+      "description": "فارمیٹنگ کبھی کلاسز، میتھڈز یا ویری ایبلز کے نام نہیں بدلتی۔ Java کے نام رکھنے کے اصول، جیسے کلاسز کے لیے UpperCamelCase اور میتھڈز کے لیے lowerCamelCase، آپ اور آپ کے لنٹر کی ذمہ داری ہیں۔"
+    }
+  ],
+  "sources": [
+    {
+      "name": "Code Conventions for the Java Programming Language (Oracle، آرکائیو شدہ)"
+    },
+    {
+      "name": "Google Java Style Guide"
+    }
+  ],
+  "howto": {
+    "name": "Java کوڈ آن لائن کیسے فارمیٹ کریں",
+    "description": "Java سورس کو Prettier اور prettier-plugin-java سے اپنے براؤزر میں فارمیٹ کریں۔",
+    "steps": [
+      {
+        "name": "اپنا کوڈ پیسٹ کریں",
+        "text": "Java کلاس یا فائل ان پٹ باکس میں پیسٹ کریں، یا مثال لوڈ کریں۔"
+      },
+      {
+        "name": "آپشنز منتخب کریں",
+        "text": "4 اسپیس (Oracle) یا 2 اسپیس (Google) انڈینٹیشن اور 80، 100 یا 120 کی پرنٹ چوڑائی چنیں۔"
+      },
+      {
+        "name": "فارمیٹ کریں",
+        "text": "Format یا Ctrl+Enter دبائیں۔ اگر کوڈ پارس نہ ہو سکے تو بتائی گئی لائن اور کالم پر اسے ٹھیک کریں۔"
+      },
+      {
+        "name": "نتیجہ کاپی کریں",
+        "text": "آؤٹ پٹ باکس سے فارمیٹ شدہ کوڈ کاپی کر لیں۔"
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "Java کوڈ آن لائن کیسے فارمیٹ کریں؟",
+      "a": "اپنی Java کلاس باکس میں پیسٹ کریں، انڈینٹ اور لائن چوڑائی چنیں، اور Format یا Ctrl+Enter دبائیں۔ فارمیٹ شدہ کوڈ نیچے آ جاتا ہے، کاپی کے لیے تیار۔ یہ آپ کے براؤزر میں چلتا ہے، اس لیے آپ کا کوڈ اپ لوڈ نہیں ہوتا۔"
+    },
+    {
+      "q": "Java میں انڈینٹیشن کے لیے 2 اسپیس ہوں یا 4؟",
+      "a": "دونوں عام ہیں۔ Oracle کے اصل Java کوڈ اصول 4 اسپیس استعمال کرتے ہیں، اور Google Java Style Guide 2 اسپیس اور 100 کالم کی حد استعمال کرتی ہے۔ وہی استعمال کریں جو آپ کا پروجیکٹ پہلے سے کر رہا ہے۔"
+    },
+    {
+      "q": "Google Java Style Guide میں لائن کی لمبائی کتنی ہے؟",
+      "a": "Google Java Style میں کالم کی حد 100 کیریکٹرز ہے۔ اس پر چلنے کے لیے یہاں 2 اسپیس اور 100 کی پرنٹ چوڑائی چنیں۔"
+    },
+    {
+      "q": "Java میں کھلنے والے بریس کہاں آتے ہیں؟",
+      "a": "اسی لائن پر جہاں کلاس، میتھڈ یا اسٹیٹمنٹ بلاک شروع کرتا ہے، اور بند ہونے والا بریس اپنی الگ لائن پر۔ Oracle کے اصول اور Google Java Style دونوں یہی ترتیب استعمال کرتے ہیں، اور فارمیٹر بھی یہی لاگو کرتا ہے۔"
+    },
+    {
+      "q": "فارمیٹر کیوں کہتا ہے کہ کوڈ پارس نہیں ہو سکا؟",
+      "a": "کوڈ درست Java نہیں ہے، اکثر اس لیے کہ سیمی کولن غائب ہے، بریس یا قوسین برابر نہیں، یا کوئی ٹکڑا کلاس کے اندر نہیں ہے۔ غلطی میں وہ لائن اور کالم دکھایا جاتا ہے جہاں پارسنگ ناکام ہوئی۔"
+    },
+    {
+      "q": "کیا فارمیٹر میرے imports ترتیب دیتا ہے؟",
+      "a": "نہیں۔ imports اسی ترتیب میں رہتے ہیں جس میں آپ نے لکھے۔ زیادہ تر IDE آپ کے لیے imports ترتیب دے سکتے ہیں، اور Google Java Style میں static imports ایک گروپ میں اور non-static imports دوسرے میں ہوتے ہیں، ہر ایک ASCII ترتیب میں۔"
+    },
+    {
+      "q": "کیا میرا کوڈ کسی سرور پر اپ لوڈ ہوتا ہے؟",
+      "a": "نہیں۔ Prettier، اس کا Java پلگ اِن اور Java گرامر اسی سائٹ سے آتے ہیں، اور پہلی بار فارمیٹ کرنے پر ڈاؤن لوڈ ہونے کے بعد آپ کے براؤزر میں چلتے ہیں۔"
+    }
+  ],
+  "body": {
+    "label": {
+      "opt-indent": "انڈینٹ",
+      "opt-print-width": "پرنٹ چوڑائی"
+    },
+    "option": {
+      "opt-indent": {
+        "2": "2 اسپیس (Google)",
+        "4": "4 اسپیس (Oracle)"
+      },
+      "opt-print-width": {
+        "100": "100 (Google)"
+      }
+    },
+    "text": {
+      "conventions-heading": "Java فارمیٹنگ کے اصول",
+      "naming-heading": "نام رکھنے کے اصول اور imports",
+      "java-errors-heading": "جب کوڈ فارمیٹ نہ ہو",
+      "java-privacy-heading": "شروع سے ہی پرائیویٹ"
+    },
+    "content": {
+      "java-formatting-conventions": {
+        "p1": "Java کے دو مشہور اسٹائل حوالے ہیں۔ Oracle کے <em>Code Conventions for the Java Programming Language</em> 1999 کے ہیں اور اب آرکائیو ہو چکے ہیں، لیکن زیادہ تر Java کوڈ اب بھی انہی کی ترتیب پر چلتا ہے۔ <em>Google Java Style Guide</em> ایک نیا اور زیادہ سخت معیار ہے جسے بہت سی ٹیمیں اور اوپن سورس پروجیکٹس استعمال کرتے ہیں۔ دونوں ان بنیادی باتوں پر متفق ہیں جو یہ فارمیٹر لاگو کرتا ہے:",
+        "li1": "<strong>بریس اسی لائن پر۔</strong> کھلنے والا بریس اس لائن کے آخر میں آتا ہے جو کلاس، میتھڈ، <code>if</code>، <code>for</code> یا <code>try</code> شروع کرتی ہے؛ بند ہونے والا بریس اپنی الگ لائن پر، اس اسٹیٹمنٹ کے شروع کی سیدھ میں ہوتا ہے۔",
+        "li2": "<strong>یکساں انڈینٹیشن۔</strong> Oracle کے اصول ہر لیول کے لیے 4 اسپیس استعمال کرتے ہیں اور لائنیں 80 کیریکٹرز سے کم رکھتے ہیں۔ Google Java Style ہر بلاک کے لیے 2 اسپیس اور 100 کالم کی حد استعمال کرتا ہے۔",
+        "li3": "<strong>ہر لائن پر ایک اسٹیٹمنٹ،</strong> بائنری آپریٹرز کے گرد، کوما کے بعد اور <code>if</code> اور <code>for</code> جیسے کی ورڈز کے بعد اسپیس کے ساتھ۔",
+        "li4": "<strong>لمبے ایکسپریشنز اگلی لائن پر۔</strong> streams جیسی میتھڈ چینز کو ہر لائن پر ایک کال کے حساب سے توڑا جاتا ہے، تاکہ ہر قدم آسانی سے پڑھا جا سکے۔",
+        "p2": "Prettier کا Java اسٹائل دونوں کے قریب ہے، لیکن اس کا اپنا یکساں اسٹائل ہے: یہ لائن بریکس خود چنتا ہے اور کسی بھی گائیڈ کی ہر تفصیل کی نقل کرنے کی کوشش نہیں کرتا۔ Oracle جیسی ترتیب کے لیے 4 اسپیس اور 80 کالم، یا Google جیسی ترتیب کے لیے 2 اسپیس اور 100 کالم استعمال کریں۔"
+      },
+      "naming-conventions-and-imports": {
+        "p1": "فارمیٹر صرف ترتیب بدلتا ہے، اس لیے نام رکھنا اب بھی آپ کے ذمے ہے۔ Java کے عام اصول یہ ہیں: کلاسز اور انٹرفیسز کے لیے <code>UpperCamelCase</code> (<code>OrderTotal</code>)، میتھڈز اور ویری ایبلز کے لیے <code>lowerCamelCase</code> (<code>calculateTotal</code>، <code>itemCount</code>)، کانسٹنٹس کے لیے <code>UPPER_SNAKE_CASE</code> (<code>MAX_RETRIES</code>)، اور پیکج کے نام مکمل چھوٹے حروف میں (<code>com.example.billing</code>)۔",
+        "p2": "imports اسی ترتیب میں رہتے ہیں جس میں آپ نے لکھے، اور غیر استعمال شدہ imports نہیں ہٹائے جاتے۔ Google Java Style تمام static imports ایک بلاک میں اور تمام non-static imports دوسرے بلاک میں رکھتا ہے، ہر ایک ASCII ترتیب میں، اور wildcard imports کے بغیر۔ زیادہ تر IDE آپ کے لیے imports اسی طرح ترتیب دے سکتے ہیں۔"
+      },
+      "when-the-code-will-not-format": {
+        "p1": "Prettier کو آپ کا کوڈ دوبارہ پرنٹ کرنے سے پہلے اسے پارس کرنا پڑتا ہے۔ اگر پارسر اسے سمجھ نہ سکے تو فارمیٹر اندازہ نہیں لگاتا: یہ پہلے غائب یا غیر متوقع ٹوکن کی لائن اور کالم بتاتا ہے، اور ان پٹ میں کرسر وہیں پہنچ جاتا ہے۔ عام وجوہات یہ ہیں:",
+        "li1": "<strong>اسٹیٹمنٹ کے آخر میں سیمی کولن غائب ہونا،</strong> جو اس کے فوراً بعد غائب <code>;</code> کے طور پر رپورٹ ہوتا ہے۔",
+        "li2": "<strong>بریس یا قوسین کا برابر نہ ہونا۔</strong> غائب بند بریس اکثر کوڈ کے آخر میں رپورٹ ہوتا ہے، جہاں پارسر کا ان پٹ ختم ہو جاتا ہے۔",
+        "li3": "<strong>کلاس سے باہر کوڈ کا ٹکڑا۔</strong> اسٹیٹمنٹس کو میتھڈ کے اندر اور میتھڈز کو کلاس کے اندر ہونا چاہیے۔"
+      },
+      "private-by-design": {
+        "p1": "یہ صفحہ Prettier اور prettier-plugin-java چلاتا ہے، جو WebAssembly میں کمپائل شدہ tree-sitter گرامر سے Java پارس کرتا ہے۔ یہ سب اسی سائٹ سے آتا ہے اور صرف تب ڈاؤن لوڈ ہوتا ہے جب آپ اس صفحے پر پہلی بار کوڈ فارمیٹ کریں؛ اس کے بعد یہ آپ کے براؤزر میں چلتا ہے، اس لیے آپ کا سورس کوڈ کبھی آپ کی ڈیوائس سے باہر نہیں جاتا۔ Python کے لیے <a href=\"/tools/python-formatter/\">Python فارمیٹر</a> استعمال کریں۔"
+      }
+    },
+    "value": {
+      "engine": "Prettier {{prettier}} اور prettier-plugin-java {{plugin}}"
+    }
+  },
+  "client": {
+    "errors": {
+      "empty": "فارمیٹ کرنے کے لیے کچھ Java کوڈ پیسٹ کریں۔",
+      "missing": "\"{{token}}\" غائب ہے",
+      "unexpected": "غیر متوقع کوڈ",
+      "at": "لائن {{line}}، کالم {{column}}: {{reason}}۔ کوڈ Java کے طور پر پارس نہیں ہو سکا۔",
+      "unparsed": "کوڈ Java کے طور پر پارس نہیں ہو سکا۔ دیکھیں کہیں سیمی کولن، بریس یا قوسین تو غائب نہیں۔",
+      "unsupportedOption": "غیر معاون {{key}}: {{value}}۔ ان میں سے ایک منتخب کریں: {{choices}}۔"
+    }
+  }
+}

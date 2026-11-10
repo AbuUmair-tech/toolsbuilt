@@ -1,0 +1,242 @@
+{
+  "listing": {
+    "name": "ٹیکسٹ کیس کنورٹر",
+    "shortName": "ٹیکسٹ کیس کنورٹر",
+    "description": "ٹیکسٹ کو فوراً UPPERCASE، lowercase، Title Case، Sentence case، camelCase، snake_case اور kebab-case میں بدلیں۔",
+    "shortDescription": "ٹیکسٹ کو فوراً UPPERCASE، lowercase، Title Case، Sentence case، camelCase، snake_case اور kebab-case میں بدلیں۔",
+    "keywords": [
+      "text case converter",
+      "ٹیکسٹ کیس کنورٹر",
+      "title case converter",
+      "بڑے حروف کو چھوٹے حروف میں بدلیں",
+      "camelcase converter"
+    ]
+  },
+  "title": "ٹیکسٹ کیس کنورٹر - UPPERCASE اور lowercase میں بدلیں",
+  "description": "ٹیکسٹ کیس کنورٹر: ٹیکسٹ کو فوراً UPPERCASE، lowercase، Title Case، Sentence case، camelCase، PascalCase، snake_case یا kebab-case میں بدلیں، مفت۔",
+  "h1": "ٹیکسٹ کیس کنورٹر",
+  "quickAnswer": "ٹیکسٹ کیس کنورٹر سے ٹیکسٹ کا کیس بدلنے کے لیے اپنا مواد ان پٹ باکس میں پیسٹ کریں اور کوئی بھی اسٹائل منتخب کریں۔ ٹول ٹیکسٹ کو فوراً UPPERCASE، lowercase، Title Case، Sentence case، camelCase، PascalCase، snake_case، kebab-case اور مزید اسٹائلز میں بدل دیتا ہے، اوقاف اور Unicode حروف کو محفوظ رکھتے ہوئے، اور سب کچھ آپ کے براؤزر میں ہوتا ہے۔",
+  "formula": {
+    "title": "کیس تبدیلی اور الفاظ کی تقسیم کے اصول",
+    "expression": "Transformed Text = ApplyCaseTransform(TokenizeWords(InputString, UnicodeRegex), StyleRule)",
+    "explanation": "ان پٹ ٹیکسٹ کو Unicode letter property escapes (\\p{L}) کے ذریعے الفاظ میں تقسیم کیا جاتا ہے۔ پھر الفاظ کو مخصوص اسٹائل کے اصولوں کے مطابق ترتیب دیا جاتا ہے: Title Case کے لیے Chicago Manual of Style کے چھوٹے الفاظ والے اصول، یا پروگرامنگ آئیڈینٹیفائرز کے لیے انڈر اسکور/ہائفن سیپریٹر۔"
+  },
+  "workedExamples": [
+    {
+      "title": "سرخی کو Chicago Title Case میں بدلنا",
+      "inputs": [
+        "ان پٹ: 'the quick brown fox jumps over the lazy dog'",
+        "مطلوبہ اسٹائل: Title Case"
+      ],
+      "steps": [
+        "Unicode وائٹ اسپیس کی بنیاد پر الفاظ الگ کریں",
+        "پہلے اور آخری لفظ کا پہلا حرف بڑا کریں ('The'، 'Dog')",
+        "اہم الفاظ کا پہلا حرف بڑا کریں ('Quick'، 'Brown'، 'Fox'، 'Jumps'، 'Lazy')",
+        "چھوٹے حروفِ جار اور آرٹیکلز کو چھوٹے حروف میں رکھیں ('over'، 'the')"
+      ],
+      "result": "'The Quick Brown Fox Jumps Over the Lazy Dog'"
+    },
+    {
+      "title": "عنوان کو camelCase میں بدلنا (JavaScript آئیڈینٹیفائر)",
+      "inputs": [
+        "ان پٹ: 'user profile setting'",
+        "مطلوبہ اسٹائل: camelCase"
+      ],
+      "steps": [
+        "حروف و ہندسوں والے الفاظ الگ کریں: ['user', 'profile', 'setting']",
+        "پہلا لفظ چھوٹے حروف میں: 'user'",
+        "باقی الفاظ کا پہلا حرف بڑا کریں: 'Profile'، 'Setting'",
+        "بغیر اسپیس کے جوڑ دیں"
+      ],
+      "result": "'userProfileSetting'"
+    },
+    {
+      "title": "عنوان کو kebab-case میں بدلنا (URL سلگ)",
+      "inputs": [
+        "ان پٹ: 'Annual Financial Report 2026'",
+        "مطلوبہ اسٹائل: kebab-case"
+      ],
+      "steps": [
+        "الفاظ الگ کریں: ['Annual', 'Financial', 'Report', '2026']",
+        "تمام حروف کو چھوٹا کریں",
+        "الفاظ کو ہائفن (-) سے جوڑیں"
+      ],
+      "result": "'annual-financial-report-2026'"
+    },
+    {
+      "title": "Sentence case میں حروف بڑے کرنا",
+      "inputs": [
+        "ان پٹ: 'hello world! this is a test. here is another one.'",
+        "مطلوبہ اسٹائل: Sentence case"
+      ],
+      "steps": [
+        "جملہ ختم کرنے والی علامتیں پہچانیں (. ! ?)",
+        "ہر جملے کا پہلا حرف بڑا کریں",
+        "جملے کے باقی حروف چھوٹے رکھیں"
+      ],
+      "result": "'Hello world! This is a test. Here is another one.'"
+    }
+  ],
+  "commonMistakes": [
+    {
+      "title": "Title Case میں چھوٹے حروفِ جار کو بڑا کرنا",
+      "description": "Chicago اور AP اسٹائل میں چار حروف سے کم کے حروفِ جار، آرٹیکلز اور حروفِ عطف (مثلاً 'in'، 'on'، 'the'، 'and'، 'for') چھوٹے حروف میں رہتے ہیں، سوائے اس کے کہ جملہ انہی سے شروع ہو۔"
+    },
+    {
+      "title": "Unicode اور ایکسنٹ والے حروف کا بگڑ جانا",
+      "description": "عام ASCII regex سے سادہ کیس تبدیلی 'é' جیسے ایکسنٹ والے حروف یا غیر لاطینی حروفِ تہجی پر ناکام ہو جاتی ہے؛ اس کے لیے Unicode property escapes (\\p{L}) استعمال کرنا ضروری ہے۔"
+    },
+    {
+      "title": "کوڈ بدلتے وقت سیپریٹر کھو دینا",
+      "description": "camelCase یا snake_case کوڈ کو Sentence case میں بدلنے سے پروگرامنگ کے سیپریٹر ختم ہو جاتے ہیں۔ بیک اپ رکھیں یا واپس کریں بٹن استعمال کریں۔"
+    },
+    {
+      "title": "تمام بڑے حروف والے ٹیکسٹ پر Title Case",
+      "description": "اگر تمام بڑے حروف والا ٹیکسٹ پہلے چھوٹا کیے بغیر Title Case انجن میں ڈالا جائے تو چھوٹے حروفِ جار بھی بڑے ہی رہتے ہیں۔ ہمارا الگورتھم پہلے الفاظ کو نارملائز کرتا ہے۔"
+    }
+  ],
+  "sources": [
+    {
+      "name": "The Chicago Manual of Style: سرخیوں اور عنوانات میں بڑے حروف کے اصول"
+    },
+    {
+      "name": "Unicode Standard Annex #29: Unicode Text Segmentation"
+    },
+    {
+      "name": "W3C Internationalization (i18n) کیس میپنگ کے معیارات"
+    }
+  ],
+  "howto": {
+    "name": "آن لائن ٹیکسٹ کا کیس کیسے بدلیں",
+    "description": "ToolsBuilt سے ٹیکسٹ کو 12 مختلف فارمیٹس میں بدلنے کی مرحلہ وار گائیڈ۔",
+    "steps": [
+      {
+        "name": "اپنا مواد پیسٹ کریں",
+        "text": "اپنا بغیر فارمیٹ والا ٹیکسٹ ٹیکسٹ ایریا میں پیسٹ یا ٹائپ کریں۔"
+      },
+      {
+        "name": "کیس اسٹائل منتخب کریں",
+        "text": "12 کیس بٹنوں میں سے کسی پر کلک کریں (جیسے Title Case، UPPERCASE، camelCase یا CONSTANT_CASE)۔"
+      },
+      {
+        "name": "کاپی کریں یا واپس کریں",
+        "text": "بدلا ہوا نتیجہ کلپ بورڈ پر کاپی کرنے کے لیے ٹیکسٹ کاپی کریں پر کلک کریں، یا پچھلی حالت پر جانے کے لیے واپس کریں پر کلک کریں۔"
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "q": "آن لائن ٹیکسٹ کا کیس کیسے بدلتے ہیں؟",
+      "a": "اپنا ٹیکسٹ کنورٹر باکس میں پیسٹ کریں اور UPPERCASE، lowercase، Title Case یا Sentence case جیسے کسی بھی بٹن پر کلک کریں۔ ٹیکسٹ فوراً آپ کے براؤزر میں بدل جاتا ہے۔"
+    },
+    {
+      "q": "Title Case اور Capitalize Each Word میں کیا فرق ہے؟",
+      "a": "Title Case اہم الفاظ کا پہلا حرف بڑا کرتا ہے لیکن چھوٹے آرٹیکلز اور حروفِ جار (جیسے 'in'، 'the'، 'of'، 'and'، 'for') کو چھوٹے حروف میں رکھتا ہے، سوائے اس کے کہ وہ پہلا یا آخری لفظ ہوں۔ Capitalize Each Word بلا شرط ہر لفظ کا پہلا حرف بڑا کر دیتا ہے۔"
+    },
+    {
+      "q": "camelCase، PascalCase، snake_case اور kebab-case میں کیا فرق ہے؟",
+      "a": "camelCase چھوٹے حرف سے شروع ہوتا ہے اور بعد والے الفاظ کا پہلا حرف بڑا ہوتا ہے، بغیر اسپیس کے (مثلاً 'myVariable')۔ PascalCase میں پہلے سمیت تمام الفاظ کا پہلا حرف بڑا ہوتا ہے ('MyVariable')۔ snake_case چھوٹے حروف میں الفاظ کو انڈر اسکور سے الگ کرتا ہے ('my_variable')۔ kebab-case الفاظ کو ہائفن سے الگ کرتا ہے ('my-variable')۔"
+    },
+    {
+      "q": "اگر نتیجہ پسند نہ آئے تو کیا میں تبدیلی واپس کر سکتا ہوں؟",
+      "a": "جی ہاں۔ کسی بھی وقت پچھلے ٹیکسٹ پر واپس جانے کے لیے واپس کریں بٹن پر کلک کریں۔"
+    },
+    {
+      "q": "کیا کنورٹر استعمال کرتے وقت میرا ٹیکسٹ نجی رہتا ہے؟",
+      "a": "جی ہاں۔ ٹیکسٹ بدلنے کا سارا عمل کلائنٹ سائیڈ JavaScript کے ذریعے صرف آپ کے براؤزر کی میموری میں ہوتا ہے۔ آپ کا ٹیکسٹ نہ URLs میں جاتا ہے، نہ کوکیز میں محفوظ ہوتا ہے، اور نہ کسی سرور کو بھیجا جاتا ہے۔"
+    },
+    {
+      "q": "کیا کنورٹر غیر ملکی زبانوں اور ایکسنٹ والے حروف کو سپورٹ کرتا ہے؟",
+      "a": "جی ہاں۔ ٹیکسٹ انجن Unicode property escapes (\\p{L}) استعمال کرتا ہے، اس لیے ایکسنٹ، umlauts اور ہسپانوی، فرانسیسی اور جرمن جیسی زبانوں کے حروف بغیر مسئلے کے سنبھالے جاتے ہیں۔"
+    },
+    {
+      "q": "CONSTANT_CASE کس کام آتا ہے؟",
+      "a": "CONSTANT_CASE ٹیکسٹ کو انڈر اسکور کے ساتھ بڑے حروف میں بدلتا ہے، جو پروگرامنگ میں گلوبل ویری ایبلز، ناقابلِ تبدیل constants اور environment variables کے ناموں کا معیاری طریقہ ہے۔"
+    }
+  ],
+  "body": {
+    "ariaLabel": {
+      "tool-section1": "ٹیکسٹ کیس کنورٹر فارم"
+    },
+    "label": {
+      "text-input": "<span>اپنا ٹیکسٹ نیچے ٹائپ یا پیسٹ کریں:</span>"
+    },
+    "placeholder": {
+      "text-input": "یہاں ٹیکسٹ ٹائپ یا پیسٹ کریں، پھر نیچے کسی بھی کیس اسٹائل بٹن پر کلک کریں..."
+    },
+    "text": {
+      "char-stats": "0 حروف (0 بغیر اسپیس) | 0 الفاظ | 0 لائنیں",
+      "copy-btn": "<span data-icon=\"copy\"></span> ٹیکسٹ کاپی کریں",
+      "undo-btn": "واپس کریں",
+      "clear-btn": "ٹیکسٹ صاف کریں"
+    },
+    "content": {
+      "tool": {
+        "label1": "تبدیلی کا اسٹائل منتخب کریں (12 دستیاب):",
+        "button1": "UPPERCASE",
+        "button2": "lowercase",
+        "button3": "Title Case",
+        "button4": "Sentence case",
+        "button5": "Capitalize Words",
+        "button6": "camelCase",
+        "button7": "PascalCase",
+        "button8": "snake_case",
+        "button9": "kebab-case",
+        "button10": "CONSTANT_CASE",
+        "button11": "dot.case",
+        "button12": "aLtErNaTiNg"
+      },
+      "how-when-to-use-the-text": {
+        "heading": "ٹیکسٹ کیس کنورٹر کب اور کیسے استعمال کریں",
+        "li1": "<strong>سافٹ ویئر ڈیولپمنٹ اور کوڈنگ:</strong> یوزر ان پٹ یا اسکیما کی تعریفوں کو معیاری کوڈ طریقوں میں بدلیں (مثلاً JavaScript ویری ایبلز کے لیے `camelCase`، Python/ڈیٹا بیس کالمز کے لیے `snake_case`، یا گلوبل environment variables کے لیے `CONSTANT_CASE`)۔",
+        "li2": "<strong>بلاگ اور مضامین کی سرخیاں:</strong> بے ترتیب ابتدائی عنوانات کو خوبصورت Chicago اسٹائل Title Case میں بدلیں، جس میں چھوٹے حروفِ جار چھوٹے حروف میں رہتے ہیں۔",
+        "li3": "<strong>غلطی سے آن CAPS LOCK کی درستی:</strong> کیپس لاک آن رہ جانے پر ٹائپ ہونے والے جملے ٹھیک کریں، پورے پیراگراف دوبارہ ٹائپ کیے بغیر۔",
+        "li4": "<strong>SEO URL سلگ فارمیٹنگ:</strong> مضامین کی سرخیوں کو ویب سائٹ URLs کے لیے سرچ انجن دوست `kebab-case` سلگ میں بدلیں۔"
+      },
+      "case-style-reference-developer-conventions": {
+        "heading": "کیس اسٹائلز کا حوالہ اور ڈیولپرز کے طریقے",
+        "th1": "کیس اسٹائل",
+        "th2": "نمونہ آؤٹ پٹ",
+        "th3": "عام استعمال",
+        "td1": "UPPERCASE",
+        "td2": "<code>HELLO WORLD</code>",
+        "td3": "سرخیاں، انتباہات، مخففات",
+        "td4": "lowercase",
+        "td5": "<code>hello world</code>",
+        "td6": "ای میل ایڈریس، سرچ نارملائزیشن",
+        "td7": "Title Case",
+        "td8": "<code>The Return of the King</code>",
+        "td9": "کتابوں کے عنوانات، ادارتی مضامین",
+        "td10": "Sentence case",
+        "td11": "<code>Hello world. Good morning.</code>",
+        "td12": "عام تحریر، یوزر دستاویزات",
+        "td13": "camelCase",
+        "td14": "<code>helloWorld</code>",
+        "td15": "JavaScript، Java ویری ایبل اور میتھڈ کے نام",
+        "td16": "PascalCase",
+        "td17": "<code>HelloWorld</code>",
+        "td18": "C#، Java، Python، TypeScript میں کلاسز",
+        "td19": "snake_case",
+        "td20": "<code>hello_world</code>",
+        "td21": "Python ویری ایبلز، SQL ڈیٹا بیس کالمز",
+        "td22": "kebab-case",
+        "td23": "<code>hello-world</code>",
+        "td24": "URL سلگ، CSS کلاسز، HTML ایٹریبیوٹس",
+        "td25": "CONSTANT_CASE",
+        "td26": "<code>HELLO_WORLD</code>",
+        "td27": "Environment variables، ناقابلِ تبدیل constants",
+        "td28": "dot.case",
+        "td29": "<code>hello.world</code>",
+        "td30": "پراپرٹی پاتھ، کنفیگریشن کیز"
+      }
+    }
+  },
+  "client": {
+    "stats": "{{characters}} حروف ({{noSpaces}} بغیر اسپیس) | {{words}} الفاظ | {{lines}} لائنیں",
+    "toast": {
+      "converted": "{{style}} میں بدل دیا گیا",
+      "restored": "پچھلا ٹیکسٹ بحال کر دیا گیا",
+      "copied": "بدلا ہوا ٹیکسٹ کلپ بورڈ پر کاپی ہو گیا"
+    }
+  }
+}
