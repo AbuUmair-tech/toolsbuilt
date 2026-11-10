@@ -27,7 +27,7 @@ const { loadLanguages } = require('./i18n.js');
 
 const ROOT = path.resolve(__dirname, '..');
 const CACHE_DIR = path.join(ROOT, 'node_modules', '.cache', 'check-i18n');
-const DEFAULT_BASE = '6a96614'; // style: unify header, footer and tool pages with the homepage theme
+const DEFAULT_BASE = 'e5eee79'; // fix: November audit fixes (English pages changed on purpose: salary tax hub, dates, FAQs, related tools)
 
 const args = process.argv.slice(2);
 const baseRef = args.includes('--base') ? args[args.indexOf('--base') + 1] : DEFAULT_BASE;
@@ -204,7 +204,9 @@ for (const rel of textFiles) {
   let current = fs.existsSync(currentFile) ? fs.readFileSync(currentFile, 'utf8') : null;
   // sitemap.xml: drop what translations add (language URLs and xhtml:link alternates)
   if (current && rel === 'sitemap.xml') current = englishSitemap(current);
-  const base = fs.readFileSync(path.join(baseDir, rel), 'utf8');
+  let base = fs.readFileSync(path.join(baseDir, rel), 'utf8');
+  // The base may already have languages of its own: compare the English part of both
+  if (rel === 'sitemap.xml') base = englishSitemap(base);
   if (current !== base && current !== null && withoutSalaryTaxText(current) === withoutSalaryTaxText(base)) {
     console.log(`ℹ️  /${rel} changed on purpose (salary tax pages renamed)`);
   } else if (current !== base) {
