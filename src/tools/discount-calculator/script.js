@@ -21,7 +21,9 @@ document.addEventListener('DOMContentLoaded', () => {
   // Older links and saved state stored a symbol; the selector now uses currency codes
   const LEGACY_SYMBOLS = { '$': 'USD', '£': 'GBP', '€': 'EUR', '¥': 'JPY', '₹': 'INR' };
   const toCode = (cur) => LEGACY_SYMBOLS[cur] || cur;
-  const defaultCurrency = () => ToolsBuilt.defaultCurrency('USD', currencySelect);
+  const defaultCurrency = () => ToolsBuilt.defaultCurrency('PKR', currencySelect);
+  // Sample price: Rs 5,000 (the value the page is built with); 100 in other currencies
+  const samplePrice = () => (currencySelect.value === 'PKR' ? '5000' : '100');
   let debounceTimer = null;
   let lastResultText = '';
 
@@ -50,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     } catch (e) {}
 
-    priceInput.value = '100';
+    priceInput.value = samplePrice();
     discountInput.value = '20';
   }
 
@@ -178,13 +180,13 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   resetBtn.addEventListener('click', () => {
-    priceInput.value = '100';
+    currencySelect.value = defaultCurrency();
+    priceInput.value = samplePrice();
     discountInput.value = '20';
     stackedDiscountInput.value = '';
     taxInput.value = '';
-    currencySelect.value = defaultCurrency();
     clearError();
-    saveState('100', '20', '', '', currencySelect.value);
+    saveState(priceInput.value, '20', '', '', currencySelect.value);
     calculate();
   });
 

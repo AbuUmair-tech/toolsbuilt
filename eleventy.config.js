@@ -134,6 +134,24 @@ module.exports = function(eleventyConfig) {
     return new Intl.NumberFormat(locale, { style: 'currency', currency, maximumFractionDigits: 0 }).format(Number(amount) || 0);
   });
 
+  // Money with two decimals in the currency's home format, as ToolsBuilt.money does in the browser:
+  // {{ 21958.6 | money2("PKR") }} -> "Rs 21,958.60"
+  eleventyConfig.addFilter('money2', function(amount, currency) {
+    const countries = JSON.parse(fs.readFileSync(path.join(__dirname, 'src', '_data', 'countries.json'), 'utf8'));
+    const home = countries.find(c => c.currency === currency);
+    const locale = home ? (home.lakhGrouping ? 'en-IN' : home.locale) : 'en-US';
+    return new Intl.NumberFormat(locale, { style: 'currency', currency, minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(Number(amount) || 0);
+  });
+
+  // Number.prototype.toFixed: {{ 2.3 | toFixed(2) }} -> "2.30"
+  eleventyConfig.addFilter('toFixed', (n, digits = 2) => Number(n).toFixed(digits));
+
+  // A tool's pure logic module (src/tools/<slug>/logic.js), for results rendered at build time:
+  // {% set res = ('loan-emi-calculator' | toolLogic).calculateLoanEmi(2500000, 12, 5, 'years') %}
+  eleventyConfig.addFilter('toolLogic', function(slug) {
+    return require(path.join(__dirname, 'src', 'tools', slug, 'logic.js'));
+  });
+
   // Rate as a percentage without trailing zeros: 0.2 -> "20%", 0.035 -> "3.5%"
   eleventyConfig.addFilter('pct', function(rate) {
     return `${Number((Number(rate) * 100).toFixed(4))}%`;

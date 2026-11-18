@@ -7,22 +7,25 @@ lastReviewed: "2026-10-24"
 ---
 {% from "partials/currency-select.njk" import currencySelect, countryData with context %}
 {{ countryData(countries) }}
+{#- Sample values the page is built with (script.js uses the same for PKR), so the static HTML shows a real result -#}
+{%- set sample = { price: 5000, off: 20, cur: "PKR" } -%}
+{%- set sampleRes = ("discount-calculator" | toolLogic).calculateDiscount(sample.price, sample.off, { stackedDiscountPercent: 0, taxPercent: 0, currencySymbol: sample.cur }) %}
 
     <!-- Tool Form Container -->
     <section class="tool-container" aria-label="{{ 'ariaLabel.tool-section1' | pt }}">
       <form id="calculator-form" novalidate>
         <div class="form-grid two-col">
           
-          {{ currencySelect({ id: "currency-symbol", param: "cur", selected: "USD" }) }}
+          {{ currencySelect({ id: "currency-symbol", param: "cur", selected: "PKR" }) }}
 
           <div class="form-group">
             <label for="original-price">{{ 'label.original-price' | pt }}</label>
-            <input type="number" step="any" id="original-price" data-param="price" class="form-control" placeholder="{{ 'placeholder.original-price' | pt }}" required aria-required="true">
+            <input type="number" step="any" id="original-price" data-param="price" class="form-control" value="{{ sample.price }}" placeholder="{{ 'placeholder.original-price' | pt }}" required aria-required="true">
           </div>
 
           <div class="form-group">
             <label for="discount-percent">{{ 'label.discount-percent' | pt }}</label>
-            <input type="number" step="any" id="discount-percent" data-param="off" data-param-alias="disc" class="form-control" placeholder="{{ 'placeholder.discount-percent' | pt }}" required aria-required="true">
+            <input type="number" step="any" id="discount-percent" data-param="off" data-param-alias="disc" class="form-control" value="{{ sample.off }}" placeholder="{{ 'placeholder.discount-percent' | pt }}" required aria-required="true">
           </div>
 
           <div class="form-group">
@@ -53,24 +56,24 @@ lastReviewed: "2026-10-24"
             {{ 'text.copy-result-btn' | pt }}
           </button>
         </div>
-        <div class="result-primary" id="result-primary-text">{{ 'text.result-primary-text' | pt }}</div>
+        <div class="result-primary" id="result-primary-text">{{ 'result.primary' | tc('discount-calculator', { final: sampleRes.finalPrice | money2(sample.cur) }) }}</div>
         
         <div class="result-grid">
           <div class="result-stat-card">
             <div class="result-stat-label">{{ 'content.tool.div1' | pt }}</div>
-            <div class="result-stat-value" id="stat-final-price">$0.00</div>
+            <div class="result-stat-value" id="stat-final-price">{{ sampleRes.finalPrice | money2(sample.cur) }}</div>
           </div>
           <div class="result-stat-card">
             <div class="result-stat-label">{{ 'content.tool.div2' | pt }}</div>
-            <div class="result-stat-value" id="stat-total-saved">$0.00</div>
+            <div class="result-stat-value" id="stat-total-saved">{{ 'result.totalSaved' | tc('discount-calculator', { saved: sampleRes.totalSavings | money2(sample.cur), pct: sampleRes.effectiveDiscountPercent }) }}</div>
           </div>
           <div class="result-stat-card">
             <div class="result-stat-label">{{ 'content.tool.div3' | pt }}</div>
-            <div class="result-stat-value" id="stat-price-before-tax">$0.00</div>
+            <div class="result-stat-value" id="stat-price-before-tax">{{ sampleRes.priceAfterDiscounts | money2(sample.cur) }}</div>
           </div>
           <div class="result-stat-card">
             <div class="result-stat-label">{{ 'content.tool.div4' | pt }}</div>
-            <div class="result-stat-value" id="stat-tax-amount">$0.00</div>
+            <div class="result-stat-value" id="stat-tax-amount">{{ sampleRes.taxAmount | money2(sample.cur) }}</div>
           </div>
         </div>
 

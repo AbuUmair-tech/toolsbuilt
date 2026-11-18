@@ -270,6 +270,13 @@ module.exports = function i18nPlugin(eleventyConfig) {
     return resolve(i18nData.lookup(body, key), key, `the body of tools/en/${slug}.json`, vars);
   });
 
+  // {{ "result.primary" | tc("loan-emi-calculator", { value: "Rs 1" }) }}: a tool's browser (`client`)
+  // string, for results rendered at build time with the same wording the script uses (HTML)
+  eleventyConfig.addFilter('tc', function(key, slug, vars) {
+    const client = (i18nData.tool(pageLang(this), slug) || {}).client;
+    return resolve(i18nData.lookup(client, key), key, `the client strings of tools/en/${slug}.json`, vars);
+  });
+
   // Fills {{name}} placeholders in every string of a value: {{ text.faq | fmtDeep({ author: site.authorName }) }}
   eleventyConfig.addFilter('fmtDeep', function fmtDeep(value, vars) {
     if (typeof value === 'string' || value instanceof nunjucks.runtime.SafeString) return i18nData.format(String(value), vars);
