@@ -34,6 +34,40 @@ const EXCLUDED = [
 /^indexnow-key\.njk$/, /^google[0-9a-f]+\.html$/
 ];
 
+// Language versions that are built but kept out of the index (src/_data/i18n/notReady.json):
+// { "<lang>": ["/tools/x/", "*"] }
+function loadNotReady() {
+  const file = path.join(SRC, '_data', 'i18n', 'notReady.json');
+  return fs.existsSync(file) ? JSON.parse(fs.readFileSync(file, 'utf8')).pages || {} : {};
+}
+
+function isNotReady(notReady, code, base) {
+  const list = notReady[code] || [];
+  return list.includes('*') || list.includes(base);
+}
+
+// Date of the last commit that touched a file (YYYY-MM-DD), or '' outside git
+const gitDates = new Map();
+function gitDate(file) {
+  if (!gitDates.has(file)) {
+    let date = '';
+    try {
+      date = require('child_process').execSync(`git log -1 --format=%cs -- "${file}"`, { cwd: ROOT, encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }).trim();
+    } catch (e) {}
+    gitDates.set(file, /^\d{4}-\d{2}-\d{2}$/.test(date) ? date : '');
+  }
+  return gitDates.get(file);
+}
+
+// Translation file that holds the text of an English page path, for sitemap lastmod
+function translationFile(code, base) {
+  const tool = base.match(/^\/tools\/([^/]+)\/$/);
+  if (tool) return path.join(SRC, '_data', 'i18n', 'tools', code, `${tool[1]}.json`);
+  const name = base === '/' ? 'home' : base === '/tools/' ? 'tools-directory'
+    : base.startsWith('/category/') ? 'categories' : base.replace(/^\/|\/$/g, '').replace(/\//g, '-');
+  return path.join(SRC, '_data', 'i18n', 'pages', code, `${name}.json`);
+}
+
 function loadLanguages() {
   return JSON.parse(fs.readFileSync(path.join(SRC, '_data', 'languages.json'), 'utf8'));
 }
@@ -126,6 +160,9 @@ module.exports = function i18nPlugin(eleventyConfig) {
   const byCode = new Map(languages.map(l => [l.code, l]));
   const enabled = languages.filter(l => l.enabled);
   const english = byCode.get('en');
+  const notReady = loadNotReady();
+  // Language versions of an English page path that may be indexed
+  const indexable = (code, base) => code === english.code || !isNotReady(notReady, code, base);
   // Design review only: list every language in the picker without building any pages
   const menuLanguages = process.env.I18N_MENU_PREVIEW ? languages : enabled;
 
@@ -167,6 +204,11 @@ module.exports = function i18nPlugin(eleventyConfig) {
   eleventyConfig.addGlobalData('eleventyComputed.countries', () => data =>
     (data.lang && data.lang !== 'en' ? i18nData.deepMerge(data.countries, i18nData.page(data.lang, 'countries')) : data.countries));
 
+  // A language version listed in notReady.json: noindex, follow (base.njk)
+  eleventyConfig.addGlobalData('eleventyComputed.i18nNotReady', () => data =>
+    Boolean(data.lang && data.lang !== english.code && data.page && data.page.url &&
+      isNotReady(notReady, data.lang, stripPrefix(data.page.url, languages))));
+
   // The page's whole translation file (for page-specific data such as the homepage FAQ)
   eleventyConfig.addGlobalData('eleventyComputed.text', () => data => pageText(data) || {});
 
@@ -198,6 +240,7 @@ module.exports = function i18nPlugin(eleventyConfig) {
     builtUrls = new Set(Object.keys(urlToInputPath));
   });
 
+  const langOfUrl = url => languages.find(l => l.prefix && (url || '').startsWith(`/${l.prefix}/`));
   const pageLang = ctx => (ctx && ctx.ctx && ctx.ctx.lang) || english.code;
 
   // Strings are HTML; placeholder values are escaped unless they are already safe markup
@@ -279,8 +322,11 @@ module.exports = function i18nPlugin(eleventyConfig) {
   // hreflang links for a page: empty unless it exists in more than one language
   eleventyConfig.addFilter('localeAlternates', function(url) {
     const base = stripPrefix(url, languages);
+    const current = langOfUrl(url) || english;
+    // A page kept out of the index lists no alternates, and no page points to it
+    if (!indexable(current.code, base)) return [];
     const links = enabled
-      .filter(l => builtUrls.has(withPrefix(base, l)))
+      .filter(l => builtUrls.has(withPrefix(base, l)) && indexable(l.code, base))
       .map(l => ({ hreflang: l.hreflang, ogLocale: l.ogLocale, url: SITE_URL + withPrefix(base, l) }));
     if (links.length < 2) return [];
     return links.concat({ hreflang: 'x-default', url: SITE_URL + base });
@@ -295,7 +341,6 @@ module.exports = function i18nPlugin(eleventyConfig) {
   });
 
   // --- Output of non-English pages: links and structured data point to the same language ---
-  const langOfUrl = url => languages.find(l => l.prefix && (url || '').startsWith(`/${l.prefix}/`));
   const localPath = (lang, href) => {
     const m = href.match(/^(\/[^?#]*)([?#].*)?$/);
     if (!m || m[1].startsWith('/assets/') || m[1].startsWith(`/${lang.prefix}/`)) return null;
@@ -355,13 +400,20 @@ module.exports = function i18nPlugin(eleventyConfig) {
     const out = entries.map(entry => {
       const loc = (entry.match(/<loc>([^<]+)<\/loc>/) || [])[1] || '';
       const base = loc.slice(SITE_URL.length);
-      const versions = enabled.filter(l => builtUrls.has(withPrefix(base, l)));
+      const versions = enabled.filter(l => builtUrls.has(withPrefix(base, l)) && indexable(l.code, base));
       if (versions.length < 2) return entry;
       const links = versions.map(l => `    <xhtml:link rel="alternate" hreflang="${l.hreflang}" href="${SITE_URL + withPrefix(base, l)}"/>`)
         .concat(`    <xhtml:link rel="alternate" hreflang="x-default" href="${SITE_URL + base}"/>`).join('\n');
-      return versions.map(l => entry
-        .replace(`<loc>${loc}</loc>`, `<loc>${SITE_URL + withPrefix(base, l)}</loc>`)
-        .replace(/\n  <\/url>/, `\n${links}\n  </url>`)).join(entry.endsWith('\n') ? '' : '\n');
+      const englishDate = (entry.match(/<lastmod>([^<]+)<\/lastmod>/) || [])[1] || '';
+      return versions.map(l => {
+        // lastmod: the later of the English date and the last change to this language's text
+        const translated = l.code === english.code ? '' : gitDate(translationFile(l.code, base));
+        const lastmod = translated > englishDate ? translated : englishDate;
+        return entry
+          .replace(`<loc>${loc}</loc>`, `<loc>${SITE_URL + withPrefix(base, l)}</loc>`)
+          .replace(`<lastmod>${englishDate}</lastmod>`, `<lastmod>${lastmod}</lastmod>`)
+          .replace(/\n  <\/url>/, `\n${links}\n  </url>`);
+      }).join(entry.endsWith('\n') ? '' : '\n');
     });
     let i = 0;
     return content
@@ -375,3 +427,5 @@ module.exports = function i18nPlugin(eleventyConfig) {
 
 module.exports.loadLanguages = loadLanguages;
 module.exports.stripPrefix = stripPrefix;
+module.exports.loadNotReady = loadNotReady;
+module.exports.isNotReady = isNotReady;

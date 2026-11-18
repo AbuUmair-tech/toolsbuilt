@@ -21,7 +21,7 @@
   <link rel="alternate" hreflang="{{ alt.hreflang }}" href="{{ alt.url }}">
   {%- endfor %}
   {% block extraHead %}{% endblock %}
-  {% if (not env.isProduction) or noindex or draft %}<meta name="robots" content="noindex, nofollow">{% endif %}
+  {% if (not env.isProduction) or noindex or draft %}<meta name="robots" content="noindex, nofollow">{% elif i18nNotReady %}<meta name="robots" content="noindex, follow">{% endif %}
   <meta name="color-scheme" content="light dark">
   <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
   <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#090a0f">

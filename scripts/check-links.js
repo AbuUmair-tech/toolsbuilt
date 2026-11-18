@@ -25,6 +25,16 @@ const ROOT = path.resolve(__dirname, '..');
 const SITE_DIR = path.resolve(process.argv[2] || path.join(ROOT, '_site'));
 const DOMAIN = 'https://toolsbuilt.com';
 
+// Language versions kept out of the index (src/_data/i18n/notReady.json)
+const i18n = require('./i18n.js');
+const NOT_READY = i18n.loadNotReady();
+const LANGS = i18n.loadLanguages().filter(l => l.prefix);
+function notReadyPage(file) {
+  const url = '/' + path.relative(SITE_DIR, file).split(path.sep).join('/').replace(/index\.html$/, '');
+  const lang = LANGS.find(l => url.startsWith(`/${l.prefix}/`));
+  return Boolean(lang) && i18n.isNotReady(NOT_READY, lang.code, i18n.stripPrefix(url, LANGS));
+}
+
 const errors = [];
 const warnings = [];
 const titles = new Map(); // title -> [files]
@@ -140,6 +150,11 @@ function analyzeFile(file) {
   if (isDesignSystem) {
     if (!hasNoindex) {
       log('error', file, 'Design system page must always have noindex meta tag');
+    }
+  } else if (isProduction && notReadyPage(file)) {
+    // A language version listed in src/_data/i18n/notReady.json: noindex, follow
+    if (!/<meta[^>]+name=["']robots["'][^>]+content=["']noindex, follow["']/i.test(html)) {
+      log('error', file, 'Page listed in i18n/notReady.json must have <meta name="robots" content="noindex, follow">');
     }
   } else if (isProduction && hasNoindex && !is404) {
     log('error', file, 'Production build contains forbidden noindex meta tag');
