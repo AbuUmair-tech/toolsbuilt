@@ -38,7 +38,8 @@ layout: layouts/base.njk
   {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
-    "headline": {{ title | jsonStr | safe }},
+    "headline": {{ (h1 or title) | jsonStr | safe }},
+    "inLanguage": "en",
     "description": {{ description | jsonStr | safe }},
     "url": "https://toolsbuilt.com{{ page.url }}",
     "mainEntityOfPage": {
@@ -47,7 +48,7 @@ layout: layouts/base.njk
     },
     "datePublished": "{{ date | isoDate }}",
     "dateModified": "{{ (updated or date) | isoDate }}",
-    "image": {{ (ogImage or computedOgImage or "https://toolsbuilt.com/assets/og/home.png") | jsonStr | safe }},
+    "image": {{ (ogImage or "https://toolsbuilt.com/assets/og/home.png") | jsonStr | safe }},
     "author": {
       "@type": "Person",
       "name": {{ (site.authorName or "Abu Umair") | jsonStr | safe }},
@@ -114,7 +115,7 @@ layout: layouts/base.njk
             <span class="tool-category-chip" data-cat="tech">{{ category or ('post.guide' | t) }}</span>
             <span class="category-count-badge">{{ renderedContent | readingTime }}</span>
           </div>
-          <h1 class="tool-hero-title mb-4">{{ title }}</h1>
+          <h1 class="tool-hero-title mb-4">{{ h1 or title }}</h1>
           {% if description %}
           <p class="tool-hero-description text-md text-secondary mb-4 leading-normal">{{ description }}</p>
           {% endif %}

@@ -378,7 +378,8 @@ module.exports = function(eleventyConfig) {
 
   eleventyConfig.addFilter('filterGuidesByTool', function(posts, toolSlug) {
     if (!posts || !Array.isArray(posts) || !toolSlug) return [];
-    return posts.filter(p => p.data && p.data.tool === toolSlug);
+    // A post's main `tool`, or any slug in its `relatedTools` list
+    return posts.filter(p => p.data && (p.data.tool === toolSlug || (p.data.relatedTools || []).includes(toolSlug)));
   });
 
   eleventyConfig.addFilter('filterOtherPosts', function(posts, currentUrl, limit = 3) {
