@@ -188,15 +188,18 @@
     })();
   </script>
 
-  <script src="/assets/js/icons.js"></script>
-  <script src="/assets/js/ui.js"></script>
-  {% if includeToolsData %}<script src="/assets/js/tools-data.js"></script>{% endif %}
-  <script src="/assets/js/common.js"></script>
+  {#- Every script is deferred: it runs in this order after the page is parsed, before DOMContentLoaded #}
+  <script src="/assets/js/icons.js" defer></script>
+  <script src="/assets/js/ui.js" defer></script>
+  {% if includeToolsData %}<script src="/assets/js/tools-data.js" defer></script>{% endif %}
+  <script src="/assets/js/common.js" defer></script>
   <script src="/assets/js/layout.js" defer></script>
   <script src="/assets/js/language-menu.js" defer></script>
-  {% if toolSlug == "password-generator" %}<script src="/tools/password-generator/eff-words.js"></script>{% endif %}
-  {% if taxEngine %}<script src="/tools/salary-tax-calculator/logic.js"></script>{% endif %}
-  {% if toolLogic %}<script src="{{ toolLogic }}"></script>{% elif toolSlug %}<script src="/tools/{{ toolSlug }}/logic.js"></script>{% endif %}
-  {% if toolScript %}<script src="{{ toolScript }}"></script>{% elif toolSlug %}<script src="/tools/{{ toolSlug }}/script.js"></script>{% endif %}
+  {% if toolSlug == "password-generator" %}<script src="/tools/password-generator/eff-words.js" defer></script>{% endif %}
+  {% if taxEngine %}<script src="/tools/salary-tax-calculator/logic.js" defer></script>{% endif %}
+  {% if toolLogic %}<script src="{{ toolLogic }}" defer></script>{% elif toolSlug %}<script src="/tools/{{ toolSlug }}/logic.js" defer></script>{% endif %}
+  {% if toolScript %}<script src="{{ toolScript }}" defer></script>{% elif toolSlug %}<script src="/tools/{{ toolSlug }}/script.js" defer></script>{% endif %}
+  {#- Result actions bar on tool pages (needs ToolsBuilt from common.js, so it comes after it) #}
+  {% if toolActions %}<script src="/assets/js/tool-actions.js" defer></script>{% endif %}
 </body>
 </html>
