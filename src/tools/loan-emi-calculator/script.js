@@ -214,7 +214,10 @@ document.addEventListener('DOMContentLoaded', () => {
     scheduleTableBody.innerHTML = '';
     const fragment = document.createDocumentFragment();
 
-    const num = (n) => n.toLocaleString(ToolsBuilt.localeForCurrency(curCode), { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    // One formatter for the whole table: toLocaleString builds a new one on every call,
+    // which made a 15-year schedule (900 values) block the main thread on phones
+    const fmt = new Intl.NumberFormat(ToolsBuilt.localeForCurrency(curCode), { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    const num = (n) => fmt.format(n);
     schedule.forEach(row => {
       const tr = document.createElement('tr');
       tr.innerHTML = `

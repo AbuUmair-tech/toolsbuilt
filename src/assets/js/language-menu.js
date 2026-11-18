@@ -220,7 +220,15 @@
     const option = options.find(o => o.dataset.locale === code);
     if (!option || option.hasAttribute('data-fallback')) return;
 
-    const link = banner.querySelector('.language-banner-link');
+    // The banner ships an empty <span> placeholder; swap in the real link now that the target is known
+    let link = banner.querySelector('.language-banner-link');
+    if (link.tagName !== 'A') {
+      const a = document.createElement('a');
+      a.className = link.className;
+      a.dir = 'auto';
+      link.replaceWith(a);
+      link = a;
+    }
     link.href = option.dataset.href;
     link.textContent = option.dataset.native;
     link.setAttribute('lang', option.getAttribute('lang'));

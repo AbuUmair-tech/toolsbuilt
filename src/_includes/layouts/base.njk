@@ -107,7 +107,8 @@
         if (window.__ga_loaded) return;
         window.__ga_loaded = true;
         gtag('js', new Date());
-        gtag('config', 'G-QR15X9WS1J');
+        // Report the page without its query: result links carry the visitor's inputs (?amount=...)
+        gtag('config', 'G-QR15X9WS1J', { page_location: location.origin + location.pathname });
         var s = document.createElement('script');
         s.async = true;
         s.src = 'https://www.googletagmanager.com/gtag/js?id=G-QR15X9WS1J';

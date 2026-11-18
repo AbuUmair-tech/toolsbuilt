@@ -396,7 +396,7 @@ toolActions: true
           {% endif %}
 
           {#- Guides are English-only, so translated tool pages do not list them #}
-          {% set relatedGuides = (collections.post | filterGuidesByTool(toolSlug or slug)) if lang == 'en' else [] %}
+          {% set relatedGuides = collections['posts_' + lang] | filterGuidesByTool(toolSlug or slug) %}
           {% if relatedGuides and relatedGuides.length > 0 %}
           <section class="tool-section related-guides-section" aria-labelledby="related-guides-heading">
             <p class="section-label">{{ 'toolPage.content.sources-references.p1' | t }}</p>

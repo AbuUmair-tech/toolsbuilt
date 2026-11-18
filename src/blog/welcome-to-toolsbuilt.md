@@ -1,58 +1,122 @@
 ---
-title: "Welcome to ToolsBuilt: Free Browser Tools Built for Privacy"
-description: "ToolsBuilt offers free, fast calculators and web tools that run entirely in your browser. No sign-ups, private local inputs, no server-side processing."
+title: "Welcome to ToolsBuilt: Free, Private Browser Tools"
+h1: "Welcome to ToolsBuilt: Free Calculators and Tools That Run in Your Browser"
+shortTitle: "Welcome to ToolsBuilt"
+description: "ToolsBuilt is a free set of 50 calculators and web tools in 9 languages. No sign-up and no ads, and your numbers are worked out inside your own browser."
 date: 2026-10-24
-updated: 2026-11-10
+updated: 2026-11-18
 author: "Abu Umair"
+category: "About ToolsBuilt"
 tool: "password-generator"
+relatedTools:
+  - password-generator
 tags:
   - post
   - announcement
-image: "/assets/images/og-default.png"
+ogType: article
+ogImage: "https://toolsbuilt.com/assets/blog/welcome-to-toolsbuilt/og.png"
+ogImageAlt: "ToolsBuilt card: free calculators and web tools that run in your browser"
 faqs:
-  - question: "Are ToolsBuilt tools really free to use?"
-    answer: "Yes. Every tool on ToolsBuilt is completely free, with no sign-ups, paywalls, or usage limits."
-  - question: "Does ToolsBuilt store my inputs or results?"
-    answer: "No. All calculations run locally in your browser using JavaScript. Your numbers, text, and other inputs are never sent to any server."
-  - question: "How does ToolsBuilt make money if the tools are free?"
-    answer: "It does not make money yet: there are no ads on ToolsBuilt. The site uses Google Analytics for anonymous traffic statistics, and no personal data or calculation inputs are shared with it."
+  - question: "Is ToolsBuilt really free?"
+    answer: "Yes. Every tool is free to use with no account, no usage limit and no paid tier. There are no ads on the site either. You open a page, enter your values and get the result straight away."
+  - question: "Does ToolsBuilt see the numbers I type?"
+    answer: "No. The calculation runs in JavaScript inside your browser, so your inputs are not sent to a ToolsBuilt server. Some tools remember your last inputs in your browser's local storage, which stays on your device, and the Reset button clears it."
+  - question: "Does ToolsBuilt use cookies or analytics?"
+    answer: "Google Analytics loads only after you accept it in the cookie banner, and not at all if your browser sends Do Not Track. It counts page visits and which tools are popular, not what you type into a tool. Declining keeps every tool working."
+  - question: "Which languages is ToolsBuilt available in?"
+    answer: "Nine: English, German, French, Spanish, Portuguese, Indonesian, Arabic, Hindi and Urdu. Use the language menu at the top of any page to switch. Arabic and Urdu pages read right to left."
+  - question: "How do I suggest a new tool or report a wrong result?"
+    answer: "Use the Contact page, or the Suggest a Tool button in the footer of every page. If a result looks wrong, include the numbers you entered so the calculation can be checked and fixed."
 ---
 
-When I started building ToolsBuilt, I had one guiding principle: **useful tools should be free, fast, and private**. Too many online calculators are cluttered with ads that obscure the tool, require accounts just to run a calculation, or—worst of all—send your inputs to a server you know nothing about. ToolsBuilt was built to be the opposite of all that.
+ToolsBuilt is a free collection of 50 calculators and web tools, from a [loan EMI calculator](/tools/loan-emi-calculator/) to a [password generator](/tools/password-generator/). There is no sign-up and there are no ads, and every calculation runs inside your own browser. This page explains what is on the site, how it treats your data and who builds it.
 
-## What ToolsBuilt Is
+<div class="key-takeaways">
+<p class="key-takeaways-title">Key takeaways</p>
+<ul>
+<li>50 free tools in 7 categories, from finance and exam marks to text, dates and code.</li>
+<li>Your inputs are calculated in your browser and are not sent to a ToolsBuilt server.</li>
+<li>No account, no paywall and no ads. Analytics loads only if you accept it.</li>
+<li>Every tool is available in 9 languages, including Urdu, Arabic and Hindi.</li>
+<li>The site's source code is public on GitHub, so anyone can check how a result is worked out.</li>
+</ul>
+</div>
 
-ToolsBuilt is a collection of focused, single-purpose web tools: calculators, converters, generators, and utilities. Each tool is designed to do one thing well and get out of your way. The current catalog spans categories like **Math & Numbers**, **Finance**, **Everyday Utilities**, and **Security & Privacy**, and it keeps growing based on what visitors actually ask for.
+When I started building ToolsBuilt, I had one rule: a useful tool should be free, fast and private. Too many online calculators hide the tool under ads, ask for an account before showing a result, or send what you type to a server you know nothing about. ToolsBuilt is meant to be the opposite of all three.
 
-Every tool is free to use with no registration required. You open the page, enter your inputs, and get an instant result. There are no loading spinners waiting on a round-trip to a server, no CAPTCHA challenges, and no "create an account to see your result" gates.
+## What is ToolsBuilt?
 
-## How the Tools Work
+ToolsBuilt is a website of single-purpose tools: calculators, converters, generators and formatters. Each tool does one job on its own page. You enter your values and get the result straight away. There is nothing to install, no account to create and no limit on how often you use a tool.
 
-The defining technical choice behind ToolsBuilt is that **all computation happens in your browser**. The tools are built with vanilla HTML, CSS, and JavaScript—no heavy frameworks, no server-side endpoints that receive your data.
+On every page the tool comes first. Below it, the calculators explain how they get their answer: the formula, worked examples with real numbers and common mistakes, followed by answers to frequent questions. The goal is that you can check a result yourself instead of trusting a number you cannot see the reasoning behind.
 
-Take the [Password Generator](/tools/password-generator/) as an example. When you click "Generate", the cryptographic randomness comes from the `window.crypto.getRandomValues()` API built into your browser—the same API used by password managers and secure applications. The generated password never leaves your device. It is displayed on the page and discarded when you navigate away. No server log ever records it.
+## What tools can you find on ToolsBuilt?
 
-This architecture has a practical performance benefit too. Because there is no round-trip to a server, the tool responds in milliseconds regardless of your network connection. Once the page is loaded, the tool would work just as well offline.
+ToolsBuilt has 50 tools in 7 categories. Finance and maths is the largest group, with 15 tools such as loan EMI, compound interest, SIP and salary tax. Dates and text have 8 each, student tools 7, security 5, code formatters 4 and random pickers 3. Each category has its own page.
 
-## Privacy in Practice
+| Category | Tools | Examples |
+|---|---|---|
+| [Math & Finance](/category/math-finance/) | 15 | [Loan EMI](/tools/loan-emi-calculator/), [Percentage](/tools/percentage-calculator/), compound interest, SIP, salary tax |
+| [Date & Time](/category/date-time/) | 8 | [Age calculator](/tools/age-calculator/), date difference, hours, time zones |
+| [Text & Writing](/category/text/) | 8 | [Word counter](/tools/word-counter/), case converter, text compare |
+| [Student & Exam](/category/education/) | 7 | [GPA](/tools/gpa-calculator/), marks percentage, CGPA to percentage, attendance |
+| [Security & Privacy](/category/security/) | 5 | [Password generator](/tools/password-generator/), password strength, hash, UUID |
+| [Code Formatters](/category/code/) | 4 | JSON, Python, Java and HTML formatters |
+| [Fun & Random](/category/fun/) | 3 | Name picker, random number, coin flip and dice |
 
-ToolsBuilt does not claim to operate without standard web analytics. ToolsBuilt uses **Google Analytics** for anonymous traffic statistics—page views, bounce rate, which tools are popular. It is a standard web service, and its use is disclosed in the [Privacy Policy](/privacy-policy/).
+<figure class="post-figure">
+<img src="/assets/blog/welcome-to-toolsbuilt/tools-by-category.webp" width="1600" height="900" alt="Bar chart of the 50 ToolsBuilt tools by category: Math and Finance 15, Date and Time 8, Text and Writing 8, Student and Exam 7, Security and Privacy 5, Code Formatters 4, Fun and Random 3" loading="lazy" decoding="async">
+<figcaption>How the 50 tools are spread across the 7 categories.</figcaption>
+</figure>
 
-What ToolsBuilt does **not** do is send your calculation inputs anywhere. The password you generate, the salary you enter into the tax calculator, the loan amount you run through the mortgage tool—none of that is captured, stored, or transmitted. The distinction matters: analytics tells me which pages people visit, not what they type into the form fields.
+Several tools were built with Pakistan in mind. The loan and savings calculators start in rupees unless your browser points to another country, the salary tax calculator follows the FBR slabs, and the student tools cover matric, FSc and university marks. You can switch the currency on any money tool.
 
-## The Design Philosophy
+You can browse everything on the [all tools page](/tools/), or press <kbd>Ctrl</kbd> + <kbd>K</kbd> (<kbd>⌘</kbd> + <kbd>K</kbd> on a Mac) on any page to search by name.
 
-Every page on ToolsBuilt is built to load fast and be easy to use on any device. The design system uses a restrained colour palette, generous whitespace, and clear typographic hierarchy so the tool itself is always the hero of the page—not the chrome around it.
+## How do the tools keep your inputs private?
 
-Accessibility is baked in from the start: keyboard navigation, visible focus rings, ARIA labels on interactive elements, and sufficient colour contrast. Tools are tested with screen readers and pass automated accessibility audits.
+The calculations run in JavaScript inside your browser. When you type a loan amount or paste a piece of text, the tool works out the answer on your own device, so your inputs are not sent to a ToolsBuilt server. Once the page has loaded, working out a result needs no network request at all.
 
-There are no JavaScript frameworks on the front end. Vanilla JS keeps the bundle small and eliminates the security surface area that comes with complex dependency trees. The build system is [Eleventy](https://www.11ty.dev/), a static site generator that outputs plain HTML—so every page is pre-rendered and served from a CDN edge node near you.
+<figure class="post-figure">
+<img src="/assets/blog/welcome-to-toolsbuilt/how-a-calculation-stays-in-your-browser.webp" width="1600" height="900" alt="Diagram: your inputs go into the tool's code in your browser and the result comes back on the same page. Nothing with your inputs goes to a ToolsBuilt server." loading="lazy" decoding="async">
+<figcaption>Your values, the formula and the result all stay on your device.</figcaption>
+</figure>
 
-## What Comes Next
+The [password generator](/tools/password-generator/) is a good example. Its randomness comes from your browser's built-in [`crypto.getRandomValues()`](https://developer.mozilla.org/en-US/docs/Web/API/Crypto/getRandomValues) function, a cryptographically secure source. The password is created on your device and shown on the page. It is not sent anywhere and is gone when you close the tab.
 
-The immediate roadmap includes more tools in the Finance and Health categories, a proper search experience that filters by category and use-case, and this blog—where I'll write about how specific tools are built, the math behind the calculations, and practical guides for getting the most out of the tools.
+There are three things worth knowing so you have the full picture:
 
-If there's a tool you'd like to see, use the [Contact](/contact/) page or Suggest a Tool links in the footer. Every tool on the site started as a real need someone expressed, and the best requests come from people who actually need the thing built.
+1. **Some tools remember your last inputs.** They save them in your browser's local storage so they are still there next time. That data stays on your device, and the tool's Reset button clears it.
+2. **Result links put your inputs in the address bar.** After you calculate, the page address can include your values (for example `?amount=1500000`) so you can share or bookmark the result. Only share that link with people you want to see those numbers.
+3. **Analytics only runs if you say yes.** Google Analytics loads only after you accept it in the cookie banner, and not at all if your browser sends Do Not Track. It counts page visits, not what you type into a tool. The [Privacy Policy](/privacy-policy/) has the details.
+
+## Which languages is ToolsBuilt available in?
+
+Every tool and page is available in nine languages: English, German, French, Spanish, Portuguese, Indonesian, Arabic, Hindi and Urdu. Switch with the language menu at the top of any page. The translated pages use the same formulas and examples, and Arabic and Urdu pages read right to left.
+
+The calculators also follow your language when they show numbers and dates, so a German page writes decimals with a comma while an English page uses a point. The amounts themselves are the same in every language.
+
+## How accurate are the calculators?
+
+Each calculator uses a standard, published formula, shows it on the page and works through real examples so you can check the result by hand. The calculation code is covered by automated tests that must pass before any change goes live. Results are still estimates, not financial or legal advice.
+
+That last point matters most for money. A loan calculator can tell you what a given rate costs, but your bank's actual rate, fees and rounding decide what you really pay. Where a tool depends on rules that change, such as tax slabs, the page names its source and the year it applies to. If you spot a result that looks wrong, please report it with the numbers you entered.
+
+## Who builds ToolsBuilt?
+
+ToolsBuilt is built and maintained by one person, [Abu Umair](/about/#author), who builds the tools and looks after the guides and explanations on every page. The site is a static website made with [Eleventy](https://www.11ty.dev/) and plain JavaScript, with no heavy frameworks, and it is hosted on GitHub Pages. The full source code is [public on GitHub](https://github.com/AbuUmair-tech/toolsbuilt).
+
+Keeping the code public is part of the privacy promise. You do not have to take my word that a tool runs in your browser: anyone who reads JavaScript can open the tool's code and see exactly how it works out its answer.
+
+Keeping the site light is also why pages load quickly on a phone. There is no framework to download, and the long explanations below each tool are plain HTML.
+
+## How can you suggest a tool or report a mistake?
+
+Send a message through the [Contact](/contact/) page, or use the Suggest a Tool button in the footer of every page. Tool ideas, wrong results, confusing wording and translation fixes are all welcome. For a calculation problem, include the values you entered so it can be reproduced and fixed.
+
+## What comes next?
+
+More tools will be added where people ask for them, and existing tools will keep getting clearer explanations and more worked examples. The blog will add guides like [how to calculate loan EMI](/blog/how-to-calculate-loan-emi-in-pakistan/) and [percentage formulas explained](/blog/percentage-formulas-explained/) that walk through the maths behind a tool with real numbers.
 
 Thanks for visiting. I hope ToolsBuilt saves you some time.
 

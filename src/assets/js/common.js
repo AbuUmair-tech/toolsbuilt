@@ -276,10 +276,19 @@ ToolsBuilt.resultLink = (function() {
     return null;
   }
 
+  // Building an Intl.NumberFormat is slow (much slower than calling format), and tables
+  // format hundreds of values, so each formatter is built once and reused
+  const moneyFormatters = new Map();
   function formatMoney(amount, currency, locale, options) {
     const value = Number(amount) || 0;
     try {
-      return new Intl.NumberFormat(locale || 'en-US', { style: 'currency', currency, ...(options || {}) }).format(value);
+      const key = (locale || 'en-US') + '|' + currency + '|' + JSON.stringify(options || {});
+      let fmt = moneyFormatters.get(key);
+      if (!fmt) {
+        fmt = new Intl.NumberFormat(locale || 'en-US', { style: 'currency', currency, ...(options || {}) });
+        moneyFormatters.set(key, fmt);
+      }
+      return fmt.format(value);
     } catch (e) {
       return `${currency} ${value.toLocaleString('en-US', { maximumFractionDigits: 2 })}`;
     }

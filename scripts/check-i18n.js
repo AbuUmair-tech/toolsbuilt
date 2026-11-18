@@ -27,7 +27,7 @@ const { loadLanguages } = require('./i18n.js');
 
 const ROOT = path.resolve(__dirname, '..');
 const CACHE_DIR = path.join(ROOT, 'node_modules', '.cache', 'check-i18n');
-const DEFAULT_BASE = 'b6a9a84'; // seo-recovery (English pages changed on purpose: Blog in the nav, home H1, byline link, PKR defaults and examples, sources, titles)
+const DEFAULT_BASE = 'a8a274b'; // blog-i18n (English pages changed on purpose: analytics page_location, language-banner span, hreflang and language menu links to translated posts, welcome post rewrite, category name on the post tool card)
 
 const args = process.argv.slice(2);
 const baseRef = args.includes('--base') ? args[args.indexOf('--base') + 1] : DEFAULT_BASE;

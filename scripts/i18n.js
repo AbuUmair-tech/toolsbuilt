@@ -63,6 +63,10 @@ function gitDate(file) {
 function translationFile(code, base) {
   const tool = base.match(/^\/tools\/([^/]+)\/$/);
   if (tool) return path.join(SRC, '_data', 'i18n', 'tools', code, `${tool[1]}.json`);
+  // Blog posts are translated as whole files; the list page's text is in the UI strings
+  const post = base.match(/^\/blog\/([^/]+)\/$/);
+  if (post && post[1] !== 'page') return path.join(SRC, 'blog', code, `${post[1]}.md`);
+  if (base === '/blog/') return path.join(SRC, '_data', 'i18n', 'ui', `${code}.json`);
   const name = base === '/' ? 'home' : base === '/tools/' ? 'tools-directory'
     : base.startsWith('/category/') ? 'categories' : base.replace(/^\/|\/$/g, '').replace(/\//g, '-');
   return path.join(SRC, '_data', 'i18n', 'pages', code, `${name}.json`);
