@@ -27,7 +27,7 @@ const { loadLanguages } = require('./i18n.js');
 
 const ROOT = path.resolve(__dirname, '..');
 const CACHE_DIR = path.join(ROOT, 'node_modules', '.cache', 'check-i18n');
-const DEFAULT_BASE = 'e5eee79'; // fix: November audit fixes (English pages changed on purpose: salary tax hub, dates, FAQs, related tools)
+const DEFAULT_BASE = '988527d'; // seo-recovery (English pages changed on purpose: Blog in the nav, home H1, byline link, PKR defaults and examples, sources, titles)
 
 const args = process.argv.slice(2);
 const baseRef = args.includes('--base') ? args[args.indexOf('--base') + 1] : DEFAULT_BASE;
