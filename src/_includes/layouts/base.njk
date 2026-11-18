@@ -69,6 +69,11 @@
   
   <!-- Preload Critical Font -->
   <link rel="preload" href="/assets/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  {#- The page language's own script font: CSS would only discover it after the stylesheet loads #}
+  {%- set scriptFont = { ur: "noto-nastaliq-urdu-arabic-wght-normal", ar: "noto-sans-arabic-arabic-wght-normal", hi: "noto-sans-devanagari-devanagari-wght-normal" }[lang] %}
+  {%- if scriptFont %}
+  <link rel="preload" href="/assets/fonts/{{ scriptFont }}.woff2" as="font" type="font/woff2" crossorigin>
+  {%- endif %}
   <link rel="stylesheet" href="{% mainCss %}">
   {% if extraCss %}<link rel="stylesheet" href="{{ extraCss }}">{% endif %}
 
