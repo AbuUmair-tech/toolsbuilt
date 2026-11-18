@@ -103,6 +103,8 @@ for (const file of pages) {
   const url = pageUrl(file);
   const html = fs.readFileSync(file, 'utf8');
   if (/http-equiv=["']refresh["']/i.test(html)) continue; // redirect stubs
+  // Embeddable widgets have their own small inline stylesheet and no site header or footer
+  if (/(^|[\\/])embed[\\/]/.test(path.relative(SITE_DIR, file))) continue;
   checked++;
   const reference = referenceFor(path.relative(SITE_DIR, file));
 

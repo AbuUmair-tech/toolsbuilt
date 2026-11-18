@@ -27,7 +27,7 @@ const { loadLanguages } = require('./i18n.js');
 
 const ROOT = path.resolve(__dirname, '..');
 const CACHE_DIR = path.join(ROOT, 'node_modules', '.cache', 'check-i18n');
-const DEFAULT_BASE = 'a8a274b'; // blog-i18n (English pages changed on purpose: analytics page_location, language-banner span, hreflang and language menu links to translated posts, welcome post rewrite, category name on the post tool card)
+const DEFAULT_BASE = 'f1611b6'; // backlink-kit (English EMI tool page gained the "Add this calculator to your website" box)
 
 const args = process.argv.slice(2);
 const baseRef = args.includes('--base') ? args[args.indexOf('--base') + 1] : DEFAULT_BASE;

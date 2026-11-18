@@ -92,6 +92,9 @@ function resolveInternalHref(href, fromFile) {
 function analyzeFile(file) {
   const html = fs.readFileSync(file, 'utf8');
   const is404 = file.endsWith('404.html');
+  // Embeddable widgets (/embed/...): a page for other sites' iframes, without the site's header,
+  // footer or social cards; it must stay out of the index
+  const isEmbed = /(^|[\\/])embed[\\/]/.test(path.relative(SITE_DIR, file));
 
   // Title check
   const titleMatch = html.match(/<title[^>]*>([^<]+)<\/title>/i);
@@ -122,7 +125,7 @@ function analyzeFile(file) {
   }
 
   // Open Graph Image verification
-  if (!is404) {
+  if (!is404 && !isEmbed) {
     const ogImageMatch = html.match(/<meta[^>]+property=["']og:image["'][^>]+content=["']([^"']+)["']/i);
     if (!ogImageMatch) {
       log('error', file, 'Missing <meta property="og:image">');
@@ -147,7 +150,9 @@ function analyzeFile(file) {
   // Robots / noindex check based on environment
   const hasNoindex = /<meta[^>]+name=["']robots["'][^>]+content=["'][^"']*noindex[^"']*["']/i.test(html);
   const isDesignSystem = file.includes('design-system');
-  if (isDesignSystem) {
+  if (isEmbed) {
+    if (!hasNoindex) log('error', file, 'Embeddable widget page must have a noindex meta tag');
+  } else if (isDesignSystem) {
     if (!hasNoindex) {
       log('error', file, 'Design system page must always have noindex meta tag');
     }
@@ -247,7 +252,8 @@ function analyzeFile(file) {
     }
   }
 
-  // Landmark check: exactly 1 <header> and 1 <footer> per page
+  // Landmark check: exactly 1 <header> and 1 <footer> per page (not in embeddable widgets)
+  if (!isEmbed) {
   const headerCount = (html.match(/<header\b[^>]*>/gi) || []).length;
   if (headerCount !== 1) {
     log('error', file, `Expected exactly 1 <header> landmark, found ${headerCount}`);
@@ -261,6 +267,7 @@ function analyzeFile(file) {
   const skipLinkCount = (html.match(/<a\b[^>]*class=["'][^"']*skip-link[^"']*["'][^>]*>/gi) || []).length;
   if (skipLinkCount !== 1) {
     log('error', file, `Expected exactly 1 skip-link, found ${skipLinkCount}`);
+  }
   }
 
   // Nav accessible name uniqueness per page

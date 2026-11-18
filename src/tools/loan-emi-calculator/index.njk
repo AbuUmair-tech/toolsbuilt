@@ -141,6 +141,30 @@ extraCss: "/tools/loan-emi-calculator/style.css"
       </div>
     </section>
 
+    {#- Embed snippet for other websites (src/embed/loan-emi-calculator.njk). The credit link sits
+        outside the iframe, with the brand as its text. -#}
+    {%- set embedPrefix = '' if lang == 'en' else ('/' + (lang | languageInfo).prefix) -%}
+    {%- set embedName = (tools | findTool('loan-emi-calculator')).name -%}
+    {%- set embedCode -%}
+<iframe src="https://toolsbuilt.com{{ embedPrefix }}/embed/loan-emi-calculator/" title="{{ embedName | replace('"', '&quot;') | safe }}" width="100%" height="480" style="border:0;max-width:640px" loading="lazy"></iframe>
+<p style="font-size:13px">{{ 'embed.attribution' | t({ name: embedName | safe, link: ('<a href="https://toolsbuilt.com' + embedPrefix + '/tools/loan-emi-calculator/">ToolsBuilt</a>') | safe }) }}</p>
+    {%- endset %}
+    <details class="panel-muted embed-box mt-6">
+      <summary class="embed-box-summary">{{ 'embed.boxHeading' | t }}</summary>
+      <p class="text-sm text-secondary">{{ 'embed.boxIntro' | t }}</p>
+      <label for="embed-code" class="text-sm font-medium">{{ 'embed.codeLabel' | t }}</label>
+      <textarea id="embed-code" class="form-control embed-code" rows="4" readonly dir="ltr">{{ embedCode | trim }}</textarea>
+      <button type="button" class="btn btn-secondary btn-sm mt-2" id="embed-copy-btn" data-copied="{{ 'embed.copied' | t }}">{{ 'embed.copy' | t }}</button>
+    </details>
+    <script>
+      document.getElementById('embed-copy-btn').addEventListener('click', function () {
+        var btn = this, code = document.getElementById('embed-code');
+        var done = function () { var label = btn.textContent; btn.textContent = btn.dataset.copied; setTimeout(function () { btn.textContent = label; }, 2000); };
+        if (navigator.clipboard) navigator.clipboard.writeText(code.value).then(done, function () { code.select(); });
+        else { code.select(); }
+      });
+    </script>
+
     <!-- tool-end -->
 
     <!-- Reusable Financial Disclaimer -->
