@@ -84,3 +84,27 @@ All commits are listed by `git log 3e59acb..seo-recovery`.
 - **HowTo schema:** left in place. It is harmless, but Google no longer shows HowTo rich results.
 - **Lorem ipsum FAQ:** the answer mentions `<p>` tags literally, so the schema text contains `<p>`. This is low impact; it could be reworded to "paragraph tags".
 - **Tip and salary-to-hourly calculators:** they keep a USD fallback (they follow the visitor's currency). Tipping and hourly pay are not PKR-focused. Salary to hourly now has a PKR worked example; the tip calculator has none.
+
+## Round 2: live-site audit (18 Nov 2026, branch `seo-audit-2`)
+
+Audit of the deployed site after `ea24842` went live: all 625 sitemap URLs crawled, and mobile Lighthouse run on 20 pages.
+
+**Already in good shape:**
+- All 625 sitemap URLs return 200.
+- No duplicate titles or descriptions, and every page has exactly one H1.
+- Canonicals match the page URL, hreflang links are reciprocal and `x-default` is set.
+- JSON-LD parses on every page, and every image has alt text and width/height.
+- Tool pages carry 850–1,670 words of content.
+
+**Fixed:**
+- **EMI page blocking on phones:** the amortization table built a new number formatter for every cell. `formatMoney` now reuses its formatters, and the EMI table builds one. Total Blocking Time on the EMI page dropped from 640 ms to 60 ms in English and from 1,380 ms to 60 ms in Urdu (mobile Lighthouse).
+- **SEO score held at 92 on every English page:** the hidden language banner shipped an `<a>` with no href. It now ships an empty span, and the script creates the link only when it shows the banner. SEO is now 100.
+- **Missing root icon:** `/favicon.ico` returned 404. The existing icon is now copied to the site root.
+- **Contrast on the tools directory:** the count on the active filter chip on `/tools/` was 3.3:1. It is now 4.56:1.
+
+**Not changed (needs a decision or the owner):**
+- Urdu and Hindi pages have a lab LCP of about 2.8–3.7 s, because the Noto Nastaliq (234 KB) and Devanagari (119 KB) fonts swap in late. Two options:
+  - `font-display: optional`, so first-time visitors may see the system font.
+  - A lighter Urdu font such as Naskh, which is a design choice.
+- Legal pages, contact, about and the fun and code categories have under 400 words. The about page would gain most from the real author bio (`authorBioLong`).
+- The search tool only found two ToolsBuilt pages and no third-party mentions of the site other than its GitHub repo. Indexing is partial and there are almost no backlinks. Check Search Console for the full picture.
