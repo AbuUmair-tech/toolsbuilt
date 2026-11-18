@@ -25,13 +25,13 @@ eleventyComputed:
       {
         "@type": "ListItem",
         "position": 1,
-        "name": "Home",
+        "name": {{ 'common.home' | t | jsonStr }},
         "item": "https://toolsbuilt.com/"
       },
       {
         "@type": "ListItem",
         "position": 2,
-        "name": "{{ category.name }}",
+        "name": {{ category.name | jsonStr }},
         "item": "https://toolsbuilt.com/category/{{ category.slug }}/"
       }
     ]
@@ -43,20 +43,20 @@ eleventyComputed:
   {
     "@context": "https://schema.org",
     "@type": "CollectionPage",
-    "name": "{{ category.name }}",
-    "description": "{{ category.seoDescription }}",
+    "name": {{ category.name | jsonStr }},
+    "description": {{ category.seoDescription | jsonStr }},
     "url": "https://toolsbuilt.com/category/{{ category.slug }}/",
     "mainEntity": {
       "@type": "ItemList",
-      "name": "{{ category.name }}",
+      "name": {{ category.name | jsonStr }},
       "numberOfItems": {{ catTools | length }},
       "itemListElement": [
         {% for t in catTools %}
         {
           "@type": "ListItem",
           "position": {{ loop.index }},
-          "name": "{{ t.name }}",
-          "description": "{{ t.description }}",
+          "name": {{ t.name | jsonStr }},
+          "description": {{ t.description | jsonStr }},
           "url": "https://toolsbuilt.com/tools/{{ t.slug }}/"
         }{% if not loop.last %},{% endif %}
         {% endfor %}
@@ -75,10 +75,10 @@ eleventyComputed:
       {% for faq in category.faqs %}
       {
         "@type": "Question",
-        "name": "{{ faq.question }}",
+        "name": {{ faq.question | jsonStr }},
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "{{ faq.answer }}"
+          "text": {{ faq.answer | jsonStr }}
         }
       }{% if not loop.last %},{% endif %}
       {% endfor %}

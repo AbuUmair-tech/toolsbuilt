@@ -134,6 +134,24 @@ module.exports = function(eleventyConfig) {
     return new Intl.NumberFormat(locale, { style: 'currency', currency, maximumFractionDigits: 0 }).format(Number(amount) || 0);
   });
 
+  // Money with two decimals in the currency's home format, as ToolsBuilt.money does in the browser:
+  // {{ 21958.6 | money2("PKR") }} -> "Rs 21,958.60"
+  eleventyConfig.addFilter('money2', function(amount, currency) {
+    const countries = JSON.parse(fs.readFileSync(path.join(__dirname, 'src', '_data', 'countries.json'), 'utf8'));
+    const home = countries.find(c => c.currency === currency);
+    const locale = home ? (home.lakhGrouping ? 'en-IN' : home.locale) : 'en-US';
+    return new Intl.NumberFormat(locale, { style: 'currency', currency, minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(Number(amount) || 0);
+  });
+
+  // Number.prototype.toFixed: {{ 2.3 | toFixed(2) }} -> "2.30"
+  eleventyConfig.addFilter('toFixed', (n, digits = 2) => Number(n).toFixed(digits));
+
+  // A tool's pure logic module (src/tools/<slug>/logic.js), for results rendered at build time:
+  // {% set res = ('loan-emi-calculator' | toolLogic).calculateLoanEmi(2500000, 12, 5, 'years') %}
+  eleventyConfig.addFilter('toolLogic', function(slug) {
+    return require(path.join(__dirname, 'src', 'tools', slug, 'logic.js'));
+  });
+
   // Rate as a percentage without trailing zeros: 0.2 -> "20%", 0.035 -> "3.5%"
   eleventyConfig.addFilter('pct', function(rate) {
     return `${Number((Number(rate) * 100).toFixed(4))}%`;
@@ -360,7 +378,8 @@ module.exports = function(eleventyConfig) {
 
   eleventyConfig.addFilter('filterGuidesByTool', function(posts, toolSlug) {
     if (!posts || !Array.isArray(posts) || !toolSlug) return [];
-    return posts.filter(p => p.data && p.data.tool === toolSlug);
+    // A post's main `tool`, or any slug in its `relatedTools` list
+    return posts.filter(p => p.data && (p.data.tool === toolSlug || (p.data.relatedTools || []).includes(toolSlug)));
   });
 
   eleventyConfig.addFilter('filterOtherPosts', function(posts, currentUrl, limit = 3) {
@@ -468,16 +487,6 @@ module.exports = function(eleventyConfig) {
       return stat.mtime.toISOString().split('T')[0];
     } catch (e) {}
     return '2026-10-24';
-  });
-
-  eleventyConfig.addFilter('latestToolDate', function(tools, catSlug) {
-    if (!Array.isArray(tools) || tools.length === 0) return '2026-10-15';
-    let filtered = tools;
-    if (catSlug) {
-      filtered = tools.filter(t => t.category === catSlug);
-    }
-    const dates = filtered.map(t => t.updated).filter(Boolean).sort().reverse();
-    return dates[0] || '2026-10-15';
   });
 
   function formatIsoDate(val) {

@@ -7,6 +7,9 @@ lastReviewed: "2026-10-31"
 ---
 {% from "partials/currency-select.njk" import currencySelect, countryData with context %}
 {{ countryData(countries) }}
+{#- Sample values the page is built with (the script's defaults for Pakistan), so the static HTML shows a real result -#}
+{%- set sample = { price: 1000, rate: 18, qty: 1, cur: "PKR" } -%}
+{%- set sampleRes = ("sales-tax-calculator" | toolLogic).addTax(sample.price, sample.rate, sample.qty) %}
 
     <!-- Tool Form Container -->
     <script type="application/json" id="vat-data">{{ vatRates.countries | dump | safe }}</script>
@@ -27,7 +30,7 @@ lastReviewed: "2026-10-31"
         <div class="form-grid two-col">
           <div class="form-group">
             <label for="tax-price" id="price-label">{{ 'label.tax-price' | pt }}</label>
-            <input type="number" inputmode="decimal" step="any" min="0" id="tax-price" data-param="price" class="form-control" placeholder="{{ 'placeholder.tax-price' | pt }}" required aria-required="true">
+            <input type="number" inputmode="decimal" step="any" min="0" id="tax-price" data-param="price" class="form-control" value="{{ sample.price }}" placeholder="{{ 'placeholder.tax-price' | pt }}" required aria-required="true">
           </div>
           <div class="form-group">
             <label for="tax-qty">{{ 'label.tax-qty' | pt }}</label>
@@ -76,20 +79,20 @@ lastReviewed: "2026-10-31"
             {{ 'text.copy-result-btn' | pt }}
           </button>
         </div>
-        <div class="result-primary" id="result-primary-text">{{ 'text.result-primary-text' | pt }}</div>
+        <div class="result-primary" id="result-primary-text">{{ sampleRes.gross | money2(sample.cur) }}</div>
 
         <div class="result-grid">
           <div class="result-stat-card">
             <div class="result-stat-label">{{ 'content.tool.div1' | pt }}</div>
-            <div class="result-stat-value" id="stat-net">{{ 'text.stat-net' | pt }}</div>
+            <div class="result-stat-value" id="stat-net">{{ sampleRes.net | money2(sample.cur) }}</div>
           </div>
           <div class="result-stat-card">
             <div class="result-stat-label" id="stat-tax-label">{{ 'text.stat-tax-label' | pt }}</div>
-            <div class="result-stat-value" id="stat-tax">{{ 'text.stat-tax' | pt }}</div>
+            <div class="result-stat-value" id="stat-tax">{{ sampleRes.tax | money2(sample.cur) }}</div>
           </div>
           <div class="result-stat-card">
             <div class="result-stat-label">{{ 'content.tool.div2' | pt }}</div>
-            <div class="result-stat-value" id="stat-gross">{{ 'text.stat-gross' | pt }}</div>
+            <div class="result-stat-value" id="stat-gross">{{ sampleRes.gross | money2(sample.cur) }}</div>
           </div>
         </div>
         <p class="tax-per-item" id="per-item-line" hidden></p>

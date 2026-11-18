@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function initInputs() {
     // Result links (?p=&r=&y=&f=&pmt=) take priority over saved state
-    currencySelect.value = ToolsBuilt.defaultCurrency('USD', currencySelect);
+    currencySelect.value = ToolsBuilt.defaultCurrency('PKR', currencySelect);
     if (ToolsBuilt.resultLink.restore().length) return;
 
     try {
@@ -55,9 +55,11 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     } catch (e) {}
 
-    // Default sample values: $10,000 at 7% for 10 years, annual compounding
-    principalInput.value = '10000';
-    rateInput.value = '7';
+    // Default sample values: Rs 500,000 (other currencies 10,000) at 10% (7%) for 10 years, annual
+    // compounding; the PKR values are the ones the page is built with
+    const pkr = currencySelect.value === 'PKR';
+    principalInput.value = pkr ? '500000' : '10000';
+    rateInput.value = pkr ? '10' : '7';
     yearsInput.value = '10';
     freqSelect.value = 'annual';
     contributionInput.value = '';

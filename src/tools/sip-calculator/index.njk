@@ -6,27 +6,30 @@ extraCss: "/tools/sip-calculator/style.css"
 ---
 {% from "partials/currency-select.njk" import currencySelect, countryData with context %}
 {{ countryData(countries) }}
+{#- Sample values the page is built with (script.js uses the same for PKR), so the static HTML shows a real result -#}
+{%- set sample = { inv: 10000, ret: 12, yrs: 10, cur: "PKR" } -%}
+{%- set sampleRes = ("sip-calculator" | toolLogic).calculateSip(sample.inv, sample.ret, sample.yrs, { stepUpPercent: 0 }) %}
 
     <!-- Tool Form Container -->
     <section class="tool-container" aria-label="{{ 'ariaLabel.tool-section1' | pt }}">
       <form id="calculator-form" novalidate>
         <div class="form-grid two-col">
           
-          {{ currencySelect({ id: "currency", param: "cur", selected: "USD" }) }}
+          {{ currencySelect({ id: "currency", param: "cur", selected: "PKR" }) }}
 
           <div class="form-group">
             <label for="monthly-investment">{{ 'label.monthly-investment' | pt }}</label>
-            <input type="number" step="any" min="1" id="monthly-investment" data-param="inv" class="form-control" placeholder="{{ 'placeholder.monthly-investment' | pt }}" required aria-required="true">
+            <input type="number" step="any" min="1" id="monthly-investment" data-param="inv" class="form-control" value="{{ sample.inv }}" placeholder="{{ 'placeholder.monthly-investment' | pt }}" required aria-required="true">
           </div>
 
           <div class="form-group">
             <label for="expected-return">{{ 'label.expected-return' | pt }}</label>
-            <input type="number" step="0.1" min="0" max="100" id="expected-return" data-param="ret" class="form-control" placeholder="{{ 'placeholder.expected-return' | pt }}" required aria-required="true">
+            <input type="number" step="0.1" min="0" max="100" id="expected-return" data-param="ret" class="form-control" value="{{ sample.ret }}" placeholder="{{ 'placeholder.expected-return' | pt }}" required aria-required="true">
           </div>
 
           <div class="form-group">
             <label for="investment-years">{{ 'label.investment-years' | pt }}</label>
-            <input type="number" step="1" min="1" max="50" id="investment-years" data-param="yrs" class="form-control" placeholder="{{ 'placeholder.investment-years' | pt }}" required aria-required="true">
+            <input type="number" step="1" min="1" max="50" id="investment-years" data-param="yrs" class="form-control" value="{{ sample.yrs }}" placeholder="{{ 'placeholder.investment-years' | pt }}" required aria-required="true">
           </div>
 
           <div class="form-group">
@@ -52,24 +55,24 @@ extraCss: "/tools/sip-calculator/style.css"
             {{ 'text.copy-result-btn' | pt }}
           </button>
         </div>
-        <div class="result-primary" id="result-primary-text">{{ 'text.result-primary-text' | pt }}</div>
+        <div class="result-primary" id="result-primary-text">{{ 'result.primary' | tc('sip-calculator', { value: sampleRes.maturityValue | money2(sample.cur) }) }}</div>
         
         <div class="result-grid">
           <div class="result-stat-card">
             <div class="result-stat-label">{{ 'content.tool.div1' | pt }}</div>
-            <div class="result-stat-value text-accent" id="stat-maturity-value">$0.00</div>
+            <div class="result-stat-value text-accent" id="stat-maturity-value">{{ sampleRes.maturityValue | money2(sample.cur) }}</div>
           </div>
           <div class="result-stat-card">
             <div class="result-stat-label">{{ 'content.tool.div2' | pt }}</div>
-            <div class="result-stat-value" id="stat-total-invested">$0.00</div>
+            <div class="result-stat-value" id="stat-total-invested">{{ sampleRes.totalInvested | money2(sample.cur) }}</div>
           </div>
           <div class="result-stat-card">
             <div class="result-stat-label">{{ 'content.tool.div3' | pt }}</div>
-            <div class="result-stat-value text-success" id="stat-estimated-returns">$0.00</div>
+            <div class="result-stat-value text-success" id="stat-estimated-returns">{{ sampleRes.estimatedReturns | money2(sample.cur) }}</div>
           </div>
           <div class="result-stat-card">
             <div class="result-stat-label">{{ 'content.tool.div4' | pt }}</div>
-            <div class="result-stat-value" id="stat-wealth-multiplier">{{ 'text.stat-wealth-multiplier' | pt }}</div>
+            <div class="result-stat-value" id="stat-wealth-multiplier">{{ 'result.multiplier' | tc('sip-calculator', { multiplier: (sampleRes.maturityValue / sampleRes.totalInvested) | toFixed(2) }) }}</div>
           </div>
         </div>
 

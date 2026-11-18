@@ -6,27 +6,30 @@ extraCss: "/tools/compound-interest-calculator/style.css"
 ---
 {% from "partials/currency-select.njk" import currencySelect, countryData with context %}
 {{ countryData(countries) }}
+{#- Sample values the page is built with (script.js uses the same for PKR), so the static HTML shows a real result -#}
+{%- set sample = { p: 500000, r: 10, y: 10, cur: "PKR" } -%}
+{%- set sampleRes = ("compound-interest-calculator" | toolLogic).calculateCompoundInterest(sample.p, sample.r, sample.y, "annual", { contributionAmount: 0 }) %}
 
     <!-- Tool Form Container -->
     <section class="tool-container" aria-label="{{ 'ariaLabel.tool-section1' | pt }}">
       <form id="calculator-form" novalidate>
         <div class="form-grid two-col">
           
-          {{ currencySelect({ id: "currency", param: "cur", selected: "USD" }) }}
+          {{ currencySelect({ id: "currency", param: "cur", selected: "PKR" }) }}
 
           <div class="form-group">
             <label for="principal">{{ 'label.principal' | pt }}</label>
-            <input type="number" step="any" min="0" id="principal" data-param="p" class="form-control" placeholder="{{ 'placeholder.principal' | pt }}" required aria-required="true">
+            <input type="number" step="any" min="0" id="principal" data-param="p" class="form-control" value="{{ sample.p }}" placeholder="{{ 'placeholder.principal' | pt }}" required aria-required="true">
           </div>
 
           <div class="form-group">
             <label for="interest-rate">{{ 'label.interest-rate' | pt }}</label>
-            <input type="number" step="0.01" min="0" max="100" id="interest-rate" data-param="r" class="form-control" placeholder="{{ 'placeholder.interest-rate' | pt }}" required aria-required="true">
+            <input type="number" step="0.01" min="0" max="100" id="interest-rate" data-param="r" class="form-control" value="{{ sample.r }}" placeholder="{{ 'placeholder.interest-rate' | pt }}" required aria-required="true">
           </div>
 
           <div class="form-group">
             <label for="years">{{ 'label.years' | pt }}</label>
-            <input type="number" step="1" min="1" max="60" id="years" data-param="y" class="form-control" placeholder="{{ 'placeholder.years' | pt }}" required aria-required="true">
+            <input type="number" step="1" min="1" max="60" id="years" data-param="y" class="form-control" value="{{ sample.y }}" placeholder="{{ 'placeholder.years' | pt }}" required aria-required="true">
           </div>
 
           <div class="form-group">
@@ -62,24 +65,24 @@ extraCss: "/tools/compound-interest-calculator/style.css"
             {{ 'text.copy-result-btn' | pt }}
           </button>
         </div>
-        <div class="result-primary" id="result-primary-text">{{ 'text.result-primary-text' | pt }}</div>
+        <div class="result-primary" id="result-primary-text">{{ 'result.primary' | tc('compound-interest-calculator', { value: sampleRes.finalBalance | money2(sample.cur) }) }}</div>
         
         <div class="result-grid">
           <div class="result-stat-card">
             <div class="result-stat-label">{{ 'content.tool.div1' | pt }}</div>
-            <div class="result-stat-value text-accent" id="stat-final-balance">$0.00</div>
+            <div class="result-stat-value text-accent" id="stat-final-balance">{{ sampleRes.finalBalance | money2(sample.cur) }}</div>
           </div>
           <div class="result-stat-card">
             <div class="result-stat-label">{{ 'content.tool.div2' | pt }}</div>
-            <div class="result-stat-value" id="stat-total-principal">$0.00</div>
+            <div class="result-stat-value" id="stat-total-principal">{{ sampleRes.totalPrincipal | money2(sample.cur) }}</div>
           </div>
           <div class="result-stat-card">
             <div class="result-stat-label">{{ 'content.tool.div3' | pt }}</div>
-            <div class="result-stat-value text-success" id="stat-total-interest">$0.00</div>
+            <div class="result-stat-value text-success" id="stat-total-interest">{{ sampleRes.totalInterest | money2(sample.cur) }}</div>
           </div>
           <div class="result-stat-card">
             <div class="result-stat-label">{{ 'content.tool.div4' | pt }}</div>
-            <div class="result-stat-value" id="stat-effective-apy">{{ 'text.stat-effective-apy' | pt }}</div>
+            <div class="result-stat-value" id="stat-effective-apy">{{ 'result.apy' | tc('compound-interest-calculator', { apy: sampleRes.apyPercent }) }}</div>
           </div>
         </div>
 

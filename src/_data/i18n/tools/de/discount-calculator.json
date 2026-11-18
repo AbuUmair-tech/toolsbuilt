@@ -13,7 +13,7 @@
     ]
   },
   "title": "Rabattrechner: Rabatt, Endpreis & Ersparnis berechnen",
-  "description": "Kostenloser Rabattrechner: Endpreis, gesparten Betrag, kombinierte Doppelrabatte und Umsatzsteuer sofort berechnen.",
+  "description": "Rabattrechner: Berechne den Endpreis nach einem Prozentrabatt, deine Ersparnis und kombinierte Rabatte wie 20 % + 10 %, auf Wunsch inklusive Umsatzsteuer.",
   "h1": "Rabattrechner",
   "quickAnswer": "Um mit dem Rabattrechner den Endpreis und deine Gesamtersparnis zu ermitteln, gib den Originalpreis und den Rabatt in Prozent ein. Du kannst zusätzlich einen zweiten, kombinierten Gutschein und die örtliche Umsatzsteuer hinzufügen, um zu sehen, was du tatsächlich bezahlst. Gerundet wird kaufmännisch auf den Cent, wie an Ladenkassen und gemäß Verbraucherschutzrichtlinien üblich.",
   "formula": {
@@ -22,6 +22,20 @@
     "explanation": "Zuerst wird der Hauptrabatt auf den Originalpreis angewendet, um die erste Ersparnis zu ermitteln. Danach wird ein eventueller zweiter, kombinierter Gutschein auf die bereits reduzierte Zwischensumme angewendet (multiplikativ, nicht additiv). Zum Schluss wird die Umsatzsteuer auf die rabattierte Zwischensumme berechnet, mit kaufmännischer Rundung auf den Cent."
   },
   "workedExamples": [
+    {
+      "title": "20% Rabatt auf einen Preis von Rs 5,000",
+      "inputs": [
+        "Ursprünglicher Preis: Rs 5,000",
+        "Rabatt: 20%",
+        "Zusätzlicher Gutschein: 0%",
+        "Umsatzsteuer: 0%"
+      ],
+      "steps": [
+        "Ersparnis berechnen: Rs 5,000 × 0.20 = Rs 1,000",
+        "Rabatt vom Preis abziehen: Rs 5,000 − Rs 1,000 = Rs 4,000"
+      ],
+      "result": "Endpreis: Rs 4,000 (Ersparnis: Rs 1,000 / 20.00%)"
+    },
     {
       "title": "Einfacher Rabatt von 25%",
       "inputs": [
@@ -89,10 +103,7 @@
   ],
   "sources": [
     {
-      "name": "Federal Trade Commission - Guides Against Deceptive Pricing"
-    },
-    {
-      "name": "NIST Consumer Pricing Mathematics Standards"
+      "name": "16 CFR Part 233: FTC Guides Against Deceptive Pricing (GovInfo)"
     },
     {
       "name": "ISO 80000-2: Mathematische Zeichen und Symbole"
@@ -180,8 +191,7 @@
     "text": {
       "reset-btn": "Zurücksetzen",
       "result-header-text": "Ergebnis der Rabattberechnung",
-      "copy-result-btn": "<span data-icon=\"copy\"></span> Ergebnis kopieren",
-      "result-primary-text": "Endpreis: $0.00"
+      "copy-result-btn": "<span data-icon=\"copy\"></span> Ergebnis kopieren"
     },
     "title": {
       "copy-result-btn": "Ergebnis in die Zwischenablage kopieren"

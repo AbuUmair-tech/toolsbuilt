@@ -23,6 +23,22 @@
   },
   "workedExamples": [
     {
+      "title": "Rs 2,500,000 का लोन, 12% पर 5 साल (60 महीने)",
+      "inputs": [
+        "लोन मूलधन (P): Rs 2,500,000",
+        "सालाना ब्याज दर: 12%",
+        "लोन अवधि: 5 साल (60 महीने)"
+      ],
+      "steps": [
+        "मासिक दर r = 12 ÷ 1200 = 0.01",
+        "(1 + r)^n = 1.01^60 ≈ 1.8167",
+        "मासिक EMI = 2,500,000 × 0.01 × 1.8167 ÷ (1.8167 − 1) = Rs 55,611.12",
+        "कुल भुगतान = Rs 3,336,667.13 (आख़िरी किस्त बकाया पूरा चुकाने के लिए एडजस्ट होती है)",
+        "कुल ब्याज = Rs 3,336,667.13 − Rs 2,500,000 = Rs 836,667.13"
+      ],
+      "result": "Rs 55,611.12 मासिक किस्त (Rs 836,667.13 कुल ब्याज)"
+    },
+    {
       "title": "$200,000 होम लोन, 6.5% पर 30 साल (360 महीने)",
       "inputs": [
         "लोन मूलधन (P): $200,000",
@@ -85,13 +101,19 @@
   ],
   "sources": [
     {
-      "label": "Consumer Financial Protection Bureau (CFPB) - Loan Basics"
+      "label": "State Bank of Pakistan: KIBOR Rates"
     },
     {
-      "label": "Federal Reserve Board - Consumer Guide to Mortgages"
+      "label": "State Bank of Pakistan: Monetary Policy (policy rate)"
     },
     {
-      "label": "Bank for International Settlements - Credit Standards"
+      "label": "State Bank of Pakistan: Prudential Regulations for Consumer Financing (PDF)"
+    },
+    {
+      "label": "CFPB: What is amortization and how could it affect my auto loan?"
+    },
+    {
+      "label": "CFPB: What is the difference between a loan's interest rate and its APR?"
     }
   ],
   "howto": {
@@ -185,11 +207,11 @@
         "heading": "लोन का पूरा अमॉर्टाइज़ेशन शेड्यूल",
         "p1": "महीने-दर-महीने मूलधन में कमी और ब्याज।",
         "th1": "महीना",
-        "th2": "भुगतान <span class=\"table-currency-symbol\">($)</span>",
-        "th3": "मूलधन <span class=\"table-currency-symbol\">($)</span>",
-        "th4": "ब्याज <span class=\"table-currency-symbol\">($)</span>",
-        "th5": "कुल ब्याज <span class=\"table-currency-symbol\">($)</span>",
-        "th6": "बैलेंस <span class=\"table-currency-symbol\">($)</span>"
+        "th2": "भुगतान <span class=\"table-currency-symbol\">(Rs)</span>",
+        "th3": "मूलधन <span class=\"table-currency-symbol\">(Rs)</span>",
+        "th4": "ब्याज <span class=\"table-currency-symbol\">(Rs)</span>",
+        "th5": "कुल ब्याज <span class=\"table-currency-symbol\">(Rs)</span>",
+        "th6": "बैलेंस <span class=\"table-currency-symbol\">(Rs)</span>"
       },
       "how-when-to-use-the-loan": {
         "li1": "<strong>होम लोन और प्रॉपर्टी:</strong> मासिक नकदी और पूरे लोन के ब्याज की तुलना के लिए 15 साल और 30 साल के फ़िक्स्ड लोन मिलाएँ।",
@@ -202,8 +224,6 @@
       "reset-btn": "रीसेट करें",
       "result-header-text": "लोन भुगतान का सारांश",
       "copy-result-btn": "<span data-icon=\"copy\"></span> सारांश कॉपी करें",
-      "result-primary-text": "मासिक EMI: $0.00",
-      "stat-tenure": "0 महीने",
       "stat-months-saved": "0 महीने",
       "stat-new-tenure": "0 महीने",
       "download-csv-btn": "<svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4\"></path><polyline points=\"7 10 12 15 17 10\"></polyline><line x1=\"12\" y1=\"15\" x2=\"12\" y2=\"3\"></line></svg>\n                शेड्यूल डाउनलोड करें (CSV)",

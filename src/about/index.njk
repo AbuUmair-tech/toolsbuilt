@@ -38,8 +38,11 @@ updated: 2026-10-24
         <li>{{ 'content.our-core-values.li4' | pt }}</li>
       </ul>
 
-      <h2>{{ 'content.creator-maintainer.heading' | pt }}</h2>
+      <h2 id="author">{{ 'content.creator-maintainer.heading' | pt }}</h2>
       <p>{{ 'content.creator-maintainer.p1' | pt }}</p>
+      <p>{{ 'site.authorBio' | t }}</p>
+      {#- Longer author bio: set site.authorBioLong in src/_data/site.json (shown once it no longer starts with TODO_) #}
+      {% if site.authorBioLong and not site.authorBioLong.startsWith("TODO_") %}<p>{{ site.authorBioLong }}</p>{% endif %}
       {% if site.authorSameAs and site.authorSameAs.length %}
       {% set profileLinks %}{% for link in site.authorSameAs %}<a href="{{ link }}" rel="me noopener" target="_blank">{% if "github.com" in link %}GitHub{% elif "linkedin.com" in link %}LinkedIn{% else %}{{ link }}{% endif %}</a>{% if not loop.last %}{% if loop.revindex == 2 %}{{ 'links.lastSeparator' | pt }}{% else %}{{ 'links.separator' | pt }}{% endif %}{% endif %}{% endfor %}{% endset %}
       <p>{{ 'links.findOn' | pt({ author: site.authorName, links: profileLinks | safe }) }}</p>

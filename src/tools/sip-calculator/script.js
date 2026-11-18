@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function initInputs() {
     // Result links (?inv=&ret=&yrs=&step=) take priority over saved state
-    currencySelect.value = ToolsBuilt.defaultCurrency('USD', currencySelect);
+    currencySelect.value = ToolsBuilt.defaultCurrency('PKR', currencySelect);
     if (ToolsBuilt.resultLink.restore().length) return;
 
     try {
@@ -52,8 +52,9 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     } catch (e) {}
 
-    // Default sample values: $500/mo, 12% return, 10 years, 0% step-up
-    investmentInput.value = '500';
+    // Default sample values: Rs 10,000 a month (other currencies 500), 12% return, 10 years, no
+    // step-up; the PKR values are the ones the page is built with
+    investmentInput.value = currencySelect.value === 'PKR' ? '10000' : '500';
     returnInput.value = '12';
     yearsInput.value = '10';
     stepUpInput.value = '';

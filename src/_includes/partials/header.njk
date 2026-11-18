@@ -50,6 +50,7 @@
               </div>
             </details>
           </li>
+          <li><a href="/blog/" class="nav-link{% if page.url and page.url.startsWith('/blog/') %} is-active{% endif %}"{% if page.url == '/blog/' %} aria-current="page"{% endif %}>{{ 'common.blog' | t }}</a></li>
           <li><a href="/about/" class="nav-link"{% if page.url == '/about/' %} aria-current="page"{% endif %}>{{ 'header.content.tool.a3' | t }}</a></li>
           <li><a href="/contact/" class="nav-link"{% if page.url == '/contact/' %} aria-current="page"{% endif %}>{{ 'header.content.tool.a4' | t }}</a></li>
         </ul>
@@ -115,6 +116,7 @@
         {% endfor %}
       </ul>
       <ul class="mobile-menu-list mobile-menu-list-secondary">
+        <li><a href="/blog/" class="mobile-drawer-link"{% if page.url == '/blog/' %} aria-current="page"{% endif %}>{{ 'common.blog' | t }}</a></li>
         <li><a href="/about/" class="mobile-drawer-link"{% if page.url == '/about/' %} aria-current="page"{% endif %}>{{ 'header.content.tool.a8' | t }}</a></li>
         <li><a href="/contact/" class="mobile-drawer-link"{% if page.url == '/contact/' %} aria-current="page"{% endif %}>{{ 'header.content.tool.a9' | t }}</a></li>
       </ul>
@@ -143,6 +145,7 @@
           type="search"
           id="palette-input"
           class="palette-input"
+          aria-labelledby="palette-title"
           role="combobox"
           aria-autocomplete="list"
           aria-expanded="false"

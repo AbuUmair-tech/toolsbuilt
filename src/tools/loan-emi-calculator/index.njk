@@ -6,28 +6,31 @@ extraCss: "/tools/loan-emi-calculator/style.css"
 ---
 {% from "partials/currency-select.njk" import currencySelect, countryData with context %}
 {{ countryData(countries) }}
+{#- Sample values the page is built with (script.js uses the same for PKR), so the static HTML shows a real result -#}
+{%- set sample = { amount: 2500000, rate: 12, tenure: 5, cur: "PKR" } -%}
+{%- set sampleRes = ("loan-emi-calculator" | toolLogic).calculateLoanEmi(sample.amount, sample.rate, sample.tenure, "years", { currencyCode: sample.cur }) %}
 
     <!-- Tool Form Container -->
     <section class="tool-container" aria-label="{{ 'ariaLabel.tool-section1' | pt }}">
       <form id="calculator-form" novalidate>
         <div class="form-grid two-col">
           
-          {{ currencySelect({ id: "currency-select", param: "cur", selected: "USD" }) }}
+          {{ currencySelect({ id: "currency-select", param: "cur", selected: "PKR" }) }}
 
           <div class="form-group">
             <label for="loan-amount">{{ 'label.loan-amount' | pt }}</label>
-            <input type="number" step="any" min="1" id="loan-amount" data-param="amount" class="form-control" placeholder="{{ 'placeholder.loan-amount' | pt }}" required aria-required="true">
+            <input type="number" step="any" min="1" id="loan-amount" data-param="amount" class="form-control" value="{{ sample.amount }}" placeholder="{{ 'placeholder.loan-amount' | pt }}" required aria-required="true">
           </div>
 
           <div class="form-group">
             <label for="interest-rate">{{ 'label.interest-rate' | pt }}</label>
-            <input type="number" step="0.01" min="0" max="100" id="interest-rate" data-param="rate" class="form-control" placeholder="{{ 'placeholder.interest-rate' | pt }}" required aria-required="true">
+            <input type="number" step="0.01" min="0" max="100" id="interest-rate" data-param="rate" class="form-control" value="{{ sample.rate }}" placeholder="{{ 'placeholder.interest-rate' | pt }}" required aria-required="true">
           </div>
 
           <div class="form-group">
             <label for="tenure-value">{{ 'label.tenure-value' | pt }}</label>
             <div class="loan-input-row">
-              <input type="number" step="1" min="1" max="600" id="tenure-value" data-param="tenure" class="form-control" placeholder="{{ 'placeholder.tenure-value' | pt }}" required aria-required="true">
+              <input type="number" step="1" min="1" max="600" id="tenure-value" data-param="tenure" class="form-control" value="{{ sample.tenure }}" placeholder="{{ 'placeholder.tenure-value' | pt }}" required aria-required="true">
               <select id="tenure-unit" data-param="unit" class="form-control" aria-label="{{ 'ariaLabel.tenure-unit' | pt }}">
                 <option value="years" selected>{{ 'option.tenure-unit.years' | pt }}</option>
                 <option value="months">{{ 'option.tenure-unit.months' | pt }}</option>
@@ -58,24 +61,24 @@ extraCss: "/tools/loan-emi-calculator/style.css"
             {{ 'text.copy-result-btn' | pt }}
           </button>
         </div>
-        <div class="result-primary" id="result-primary-text">{{ 'text.result-primary-text' | pt }}</div>
+        <div class="result-primary" id="result-primary-text">{{ 'result.primary' | tc('loan-emi-calculator', { value: sampleRes.monthlyEmi | money2(sample.cur) }) }}</div>
         
         <div class="result-grid">
           <div class="result-stat-card">
             <div class="result-stat-label">{{ 'content.tool.div1' | pt }}</div>
-            <div class="result-stat-value" id="stat-monthly-emi">$0.00</div>
+            <div class="result-stat-value" id="stat-monthly-emi">{{ sampleRes.monthlyEmi | money2(sample.cur) }}</div>
           </div>
           <div class="result-stat-card">
             <div class="result-stat-label">{{ 'content.tool.div2' | pt }}</div>
-            <div class="result-stat-value" id="stat-total-interest">$0.00</div>
+            <div class="result-stat-value" id="stat-total-interest">{{ sampleRes.totalInterest | money2(sample.cur) }}</div>
           </div>
           <div class="result-stat-card">
             <div class="result-stat-label">{{ 'content.tool.div3' | pt }}</div>
-            <div class="result-stat-value" id="stat-total-payment">$0.00</div>
+            <div class="result-stat-value" id="stat-total-payment">{{ sampleRes.totalPayment | money2(sample.cur) }}</div>
           </div>
           <div class="result-stat-card">
             <div class="result-stat-label">{{ 'content.tool.div4' | pt }}</div>
-            <div class="result-stat-value" id="stat-tenure">{{ 'text.stat-tenure' | pt }}</div>
+            <div class="result-stat-value" id="stat-tenure">{{ 'result.tenure' | tc('loan-emi-calculator', { months: sampleRes.tenureMonths, years: sampleRes.tenureYears }) }}</div>
           </div>
         </div>
 
@@ -90,7 +93,7 @@ extraCss: "/tools/loan-emi-calculator/style.css"
           <div class="result-grid mt-4">
             <div class="result-stat-card">
               <div class="result-stat-label">{{ 'content.extra-payment-payoff-accelerator.div1' | pt }}</div>
-              <div class="result-stat-value text-success" id="stat-extra-saved">$0.00</div>
+              <div class="result-stat-value text-success" id="stat-extra-saved">{{ 0 | money2(sample.cur) }}</div>
             </div>
             <div class="result-stat-card">
               <div class="result-stat-label">{{ 'content.extra-payment-payoff-accelerator.div2' | pt }}</div>
@@ -141,6 +144,7 @@ extraCss: "/tools/loan-emi-calculator/style.css"
     <!-- tool-end -->
 
     <!-- Reusable Financial Disclaimer -->
+    {% set disclaimerKind = "loan" %}
     {% include "partials/financial-disclaimer.njk" %}
 
     <!-- When to Use Section -->

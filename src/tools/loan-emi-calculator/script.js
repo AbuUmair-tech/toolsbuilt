@@ -60,13 +60,16 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     } catch (e) {}
 
-    // Default sample values: $250,000 at 6.5% for 30 years
-    amountInput.value = '250000';
-    rateInput.value = '6.5';
-    tenureInput.value = '30';
+    // Default sample values in the visitor's currency (PKR when it cannot be guessed):
+    // Rs 2,500,000 at 12% for 5 years, the values the page is built with; 250,000 at 6.5% for 30 years otherwise
+    const cur = ToolsBuilt.defaultCurrency('PKR', currencySelect);
+    const sample = cur === 'PKR' ? { amount: '2500000', rate: '12', tenure: '5' } : { amount: '250000', rate: '6.5', tenure: '30' };
+    amountInput.value = sample.amount;
+    rateInput.value = sample.rate;
+    tenureInput.value = sample.tenure;
     tenureUnitSelect.value = 'years';
     extraInput.value = '';
-    if (currencySelect) currencySelect.value = ToolsBuilt.defaultCurrency('USD', currencySelect);
+    if (currencySelect) currencySelect.value = cur;
   }
 
   function saveState(amount, rate, tenure, unit, extra, cur) {
@@ -107,7 +110,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const rawTenure = tenureInput.value.trim();
     const tenureUnit = tenureUnitSelect.value;
     const rawExtra = extraInput.value.trim();
-    const curCode = currencySelect ? currencySelect.value : 'USD';
+    const curCode = currencySelect ? currencySelect.value : 'PKR';
 
     if (!rawAmt || isNaN(parseFloat(rawAmt))) {
       showError(T('errors.amountRequired'), amountInput);

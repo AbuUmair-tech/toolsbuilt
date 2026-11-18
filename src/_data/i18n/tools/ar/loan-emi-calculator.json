@@ -23,6 +23,22 @@
   },
   "workedExamples": [
     {
+      "title": "قرض بقيمة Rs 2,500,000 بفائدة 12% لمدة 5 سنوات (60 شهرًا)",
+      "inputs": [
+        "أصل القرض (P): Rs 2,500,000",
+        "معدل الفائدة السنوي: 12%",
+        "مدة القرض: 5 سنوات (60 شهرًا)"
+      ],
+      "steps": [
+        "المعدل الشهري r = 12 ÷ 1200 = 0.01",
+        "(1 + r)^n = 1.01^60 ≈ 1.8167",
+        "القسط الشهري = 2,500,000 × 0.01 × 1.8167 ÷ (1.8167 − 1) = Rs 55,611.12",
+        "إجمالي السداد = Rs 3,336,667.13 (يُعدَّل القسط الأخير لتسوية الرصيد بالكامل)",
+        "إجمالي الفائدة = Rs 3,336,667.13 − Rs 2,500,000 = Rs 836,667.13"
+      ],
+      "result": "قسط شهري Rs 55,611.12 (إجمالي الفائدة Rs 836,667.13)"
+    },
+    {
       "title": "تمويل عقاري $200,000 بنسبة 6.5% لمدة 30 عامًا (360 شهرًا)",
       "inputs": [
         "أصل القرض (P): $200,000",
@@ -85,13 +101,19 @@
   ],
   "sources": [
     {
-      "label": "مكتب الحماية المالية للمستهلك (CFPB) - أساسيات القروض"
+      "label": "State Bank of Pakistan: KIBOR Rates"
     },
     {
-      "label": "مجلس الاحتياطي الفيدرالي - دليل المستهلك للتمويل العقاري"
+      "label": "State Bank of Pakistan: Monetary Policy (policy rate)"
     },
     {
-      "label": "بنك التسويات الدولية - معايير الائتمان"
+      "label": "State Bank of Pakistan: Prudential Regulations for Consumer Financing (PDF)"
+    },
+    {
+      "label": "CFPB: What is amortization and how could it affect my auto loan?"
+    },
+    {
+      "label": "CFPB: What is the difference between a loan's interest rate and its APR?"
     }
   ],
   "howto": {
@@ -185,11 +207,11 @@
         "heading": "جدول استهلاك القرض الكامل",
         "p1": "تخفيض أصل القرض ورسوم الفائدة شهرًا بشهر.",
         "th1": "الشهر",
-        "th2": "الدفعة <span class=\"table-currency-symbol\">($)</span>",
-        "th3": "أصل القرض <span class=\"table-currency-symbol\">($)</span>",
-        "th4": "الفائدة <span class=\"table-currency-symbol\">($)</span>",
-        "th5": "إجمالي الفائدة <span class=\"table-currency-symbol\">($)</span>",
-        "th6": "الرصيد <span class=\"table-currency-symbol\">($)</span>"
+        "th2": "الدفعة <span class=\"table-currency-symbol\">(Rs)</span>",
+        "th3": "أصل القرض <span class=\"table-currency-symbol\">(Rs)</span>",
+        "th4": "الفائدة <span class=\"table-currency-symbol\">(Rs)</span>",
+        "th5": "إجمالي الفائدة <span class=\"table-currency-symbol\">(Rs)</span>",
+        "th6": "الرصيد <span class=\"table-currency-symbol\">(Rs)</span>"
       },
       "how-when-to-use-the-loan": {
         "li1": "<strong>التمويل العقاري والعقارات:</strong> قارن القروض الثابتة لمدة 15 عامًا مقابل 30 عامًا لتقييم التدفق النقدي الشهري مقابل الفائدة الإجمالية.",
@@ -202,8 +224,6 @@
       "reset-btn": "إعادة تعيين",
       "result-header-text": "ملخص سداد القرض",
       "copy-result-btn": "<span data-icon=\"copy\"></span> نسخ الملخص",
-      "result-primary-text": "القسط الشهري: $0.00",
-      "stat-tenure": "0 شهر",
       "stat-months-saved": "0 شهر",
       "stat-new-tenure": "0 شهر",
       "download-csv-btn": "<svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4\"></path><polyline points=\"7 10 12 15 17 10\"></polyline><line x1=\"12\" y1=\"15\" x2=\"12\" y2=\"3\"></line></svg>\n                تنزيل الجدول (CSV)",

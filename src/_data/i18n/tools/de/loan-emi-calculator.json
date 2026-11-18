@@ -23,6 +23,22 @@
   },
   "workedExamples": [
     {
+      "title": "Kredit über Rs 2,500,000 zu 12% für 5 Jahre (60 Monate)",
+      "inputs": [
+        "Kreditbetrag (P): Rs 2,500,000",
+        "Jahreszins: 12%",
+        "Laufzeit: 5 Jahre (60 Monate)"
+      ],
+      "steps": [
+        "Monatszins r = 12 ÷ 1200 = 0.01",
+        "(1 + r)^n = 1.01^60 ≈ 1.8167",
+        "Monatsrate = 2,500,000 × 0.01 × 1.8167 ÷ (1.8167 − 1) = Rs 55,611.12",
+        "Gesamtzahlung = Rs 3,336,667.13 (die letzte Rate wird angepasst, damit der Restbetrag genau aufgeht)",
+        "Gesamtzinsen = Rs 3,336,667.13 − Rs 2,500,000 = Rs 836,667.13"
+      ],
+      "result": "Rs 55,611.12 Monatsrate (Rs 836,667.13 Gesamtzinsen)"
+    },
+    {
       "title": "Hypothek über $200,000 zu 6.5% für 30 Jahre (360 Monate)",
       "inputs": [
         "Kreditbetrag (P): $200,000",
@@ -85,13 +101,19 @@
   ],
   "sources": [
     {
-      "label": "Consumer Financial Protection Bureau (CFPB) – Grundlagen zu Krediten"
+      "label": "State Bank of Pakistan: KIBOR Rates"
     },
     {
-      "label": "Federal Reserve Board – Verbraucherleitfaden zu Hypotheken"
+      "label": "State Bank of Pakistan: Monetary Policy (policy rate)"
     },
     {
-      "label": "Bank für Internationalen Zahlungsausgleich – Kreditstandards"
+      "label": "State Bank of Pakistan: Prudential Regulations for Consumer Financing (PDF)"
+    },
+    {
+      "label": "CFPB: What is amortization and how could it affect my auto loan?"
+    },
+    {
+      "label": "CFPB: What is the difference between a loan's interest rate and its APR?"
     }
   ],
   "howto": {
@@ -185,11 +207,11 @@
         "heading": "Vollständiger Tilgungsplan",
         "p1": "Tilgung und Zinsen Monat für Monat.",
         "th1": "Monat",
-        "th2": "Rate <span class=\"table-currency-symbol\">($)</span>",
-        "th3": "Tilgung <span class=\"table-currency-symbol\">($)</span>",
-        "th4": "Zinsen <span class=\"table-currency-symbol\">($)</span>",
-        "th5": "Zinsen gesamt <span class=\"table-currency-symbol\">($)</span>",
-        "th6": "Restschuld <span class=\"table-currency-symbol\">($)</span>"
+        "th2": "Rate <span class=\"table-currency-symbol\">(Rs)</span>",
+        "th3": "Tilgung <span class=\"table-currency-symbol\">(Rs)</span>",
+        "th4": "Zinsen <span class=\"table-currency-symbol\">(Rs)</span>",
+        "th5": "Zinsen gesamt <span class=\"table-currency-symbol\">(Rs)</span>",
+        "th6": "Restschuld <span class=\"table-currency-symbol\">(Rs)</span>"
       },
       "how-when-to-use-the-loan": {
         "li1": "<strong>Baufinanzierung &amp; Immobilien:</strong> Vergleiche Darlehen mit 15 und 30 Jahren Zinsbindung, um monatliche Belastung und Gesamtzinskosten abzuwägen.",
@@ -202,8 +224,6 @@
       "reset-btn": "Zurücksetzen",
       "result-header-text": "Zusammenfassung der Rückzahlung",
       "copy-result-btn": "<span data-icon=\"copy\"></span> Zusammenfassung kopieren",
-      "result-primary-text": "Monatsrate: $0.00",
-      "stat-tenure": "0 Monate",
       "stat-months-saved": "0 Monate",
       "stat-new-tenure": "0 Monate",
       "download-csv-btn": "<svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4\"></path><polyline points=\"7 10 12 15 17 10\"></polyline><line x1=\"12\" y1=\"15\" x2=\"12\" y2=\"3\"></line></svg>\n                Tilgungsplan herunterladen (CSV)",

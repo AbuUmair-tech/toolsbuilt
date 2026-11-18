@@ -48,7 +48,7 @@ lastReviewed: "2026-10-31"
           <div class="form-grid gold-item-grid">
             <div class="form-group">
               <label for="gold-weight">{{ 'label.gold-weight' | pt }}</label>
-              <input type="number" inputmode="decimal" step="any" min="0" id="gold-weight" data-param="weight" class="form-control" placeholder="{{ 'placeholder.gold-weight' | pt }}" required aria-required="true">
+              <input type="number" inputmode="decimal" step="any" min="0" id="gold-weight" data-param="weight" class="form-control" value="1" placeholder="{{ 'placeholder.gold-weight' | pt }}" required aria-required="true">
             </div>
             <div class="form-group">
               <label for="weight-unit">{{ 'label.weight-unit' | pt }}</label>
@@ -108,24 +108,25 @@ lastReviewed: "2026-10-31"
             {{ 'text.copy-result-btn' | pt }}
           </button>
         </div>
-        <div class="result-primary" id="result-primary-text">{{ 'text.result-primary-text' | pt }}</div>
+        {#- No sample gold rate: a made-up price could be mistaken for today's rate, so values stay "–" until one is entered #}
+        <div class="result-primary" id="result-primary-text">–</div>
 
         <div class="result-grid">
           <div class="result-stat-card">
             <div class="result-stat-label">{{ 'content.tool.div1' | pt }}</div>
-            <div class="result-stat-value" id="stat-pure-grams">{{ 'text.stat-pure-grams' | pt }}</div>
+            <div class="result-stat-value" id="stat-pure-grams">–</div>
           </div>
           <div class="result-stat-card">
             <div class="result-stat-label">{{ 'content.tool.div2' | pt }}</div>
-            <div class="result-stat-value" id="stat-gold-value">{{ 'text.stat-gold-value' | pt }}</div>
+            <div class="result-stat-value" id="stat-gold-value">–</div>
           </div>
           <div class="result-stat-card">
             <div class="result-stat-label">{{ 'content.tool.div3' | pt }}</div>
-            <div class="result-stat-value" id="stat-making">{{ 'text.stat-making' | pt }}</div>
+            <div class="result-stat-value" id="stat-making">–</div>
           </div>
           <div class="result-stat-card">
             <div class="result-stat-label">{{ 'content.tool.div4' | pt }}</div>
-            <div class="result-stat-value" id="stat-total">{{ 'text.stat-total' | pt }}</div>
+            <div class="result-stat-value" id="stat-total">–</div>
           </div>
         </div>
 

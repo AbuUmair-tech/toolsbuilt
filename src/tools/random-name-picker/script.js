@@ -206,8 +206,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   function announceWinner() {
     winnerNameEl.textContent = currentWinner;
-    winnerModal.classList.remove('hidden');
-    winnerModal.setAttribute('aria-hidden', 'false');
+    openWinnerModal();
 
     if (window.ToolsBuilt && window.ToolsBuilt.toast) {
       window.ToolsBuilt.toast(T('toast.winner', { name: currentWinner }));
@@ -258,16 +257,47 @@ document.addEventListener('DOMContentLoaded', function () {
     removeWinnerCheckbox.addEventListener('change', saveSettings);
   }
 
-  removeWinnerBtn.addEventListener('click', function () {
-    removeCurrentWinner();
+  // Winner dialog: focus moves in on open, Tab stays inside, Escape closes, focus returns to Spin
+  function openWinnerModal() {
+    winnerModal.classList.remove('hidden');
+    winnerModal.setAttribute('aria-hidden', 'false');
+    const title = document.getElementById('winnerTitle');
+    if (title) title.focus();
+  }
+
+  function closeWinnerModal() {
+    if (winnerModal.classList.contains('hidden')) return;
     winnerModal.classList.add('hidden');
     winnerModal.setAttribute('aria-hidden', 'true');
+    spinBtn.focus();
+  }
+
+  winnerModal.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') {
+      e.preventDefault();
+      closeWinnerModal();
+      return;
+    }
+    if (e.key !== 'Tab') return;
+    const focusable = Array.from(winnerModal.querySelectorAll('button:not([disabled])'));
+    if (!focusable.length) return;
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    if (e.shiftKey && (document.activeElement === first || !winnerModal.contains(document.activeElement) || document.activeElement.id === 'winnerTitle')) {
+      e.preventDefault();
+      last.focus();
+    } else if (!e.shiftKey && document.activeElement === last) {
+      e.preventDefault();
+      first.focus();
+    }
   });
 
-  closeModalBtn.addEventListener('click', function () {
-    winnerModal.classList.add('hidden');
-    winnerModal.setAttribute('aria-hidden', 'true');
+  removeWinnerBtn.addEventListener('click', function () {
+    removeCurrentWinner();
+    closeWinnerModal();
   });
+
+  closeModalBtn.addEventListener('click', closeWinnerModal);
 
   if (copyWinnerBtn) {
     copyWinnerBtn.addEventListener('click', function () {

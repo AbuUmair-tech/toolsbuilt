@@ -2188,6 +2188,11 @@
     margin: var(--space-8) 0;
   }
 
+  /* Callout title: an h2 for heading order, sized like an h3 */
+  .info-callout-title {
+    font-size: var(--font-size-lg);
+  }
+
   .info-callout p {
     margin-bottom: 0;
     font-size: var(--font-size-base);
@@ -2275,6 +2280,51 @@
     background-color: var(--surface-muted);
     padding: 0 var(--space-1);
     border-radius: var(--radius-md);
+  }
+
+  /* Blog posts: key takeaways box, figures and tables */
+  .key-takeaways {
+    margin: var(--space-6) 0;
+    padding: var(--space-5) var(--space-6);
+    background-color: var(--accent-subtle);
+    border: 1px solid var(--accent-border);
+    border-radius: var(--radius-lg);
+  }
+
+  .content-article .key-takeaways-title {
+    margin: 0 0 var(--space-2);
+    font-weight: var(--font-weight-bold);
+    color: var(--text-primary);
+  }
+
+  .content-article .key-takeaways ul {
+    margin-bottom: 0;
+  }
+
+  .post-figure {
+    margin: var(--space-6) 0 var(--space-8);
+  }
+
+  .post-figure img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius-lg);
+  }
+
+  .post-figure figcaption {
+    margin-top: var(--space-2);
+    font-size: var(--font-size-sm);
+    color: var(--text-tertiary);
+  }
+
+  .content-article .table-wrapper {
+    margin: var(--space-4) 0 var(--space-6);
+  }
+
+  .content-article .table td,
+  .content-article .table th {
+    font-variant-numeric: tabular-nums;
   }
 
   /* Random Wheel Layout & Modal */
@@ -2605,8 +2655,8 @@
   }
 
   .hero-title {
-    font-size: clamp(2.5rem, 7vw, var(--font-size-4xl));
-    line-height: 1.05;
+    font-size: clamp(2rem, 5vw, var(--font-size-3xl));
+    line-height: 1.1;
     letter-spacing: var(--letter-spacing-tighter);
     margin-bottom: var(--space-6);
   }
@@ -3440,6 +3490,9 @@
   }
 
   .tool-workspace-name {
+    margin: 0;
+    font-size: inherit;
+    line-height: inherit;
     font-weight: var(--font-weight-semibold);
     color: var(--text-primary);
   }

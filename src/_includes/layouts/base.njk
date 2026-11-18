@@ -21,7 +21,7 @@
   <link rel="alternate" hreflang="{{ alt.hreflang }}" href="{{ alt.url }}">
   {%- endfor %}
   {% block extraHead %}{% endblock %}
-  {% if (not env.isProduction) or noindex or draft %}<meta name="robots" content="noindex, nofollow">{% endif %}
+  {% if (not env.isProduction) or noindex or draft %}<meta name="robots" content="noindex, nofollow">{% elif i18nNotReady %}<meta name="robots" content="noindex, follow">{% endif %}
   <meta name="color-scheme" content="light dark">
   <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
   <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#090a0f">
@@ -69,6 +69,11 @@
   
   <!-- Preload Critical Font -->
   <link rel="preload" href="/assets/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  {#- The page language's own script font: CSS would only discover it after the stylesheet loads #}
+  {%- set scriptFont = { ur: "noto-nastaliq-urdu-arabic-wght-normal", ar: "noto-sans-arabic-arabic-wght-normal", hi: "noto-sans-devanagari-devanagari-wght-normal" }[lang] %}
+  {%- if scriptFont %}
+  <link rel="preload" href="/assets/fonts/{{ scriptFont }}.woff2" as="font" type="font/woff2" crossorigin>
+  {%- endif %}
   <link rel="stylesheet" href="{% mainCss %}">
   {% if extraCss %}<link rel="stylesheet" href="{{ extraCss }}">{% endif %}
 
@@ -188,15 +193,18 @@
     })();
   </script>
 
-  <script src="/assets/js/icons.js"></script>
-  <script src="/assets/js/ui.js"></script>
-  {% if includeToolsData %}<script src="/assets/js/tools-data.js"></script>{% endif %}
-  <script src="/assets/js/common.js"></script>
+  {#- Every script is deferred: it runs in this order after the page is parsed, before DOMContentLoaded #}
+  <script src="/assets/js/icons.js" defer></script>
+  <script src="/assets/js/ui.js" defer></script>
+  {% if includeToolsData %}<script src="/assets/js/tools-data.js" defer></script>{% endif %}
+  <script src="/assets/js/common.js" defer></script>
   <script src="/assets/js/layout.js" defer></script>
   <script src="/assets/js/language-menu.js" defer></script>
-  {% if toolSlug == "password-generator" %}<script src="/tools/password-generator/eff-words.js"></script>{% endif %}
-  {% if taxEngine %}<script src="/tools/salary-tax-calculator/logic.js"></script>{% endif %}
-  {% if toolLogic %}<script src="{{ toolLogic }}"></script>{% elif toolSlug %}<script src="/tools/{{ toolSlug }}/logic.js"></script>{% endif %}
-  {% if toolScript %}<script src="{{ toolScript }}"></script>{% elif toolSlug %}<script src="/tools/{{ toolSlug }}/script.js"></script>{% endif %}
+  {% if toolSlug == "password-generator" %}<script src="/tools/password-generator/eff-words.js" defer></script>{% endif %}
+  {% if taxEngine %}<script src="/tools/salary-tax-calculator/logic.js" defer></script>{% endif %}
+  {% if toolLogic %}<script src="{{ toolLogic }}" defer></script>{% elif toolSlug %}<script src="/tools/{{ toolSlug }}/logic.js" defer></script>{% endif %}
+  {% if toolScript %}<script src="{{ toolScript }}" defer></script>{% elif toolSlug %}<script src="/tools/{{ toolSlug }}/script.js" defer></script>{% endif %}
+  {#- Result actions bar on tool pages (needs ToolsBuilt from common.js, so it comes after it) #}
+  {% if toolActions %}<script src="/assets/js/tool-actions.js" defer></script>{% endif %}
 </body>
 </html>

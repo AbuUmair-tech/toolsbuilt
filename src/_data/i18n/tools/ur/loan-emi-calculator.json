@@ -14,7 +14,7 @@
     ]
   },
   "title": "لون EMI کیلکولیٹر - ماہانہ قسط اور ادائیگی کا شیڈول",
-  "description": "قرض کی ماہانہ قسط (EMI)، کل سود، قسطوں کا مکمل شیڈول اور اضافی ماہانہ ادائیگی سے بچت نکالیں۔ مفت آن لائن لون کیلکولیٹر۔",
+  "description": "قرض کی ماہانہ قسط (EMI)، کل سود، قسطوں کا مکمل شیڈول اور اضافی ماہانہ ادائیگی سے بچت روپے یا کسی بھی کرنسی میں نکالیں۔ مفت آن لائن لون کیلکولیٹر۔",
   "h1": "لون EMI کیلکولیٹر",
   "quickAnswer": "قرض کی EMI (مساوی ماہانہ قسط) اینوئٹی فارمولے سے نکالی جاتی ہے: EMI = P × r × (1 + r)^n ÷ ((1 + r)^n − 1)، جہاں P اصل رقم، r ماہانہ شرحِ سود (سالانہ شرح ÷ 1200) اور n کل مہینے ہیں۔ کل سود = (EMI × n) − P۔ اضافی ماہانہ ادائیگی سیدھی اصل رقم کم کرتی ہے، جس سے کل سود اور قرض کی مدت دونوں کم ہوتے ہیں۔",
   "formula": {
@@ -22,6 +22,22 @@
     "explanation": "P قرض کی اصل رقم، r ماہانہ شرحِ سود (سالانہ شرحِ سود ÷ 1200) اور n قرض کی مدت کل مہینوں میں ہے۔"
   },
   "workedExamples": [
+    {
+      "title": "Rs 2,500,000 کا قرض، 12% پر 5 سال (60 مہینے)",
+      "inputs": [
+        "قرض کی اصل رقم (P): Rs 2,500,000",
+        "سالانہ شرحِ سود: 12%",
+        "قرض کی مدت: 5 سال (60 مہینے)"
+      ],
+      "steps": [
+        "ماہانہ شرح r = 12 ÷ 1200 = 0.01",
+        "(1 + r)^n = 1.01^60 ≈ 1.8167",
+        "ماہانہ EMI = 2,500,000 × 0.01 × 1.8167 ÷ (1.8167 − 1) = Rs 55,611.12",
+        "کل ادائیگی = Rs 3,336,667.13 (آخری قسط باقی رقم پوری ادا کرنے کے لیے ایڈجسٹ ہوتی ہے)",
+        "کل سود = Rs 3,336,667.13 − Rs 2,500,000 = Rs 836,667.13"
+      ],
+      "result": "ماہانہ قسط Rs 55,611.12 (کل سود Rs 836,667.13)"
+    },
     {
       "title": "$200,000 مارگیج، 6.5% پر 30 سال (360 مہینے)",
       "inputs": [
@@ -85,13 +101,19 @@
   ],
   "sources": [
     {
-      "label": "Consumer Financial Protection Bureau (CFPB) - قرض کی بنیادی باتیں"
+      "label": "State Bank of Pakistan: KIBOR Rates"
     },
     {
-      "label": "Federal Reserve Board - مارگیج کے لیے صارف گائیڈ"
+      "label": "State Bank of Pakistan: Monetary Policy (policy rate)"
     },
     {
-      "label": "Bank for International Settlements - قرض کے معیارات"
+      "label": "State Bank of Pakistan: Prudential Regulations for Consumer Financing (PDF)"
+    },
+    {
+      "label": "CFPB: What is amortization and how could it affect my auto loan?"
+    },
+    {
+      "label": "CFPB: What is the difference between a loan's interest rate and its APR?"
     }
   ],
   "howto": {
@@ -185,11 +207,11 @@
         "heading": "قرض کی قسطوں کا مکمل شیڈول",
         "p1": "ماہ بہ ماہ اصل رقم میں کمی اور سود۔",
         "th1": "مہینہ",
-        "th2": "ادائیگی <span class=\"table-currency-symbol\">($)</span>",
-        "th3": "اصل رقم <span class=\"table-currency-symbol\">($)</span>",
-        "th4": "سود <span class=\"table-currency-symbol\">($)</span>",
-        "th5": "کل سود <span class=\"table-currency-symbol\">($)</span>",
-        "th6": "باقی رقم <span class=\"table-currency-symbol\">($)</span>"
+        "th2": "ادائیگی <span class=\"table-currency-symbol\">(Rs)</span>",
+        "th3": "اصل رقم <span class=\"table-currency-symbol\">(Rs)</span>",
+        "th4": "سود <span class=\"table-currency-symbol\">(Rs)</span>",
+        "th5": "کل سود <span class=\"table-currency-symbol\">(Rs)</span>",
+        "th6": "باقی رقم <span class=\"table-currency-symbol\">(Rs)</span>"
       },
       "how-when-to-use-the-loan": {
         "li1": "<strong>گھر کا قرض اور جائیداد:</strong> ماہانہ نقد بہاؤ اور پوری مدت کے سود کا موازنہ کرنے کے لیے 15 سالہ اور 30 سالہ مقررہ قرض کا موازنہ کریں۔",
@@ -202,8 +224,6 @@
       "reset-btn": "ری سیٹ",
       "result-header-text": "قرض کی ادائیگی کا خلاصہ",
       "copy-result-btn": "<span data-icon=\"copy\"></span> خلاصہ کاپی کریں",
-      "result-primary-text": "ماہانہ EMI: $0.00",
-      "stat-tenure": "0 مہینے",
       "stat-months-saved": "0 مہینے",
       "stat-new-tenure": "0 مہینے",
       "download-csv-btn": "<svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4\"></path><polyline points=\"7 10 12 15 17 10\"></polyline><line x1=\"12\" y1=\"15\" x2=\"12\" y2=\"3\"></line></svg>\n                شیڈول ڈاؤن لوڈ کریں (CSV)",

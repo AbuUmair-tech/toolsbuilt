@@ -12,8 +12,8 @@
       "double discount with tax"
     ]
   },
-  "title": "Discount Calculator - Calculate Sale Price & Savings",
-  "description": "Calculate final sale prices, total dollars saved, stacked double discounts, and sales tax instantly. Free online discount calculator.",
+  "title": "Discount Calculator: Sale Price, % Off & Savings",
+  "description": "Find the sale price after a percentage discount, how much you save, and the result of stacked discounts such as 20% + 10% off, with optional tax added.",
   "h1": "Discount Calculator",
   "quickAnswer": "To find the final sale price and total savings, enter the original item price and discount percentage. You can add a secondary stacked coupon and local sales tax to see exact out-of-pocket costs. Calculations use half-up cent rounding to match retail point-of-sale registers and consumer protection guidelines.",
   "formula": {
@@ -22,6 +22,21 @@
     "explanation": "First, apply the primary discount to the original retail price to find the initial savings. Next, apply any secondary stacked coupon to the reduced subtotal (multiplicative, not additive). Finally, compute sales tax on the discounted subtotal using banker-safe half-up cent rounding."
   },
   "workedExamples": [
+    {
+      "title": "20% Off a Rs 5,000 Price",
+      "inputs": [
+        "Original Price: Rs 5,000",
+        "Primary Discount: 20%",
+        "Stacked Coupon: 0%",
+        "Sales Tax: 0%"
+      ],
+      "steps": [
+        "Calculate discount savings: Rs 5,000 × 0.20 = Rs 1,000",
+        "Subtract discount from original price: Rs 5,000 − Rs 1,000 = Rs 4,000"
+      ],
+      "result": "Final Price: Rs 4,000 (Total Savings: Rs 1,000 / 20.00%)",
+      "link": "/tools/discount-calculator/?price=5000&off=20&cur=PKR#tool"
+    },
     {
       "title": "Single 25% Off Retail Sale",
       "inputs": [
@@ -89,12 +104,8 @@
   ],
   "sources": [
     {
-      "name": "Federal Trade Commission - Guides Against Deceptive Pricing",
-      "url": "https://www.ftc.gov/"
-    },
-    {
-      "name": "NIST Consumer Pricing Mathematics Standards",
-      "url": "https://www.nist.gov/"
+      "name": "16 CFR Part 233: FTC Guides Against Deceptive Pricing (GovInfo)",
+      "url": "https://www.govinfo.gov/app/details/CFR-2024-title16-vol1/CFR-2024-title16-vol1-part233"
     },
     {
       "name": "ISO 80000-2 Mathematical Signs and Symbols",
@@ -189,8 +200,7 @@
     "text": {
       "reset-btn": "Reset",
       "result-header-text": "Discount Calculation Result",
-      "copy-result-btn": "<span data-icon=\"copy\"></span> Copy Result",
-      "result-primary-text": "Final Price: $0.00"
+      "copy-result-btn": "<span data-icon=\"copy\"></span> Copy Result"
     },
     "title": {
       "copy-result-btn": "Copy Result to clipboard"

@@ -23,6 +23,22 @@
   },
   "workedExamples": [
     {
+      "title": "Empréstimo de Rs 2,500,000 a 12% por 5 anos (60 meses)",
+      "inputs": [
+        "Valor do empréstimo (P): Rs 2,500,000",
+        "Taxa de juros anual: 12%",
+        "Prazo: 5 anos (60 meses)"
+      ],
+      "steps": [
+        "Taxa mensal r = 12 ÷ 1200 = 0.01",
+        "(1 + r)^n = 1.01^60 ≈ 1.8167",
+        "Parcela mensal = 2,500,000 × 0.01 × 1.8167 ÷ (1.8167 − 1) = Rs 55,611.12",
+        "Total pago = Rs 3,336,667.13 (a última parcela é ajustada para quitar o saldo)",
+        "Juros totais = Rs 3,336,667.13 − Rs 2,500,000 = Rs 836,667.13"
+      ],
+      "result": "Parcela mensal de Rs 55,611.12 (Rs 836,667.13 de juros no total)"
+    },
+    {
       "title": "Financiamento imobiliário de $200,000 a 6.5% por 30 anos (360 meses)",
       "inputs": [
         "Valor principal (P): $200,000",
@@ -85,13 +101,19 @@
   ],
   "sources": [
     {
-      "label": "Consumer Financial Protection Bureau (CFPB) - noções básicas de empréstimos"
+      "label": "State Bank of Pakistan: KIBOR Rates"
     },
     {
-      "label": "Federal Reserve Board - guia do consumidor sobre financiamentos imobiliários"
+      "label": "State Bank of Pakistan: Monetary Policy (policy rate)"
     },
     {
-      "label": "Bank for International Settlements - padrões de crédito"
+      "label": "State Bank of Pakistan: Prudential Regulations for Consumer Financing (PDF)"
+    },
+    {
+      "label": "CFPB: What is amortization and how could it affect my auto loan?"
+    },
+    {
+      "label": "CFPB: What is the difference between a loan's interest rate and its APR?"
     }
   ],
   "howto": {
@@ -185,11 +207,11 @@
         "heading": "Tabela de amortização completa",
         "p1": "Redução do principal e juros cobrados mês a mês.",
         "th1": "Mês",
-        "th2": "Parcela <span class=\"table-currency-symbol\">($)</span>",
-        "th3": "Principal <span class=\"table-currency-symbol\">($)</span>",
-        "th4": "Juros <span class=\"table-currency-symbol\">($)</span>",
-        "th5": "Juros acumulados <span class=\"table-currency-symbol\">($)</span>",
-        "th6": "Saldo <span class=\"table-currency-symbol\">($)</span>"
+        "th2": "Parcela <span class=\"table-currency-symbol\">(Rs)</span>",
+        "th3": "Principal <span class=\"table-currency-symbol\">(Rs)</span>",
+        "th4": "Juros <span class=\"table-currency-symbol\">(Rs)</span>",
+        "th5": "Juros acumulados <span class=\"table-currency-symbol\">(Rs)</span>",
+        "th6": "Saldo <span class=\"table-currency-symbol\">(Rs)</span>"
       },
       "how-when-to-use-the-loan": {
         "li1": "<strong>Financiamento imobiliário:</strong> compare financiamentos de 15 e de 30 anos para pesar a parcela mensal contra o total de juros pagos.",
@@ -202,8 +224,6 @@
       "reset-btn": "Redefinir",
       "result-header-text": "Resumo do pagamento do empréstimo",
       "copy-result-btn": "<span data-icon=\"copy\"></span> Copiar resumo",
-      "result-primary-text": "EMI mensal: $0.00",
-      "stat-tenure": "0 meses",
       "stat-months-saved": "0 meses",
       "stat-new-tenure": "0 meses",
       "download-csv-btn": "<svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4\"></path><polyline points=\"7 10 12 15 17 10\"></polyline><line x1=\"12\" y1=\"15\" x2=\"12\" y2=\"3\"></line></svg>\n                Baixar tabela (CSV)",
