@@ -111,7 +111,8 @@ function checkSeo() {
   const allHtmlFiles = getAllHtmlFiles(SITE_DIR);
   const auditFiles = allHtmlFiles.filter(f => {
     const rel = path.relative(SITE_DIR, f);
-    return !rel.startsWith('design-system') && !rel.startsWith('google');
+    // Embeddable widgets (/embed/, /<lang>/embed/) are noindex pages for other sites' iframes
+    return !rel.startsWith('design-system') && !rel.startsWith('google') && !/(^|[\\/])embed[\\/]/.test(rel);
   });
 
   const pageDataMap = new Map();
