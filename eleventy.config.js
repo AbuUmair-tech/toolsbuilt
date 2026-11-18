@@ -488,16 +488,6 @@ module.exports = function(eleventyConfig) {
     return '2026-10-24';
   });
 
-  eleventyConfig.addFilter('latestToolDate', function(tools, catSlug) {
-    if (!Array.isArray(tools) || tools.length === 0) return '2026-10-15';
-    let filtered = tools;
-    if (catSlug) {
-      filtered = tools.filter(t => t.category === catSlug);
-    }
-    const dates = filtered.map(t => t.updated).filter(Boolean).sort().reverse();
-    return dates[0] || '2026-10-15';
-  });
-
   function formatIsoDate(val) {
     if (!val) return '';
     const d = val instanceof Date ? val : new Date(val);
