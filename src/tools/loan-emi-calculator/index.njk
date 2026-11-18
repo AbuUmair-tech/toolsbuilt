@@ -146,8 +146,8 @@ extraCss: "/tools/loan-emi-calculator/style.css"
     {%- set embedPrefix = '' if lang == 'en' else ('/' + (lang | languageInfo).prefix) -%}
     {%- set embedName = (tools | findTool('loan-emi-calculator')).name -%}
     {%- set embedCode -%}
-<iframe src="https://toolsbuilt.com{{ embedPrefix }}/embed/loan-emi-calculator/" title="{{ embedName }}" width="100%" height="480" style="border:0;max-width:640px" loading="lazy"></iframe>
-<p style="font-size:13px">{{ 'embed.attribution' | t({ name: embedName, link: ('<a href="https://toolsbuilt.com' + embedPrefix + '/tools/loan-emi-calculator/">ToolsBuilt</a>') | safe }) }}</p>
+<iframe src="https://toolsbuilt.com{{ embedPrefix }}/embed/loan-emi-calculator/" title="{{ embedName | replace('"', '&quot;') | safe }}" width="100%" height="480" style="border:0;max-width:640px" loading="lazy"></iframe>
+<p style="font-size:13px">{{ 'embed.attribution' | t({ name: embedName | safe, link: ('<a href="https://toolsbuilt.com' + embedPrefix + '/tools/loan-emi-calculator/">ToolsBuilt</a>') | safe }) }}</p>
     {%- endset %}
     <details class="panel-muted embed-box mt-6">
       <summary class="embed-box-summary">{{ 'embed.boxHeading' | t }}</summary>
