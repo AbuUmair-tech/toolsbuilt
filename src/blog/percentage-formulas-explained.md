@@ -29,7 +29,7 @@ faqs:
     answer: "Percentage points are the plain difference between two percentages, while percent change compares that difference with the starting value. A pass rate rising from 40% to 50% is up 10 percentage points, which is a 25% increase."
 ---
 
-A percentage is a part divided by the whole, multiplied by 100. For exam marks that is **obtained ÷ total × 100**, for a discount the sale price is **price × (1 − discount ÷ 100)**, and for a rise or fall it is **(new − old) ÷ old × 100**. Nearly every wrong answer comes from dividing by the wrong number, so this guide keeps asking one question: what did you start from?
+A percentage is a part divided by the whole, multiplied by 100. For exam marks that is **obtained ÷ total × 100**, for a discount the sale price is **price × (1 − discount ÷ 100)**, and for a rise or fall it is **(new − old) ÷ old × 100**. The mistakes in this guide all come down to dividing by the wrong number, so it keeps asking one question: what did you start from?
 
 <div class="key-takeaways">
 <p class="key-takeaways-title">Key takeaways</p>
@@ -136,7 +136,7 @@ The same distinction shows up with interest rates. A loan rate moving from 16% t
 
 ## What mistakes give wrong percentage answers?
 
-Most come from dividing by the wrong number: averaging percentages with different totals, adding stacked discounts together, reversing a discount by adding the percentage back, and confusing profit on cost with profit on price. Each one below has the wrong working next to the right one, so you can spot it in your own sums.
+The four below all come from dividing by the wrong number: averaging percentages with different totals, adding stacked discounts together, reversing a discount by adding the percentage back, and confusing profit on cost with profit on price. Each one below has the wrong working next to the right one, so you can spot it in your own sums.
 
 ### Averaging percentages that have different totals
 

@@ -35,7 +35,7 @@ Your monthly installment (EMI) comes from one formula: **EMI = P × r × (1 + r)
 <li>Early installments are mostly interest. On a 15-year home loan at 16%, principal only overtakes interest in month 129.</li>
 <li>A "flat" rate is far more expensive than the same number quoted as "reducing balance". 20% flat works out to about 33.6% reducing.</li>
 <li>Extra payments save the most when you keep the EMI the same and let the loan finish sooner.</li>
-<li>Most bank loans in Pakistan are linked to KIBOR, so the EMI can change. Check your bank's current rate and repricing dates.</li>
+<li>If your loan has a floating rate linked to KIBOR, the EMI can change at each repricing date. Your loan agreement says which kind you have.</li>
 </ul>
 </div>
 
@@ -45,7 +45,7 @@ The rates in this guide are examples chosen to make the arithmetic easy to follo
 
 EMI is calculated with the reducing-balance annuity formula: EMI = P × r × (1 + r)ⁿ ÷ ((1 + r)ⁿ − 1). P is the loan amount, r is the monthly rate as a decimal (annual rate ÷ 1,200) and n is the number of monthly payments. Every installment is the same, but its interest share shrinks over time.
 
-Let's run it on a loan many people actually take: Rs 1,500,000 for a bike, a used small car or a family expense, repaid over 3 years at an example rate of 20%.
+Let's run it on a loan size that could pay for a bike, a used small car or a family expense: Rs 1,500,000, repaid over 3 years at an example rate of 20%.
 
 1. **Monthly rate:** r = 20 ÷ 1,200 = 0.016667 (that is 1.6667% a month, not 20%).
 2. **Number of payments:** n = 3 × 12 = 36.
@@ -109,7 +109,7 @@ A useful sanity check before you apply is to compare the EMI with your take-home
 
 ## What happens to my EMI when KIBOR changes?
 
-On a floating-rate loan, your rate is KIBOR plus the bank's fixed margin, reset on the dates in your agreement. When KIBOR moves, the bank recalculates the EMI on the balance you still owe. If the rate on a Rs 5,000,000, 15-year loan rose from 16% to 18%, the EMI would go up by Rs 7,086.01 a month.
+On a floating-rate loan linked to KIBOR, your rate is KIBOR plus the bank's margin, reset on the dates in your agreement. When KIBOR moves, the bank recalculates the EMI on the balance you still owe. If the rate on a Rs 5,000,000, 15-year loan rose from 16% to 18%, the EMI would go up by Rs 7,086.01 a month.
 
 KIBOR (the Karachi Interbank Offered Rate) is published by the State Bank of Pakistan, and you can look up the current figures on [SBP's KIBOR rates page](https://www.sbp.org.pk/economic-data/kibor-rates). We are not quoting a number here on purpose: it changes, and your loan uses the KIBOR tenor and reset dates written in your own agreement.
 
@@ -143,7 +143,7 @@ Start with a small, regular top-up. Add Rs 10,000 a month to the Rs 73,435.04 EM
 
 [Try the Rs 10,000 extra payment yourself](/tools/loan-emi-calculator/?amount=5000000&rate=16&tenure=15&unit=years&extra=10000&cur=PKR#tool) and change the amount to whatever you can manage.
 
-Now a lump sum, say a bonus or the proceeds of selling a plot. Suppose you pay Rs 500,000 off the same loan after the 24th installment, when Rs 4,810,036.03 is still outstanding. Banks usually let you choose what happens next:
+Now a lump sum, say a bonus or the proceeds of selling a plot. Suppose you pay Rs 500,000 off the same loan after the 24th installment, when Rs 4,810,036.03 is still outstanding. Ask your bank which of these two outcomes it offers, because the difference is large:
 
 <div class="table-wrapper" role="region" aria-label="Rs 500,000 prepayment after 24 months: keep EMI versus reduce EMI" tabindex="0">
 <table class="table">
@@ -157,7 +157,7 @@ Now a lump sum, say a bonus or the proceeds of selling a plot. Suppose you pay R
 
 Same Rs 500,000, more than three times the saving. Choose the lower EMI only if the monthly relief is what you actually need.
 
-Before you prepay, read the prepayment or early-settlement clause in your loan agreement. Charges and minimum amounts vary between banks and products, and a fee changes the maths. Islamic home and car financing is structured as rent or profit rather than interest, so ask the bank for its own revised schedule rather than assuming the figures above apply line for line.
+Before you prepay, read the prepayment or early-settlement clause in your loan agreement. Charges and minimum amounts vary between banks and products, and a fee changes the maths. Islamic home and car financing is structured differently, for example as rent or profit rather than interest, so ask the bank for its own revised schedule rather than assuming the figures above apply line for line.
 
 ## What are the most common EMI mistakes?
 
@@ -165,7 +165,7 @@ The costly ones are comparing a flat-rate quote with a reducing-balance quote, u
 
 ### Mistake 1: treating a flat rate like a reducing-balance rate
 
-Some dealers and lenders quote a "flat" rate. A flat rate charges interest on the full original amount for the whole term, even after you have repaid most of it.
+If anyone quotes you a "flat" rate, slow down. A flat rate charges interest on the full original amount for the whole term, even after you have repaid most of it.
 
 - **Wrong:** "20% flat sounds the same as 20% from the bank." Interest = 1,500,000 × 20% × 3 = Rs 900,000. EMI = (1,500,000 + 900,000) ÷ 36 = **Rs 66,666.67**.
 - **Right:** compare it with 20% reducing balance: EMI **Rs 55,745.38**, total interest **Rs 506,833.48**.
@@ -179,7 +179,7 @@ To compare fairly, work out the reducing-balance rate that produces the flat EMI
 
 ### Mistake 2: using the yearly rate as the monthly rate
 
-The formula needs the monthly rate. Plug in 0.20 instead of 0.016667 and the same Rs 1,500,000 loan shows an EMI of **Rs 300,423.85**, more than five times the right answer of **Rs 55,745.38**. Most people catch an error that large, but a half-fixed version (dividing by 100 and forgetting the 12) slips through more often than you would think.
+The formula needs the monthly rate. Plug in 0.20 instead of 0.016667 and the same Rs 1,500,000 loan shows an EMI of **Rs 300,423.85**, more than five times the right answer of **Rs 55,745.38**. A quick check catches this and smaller slips too: multiply the EMI by the number of months. Here that gives about Rs 10.8 million to repay Rs 1.5 million over three years, which no lender would offer. If the total looks wildly out of line with what you borrowed, recheck r first.
 
 ### Mistake 3: picking a loan by its EMI
 

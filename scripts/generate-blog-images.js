@@ -148,7 +148,7 @@ function percentImages() {
   ${card(616, 146, 528, 186, C.greenTint, C.green, 'Discount: price after % off', 'price × (1 − % ÷ 100)', '2,400 × (1 − 0.15) = Rs 2,040')}
   ${card(56, 356, 528, 186, C.orangeTint, C.orange, 'Change: how much did it rise?', '(new − old) ÷ old × 100', '(46,000 − 40,000) ÷ 40,000 = 15%')}
   ${card(616, 356, 528, 186, C.purpleTint, C.purple, 'Reverse: price before % off', 'sale ÷ (1 − % ÷ 100)', '2,040 ÷ 0.85 = Rs 2,400')}
-  ${t(56, 600, 'Always divide by the value you started from. Most percentage mistakes come from the wrong base.', { size: 21, weight: 600 })}`);
+  ${t(56, 600, 'Always divide by the value you started from: the base is where these sums go wrong.', { size: 21, weight: 600 })}`);
 
   // stacked discount
   const d = Discount.calculateDiscount(5000, 20, { stackedDiscountPercent: 10 });
@@ -161,7 +161,7 @@ function percentImages() {
   ${row(160, 'Original price', 5000, C.faint, '')}
   ${row(260, 'After 20% off', d.subtotalAfterPrimary, C.blue, `20% of 5,000 = ${rs(d.primarySavings)} off`)}
   ${row(380, 'Then 10% off', d.priceAfterDiscounts, C.green, `10% of 4,000 (not 5,000) = ${rs(d.stackedSavings)} off. Total saved: ${d.totalSavingsPercent}%`)}
-  ${row(500, 'If it were 30%', 3500, C.orange, 'What many people expect. You actually pay Rs 100 more than this.')}`);
+  ${row(500, 'If it were 30%', 3500, C.orange, 'A straight 30% off. The two discounts leave you paying Rs 100 more.')}`);
 
   // asymmetry
   const up = (46000 - 40000) / 40000 * 100, down = (40000 - 46000) / 46000 * 100;
