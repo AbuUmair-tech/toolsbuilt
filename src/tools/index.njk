@@ -15,13 +15,13 @@ canonical: https://toolsbuilt.com/tools/
       {
         "@type": "ListItem",
         "position": 1,
-        "name": "Home",
+        "name": {{ 'common.home' | t | jsonStr }},
         "item": "https://toolsbuilt.com/"
       },
       {
         "@type": "ListItem",
         "position": 2,
-        "name": "All Tools",
+        "name": {{ 'header.content.tool.a7' | t | jsonStr }},
         "item": "https://toolsbuilt.com/tools/"
       }
     ]
@@ -33,20 +33,20 @@ canonical: https://toolsbuilt.com/tools/
   {
     "@context": "https://schema.org",
     "@type": "CollectionPage",
-    "name": "All Free Online Calculators & Web Tools",
-    "description": "{{ description }}",
+    "name": {{ title | replace(" | ToolsBuilt", "") | jsonStr }},
+    "description": {{ description | jsonStr }},
     "url": "https://toolsbuilt.com/tools/",
     "mainEntity": {
       "@type": "ItemList",
-      "name": "All Tools Built",
+      "name": {{ 'header.content.tool.a7' | t | jsonStr }},
       "numberOfItems": {{ tools | listed | length }},
       "itemListElement": [
         {% for t in tools | listed %}
         {
           "@type": "ListItem",
           "position": {{ loop.index }},
-          "name": "{{ t.name }}",
-          "description": "{{ t.description }}",
+          "name": {{ t.name | jsonStr }},
+          "description": {{ t.description | jsonStr }},
           "url": "https://toolsbuilt.com/tools/{{ t.slug }}/"
         }{% if not loop.last %},{% endif %}
         {% endfor %}
