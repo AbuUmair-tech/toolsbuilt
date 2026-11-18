@@ -577,6 +577,20 @@ try {
 }
 
 // -----------------------------------------------------------------
+// Test 18b: Translated blog posts match their English originals
+// -----------------------------------------------------------------
+console.log('\n--- 18b. Blog Translations ---');
+try {
+  const blogOutput = execSync('node scripts/check-blog-translations.js', { cwd: ROOT, encoding: 'utf8', stdio: 'pipe' });
+  assert(
+    blogOutput.includes('Blog translation check passed'),
+    'Translated posts keep every number, link, image, heading and FAQ of the English post, with titles and descriptions in bounds'
+  );
+} catch (e) {
+  assert(false, `Blog translation check failed: ${e.message}\n${e.stdout || ''}${e.stderr || ''}`);
+}
+
+// -----------------------------------------------------------------
 // Test 19: Pure Tool Logic Modules & Property Fuzz Tests
 // -----------------------------------------------------------------
 console.log('\n--- 19. Pure Tool Logic Modules & Property-Based Fuzz Testing ---');

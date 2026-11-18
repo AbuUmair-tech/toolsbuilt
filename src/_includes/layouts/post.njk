@@ -149,7 +149,7 @@ layout: layouts/base.njk
                 {{ matchedTool.icon | safe }}
               </div>
               <div>
-                <span class="tool-category-chip text-sm mb-1 inline-block" data-cat="{{ matchedTool.category }}">{{ matchedTool.category }}</span>
+                <span class="tool-category-chip text-sm mb-1 inline-block" data-cat="{{ matchedTool.category }}">{{ matchedCat.name if matchedCat else matchedTool.category }}</span>
                 <h2 class="text-md m-0 text-primary">{{ 'post.tryTool' | t({ name: matchedTool.name }) }}</h2>
               </div>
             </div>
@@ -189,7 +189,7 @@ layout: layouts/base.njk
         {% endif %}
 
         <!-- Related Posts Section -->
-        {% set otherPosts = collections.post | filterOtherPosts(page.url, 2) %}
+        {% set otherPosts = collections['posts_' + lang] | filterOtherPosts(page.url, 2) %}
         {% if otherPosts and otherPosts.length > 0 %}
         <section class="related-posts-section mt-12 pt-8 border-t" aria-labelledby="related-posts-heading">
           <h2 id="related-posts-heading" class="section-title">{{ 'post.text.related-posts-heading' | t }}</h2>

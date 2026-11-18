@@ -1,0 +1,22 @@
+---js
+{
+  // /<lang>/blog/ for every enabled language other than English: the same list as /blog/,
+  // with that language's posts (src/blog/<lang>/*.md) and text
+  layout: "layouts/base.njk",
+  pagination: { data: "blogLanguages", size: 1, alias: "blogLang" },
+  permalink: data => `/${data.blogLang.prefix}/blog/`,
+  tags: [],
+  eleventyExcludeFromCollections: true,
+  eleventyComputed: {
+    lang: data => data.blogLang.code,
+    dir: data => data.blogLang.dir,
+    title: data => data.uiString(data.blogLang.code, 'blog.index.title'),
+    description: data => data.uiString(data.blogLang.code, 'blog.index.description'),
+    canonical: data => `https://toolsbuilt.com/${data.blogLang.prefix}/blog/`,
+    ogImage: data => `https://toolsbuilt.com/assets/og/${data.blogLang.prefix}/home.png`
+  }
+}
+---
+{% set allPosts = collections['posts_' + lang] %}
+{% set posts = allPosts | reverse %}
+{% include "partials/blog-index.njk" %}

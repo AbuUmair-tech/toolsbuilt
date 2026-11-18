@@ -101,15 +101,26 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPassthroughCopy('src/tools/**/*.js');
   eleventyConfig.addPassthroughCopy('src/tools/**/*.css');
 
-  // Collections: filter drafts out of production builds
-  eleventyConfig.addCollection('post', function(collectionApi) {
+  // Collections: filter drafts out of production builds. `post` is the English blog (feed,
+  // sitemap, llms.txt and /blog/ list it); posts_<lang> holds one language's posts, including
+  // translations in src/blog/<lang>/.
+  const blogPosts = (collectionApi, code) => {
     const isProd = process.env.NODE_ENV === 'production' || process.env.SITE_ENV === 'production';
-    const posts = collectionApi.getFilteredByTag('post');
-    if (isProd) {
-      return posts.filter(item => !item.data.draft);
-    }
-    return posts;
+    return collectionApi.getFilteredByTag('post')
+      .filter(item => (item.data.lang || 'en') === code)
+      .filter(item => !(isProd && item.data.draft));
+  };
+  eleventyConfig.addCollection('post', collectionApi => blogPosts(collectionApi, 'en'));
+  // Languages with their own blog list page (/<prefix>/blog/, src/blog/index-languages.njk)
+  // uiString('ur', 'blog.index.title'): a UI string, for computed front matter
+  eleventyConfig.addGlobalData('uiString', () => (code, key) => {
+    const i18nData = require('./scripts/i18n-data.js');
+    return i18nData.lookup(i18nData.ui(code), key);
   });
+  eleventyConfig.addGlobalData('blogLanguages', () => require('./scripts/i18n.js').loadLanguages().filter(l => l.enabled && l.code !== 'en'));
+  for (const code of builtLanguages) {
+    eleventyConfig.addCollection(`posts_${code}`, collectionApi => blogPosts(collectionApi, code));
+  }
 
   // Filters
   eleventyConfig.addFilter('findTool', function(tools, slug) {
@@ -321,12 +332,16 @@ module.exports = function(eleventyConfig) {
   });
 
   // Blog Filters: readingTime, isoDate, readableDate, jsonStr
+  // "6 min read" in the page language (blog.minRead in the UI strings)
   eleventyConfig.addFilter('readingTime', function(content) {
-    if (!content) return '1 min read';
-    const text = String(content).replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+    const text = String(content || '').replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
     const words = text ? text.split(/\s+/).length : 0;
     const minutes = Math.max(1, Math.ceil(words / 200));
-    return `${minutes} min read`;
+    const lang = (this.ctx && this.ctx.lang) || 'en';
+    const i18nData = require('./scripts/i18n-data.js');
+    const forms = i18nData.lookup(i18nData.ui(lang), 'blog.minRead');
+    const form = forms[new Intl.PluralRules(lang).select(minutes)] || forms.other;
+    return i18nData.format(form, { count: minutes });
   });
 
   eleventyConfig.addFilter('isoDate', function(date) {
@@ -338,7 +353,11 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addFilter('readableDate', function(date) {
     if (!date) return '';
     const d = date instanceof Date ? date : new Date(date);
-    return isNaN(d.getTime()) ? String(date) : d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+    if (isNaN(d.getTime())) return String(date);
+    // English keeps "November 18, 2026"; other languages use their own date format
+    const lang = (this.ctx && this.ctx.lang) || 'en';
+    const locale = lang === 'en' ? 'en-US' : ((languages.find(l => l.code === lang) || {}).intlLocale || lang);
+    return d.toLocaleDateString(locale, { month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
   });
 
 
@@ -346,7 +365,8 @@ module.exports = function(eleventyConfig) {
     return text
       .toLowerCase()
       .replace(/<[^>]*>/g, '')
-      .replace(/[^\w\s-]/g, '')
+      // Letters and digits of any script stay, so Urdu or Hindi headings get usable ids
+      .replace(/[^\p{L}\p{M}\p{N}_\s-]/gu, '')
       .trim()
       .replace(/\s+/g, '-');
   }
