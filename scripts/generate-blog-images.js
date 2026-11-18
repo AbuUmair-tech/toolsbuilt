@@ -5,7 +5,7 @@
  *
  * Output per post in src/assets/blog/<post-slug>/:
  *   <name>.svg   the source (kept in git, editable)
- *   <name>.webp  what the post shows (width/height in the post match WIDTH x HEIGHT below)
+ *   <name>.webp  what the post shows, 1600x900 (the SVG drawn at 96 dpi; the post's width/height match)
  *   og.png       1200x630 social card
  *
  * Usage: node scripts/generate-blog-images.js
