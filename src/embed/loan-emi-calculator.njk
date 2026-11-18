@@ -1,0 +1,124 @@
+---
+permalink: /embed/loan-emi-calculator/
+eleventyExcludeFromCollections: true
+embedTool: loan-emi-calculator
+---
+{#- The loan EMI calculator on its own, for other websites to show in an <iframe> (the snippet is
+    on the tool page). No header, footer, analytics or cookie banner; noindex because the full
+    tool page is the one to rank. Query parameters prefill it: ?amount=&rate=&tenure=&unit=&cur= -#}
+{% from "partials/currency-select.njk" import currencySelect, countryData with context %}
+{%- set slug = "loan-emi-calculator" -%}
+{%- set toolUrl = "/tools/loan-emi-calculator/" -%}
+{%- set currentLanguage = lang | languageInfo -%}
+{%- set tool = tools | findTool(slug) -%}
+<!DOCTYPE html>
+<html lang="{{ lang }}" dir="{{ dir }}"{% if lang != 'en' %} data-locale-prefix="/{{ currentLanguage.prefix }}"{% endif %}{% if currentLanguage.intlLocale %} data-intl-locale="{{ currentLanguage.intlLocale }}"{% endif %}>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, follow">
+  <title>{{ tool.name }} | ToolsBuilt</title>
+  <meta name="description" content="{{ tool.shortDescription or tool.description }}">
+  <link rel="canonical" href="https://toolsbuilt.com{{ toolUrl }}">
+  {%- if lang != 'en' %}
+  <script>window.I18N = {{ [slug] | clientStrings }};</script>
+  {%- endif %}
+  <style>
+    :root { --bg: #ffffff; --text: #0f172a; --muted: #475569; --border: #cbd5e1; --accent: #2563eb; --accent-text: #ffffff; --tint: #eff4ff; --error: #b91c1c; }
+    :root[data-theme="dark"] { --bg: #0b0f19; --text: #f1f5f9; --muted: #a1adbf; --border: #334155; --accent: #6aa5ff; --accent-text: #0b0f19; --tint: #10224d; --error: #fca5a5; }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; background: var(--bg); color: var(--text); font: 15px/1.45 -apple-system, "Segoe UI", Roboto, "Noto Sans", "Noto Nastaliq Urdu", "Noto Sans Arabic", "Noto Sans Devanagari", sans-serif; }
+    main { padding: 16px; max-width: 640px; margin: 0 auto; }
+    h1 { font-size: 18px; margin: 0 0 12px; }
+    form { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 12px; }
+    .form-group { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+    .full { grid-column: 1 / -1; }
+    label { font-size: 13px; font-weight: 600; color: var(--muted); }
+    label .text-accent { color: var(--accent); }
+    .label-hint { display: none; }
+    input, select { width: 100%; font: inherit; color: var(--text); background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 8px 10px; min-height: 40px; }
+    input:focus-visible, select:focus-visible, a:focus-visible { outline: 3px solid var(--accent); outline-offset: 1px; }
+    .row { display: flex; gap: 8px; }
+    .row select { width: auto; }
+    .result { margin-top: 14px; background: var(--tint); border-radius: 12px; padding: 14px; }
+    .result-primary { font-size: 22px; font-weight: 800; margin: 0 0 8px; }
+    .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 12px; margin: 0; }
+    .stats dt { font-size: 13px; color: var(--muted); }
+    .stats dd { margin: 0 0 4px; font-weight: 700; }
+    .error { color: var(--error); font-weight: 600; margin: 10px 0 0; }
+    .credit { margin: 12px 0 0; font-size: 13px; color: var(--muted); }
+    .credit a { color: var(--accent); font-weight: 600; }
+    @media (max-width: 300px) { form, .stats { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+{{ countryData(countries) }}
+<main>
+  <h1>{{ tool.name }}</h1>
+  <form id="emi-form" novalidate>
+    {{ currencySelect({ id: "cur", selected: "PKR" }) }}
+    <div class="form-group">
+      <label for="amount">{{ 'label.loan-amount' | ts(slug) }}</label>
+      <input type="number" step="any" min="1" id="amount" inputmode="decimal" value="2500000">
+    </div>
+    <div class="form-group">
+      <label for="rate">{{ 'label.interest-rate' | ts(slug) }}</label>
+      <input type="number" step="0.01" min="0" max="100" id="rate" inputmode="decimal" value="12">
+    </div>
+    <div class="form-group">
+      <label for="tenure">{{ 'label.tenure-value' | ts(slug) }}</label>
+      <div class="row">
+        <input type="number" step="1" min="1" max="600" id="tenure" inputmode="numeric" value="5">
+        <select id="unit" aria-label="{{ 'ariaLabel.tenure-unit' | ts(slug) }}">
+          <option value="years" selected>{{ 'option.tenure-unit.years' | ts(slug) }}</option>
+          <option value="months">{{ 'option.tenure-unit.months' | ts(slug) }}</option>
+        </select>
+      </div>
+    </div>
+  </form>
+  <p class="error" id="error" role="alert" hidden></p>
+  <section class="result" id="result" aria-live="polite">
+    <p class="result-primary" id="emi"></p>
+    <dl class="stats">
+      <div><dt>{{ 'content.tool.div2' | ts(slug) }}</dt><dd id="interest"></dd></div>
+      <div><dt>{{ 'content.tool.div3' | ts(slug) }}</dt><dd id="total"></dd></div>
+    </dl>
+  </section>
+  <p class="credit">{{ 'embed.credit' | t({ link: ('<a href="' + toolUrl + '" target="_blank" rel="noopener">ToolsBuilt</a>') | safe }) }}</p>
+</main>
+<script src="/assets/js/common.js"></script>
+<script src="/tools/loan-emi-calculator/logic.js"></script>
+<script>
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  var params = new URLSearchParams(location.search);
+  if (params.get('theme') === 'dark') document.documentElement.dataset.theme = 'dark';
+  ['amount', 'rate', 'tenure'].forEach(function (k) { if (params.get(k)) $(k).value = params.get(k); });
+  if (params.get('unit') === 'months') $('unit').value = 'months';
+  var cur = (params.get('cur') || '').toUpperCase();
+  if (cur && Array.prototype.some.call($('cur').options, function (o) { return o.value === cur; })) $('cur').value = cur;
+  var T = ToolsBuilt.scope('loan-emi-calculator');
+
+  function calculate() {
+    var c = $('cur').value;
+    try {
+      var res = LoanEmiLogic.calculateLoanEmi(parseFloat($('amount').value), parseFloat($('rate').value), parseFloat($('tenure').value), $('unit').value, { currencyCode: c });
+      $('emi').textContent = T('result.primary', { value: ToolsBuilt.money(res.monthlyEmi, c) });
+      $('interest').textContent = ToolsBuilt.money(res.totalInterest, c);
+      $('total').textContent = ToolsBuilt.money(res.totalPayment, c);
+      $('error').hidden = true;
+      $('result').hidden = false;
+    } catch (e) {
+      $('error').textContent = e.message;
+      $('error').hidden = false;
+      $('result').hidden = true;
+    }
+  }
+  $('emi-form').addEventListener('input', calculate);
+  $('emi-form').addEventListener('change', calculate);
+  $('emi-form').addEventListener('submit', function (e) { e.preventDefault(); calculate(); });
+  calculate();
+})();
+</script>
+</body>
+</html>
