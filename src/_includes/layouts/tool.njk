@@ -222,7 +222,7 @@ layout: layouts/base.njk
           </div>
           <p class="tool-hero-description">{{ currentTool.description if currentTool else description }}</p>
           <p class="tool-byline">
-            {% set updatedTime %}<time datetime="{{ pageUpdated }}">{{ pageUpdated | humanDate }}</time>{% endset %}{{ 'toolPage.byline' | t({ author: authorName, date: updatedTime | safe }) }}
+            {% set updatedTime %}<time datetime="{{ pageUpdated }}">{{ pageUpdated | humanDate }}</time>{% endset %}{% set authorLink %}<a href="/about/#author" rel="author">{{ authorName }}</a>{% endset %}{{ 'toolPage.byline' | t({ author: authorLink | safe, date: updatedTime | safe }) }}
           </p>
           <ul class="hero-chips" aria-label="{{ 'toolPage.ariaLabel.tool-ul1' | t }}">
             <li>{{ 'toolPage.content.tool.li2' | t }}</li>
