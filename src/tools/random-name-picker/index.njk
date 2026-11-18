@@ -35,15 +35,15 @@ lastReviewed: "2026-10-24"
 
     <div class="wheel-canvas-col">
       <div class="canvas-wrapper flex justify-center items-center">
-        <canvas id="wheelCanvas" width="400" height="400" aria-label="{{ 'ariaLabel.wheelCanvas' | pt }}"></canvas>
+        <canvas id="wheelCanvas" width="400" height="400" role="img" aria-label="{{ 'ariaLabel.wheelCanvas' | pt }}"></canvas>
       </div>
     </div>
   </div>
 
   <!-- Winner Modal -->
-  <div id="winnerModal" class="modal-overlay hidden" aria-hidden="true" role="dialog" aria-labelledby="winnerTitle">
+  <div id="winnerModal" class="modal-overlay hidden" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="winnerTitle">
     <div class="modal-card text-center panel-card max-w-sm my-8 mx-auto">
-      <h2 id="winnerTitle" class="modal-title mt-0 text-accent">{{ 'text.winnerTitle' | pt }}</h2>
+      <h2 id="winnerTitle" tabindex="-1" class="modal-title mt-0 text-accent">{{ 'text.winnerTitle' | pt }}</h2>
       <div id="winnerName" class="winner-display-name text-2xl font-extrabold my-6 mx-0 break-words">---</div>
       <div class="modal-actions flex gap-3 flex-col">
         <button type="button" id="copyWinnerBtn" class="btn btn-outline">{{ 'text.copyWinnerBtn' | pt }}</button>
