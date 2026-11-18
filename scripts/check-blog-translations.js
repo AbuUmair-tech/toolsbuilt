@@ -136,8 +136,12 @@ function checkPost(lang, slug) {
 
   // Leftover English
   const enLines = new Set(en.body.split('\n').map(s => s.trim()).filter(s => s.length > 40 && !/^(<img|<\/?figure|\|[-|]+\||<div|<\/div|<ul|<\/ul)/.test(s)));
+  // A line with no words (a table row of numbers, a formula) is the same in every language
+  // (names such as EMI or KIBOR stay in Latin script, so they do not count as words)
+  const hasWords = line => (line.replace(/<[^>]+>|\]\([^)]*\)|`[^`]*`/g, ' ').match(/[A-Za-z]{2,}/g) || [])
+    .some(w => !KEEP.has(w.toLowerCase()));
   for (const line of tr.body.split('\n')) {
-    if (enLines.has(line.trim())) errors.push(`${rel}: untranslated line: "${line.trim().slice(0, 80)}"`);
+    if (enLines.has(line.trim()) && hasWords(line)) errors.push(`${rel}: untranslated line: "${line.trim().slice(0, 80)}"`);
   }
   if (NON_LATIN.has(lang.code)) {
     const words = strip(tr.body + ' ' + tf.map(f => f.question + ' ' + f.answer).join(' '))
@@ -148,7 +152,8 @@ function checkPost(lang, slug) {
     latin.forEach(w => { counts[w] = (counts[w] || 0) + 1; });
     if (latin.length > 25) warnings.push(`${rel}: ${latin.length} Latin-script words left in the text: ${Object.keys(counts).slice(0, 25).join(', ')}`);
   }
-  if (/\bTODO\b|\[AUTHOR_NOTE\]|lorem ipsum/i.test(tr.raw)) errors.push(`${rel}: placeholder text`);
+  // Case-sensitive: "todo" is an ordinary word in Spanish and Portuguese
+  if (/(?<![\p{L}\p{N}])TODO(?![\p{L}\p{N}])|\[AUTHOR_NOTE\]|[Ll]orem ipsum/u.test(tr.raw)) errors.push(`${rel}: placeholder text`);
 }
 
 function checkImageStrings(lang) {

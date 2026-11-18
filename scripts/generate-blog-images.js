@@ -98,14 +98,21 @@ function context(lang) {
     const anchor = o.anchor || 'start';
     let size = (o.size || 22) * (o.fixed ? 1 : scale);
     const weight = o.weight || 400;
-    // Mirrored text is drawn with direction="rtl", where text-anchor "start" is the right edge,
-    // so the anchor name stays the same and only x moves
-    const px = rtl && !o.fixed ? W - x : x, a = anchor;
+    // Where the text sits: free text is mirrored in right-to-left images (also `ltr` text such as
+    // formulas, which keeps its own reading order); `fixed` text stays where it is
+    const mirrored = rtl && !o.fixed;
+    const px = mirrored ? W - x : x;
+    const flip = { start: 'end', end: 'start', middle: 'middle' };
+    const edge = mirrored ? flip[anchor] : anchor; // 'start' = left edge, 'end' = right edge
+    // Text with Arabic-script words is laid out right to left, where text-anchor "start" is the
+    // right edge
+    const rtlText = rtl && !o.ltr && /[\u0590-\u08FF\uFB50-\uFEFF]/.test(s);
+    const a = rtlText ? flip[edge] : edge;
     const room = o.max || (anchor === 'middle' ? W - 112 : anchor === 'end' ? x - 56 : (o.frameW || W) - 56 - x);
     const min = size * 0.62;
     while (await measure(s, size, weight, font) > room && size > min) size = Math.round((size - 0.5) * 2) / 2;
     if (await measure(s, size, weight, font) > room) problems.push(`${lang}: "${s}" is wider than ${room}px`);
-    const dir = rtl && !o.fixed ? ' direction="rtl"' : '';
+    const dir = rtlText ? ' direction="rtl"' : '';
     return `<text x="${px}" y="${y}" font-family="${esc(font)}" font-size="${size}" font-weight="${weight}" fill="${o.fill || C.text}"${a !== 'start' ? ` text-anchor="${a}"` : ''}${dir}>${esc(s)}</text>`;
   }
 
@@ -137,7 +144,7 @@ function context(lang) {
 }
 
 // --------------------------------------------------------------- post 1: loan EMI
-async function emiImages({ S, t, legend, frame }) {
+async function emiImages({ rtl, S, t, legend, frame }) {
   const home = Loan.calculateLoanEmi(5000000, 16, 15, 'years');
   const homeExtra = Loan.calculateLoanEmi(5000000, 16, 15, 'years', { extraMonthlyPayment: 10000 });
   const bike = Loan.calculateLoanEmi(1500000, 20, 3, 'years');
@@ -204,23 +211,24 @@ async function emiImages({ S, t, legend, frame }) {
   const bw = 820 / flatInterest;
   out['flat-rate-vs-reducing-balance-20-percent'] = await frame(S(k + 'flat.title'), S(k + 'flat.subtitle'), `
   ${await t(56, 210, S(k + 'flat.reducing'), { size: 24, weight: 700 })}
-  <rect x="56" y="228" width="${bike.totalInterest * bw}" height="64" rx="10" fill="${C.green}"/>
-  ${await t(56 + bike.totalInterest * bw + 18, 270, rs(bike.totalInterest, 2), { size: 26, weight: 800, fill: C.green, fixed: true })}
+  <rect x="${rtl ? W - 56 - bike.totalInterest * bw : 56}" y="228" width="${bike.totalInterest * bw}" height="64" rx="10" fill="${C.green}"/>
+  ${await t(56 + bike.totalInterest * bw + 18, 270, rs(bike.totalInterest, 2), { size: 26, weight: 800, fill: C.green })}
   ${await t(56, 322, S(k + 'flat.emi', { emi: rs(bike.monthlyEmi, 2) }), { size: 20, fill: C.muted })}
   ${await t(56, 400, S(k + 'flat.flat'), { size: 24, weight: 700 })}
-  <rect x="56" y="418" width="${flatInterest * bw}" height="64" rx="10" fill="${C.orange}"/>
-  ${await t(56 + flatInterest * bw + 18, 460, rs(flatInterest, 2), { size: 26, weight: 800, fill: C.orange, fixed: true })}
+  <rect x="${rtl ? W - 56 - flatInterest * bw : 56}" y="418" width="${flatInterest * bw}" height="64" rx="10" fill="${C.orange}"/>
+  ${await t(56 + flatInterest * bw + 18, 460, rs(flatInterest, 2), { size: 26, weight: 800, fill: C.orange })}
   ${await t(56, 512, S(k + 'flat.emi', { emi: rs(flatEmi, 2) }), { size: 20, fill: C.muted })}
   ${await t(56, 590, S(k + 'flat.note', { more: rs(flatInterest - bike.totalInterest, 2) }), { size: 22, weight: 600, fill: C.text, max: W - 112 - 190 })}`);
   return out;
 }
 
 // --------------------------------------------------------------- post 2: percentages
-async function percentImages({ S, t, frame }) {
+async function percentImages({ rtl, S, t, frame }) {
   const out = {};
   const k = 'percent.';
+  // Boxes swap sides in right-to-left images, together with their (mirrored) text
   const card = async (x, y, w, h, tint, color, head, formula, ex) => `
-  <rect x="${x}" y="${y}" width="${w}" height="${h}" rx="18" fill="${tint}"/>
+  <rect x="${rtl ? W - x - w : x}" y="${y}" width="${w}" height="${h}" rx="18" fill="${tint}"/>
   ${await t(x + 28, y + 46, head, { size: 22, weight: 700, fill: color, max: w - 56 })}
   ${await t(x + 28, y + 100, formula, { size: 30, weight: 800, max: w - 56 })}
   ${await t(x + 28, y + 146, ex, { size: 20, fill: C.muted, max: w - 56 })}`;
@@ -234,9 +242,10 @@ async function percentImages({ S, t, frame }) {
   // stacked discount
   const d = Discount.calculateDiscount(5000, 20, { stackedDiscountPercent: 10 });
   const sc = 680 / 5000;
+  // Bars grow from the label side: leftwards in right-to-left images
   const row = async (y, label, value, color, note) => `${await t(56, y + 40, label, { size: 22, weight: 700, max: 230 })}
-  <rect x="300" y="${y}" width="${value * sc}" height="60" rx="10" fill="${color}"/>
-  ${await t(300 + value * sc + 16, y + 40, rs(value), { size: 24, weight: 800, fill: color, fixed: true })}
+  <rect x="${rtl ? W - 300 - value * sc : 300}" y="${y}" width="${value * sc}" height="60" rx="10" fill="${color}"/>
+  ${await t(300 + value * sc + 16, y + 40, rs(value), { size: 24, weight: 800, fill: color })}
   ${note ? await t(300, y + 88, note, { size: 19, fill: C.muted, max: W - 356 }) : ''}`;
   out['stacked-discount-20-then-10-percent'] = await frame(S(k + 'stacked.title'), S(k + 'stacked.subtitle'), `
   ${await row(160, S(k + 'stacked.original'), 5000, C.faint, '')}
@@ -330,16 +339,17 @@ async function welcomeImages({ lang, rtl, S, t, frame }) {
 }
 
 // --------------------------------------------------------------- Open Graph cards (1200x630)
-async function ogCard({ t }, kicker, lines, sub, accent) {
+async function ogCard({ t, lang }, kicker, lines, sub, accent) {
   const o = { frameW: 1200, max: 1040 };
+  const gap = SCALE[lang] ? 84 : 70; // Nastaliq lines need more room
   return `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
   <defs><radialGradient id="g" cx="85%" cy="15%" r="65%"><stop offset="0%" stop-color="${accent}" stop-opacity="0.28"/><stop offset="100%" stop-color="#0b0f19" stop-opacity="0"/></radialGradient></defs>
   <rect width="1200" height="630" fill="#0b0f19"/><rect width="1200" height="630" fill="url(#g)"/>
   <rect x="80" y="80" width="56" height="56" rx="14" fill="#4f46e5"/>${await t(108, 118, 'T', { size: 30, weight: 800, fill: '#ffffff', anchor: 'middle', fixed: true })}
   ${await t(154, 119, 'ToolsBuilt', { size: 30, weight: 800, fill: '#f8fafc', fixed: true })}
   ${await t(80, 222, kicker.toUpperCase(), { size: 22, weight: 700, fill: accent, ...o })}
-  ${(await Promise.all(lines.map((l, i) => t(80, 300 + i * 70, l, { size: 58, weight: 800, fill: '#f8fafc', ...o })))).join('')}
-  ${await t(80, 300 + lines.length * 70 + 20, sub, { size: 26, fill: '#94a3b8', ...o })}
+  ${(await Promise.all(lines.map((l, i) => t(80, 300 + i * gap, l, { size: 58, weight: 800, fill: '#f8fafc', ...o })))).join('')}
+  ${await t(80, 300 + lines.length * gap + 20, sub, { size: 26, fill: '#94a3b8', ...o })}
   ${await t(80, 572, 'toolsbuilt.com/blog', { size: 22, weight: 600, fill: '#64748b', fixed: true })}
 </svg>`;
 }
