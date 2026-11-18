@@ -2,7 +2,18 @@
 permalink: /llms.txt
 eleventyExcludeFromCollections: true
 ---
-{% set currentPrefix = (lang | languageInfo).prefix %}{{ 'llms.intro' | t }}## {{ 'llms.categories' | t }}
+{% set currentPrefix = (lang | languageInfo).prefix %}{{ 'llms.intro' | t }}{% if lang == 'en' %}## Key Pages
+
+- [About and author](https://toolsbuilt.com/about/#author): who builds and maintains ToolsBuilt.
+- [Salary Tax Calculator](https://toolsbuilt.com/tools/salary-tax-calculator/): take-home pay and income tax by country, with official rate tables for Pakistan, India, the UK and the US.
+- [Pakistan Salary Tax Calculator](https://toolsbuilt.com/tools/pakistan-salary-tax-calculator/): FBR salary income tax slabs for the current and previous tax year.
+- [Loan EMI Calculator](https://toolsbuilt.com/tools/loan-emi-calculator/): monthly installment, total interest and amortization schedule; defaults to PKR.
+- [Marks Percentage Calculator](https://toolsbuilt.com/tools/marks-percentage-calculator/): matric, inter and any-exam percentages with BISE-style grades.
+- [Merit Calculator](https://toolsbuilt.com/tools/merit-calculator/): admission aggregate from matric, inter, entry test and interview marks.
+- [Gold Calculator](https://toolsbuilt.com/tools/gold-calculator/): gold price by tola, gram and karat with making charges.
+- [Disclaimer](https://toolsbuilt.com/disclaimer/): results are estimates, not financial, tax or legal advice.
+
+{% endif %}## {{ 'llms.categories' | t }}
 {% for cat in categories %}
 - [{{ cat.name | safe }}](https://toolsbuilt.com{{ ('/category/' + cat.slug + '/') | localeUrl(lang) }}): {{ cat.description | safe }}
 {%- endfor %}
