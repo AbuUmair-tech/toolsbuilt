@@ -93,6 +93,8 @@
       totalWeight: roundSensible(totalWeight, 2),
       totalPoints: roundSensible(weightedPointsSum, 2),
       currentGrade: roundedPercentage,
+      // Unrounded, for further calculations (rounding first can move the final-exam target by 0.01)
+      exactGrade: currentPercentage,
       letterGrade: getLetterGrade(roundedPercentage),
       validRows
     };

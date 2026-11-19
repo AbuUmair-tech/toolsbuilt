@@ -381,6 +381,9 @@ const gradeLogic = require(path.join(ROOT, 'src/tools/grade-calculator/logic.js'
   const neededTarget90 = gradeLogic.calculateFinalExamNeeded(90, 70, curRes.currentGrade, 30);
   assert(neededTarget90.neededScore > 93, `GradeLogic: score needed for 90% is >93% (got ${neededTarget90.neededScore}%)`);
   assert(neededTarget90.status === 'achievable', 'GradeLogic: target status is achievable');
+  // From the unrounded grade: (90 − 61.8) ÷ 0.3 = 94 exactly (the rounded 88.29 gives 93.99)
+  const exact90 = gradeLogic.calculateFinalExamNeeded(90, 70, curRes.exactGrade, 30);
+  assert(exact90.neededScore === 94, `GradeLogic: score needed for 90% from the exact grade is 94% (got ${exact90.neededScore}%)`);
 
   // Target already achieved
   const clinched = gradeLogic.calculateFinalExamNeeded(60, 80, 90, 20);
