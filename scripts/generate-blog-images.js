@@ -33,6 +33,7 @@ const sharp = require('sharp');
 
 const Loan = require('../src/tools/loan-emi-calculator/logic.js');
 const Discount = require('../src/tools/discount-calculator/logic.js');
+const Grade = require('../src/tools/grade-calculator/logic.js');
 const LANGUAGES = JSON.parse(fs.readFileSync(path.join(ROOT, 'src', '_data', 'languages.json'), 'utf8'));
 const TOOLS = JSON.parse(fs.readFileSync(path.join(ROOT, 'src', '_data', 'tools.json'), 'utf8'));
 
@@ -338,6 +339,87 @@ async function welcomeImages({ lang, rtl, S, t, frame }) {
   return out;
 }
 
+// --------------------------------------------------------------- post 4: grades
+async function gradeImages({ rtl, S, t, frame }) {
+  const out = {};
+  const k = 'grade.';
+  const rows = [
+    { key: 'homework', score: 95, weight: 20, color: C.blue },
+    { key: 'quizzes', score: 88, weight: 10, color: C.purple },
+    { key: 'midterm', score: 82, weight: 25, color: C.orange },
+    { key: 'project', score: 90, weight: 15, color: C.green }
+  ];
+  const cur = Grade.calculateCurrentGrade(rows);
+  const finalWeight = 30;
+  const points = cur.totalPoints; // 61.8
+  const dec = w => (w / 100).toFixed(2);
+
+  // 1. Weighted grade: score bars, score × weight, total ÷ share graded
+  const barX = 300, barMax = 470;
+  let body = '';
+  for (const [i, r] of rows.entries()) {
+    const y = 150 + i * 84;
+    const len = r.score / 100 * barMax;
+    const c = cur.validRows[i].contribution;
+    body += await t(56, y + 26, S(k + 'weighted.' + r.key), { size: 22, weight: 700, max: barX - 72 });
+    body += await t(56, y + 54, S(k + 'weighted.weight', { weight: `${r.weight}%` }), { size: 18, fill: C.muted, max: barX - 72 });
+    body += `<rect x="${rtl ? W - barX - len : barX}" y="${y + 6}" width="${len}" height="44" rx="10" fill="${r.color}"/>`;
+    body += await t(barX + len + 12, y + 37, `${r.score}%`, { size: 22, weight: 800, fill: r.color, ltr: true });
+    body += await t(870, y + 37, `${r.score} × ${dec(r.weight)} = ${c.toFixed(1)}`, { size: 24, weight: 700, ltr: true, max: W - 56 - 870 });
+  }
+  out['weighted-grade-worked-example'] = await frame(S(k + 'weighted.title'), S(k + 'weighted.subtitle', { weight: `${cur.totalWeight}%` }), `
+  ${body}
+  <line x1="56" y1="490" x2="${W - 56}" y2="490" stroke="${C.border}" stroke-width="2"/>
+  ${await t(56, 548, `${points} ÷ ${dec(cur.totalWeight)} = ${cur.currentGrade}%`, { size: 42, weight: 800, fill: C.green, ltr: true })}
+  ${await t(56, 592, S(k + 'weighted.result', { points, weight: `${cur.totalWeight}%`, letter: cur.letterGrade }), { size: 20, fill: C.muted, max: W - 112 - 190 })}`);
+
+  // 2. Score needed on the final for five targets
+  const targets = [90, 87, 80, 70, 60];
+  const nX = 380, nMax = 600;
+  let bars = '';
+  for (const [i, target] of targets.entries()) {
+    const y = 150 + i * 80;
+    const need = Grade.calculateFinalExamNeeded(target, cur.totalWeight, cur.exactGrade, finalWeight);
+    const label = S(k + 'needed.target', { target: `${target}%`, letter: Grade.getLetterGrade(target) });
+    bars += await t(56, y + 36, label, { size: 22, weight: 700, max: nX - 76 });
+    if (need.neededScore <= 0) {
+      bars += await t(nX, y + 36, S(k + 'needed.secured', { points }), { size: 21, weight: 600, fill: C.green, max: nMax + 120 });
+    } else {
+      const len = need.neededScore / 100 * nMax;
+      const color = need.neededScore >= 90 ? C.orange : need.neededScore >= 60 ? C.blue : C.green;
+      bars += `<rect x="${rtl ? W - nX - len : nX}" y="${y + 8}" width="${len}" height="44" rx="10" fill="${color}"/>`;
+      bars += await t(nX + len + 12, y + 38, `${need.neededScore}%`, { size: 24, weight: 800, fill: color, ltr: true });
+    }
+  }
+  out['score-needed-on-final'] = await frame(S(k + 'needed.title', { weight: `${finalWeight}%` }), S(k + 'needed.subtitle', { points, weight: `${cur.totalWeight}%` }), `
+  ${bars}
+  ${await t(56, 600, S(k + 'needed.formula', { points, weight: dec(finalWeight) }), { size: 21, weight: 600, max: W - 112 - 190 })}`);
+
+  // 3. Course grade against the score on the final (a straight line)
+  const sx = f => 170 + f * 8.7, sy = g => 560 - (g - 55) / 40 * 380;
+  const grade = f => points + f * finalWeight / 100;
+  let g3 = '';
+  for (const g of [60, 70, 80, 90]) {
+    g3 += `<line x1="160" y1="${sy(g)}" x2="1144" y2="${sy(g)}" stroke="${C.grid}" stroke-width="2"/>`;
+    g3 += await t(148, sy(g) + 7, `${g}% ${Grade.getLetterGrade(g)}`, { size: 18, fill: C.faint, anchor: 'end', fixed: true });
+  }
+  for (let f = 0; f <= 100; f += 20) g3 += await t(sx(f), 592, String(f), { size: 18, fill: C.faint, anchor: 'middle', fixed: true });
+  let marks = '';
+  // The end of the line only gets its value; the others get "final → course grade (letter)"
+  for (const [f, dx, dy, anchor] of [[0, 14, 34, 'start'], [70, -14, -18, 'end'], [80, 14, 34, 'start'], [94, -14, -18, 'end'], [100, 14, 7, 'start']]) {
+    const g = Math.round(grade(f) * 100) / 100;
+    const label = f === 100 ? `${g}%` : `${f} → ${g}% (${Grade.getLetterGrade(g)})`;
+    marks += `<circle cx="${sx(f)}" cy="${sy(g)}" r="8" fill="${C.blue}" stroke="#fff" stroke-width="3"/>`;
+    marks += await t(sx(f) + dx, sy(g) + dy, label, { size: 20, weight: 700, fill: C.text, anchor, fixed: true });
+  }
+  out['final-exam-score-vs-course-grade'] = await frame(S(k + 'whatif.title'), S(k + 'whatif.subtitle', { points, weight: `${finalWeight}%` }), `
+  ${g3}
+  <line x1="${sx(0)}" y1="${sy(grade(0))}" x2="${sx(100)}" y2="${sy(grade(100))}" stroke="${C.blue}" stroke-width="6" stroke-linecap="round"/>
+  ${marks}
+  ${await t(sx(50), 630, S(k + 'whatif.axis'), { size: 19, fill: C.muted, anchor: 'middle', fixed: true, max: 560 })}`);
+  return out;
+}
+
 // --------------------------------------------------------------- Open Graph cards (1200x630)
 async function ogCard({ t, lang }, kicker, lines, sub, accent) {
   const o = { frameW: 1200, max: 1040 };
@@ -362,6 +444,10 @@ const POSTS = {
   'percentage-formulas-explained': {
     images: percentImages,
     og: (c) => ogCard(c, c.S('og.percent.kicker'), [c.S('og.percent.line1'), c.S('og.percent.line2')], c.S('og.percent.sub'), '#3b82f6')
+  },
+  'how-to-calculate-your-grade': {
+    images: gradeImages,
+    og: (c) => ogCard(c, c.S('og.grade.kicker'), [c.S('og.grade.line1'), c.S('og.grade.line2')], c.S('og.grade.sub'), '#f59e0b')
   },
   'welcome-to-toolsbuilt': {
     images: welcomeImages,

@@ -82,7 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const finalRes = logic.calculateFinalExamNeeded(
         targetGradeVal,
         curRes.totalWeight,
-        curRes.currentGrade,
+        curRes.exactGrade,
         finalWeightVal
       );
 
