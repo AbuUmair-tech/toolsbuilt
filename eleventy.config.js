@@ -285,7 +285,8 @@ module.exports = function(eleventyConfig) {
 
   eleventyConfig.addFilter('filterPopular', function(tools, limit) {
     if (!tools || !Array.isArray(tools)) return [];
-    const popular = tools.filter(t => t.popular && isListed(t)).sort((a, b) => (a.order || 99) - (b.order || 99));
+    // Ordered by popularRank: the tools with the most search demand (Search Console) come first
+    const popular = tools.filter(t => t.popular && isListed(t)).sort((a, b) => (a.popularRank || 99) - (b.popularRank || 99));
     return limit ? popular.slice(0, limit) : popular;
   });
 
