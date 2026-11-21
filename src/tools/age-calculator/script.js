@@ -6,6 +6,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   const logic = window.AgeCalculatorLogic;
   const T = ToolsBuilt.scope('age-calculator');
+  const P = ToolsBuilt.scopePlural('age-calculator');
   const form = document.getElementById('calculator-form');
   const dobInput = document.getElementById('dob-date');
   const targetDateInput = document.getElementById('target-date');
@@ -143,7 +144,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function renderResult(res) {
     const numFormatter = new Intl.NumberFormat(ToolsBuilt.pageLocale('en-US'));
-    const primaryStr = T('result.age', { years: res.years, months: res.months, days: res.days });
+    const unit = (key, n) => P(`units.${key}`, n, { count: numFormatter.format(n) });
+    const primaryStr = T('result.age', { years: unit('years', res.years), months: unit('months', res.months), days: unit('days', res.days) });
     lastResultText = T('copy.result', {
       age: primaryStr,
       totalDays: numFormatter.format(res.totalDays),
@@ -153,10 +155,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById('result-primary-text').textContent = primaryStr;
     document.getElementById('stat-years-months-days').textContent = T('stats.ymdShort', { years: res.years, months: res.months, days: res.days });
-    document.getElementById('stat-total-months').textContent = T('stats.months', { n: numFormatter.format(res.totalMonths) });
-    document.getElementById('stat-total-weeks').textContent = T('stats.weeks', { n: numFormatter.format(res.totalWeeks) });
-    document.getElementById('stat-total-days').textContent = T('stats.days', { n: numFormatter.format(res.totalDays) });
-    document.getElementById('stat-total-hours').textContent = T('stats.hours', { n: numFormatter.format(res.totalHours) });
+    document.getElementById('stat-total-months').textContent = unit('months', res.totalMonths);
+    document.getElementById('stat-total-weeks').textContent = unit('weeks', res.totalWeeks);
+    document.getElementById('stat-total-days').textContent = unit('days', res.totalDays);
+    document.getElementById('stat-total-hours').textContent = unit('hours', res.totalHours);
 
     const bdayEl = document.getElementById('stat-next-birthday');
     if (res.nextBirthday.isToday) {
