@@ -104,6 +104,43 @@ canonical: https://toolsbuilt.com/
       </ul>
     </section>
 
+    <!-- 3b. Latest guides: links the newest blog posts in this page's language from the homepage -->
+    {%- set latestGuides = (collections['posts_' + (lang or 'en')] or []).slice().reverse().slice(0, 3) %}
+    {%- if latestGuides.length %}
+    <section class="home-section" id="latest-guides" aria-labelledby="latest-guides-title">
+      <div class="section-head">
+        <div>
+          <p class="section-label">{{ 'blog.index.chip' | t | safe }}</p>
+          <h2 id="latest-guides-title" class="section-title">{{ 'blog.index.latest' | t }}</h2>
+        </div>
+        <a href="/blog/" class="section-link">{{ 'common.blog' | t }} {{ cards.arrow("") }}</a>
+      </div>
+      <ul class="tool-grid">
+        {% for post in latestGuides %}
+        <li>
+          <a href="{{ post.url }}" class="tool-card blog-card">
+            <div class="tool-card-header">
+              <div class="tool-icon-tile blog-card-tile">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+              </div>
+              <span class="tool-category-chip" data-cat="tech">{{ post.data.category or ('post.guide' | t) }}</span>
+            </div>
+            <h3 class="tool-title text-md">{{ post.data.title }}</h3>
+            <p class="tool-desc">{{ post.data.description }}</p>
+            <div class="blog-card-meta">
+              <time datetime="{{ post.date | isoDate }}">{{ post.date | readableDate }}</time>
+            </div>
+            <div class="tool-card-action">
+              <span>{{ 'blog.index.readGuide' | t }}</span>
+              {{ cards.arrow("") }}
+            </div>
+          </a>
+        </li>
+        {% endfor %}
+      </ul>
+    </section>
+    {%- endif %}
+
     <!-- 4. All tools, grouped by category (every tool one click from the homepage) -->
     <section class="home-section" id="all-tools" aria-labelledby="all-tools-title">
       <h2 id="all-tools-title" class="section-title">{{ 'text.all-tools-title' | pt }}</h2>

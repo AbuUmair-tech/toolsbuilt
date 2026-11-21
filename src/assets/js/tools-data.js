@@ -11,7 +11,7 @@ window.TOOLS_DATA = [
     "description": "Calculate exact total days, weeks, and months remaining until any future event, birthday, or holiday.",
     "category": "Date & Time Tools",
     "categoryId": "date-time",
-    "popular": true,
+    "popular": false,
     "related": [
       "time-zone-converter",
       "unix-timestamp-converter",
@@ -48,7 +48,7 @@ window.TOOLS_DATA = [
     "description": "Count words, characters (with and without spaces), sentences, paragraphs, and reading time live as you type.",
     "category": "Text & Writing Tools",
     "categoryId": "text",
-    "popular": true,
+    "popular": false,
     "related": [
       "text-case-converter",
       "text-diff-checker",
@@ -65,7 +65,7 @@ window.TOOLS_DATA = [
     "description": "Generate secure, customizable passwords locally using cryptographically secure random numbers (crypto.getRandomValues).",
     "category": "Security & Privacy Tools",
     "categoryId": "security",
-    "popular": true,
+    "popular": false,
     "related": [
       "password-strength-checker",
       "uuid-generator",
@@ -82,7 +82,7 @@ window.TOOLS_DATA = [
     "description": "Spin an interactive wheel to randomly pick winners from a list of names. Uses crypto-secure randomness.",
     "category": "Fun & Random Tools",
     "categoryId": "fun",
-    "popular": true,
+    "popular": false,
     "related": [
       "random-number-generator",
       "coin-flip-dice-roller",
@@ -115,7 +115,7 @@ window.TOOLS_DATA = [
     "description": "Calculate exact age in years, months, days, weeks, total hours, and countdown to your next birthday.",
     "category": "Date & Time Tools",
     "categoryId": "date-time",
-    "popular": false,
+    "popular": true,
     "related": [
       "unix-timestamp-converter",
       "time-zone-converter",
@@ -132,7 +132,7 @@ window.TOOLS_DATA = [
     "description": "Calculate total days, working business days (Mon-Fri), and time spans between any two calendar dates.",
     "category": "Date & Time Tools",
     "categoryId": "date-time",
-    "popular": false,
+    "popular": true,
     "related": [
       "hours-calculator",
       "week-number-calculator",
@@ -166,7 +166,7 @@ window.TOOLS_DATA = [
     "description": "Calculate final sale prices, total savings, stacked double discounts, and final price including sales tax.",
     "category": "Math & Finance Tools",
     "categoryId": "math-finance",
-    "popular": false,
+    "popular": true,
     "related": [
       "percentage-calculator",
       "tip-calculator",
@@ -184,7 +184,7 @@ window.TOOLS_DATA = [
     "description": "Calculate percentage increase/decrease, percentage differences, and percent of numbers with step-by-step formulas.",
     "category": "Math & Finance Tools",
     "categoryId": "math-finance",
-    "popular": false,
+    "popular": true,
     "related": [
       "percentage-calculator",
       "profit-margin-calculator",
@@ -233,7 +233,7 @@ window.TOOLS_DATA = [
     "description": "Calculate current weighted class grades and find the exact score needed on your final exam to achieve your target grade.",
     "category": "Student & Exam Tools",
     "categoryId": "education",
-    "popular": false,
+    "popular": true,
     "related": [
       "gpa-calculator",
       "weighted-average-calculator",
@@ -437,7 +437,7 @@ window.TOOLS_DATA = [
     "description": "Calculate a percentage from obtained and total marks, or subject by subject with a grand total, for matric, inter or any exam, with a typical BISE grade.",
     "category": "Student & Exam Tools",
     "categoryId": "education",
-    "popular": false,
+    "popular": true,
     "related": [
       "cgpa-to-percentage-calculator",
       "attendance-calculator",
@@ -523,7 +523,7 @@ window.TOOLS_DATA = [
     "description": "Calculate hours between two times with breaks and overnight shifts, or total a weekly timesheet with pay and overtime.",
     "category": "Date & Time Tools",
     "categoryId": "date-time",
-    "popular": true,
+    "popular": false,
     "related": [
       "date-difference-calculator",
       "time-zone-converter",
@@ -635,7 +635,7 @@ window.TOOLS_DATA = [
     "description": "Add, subtract, multiply and divide fractions and mixed numbers with step-by-step working, simplify fractions and convert decimals.",
     "category": "Math & Finance Tools",
     "categoryId": "math-finance",
-    "popular": true,
+    "popular": false,
     "related": [
       "percentage-calculator",
       "mean-median-mode-calculator",

@@ -27,7 +27,7 @@ const { loadLanguages } = require('./i18n.js');
 
 const ROOT = path.resolve(__dirname, '..');
 const CACHE_DIR = path.join(ROOT, 'node_modules', '.cache', 'check-i18n');
-const DEFAULT_BASE = '6e98b38'; // near-page-one-content (new FAQs and a child age section on 4 tool pages)
+const DEFAULT_BASE = '5d102df'; // live-audit-ux (popular tools in the header menu, latest guides on the homepage, updated dates)
 
 const args = process.argv.slice(2);
 const baseRef = args.includes('--base') ? args[args.indexOf('--base') + 1] : DEFAULT_BASE;

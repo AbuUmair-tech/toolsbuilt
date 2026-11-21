@@ -149,15 +149,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function createAssignmentRow(name = '', score = '', weight = '') {
     const tr = document.createElement('tr');
+    // Column names for the stacked phone layout, from the table's own header
+    const heads = Array.from(tbody.closest('table').querySelectorAll('thead th')).map(th => th.textContent.trim().replace(/"/g, '&quot;'));
     const rowId = `row-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
     tr.innerHTML = `
       <td>
         <input type="text" class="form-control assign-name" placeholder="${T('rows.placeholder')}" value="${name}" aria-label="${T('rows.nameLabel')}">
       </td>
-      <td>
+      <td data-label="${heads[1] || ''}">
         <input type="number" step="any" min="0" max="200" class="form-control assign-score" placeholder="90" value="${score}" required aria-label="${T('rows.scoreLabel')}">
       </td>
-      <td>
+      <td data-label="${heads[2] || ''}">
         <input type="number" step="any" min="0" max="100" class="form-control assign-weight" placeholder="20" value="${weight}" required aria-label="${T('rows.weightLabel')}">
       </td>
       <td class="text-center">

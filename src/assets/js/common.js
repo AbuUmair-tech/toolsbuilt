@@ -98,6 +98,7 @@ window.ToolsBuilt = window.ToolsBuilt || {};
  *   ToolsBuilt.t('copy.copiedToClipboard')      -> shared UI string
  *   ToolsBuilt.tp('codeFormatter.formattedLines', n) -> plural shared string
  *   const T = ToolsBuilt.scope('<tool slug>');   T('resultIncrease', { pct: '12%' })
+ *   const P = ToolsBuilt.scopePlural('<tool slug>'); P('units.days', n, { count: formatted })
  *   ToolsBuilt.pageLocale('en-US')              -> locale for Intl: the given English locale on
  *                                                  English pages, the page language otherwise
  * window.I18N (non-English pages) wins over window.I18N_DEFAULTS (English, built into the JS).
@@ -127,13 +128,23 @@ window.ToolsBuilt = window.ToolsBuilt || {};
     const forms = lookup(window.I18N, `ui.${key}`) || lookup(window.I18N_DEFAULTS, `ui.${key}`) || {};
     return resolve(`ui.${key}.${form in forms ? form : 'other'}`, { count, ...(vars || {}) });
   }
+  // Plural string from a tool's own strings, e.g. P('units.months', 1, { count: '1' })
+  function scopePlural(slug) {
+    return (key, count, vars) => {
+      const lang = document.documentElement.lang || 'en';
+      const form = new Intl.PluralRules(lang).select(Number(count));
+      const path = `tools.${slug}.${key}`;
+      const forms = lookup(window.I18N, path) || lookup(window.I18N_DEFAULTS, path) || {};
+      return resolve(`${path}.${form in forms ? form : 'other'}`, { count, ...(vars || {}) });
+    };
+  }
   // Locale for Intl on this page; data-intl-locale overrides it (Arabic uses Western digits: ar-u-nu-latn)
   function pageLocale(englishLocale) {
     const root = document.documentElement;
     const lang = root.lang || 'en';
     return lang === 'en' ? englishLocale : (root.dataset.intlLocale || lang);
   }
-  Object.assign(window.ToolsBuilt, { t, tp, scope, pageLocale });
+  Object.assign(window.ToolsBuilt, { t, tp, scope, scopePlural, pageLocale });
 })();
 
 /**
