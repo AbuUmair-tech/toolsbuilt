@@ -334,6 +334,16 @@ module.exports = function(eleventyConfig) {
 
   // Blog Filters: readingTime, isoDate, readableDate, jsonStr
   // "6 min read" in the page language (blog.minRead in the UI strings)
+  // Blog charts are 1600px wide; phones show them at about 360px. When the chart generator has
+  // written a half-size copy (<name>-800.webp), offer both and let the browser pick.
+  eleventyConfig.addTransform('blog-image-srcset', function(content) {
+    if (!(this.page.outputPath || '').endsWith('.html') || !content.includes('/assets/blog/')) return content;
+    return content.replace(/<img src="(\/assets\/blog\/[^"]+)\.webp" width="1600" height="900"/g, (match, base) => {
+      if (!fs.existsSync(path.join(__dirname, 'src', `${base}-800.webp`))) return match;
+      return `<img src="${base}.webp" srcset="${base}-800.webp 800w, ${base}.webp 1600w" sizes="(max-width: 900px) calc(100vw - 32px), 760px" width="1600" height="900"`;
+    });
+  });
+
   eleventyConfig.addFilter('readingTime', function(content) {
     const text = String(content || '').replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
     const words = text ? text.split(/\s+/).length : 0;
