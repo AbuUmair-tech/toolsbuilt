@@ -34,6 +34,7 @@ const sharp = require('sharp');
 const Loan = require('../src/tools/loan-emi-calculator/logic.js');
 const Discount = require('../src/tools/discount-calculator/logic.js');
 const Grade = require('../src/tools/grade-calculator/logic.js');
+const Gpa = require('../src/tools/gpa-calculator/logic.js');
 const LANGUAGES = JSON.parse(fs.readFileSync(path.join(ROOT, 'src', '_data', 'languages.json'), 'utf8'));
 const TOOLS = JSON.parse(fs.readFileSync(path.join(ROOT, 'src', '_data', 'tools.json'), 'utf8'));
 
@@ -420,6 +421,90 @@ async function gradeImages({ rtl, S, t, frame }) {
   return out;
 }
 
+// --------------------------------------------------------------- post 5: GPA and CGPA
+async function gpaImages({ rtl, S, t, legend, frame }) {
+  const out = {};
+  const k = 'gpa.';
+  const courses = [
+    { key: 'calculus', grade: 'A-', credits: 3, color: C.blue },
+    { key: 'programming', grade: 'A', credits: 4, color: C.purple },
+    { key: 'physics', grade: 'B+', credits: 3, color: C.orange },
+    { key: 'english', grade: 'B', credits: 3, color: C.green },
+    { key: 'lab', grade: 'A', credits: 1, color: C.blue }
+  ];
+  const sem = Gpa.calculateSemesterGpa(courses);
+  const priorGpa = 2.80, priorCredits = 60;
+  const cum = Gpa.calculateCumulativeGpa([{ courses }], priorGpa, priorCredits);
+  const priorPoints = priorGpa * priorCredits;
+
+  // 1. Semester GPA: grade points × credit hours per course
+  const barX = 330, barMax = 440, maxPts = 16;
+  let rows = '';
+  for (const [i, c] of courses.entries()) {
+    const y = 146 + i * 76;
+    const gp = Gpa.getGradePoint(c.grade);
+    const pts = gp * c.credits;
+    const len = pts / maxPts * barMax;
+    rows += await t(56, y + 24, S(k + 'semester.' + c.key), { size: 22, weight: 700, max: barX - 72 });
+    rows += await t(56, y + 50, S(k + 'semester.meta', { grade: c.grade, credits: c.credits }), { size: 18, fill: C.muted, max: barX - 72 });
+    rows += `<rect x="${rtl ? W - barX - len : barX}" y="${y + 6}" width="${len}" height="40" rx="10" fill="${c.color}"/>`;
+    rows += await t(870, y + 35, `${gp.toFixed(1)} × ${c.credits} = ${pts.toFixed(1)}`, { size: 24, weight: 700, ltr: true, max: W - 56 - 870 });
+  }
+  out['semester-gpa-worked-example'] = await frame(S(k + 'semester.title'), S(k + 'semester.subtitle', { credits: sem.totalCredits }), `
+  ${rows}
+  <line x1="56" y1="530" x2="${W - 56}" y2="530" stroke="${C.border}" stroke-width="2"/>
+  ${await t(56, 584, `${sem.totalPoints.toFixed(1)} ÷ ${sem.totalCredits} = ${sem.gpa.toFixed(2)}`, { size: 40, weight: 800, fill: C.green, ltr: true })}
+  ${await t(56, 622, S(k + 'semester.result', { points: sem.totalPoints.toFixed(1), credits: sem.totalCredits }), { size: 20, fill: C.muted, max: W - 112 - 190 })}`);
+
+  // 2. CGPA is not the average: blocks as wide as the credit hours, as tall as the GPA
+  const x0 = 150, xw = 900 / cum.cumulativeCredits, base = 560, gh = 320 / 4;
+  const sy = g => base - g * gh;
+  const avg = (priorGpa + sem.gpaFull) / 2; // from the unrounded GPA, as in the post
+  let g2 = '';
+  for (const g of [0, 1, 2, 3, 4]) {
+    g2 += `<line x1="${x0 - 10}" y1="${sy(g)}" x2="${x0 + 900}" y2="${sy(g)}" stroke="${C.grid}" stroke-width="2"/>`;
+    g2 += await t(x0 - 20, sy(g) + 7, g.toFixed(1), { size: 18, fill: C.faint, anchor: 'end', fixed: true });
+  }
+  const b1w = priorCredits * xw, b2w = sem.totalCredits * xw;
+  out['cgpa-is-not-an-average'] = await frame(S(k + 'average.title'), S(k + 'average.subtitle'), `
+  ${g2}
+  <rect x="${x0}" y="${sy(priorGpa)}" width="${b1w - 4}" height="${priorGpa * gh}" rx="8" fill="${C.blueTint}" stroke="${C.blue}" stroke-width="2"/>
+  <rect x="${x0 + b1w}" y="${sy(sem.gpa)}" width="${b2w}" height="${sem.gpa * gh}" rx="8" fill="${C.purpleTint}" stroke="${C.purple}" stroke-width="2"/>
+  ${await t(x0 + b1w / 2, base - 70, S(k + 'average.prior', { credits: priorCredits }), { size: 22, weight: 700, fill: C.blue, anchor: 'middle', fixed: true, max: b1w - 40 })}
+  ${await t(x0 + b1w / 2, base - 38, `GPA ${priorGpa.toFixed(2)}`, { size: 20, fill: C.blue, anchor: 'middle', fixed: true })}
+  ${await t(x0 + b1w + b2w / 2, base - 70, `${sem.totalCredits}`, { size: 22, weight: 700, fill: C.purple, anchor: 'middle', fixed: true })}
+  ${await t(x0 + b1w + b2w / 2, base - 38, `GPA ${sem.gpa.toFixed(2)}`, { size: 20, fill: C.purple, anchor: 'middle', fixed: true })}
+  <line x1="${x0}" y1="${sy(avg)}" x2="${x0 + 900}" y2="${sy(avg)}" stroke="${C.orange}" stroke-width="4" stroke-dasharray="12 10"/>
+  <line x1="${x0}" y1="${sy(cum.cumulativeGpa)}" x2="${x0 + 900}" y2="${sy(cum.cumulativeGpa)}" stroke="${C.green}" stroke-width="5"/>
+  ${await legend([[C.green, S(k + 'average.right', { cgpa: cum.cumulativeGpa.toFixed(2) })], [C.orange, S(k + 'average.wrong', { avg: avg.toFixed(2) })]], 56, 160, W - 112)}
+  ${await t(x0 + 450, 596, S(k + 'average.axis'), { size: 19, fill: C.muted, anchor: 'middle', fixed: true, max: 700 })}`);
+
+  // 3. GPA needed next semester for each target CGPA
+  const targets = [2.85, 2.90, 2.95, 3.00, 3.05];
+  const total = priorCredits + sem.totalCredits;
+  const nX = 300, nMax = 640, scaleMax = 4.5;
+  const x4 = rtl ? W - nX - 4 / scaleMax * nMax : nX + 4 / scaleMax * nMax;
+  let bars = '';
+  for (const [i, target] of targets.entries()) {
+    const y = 150 + i * 80;
+    const need = (target * total - priorPoints) / sem.totalCredits;
+    const len = need / scaleMax * nMax;
+    const over = need > 4;
+    const color = over ? C.orange : need >= 3.5 ? C.purple : C.blue;
+    bars += await t(56, y + 36, S(k + 'needed.target', { cgpa: target.toFixed(2) }), { size: 22, weight: 700, max: nX - 76 });
+    bars += `<rect x="${rtl ? W - nX - len : nX}" y="${y + 8}" width="${len}" height="44" rx="10" fill="${color}"/>`;
+    // The value sits inside the end of the bar, clear of the 4.0 line
+    bars += await t(nX + len - 14, y + 38, need.toFixed(2), { size: 22, weight: 800, fill: '#ffffff', anchor: 'end', ltr: true });
+    if (over) bars += await t(nX + len + 16, y + 38, S(k + 'needed.impossible'), { size: 20, weight: 700, fill: color, max: W - 56 - (nX + len + 16) });
+  }
+  out['gpa-needed-for-target-cgpa'] = await frame(S(k + 'needed.title'), S(k + 'needed.subtitle', { cgpa: priorGpa.toFixed(2), credits: priorCredits, next: sem.totalCredits }), `
+  <line x1="${x4}" y1="146" x2="${x4}" y2="${150 + 5 * 80 - 10}" stroke="${C.faint}" stroke-width="2" stroke-dasharray="6 6"/>
+  ${await t(rtl ? W - x4 : x4, 140, S(k + 'needed.max'), { size: 17, fill: C.faint, anchor: 'middle', max: 200 })}
+  ${bars}
+  ${await t(56, 600, S(k + 'needed.formula', { total, points: priorPoints.toFixed(1), next: sem.totalCredits }), { size: 21, weight: 600, max: W - 112 - 190 })}`);
+  return out;
+}
+
 // --------------------------------------------------------------- Open Graph cards (1200x630)
 async function ogCard({ t, lang }, kicker, lines, sub, accent) {
   const o = { frameW: 1200, max: 1040 };
@@ -448,6 +533,10 @@ const POSTS = {
   'how-to-calculate-your-grade': {
     images: gradeImages,
     og: (c) => ogCard(c, c.S('og.grade.kicker'), [c.S('og.grade.line1'), c.S('og.grade.line2')], c.S('og.grade.sub'), '#f59e0b')
+  },
+  'how-to-calculate-gpa-and-cgpa': {
+    images: gpaImages,
+    og: (c) => ogCard(c, c.S('og.gpa.kicker'), [c.S('og.gpa.line1'), c.S('og.gpa.line2')], c.S('og.gpa.sub'), '#14b8a6')
   },
   'welcome-to-toolsbuilt': {
     images: welcomeImages,
