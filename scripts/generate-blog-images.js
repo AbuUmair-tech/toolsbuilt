@@ -95,6 +95,8 @@ function context(lang) {
     return value.replace(/\{\{(\w+)\}\}/g, (m, name) => (vars[name] !== undefined ? vars[name] : m));
   }
 
+  const has = key => typeof key.split('.').reduce((o, p) => (o || {})[p], strings) === 'string';
+
   // <text> that fits in `max` pixels (default: from x to the far margin)
   async function t(x, y, s, o = {}) {
     const anchor = o.anchor || 'start';
@@ -142,7 +144,7 @@ function context(lang) {
 </svg>`;
   }
 
-  return { lang, rtl, font, S, t, legend, frame };
+  return { lang, rtl, font, S, has, t, legend, frame };
 }
 
 // --------------------------------------------------------------- post 1: loan EMI
@@ -422,7 +424,7 @@ async function gradeImages({ rtl, S, t, frame }) {
 }
 
 // --------------------------------------------------------------- post 5: GPA and CGPA
-async function gpaImages({ rtl, S, t, legend, frame }) {
+async function gpaImages({ rtl, S, has, t, legend, frame }) {
   const out = {};
   const k = 'gpa.';
   const courses = [
@@ -446,7 +448,9 @@ async function gpaImages({ rtl, S, t, legend, frame }) {
     const pts = gp * c.credits;
     const len = pts / maxPts * barMax;
     rows += await t(56, y + 24, S(k + 'semester.' + c.key), { size: 22, weight: 700, max: barX - 72 });
-    rows += await t(56, y + 50, S(k + 'semester.meta', { grade: c.grade, credits: c.credits }), { size: 18, fill: C.muted, max: barX - 72 });
+    // "1 credit hour": languages whose label changes for one credit hour have a metaOne string
+    const metaKey = c.credits === 1 && has(k + 'semester.metaOne') ? 'semester.metaOne' : 'semester.meta';
+    rows += await t(56, y + 50, S(k + metaKey, { grade: c.grade, credits: c.credits }), { size: 18, fill: C.muted, max: barX - 72 });
     rows += `<rect x="${rtl ? W - barX - len : barX}" y="${y + 6}" width="${len}" height="40" rx="10" fill="${c.color}"/>`;
     rows += await t(870, y + 35, `${gp.toFixed(1)} × ${c.credits} = ${pts.toFixed(1)}`, { size: 24, weight: 700, ltr: true, max: W - 56 - 870 });
   }
@@ -471,9 +475,9 @@ async function gpaImages({ rtl, S, t, legend, frame }) {
   <rect x="${x0}" y="${sy(priorGpa)}" width="${b1w - 4}" height="${priorGpa * gh}" rx="8" fill="${C.blueTint}" stroke="${C.blue}" stroke-width="2"/>
   <rect x="${x0 + b1w}" y="${sy(sem.gpa)}" width="${b2w}" height="${sem.gpa * gh}" rx="8" fill="${C.purpleTint}" stroke="${C.purple}" stroke-width="2"/>
   ${await t(x0 + b1w / 2, base - 70, S(k + 'average.prior', { credits: priorCredits }), { size: 22, weight: 700, fill: C.blue, anchor: 'middle', fixed: true, max: b1w - 40 })}
-  ${await t(x0 + b1w / 2, base - 38, `GPA ${priorGpa.toFixed(2)}`, { size: 20, fill: C.blue, anchor: 'middle', fixed: true })}
+  ${await t(x0 + b1w / 2, base - 38, S(k + 'average.gpaLabel', { gpa: priorGpa.toFixed(2) }), { size: 20, fill: C.blue, anchor: 'middle', fixed: true })}
   ${await t(x0 + b1w + b2w / 2, base - 70, `${sem.totalCredits}`, { size: 22, weight: 700, fill: C.purple, anchor: 'middle', fixed: true })}
-  ${await t(x0 + b1w + b2w / 2, base - 38, `GPA ${sem.gpa.toFixed(2)}`, { size: 20, fill: C.purple, anchor: 'middle', fixed: true })}
+  ${await t(x0 + b1w + b2w / 2, base - 38, S(k + 'average.gpaLabel', { gpa: sem.gpa.toFixed(2) }), { size: 20, fill: C.purple, anchor: 'middle', fixed: true })}
   <line x1="${x0}" y1="${sy(avg)}" x2="${x0 + 900}" y2="${sy(avg)}" stroke="${C.orange}" stroke-width="4" stroke-dasharray="12 10"/>
   <line x1="${x0}" y1="${sy(cum.cumulativeGpa)}" x2="${x0 + 900}" y2="${sy(cum.cumulativeGpa)}" stroke="${C.green}" stroke-width="5"/>
   ${await legend([[C.green, S(k + 'average.right', { cgpa: cum.cumulativeGpa.toFixed(2) })], [C.orange, S(k + 'average.wrong', { avg: avg.toFixed(2) })]], 56, 160, W - 112)}
@@ -555,6 +559,7 @@ const POSTS = {
       for (const [name, svg] of Object.entries(await post.images(c))) {
         fs.writeFileSync(path.join(dir, `${name}.svg`), svg);
         await sharp(Buffer.from(svg), { density: 96 }).webp({ quality: 82, effort: 6 }).toFile(path.join(dir, `${name}.webp`));
+        await sharp(Buffer.from(svg), { density: 96 }).resize(800).webp({ quality: 80, effort: 6 }).toFile(path.join(dir, `${name}-800.webp`));
       }
       const og = await post.og(c);
       fs.writeFileSync(path.join(dir, 'og.svg'), og);
