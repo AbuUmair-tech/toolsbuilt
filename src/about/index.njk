@@ -1,7 +1,7 @@
 ---
 layout: layouts/page.njk
 permalink: /about/
-updated: 2026-10-24
+updated: 2026-11-23
 ---
 {% block jsonLd %}
   <!-- JSON-LD: ProfilePage for the site's author -->
@@ -17,36 +17,40 @@ updated: 2026-10-24
       "url": {{ site.authorUrl | jsonStr }},
       "sameAs": {{ (site.authorSameAs or []) | jsonStr }},
       "description": {{ 'site.authorBio' | t | jsonStr }},
-      "knowsAbout": ["Web development", "Calculators"]
+      "knowsAbout": ["Web development", "Calculators", "Odoo Studio", "Business process setup"]
     }
   }
   </script>
 {% endblock %}
-      <h2>{{ 'content.our-mission.heading' | pt }}</h2>
-      <p>{{ 'content.our-mission.p1' | pt }}</p>
 
-      <h2>{{ 'content.why-we-started-toolsbuilt.heading' | pt }}</h2>
-      <p>{{ 'content.why-we-started-toolsbuilt.p1' | pt }}</p>
-      
-      <p>{{ 'content.why-we-started-toolsbuilt.p2' | pt }}</p>
+      <h2>{{ 'content.what-it-is.heading' | pt }}</h2>
+      <p>{{ 'content.what-it-is.p1' | pt }}</p>
+      <p>{{ 'content.what-it-is.p2' | pt }}</p>
 
-      <h2>{{ 'content.our-core-values.heading' | pt }}</h2>
-      <ul>
-        <li>{{ 'content.our-core-values.li1' | pt }}</li>
-        <li>{{ 'content.our-core-values.li2' | pt }}</li>
-        <li>{{ 'content.our-core-values.li3' | pt }}</li>
-        <li>{{ 'content.our-core-values.li4' | pt }}</li>
-      </ul>
-
-      <h2 id="author">{{ 'content.creator-maintainer.heading' | pt }}</h2>
-      <p>{{ 'content.creator-maintainer.p1' | pt }}</p>
-      <p>{{ 'site.authorBio' | t }}</p>
-      {#- Longer author bio: set site.authorBioLong in src/_data/site.json (shown once it no longer starts with TODO_) #}
-      {% if site.authorBioLong and not site.authorBioLong.startsWith("TODO_") %}<p>{{ site.authorBioLong }}</p>{% endif %}
+      <h2 id="author">{{ 'content.author.heading' | pt }}</h2>
+      <p>{{ 'content.author.p1' | pt }}</p>
+      <p>{{ 'content.author.p2' | pt }}</p>
       {% if site.authorSameAs and site.authorSameAs.length %}
       {% set profileLinks %}{% for link in site.authorSameAs %}<a href="{{ link }}" rel="me noopener" target="_blank">{% if "github.com" in link %}GitHub{% elif "linkedin.com" in link %}LinkedIn{% else %}{{ link }}{% endif %}</a>{% if not loop.last %}{% if loop.revindex == 2 %}{{ 'links.lastSeparator' | pt }}{% else %}{{ 'links.separator' | pt }}{% endif %}{% endif %}{% endfor %}{% endset %}
       <p>{{ 'links.findOn' | pt({ author: site.authorName, links: profileLinks | safe }) }}</p>
       {% endif %}
+
+      <h2 id="how-we-work">{{ 'content.how-made.heading' | pt }}</h2>
+      <p>{{ 'content.how-made.p1' | pt }}</p>
+      <ul>
+        <li>{{ 'content.how-made.li1' | pt }}</li>
+        <li>{{ 'content.how-made.li2' | pt }}</li>
+        <li>{{ 'content.how-made.li3' | pt }}</li>
+      </ul>
+      <p>{{ 'content.how-made.p2' | pt }}</p>
+
+      <h2>{{ 'content.promises.heading' | pt }}</h2>
+      <ul>
+        <li>{{ 'content.promises.li1' | pt }}</li>
+        <li>{{ 'content.promises.li2' | pt }}</li>
+        <li>{{ 'content.promises.li3' | pt }}</li>
+        <li>{{ 'content.promises.li4' | pt }}</li>
+      </ul>
 
       <h2>{{ 'content.get-in-touch.heading' | pt }}</h2>
       <p>{{ 'content.get-in-touch.p1' | pt }}</p>
